@@ -10,7 +10,7 @@
   ],
   "dependencies": {
     "moment": "^2.25.3",
-    "query-string": "^6.11.0"
+    "query-string": "^6.13.8"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.0.0",
