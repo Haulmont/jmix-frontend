@@ -1,7 +1,7 @@
 const {runCmdSync, isWindows} = require("../common");
 const path = require("path");
 
-function startJmixApp() {
+export function startJmixApp() {
   let gradlew = 'gradlew';
   if (isWindows()){
     gradlew = 'gradlew.bat';
