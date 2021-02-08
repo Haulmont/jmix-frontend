@@ -1,10 +1,9 @@
 const {runCmdSync, isEmptyDir, log} = require("../common");
 const fse = require('fs-extra');
 
-export function bootstrapJmixApp() {
+function bootstrapJmixApp() {
   log.info('bootstrapping Jmix app');
   checkoutJmixScrRepo();
-  createDb();
 }
 
 function checkoutJmixScrRepo() {
