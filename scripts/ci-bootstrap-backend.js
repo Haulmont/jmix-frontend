@@ -1,3 +1,4 @@
+const startJmixApp = require("./jmix/_start-jmix-app");
 const {runCmdSync} = require('./common');
 
 const ciBootstrapBackend = () => {
@@ -9,7 +10,7 @@ const ciBootstrapBackend = () => {
   runCmdSync(`psql -c "create database "'"scr-jmix"'";" -U postgres`);
   runCmdSync(`psql -c "grant all privileges on database "'"scr-jmix"'" to cuba;" -U postgres`);
 
-  require("./jmix/start-jmix-app");
+  startJmixApp(true)
 };
 
 ciBootstrapBackend();
