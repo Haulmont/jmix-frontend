@@ -1,4 +1,5 @@
-import {bootstrapJmixApp} from "./jmix/bootstrap-jmix-app";
+const {startJmixApp} = require("./jmix/start-jmix-app");
+const {bootstrapJmixApp} = require("./jmix/bootstrap-jmix-app");
 
 const {runCmdSync} = require('./common');
 
