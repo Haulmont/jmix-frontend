@@ -42,12 +42,12 @@ jobs:
       script:
         - npm run snyk:monitor
 
-    - name: "Push client builds"
-      if: branch = master
-      script:
-        - npm run bootstrap-react-app
-        - npm run bootstrap-react-native-app
-        - travis/push-client-builds.sh
+#    - name: "Push client builds"
+#      if: branch = master
+#      script:
+#        - npm run bootstrap-react-app
+#        - npm run bootstrap-react-native-app
+#        - travis/push-client-builds.sh
 
     - name: "Tests on generated app"
       # setup cuba postgres user; build and run backend app

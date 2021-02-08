@@ -1,5 +1,5 @@
 const {runCmdSync, isEmptyDir, log} = require("../common");
-const fse = require('fs-extra');
+const fs = require('fs');
 
 function bootstrapJmixApp() {
   log.info('bootstrapping Jmix app');
@@ -7,7 +7,7 @@ function bootstrapJmixApp() {
 }
 
 function checkoutJmixScrRepo() {
-  if (fse.existsSync('scr-jmix') && !isEmptyDir('scr-jmix')) {
+  if (fs.existsSync('scr-jmix') && !isEmptyDir('scr-jmix')) {
     log.info('repo already cloned, skipping');
     return;
   }
