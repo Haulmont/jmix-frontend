@@ -110,7 +110,7 @@ export class Security {
         if (requestId === this.permissionsRequestCount) {
           this.effectivePermissions = effectivePermsInfo;
         }
-      }));
+      }))
   }
 
 }

@@ -271,6 +271,12 @@ const ALL_I18N_KEYS = [
   "cubaReact.nestedEntityField.create",
   "cubaReact.nestedEntityField.delete.areYouSure",
   "cubaReact.nestedEntitiesTableField.delete.areYouSure",
+  "cubaRest.error.serverNotResponded",
+  "cubaRest.error.serverError",
+  "cubaRest.error.badRequest",
+  "cubaRest.error.unauthorized",
+  "cubaRest.error.notFound",
+  "cubaRest.error.unknown",
   "antd.form.validation.default",
   "antd.form.validation.required",
   "antd.form.validation.enum",
@@ -311,5 +317,4 @@ const ALL_I18N_KEYS = [
   "management.browser.noItems",
   "management.editor.validationError",
   "management.editor.success",
-  "management.editor.error",
 ];
