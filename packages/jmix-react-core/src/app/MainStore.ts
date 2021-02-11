@@ -1,5 +1,5 @@
 import {action, autorun, computed, IObservableArray, observable} from "mobx";
-import {JmixRestConnection, EntityMessages, EnumInfo, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
+import {JmixRestConnection, EntityMessages, EnumInfo, JmixRestError, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
@@ -194,14 +194,16 @@ export class MainStore {
   };
 
   private setSessionLocale = () => {
-    this.jmixREST.setSessionLocale().catch((reason) => {
-      if (reason === JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION) {
-        console.warn('Relogin is required in order for bean validation messages to use correct locale. ' +
-          'Upgrade to REST API 7.2.0 or higher to be able to change locale without relogin.');
-      } else {
-        throw new Error('Failed to set session locale');
-      }
-    });
+    this.jmixREST
+      .setSessionLocale()
+      .catch((error: JmixRestError) => {
+        if (error.message === JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION) {
+          console.warn('Relogin is required in order for bean validation messages to use correct locale. ' +
+            'Upgrade to REST API 7.2.0 or higher to be able to change locale without relogin.');
+        } else {
+          throw new Error('Failed to set session locale');
+        }
+      });
   };
 }
 

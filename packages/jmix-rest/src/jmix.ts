@@ -1,3 +1,4 @@
+import {JmixRestError} from './error';
 import {
   EffectivePermsInfo,
   EffectivePermsLoadOptions,
@@ -14,6 +15,7 @@ import {EntityFilter} from "./filter";
 import {base64encode, encodeGetParams, matchesVersion, getStringId} from "./util";
 import { restEventEmitter } from './event_emitter';
 
+export * from './error';
 export * from './model';
 export * from './storage';
 export * from './filter';
@@ -79,10 +81,6 @@ export interface AppConfig {
   apiVersion?: string;
 }
 
-export interface ResponseError extends Error {
-  response?: any;
-}
-
 export type ContentType = "text" | "json" | "blob" | "raw";
 export type CommitMode = 'create' | 'edit';
 
@@ -100,6 +98,10 @@ export interface EntitiesLoadOptions {
 
 export interface LoginOptions {
   tokenEndpoint: string;
+}
+
+const throwNormolizedJmixRestError = (e: Error | JmixRestError) => {
+  throw e.name === 'JmixRestError' ? e : new JmixRestError({message: e.message});
 }
 
 export class JmixRestConnection {
@@ -172,7 +174,8 @@ export class JmixRestConnection {
       .then((data) => {
         this.restApiToken = data.access_token;
         return data;
-      });
+      })
+      .catch(throwNormolizedJmixRestError);
     return loginRes;
   }
 
@@ -187,7 +190,9 @@ export class JmixRestConnection {
       body: 'token=' + encodeURIComponent(token),
     };
     this.clearAuthData();
-    return fetch(this.apiUrl + 'oauth/revoke', fetchOptions).then(this.checkStatus);
+    return fetch(this.apiUrl + 'oauth/revoke', fetchOptions)
+      .then(this.checkStatus)
+      .catch(throwNormolizedJmixRestError);
   }
 
   public loadEntities<T>(
@@ -264,8 +269,11 @@ export class JmixRestConnection {
       return this.fetch('PUT', 'entities/' + entityName + '/' + getStringId(entity.id), JSON.stringify(entity),
         {handleAs: 'json', ...fetchOptions});
     } else {
-      return this.fetch('POST', 'entities/' + entityName, JSON.stringify(entity),
-        {handleAs: 'json', ...fetchOptions});
+      return this.fetch<Partial<T>>(
+        'POST',
+        'entities/' + entityName, JSON.stringify(entity),
+        {handleAs: 'json', ...fetchOptions},
+      );
     }
   }
 
@@ -431,7 +439,7 @@ export class JmixRestConnection {
         default:
           return resp.text();
       }
-    });
+    }).catch(throwNormolizedJmixRestError);
   }
 
   public onLocaleChange(c) {
@@ -508,7 +516,11 @@ export class JmixRestConnection {
     if (await this.isFeatureSupported(minVersion)) {
       return requestCallback();
     } else {
-      return Promise.reject(JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION);
+      const error = new JmixRestError({
+        message: JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION,
+      });
+
+      return Promise.reject(error);
     }
   }
 
@@ -533,7 +545,12 @@ export class JmixRestConnection {
     if (response.status >= 200 && response.status < 300) {
       return response;
     } else {
-      return Promise.reject({message: response.statusText, response});
+      const error = new JmixRestError({
+        message: response.statusText,
+        response,
+      });
+
+      return Promise.reject(error);
     }
   }
 
