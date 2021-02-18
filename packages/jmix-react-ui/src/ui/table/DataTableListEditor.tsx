@@ -168,7 +168,7 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
   };
 
   @action
-  handleInputNumberChange = (value: string | number | undefined): void => {
+  handleInputNumberChange = (value: string | number | null | undefined): void => {
     if (value != null) {
       this.inputModel.value = value;
       this.inputModel.caption = String(value);
