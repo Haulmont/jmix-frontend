@@ -59,7 +59,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
   };
 
   @action
-  onIntervalNumberChanged = (value: string | number | undefined) => {
+  onIntervalNumberChanged = (value: string | number | null | undefined) => {
     if (value != null && typeof value === 'number' && isFinite(value)) {
       this.numberOfUnits = value;
       this.props.onChange(this.interval);
