@@ -1,7 +1,6 @@
 export * from './access-control/AccessControl';
 export * from './access-control/AttrPermAccessControl';
 export * from './access-control/EntityPermAccessControl';
-export * from './access-control/SpecificPermAccessControl';
 
 export * from './app/CubaAppProvider';
 export * from './app/MainStore';

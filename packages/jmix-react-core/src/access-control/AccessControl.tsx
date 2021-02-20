@@ -43,10 +43,6 @@ export interface AccessControlRequirements {
    */
   attrReqs?: AttributePermissionRequirement[];
   /**
-   * Required specific permissions.
-   */
-  specificReqs?: string[];
-  /**
    * A function that can be used to implement custom conditions / complex logic.
    */
   customReqs?: () => boolean
@@ -77,8 +73,7 @@ export interface AttributePermissionRequirement {
  * e.g. an entity permission and a specific permission).
  * In most cases simpler components should be used instead:
  * {@link EntityPermAccessControl} when condition involves a single entity CRUD permission,
- * {@link AttrPermAccessControl} when condition involves a single entity attribute permission
- * and {@link SpecificPermAccessControl} when condition involves one or more specific permissions.
+ * {@link AttrPermAccessControl} when condition involves a single entity attribute permission.
  *
  * @param props
  */
@@ -127,11 +122,10 @@ function areAllRequirementsSatisfied(mainStore: MainStore, requirements?: Access
     return true;
   }
 
-  const {entityReqs, attrReqs, specificReqs, customReqs} = requirements;
+  const {entityReqs, attrReqs, customReqs} = requirements;
 
   return areEntityRequirementsSatisfied(mainStore, entityReqs)
     && areAttributeRequirementsSatisfied(mainStore, attrReqs)
-    && areSpecificRequirementsSatisfied(mainStore, specificReqs)
     && areCustomRequirementsSatisfied(customReqs);
 }
 
@@ -160,16 +154,6 @@ function areAttributeRequirementsSatisfied(
   return attrReqs.every(req => {
     const {entityName, attrName, requiredAttrPerm} = req;
     return mainStore.security.isAttributePermissionGranted(entityName, attrName, requiredAttrPerm);
-  });
-}
-
-function areSpecificRequirementsSatisfied(mainStore: MainStore, specificReqs?: string[]): boolean {
-  if (specificReqs == null || specificReqs.length === 0) {
-    return true;
-  }
-
-  return specificReqs.every(target => {
-    return mainStore.security.isSpecificPermissionGranted(target);
   });
 }
 

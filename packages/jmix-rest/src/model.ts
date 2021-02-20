@@ -66,7 +66,6 @@ export type EntityAttrPermissionValue = 'DENY' | 'VIEW' | 'MODIFY';
 export interface EffectivePermsLoadOptions {
   entities: boolean;
   entityAttributes: boolean;
-  specific: boolean;
 }
 
 export type AttributePermissionValue = 0 | 1 | 2;
@@ -77,12 +76,8 @@ export interface Permission<T extends AttributePermissionValue | EntityPermissio
 }
 
 export interface EffectivePermsInfo {
-  explicitPermissions: {
-    entities: Array<Permission<EntityPermissionValue>>;
-    entityAttributes: Array<Permission<AttributePermissionValue>>;
-    specific: Array<Permission<EntityPermissionValue>>;
-  };
-  undefinedPermissionPolicy: 'ALLOW' | 'DENY';
+  entities: Array<Permission<EntityPermissionValue>>;
+  entityAttributes: Array<Permission<AttributePermissionValue>>;
 }
 
 export interface EnumValueInfo {
