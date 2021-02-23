@@ -20,7 +20,7 @@
     "mkdirp": "^1.0.4",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "semantic-release": "^15.13.31",
+    "semantic-release": "^17.2.3",
     "snyk": "^1.299.0"
   },
   "scripts": {
