@@ -288,7 +288,7 @@ export function generateCustomFilterDropdown(
  * @param dataCollection
  */
 export function setFilters<E>(
-  tableFilters: Record<string, ReactText[] | null>,
+  tableFilters: Record<string, (ReactText | boolean)[] | null>,
   fields: string[],
   mainStore: MainStore,
   dataCollection: DataCollectionStore<E>,
@@ -341,7 +341,7 @@ export function setFilters<E>(
 function pushCondition(ef: EntityFilter,
                        property: string,
                        operator: OperatorType,
-                       val: ReactText | ReactText[] | null) {
+                       val: ReactText | (ReactText | boolean)[] | null) {
   const value = val as FilterValue;
   ef.conditions.push({property, operator, value});
 }
@@ -383,7 +383,7 @@ export interface TableChangeDTO<E> {
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
-  filters: Record<string, Key[] | null>,
+  filters: Record<string, (Key | boolean)[] | null>,
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */

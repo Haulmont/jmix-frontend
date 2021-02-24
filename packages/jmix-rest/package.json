@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-rest",
-  "version": "0.3.0-beta.0",
+  "version": "0.3.0-beta.1",
   "description": "JavaScript library for working with Jmix REST API",
   "main": "dist-node/cuba.js",
   "typings": "dist-node/cuba.d.ts",

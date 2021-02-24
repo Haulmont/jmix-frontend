@@ -37,7 +37,7 @@ export interface CaptionValuePair {
   value: string | number | undefined;
 }
 
-export type CustomFilterInputValue = string | number | boolean | string[] | number[] | TemporalInterval | undefined;
+export type CustomFilterInputValue = string | number | boolean | string[] | number[] | TemporalInterval | null | undefined;
 
 export interface DataTableCustomFilterProps extends MainStoreInjected {
   entityName: string,
@@ -82,7 +82,7 @@ class DataTableCustomFilterComponent<E extends WithId>
   @observable nestedEntityOptions: CaptionValuePair[] = [];
   @observable loading = true;
 
-  formInstance: FormInstance | undefined;
+  formInstance: FormInstance | undefined | null;
 
   set operator(operator: ComparisonType) {
     const oldOperator: ComparisonType = this.operator;
@@ -177,9 +177,9 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   };
 
-  setFormRef = (formInstance: FormInstance) => {
+  setFormRef = (formInstance: FormInstance | null) => {
     const {customFilterRef} = this.props;
-    if (customFilterRef != null) {
+    if ((customFilterRef != null) && (formInstance != null)) {
       customFilterRef(formInstance);
     }
     this.formInstance = formInstance;
@@ -243,7 +243,7 @@ class DataTableCustomFilterComponent<E extends WithId>
   };
 
   @action
-  onNumberInputChange = (value: string | number | undefined): void => {
+  onNumberInputChange = (value: string | number | null | undefined): void => {
     this.value = value;
   };
 

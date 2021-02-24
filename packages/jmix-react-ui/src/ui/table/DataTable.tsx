@@ -276,7 +276,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
   };
 
   @action
-  onChange = (pagination: TablePaginationConfig, filters: Record<string, Key[] | null>, sorter: SorterResult<E> | Array<SorterResult<E>>): void => {
+  onChange = (pagination: TablePaginationConfig, filters: Record<string, (Key | boolean)[] | null>, sorter: SorterResult<E> | SorterResult<E>[]): void => {
     this.tableFilters = filters;
 
     const {defaultSort, fields} = this;
