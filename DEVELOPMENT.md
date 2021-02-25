@@ -62,7 +62,7 @@ npm run update-react-client-libs
 Update all packages:
 
 ```bash
-npm run update-client-libs
+npm run update-react-client-libs
 ```
 
 Specific package:
