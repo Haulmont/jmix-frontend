@@ -1,34 +1,35 @@
 "use strict";
 
-const cuba = require('../dist-node/cuba.js');
 const {initApp} = require('./common');
 
 global.fetch = require('node-fetch');
 
-xdescribe('CubaApp security methods', () => {
+describe('CubaApp security methods', () => {
 
-  const apiUrl = 'http://localhost:8080/app/rest/';
   let app;
 
   it('should load effective perms for admin', async () => {
-
-    const expectedAdminEffectivePerms = {
-      explicitPermissions: {
-        entities: [
-          {target: '*:update', value: 1},
-          {target: '*:read', value: 1},
-          {target: '*:delete', value: 1},
-          {target: '*:create', value: 1}
-        ],
-        entityAttributes: [{target: '*:*', value: 2}],
-        specific: [{target: '*', value: 1}]
-      },
-      undefinedPermissionPolicy: 'DENY'
-    };
-
     app = initApp();
     await app.login('admin', 'admin');
-    expect(await app.getEffectivePermissions()).toEqual(expectedAdminEffectivePerms);
+
+    const perms = await app.getEffectivePermissions();
+    const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
+    const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
+
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
+
+    // admin should has access for all car operation
+    expect(carEntityPerms.sort()).toEqual(
+      [
+        {target: 'scr$Car:create', value: 1},
+        {target: 'scr$Car:read', value: 1},
+        {target: 'scr$Car:update', value: 1},
+        {target: 'scr$Car:delete', value: 1}
+      ].sort()
+    );
+
+    // all car attrs should be allowed to modify for admin
+    carEntityAttrPerms.forEach(item => expect(item.value === 2));
   });
 
   it('should load effective perms for mechanic', async () => {
@@ -36,28 +37,30 @@ xdescribe('CubaApp security methods', () => {
     app = initApp();
     await app.login('mechanic', '1');
     const perms = await app.getEffectivePermissions();
+    const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
+    const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
 
-    expect(perms.undefinedPermissionPolicy).toBe("DENY");
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
 
-    expect(perms.explicitPermissions.entities).toEqual(expect.arrayContaining([
-      {target: 'scr$Car:read', value: 1},
-      {target: 'scr$Car:create', value: 1},
-      {target: 'scr$Car:update', value: 1},
-      {target: 'scr$Car:delete', value: 1}
-    ]));
+    // mechanic should has access for all car operation
+    expect(carEntityPerms.sort()).toEqual(
+      [
+        {target: 'scr$Car:create', value: 1},
+        {target: 'scr$Car:read', value: 1},
+        {target: 'scr$Car:update', value: 1},
+        {target: 'scr$Car:delete', value: 1}
+      ].sort()
+    );
 
-    expect(perms.explicitPermissions.entityAttributes).toEqual(expect.arrayContaining([
-      {target: 'scr$Car:carType', value: 2},
-      {target: 'scr$Car:mileage', value: 1},
-      {target: 'scr$Car:model', value: 2},
-      {target: 'scr$Car:manufacturer', value: 2}
-    ]));
-
-    expect(perms.explicitPermissions.specific).toEqual(expect.arrayContaining([
-      { target: 'cuba.gui.loginToClient', value: 1 },
-      { target: 'cuba.restApi.enabled', value: 1 },
-      { target: 'cuba.restApi.fileUpload.enabled', value: 1 }
-    ]));
+    // allowed car attrs for mechanic
+    expect(carEntityAttrPerms.sort()).toEqual(
+      [
+        {target: 'scr$Car:manufacturer', value: 2},
+        {target: 'scr$Car:carType', value: 2},
+        {target: 'scr$Car:model', value: 2},
+        {target: 'scr$Car:mileage', value: 1}
+      ].sort()
+    );
   });
 
   it('should load effective perms for manager', async () => {
@@ -65,28 +68,31 @@ xdescribe('CubaApp security methods', () => {
     app = initApp();
     await app.login('manager', '2');
     const perms = await app.getEffectivePermissions();
+    const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
+    const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
 
-    expect(perms.undefinedPermissionPolicy).toBe("DENY");
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
 
-    expect(perms.explicitPermissions.entities).toEqual(expect.arrayContaining([
-      {target: 'scr$Car:read', value: 1},
-      {target: 'scr$Car:create', value: 1},
-      {target: 'scr$Car:update', value: 1},
-      {target: 'scr$Car:delete', value: 1}
-    ]));
+    // manager should has access for all car operation
+    expect(carEntityPerms.sort()).toEqual(
+      [
+        {target: 'scr$Car:create', value: 1},
+        {target: 'scr$Car:read', value: 1},
+        {target: 'scr$Car:update', value: 1},
+        {target: 'scr$Car:delete', value: 1}
+      ].sort()
+    );
 
-    expect(perms.explicitPermissions.entityAttributes).toEqual(expect.arrayContaining([
-      {target: 'scr$Car:carType', value: 2},
-      {target: 'scr$Car:regNumber', value: 2},
-      {target: 'scr$Car:model', value: 2},
-      {target: 'scr$Car:manufacturer', value: 2}
-    ]));
+    // allowed car attrs for manager
+    expect(carEntityAttrPerms.sort()).toEqual(
+      [
+        {target: 'scr$Car:manufacturer', value: 2},
+        {target: 'scr$Car:regNumber', value: 2},
+        {target: 'scr$Car:carType', value: 2},
+        {target: 'scr$Car:model', value: 2},
+      ].sort()
+    );
 
-    expect(perms.explicitPermissions.specific).toEqual(expect.arrayContaining([
-      { target: 'cuba.gui.loginToClient', value: 1 },
-      { target: 'cuba.restApi.enabled', value: 1 },
-      { target: 'cuba.restApi.fileUpload.enabled', value: 1 }
-    ]));
   });
 
 });

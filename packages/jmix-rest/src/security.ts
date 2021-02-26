@@ -23,22 +23,14 @@ export function getAttributePermission(entityName: string,
                                        perms?: EffectivePermsInfo): EntityAttrPermissionValue {
 
   if (!perms) return 'DENY';
-  const {entityAttributes} = perms.explicitPermissions;
+  const {entityAttributes} = perms;
 
   // find strict perm match 'car:engine'
-  let explicitPerm: Permission<AttributePermissionValue> =
+  const explicitPerm: Permission<AttributePermissionValue> =
     entityAttributes.find(perm => perm.target === `${entityName}:${attributeName}`);
   if (explicitPerm != null) return convertAttributePermValue(explicitPerm.value);
 
-  // find attribute wildcard perm match 'car:*'
-  explicitPerm = entityAttributes.find(perm => perm.target === `${entityName}:*`);
-  if (explicitPerm != null) return convertAttributePermValue(explicitPerm.value);
-
-  // find pure wildcard perm match '*:*'
-  explicitPerm = entityAttributes.find(perm => perm.target === `*:*`);
-  if (explicitPerm != null) return convertAttributePermValue(explicitPerm.value);
-
-  return perms.undefinedPermissionPolicy === 'ALLOW' ? 'MODIFY' : 'DENY';
+  return 'DENY';
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -54,50 +46,14 @@ export function isOperationAllowed(entityName: string,
                                    perms?: EffectivePermsInfo): boolean {
 
   if (!perms) return false;
-  const {entities} = perms.explicitPermissions;
+  const {entities} = perms;
 
   // find strict perm match 'car:read'
-  let explicitPerm: Permission<EntityPermissionValue> =
+  const explicitPerm: Permission<EntityPermissionValue> =
     entities.find(perm => perm.target === `${entityName}:${operation}`);
   if (explicitPerm != null) return explicitPerm.value === 1;
 
-  // find operation wildcard perm match 'car:*'
-  explicitPerm = entities.find(perm => perm.target === `${entityName}:*`);
-  if (explicitPerm != null) return explicitPerm.value === 1;
-
-  // find entity wildcard perm match '*:read'
-  explicitPerm = entities.find(perm => perm.target === `*:${operation}`);
-  if (explicitPerm != null) return explicitPerm.value === 1;
-
-  // find pure wildcard perm match '*:*'
-  explicitPerm = entities.find(perm => perm.target === `*:*`);
-  if (explicitPerm != null) return explicitPerm.value === 1;
-
-  return perms.undefinedPermissionPolicy === 'ALLOW';
-}
-
-export function isSpecificPermissionGranted(permTarget: string, perms?: EffectivePermsInfo): boolean {
-  if (perms == null) {
-    return false;
-  }
-
-  let wildcardPermValue: EntityPermissionValue;
-
-  for (const perm of perms.explicitPermissions.specific) {
-    if (perm.target === permTarget) {
-      return perm.value === 1;
-    }
-
-    if (perm.target === '*') {
-      wildcardPermValue = perm.value;
-    }
-  }
-
-  if (wildcardPermValue != null) {
-    return wildcardPermValue === 1;
-  }
-
-  return perms.undefinedPermissionPolicy === 'ALLOW';
+  return false;
 }
 
 function convertAttributePermValue(val: AttributePermissionValue): EntityAttrPermissionValue {

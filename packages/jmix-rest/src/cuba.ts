@@ -343,15 +343,13 @@ export class CubaApp {
   public getEffectivePermissions(effectivePermsLoadOptions?: EffectivePermsLoadOptions, fetchOptions?: FetchOptions)
     : Promise<EffectivePermsInfo> {
 
-    const loadOpts: EffectivePermsLoadOptions = {
+    const loadOpts = {
       entities: true,
       entityAttributes: true,
-      specific: true,
-      ...effectivePermsLoadOptions};
+      ... effectivePermsLoadOptions
+    };
 
-    return this.requestIfSupported(
-      '7.2',
-      () => this.fetchJson('GET', 'permissions/effective', loadOpts, fetchOptions));
+    return this.fetchJson('GET', 'permissions', loadOpts, fetchOptions);
   }
 
   public getUserInfo(fetchOptions?: FetchOptions): Promise<UserInfo> {
@@ -498,6 +496,12 @@ export class CubaApp {
     });
   }
 
+  /**
+   * @deprecated todo not need when we work with jmix-rest
+   * @param minVersion
+   * @param requestCallback
+   * @private
+   */
   private async requestIfSupported<T>(minVersion: string, requestCallback: () => Promise<unknown>): Promise<any> {
     if (await this.isFeatureSupported(minVersion)) {
       return requestCallback();
