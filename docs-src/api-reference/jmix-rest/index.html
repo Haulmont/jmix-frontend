@@ -105,7 +105,7 @@ app.getUserInfo().then(<span class="hljs-function">(<span class="hljs-params">d<
 
 <span class="hljs-keyword">const</span> myApp = cuba.getApp(<span class="hljs-string">'myApp'</span>);</code></pre>
 				<p>or use if you want to manage instances yourself</p>
-				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myApp = <span class="hljs-keyword">new</span> CubaApp(<span class="hljs-string">"myApp"</span>, <span class="hljs-string">"/rest/"</span>)</code></pre>
+				<pre><code class="language-javascript"><span class="hljs-keyword">const</span> myApp = <span class="hljs-keyword">new</span> JmixRestConnection(<span class="hljs-string">"myApp"</span>, <span class="hljs-string">"/rest/"</span>)</code></pre>
 				<pre><code class="language-javascript">myApp.loadEntities(<span class="hljs-string">'sec$User'</span>, {<span class="hljs-attr">view</span>: <span class="hljs-string">'_minimal'</span>, <span class="hljs-attr">sort</span>: <span class="hljs-string">'login'</span>}).then(<span class="hljs-function">(<span class="hljs-params">users</span>) =&gt;</span> {
   <span class="hljs-built_in">console</span>.log(users);
 });</code></pre>

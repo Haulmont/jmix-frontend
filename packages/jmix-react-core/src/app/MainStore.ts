@@ -1,5 +1,5 @@
 import {action, autorun, computed, IObservableArray, observable} from "mobx";
-import {CubaApp, EntityMessages, EnumInfo, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
+import {JmixRestConnection, EntityMessages, EnumInfo, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
@@ -47,9 +47,9 @@ export class MainStore {
 
   private disposeTokenExpiryListener?: () => {};
 
-  constructor(private cubaREST: CubaApp) {
-    this.cubaREST.onLocaleChange(this.handleLocaleChange);
-    this.security = new Security(this.cubaREST);
+  constructor(private jmixREST: JmixRestConnection) {
+    this.jmixREST.onLocaleChange(this.handleLocaleChange);
+    this.security = new Security(this.jmixREST);
 
     autorun(() => {
       if (this.initialized && (this.authenticated || this.usingAnonymously)) {
@@ -78,7 +78,7 @@ export class MainStore {
   @action
   loadEnums() {
     const requestId = ++this.enumsRequestCount;
-    this.cubaREST.loadEnums()
+    this.jmixREST.loadEnums()
       .then(action((enums: EnumInfo[]) => {
         if (requestId === this.enumsRequestCount) {
           this.enums = observable(enums);
@@ -92,7 +92,7 @@ export class MainStore {
   @action
   loadMetadata() {
     const requestId = ++this.metadataRequestCount;
-    this.cubaREST.loadMetadata()
+    this.jmixREST.loadMetadata()
       .then(action((metadata: MetaClassInfo[]) => {
         if (requestId === this.metadataRequestCount) {
           this.metadata = observable(metadata);
@@ -106,7 +106,7 @@ export class MainStore {
   @action
   loadMessages() {
     const requestId = ++this.messagesRequestCount;
-    this.cubaREST.loadEntitiesMessages()
+    this.jmixREST.loadEntitiesMessages()
       .then(action((res: EntityMessages) => {
         if (requestId === this.messagesRequestCount) {
           this.messages = res;
@@ -120,7 +120,7 @@ export class MainStore {
    * @param locale - locale to be set as active.
    */
   setLocale = (locale: string) => {
-    this.cubaREST.locale = locale;
+    this.jmixREST.locale = locale;
   };
 
   @computed get loginRequired(): boolean {
@@ -129,10 +129,10 @@ export class MainStore {
 
   @action
   login(login: string, password: string) {
-    return this.cubaREST.login(login, password).then(action(() => {
+    return this.jmixREST.login(login, password).then(action(() => {
       this.userName = login;
       this.authenticated = true;
-      this.disposeTokenExpiryListener = this.cubaREST.onTokenExpiry(() => {
+      this.disposeTokenExpiryListener = this.jmixREST.onTokenExpiry(() => {
         this.authenticated = false;
       });
     }))
@@ -144,8 +144,8 @@ export class MainStore {
       this.usingAnonymously = false;
       return Promise.resolve();
     }
-    if (this.cubaREST.restApiToken != null) {
-      return this.cubaREST.logout()
+    if (this.jmixREST.restApiToken != null) {
+      return this.jmixREST.logout()
         .then(action(() => {
           this.authenticated = false;
           if (this.disposeTokenExpiryListener != null) {
@@ -163,10 +163,10 @@ export class MainStore {
    * @returns a promise that resolves when initialization is complete.
    */
   initialize(): Promise<void> {
-    this.locale = this.cubaREST.locale;
-    return this.cubaREST.getUserInfo()
+    this.locale = this.jmixREST.locale;
+    return this.jmixREST.getUserInfo()
       .then(action((userInfo: UserInfo) => {
-        if (this.cubaREST.restApiToken == null) {
+        if (this.jmixREST.restApiToken == null) {
           this.usingAnonymously = true;
         } else {
           this.authenticated = true;
@@ -194,8 +194,8 @@ export class MainStore {
   };
 
   private setSessionLocale = () => {
-    this.cubaREST.setSessionLocale().catch((reason) => {
-      if (reason === CubaApp.NOT_SUPPORTED_BY_API_VERSION) {
+    this.jmixREST.setSessionLocale().catch((reason) => {
+      if (reason === JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION) {
         console.warn('Relogin is required in order for bean validation messages to use correct locale. ' +
           'Upgrade to REST API 7.2.0 or higher to be able to change locale without relogin.');
       } else {

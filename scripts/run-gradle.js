@@ -6,7 +6,7 @@ scriptArg = scriptArg.join(" ");
 
 const basePath = process.cwd();
 const scriptName = isWindows() ? 'gradlew.bat' : 'gradlew';
-const pathToScript = path.join(basePath, 'sample-car-rent', scriptName);
+const pathToScript = path.join(basePath, 'scr-jmix', scriptName);
 
 const cmd = `${pathToScript} ${scriptArg}`;
 runCmdSync(`${cmd}`);

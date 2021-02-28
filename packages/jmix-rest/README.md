@@ -53,8 +53,9 @@ app.getUserInfo().then((d) => {
 const myApp = cuba.getApp('myApp');
 ```
 or use if you want to manage instances yourself
+
 ```javascript
-const myApp = new CubaApp("myApp", "/rest/")
+const myApp = new JmixRestConnection("myApp", "/rest/")
 ```
 
 ```javascript

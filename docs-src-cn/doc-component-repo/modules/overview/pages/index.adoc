@@ -7,7 +7,6 @@ Frontend UI 可以用下面的技术开发：
 
 - React
 - React Native
-- Polymer （废弃）
 - 您喜欢的其他框架（比如 Angular 或 Vue）：可以用平台无关的 xref:typescript-sdk:index.adoc[TypeScript SDK] 来开发。
 
 开发 Frontend UI 过程中，可以使用我们提供下列工具（或库）。

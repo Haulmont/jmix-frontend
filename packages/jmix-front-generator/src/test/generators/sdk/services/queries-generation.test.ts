@@ -19,7 +19,7 @@ describe('generate TS REST query', () => {
 
     const content = generateQueries(queriesModelFull, ctx);
     const expected = '' +
-      `import { CubaApp, FetchOptions, SerializedEntity, EntitiesWithCount } from "@haulmont/jmix-rest";
+      `import { JmixRestConnection, FetchOptions, SerializedEntity, EntitiesWithCount } from "@haulmont/jmix-rest";
       
       import { Car } from "./entities/mpg$Car";
       import { FavoriteCar } from "./entities/mpg$FavoriteCar";
@@ -38,42 +38,42 @@ describe('generate TS REST query', () => {
       
       export var restQueries = {
         Car: {
-          allCars: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
+          allCars: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
             return cubaApp.query<Car>("mpg$Car", "allCars", {}, fetchOpts);
           },
-          allCarsCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<Number> => {
+          allCarsCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<Number> => {
             return cubaApp.queryCount("mpg$Car", "allCars", {}, fetchOpts);
           },
-          allCarsWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<EntitiesWithCount<Car>> => {
+          allCarsWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<EntitiesWithCount<Car>> => {
             return cubaApp.queryWithCount<Car>("mpg$Car", "allCars", {}, fetchOpts);
           },
-          ecoCars: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<SerializedEntity<Car>[]> => {
+          ecoCars: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<SerializedEntity<Car>[]> => {
             return cubaApp.query<Car>("mpg$Car", "ecoCars", params, fetchOpts);
           },
-          ecoCarsCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<Number> => {
+          ecoCarsCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<Number> => {
             return cubaApp.queryCount("mpg$Car", "ecoCars", params, fetchOpts);
           },
-          ecoCarsWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<EntitiesWithCount<Car>> => {
+          ecoCarsWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<EntitiesWithCount<Car>> => {
             return cubaApp.queryWithCount<Car>("mpg$Car", "ecoCars", params, fetchOpts);
           },
-          carsByType: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<SerializedEntity<Car>[]> => {
+          carsByType: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<SerializedEntity<Car>[]> => {
             return cubaApp.query<Car>("mpg$Car", "carsByType", params, fetchOpts);
           },
-          carsByTypeCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<Number> => {
+          carsByTypeCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<Number> => {
             return cubaApp.queryCount("mpg$Car", "carsByType", params, fetchOpts);
           },
-          carsByTypeWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<EntitiesWithCount<Car>> => {
+          carsByTypeWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<EntitiesWithCount<Car>> => {
             return cubaApp.queryWithCount<Car>("mpg$Car", "carsByType", params, fetchOpts);
           }
         },
         FavoriteCar: {
-          allCars: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<SerializedEntity<FavoriteCar>[]> => {
+          allCars: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<SerializedEntity<FavoriteCar>[]> => {
             return cubaApp.query<FavoriteCar>("mpg$FavoriteCar", "allCars", params, fetchOpts);
           },
-          allCarsCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<Number> => {
+          allCarsCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<Number> => {
             return cubaApp.queryCount("mpg$FavoriteCar", "allCars", params, fetchOpts);
           },
-          allCarsWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<EntitiesWithCount<FavoriteCar>> => {
+          allCarsWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_FavoriteCar_allCars_params): Promise<EntitiesWithCount<FavoriteCar>> => {
             return cubaApp.queryWithCount<FavoriteCar>("mpg$FavoriteCar", "allCars", params, fetchOpts);
           }
         }
@@ -87,22 +87,22 @@ describe('generate TS REST query', () => {
     const content = renderTSNodes([queryResult.node]);
     const expect = '' +
       `Car: {
-        ecoCars: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
+        ecoCars: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
             return cubaApp.query<Car>("mpg$Car", "ecoCars", {}, fetchOpts);
         },
-        ecoCarsCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<Number> => {
+        ecoCarsCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<Number> => {
             return cubaApp.queryCount("mpg$Car", "ecoCars", {}, fetchOpts);
         },
-        ecoCarsWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<EntitiesWithCount<Car>> => {
+        ecoCarsWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<EntitiesWithCount<Car>> => {
             return cubaApp.queryWithCount<Car>("mpg$Car", "ecoCars", {}, fetchOpts);
         },
-        carsByType: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<SerializedEntity<Car>[]> => {
+        carsByType: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<SerializedEntity<Car>[]> => {
             return cubaApp.query<Car>("mpg$Car", "carsByType", params, fetchOpts);
         },
-        carsByTypeCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<Number> => {
+        carsByTypeCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<Number> => {
             return cubaApp.queryCount("mpg$Car", "carsByType", params, fetchOpts);
         },
-        carsByTypeWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<EntitiesWithCount<Car>> => {
+        carsByTypeWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_carsByType_params): Promise<EntitiesWithCount<Car>> => {
             return cubaApp.queryWithCount<Car>("mpg$Car", "carsByType", params, fetchOpts);
         }
     }`;
@@ -112,7 +112,7 @@ describe('generate TS REST query', () => {
   it('should resolve queries overload', function () {
     const content = generateQueries(queriesModelOverloads, modelCtx());
     const expect = '' +
-      `import { CubaApp, FetchOptions, SerializedEntity, EntitiesWithCount } from "@haulmont/jmix-rest";
+      `import { JmixRestConnection, FetchOptions, SerializedEntity, EntitiesWithCount } from "@haulmont/jmix-rest";
       import { Car } from "./entities/mpg$Car";
       
       export type queries_Car_ecoCars_params = {} | {
@@ -123,13 +123,13 @@ describe('generate TS REST query', () => {
       
       export var restQueries = {
           Car: {
-              ecoCars: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<SerializedEntity<Car>[]> => {
+              ecoCars: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<SerializedEntity<Car>[]> => {
                   return cubaApp.query<Car>("mpg$Car", "ecoCars", params, fetchOpts);
               },
-              ecoCarsCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<Number> => {
+              ecoCarsCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<Number> => {
                   return cubaApp.queryCount("mpg$Car", "ecoCars", params, fetchOpts);
               },
-              ecoCarsWithCount: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<EntitiesWithCount<Car>> => {
+              ecoCarsWithCount: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: queries_Car_ecoCars_params): Promise<EntitiesWithCount<Car>> => {
                   return cubaApp.queryWithCount<Car>("mpg$Car", "ecoCars", params, fetchOpts);
               }
           }
@@ -165,7 +165,7 @@ describe('generate TS REST query', () => {
     ]);
 
     const expect = '' +
-      `(cubaApp: CubaApp, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
+      `(cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (): Promise<SerializedEntity<Car>[]> => {
         return cubaApp.query<Car>("mpg$Car", "favoriteCars", {}, fetchOpts);
       }`;
 

@@ -1,5 +1,5 @@
 const assert = require('assert');
-const cuba = require('../dist-node/cuba');
+const cuba = require('../dist-node/jmix');
 
 describe('DefaultStorage', function () {
   describe('constructor', function () {

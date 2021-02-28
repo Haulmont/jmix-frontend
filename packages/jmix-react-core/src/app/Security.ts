@@ -1,6 +1,6 @@
 import {action, computed, observable, ObservableMap} from 'mobx';
 import {
-  CubaApp,
+  JmixRestConnection,
   EntityAttrPermissionValue,
   EffectivePermsInfo,
   getAttributePermission,
@@ -15,7 +15,7 @@ export class Security {
   @observable private effectivePermissions?: EffectivePermsInfo;
   permissionsRequestCount = 0;
 
-  constructor(private cubaREST: CubaApp) {
+  constructor(private jmixREST: JmixRestConnection) {
   }
 
   /**
@@ -105,7 +105,7 @@ export class Security {
     this.effectivePermissions = undefined;
     this.attrPermissionCache.clear();
 
-    return this.cubaREST.getEffectivePermissions()
+    return this.jmixREST.getEffectivePermissions()
       .then(action((effectivePermsInfo: EffectivePermsInfo) => {
         if (requestId === this.permissionsRequestCount) {
           this.effectivePermissions = effectivePermsInfo;

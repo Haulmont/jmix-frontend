@@ -53,8 +53,8 @@ In order to get enum id and localized caption, you can query full information ab
 ----
 import {EnumInfo, initializeApp} from "@haulmont/jmix-rest";
 
-const cubaREST = initializeApp();
-cubaREST.loadEnums()
+const jmixREST = initializeApp();
+jmixREST.loadEnums()
     .then(((enums: EnumInfo[]) => {
         console.log('enums', enums)
     }));

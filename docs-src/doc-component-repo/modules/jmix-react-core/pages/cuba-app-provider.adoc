@@ -1,14 +1,14 @@
-= CubaAppProvider
-:api_core_CubaAppProviderProps: link:../api-reference/jmix-react-core/interfaces/_app_cubaappprovider_.cubaappproviderprops.html
+= JmixAppProvider
+:api_core_JmixAppProviderProps: link:../api-reference/jmix-react-core/interfaces/_app_JmixAppProvider_.JmixAppProviderprops.html
 :api_rest_PropertyType: link:../api-reference/jmix-rest/modules/_model_.html#propertytype
 
-`CubaAppProvider` initializes main Jmix React Core components and provides them to the client application. It receives an instance of REST API service and an optional config object which has the following interface:
+`JmixAppProvider` initializes main Jmix React Core components and provides them to the client application. It receives an instance of REST API service and an optional config object which has the following interface:
 
 [source,typescript]
 ----
 import {PropertyType} from "@haulmont/jmix-rest";
 
-export interface CubaAppConfig {
+export interface JmixRestConnectionConfig {
   dataTransferFormats?: Partial<Record<PropertyType, string>>;
   displayFormats?: Partial<Record<PropertyType, string>>;
 }
@@ -23,7 +23,7 @@ NOTE: Only formats for temporal types can currently be overridden this way.
 
 [source,typescript]
 ----
-<CubaAppProvider cubaREST={cubaREST}
+<JmixAppProvider jmixREST={jmixREST}
                  config={{
                    dataTransferFormats: {
                      localDateTime: 'DD/MM/YYYY HH:mm:ss'
@@ -31,9 +31,9 @@ NOTE: Only formats for temporal types can currently be overridden this way.
                  }}
 >
    // App component tree
-</CubaAppProvider>
+</JmixAppProvider>
 ----
 
 '''
 
-API: {api_core_CubaAppProviderProps}[CubaAppProviderProps].
+API: {api_core_JmixAppProviderProps}[JmixAppProviderProps].

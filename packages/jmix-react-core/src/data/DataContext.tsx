@@ -1,5 +1,5 @@
 import {action, computed, IObservableArray, observable} from "mobx";
-import {getCubaREST} from "../app/CubaAppProvider";
+import {getJmixREST} from "../app/JmixAppProvider";
 
 export interface DataContainer {
   entityName: string;
@@ -30,7 +30,7 @@ class DataContext<T extends Containers> {
       }
       const container = this.containers[containerName];
       container.changedItems.forEach((entity) => {
-        getCubaREST()!.commitEntity(container.entityName, entity);
+        getJmixREST()!.commitEntity(container.entityName, entity);
       })
     }
   };

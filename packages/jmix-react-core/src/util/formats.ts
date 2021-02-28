@@ -1,5 +1,5 @@
 import {PropertyType} from '@haulmont/jmix-rest';
-import {getCubaAppConfig} from '../app/CubaAppProvider';
+import {getJmixAppConfig} from '../app/JmixAppProvider';
 import { Moment } from 'moment';
 
 export const DEFAULT_DATE_FORMAT = 'YYYY-MM-DD';
@@ -36,7 +36,7 @@ export const defaultDisplayFormats: Partial<Record<PropertyType, string>> = {
 };
 
 export function getDataTransferFormat(type: PropertyType): string | undefined {
-  return getCubaAppConfig()?.dataTransferFormats?.[type] || defaultDataTransferFormats[type];
+  return getJmixAppConfig()?.dataTransferFormats?.[type] || defaultDataTransferFormats[type];
 }
 
 export function applyDataTransferFormat(value: Moment, type: PropertyType): string {
@@ -44,7 +44,7 @@ export function applyDataTransferFormat(value: Moment, type: PropertyType): stri
 }
 
 export function getDisplayFormat(type: PropertyType): string | undefined {
-  return getCubaAppConfig()?.displayFormats?.[type] || defaultDisplayFormats[type];
+  return getJmixAppConfig()?.displayFormats?.[type] || defaultDisplayFormats[type];
 }
 
 export function applyDisplayFormat(value: Moment, type: PropertyType): string {

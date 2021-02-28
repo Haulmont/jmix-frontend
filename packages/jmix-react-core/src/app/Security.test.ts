@@ -194,9 +194,9 @@ async function createSecurityWithLoadedPerms(permsMockConfig?: PermsMockConfig):
 }
 
 async function createSecurity(permsMockConfig?: PermsMockConfig): Promise<Security> {
-  const cubaREST = jest.genMockFromModule<any>('@haulmont/jmix-rest').CubaApp;
-  cubaREST.getEffectivePermissions = jest.fn(() => createPerms(permsMockConfig));
-  return new Security(cubaREST);
+  const jmixREST = jest.genMockFromModule<any>('@haulmont/jmix-rest').JmixRestConnection;
+  jmixREST.getEffectivePermissions = jest.fn(() => createPerms(permsMockConfig));
+  return new Security(jmixREST);
 }
 
 function createPerms(
