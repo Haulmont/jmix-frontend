@@ -15,7 +15,7 @@ import {
   MainStoreInjected,
   injectMainStore,
   WithId,
-  getCubaREST,
+  getJmixREST,
   getPropertyInfo,
   assertNever,
   applyDataTransferFormat,
@@ -116,7 +116,7 @@ class DataTableCustomFilterComponent<E extends WithId>
 
     if (metaClassInfo) {
       // This is a nested entity column. Fetch select options.
-      getCubaREST()!.loadEntities<E>(metaClassInfo.entityName, {view: '_minimal'})
+      getJmixREST()!.loadEntities<E>(metaClassInfo.entityName, {view: '_minimal'})
         .then(
           (resp) => {
             resp.forEach((instance) => {

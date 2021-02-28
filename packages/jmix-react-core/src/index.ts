@@ -2,7 +2,7 @@ export * from './access-control/AccessControl';
 export * from './access-control/AttrPermAccessControl';
 export * from './access-control/EntityPermAccessControl';
 
-export * from './app/CubaAppProvider';
+export * from './app/JmixAppProvider';
 export * from './app/MainStore';
 export * from './app/MenuConfig';
 

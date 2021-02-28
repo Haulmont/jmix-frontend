@@ -10,7 +10,7 @@ import {inject, observer} from "mobx-react";
 import { IReactComponent } from "mobx-react/dist/types/IReactComponent";
 import * as React from "react";
 import {DataContainer, DataContainerError, DataContainerStatus} from "./DataContext";
-import {getCubaREST} from "../app/CubaAppProvider";
+import {getJmixREST} from "../app/JmixAppProvider";
 import {sortEntityInstances} from '../util/collation';
 import {WithId} from '../util/metadata';
 
@@ -171,11 +171,11 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     let loadingPromise;
 
     if (this.filter) {
-      loadingPromise = this.handleLoadingWithCount(getCubaREST()!.searchEntitiesWithCount<T>(this.entityName, this.filter, this.entitiesLoadOptions));
+      loadingPromise = this.handleLoadingWithCount(getJmixREST()!.searchEntitiesWithCount<T>(this.entityName, this.filter, this.entitiesLoadOptions));
     } else if (this.skipCount === true) {
-      loadingPromise = this.handleLoadingNoCount(getCubaREST()!.loadEntities<T>(this.entityName, this.entitiesLoadOptions));
+      loadingPromise = this.handleLoadingNoCount(getJmixREST()!.loadEntities<T>(this.entityName, this.entitiesLoadOptions));
     } else {
-      loadingPromise = this.handleLoadingWithCount(getCubaREST()!.loadEntitiesWithCount<T>(this.entityName, this.entitiesLoadOptions));
+      loadingPromise = this.handleLoadingWithCount(getJmixREST()!.loadEntitiesWithCount<T>(this.entityName, this.entitiesLoadOptions));
     }
 
     loadingPromise.catch(() => runInAction(() => {
@@ -199,7 +199,7 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
       throw new Error('Unable to delete entity without ID');
     }
     this.status = 'LOADING';
-    return getCubaREST()!.deleteEntity(this.entityName, e.id)
+    return getJmixREST()!.deleteEntity(this.entityName, e.id)
       .then(action(() => {
         this.load();
         return true;

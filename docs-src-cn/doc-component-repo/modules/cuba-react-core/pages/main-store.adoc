@@ -2,7 +2,7 @@
 :api_core_MainStore: link:../api-reference/cuba-react-core/modules/_app_mainstore_.html
 :api_core_useMainStore: link:../api-reference/cuba-react-core/modules/_app_mainstore_.html#usemainstore
 
-`MainStore` 包含共享的应用程序数据。通过 xref:cuba-app-provider.adoc[CubaAppProvider] 进行初始化。可以使用 `@injectMainStore` 注解将其注入其他的类：
+`MainStore` 包含共享的应用程序数据。通过 xref:cuba-app-provider.adoc[JmixAppProvider] 进行初始化。可以使用 `@injectMainStore` 注解将其注入其他的类：
 
 [source,typescript]
 ----

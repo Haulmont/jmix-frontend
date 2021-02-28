@@ -8,7 +8,7 @@ import {UploadProps} from 'antd/es/upload';
 import {UploadFile} from 'antd/es/upload/interface';
 import './FileUpload.less';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import {getCubaREST, injectMainStore, MainStoreInjected, MainStore} from '@haulmont/jmix-react-core';
+import {getJmixREST, injectMainStore, MainStoreInjected, MainStore} from '@haulmont/jmix-react-core';
 import {ImagePreview} from './ImagePreview';
 import {saveFile} from '../util/files';
 
@@ -121,7 +121,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
       this.isPreviewVisible = true;
       this.isPreviewLoading = true;
       this.previewFileName = fileName;
-      getCubaREST()!.getFile(this.fileList[0].uid).then((blob: Blob) => {
+      getJmixREST()!.getFile(this.fileList[0].uid).then((blob: Blob) => {
         this.previewImageObjectUrl = URL.createObjectURL(blob);
       }).catch(() => {
         message.error(intl.formatMessage({id: 'cubaReact.file.downloadFailed'}));
@@ -132,7 +132,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     } else {
       // Download file with correct filename
       const hideDownloadMessage = message.loading(intl.formatMessage({id: 'cubaReact.file.downloading'}));
-      getCubaREST()!.getFile(this.fileList[0].uid).then((blob: Blob) => {
+      getJmixREST()!.getFile(this.fileList[0].uid).then((blob: Blob) => {
         const objectUrl: string = URL.createObjectURL(blob);
         saveFile(objectUrl, fileName);
         URL.revokeObjectURL(objectUrl);
@@ -182,8 +182,8 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     }
 
     const defaultUploadProps: UploadProps = {
-      action: getCubaREST()!.getFileUploadURL(),
-      headers: {'Authorization': 'Bearer ' + getCubaREST()!.restApiToken},
+      action: getJmixREST()!.getFileUploadURL(),
+      headers: {'Authorization': 'Bearer ' + getJmixREST()!.restApiToken},
       fileList: this.fileList,
       onChange: this.handleChange,
       onPreview: this.handlePreview,

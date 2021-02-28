@@ -1,5 +1,5 @@
 import {
-  CubaApp,
+  JmixRestConnection,
   FetchOptions,
   SerializedEntity,
   EntitiesWithCount

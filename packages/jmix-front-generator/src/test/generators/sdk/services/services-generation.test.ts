@@ -8,7 +8,7 @@ import {assertContent, modelCtx} from "../../../test-commons";
 const servicesModel: RestService[] = require('../../../fixtures/service-model.json');
 
 const expectedRestServices = '' +
-  `import { CubaApp, FetchOptions } from "@haulmont/jmix-rest";
+  `import { JmixRestConnection, FetchOptions } from "@haulmont/jmix-rest";
       import { Car } from "./entities/mpg$Car";
       
       export type mpg_FavoriteService_addFavorite_params = {
@@ -23,15 +23,15 @@ const expectedRestServices = '' +
 
       export var restServices = {
           mpg_FavoriteService: {
-              addFavorite: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: mpg_FavoriteService_addFavorite_params) => {
+              addFavorite: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: mpg_FavoriteService_addFavorite_params) => {
                   return cubaApp.invokeService("mpg_FavoriteService", "addFavorite", params, fetchOpts);
               },
-              getFavorites: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => () => {
+              getFavorites: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => () => {
                   return cubaApp.invokeService("mpg_FavoriteService", "getFavorites", {}, fetchOpts);
               }
           },
           mpg_TestService: {
-              getTestInfo: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => () => {
+              getTestInfo: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => () => {
                   return cubaApp.invokeService("mpg_TestService", "getTestInfo", {}, fetchOpts);
               }
           }
@@ -43,10 +43,10 @@ describe('generate TS REST service', () => {
     const service = createService(restService, modelCtx());
     const expected = '' +
       `mpg_FavoriteService: {
-        addFavorite: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (params: mpg_FavoriteService_addFavorite_params) => {
+        addFavorite: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (params: mpg_FavoriteService_addFavorite_params) => {
             return cubaApp.invokeService("mpg_FavoriteService", "addFavorite", params, fetchOpts);
         },
-        getFavorites: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => () => {
+        getFavorites: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => () => {
             return cubaApp.invokeService("mpg_FavoriteService", "getFavorites", {}, fetchOpts);
         }
     }`;

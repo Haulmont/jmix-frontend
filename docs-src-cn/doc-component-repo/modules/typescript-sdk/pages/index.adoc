@@ -100,8 +100,8 @@ export enum CarType {
 ----
 import {EnumInfo, initializeApp} from "@cuba-platform/rest";
 
-const cubaREST = initializeApp();
-cubaREST.loadEnums()
+const jmixREST = initializeApp();
+jmixREST.loadEnums()
     .then(((enums: EnumInfo[]) => {
         console.log('enums', enums)
     }));

@@ -1,14 +1,14 @@
-= CubaAppProvider
-:api_core_CubaAppProviderProps: link:../api-reference/cuba-react-core/interfaces/_app_cubaappprovider_.cubaappproviderprops.html
+= JmixAppProvider
+:api_core_JmixAppProviderProps: link:../api-reference/cuba-react-core/interfaces/_app_JmixAppProvider_.JmixAppProviderprops.html
 :api_rest_PropertyType: link:../api-reference/cuba-rest-js/modules/_model_.html#propertytype
 
-`CubaAppProvider` 初始化主要的 CUBA React Core 组件，并将这些组件提供给客户端应用程序。接收 REST API 服务实例和一个配置对象作为参数，配置对象接口如下：
+`JmixAppProvider` 初始化主要的 CUBA React Core 组件，并将这些组件提供给客户端应用程序。接收 REST API 服务实例和一个配置对象作为参数，配置对象接口如下：
 
 [source,typescript]
 ----
 import {PropertyType} from "@cuba-platform/rest";
 
-export interface CubaAppConfig {
+export interface JmixRestConnectionConfig {
   dataTransferFormats?: Partial<Record<PropertyType, string>>;
   displayFormats?: Partial<Record<PropertyType, string>>;
 }
@@ -23,7 +23,7 @@ NOTE: 如果只是覆盖时间类型的格式，可以通过这种方式。
 
 [source,typescript]
 ----
-<CubaAppProvider cubaREST={cubaREST}
+<JmixAppProvider jmixREST={jmixREST}
                  config={{
                    dataTransferFormats: {
                      localDateTime: 'DD/MM/YYYY HH:mm:ss'
@@ -31,9 +31,9 @@ NOTE: 如果只是覆盖时间类型的格式，可以通过这种方式。
                  }}
 >
    // App 组件树
-</CubaAppProvider>
+</JmixAppProvider>
 ----
 
 '''
 
-API: {api_core_CubaAppProviderProps}[CubaAppProviderProps].
+API: {api_core_JmixAppProviderProps}[JmixAppProviderProps].
