@@ -6,7 +6,7 @@ import {inject, observer} from "mobx-react";
 import { IReactComponent } from "mobx-react/dist/types/IReactComponent";
 import * as React from "react";
 import {DataContainer, DataContainerError, DataContainerStatus} from "./DataContext";
-import {getCubaREST, getMainStore} from "../app/CubaAppProvider";
+import {getJmixREST, getMainStore} from "../app/JmixAppProvider";
 import {MainStore} from "../app/MainStore";
 import {
   getPropertyInfo, isOneToManyComposition, isOneToOneComposition,
@@ -81,7 +81,7 @@ export class DataInstanceStore<T> implements DataContainer {
       return;
     }
     this.status = "LOADING";
-    getCubaREST()!.loadEntity<T>(this.entityName, id, {view: this.viewName})
+    getJmixREST()!.loadEntity<T>(this.entityName, id, {view: this.viewName})
       .then((loadedEntity) => {
         runInAction(() => {
           this.item = loadedEntity;
@@ -158,7 +158,7 @@ export class DataInstanceStore<T> implements DataContainer {
 
     const fetchOptions = commitMode != null ? {commitMode} : undefined;
 
-    return getCubaREST()!.commitEntity(this.entityName, commitItem, fetchOptions)
+    return getJmixREST()!.commitEntity(this.entityName, commitItem, fetchOptions)
       .then((updateResult) => {
         runInAction(() => {
           if (updateResult.id != null && this.item != null) {

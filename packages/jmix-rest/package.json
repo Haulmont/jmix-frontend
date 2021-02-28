@@ -2,22 +2,22 @@
   "name": "@haulmont/jmix-rest",
   "version": "0.3.0-beta.1",
   "description": "JavaScript library for working with Jmix REST API",
-  "main": "dist-node/cuba.js",
-  "typings": "dist-node/cuba.d.ts",
+  "main": "dist-node/jmix.js",
+  "typings": "dist-node/jmix.d.ts",
   "scripts": {
     "lint": "tslint -c tslint.json src/**/*.ts",
     "test": "jest",
     "coverage": "tsc && npm run test -- --coverage",
-    "prepare-browser-test": "browserify test/cuba.test.js > test/cuba-browser.test.js",
+    "prepare-browser-test": "browserify test/jmix.test.js > test/jmix-browser.test.js",
     "compile": "tsc",
     "types:browser": "tsc --declarationDir dist-browser --emitDeclarationOnly true",
-    "dist": "npm run compile && mkdirp dist-browser && browserify --standalone cuba dist-node/cuba.js > dist-browser/cuba.js",
+    "dist": "npm run compile && mkdirp dist-browser && browserify --standalone jmix dist-node/jmix.js > dist-browser/jmix.js",
     "generate-docs": "typedoc --module commonjs --out ../../docs-src/api-reference/jmix-rest src",
     "prepublishOnly": "npm run dist"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest-js"
+    "url": "https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest"
   },
   "devDependencies": {
     "babel-jest": "^25.1.0",

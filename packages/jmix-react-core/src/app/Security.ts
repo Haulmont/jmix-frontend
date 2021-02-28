@@ -1,11 +1,10 @@
 import {action, computed, observable, ObservableMap} from 'mobx';
 import {
-  CubaApp,
+  JmixRestConnection,
   EntityAttrPermissionValue,
   EffectivePermsInfo,
   getAttributePermission,
   isOperationAllowed,
-  isSpecificPermissionGranted,
   EntityOperationType
 } from '@haulmont/jmix-rest';
 
@@ -14,10 +13,9 @@ export class Security {
 
   @observable attrPermissionCache: ObservableMap<string, EntityAttrPermissionValue> = new ObservableMap();
   @observable private effectivePermissions?: EffectivePermsInfo;
-  @observable private restSupportEffectivePerms: boolean = true;
   permissionsRequestCount = 0;
 
-  constructor(private cubaREST: CubaApp) {
+  constructor(private jmixREST: JmixRestConnection) {
   }
 
   /**
@@ -26,7 +24,7 @@ export class Security {
    * (REST API version < 7.2).
    */
   @computed get isDataLoaded(): boolean {
-    return this.effectivePermissions != null || !this.restSupportEffectivePerms;
+    return this.effectivePermissions != null;
   };
 
   /**
@@ -39,9 +37,6 @@ export class Security {
   getAttributePermission = (entityName: string, attributeName: string): EntityAttrPermissionValue => {
 
     if (!this.isDataLoaded) return 'DENY';
-
-    // do not deny anything for rest version prev 7.2
-    if (!this.restSupportEffectivePerms) return 'MODIFY';
 
     const attrFqn = `${entityName}:${attributeName}`;
 
@@ -62,12 +57,8 @@ export class Security {
     if (!this.isDataLoaded) {
       return false;
     }
-    if (!this.restSupportEffectivePerms) {
-      return true;
-    }
 
-    return isOperationAllowed('sys$FileDescriptor', 'create', this.effectivePermissions)
-      && isSpecificPermissionGranted('cuba.restApi.fileUpload.enabled', this.effectivePermissions);
+    return isOperationAllowed('sys$FileDescriptor', 'create', this.effectivePermissions);
   };
 
   /**
@@ -79,7 +70,6 @@ export class Security {
    */
   isOperationPermissionGranted = (entityName: string, operation: EntityOperationType): boolean => {
     if (!this.isDataLoaded) { return false; }
-    if (!this.restSupportEffectivePerms) { return true; }
 
     return isOperationAllowed(entityName, operation, this.effectivePermissions);
   };
@@ -98,7 +88,6 @@ export class Security {
     requiredAttrPerm: Exclude<EntityAttrPermissionValue, 'DENY'>
   ): boolean => {
     if (!this.isDataLoaded) { return false; }
-    if (!this.restSupportEffectivePerms) { return true; }
 
     const attrPerm = this.getAttributePermission(entityName, attrName);
 
@@ -111,38 +100,17 @@ export class Security {
     return requiredAttrPerm === 'VIEW';
   }
 
-  /**
-   * Returns a boolean indicating whether a given specific permission is granted
-   * to the current user.
-   *
-   * @param target
-   */
-  isSpecificPermissionGranted = (target: string): boolean => {
-    if (!this.isDataLoaded) { return false; }
-    if (!this.restSupportEffectivePerms) { return true; }
-
-    return isSpecificPermissionGranted(target, this.effectivePermissions);
-  }
-
   @action loadPermissions(): Promise<void> {
     const requestId = ++this.permissionsRequestCount;
     this.effectivePermissions = undefined;
     this.attrPermissionCache.clear();
 
-    return this.cubaREST.getEffectivePermissions()
+    return this.jmixREST.getEffectivePermissions()
       .then(action((effectivePermsInfo: EffectivePermsInfo) => {
         if (requestId === this.permissionsRequestCount) {
           this.effectivePermissions = effectivePermsInfo;
         }
-      }))
-      .catch(reason => {
-        // support rest api version < 7.2
-        if (reason === CubaApp.NOT_SUPPORTED_BY_API_VERSION) {
-          this.restSupportEffectivePerms = false;
-        } else {
-          throw reason;
-        }
-      });
+      }));
   }
 
 }

@@ -4,7 +4,6 @@
 
 如果选择 React Native， 参阅 xref:client-react-native:starter-guide.adoc[该向导]。
 
-即将废弃的 Polymer Client 文档在 xref:client-polymer:index.adoc[这里]。*译者注：由于 Polymer 即将废弃，我们不提供翻译。*
 
 如果想使用其他的前端框架，可以参阅 xref:typescript-sdk:index.adoc[TypeScript SDK] 和 {api_rest}[CUBA REST JS] 文档。
 

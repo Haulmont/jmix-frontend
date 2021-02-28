@@ -1,4 +1,4 @@
-import { CubaApp, FetchOptions } from "@haulmont/jmix-rest";
+import { JmixRestConnection, FetchOptions } from "@haulmont/jmix-rest";
 
 import { Car } from "./entities/scr$Car";
 
@@ -23,7 +23,7 @@ export type scr_FavoriteService_getFavoritesByType_params = {
 
 export var restServices = {
   scr_FavoriteService: {
-    addFavorite: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (
+    addFavorite: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (
       params: scr_FavoriteService_addFavorite_params
     ) => {
       return cubaApp.invokeService(
@@ -33,7 +33,7 @@ export var restServices = {
         fetchOpts
       );
     },
-    getFavorites: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => () => {
+    getFavorites: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => () => {
       return cubaApp.invokeService(
         "scr_FavoriteService",
         "getFavorites",
@@ -41,7 +41,7 @@ export var restServices = {
         fetchOpts
       );
     },
-    getFavoritesByType: (cubaApp: CubaApp, fetchOpts?: FetchOptions) => (
+    getFavoritesByType: (cubaApp: JmixRestConnection, fetchOpts?: FetchOptions) => (
       params: scr_FavoriteService_getFavoritesByType_params
     ) => {
       return cubaApp.invokeService(

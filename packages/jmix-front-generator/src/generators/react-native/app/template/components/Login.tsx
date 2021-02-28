@@ -11,7 +11,7 @@ import {observer} from "mobx-react";
 import {observable} from "mobx";
 import {colors} from '../styles/palette';
 import { PrimaryButton } from './PrimaryButton';
-import {cubaREST, REST_TOKEN_STORAGE_KEY} from "../rest/rest";
+import {jmixREST, REST_TOKEN_STORAGE_KEY} from "../rest/rest";
 import {OAUTH2_INVALID_GRANT} from "../rest/errorCodes";
 
 
@@ -161,7 +161,7 @@ export class Login extends Component<Props> {
     this.props
       .onLoginSubmit(this.login, this.password)
       .then(_value => {
-        return AsyncStorage.setItem(REST_TOKEN_STORAGE_KEY, cubaREST.restApiToken);
+        return AsyncStorage.setItem(REST_TOKEN_STORAGE_KEY, jmixREST.restApiToken);
       })
       .catch(err => {
         if (err.response) {

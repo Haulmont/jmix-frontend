@@ -1,13 +1,13 @@
 import React from 'react';
 import {Collection, fromRestModel} from "./Collection";
 import renderer from 'react-test-renderer';
-import * as cubaAppProvider from "../app/CubaAppProvider";
+import * as JmixAppProvider from "../app/JmixAppProvider";
 
 describe('Collection component', function () {
 
   it('Collection is rendered as null if there is no children', async () => {
 
-    jest.spyOn(cubaAppProvider, 'getCubaREST').mockReturnValue({
+    jest.spyOn(JmixAppProvider, 'getJmixREST').mockReturnValue({
         searchEntitiesWithCount: () => Promise.resolve({}),
         loadEntitiesWithCount: () => Promise.resolve({}),
       } as any);

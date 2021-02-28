@@ -25,7 +25,7 @@
 //** link:#technologies-1[Technologies]
 //** link:#react-native-further-learning[Where Do I Go From Here?]
 //* link:#jmix-react-core[Jmix React Core Components]
-//** link:#cubaappprovider[CubaAppProvider]
+//** link:#JmixAppProvider[JmixAppProvider]
 //** link:#mainstore[MainStore]
 //** link:#datacollectionstore[DataCollectionStore]
 //** link:#ClientSideDataCollectionStore[ClientSideDataCollectionStore]

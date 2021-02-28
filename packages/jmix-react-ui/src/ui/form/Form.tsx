@@ -6,7 +6,7 @@ import {
   defaultCompare,
   formFieldsToInstanceItem,
   generateTemporaryEntityId,
-  getCubaREST,
+  getJmixREST,
   getPropertyInfo,
   injectMainStore,
   instance,
@@ -390,7 +390,7 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
   }
 
   loadViewPropertyNames = (entityName: string, viewName: string) => {
-    return getCubaREST()?.loadEntityView(entityName, viewName)
+    return getJmixREST()?.loadEntityView(entityName, viewName)
       .then((view: View) => {
         return view.properties.map((viewProperty: ViewProperty) => {
           return (typeof viewProperty === 'string') ? viewProperty : viewProperty.name;
@@ -536,7 +536,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
 
     // HTTP request
     if (this.allFields == null) {
-      getCubaREST()?.loadEntityView(nestedEntityName, nestedEntityView)
+      getJmixREST()?.loadEntityView(nestedEntityName, nestedEntityView)
         .then((view: View) => {
           this.allFields = view.properties.map((viewProp: ViewProperty) => {
             if (typeof viewProp === 'string') {
