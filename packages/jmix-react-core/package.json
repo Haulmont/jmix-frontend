@@ -15,20 +15,20 @@
   "peerDependencies": {
     "mobx": "^4.13.0 || ^5.13.0",
     "mobx-react": "^6.2.2",
-    "react": "^16.9.0"
+    "react": "^17.0.1"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@types/jest": "^24.0.18",
-    "@types/react": "^16.9.41",
+    "@types/react": "^17.0.2",
     "@types/react-test-renderer": "^16.9.2",
     "babel-jest": "^25.1.0",
     "jest": "^25.1.0",
     "mobx": "^4.13.0",
     "mobx-react": "^6.2.2",
-    "react": "^16.11.0",
-    "react-dom": "^16.12.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1",
     "react-test-renderer": "^16.12.0",
     "rollup": "~1.17.0",
     "rollup-plugin-commonjs": "^10.1.0",
