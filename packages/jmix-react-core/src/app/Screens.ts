@@ -1,8 +1,9 @@
-import { computed, observable } from "mobx";
-import React from "react";
-import { IMultiScreenProps } from "components/MultiScreen";
-import { currentRootPageData } from "globalState/currentRootPageData";
-import { sleep } from "helpers/misc";
+import { observable } from 'mobx';
+import React from 'react';
+
+export interface IMultiScreenProps {
+  children?: React.ReactNode;
+}
 
 export interface IMultiScreenItem {
   title: string;
@@ -13,18 +14,21 @@ export interface IMultiScreenItem {
   };
 }
 
-export class MultiScreenState {
+export class Screens {
   props: IMultiScreenProps = null!;
+  currentRootPageData = {
+    title: '',
+  };
   @observable.ref screens: IMultiScreenItem[] = [];
   @observable.ref currentScreen: IMultiScreenItem = null!;
 
   get content() {
-    const { screens, currentScreen, props } = this;
-    if (screens.length === 0) {
+    const {screens: screensList, currentScreen, props} = this;
+    if (screensList.length === 0) {
       return props.children;
     }
 
-    for (const screen of screens) {
+    for (const screen of screensList) {
       if (screen === currentScreen) {
         return screen.content;
       }
@@ -34,10 +38,10 @@ export class MultiScreenState {
   }
 
   get currentScreenIndex() {
-    const { screens, currentScreen, props } = this;
+    const {screens: screensList, currentScreen} = this;
     let index = 0;
 
-    for (const screen of screens) {
+    for (const screen of screensList) {
       if (screen === currentScreen) {
         return index;
       }
@@ -48,21 +52,20 @@ export class MultiScreenState {
     return index;
   }
 
-  reset = () => {
+  closeAll = () => {
     this.screens = [];
     this.currentScreen = null!;
-    //this.props = null;
   };
 
-  pushScreen = (screen: IMultiScreenItem) => {
+  push = (screenToPush: IMultiScreenItem) => {
     const lastScreen = this.screens[this.screens.length - 1] ?? null;
     let newScreens = [...this.screens];
     let parentScreen = null;
 
     if (newScreens.length === 0) {
       const firstScreen = {
-        title: currentRootPageData.title,
-        content: this.props.children
+        title: this.currentRootPageData.title,
+        content: this.props.children,
       };
       parentScreen = firstScreen;
 
@@ -82,19 +85,19 @@ export class MultiScreenState {
       }
     }
 
-    screen.parent = parentScreen;
+    screenToPush.parent = parentScreen;
 
-    this.currentScreen = screen;
-    newScreens.push(screen);
+    this.currentScreen = screenToPush;
+    newScreens.push(screenToPush);
 
     this.screens = [...newScreens];
   };
 
   setActiveScreen = (
-    screen: IMultiScreenItem,
-    removeScreensToRight = false
+    activeScreen: IMultiScreenItem,
+    removeScreensToRight = false,
   ) => {
-    this.currentScreen = screen;
+    this.currentScreen = activeScreen;
 
     if (removeScreensToRight) {
       const newScreens = [];
@@ -111,4 +114,4 @@ export class MultiScreenState {
   };
 }
 
-export const multiScreenState = new MultiScreenState();
+export const screens = new Screens();

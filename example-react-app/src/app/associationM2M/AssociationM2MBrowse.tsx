@@ -10,7 +10,8 @@ import {
   MainStoreInjected,
   EntityPermAccessControl
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import { DataTable, Spinner, routerData, referencesListByEntityName } from "@haulmont/jmix-react-ui";
+import { screens } from "@haulmont/jmix-react-core";
 
 import { AssociationM2MTestEntity } from "jmix/entities/scr_AssociationM2MTestEntity";
 import { SerializedEntity } from "@haulmont/jmix-rest";
@@ -19,9 +20,6 @@ import {
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
-import { referencesListByEntityName } from "helpers/referrencesList";
-import { multiScreenState } from "globalState/multiScreen";
-import { routerData } from "helpers/componentsRegistration";
 
 const ENTITY_NAME = "associationM2M";
 const ROUTING_PATH = "/associationM2MManagement";
@@ -61,7 +59,7 @@ class AssociationM2MBrowseComponent extends React.Component<
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    multiScreenState.pushScreen({
+    screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -71,11 +69,11 @@ class AssociationM2MBrowseComponent extends React.Component<
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (multiScreenState.currentScreenIndex === 0) {
+    if (screens.currentScreenIndex === 0) {
       routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
     }
 
-    multiScreenState.pushScreen({
+    screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {

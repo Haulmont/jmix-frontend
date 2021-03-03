@@ -1,8 +1,9 @@
 import React from "react";
-import { IMultiScreenItem, multiScreenState } from "globalState/multiScreen";
-
-import styles from "./styles.module.scss";
 import { observer } from "mobx-react";
+import { screens, IMultiScreenItem } from '@haulmont/jmix-react-core';
+
+import "./styles.less";
+
 
 export const MultiScreenContext = React.createContext<IMultiScreenItem>(null!);
 
@@ -11,14 +12,14 @@ export interface IMultiScreenProps {
 }
 
 export const MultiScreen = observer((props: IMultiScreenProps) => {
-  multiScreenState.props = props;
+  screens.props = props;
 
   let content = props.children;
-  if (multiScreenState.screens.length) {
-    content = multiScreenState.screens.map((item, index) => {
-      let params = {} as { key?: string };
+  if (screens.screens.length) {
+    content = screens.screens.map((item, index) => {
+      const params = {} as { key?: string };
       // If we render last screen than force "create" it because {item} link can be same, but other params can be changes (example edit screen with another entityId param)
-      if (index === multiScreenState.screens.length - 1) {
+      if (index === screens.screens.length - 1) {
         params.key = Math.random() + "";
       }
 
@@ -43,8 +44,8 @@ export const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
 
   const style: any = {};
   if (
-    multiScreenState.currentScreen !== null &&
-    multiScreenState.currentScreen !== item
+    screens.currentScreen !== null &&
+    screens.currentScreen !== item
   ) {
     style.display = "none";
   }
@@ -59,11 +60,11 @@ export const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
 });
 
 const Breadcrumbs = observer(() => {
-  if (multiScreenState.screens.length <= 1) return null;
+  if (screens.screens.length <= 1) return null;
 
   return (
-    <div className={styles.breadcrumbs}>
-      {Array.from(multiScreenState.screens).map(screen => (
+    <div className="jmix-multi-screen--breadcrumbs">
+      {Array.from(screens.screens).map(screen => (
         <Breadcrumb screen={screen} />
       ))}
     </div>
@@ -78,14 +79,14 @@ const Breadcrumb = observer((props: IBreadcrumbProps) => {
   const { screen } = props;
 
   function handleClick() {
-    multiScreenState.setActiveScreen(screen);
+    screens.setActiveScreen(screen);
   }
 
   return (
     <span
       onClick={handleClick}
-      className={styles.breadcrumb}
-      data-active={multiScreenState.currentScreen === screen}
+      className="jmix-multi-screen--breadcrumb"
+      data-active={screens.currentScreen === screen}
     >
       <span>{screen.title}</span>
     </span>

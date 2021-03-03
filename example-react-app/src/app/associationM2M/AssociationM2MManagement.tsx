@@ -3,10 +3,10 @@ import AssociationM2MEdit from "./AssociationM2MEdit";
 import AssociationM2MBrowse from "./AssociationM2MBrowse";
 
 import {
-  registerReferenceScreenWithEditEntity,
-  registerReferenceScreenWithList,
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
   registerRoute
-} from "helpers/componentsRegistration";
+} from "@haulmont/jmix-react-ui";
 
 const ENTITY_NAME = "associationM2M";
 const ROUTING_PATH = "/associationM2MManagement";
@@ -18,12 +18,12 @@ registerRoute(
   <AssociationM2MBrowse />,
   ENTITY_NAME
 );
-registerReferenceScreenWithEditEntity(
+registerEntityEditorScreen(
   ENTITY_NAME,
   "associationM2MManagement",
   <AssociationM2MEdit />
 );
-registerReferenceScreenWithList(
+registerEntityBrowserScreen(
   ENTITY_NAME,
   "associationM2MManagement",
   <AssociationM2MBrowse />

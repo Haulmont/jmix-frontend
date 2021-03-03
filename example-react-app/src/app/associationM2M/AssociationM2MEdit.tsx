@@ -18,18 +18,17 @@ import {
   DataCollectionStore,
   instance,
   MainStoreInjected,
-  injectMainStore
+  injectMainStore,
+  screens,
+  IMultiScreenItem,
 } from "@haulmont/jmix-react-core";
 
-import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
+import { Field, MultilineText, Spinner, routerData, MultiScreenContext } from "@haulmont/jmix-react-ui";
 
 import "../../app/App.css";
 
 import { AssociationM2MTestEntity } from "jmix/entities/scr_AssociationM2MTestEntity";
 import { DatatypesTestEntity } from "jmix/entities/scr_DatatypesTestEntity";
-import { MultiScreenContext } from "components/MultiScreen";
-import { IMultiScreenItem, multiScreenState } from "globalState/multiScreen";
-import { routerData } from "helpers/componentsRegistration";
 
 type Props = MainStoreInjected;
 
@@ -115,10 +114,10 @@ class AssociationM2MEditComponent extends React.Component<
   };
 
   onCancelBtnClick = () => {
-    if (multiScreenState.currentScreenIndex === 1) {
+    if (screens.currentScreenIndex === 1) {
       routerData.history.replace(ROUTING_PATH);
     }
-    multiScreenState.setActiveScreen(this.context.parent!, true);
+    screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {

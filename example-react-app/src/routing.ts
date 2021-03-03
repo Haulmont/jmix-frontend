@@ -30,9 +30,7 @@ import { CarManagement3 } from "./app/entity-management3/CarManagement3";
 import { CarManagement2 } from "./app/entity-management2/CarManagement2";
 import { CarManagement } from "./app/entity-management/CarManagement";
 import { FavoriteCars } from "./app/entity-cards/FavoriteCars";
-import { menuItems as mi } from 'helpers/componentsRegistration';
-
-export const menuItems = mi;
+import { menuItems } from '@haulmont/jmix-react-ui';
 
 
 // Code below demonstrates how we can create SubMenu section
