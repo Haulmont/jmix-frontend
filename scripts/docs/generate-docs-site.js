@@ -1,6 +1,7 @@
 const {runCmdSync, log} = require('../common');
 const yaml = require('js-yaml');
 const fse = require('fs-extra');
+const path = require('path');
 
 function generateSite(docsSrcPath, mode) {
     const playbookFilePath = `${docsSrcPath}/antora-playbook.yml`;
@@ -36,7 +37,7 @@ function copyApiReference(playbook, docsSrcPath) {
 
     // Checkout the repo to a temporary directory
     const projectRootDir = process.cwd();
-    const gitTempDir = `${docsSrcPath}/_temp`;
+    const gitTempDir = path.join(process.cwd(), `${docsSrcPath}/_temp`);
     fse.removeSync(gitTempDir);
     runCmdSync(`mkdir ${gitTempDir}`);
     log.info(process.cwd());
