@@ -207,6 +207,6 @@ export function isOneToManyComposition(propertyInfo: MetaPropertyInfo): boolean 
   return isComposition(propertyInfo) && isOneToManyRelation(propertyInfo);
 }
 
-export type WithId = {id?: string};
+export type WithId = {id?: string | object};
 
 export type WithName = {name?: string};

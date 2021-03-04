@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { Car } from "jmix/entities/mpg$Car";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { CarManagement } from "./CarManagement";
 import {
   FormattedMessage,
@@ -133,14 +133,17 @@ class CarCardsComponent extends React.Component<Props> {
         {items.map(e => (
           <Card
             title={e._instanceName}
-            key={e.id ? e.id : undefined}
+            key={e.id ? getStringId(e.id) : undefined}
             style={{ marginBottom: "12px" }}
             actions={[
               <DeleteOutlined
                 key="delete"
                 onClick={() => this.showDeletionDialog(e)}
               />,
-              <Link to={CarManagement.PATH + "/" + e.id} key="edit">
+              <Link
+                to={CarManagement.PATH + "/" + getStringId(e.id!)}
+                key="edit"
+              >
                 <EditOutlined />
               </Link>
             ]}

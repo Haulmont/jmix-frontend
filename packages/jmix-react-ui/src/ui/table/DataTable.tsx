@@ -14,7 +14,7 @@ import {
   handleTableChange,
   isPreservedCondition
 } from './DataTableHelpers';
-import {Condition, ConditionsGroup, EntityAttrPermissionValue, SerializedEntity} from "@haulmont/jmix-rest";
+import {Condition, ConditionsGroup, EntityAttrPermissionValue, SerializedEntity, getStringId} from "@haulmont/jmix-rest";
 import {
   MainStoreInjected,
   DataCollectionStore,
@@ -520,7 +520,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
   }
 
   constructRowKey(record: E & WithId): string {
-    return record.id!;
+    return getStringId(record.id!);
   }
 
 }
