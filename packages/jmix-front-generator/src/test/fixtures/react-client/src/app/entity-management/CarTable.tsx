@@ -14,7 +14,7 @@ import {
 import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
 
 import { Car } from "jmix/entities/mpg$Car";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { CarManagement3 } from "./CarManagement3";
 import {
   FormattedMessage,
@@ -136,7 +136,9 @@ class CarTableComponent extends React.Component<
   getRecordById(id: string): SerializedEntity<Car> {
     const record:
       | SerializedEntity<Car>
-      | undefined = this.dataCollection.items.find(record => record.id === id);
+      | undefined = this.dataCollection.items.find(
+      record => getStringId(record.id!) === id
+    );
 
     if (!record) {
       throw new Error("Cannot find entity with id " + id);
