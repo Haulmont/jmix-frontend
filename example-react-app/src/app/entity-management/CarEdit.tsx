@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { CarManagement } from "./CarManagement";
-import { Link, Redirect } from "react-router-dom";
 import { IReactionDisposer, observable, reaction, toJS } from "mobx";
 import {
   FormattedMessage,
@@ -12,8 +10,11 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  routerData,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
@@ -31,15 +32,17 @@ import { Car } from "../../jmix/entities/scr$Car";
 import { Garage } from "../../jmix/entities/scr$Garage";
 import { TechnicalCertificate } from "../../jmix/entities/scr$TechnicalCertificate";
 
-type Props = EditorProps & MainStoreInjected;
+type Props = MainStoreInjected;
 
-type EditorProps = {
-  entityId: string;
-};
+const ENTITY_NAME = "scr$Car";
+const ROUTING_PATH = "/carManagement";
 
 @injectMainStore
 @observer
 class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<Car>(Car.NAME, {
     view: "car-edit",
     loadImmediately: false
@@ -127,16 +130,19 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
   };
 
   isNewEntity = () => {
-    return this.props.entityId === CarManagement.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
+  };
+
+  onCancelBtnClick = () => {
+    if (screens.currentScreenIndex === 1) {
+      routerData.history.replace(ROUTING_PATH);
+    }
+    screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
-    if (this.updated) {
-      return <Redirect to={CarManagement.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -148,7 +154,10 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -282,11 +291,9 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={CarManagement.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -306,7 +313,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new Car());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(

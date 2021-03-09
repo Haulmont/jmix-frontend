@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { IntIdentityIdMgtTableManagement } from "./IntIdentityIdMgtTableManagement";
-import { Link, Redirect } from "react-router-dom";
 import { IReactionDisposer, observable, reaction, toJS } from "mobx";
 import {
   FormattedMessage,
@@ -12,8 +10,11 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  routerData,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -27,17 +28,19 @@ import "../../app/App.css";
 
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+type Props = MainStoreInjected;
 
-type EditorProps = {
-  entityId: string;
-};
+const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
+const ROUTING_PATH = "/intIdentityIdMgtTableManagement";
 
 @injectMainStore
 @observer
 class IntIdentityIdMgtTableEditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<IntIdentityIdTestEntity>(
     IntIdentityIdTestEntity.NAME,
     {
@@ -91,16 +94,19 @@ class IntIdentityIdMgtTableEditComponent extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === IntIdentityIdMgtTableManagement.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
+  };
+
+  onCancelBtnClick = () => {
+    if (screens.currentScreenIndex === 1) {
+      routerData.history.replace(ROUTING_PATH);
+    }
+    screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
-    if (this.updated) {
-      return <Redirect to={IntIdentityIdMgtTableManagement.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -112,7 +118,10 @@ class IntIdentityIdMgtTableEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -202,11 +211,9 @@ class IntIdentityIdMgtTableEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={IntIdentityIdMgtTableManagement.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -226,7 +233,7 @@ class IntIdentityIdMgtTableEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new IntIdentityIdTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(

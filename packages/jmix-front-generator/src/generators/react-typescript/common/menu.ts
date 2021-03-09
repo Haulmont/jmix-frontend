@@ -67,15 +67,8 @@ export const addRoute = (routingContents: string,
                     componentClassName,
                     componentPath
                   }: RouteInfo) => `` +
-`import {${componentClassName}} from '${componentPath}';
-${routingContents}
-
-menuItems.push({
-  pathPattern: '${pathPattern}',
-  menuLink: '${menuLink}',
-  component: ${componentClassName},
-  caption: '${caption}'
-});`;
+`import '${componentPath}';
+${routingContents}`;
 
 function getRelativePath(routingDir: string, destRoot: string) {
   return convertToUnixPath(path.relative(routingDir, destRoot));

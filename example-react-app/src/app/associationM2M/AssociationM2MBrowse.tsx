@@ -8,12 +8,17 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner, routerData, referencesListByEntityName } from "@haulmont/jmix-react-ui";
-import { screens } from "@haulmont/jmix-react-core";
+import {
+  DataTable,
+  Spinner,
+  routerData,
+  referencesListByEntityName
+} from "@haulmont/jmix-react-ui";
 
-import { AssociationM2MTestEntity } from "jmix/entities/scr_AssociationM2MTestEntity";
+import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
 import { SerializedEntity } from "@haulmont/jmix-rest";
 import {
   FormattedMessage,
@@ -21,7 +26,7 @@ import {
   WrappedComponentProps
 } from "react-intl";
 
-const ENTITY_NAME = "associationM2M";
+const ENTITY_NAME = "scr_AssociationM2MTestEntity";
 const ROUTING_PATH = "/associationM2MManagement";
 
 @injectMainStore
@@ -94,9 +99,9 @@ class AssociationM2MBrowseComponent extends React.Component<
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
+          onClick={this.onCrateBtnClick}
           type="primary"
           icon={<PlusOutlined />}
-          onClick={this.onCrateBtnClick}
         >
           <span>
             <FormattedMessage id="common.create" />
@@ -112,8 +117,8 @@ class AssociationM2MBrowseComponent extends React.Component<
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={!this.selectedRowKey}
-          type="default"
           onClick={this.onEditBtnClick}
+          type="default"
         >
           <FormattedMessage id="common.edit" />
         </Button>

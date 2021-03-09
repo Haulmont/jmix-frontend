@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { IReactionDisposer, reaction } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Modal, Button, List, message } from "antd";
@@ -9,18 +8,20 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
-  Spinner
+  Spinner,
+  routerData,
+  referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { SerializedEntity } from "@haulmont/jmix-rest";
-import { StringIdMgtListManagement } from "./StringIdMgtListManagement";
 import {
   FormattedMessage,
   injectIntl,
@@ -28,11 +29,10 @@ import {
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
-type Props = MainStoreInjected &
-  WrappedComponentProps & {
-    paginationConfig: PaginationConfig;
-    onPagingChange: (current: number, pageSize: number) => void;
-  };
+type Props = MainStoreInjected & WrappedComponentProps;
+
+const ENTITY_NAME = "scr_StringIdTestEntity";
+const ROUTING_PATH = "/stringIdMgtListManagement";
 
 @injectMainStore
 @observer
@@ -56,15 +56,6 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
   ];
 
   componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
-
     this.reactionDisposers.push(
       reaction(
         () => this.dataCollection.status,
@@ -98,9 +89,35 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = (itemId: string) => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (screens.currentScreenIndex === 0) {
+      routerData.history.replace(ROUTING_PATH + "/" + itemId);
+    }
+
+    screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: itemId
+      }
+    });
+  };
+
   render() {
     const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
+    const { mainStore } = this.props;
 
     if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
       return <Spinner />;
@@ -113,19 +130,16 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
           operation="create"
         >
           <div style={{ marginBottom: "12px" }}>
-            <Link
-              to={
-                StringIdMgtListManagement.PATH +
-                "/" +
-                StringIdMgtListManagement.NEW_SUBPATH
-              }
+            <Button
+              htmlType="button"
+              type="primary"
+              onClick={this.onCrateBtnClick}
+              icon={<PlusOutlined />}
             >
-              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </Link>
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
           </div>
         </EntityPermAccessControl>
 
@@ -140,12 +154,7 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link
-                  to={StringIdMgtListManagement.PATH + "/" + item.id}
-                  key="edit"
-                >
-                  <EditOutlined />
-                </Link>
+                <EditOutlined onClick={() => this.onEditBtnClick(item.id!)} />
               ]}
             >
               <div style={{ flexGrow: 1 }}>
@@ -162,15 +171,15 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
           )}
         />
 
-        {!this.props.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={count}
-            />
-          </div>
-        )}
+        {/*
+        <div style={{margin: "12px 0 12px 0", float: "right"}}>
+          <Paging
+            //paginationConfig={paginationConfig}
+            //onPagingChange={onPagingChange}
+            total={count}
+          />
+        </div>
+        */}
       </div>
     );
   }

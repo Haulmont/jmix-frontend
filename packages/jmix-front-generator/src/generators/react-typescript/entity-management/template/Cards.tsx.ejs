@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { IReactionDisposer, reaction } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import { Modal, Button, Card, message } from "antd";
@@ -9,18 +8,20 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
-  Spinner
+  Spinner,
+  routerData,
+  referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {SerializedEntity} from "@haulmont/jmix-rest";
-import {<%= className %>} from "./<%= className %>";
 import {
 FormattedMessage,
 injectIntl,
@@ -28,11 +29,11 @@ WrappedComponentProps
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
-type Props = MainStoreInjected &
-WrappedComponentProps & {
-paginationConfig: PaginationConfig;
-onPagingChange: (current: number, pageSize: number) => void;
-};
+type Props = MainStoreInjected & WrappedComponentProps;
+
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
 @injectMainStore
 @observer
 class <%= listComponentClass %>Component extends React.Component<Props> {
@@ -56,13 +57,6 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
   ];
 
   componentDidMount(): void {
-    this.reactionDisposers.push(reaction(
-      () => this.props.paginationConfig,
-      paginationConfig =>
-        setPagination(paginationConfig, this.dataCollection, true)
-    ));
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
-
     this.reactionDisposers.push(reaction(
       () => this.dataCollection.status,
       (status) => {
@@ -92,9 +86,35 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = (itemId: string) => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (screens.currentScreenIndex === 0) {
+      routerData.history.replace(ROUTING_PATH + "/" + itemId);
+    }
+
+    screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: itemId
+      }
+    });
+  };
+
   render() {
     const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
+    const { mainStore } = this.props;
 
     if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
       return <Spinner />;
@@ -104,13 +124,12 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
       <div className='narrow-layout'>
         <EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='create'>
           <div style={{marginBottom: '12px'}}>
-            <Link to={<%= className %>.PATH + '/' + <%= className %>.NEW_SUBPATH}>
-              <Button htmlType='button'
-                      type='primary'
-                      icon={<PlusOutlined />}>
-                <span><FormattedMessage id='common.create'/></span>
-              </Button>
-            </Link>
+            <Button htmlType='button'
+                    type='primary'
+                    onClick={this.onCrateBtnClick}
+                    icon={<PlusOutlined />}>
+              <span><FormattedMessage id='common.create'/></span>
+            </Button>
           </div>
         </EntityPermAccessControl>
 
@@ -126,9 +145,7 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
                   <DeleteOutlined
                         key='delete'
                         onClick={() => this.showDeletionDialog(e)}/>,
-                  <Link to={<%= className %>.PATH + '/' + e.id} key='edit'>
-                    <EditOutlined />
-                  </Link>
+                  <EditOutlined onClick={() => this.onEditBtnClick(e.id!)} />
                 ]}>
                 {this.fields.map(p =>
                   <EntityProperty entityName={<%= entity.className %>.NAME}
@@ -139,15 +156,15 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
           </Card>
         )}
 
-        {!this.props.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={count}
+        {/*
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            //paginationConfig={paginationConfig}
+            //onPagingChange={onPagingChange}
+            total={count}
           />
-          </div>
-        )}
+        </div>
+        */}
       </div>
     );
   }

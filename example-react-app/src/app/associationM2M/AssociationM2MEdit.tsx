@@ -10,29 +10,30 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  routerData,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
   DataCollectionStore,
   instance,
   MainStoreInjected,
-  injectMainStore,
-  screens,
-  IMultiScreenItem,
+  injectMainStore
 } from "@haulmont/jmix-react-core";
 
-import { Field, MultilineText, Spinner, routerData, MultiScreenContext } from "@haulmont/jmix-react-ui";
+import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
 
 import "../../app/App.css";
 
-import { AssociationM2MTestEntity } from "jmix/entities/scr_AssociationM2MTestEntity";
-import { DatatypesTestEntity } from "jmix/entities/scr_DatatypesTestEntity";
+import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
+import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "associationM2M";
+const ENTITY_NAME = "scr_AssociationM2MTestEntity";
 const ROUTING_PATH = "/associationM2MManagement";
 
 @injectMainStore
@@ -101,7 +102,6 @@ class AssociationM2MEditComponent extends React.Component<
       ).then(({ success, globalErrors }) => {
         if (success) {
           this.updated = true;
-          this.onCancelBtnClick();
         } else {
           this.globalErrors = globalErrors;
         }
@@ -182,7 +182,6 @@ class AssociationM2MEditComponent extends React.Component<
             <Button htmlType="button" onClick={this.onCancelBtnClick}>
               <FormattedMessage id="common.cancel" />
             </Button>
-
             <Button
               type="primary"
               htmlType="submit"

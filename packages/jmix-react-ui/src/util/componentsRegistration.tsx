@@ -88,6 +88,8 @@ export function registerRoute(routePath: string, menuPath: string, title: string
       routerData.location = props.location;
       routerData.match = props.matchl;
 
+      screens.closeAll();
+
       const entityId = props?.match?.params?.entityId;
       if (entityId) {
         (async () => {

@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { observable } from "mobx";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,18 +8,26 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  Spinner,
+  routerData,
+  referencesListByEntityName
+} from "@haulmont/jmix-react-ui";
 
 import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
 import { SerializedEntity } from "@haulmont/jmix-rest";
-import { AssociationM2OManagement } from "./AssociationM2OManagement";
 import {
   FormattedMessage,
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
+
+const ENTITY_NAME = "scr_AssociationM2OTestEntity";
+const ROUTING_PATH = "/associationM2OManagement";
 
 @injectMainStore
 @observer
@@ -54,6 +61,32 @@ class AssociationM2OBrowseComponent extends React.Component<
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (screens.currentScreenIndex === 0) {
+      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    }
+
+    screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: this.selectedRowKey
+      }
+    });
+  };
+
   render() {
     if (this.props.mainStore?.isEntityDataLoaded() !== true) return <Spinner />;
 
@@ -63,40 +96,32 @@ class AssociationM2OBrowseComponent extends React.Component<
         operation="create"
         key="create"
       >
-        <Link
-          to={
-            AssociationM2OManagement.PATH +
-            "/" +
-            AssociationM2OManagement.NEW_SUBPATH
-          }
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          onClick={this.onCrateBtnClick}
+          type="primary"
+          icon={<PlusOutlined />}
         >
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </Link>
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={AssociationM2OTestEntity.NAME}
         operation="update"
         key="update"
       >
-        <Link to={AssociationM2OManagement.PATH + "/" + this.selectedRowKey}>
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            disabled={!this.selectedRowKey}
-            type="default"
-          >
-            <FormattedMessage id="common.edit" />
-          </Button>
-        </Link>
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={!this.selectedRowKey}
+          onClick={this.onEditBtnClick}
+          type="default"
+        >
+          <FormattedMessage id="common.edit" />
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={AssociationM2OTestEntity.NAME}

@@ -1,43 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
 import IntIdMgtTableEdit from "./IntIdMgtTableEdit";
 import IntIdMgtTableBrowse from "./IntIdMgtTableBrowse";
-import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+const ENTITY_NAME = "scr_IntegerIdTestEntity";
+const ROUTING_PATH = "/intIdManagementTable";
 
-@observer
-export class IntIdManagementTable extends React.Component<Props> {
-  static PATH = "/intIdManagementTable";
-  static NEW_SUBPATH = "new";
-
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
-  }
-
-  render() {
-    const { entityId } = this.props.match.params;
-    return entityId ? (
-      <IntIdMgtTableEdit entityId={entityId} />
-    ) : (
-      <IntIdMgtTableBrowse />
-    );
-  }
-
-  @action onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
-      addPagingParams("intIdManagementTable", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  "intIdManagementTable list",
+  <IntIdMgtTableBrowse />,
+  ENTITY_NAME
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  "intIdManagementTable",
+  <IntIdMgtTableEdit />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  "intIdManagementTable",
+  <IntIdMgtTableBrowse />
+);

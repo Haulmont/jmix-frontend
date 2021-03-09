@@ -1,46 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
 import IntIdentityIdMgtListEdit from "./IntIdentityIdMgtListEdit";
 import IntIdentityIdMgtListBrowse from "./IntIdentityIdMgtListBrowse";
-import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
+const ROUTING_PATH = "/intIdentityIdMgtListManagement";
 
-@observer
-export class IntIdentityIdMgtListManagement extends React.Component<Props> {
-  static PATH = "/intIdentityIdMgtListManagement";
-  static NEW_SUBPATH = "new";
-
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
-  }
-
-  render() {
-    const { entityId } = this.props.match.params;
-    return entityId ? (
-      <IntIdentityIdMgtListEdit entityId={entityId} />
-    ) : (
-      <IntIdentityIdMgtListBrowse
-        onPagingChange={this.onPagingChange}
-        paginationConfig={this.paginationConfig}
-      />
-    );
-  }
-
-  @action onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
-      addPagingParams("intIdentityIdMgtListManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  "intIdentityIdMgtListManagement list",
+  <IntIdentityIdMgtListBrowse />,
+  ENTITY_NAME
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  "intIdentityIdMgtListManagement",
+  <IntIdentityIdMgtListEdit />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  "intIdentityIdMgtListManagement",
+  <IntIdentityIdMgtListBrowse />
+);

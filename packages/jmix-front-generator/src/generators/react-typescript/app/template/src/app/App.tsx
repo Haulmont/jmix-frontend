@@ -9,7 +9,7 @@ import Centered from "./common/Centered";
 import AppHeader from "./header/AppHeader";
 import { NavLink, Route, Switch } from "react-router-dom";
 import HomePage from "./home/HomePage";
-import { menuItems } from "../routing";
+import { menuItems } from "@haulmont/jmix-react-ui";
 import {
   injectMainStore,
   MainStoreInjected,
@@ -23,6 +23,7 @@ import {
   IntlFormatters,
   WrappedComponentProps
 } from "react-intl";
+import '../routing';
 
 @injectMainStore
 @observer

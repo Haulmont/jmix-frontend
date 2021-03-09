@@ -1,43 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
 import CompositionO2OEdit from "./CompositionO2OEdit";
 import CompositionO2OBrowse from "./CompositionO2OBrowse";
-import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+const ENTITY_NAME = "scr_CompositionO2OTestEntity";
+const ROUTING_PATH = "/compositionO2OManagement";
 
-@observer
-export class CompositionO2OManagement extends React.Component<Props> {
-  static PATH = "/compositionO2OManagement";
-  static NEW_SUBPATH = "new";
-
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
-  }
-
-  render() {
-    const { entityId } = this.props.match.params;
-    return entityId ? (
-      <CompositionO2OEdit entityId={entityId} />
-    ) : (
-      <CompositionO2OBrowse />
-    );
-  }
-
-  @action onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
-      addPagingParams("compositionO2OManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  "compositionO2OManagement list",
+  <CompositionO2OBrowse />,
+  ENTITY_NAME
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  "compositionO2OManagement",
+  <CompositionO2OEdit />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  "compositionO2OManagement",
+  <CompositionO2OBrowse />
+);
