@@ -8,11 +8,11 @@ function bootstrapJmixApp() {
 
 function checkoutJmixScrRepo() {
   if (fs.existsSync('scr-jmix') && !isEmptyDir('scr-jmix')) {
-    log.info('repo already cloned, skipping');
-    return;
+    runCmdSync('npm run update-jmix-app');
+  } else {
+    runCmdSync('git clone https://github.com/jmix-projects/scr-jmix.git');
+    log.info('repo has been cloned');
   }
-  runCmdSync('git clone https://github.com/jmix-projects/scr-jmix.git');
-  log.info('repo has been cloned');
 }
 
 bootstrapJmixApp();

@@ -7,7 +7,7 @@ function updateJmixApp() {
     return;
   }
   runCmdSync('git -C scr-jmix pull');
-  log.success('done');
+  log.success('repo has been updated');
 }
 
 updateJmixApp();
