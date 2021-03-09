@@ -1,6 +1,6 @@
 = Migration cuba to jmix
 
-== Update packages:
+== Update packages
 
 Open the root directory of the front module.
 
