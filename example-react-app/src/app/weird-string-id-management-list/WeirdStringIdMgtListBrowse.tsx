@@ -1,6 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { IReactionDisposer, reaction } from "mobx";
+import { IReactionDisposer, reaction, observable, action } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Modal, Button, List, message } from "antd";
 
@@ -17,7 +17,10 @@ import {
   setPagination,
   Spinner,
   routerData,
-  referencesListByEntityName
+  referencesListByEntityName,
+  addPagingParams,
+  createPagingConfig,
+  defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
@@ -58,6 +61,8 @@ class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
     "version"
   ];
 
+  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+
   componentDidMount(): void {
     this.reactionDisposers.push(
       reaction(
@@ -70,11 +75,33 @@ class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
         }
       )
     );
+
+    // to disable paging config pass 'true' as disabled param in function below
+    this.paginationConfig = createPagingConfig(routerData.location.search);
+
+    this.reactionDisposers.push(
+      reaction(
+        () => this.paginationConfig,
+        paginationConfig =>
+          setPagination(paginationConfig, this.dataCollection, true)
+      )
+    );
+    setPagination(this.paginationConfig, this.dataCollection, true);
   }
 
   componentWillUnmount() {
     this.reactionDisposers.forEach(dispose => dispose());
   }
+
+  @action onPagingChange = (current: number, pageSize: number) => {
+    // If we on root screen
+    if (screens.currentScreenIndex === 0) {
+      routerData.history.push(
+        addPagingParams("weirdStringIdMgtListManagement", current, pageSize)
+      );
+      this.paginationConfig = { ...this.paginationConfig, current, pageSize };
+    }
+  };
 
   showDeletionDialog = (e: SerializedEntity<WeirdStringIdTestEntity>) => {
     Modal.confirm({
@@ -174,15 +201,13 @@ class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
           )}
         />
 
-        {/*
-        <div style={{margin: "12px 0 12px 0", float: "right"}}>
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            //paginationConfig={paginationConfig}
-            //onPagingChange={onPagingChange}
+            paginationConfig={this.paginationConfig}
+            onPagingChange={this.onPagingChange}
             total={count}
           />
         </div>
-        */}
       </div>
     );
   }

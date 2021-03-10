@@ -30,7 +30,7 @@ import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2O
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_AssociationM2OTestEntity";
+// const ENTITY_NAME = 'scr_AssociationM2OTestEntity';
 const ROUTING_PATH = "/associationM2OManagement";
 
 @injectMainStore

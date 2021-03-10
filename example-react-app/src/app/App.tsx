@@ -23,7 +23,7 @@ import {
   IntlFormatters,
   WrappedComponentProps
 } from "react-intl";
-import '../routing';
+import "../routing";
 
 @injectMainStore
 @observer

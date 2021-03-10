@@ -34,7 +34,7 @@ import { TechnicalCertificate } from "../../jmix/entities/scr$TechnicalCertifica
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr$Car";
+// const ENTITY_NAME = 'scr$Car';
 const ROUTING_PATH = "/carManagement";
 
 @injectMainStore

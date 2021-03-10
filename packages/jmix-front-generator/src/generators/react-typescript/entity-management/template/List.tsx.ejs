@@ -1,11 +1,21 @@
 import * as React from "react";
 import {observer} from "mobx-react";
-import {IReactionDisposer, reaction} from "mobx";
+import {IReactionDisposer, reaction, observable, action} from "mobx";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Modal, Button, List, message} from "antd";
 
 import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, setPagination, Spinner, routerData, referencesListByEntityName} from "@haulmont/jmix-react-ui";
+import {
+  EntityProperty,
+  Paging,
+  setPagination,
+  Spinner,
+  routerData,
+  referencesListByEntityName,
+  addPagingParams,
+  createPagingConfig,
+  defaultPagingConfig
+} from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {SerializedEntity} from "@haulmont/jmix-rest";
@@ -39,6 +49,8 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
   <% }) %>
   ];
 
+  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+
   componentDidMount(): void {
     this.reactionDisposers.push(reaction(
       () => this.dataCollection.status,
@@ -49,11 +61,33 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
         }
       }
     ));
+
+    // to disable paging config pass 'true' as disabled param in function below
+    this.paginationConfig = createPagingConfig(routerData.location.search);
+
+    this.reactionDisposers.push(
+      reaction(
+        () => this.paginationConfig,
+        paginationConfig =>
+          setPagination(paginationConfig, this.dataCollection, true)
+      )
+    );
+    setPagination(this.paginationConfig, this.dataCollection, true);
   }
 
   componentWillUnmount() {
     this.reactionDisposers.forEach(dispose => dispose());
   }
+
+  @action onPagingChange = (current: number, pageSize: number) => {
+    // If we on root screen
+    if (screens.currentScreenIndex === 0) {
+      routerData.history.push(
+        addPagingParams("<%= nameLiteral %>", current, pageSize)
+      );
+      this.paginationConfig = {...this.paginationConfig, current, pageSize};
+    }
+  };
 
   showDeletionDialog = (e: SerializedEntity<<%= entity.className %>>) => {
     Modal.confirm({
@@ -137,15 +171,13 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
             </List.Item>
         }/>
 
-        {/*
         <div style={{margin: "12px 0 12px 0", float: "right"}}>
           <Paging
-            //paginationConfig={paginationConfig}
-            //onPagingChange={onPagingChange}
+            paginationConfig={this.paginationConfig}
+            onPagingChange={this.onPagingChange}
             total={count}
           />
         </div>
-        */}
       </div>
     );
   }

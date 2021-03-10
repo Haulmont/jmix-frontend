@@ -30,7 +30,7 @@ import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_IntegerIdTestEntity";
+// const ENTITY_NAME = 'scr_IntegerIdTestEntity';
 const ROUTING_PATH = "/intIdManagementTable";
 
 @injectMainStore

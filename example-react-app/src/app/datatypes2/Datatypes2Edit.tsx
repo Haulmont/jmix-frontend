@@ -30,7 +30,7 @@ import { DatatypesTestEntity2 } from "../../jmix/entities/scr_DatatypesTestEntit
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_DatatypesTestEntity2";
+// const ENTITY_NAME = 'scr_DatatypesTestEntity2';
 const ROUTING_PATH = "/datatypes2Management";
 
 @injectMainStore

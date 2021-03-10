@@ -30,7 +30,7 @@ import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringId
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_BoringStringIdTestEntity";
+// const ENTITY_NAME = 'scr_BoringStringIdTestEntity';
 const ROUTING_PATH = "/boringStringIdManagementTable";
 
 @injectMainStore

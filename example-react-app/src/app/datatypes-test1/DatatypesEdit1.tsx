@@ -38,7 +38,7 @@ import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_DatatypesTestEntity";
+// const ENTITY_NAME = 'scr_DatatypesTestEntity';
 const ROUTING_PATH = "/datatypesManagement1";
 
 @injectMainStore

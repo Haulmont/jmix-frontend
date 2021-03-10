@@ -30,7 +30,7 @@ import { CompositionO2OTestEntity } from "../../jmix/entities/scr_CompositionO2O
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_CompositionO2OTestEntity";
+// const ENTITY_NAME = 'scr_CompositionO2OTestEntity';
 const ROUTING_PATH = "/compositionO2OManagement";
 
 @injectMainStore

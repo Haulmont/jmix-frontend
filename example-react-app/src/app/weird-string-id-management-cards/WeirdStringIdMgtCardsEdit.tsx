@@ -30,7 +30,7 @@ import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTe
 
 type Props = MainStoreInjected;
 
-const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
+// const ENTITY_NAME = 'scr_WeirdStringIdTestEntity';
 const ROUTING_PATH = "/weirdStringIdMgtCardsManagement";
 
 @injectMainStore
