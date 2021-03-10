@@ -990,6 +990,20 @@ class EntityEditorComponent extends React.Component<EntityEditorProps> {
 
 }
 
+function selectFormSuccessMessageId(commitMode?: CommitMode): string {
+  switch (commitMode) {
+    case 'create': return "management.editor.created";
+    case 'edit': return "management.editor.updated";
+    default: return "management.editor.updated";
+  }
+}
+
+function selectFormErrorMessageId(globalErrors: string[], fieldErrors: Map<string, string[]>): string | void {
+  if (fieldErrors.size > 0 || globalErrors.length > 0) {
+    return "management.editor.validationError";
+  }
+}
+
 export const defaultHandleFinish = <E extends unknown>(
   values: Record<string, any>,
   dataInstance: DataInstanceStore<E>,
@@ -1002,7 +1016,9 @@ export const defaultHandleFinish = <E extends unknown>(
   return dataInstance
     .update(values, commitMode)
     .then(() => {
-      message.success(intl.formatMessage({ id: "management.editor.success" }));
+      const successMessageId = selectFormSuccessMessageId(commitMode);
+      message.success(intl.formatMessage({id: successMessageId}));
+
       return {success: true, globalErrors: []};
     })
     .catch((serverError: JmixRestError) => {
@@ -1013,15 +1029,11 @@ export const defaultHandleFinish = <E extends unknown>(
             formInstance.setFields(constructFieldsWithErrors(fieldErrors, formInstance));
           }
           
-          const intlMessageId = mapJmixRestErrorToIntlId(
-            (): void | string => {
-              if (fieldErrors.size > 0 || globalErrors.length > 0) {
-                return "management.editor.validationError";
-              }
-            },
+          const errorMessageId = mapJmixRestErrorToIntlId(
+            () => selectFormErrorMessageId(globalErrors, fieldErrors),
             serverError,
           )
-          message.error(intl.formatMessage({id: intlMessageId}));
+          message.error(intl.formatMessage({id: errorMessageId}));
 
           return {success: false, globalErrors};
         });

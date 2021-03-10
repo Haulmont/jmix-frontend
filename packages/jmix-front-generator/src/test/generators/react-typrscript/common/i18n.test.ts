@@ -318,5 +318,6 @@ const ALL_I18N_KEYS = [
   "management.browser.delete.ok",
   "management.browser.noItems",
   "management.editor.validationError",
-  "management.editor.success",
+  "management.editor.created",
+  "management.editor.updated",
 ];
