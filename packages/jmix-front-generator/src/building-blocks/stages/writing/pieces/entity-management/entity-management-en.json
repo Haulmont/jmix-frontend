@@ -3,5 +3,6 @@
   "management.browser.delete.ok": "Delete",
   "management.browser.noItems": "No data",
   "management.editor.validationError": "Validation Error. Please check the data you entered.",
-  "management.editor.success": "Entity has been updated"
+  "management.editor.created": "Entity has been created",
+  "management.editor.updated": "Entity has been updated"
 }
