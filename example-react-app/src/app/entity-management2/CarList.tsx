@@ -55,6 +55,11 @@ class CarListComponent extends React.Component<Props> {
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
     "garage",
     "technicalCertificate"
   ];

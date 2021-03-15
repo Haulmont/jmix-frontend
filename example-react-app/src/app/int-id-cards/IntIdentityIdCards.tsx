@@ -30,7 +30,6 @@ export class IntIdentityIdCards extends React.Component<Props> {
     IntIdentityIdTestEntity.NAME,
     {
       view: "_local",
-      sort: "-updateTs",
       loadImmediately: false
     }
   );

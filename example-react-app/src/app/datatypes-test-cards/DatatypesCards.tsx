@@ -28,7 +28,6 @@ type Props = MainStoreInjected & RouteComponentProps;
 export class DatatypesCards extends React.Component<Props> {
   dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
     view: "datatypesTestEntity-view",
-    sort: "-updateTs",
     loadImmediately: false
   });
 

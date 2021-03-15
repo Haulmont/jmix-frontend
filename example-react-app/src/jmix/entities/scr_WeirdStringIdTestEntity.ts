@@ -31,6 +31,8 @@ export type WeirdStringIdTestEntityView<
       | "deletedBy"
       | "version"
     >
+  : V extends "_instance_name"
+  ? Pick<WeirdStringIdTestEntity, "id" | "description">
   : V extends "_local"
   ? Pick<
       WeirdStringIdTestEntity,

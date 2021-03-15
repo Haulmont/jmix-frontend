@@ -314,7 +314,6 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="timeAttr"
-            disabled={true}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

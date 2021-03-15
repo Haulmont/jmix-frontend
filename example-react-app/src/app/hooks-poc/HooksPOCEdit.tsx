@@ -361,7 +361,6 @@ const HooksPOCEdit = (props: Props) => {
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="timeAttr"
-            disabled={true}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

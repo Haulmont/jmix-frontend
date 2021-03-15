@@ -28,7 +28,6 @@ type Props = MainStoreInjected & RouteComponentProps;
 export class FavoriteCars extends React.Component<Props> {
   dataCollection = collection<FavoriteCar>(FavoriteCar.NAME, {
     view: "favoriteCar-view",
-    sort: "-updateTs",
     loadImmediately: false
   });
 

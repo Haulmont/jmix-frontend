@@ -15,15 +15,17 @@ export type UserView<V extends UserViewName> = V extends "_base"
   ? Pick<
       User,
       | "id"
-      | "version"
-      | "username"
-      | "password"
       | "firstName"
       | "lastName"
+      | "username"
+      | "version"
+      | "password"
       | "email"
       | "enabled"
       | "phone"
     >
+  : V extends "_instance_name"
+  ? Pick<User, "id" | "firstName" | "lastName" | "username">
   : V extends "_local"
   ? Pick<
       User,
