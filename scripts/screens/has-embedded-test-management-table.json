@@ -1,0 +1,17 @@
+{
+  "editView": {
+    "name": "hasEmbeddedTestEntity-fetch-plan",
+    "entityName": "scr_HasEmbeddedTestEntity"
+  },
+  "editComponentName": "HasEmbeddedTestEdit",
+  "listView": {
+    "name": "hasEmbeddedTestEntity-fetch-plan",
+    "entityName": "scr_HasEmbeddedTestEntity"
+  },
+  "listComponentName": "HasEmbeddedTestTable",
+  "listType": "table",
+  "entity": {
+    "name": "scr_HasEmbeddedTestEntity"
+  },
+  "managementComponentName": "HasEmbeddedTestManagement"
+}

@@ -139,6 +139,12 @@ export function isByteArray({attributeType, type}: MetaPropertyInfo): boolean {
   return attributeType === 'DATATYPE' && type === 'byteArray'
 }
 
+// TODO Now we don't have information about attributeType === 'EMBEDDED' in metadata. Rewrite when this information will available
+export function isEmbedded(propertyInfo: MetaPropertyInfo): boolean {
+  // return propertyInfo.attributeType === 'EMBEDDED';
+  return propertyInfo?.type === 'scr_EmbeddableTestEntity'
+}
+
 export function isRelationProperty(propertyInfo: MetaPropertyInfo): boolean {
   return isAssociation(propertyInfo) || isComposition(propertyInfo);
 }

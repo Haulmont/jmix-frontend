@@ -1,0 +1,53 @@
+<% (function renderFields(attrs, entityClassName, previusFields) { %>
+  <% attrs.forEach(function (attr) { %>
+    <% if (attr.mappingType === "EMBEDDED") {%>
+      <Card
+        style={{marginBottom: 12}}
+        size="small"
+        title={<Msg entityName={<%= entityClassName %>.NAME} propertyName="<%= attr.name %>"/>}
+      >
+    <% } %>
+
+    <% if (attr.mappingType !== 'EMBEDDED') { %>
+      <Field entityName={<%= entityClassName %>.NAME}
+        <% if (previusFields.length > 0) { %>
+          parentStringPath="<%= previusFields.join('.') %>"
+        <% } %>
+          
+        propertyName="<%= attr.name %>"
+
+        <% if (readOnlyFields.includes(attr.name)) { %>
+          disabled={true}
+        <% } else if (attr.name === locals.stringIdName) { %>
+          disabled={!isNewEntity(entityId)}
+        <% } %>
+          
+        <% if (Object.keys(editCompositions).includes(attr.name)) { %>
+            <% if (typeof nestedEntityInfo !== 'undefined' && typeof nestedEntityInfo[attr.name] !== 'undefined') {%>
+                  nestedEntityView='<%= nestedEntityInfo[attr.name] %>'
+            <% } %>
+            parentEntityInstanceId={entityId !== <%= className %>.NEW_SUBPATH ? entityId : undefined}
+        <% } %>
+
+        <% if (Object.keys(editAssociations).includes(attr.name)) { %>
+            optionsContainer={store.<%= attr.name %>sDc}
+        <% } %>
+
+            formItemProps={{
+              style: {marginBottom: "12px"},
+            <% if (attr.mandatory) { -%>
+              rules: [{required: true}],
+            <% } -%>
+            <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
+              valuePropName: "checked",
+            <% } -%>
+            }}
+      /> <%# end Field %>
+    <% } %>
+
+    <% if (attr.mappingType === "EMBEDDED") {
+      renderFields(attr.attributes, attr.type.className, [...previusFields, attr.name]) %>
+      </Card>
+    <% }
+  })
+})(editAttributes, entity.className, []) %>

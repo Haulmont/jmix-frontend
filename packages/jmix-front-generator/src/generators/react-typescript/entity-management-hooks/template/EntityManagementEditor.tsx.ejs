@@ -7,7 +7,13 @@ import {<%= className %>} from "./<%= className %>";
 import {Link, Redirect} from "react-router-dom";
 import {toJS} from "mobx";
 import {FormattedMessage, useIntl} from 'react-intl';
-import {defaultHandleFinish, createAntdFormValidationMessages} from '@haulmont/jmix-react-ui';
+import {
+  defaultHandleFinish,
+  createAntdFormValidationMessages,
+  <% if (editAttributes.filter(attr => attr.mappingType === "EMBEDDED").length > 0) { %> 
+    Msg,
+  <% } %> 
+} from '@haulmont/jmix-react-ui';
 import {
 <% if (Object.keys(editAssociations).length > 0) { %>
   loadAssociationOptions,
@@ -47,8 +53,8 @@ type <%= editComponentClass %>LocalStore = <%= editComponentClass %>AssociationO
 };
 
 const FIELDS = [
-  <% editAttributes.forEach(p => { -%>
-    '<%= p.name %>',
+  <% editFieldStringPaths.forEach(p => { -%>
+    '<%= p %>',
   <% }) %>
 ]
 
@@ -213,39 +219,10 @@ const <%= editComponentClass %> = (props: Props) => {
               form={form}
               validateMessages={createAntdFormValidationMessages(intl)}
         >
-
-          <% editAttributes.forEach(attr => { %>
-            <Field entityName={<%= entity.className %>.NAME}
-                   propertyName="<%= attr.name %>"
-
-              <% if (readOnlyFields.includes(attr.name)) { %>
-                disabled={true}
-              <% } else if (attr.name === locals.stringIdName) { %>
-                disabled={!isNewEntity(entityId)}
-              <% } %>
-
-              <% if (Object.keys(editCompositions).includes(attr.name)) { %>
-                   <% if (typeof nestedEntityInfo !== 'undefined' && typeof nestedEntityInfo[attr.name] !== 'undefined') {%>
-                        nestedEntityView='<%= nestedEntityInfo[attr.name] %>'
-                   <% } %>
-                   parentEntityInstanceId={entityId !== <%= className %>.NEW_SUBPATH ? entityId : undefined}
-              <% } %>
-
-              <% if (Object.keys(editAssociations).includes(attr.name)) { %>
-                   optionsContainer={store.<%= attr.name %>sDc}
-              <% } %>
-
-                   formItemProps={{
-                     style: {marginBottom: "12px"},
-                   <% if (attr.mandatory) { -%>
-                     rules: [{required: true}],
-                   <% } -%>
-                   <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
-                     valuePropName: "checked",
-                   <% } -%>
-                   }}
-            /> <%# end Field %>
-          <% }) %>
+          <%- include('components/Fields', {
+            editAttributes,
+            entity,
+          }) %>
 
           {store.globalErrors.length > 0 && (
             <Alert

@@ -26,7 +26,14 @@ export function getRelationImports(relations: EditRelations, entity: EntityWithP
 
 export function getRelations(projectModel: ProjectModel, attributes: EntityAttribute[]): EditRelationsSplit {
   return attributes.reduce<EditRelationsSplit>((relations, attribute) => {
-    if (attribute.type == null || (attribute.mappingType !== 'ASSOCIATION' && attribute.mappingType !== 'COMPOSITION')) {
+    if (
+      attribute.type == null
+      || (
+        attribute.mappingType !== 'ASSOCIATION'
+        && attribute.mappingType !== 'COMPOSITION'
+        && attribute.mappingType !== 'EMBEDDED'
+      )
+    ) {
       return relations;
     }
     const entity = findEntity(projectModel, attribute.type.entityName!);
@@ -41,7 +48,10 @@ export function getRelations(projectModel: ProjectModel, attributes: EntityAttri
       if (attribute.mappingType === 'COMPOSITION') {
         relations.editCompositions[attribute.name] = entityWithPath;
       }
+      if (attribute.mappingType === 'EMBEDDED') {
+        relations.editEmbeddeds[attribute.name] = entityWithPath;
+      }
     }
     return relations;
-  }, {editAssociations: {}, editCompositions: {}});
+  }, {editAssociations: {}, editCompositions: {}, editEmbeddeds: {}});
 }

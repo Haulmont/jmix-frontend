@@ -18,6 +18,7 @@ const weirdStringIdManagementCardsConfig = require('./screens/weird-string-id-ma
 const weirdStringIdManagementListConfig = require('./screens/weird-string-id-management-list.json');
 const boringStringIdManagementTableConfig = require('./screens/boring-string-id-management-table.json');
 const hooksPOC = require('./screens/hooks-poc.json');
+const hasEmbeddedTestManagementTableConfig = require('./screens/has-embedded-test-management-table.json');
 const dirShift = '../../';
 
 gen(
@@ -222,6 +223,12 @@ gen(
         dirShift,
         dest: 'src/app/boring-string-id-management-table',
         answers: boringStringIdManagementTableConfig
+      },
+      {
+        command: 'react-typescript:entity-management',
+        dirShift,
+        dest: 'src/app/has-embedded-test-management-table',
+        answers: hasEmbeddedTestManagementTableConfig
       }
     ]
 );

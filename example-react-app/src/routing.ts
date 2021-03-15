@@ -1,3 +1,4 @@
+import { HasEmbeddedTestManagement } from "./app/has-embedded-test-management-table/HasEmbeddedTestManagement";
 import { BoringStringIdManagementTable } from "./app/boring-string-id-management-table/BoringStringIdManagementTable";
 import { WeirdStringIdMgtTableManagement } from "./app/weird-string-id-management-table/WeirdStringIdMgtTableManagement";
 import { WeirdStringIdMgtListManagement } from "./app/weird-string-id-management-list/WeirdStringIdMgtListManagement";
@@ -275,4 +276,11 @@ menuItems.push({
   menuLink: "/boringStringIdManagementTable",
   component: BoringStringIdManagementTable,
   caption: "BoringStringIdManagementTable"
+});
+
+menuItems.push({
+  pathPattern: "/hasEmbeddedTestManagement/:entityId?",
+  menuLink: "/hasEmbeddedTestManagement",
+  component: HasEmbeddedTestManagement,
+  caption: "HasEmbeddedTestManagement"
 });

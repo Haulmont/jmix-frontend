@@ -14,7 +14,9 @@ import {
   isFileProperty, isOneToManyAssociation,
   MainStoreInjected,
   WithId,
-  loadAllAssociationOptions
+  loadAllAssociationOptions,
+  nestingObject,
+  getPropertyNameFromStringPath
 } from '@haulmont/jmix-react-core';
 import { FormItemProps, FormInstance } from 'antd/es/form';
 import {observer} from 'mobx-react';
@@ -79,10 +81,12 @@ import {Spinner} from '../Spinner';
 // noinspection ES6PreferShortImport Importing from ../../index.ts will cause a circular dependency
 import {createAntdFormValidationMessages} from '../../i18n/validation';
 import {CommitMode} from '@haulmont/jmix-rest';
+import {convertStringPathToPath, convertPathToStringPath} from '@haulmont/jmix-react-core';
 
 
 export interface FieldProps extends MainStoreInjected {
   entityName: string;
+  parentStringPath?: string;
   propertyName: string;
   /**
    * This prop shall be supplied if the entity property has Association relation type.
@@ -119,16 +123,21 @@ export interface FieldProps extends MainStoreInjected {
 export const Field = injectMainStore(observer((props: FieldProps) => {
 
   const {
-    entityName, propertyName, optionsContainer, mainStore, componentProps,
+    entityName, propertyName, parentStringPath, optionsContainer, mainStore, componentProps,
     nestedEntityView, parentEntityInstanceId, disabled, formItemProps
   } = props;
+  const parentPath = parentStringPath
+    ? convertStringPathToPath(parentStringPath)
+    : [];
+  const path = [...parentPath, propertyName];
+  const stringPath = convertPathToStringPath(path);
 
   return (
     <FieldPermissionContainer entityName={entityName} propertyName={propertyName} renderField={(isReadOnly: boolean) => {
 
-      return <Form.Item {...{...getDefaultFormItemProps(mainStore?.metadata, entityName, propertyName), ...formItemProps}}>
+      return <Form.Item {...{...getDefaultFormItemProps(mainStore?.metadata, entityName, stringPath), ...formItemProps}}>
         <FormField entityName={entityName}
-                   propertyName={propertyName}
+                   stringPath={stringPath}
                    disabled={isReadOnly || disabled}
                    optionsContainer={optionsContainer}
                    nestedEntityView={nestedEntityView}
@@ -141,9 +150,11 @@ export const Field = injectMainStore(observer((props: FieldProps) => {
 
 }));
 
-function getDefaultFormItemProps(metadata: MetaClassInfo[] | undefined, entityName: string, propertyName: string): FormItemProps {
+function getDefaultFormItemProps(metadata: MetaClassInfo[] | undefined, entityName: string, stringPath: string): FormItemProps {
+  const propertyName = getPropertyNameFromStringPath(stringPath)
+  
   const formItemProps: FormItemProps = {
-    name: propertyName,
+    name: stringPath,
     label: <Msg entityName={entityName} propertyName={propertyName}/>
   };
 
@@ -173,7 +184,7 @@ export type FormFieldComponentProps = SelectProps<SelectValue> | InputProps | In
  */
 export type FormFieldProps = MainStoreInjected & {
   entityName: string;
-  propertyName: string;
+  stringPath: string;
   disabled?: boolean;
   optionsContainer?: DataCollectionStore<WithId>;
   nestedEntityView?: string;
@@ -185,9 +196,10 @@ export type FormFieldProps = MainStoreInjected & {
 export const FormField = injectMainStore(observer(React.forwardRef((props: FormFieldProps, _ref: any) => {
 
   const {
-    entityName, propertyName, optionsContainer, mainStore, nestedEntityView, parentEntityInstanceId,
+    entityName, stringPath, optionsContainer, mainStore, nestedEntityView, parentEntityInstanceId,
     ...rest
   } = props;
+  const propertyName = getPropertyNameFromStringPath(stringPath);
 
   if (mainStore == null || mainStore.metadata == null) {
     return <Input {...(rest as InputProps)}/>;
@@ -997,8 +1009,10 @@ export const defaultHandleFinish = <E extends unknown>(
 ): Promise<{success: boolean, globalErrors: string[]}> => {
   clearFieldErrors(formInstance);
 
+  const nestedValues = nestingObject(values)
+
   return dataInstance
-    .update(values, commitMode)
+    .update(nestedValues, commitMode)
     .then(() => {
       message.success(intl.formatMessage({ id: "management.editor.success" }));
       return {success: true, globalErrors: []};
