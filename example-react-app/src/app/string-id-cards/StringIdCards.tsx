@@ -28,7 +28,6 @@ type Props = MainStoreInjected & RouteComponentProps;
 export class StringIdCards extends React.Component<Props> {
   dataCollection = collection<StringIdTestEntity>(StringIdTestEntity.NAME, {
     view: "_local",
-    sort: "-updateTs",
     loadImmediately: false
   });
 

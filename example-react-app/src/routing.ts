@@ -1,3 +1,4 @@
+import { TrickyIdMgr } from "./app/tricky-id/TrickyIdMgr";
 import { BoringStringIdManagementTable } from "./app/boring-string-id-management-table/BoringStringIdManagementTable";
 import { WeirdStringIdMgtTableManagement } from "./app/weird-string-id-management-table/WeirdStringIdMgtTableManagement";
 import { WeirdStringIdMgtListManagement } from "./app/weird-string-id-management-list/WeirdStringIdMgtListManagement";
@@ -275,4 +276,11 @@ menuItems.push({
   menuLink: "/boringStringIdManagementTable",
   component: BoringStringIdManagementTable,
   caption: "BoringStringIdManagementTable"
+});
+
+menuItems.push({
+  pathPattern: "/trickyIdMgr/:entityId?",
+  menuLink: "/trickyIdMgr",
+  component: TrickyIdMgr,
+  caption: "TrickyIdMgr"
 });
