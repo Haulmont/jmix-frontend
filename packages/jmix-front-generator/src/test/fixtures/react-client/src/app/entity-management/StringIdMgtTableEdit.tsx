@@ -40,15 +40,14 @@ class StringIdMgtTableEditComponent extends React.Component<
 > {
   dataInstance = instance<StringIdTestEntity>(StringIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false,
-    stringIdName: "identifier"
+    loadImmediately: false
   });
 
   @observable updated = false;
   @observable formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
-  fields = ["description", "identifier", "productCode"];
+  fields = ["description", "productCode"];
 
   @observable globalErrors: string[] = [];
 
@@ -122,16 +121,6 @@ class StringIdMgtTableEditComponent extends React.Component<
             propertyName="description"
             formItemProps={{
               style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={StringIdTestEntity.NAME}
-            propertyName="identifier"
-            disabled={!this.isNewEntity()}
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              rules: [{ required: true }]
             }}
           />
 

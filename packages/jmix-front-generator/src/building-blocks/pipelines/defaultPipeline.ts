@@ -33,7 +33,7 @@ export type ConfigStage<O extends CommonGenerationOptions> = (dirname: string, g
 export type ProjectModelStage<O extends CommonGenerationOptions> = (invocationDir: string, gen: YeomanGenerator, options: O) => Promise<ProjectModel>;
 export type AnswersFromOptionsStage<O extends CommonGenerationOptions, A> = (projectModel: ProjectModel, gen: YeomanGenerator, options: O, questions: StudioTemplateProperty[]) => Promise<A>;
 export type AnswersFromPromptStage<O extends CommonGenerationOptions, A> = (projectModel: ProjectModel, gen: YeomanGenerator, options: O, questions?: StudioTemplateProperty[]) => Promise<A>;
-export type TemplateModelStage<O extends CommonGenerationOptions, A, M> = (answers: A, projectModel: ProjectModel, gen: YeomanGenerator, options: O) => M;
+export type TemplateModelStage<O extends CommonGenerationOptions, A, M> = (answers: A, projectModel: ProjectModel, gen: YeomanGenerator, options: O) => Promise<M>;
 export type WriteStage<O extends CommonGenerationOptions, M> = (projectModel: ProjectModel, templateModel: M, gen: YeomanGenerator, options: O) => Promise<void>;
 
 export interface DefaultPipelineStages<O extends CommonGenerationOptions, A, M> {

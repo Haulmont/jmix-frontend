@@ -29,6 +29,12 @@ gen(
       { command: 'react-typescript:app' },
       // Car Service Center domain entities
       {
+        command: 'react-typescript:blank-component',
+        dirShift,
+        dest: 'src/app/blank-components',
+        answers: answers.blankComponent
+      },
+      {
         command: 'react-typescript:entity-cards',
         dirShift,
         dest: 'src/app/entity-cards',

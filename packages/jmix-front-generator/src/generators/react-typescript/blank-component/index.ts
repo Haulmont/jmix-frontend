@@ -1,83 +1,28 @@
+import {ComponentOptions, componentOptionsConfig} from "../../../common/cli-options";
 import * as path from "path";
-import {OptionsConfig, polymerElementOptionsConfig, PolymerElementOptions} from "../../../common/cli-options";
-import {blankComponentParams} from "./params";
-import {BaseGenerator} from "../../../common/base-generator";
-import {StudioTemplateProperty} from "../../../common/studio/studio-model";
-import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../common/utils";
-import {addToMenu} from "../common/menu";
-import {writeComponentI18nMessages} from '../common/i18n';
-import {CommonTemplateModel} from "../common/template-model";
+import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
+import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
+import {Options} from "./options";
+import {TemplateModel, deriveTemplateModel} from "./template-model";
+import {write} from "./write";
+import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 
-export interface BlankComponentAnswers {
-  componentName: string
-}
+export class ReactComponentGenerator extends YeomanGenerator {
 
-class ReactComponentGenerator extends BaseGenerator<BlankComponentAnswers, BlankComponentTemplateModel, PolymerElementOptions> {
-
-  constructor(args: string | string[], options: PolymerElementOptions) {
+  constructor(args: string | string[], options: ComponentOptions) {
     super(args, options);
-    this.sourceRoot(path.join(__dirname, 'template'));
   }
 
-  // noinspection JSUnusedGlobalSymbols
-  async prompting() {
-    await this._promptOrParse();
-  }
-
-  // noinspection JSUnusedGlobalSymbols
-  writing() {
-    this.log(`Generating to ${this.destinationPath()}`);
-    if (!this.answers) {
-      throw new Error('Answers not provided');
-    }
-    this.model = blankComponentAnswersToModel(this.answers, this.options.dirShift);
-    this.fs.copyTpl(
-      this.templatePath('Component.tsx'),
-      this.destinationPath(this.model.className + '.tsx'), this.model
-    );
-
-    writeComponentI18nMessages(
-      this.fs, this.model.className, this.options.dirShift, this.cubaProjectModel?.project?.locales
-    );
-
-    if (!addToMenu(this.fs, {
-      componentFileName: this.model.className,
-      componentClassName: this.model.className,
-      caption: this.model.className,
-      dirShift: this.options.dirShift,
-      destRoot: this.destinationRoot(),
-      menuLink: '/' + this.model.nameLiteral,
-      pathPattern: '/' + this.model.nameLiteral
-    })) {
-      this.log('Unable to add component to menu: route registry not found');
-    }
-  }
-
-  end() {
-    this.log(`Blank component has been successfully generated into ${this.destinationRoot()}`);
-  }
-
-  _getParams(): StudioTemplateProperty[] {
-    return blankComponentParams;
-  }
-
-  _getAvailableOptions(): OptionsConfig {
-    return polymerElementOptionsConfig;
-  }
-
-}
-
-export interface BlankComponentTemplateModel extends CommonTemplateModel {
-  nameLiteral: string;
-}
-
-export function blankComponentAnswersToModel(answers: BlankComponentAnswers, dirShift: string | undefined): BlankComponentTemplateModel {
-  const className = elementNameToClass(answers.componentName);
-  return {
-    className,
-    componentName: answers.componentName,
-    relDirShift: normalizeRelativePath(dirShift),
-    nameLiteral: unCapitalizeFirst(className)
+  async generate() {
+    await defaultPipeline<Options, Answers, TemplateModel>({
+      templateDir: path.join(__dirname, 'template'),
+      questions: allQuestions,
+      stages: { 
+        getAnswersFromPrompt,
+        deriveTemplateModel,
+        write
+      }
+    }, this);
   }
 }
 
@@ -85,7 +30,7 @@ const description = 'Empty React class-based component';
 
 export {
   ReactComponentGenerator as generator,
-  polymerElementOptionsConfig as options,
-  blankComponentParams as params,
+  componentOptionsConfig as options,
+  allQuestions as params,
   description
 };

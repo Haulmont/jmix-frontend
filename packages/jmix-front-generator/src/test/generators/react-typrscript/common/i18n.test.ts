@@ -195,7 +195,7 @@ describe('i18n message packs', async () => {
       const appMessagePack =
         await import(`../../../../generators/react-typescript/app/template/i18n-message-packs/${locale}.json`);
       const entityManagementMessagePack =
-        await import(`../../../../generators/react-typescript/entity-management/entity-management-${locale}.json`);
+        await import(`../../../../building-blocks/stages/writing/pieces/entity-management/entity-management-${locale}.json`);
       const mergedMessagePack = {...appMessagePack, ...entityManagementMessagePack};
       const keys = Object.keys(mergedMessagePack);
       expect(keys.length).to.equal(ALL_I18N_KEYS.length, `Number of keys is mismatched for locale ${locale}`);

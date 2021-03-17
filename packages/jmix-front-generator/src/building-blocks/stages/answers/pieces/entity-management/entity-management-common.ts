@@ -1,4 +1,3 @@
-import {Entity} from "../../../../../common/model/cuba-model";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../../../common/studio/studio-model";
 
 export const commonEntityManagementQuestions: StudioTemplateProperty[] = [
