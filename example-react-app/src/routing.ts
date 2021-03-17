@@ -33,6 +33,7 @@ import { CarManagement3 } from "./app/entity-management3/CarManagement3";
 import { CarManagement2 } from "./app/entity-management2/CarManagement2";
 import { CarManagement } from "./app/entity-management/CarManagement";
 import { FavoriteCars } from "./app/entity-cards/FavoriteCars";
+import { StructureComponent } from "./app/structure/StructureComponent";
 import { TestBlankComponent } from "./app/blank-components/TestBlankComponent";
 import { getMenuItems } from "@haulmont/jmix-react-core";
 
@@ -69,6 +70,13 @@ menuItems.push({
   menuLink: "/favoriteCars",
   component: FavoriteCars,
   caption: "FavoriteCars"
+});
+
+menuItems.push({
+  pathPattern: "/structureComponent/:entityId?",
+  menuLink: "/structureComponent",
+  component: StructureComponent,
+  caption: "StructureComponent"
 });
 
 menuItems.push({

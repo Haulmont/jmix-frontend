@@ -59,6 +59,16 @@ describe('react generator test', () => {
     assertFilesPlain('src/app/component/BlankComponent.tsx', REACT_DIR, FIXTURES_DIR);
   });
 
+  it('should generate React client structure', async function () {
+
+    await rimraf(`${COMPONENT_DIR}/*`);
+
+    await generate('react-typescript', 'structure',
+      opts(COMPONENT_DIR, answers.structureComponent, componentRelativeModelPath));
+
+    assertFilesPlain('src/app/component/StructureComponent.tsx', REACT_DIR, FIXTURES_DIR);
+  });
+
   it('should generate React client entity-cards', async function () {
 
     await rimraf(`${CARDS_DIR}/*`);

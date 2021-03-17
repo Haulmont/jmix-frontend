@@ -20,6 +20,7 @@ const boringStringIdManagementTableConfig = require('./screens/boring-string-id-
 const trickyIdConfig = require('./screens/tricky-id-list.json');
 const carCardsGridConfig = require('./screens/car-cards-grid.json');
 const hooksPOC = require('./screens/hooks-poc.json');
+const structureConfig = require('./screens/structure.json');
 const dirShift = '../../';
 
 gen(
@@ -34,6 +35,12 @@ gen(
         dirShift,
         dest: 'src/app/blank-components',
         answers: answers.blankComponent
+      },
+      {
+        command: 'react-typescript:structure',
+        dirShift,
+        dest: 'src/app/structure',
+        answers: structureConfig,
       },
       {
         command: 'react-typescript:entity-cards',

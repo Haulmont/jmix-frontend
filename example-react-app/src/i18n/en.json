@@ -40,6 +40,7 @@
   "router.CarManagement2": "Car Management2",
   "router.CarManagement": "Car Management",
   "router.FavoriteCars": "Favorite Cars",
+  "router.StructureComponent": "Structure Component",
   "router.TestBlankComponent": "Test Blank Component",
   "common.ok": "OK",
   "common.cancel": "Cancel",
