@@ -3249,6 +3249,54 @@
           "transient": false
         }
       ]
+    },
+    {
+      "name": "scr_TrickyIdTestEntity",
+      "className": "TrickyIdTestEntity",
+      "packageName": "com.company.scr.entity.test.ids",
+      "dataStore": "main",
+      "table": "SCR_TRICKY_ID_TEST_ENTITY",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.test.ids.TrickyIdTestEntity",
+      "idAttributeName": "trickyId",
+      "attributes": [
+        {
+          "name": "trickyId",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Long",
+            "fqn": "java.lang.Long",
+            "label": "Long"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "TRICKY_ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "otherAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "OTHER_ATTR",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
     }
   ],
   "enums": [
@@ -6316,6 +6364,53 @@
         },
         {
           "name": "version",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_TrickyIdTestEntity",
+      "classFqn": "com.company.scr.entity.test.ids.TrickyIdTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "otherAttr",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "otherAttr",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_TrickyIdTestEntity",
+      "classFqn": "com.company.scr.entity.test.ids.TrickyIdTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_TrickyIdTestEntity",
+      "classFqn": "com.company.scr.entity.test.ids.TrickyIdTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "otherAttr",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "otherAttr",
           "lazy": false
         }
       ]

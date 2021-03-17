@@ -5,6 +5,7 @@
   "management.editor.validationError": "Validation Error. Please check the data you entered.",
   "management.editor.success": "Entity has been updated",
   "management.editor.error": "Error",
+  "router.TrickyIdMgr": "Tricky Id Mgr",
   "router.BoringStringIdManagementTable": "Boring String Id Management Table",
   "router.WeirdStringIdMgtTableManagement": "Weird String Id Mgt Table Management",
   "router.WeirdStringIdMgtListManagement": "Weird String Id Mgt List Management",
