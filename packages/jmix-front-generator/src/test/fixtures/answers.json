@@ -5,6 +5,10 @@
   "blankComponentLowCase": {
     "componentName": "blankComponent"
   },
+  "structureComponent": {
+    "componentName": "StructureComponent",
+    "structureType": "Two columns"
+  },
   "entityManagement": {
     "editView": {
       "name": "car-edit",
