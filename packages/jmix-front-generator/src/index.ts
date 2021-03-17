@@ -16,5 +16,3 @@ export * from './generators/react-typescript/common/base-entity-screen-generator
 export * from './generators/react-typescript/common/base-entity-screen-generator/params';
 export * from './generators/react-typescript/common/base-entity-screen-generator/template-model';
 export * from './generators/react-typescript/common/menu';
-export * from './generators/react-typescript/app/shared';
-export * from './generators/react-typescript/entity-management/shared';

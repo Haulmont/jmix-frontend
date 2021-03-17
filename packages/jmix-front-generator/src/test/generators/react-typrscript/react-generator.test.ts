@@ -33,7 +33,7 @@ describe('react generator test', () => {
 
     await rimraf(`${REACT_DIR}/*`);
 
-    await generate('react-typescript', 'app', opts(REACT_DIR, null, 'src/test/fixtures/mpg-projectModel.json'));
+    await generate('react-typescript', 'app', opts(REACT_DIR, null, absoluteModelPath));
     assert.ok(fs.existsSync(`entities/base`));
     assert.ok(fs.existsSync(`enums/enums.ts`));
     assertFilesPlain('src/index.tsx', REACT_DIR, FIXTURES_DIR);

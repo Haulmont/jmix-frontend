@@ -29,13 +29,11 @@ class StringIdMgtTableBrowseComponent extends React.Component<
 > {
   dataCollection = collection<StringIdTestEntity>(StringIdTestEntity.NAME, {
     view: "_local",
-    sort: "-updateTs",
-
-    stringIdName: "identifier"
+    sort: "-updateTs"
   });
   @observable selectedRowKey: string | undefined;
 
-  fields = ["description", "productCode", "identifier"];
+  fields = ["description", "productCode"];
 
   showDeletionDialog = (e: SerializedEntity<StringIdTestEntity>) => {
     Modal.confirm({
