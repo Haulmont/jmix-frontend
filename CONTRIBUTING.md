@@ -375,6 +375,8 @@ Short description should use imperative tense. Long description is optional. Not
 
 `BREAKING CHANGES` section should only be included if there are any.
 
+Commit message should contain github issue number (if any)
+
 #### Commit Workflow
 
 0. Note! If you made some changes in templates (generators) which reflected in generated code you must update (regenerate) example app as well `npm run bootstrap-react-app`.
