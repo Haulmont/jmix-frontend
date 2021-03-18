@@ -5,10 +5,11 @@ global.fetch = require('node-fetch');
 const {initApp} = require('./common');
 
 let app;
+const loginOpts = {tokenEndpoint: 'http://localhost:8080/oauth/token'};
 
 beforeAll(() => {
   app = initApp();
-  return app.login('admin', 'admin');
+  return app.login('admin', 'admin', loginOpts);
 });
 
 describe('JmixRestConnection', () => {
@@ -17,7 +18,7 @@ describe('JmixRestConnection', () => {
   describe('.login()', () => {
     it('shouldn\'t work with bad credentials', done => {
       const newApp = initApp();
-      newApp.login('admin', 'admin2')
+      newApp.login('admin', 'admin2', loginOpts)
         .then(() => {
           done('works with bad credentials');
         })
@@ -27,7 +28,7 @@ describe('JmixRestConnection', () => {
     });
     it('should not work with empty credentials', done => {
       const newApp = initApp();
-      newApp.login(null, null)
+      newApp.login(null, null, loginOpts)
         .then(() => {
           done('works with empty credentials');
         })
@@ -37,13 +38,13 @@ describe('JmixRestConnection', () => {
     });
     it('should work with right credentials', () => {
       const newApp = initApp();
-      return newApp.login('admin', 'admin');
+      return newApp.login('admin', 'admin', loginOpts);
     });
   });
 
   beforeAll(() => {
     app = initApp();
-    return app.login('admin', 'admin');
+    return app.login('admin', 'admin', loginOpts);
   });
 
 
