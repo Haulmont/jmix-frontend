@@ -163,8 +163,9 @@ export class JmixRestConnection {
       headers: this._getBasicAuthHeaders(),
       body: "grant_type=password&username=" + encodeURIComponent(login) + "&password=" + encodeURIComponent(password),
     };
-    const endpoint = options && options.tokenEndpoint ? options.tokenEndpoint : 'oauth/token';
-    const loginRes = fetch(this.apiUrl + endpoint, fetchOptions)
+    const defaultEndpoint = '/oauth/token';
+    const endpoint = options?.tokenEndpoint ? options.tokenEndpoint : defaultEndpoint;
+    const loginRes = fetch(endpoint, fetchOptions)
       .then(this.checkStatus)
       .then((resp) => resp.json())
       .then((data) => {
