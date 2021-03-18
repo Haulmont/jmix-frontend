@@ -1,4 +1,4 @@
-= Migration cuba to jmix
+= Migration from CUBA
 
 == Update packages
 
@@ -10,7 +10,7 @@ Remove cuba packages:
 npm uninstall @cuba-platform/react-core @cuba-platform/react-ui @cuba-platform/rest
 ----
 
-Install jmix packages:
+Install Jmix packages:
 
 ----
 npm install @haulmont/jmix-react-core @haulmont/jmix-react-ui @haulmont/jmix-rest
@@ -57,7 +57,7 @@ After:
 import 'mobx-react-lite/batchingForReactDom';
 ----
 
-Change jmix rest initialization.
+Change Jmix REST initialization.
 
 Import `JMIX_REST_URL` constant from `src/config.ts`.
 Remove cubaREST initialization. After that add jmixREST initialization this way:
@@ -111,13 +111,13 @@ ReactDOM.render(
 
 == Rename imports and interfaces
 
-Run application for typescript hints.
+Run application for TypeScript hints.
 
 ----
 npm run start
 ----
 
-Rename all imports from cube packages to jmix packages everywhere in the project. After imports, rename the interfaces everywhere in the project.
+Replace all imports of cuba packages to the corresponding Jmix packages. Rename the interfaces everywhere in the project.
 
 Imports:
 
@@ -142,23 +142,8 @@ import { JmixRestConnection } from "@haulmont/jmix-rest";
 import { ... } from "@haulmont/jmix-react-ui";
 ----
 
-== Rename sort property to get collection
 
-If you don't need to sort collection remove sort property.
-
-If you want to sort collection by field, you need to add sort property which must containt '+' or '-' char and field name:
-
-----
-fields = ['name']
-
-dataCollection = collection<{Entity}>({Entity}.NAME, {
-  ...
-  sort: "+name",
-  ...
-});
-----
-
-== Generate jmix interfaces
+== Generate Jmix interfaces
 
 Open the root directory of the front module.
 
@@ -168,7 +153,7 @@ Remove cuba generator package.
 npm uninstall @cuba-platform/front-generator
 ----
 
-Install jmix generator package.
+Install Jmix generator package.
 
 ----
 npm install @haulmont/jmix-front-generator
@@ -198,7 +183,7 @@ Open `package.json` and rewrite `update-model` script:
 
 Remove `src/cuda/` directory.
 
-Generate new jmix interfaces:
+Generate new Jmix model classes:
 
 ----
 npm run update-model
@@ -208,39 +193,8 @@ Rename imports from `src/cuba/` to `src/jmix/` everywhere in the project.
 
 ----
 // Before:
-imoprt {...} "../cuba/.."
+import {...} "../cuba/.."
 
 // After:
-imoprt {...} "../jmix/.."
-----
-
-Image fields aren't supported now. If you've used image fields before. You need to remove them.
-
-In the edit components in which you used image fields, you need to remove everything about these fields:
-
-----
-// Remove this line
-import { FileDescriptor } from "../../cuba/entities/base/sys$FileDescriptor";
-
-// Remove this line
-@observable photosDc: DataCollectionStore<FileDescriptor> | undefined;
-
-// Remove this code
-this.photosDc = loadAssociationOptions(
-  {Entity}.NAME,
-  {fieldName},
-  FileDescriptor.NAME,
-  getAttributePermission,
-  { view: "_minimal" }
-);
-
-// Remove this code
-<Field
-  entityName={{Entity}.NAME}
-  propertyName={{fieldName}}
-  optionsContainer={this.photosDc}
-  formItemProps={{
-    style: { marginBottom: "12px" }
-  }}
-/>
+import {...} "../jmix/.."
 ----
