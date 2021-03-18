@@ -2,7 +2,7 @@
 
 If you want to create a React-based Frontend UI, check our xref:client-react:starter-guide.adoc[React Client] guide.
 
-If you want to migrate from Cuba Frontend UI to Jmix Frontend UI, check our xref:migration-cuba-to-jmix.adoc[Migration cuba to jmix] guide.
+If you want to migrate from Cuba Frontend UI to Jmix Frontend UI, check the xref:migration-cuba-to-jmix.adoc[Migration guide].
 
 If you want to use a different framework, check xref:typescript-sdk:index.adoc[TypeScript SDK] and {api_rest}[Jmix REST] documentation.
 
