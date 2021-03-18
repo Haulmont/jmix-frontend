@@ -96,8 +96,9 @@ export interface EntitiesLoadOptions {
   offset?: number;
 }
 
-export interface LoginOptions {
-  tokenEndpoint: string;
+export interface TokenOptions {
+  tokenEndpoint?: string;
+  revokeEndpoint?: string;
 }
 
 const throwNormolizedJmixRestError = (e: Error | JmixRestError) => {
@@ -151,10 +152,10 @@ export class JmixRestConnection {
    * Logs in user and stores token in provided storage.
    * @param {string} login
    * @param {string} password
-   * @param {LoginOptions} options You can use custom endpoints e.g. {tokenEndpoint:'ldap/token'}.
+   * @param {TokenOptions} options You can use custom endpoints e.g. {tokenEndpoint:'ldap/token'}.
    * @returns {Promise<{access_token: string}>}
    */
-  public login(login: string, password: string, options?: LoginOptions): Promise<{ access_token: string }> {
+  public login(login: string, password: string, options?: TokenOptions): Promise<{ access_token: string }> {
     if (login == null) {
       login = "";
     }
@@ -179,18 +180,20 @@ export class JmixRestConnection {
     return loginRes;
   }
 
-  public logout(): Promise<any> {
-    return this.revokeToken(this.restApiToken);
+  public logout(options?: TokenOptions): Promise<any> {
+    return this.revokeToken(this.restApiToken, options?.revokeEndpoint);
   }
 
-  public revokeToken(token: string): Promise<any> {
+  public revokeToken(token: string, revokeEndpoint?: string): Promise<any> {
     const fetchOptions = {
       method: 'POST',
       headers: this._getBasicAuthHeaders(),
       body: 'token=' + encodeURIComponent(token),
     };
+    const defaultEndpoint = '/oauth/revoke';
+    const endpoint = revokeEndpoint ? revokeEndpoint : defaultEndpoint;
     this.clearAuthData();
-    return fetch(this.apiUrl + 'oauth/revoke', fetchOptions)
+    return fetch(endpoint, fetchOptions)
       .then(this.checkStatus)
       .catch(throwNormolizedJmixRestError);
   }

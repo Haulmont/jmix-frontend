@@ -5,7 +5,10 @@ global.fetch = require('node-fetch');
 const {initApp} = require('./common');
 
 let app;
-const loginOpts = {tokenEndpoint: 'http://localhost:8080/oauth/token'};
+const loginOpts = {
+  tokenEndpoint: 'http://localhost:8080/oauth/token',
+  revokeEndpoint: 'http://localhost:8080/oauth/revoke',
+};
 
 beforeAll(() => {
   app = initApp();
@@ -42,11 +45,31 @@ describe('JmixRestConnection', () => {
     });
   });
 
+  describe('.logout()', () => {
+
+    afterEach(() => {
+      return app.login('admin', 'admin', loginOpts);
+    });
+
+    it('Logout dosent work with wrong endpoint from options', done => {
+      app.logout({revokeEndpoint: "wrongEndpoint"})
+      .then(() => {
+        done('works with wrong endpoint from options');
+      })
+      .catch(() => {
+        done();
+      });
+    });
+
+    it('Logout works with right endpoint', () => {
+      return app.logout(loginOpts);
+    });
+  });
+
   beforeAll(() => {
     app = initApp();
     return app.login('admin', 'admin', loginOpts);
   });
-
 
   it('.loadMetadata()', () => app.loadMetadata());
 
@@ -276,4 +299,3 @@ describe('JmixRestConnection', () => {
   });
 
 });
-
