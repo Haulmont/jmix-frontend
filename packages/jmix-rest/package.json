@@ -12,7 +12,7 @@
     "compile": "tsc",
     "types:browser": "tsc --declarationDir dist-browser --emitDeclarationOnly true",
     "dist": "npm run compile && mkdirp dist-browser && browserify --standalone jmix dist-node/jmix.js > dist-browser/jmix.js",
-    "generate-docs": "typedoc --module commonjs --out ../../docs-src/api-reference/jmix-rest src",
+    "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-rest src",
     "prepublishOnly": "npm run dist"
   },
   "repository": {
@@ -27,7 +27,7 @@
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
     "tslint": "~5.17.0",
-    "typedoc": "^0.15.3",
+    "typedoc": "^0.20.28",
     "typescript": "~4.1.3"
   },
   "engines": {
