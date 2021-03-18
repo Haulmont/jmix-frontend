@@ -19,15 +19,17 @@ export const write: WriteStage<Options, TemplateModel> = async (
 
   let clientLocales: string[];
   const modelHasLocalesInfo = (templateModel.project.locales != null);
+  const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(location => location.name);
+
   if (!modelHasLocalesInfo) {
     gen.log('Project model does not contain project locales info. I18n messages will be added for all supported locales.');
-    clientLocales = SUPPORTED_CLIENT_LOCALES;
+    clientLocales = supportedClientLocaleNames;
   } else {
     const projectLocales = templateModel.project.locales.map(locale => locale.code);
-    clientLocales = projectLocales.filter(locale => SUPPORTED_CLIENT_LOCALES.includes(locale));
+    clientLocales = projectLocales.filter(locale => supportedClientLocaleNames.includes(locale));
     if (clientLocales.length === 0) {
       gen.log('WARNING. None of the project locales are supported by Frontend Generator.'
-        + ` Project locales: ${JSON.stringify(projectLocales)}. Supported locales: ${JSON.stringify(SUPPORTED_CLIENT_LOCALES)}.`);
+        + ` Project locales: ${JSON.stringify(projectLocales)}. Supported locales: ${JSON.stringify(supportedClientLocaleNames)}.`);
     }
   }
   clientLocales.forEach(locale => {
