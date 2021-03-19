@@ -31,6 +31,7 @@ import { CarManagement3 } from "./app/entity-management3/CarManagement3";
 import { CarManagement2 } from "./app/entity-management2/CarManagement2";
 import { CarManagement } from "./app/entity-management/CarManagement";
 import { FavoriteCars } from "./app/entity-cards/FavoriteCars";
+import { TestBlankComponent } from "./app/blank-components/TestBlankComponent";
 import { getMenuItems } from "@haulmont/jmix-react-core";
 
 export const menuItems = getMenuItems();
@@ -55,7 +56,14 @@ menuItems.push(userSettingsSubMenu);
 */
 
 menuItems.push({
-  pathPattern: "/favoriteCars",
+  pathPattern: "/testBlankComponent/:entityId?",
+  menuLink: "/testBlankComponent",
+  component: TestBlankComponent,
+  caption: "TestBlankComponent"
+});
+
+menuItems.push({
+  pathPattern: "/favoriteCars/:entityId?",
   menuLink: "/favoriteCars",
   component: FavoriteCars,
   caption: "FavoriteCars"
@@ -167,14 +175,14 @@ menuItems.push({
 });
 
 menuItems.push({
-  pathPattern: "/datatypesCards",
+  pathPattern: "/datatypesCards/:entityId?",
   menuLink: "/datatypesCards",
   component: DatatypesCards,
   caption: "DatatypesCards"
 });
 
 menuItems.push({
-  pathPattern: "/intIdentityIdCards",
+  pathPattern: "/intIdentityIdCards/:entityId?",
   menuLink: "/intIdentityIdCards",
   component: IntIdentityIdCards,
   caption: "IntIdentityIdCards"
@@ -223,7 +231,7 @@ menuItems.push({
 });
 
 menuItems.push({
-  pathPattern: "/stringIdCards",
+  pathPattern: "/stringIdCards/:entityId?",
   menuLink: "/stringIdCards",
   component: StringIdCards,
   caption: "StringIdCards"

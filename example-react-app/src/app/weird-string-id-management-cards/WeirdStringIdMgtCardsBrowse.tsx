@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { WeirdStringIdMgtCardsManagement } from "./WeirdStringIdMgtCardsManagement";
 import {
   FormattedMessage,
@@ -139,7 +139,7 @@ class WeirdStringIdMgtCardsBrowseComponent extends React.Component<Props> {
         {items.map(e => (
           <Card
             title={e._instanceName}
-            key={e.id ? e.id : undefined}
+            key={e.id ? getStringId(e.id) : undefined}
             style={{ marginBottom: "12px" }}
             actions={[
               <DeleteOutlined
@@ -147,7 +147,11 @@ class WeirdStringIdMgtCardsBrowseComponent extends React.Component<Props> {
                 onClick={() => this.showDeletionDialog(e)}
               />,
               <Link
-                to={WeirdStringIdMgtCardsManagement.PATH + "/" + e.id}
+                to={
+                  WeirdStringIdMgtCardsManagement.PATH +
+                  "/" +
+                  getStringId(e.id!)
+                }
                 key="edit"
               >
                 <EditOutlined />

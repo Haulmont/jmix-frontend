@@ -14,7 +14,7 @@ import {
 import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
 
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { WeirdStringIdMgtTableManagement } from "./WeirdStringIdMgtTableManagement";
 import {
   FormattedMessage,
@@ -141,7 +141,9 @@ class WeirdStringIdMgtTableBrowseComponent extends React.Component<
   getRecordById(id: string): SerializedEntity<WeirdStringIdTestEntity> {
     const record:
       | SerializedEntity<WeirdStringIdTestEntity>
-      | undefined = this.dataCollection.items.find(record => record.id === id);
+      | undefined = this.dataCollection.items.find(
+      record => getStringId(record.id!) === id
+    );
 
     if (!record) {
       throw new Error("Cannot find entity with id " + id);

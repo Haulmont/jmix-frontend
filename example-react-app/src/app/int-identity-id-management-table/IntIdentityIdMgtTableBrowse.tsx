@@ -14,7 +14,7 @@ import {
 import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
 
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { IntIdentityIdMgtTableManagement } from "./IntIdentityIdMgtTableManagement";
 import {
   FormattedMessage,
@@ -140,7 +140,9 @@ class IntIdentityIdMgtTableBrowseComponent extends React.Component<
   getRecordById(id: string): SerializedEntity<IntIdentityIdTestEntity> {
     const record:
       | SerializedEntity<IntIdentityIdTestEntity>
-      | undefined = this.dataCollection.items.find(record => record.id === id);
+      | undefined = this.dataCollection.items.find(
+      record => getStringId(record.id!) === id
+    );
 
     if (!record) {
       throw new Error("Cannot find entity with id " + id);

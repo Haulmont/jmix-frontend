@@ -14,7 +14,7 @@ import {
 import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
 
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { CompositionO2MManagement } from "./CompositionO2MManagement";
 import {
   FormattedMessage,
@@ -129,7 +129,9 @@ class CompositionO2MBrowseComponent extends React.Component<
   getRecordById(id: string): SerializedEntity<CompositionO2MTestEntity> {
     const record:
       | SerializedEntity<CompositionO2MTestEntity>
-      | undefined = this.dataCollection.items.find(record => record.id === id);
+      | undefined = this.dataCollection.items.find(
+      record => getStringId(record.id!) === id
+    );
 
     if (!record) {
       throw new Error("Cannot find entity with id " + id);

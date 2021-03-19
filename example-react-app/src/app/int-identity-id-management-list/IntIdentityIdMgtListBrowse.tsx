@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { IntIdentityIdMgtListManagement } from "./IntIdentityIdMgtListManagement";
 import {
   FormattedMessage,
@@ -143,7 +143,11 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
                   onClick={() => this.showDeletionDialog(item)}
                 />,
                 <Link
-                  to={IntIdentityIdMgtListManagement.PATH + "/" + item.id}
+                  to={
+                    IntIdentityIdMgtListManagement.PATH +
+                    "/" +
+                    getStringId(item.id!)
+                  }
                   key="edit"
                 >
                   <EditOutlined />

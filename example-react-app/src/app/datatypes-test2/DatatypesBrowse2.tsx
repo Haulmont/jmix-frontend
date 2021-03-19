@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { DatatypesManagement2 } from "./DatatypesManagement2";
 import {
   FormattedMessage,
@@ -155,7 +155,10 @@ class DatatypesBrowse2Component extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link to={DatatypesManagement2.PATH + "/" + item.id} key="edit">
+                <Link
+                  to={DatatypesManagement2.PATH + "/" + getStringId(item.id!)}
+                  key="edit"
+                >
                   <EditOutlined />
                 </Link>
               ]}
