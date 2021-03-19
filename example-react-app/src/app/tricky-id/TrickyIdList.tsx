@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { TrickyIdMgr } from "./TrickyIdMgr";
 import {
   FormattedMessage,
@@ -124,7 +124,10 @@ class TrickyIdListComponent extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link to={TrickyIdMgr.PATH + "/" + item.id} key="edit">
+                <Link
+                  to={TrickyIdMgr.PATH + "/" + getStringId(item.id!)}
+                  key="edit"
+                >
                   <EditOutlined />
                 </Link>
               ]}

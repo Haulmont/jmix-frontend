@@ -14,7 +14,7 @@ import {
 import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
 
 import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { AssociationM2MManagement } from "./AssociationM2MManagement";
 import {
   FormattedMessage,
@@ -129,7 +129,9 @@ class AssociationM2MBrowseComponent extends React.Component<
   getRecordById(id: string): SerializedEntity<AssociationM2MTestEntity> {
     const record:
       | SerializedEntity<AssociationM2MTestEntity>
-      | undefined = this.dataCollection.items.find(record => record.id === id);
+      | undefined = this.dataCollection.items.find(
+      record => getStringId(record.id!) === id
+    );
 
     if (!record) {
       throw new Error("Cannot find entity with id " + id);

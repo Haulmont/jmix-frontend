@@ -1,6 +1,6 @@
 {
   "blankComponent": {
-    "componentName": "my-component"
+    "componentName": "test-blank-component"
   },
   "entityManagement": {
     "editView": {

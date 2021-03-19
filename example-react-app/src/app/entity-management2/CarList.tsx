@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { Car } from "../../jmix/entities/scr$Car";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { CarManagement2 } from "./CarManagement2";
 import {
   FormattedMessage,
@@ -135,7 +135,10 @@ class CarListComponent extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link to={CarManagement2.PATH + "/" + item.id} key="edit">
+                <Link
+                  to={CarManagement2.PATH + "/" + getStringId(item.id!)}
+                  key="edit"
+                >
                   <EditOutlined />
                 </Link>
               ]}

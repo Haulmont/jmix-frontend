@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { StringIdMgtListManagement } from "./StringIdMgtListManagement";
 import {
   FormattedMessage,
@@ -141,7 +141,9 @@ class StringIdMgtListBrowseComponent extends React.Component<Props> {
                   onClick={() => this.showDeletionDialog(item)}
                 />,
                 <Link
-                  to={StringIdMgtListManagement.PATH + "/" + item.id}
+                  to={
+                    StringIdMgtListManagement.PATH + "/" + getStringId(item.id!)
+                  }
                   key="edit"
                 >
                   <EditOutlined />

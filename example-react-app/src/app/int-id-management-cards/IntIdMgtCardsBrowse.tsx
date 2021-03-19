@@ -19,7 +19,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
+import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { IntIdManagementCards } from "./IntIdManagementCards";
 import {
   FormattedMessage,
@@ -135,14 +135,17 @@ class IntIdMgtCardsBrowseComponent extends React.Component<Props> {
         {items.map(e => (
           <Card
             title={e._instanceName}
-            key={e.id ? e.id : undefined}
+            key={e.id ? getStringId(e.id) : undefined}
             style={{ marginBottom: "12px" }}
             actions={[
               <DeleteOutlined
                 key="delete"
                 onClick={() => this.showDeletionDialog(e)}
               />,
-              <Link to={IntIdManagementCards.PATH + "/" + e.id} key="edit">
+              <Link
+                to={IntIdManagementCards.PATH + "/" + getStringId(e.id!)}
+                key="edit"
+              >
                 <EditOutlined />
               </Link>
             ]}

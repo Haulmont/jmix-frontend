@@ -17,6 +17,7 @@ import {
   setPagination,
   Spinner
 } from "@haulmont/jmix-react-ui";
+import { getStringId } from "@haulmont/jmix-rest";
 import { action, IReactionDisposer, observable, reaction } from "mobx";
 import { PaginationConfig } from "antd/es/pagination";
 import { RouteComponentProps } from "react-router";
@@ -86,7 +87,7 @@ export class DatatypesCards extends React.Component<Props> {
         {items.map(e => (
           <Card
             title={e._instanceName}
-            key={e.id ? e.id : undefined}
+            key={e.id ? getStringId(e.id) : undefined}
             style={{ marginBottom: "12px" }}
           >
             {this.fields.map(p => (
