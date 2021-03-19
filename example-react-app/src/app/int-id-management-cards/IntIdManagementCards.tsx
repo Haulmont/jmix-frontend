@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import IntIdMgtCardsEdit from "./IntIdMgtCardsEdit";
 import IntIdMgtCardsBrowse from "./IntIdMgtCardsBrowse";
 import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 import {
   addPagingParams,
   createPagingConfig,
@@ -13,12 +13,20 @@ import {
 
 type Props = RouteComponentProps<{ entityId?: string }>;
 
-@observer
-export class IntIdManagementCards extends React.Component<Props> {
+class IntIdManagementCardsComponent extends React.Component<Props> {
   static PATH = "/intIdManagementCards";
   static NEW_SUBPATH = "new";
 
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+
+  constructor(props: Props) {
+    super(props);
+
+    makeObservable(this, {
+      paginationConfig: observable,
+      onPagingChange: action
+    });
+  }
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
@@ -37,10 +45,12 @@ export class IntIdManagementCards extends React.Component<Props> {
     );
   }
 
-  @action onPagingChange = (current: number, pageSize: number) => {
+  onPagingChange = (current: number, pageSize: number) => {
     this.props.history.push(
       addPagingParams("intIdManagementCards", current, pageSize)
     );
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };
   };
 }
+
+export const IntIdManagementCards = observer(IntIdManagementCardsComponent);

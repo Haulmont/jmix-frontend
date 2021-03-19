@@ -18,23 +18,36 @@ import {
   Spinner
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
-import { action, IReactionDisposer, observable, reaction } from "mobx";
+import {
+  action,
+  IReactionDisposer,
+  observable,
+  reaction,
+  makeObservable
+} from "mobx";
 import { PaginationConfig } from "antd/es/pagination";
 import { RouteComponentProps } from "react-router";
 
 type Props = MainStoreInjected & RouteComponentProps;
 
-@injectMainStore
-@observer
-export class FavoriteCars extends React.Component<Props> {
+export class FavoriteCarsComponent extends React.Component<Props> {
   dataCollection = collection<FavoriteCar>(FavoriteCar.NAME, {
     view: "favoriteCar-view",
     loadImmediately: false
   });
 
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
   reactionDisposer: IReactionDisposer;
   fields = ["notes", "car", "user"];
+
+  constructor(props: Props) {
+    super(props);
+
+    makeObservable(this, {
+      paginationConfig: observable,
+      onPagingChange: action
+    });
+  }
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
@@ -81,7 +94,7 @@ export class FavoriteCars extends React.Component<Props> {
             <Paging
               paginationConfig={this.paginationConfig}
               onPagingChange={this.onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -89,8 +102,10 @@ export class FavoriteCars extends React.Component<Props> {
     );
   }
 
-  @action onPagingChange = (current: number, pageSize: number) => {
+  onPagingChange = (current: number, pageSize: number) => {
     this.props.history.push(addPagingParams("favoriteCars", current, pageSize));
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };
   };
 }
+
+export const FavoriteCars = injectMainStore(observer(FavoriteCarsComponent));

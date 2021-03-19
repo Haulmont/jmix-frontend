@@ -1,7 +1,7 @@
 import * as React from "react";
 import { observer } from "mobx-react";
 import { Link } from "react-router-dom";
-import { observable } from "mobx";
+import { observable, makeObservable } from "mobx";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
@@ -22,8 +22,6 @@ import {
   WrappedComponentProps
 } from "react-intl";
 
-@injectMainStore
-@observer
 class IntIdentityIdMgtTableBrowseComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
 > {
@@ -33,7 +31,7 @@ class IntIdentityIdMgtTableBrowseComponent extends React.Component<
       view: "_local"
     }
   );
-  @observable selectedRowKey: string | undefined;
+  selectedRowKey: string | null = null;
 
   fields = [
     "description",
@@ -57,11 +55,19 @@ class IntIdentityIdMgtTableBrowseComponent extends React.Component<
       }),
       cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
       onOk: () => {
-        this.selectedRowKey = undefined;
+        this.selectedRowKey = null;
         return this.dataCollection.delete(e);
       }
     });
   };
+
+  constructor(props: MainStoreInjected & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      selectedRowKey: observable
+    });
+  }
 
   render() {
     if (this.props.mainStore?.isEntityDataLoaded() !== true) return <Spinner />;
@@ -161,7 +167,7 @@ class IntIdentityIdMgtTableBrowseComponent extends React.Component<
 }
 
 const IntIdentityIdMgtTableBrowse = injectIntl(
-  IntIdentityIdMgtTableBrowseComponent
+  injectMainStore(observer(IntIdentityIdMgtTableBrowseComponent))
 );
 
 export default IntIdentityIdMgtTableBrowse;

@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { DatatypesManagement2 } from "./DatatypesManagement2";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -41,8 +47,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class DatatypesEdit2Component extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -51,36 +55,36 @@ class DatatypesEdit2Component extends React.Component<
     loadImmediately: false
   });
 
-  @observable associationO2OattrsDc:
-    | DataCollectionStore<AssociationO2OTestEntity>
-    | undefined;
+  associationO2OattrsDc: DataCollectionStore<
+    AssociationO2OTestEntity
+  > | null = null;
 
-  @observable associationM2OattrsDc:
-    | DataCollectionStore<AssociationM2OTestEntity>
-    | undefined;
+  associationM2OattrsDc: DataCollectionStore<
+    AssociationM2OTestEntity
+  > | null = null;
 
-  @observable associationM2MattrsDc:
-    | DataCollectionStore<AssociationM2MTestEntity>
-    | undefined;
+  associationM2MattrsDc: DataCollectionStore<
+    AssociationM2MTestEntity
+  > | null = null;
 
-  @observable intIdentityIdTestEntityAssociationO2OAttrsDc:
-    | DataCollectionStore<IntIdentityIdTestEntity>
-    | undefined;
+  intIdentityIdTestEntityAssociationO2OAttrsDc: DataCollectionStore<
+    IntIdentityIdTestEntity
+  > | null = null;
 
-  @observable integerIdTestEntityAssociationM2MAttrsDc:
-    | DataCollectionStore<IntegerIdTestEntity>
-    | undefined;
+  integerIdTestEntityAssociationM2MAttrsDc: DataCollectionStore<
+    IntegerIdTestEntity
+  > | null = null;
 
-  @observable stringIdTestEntityAssociationO2OsDc:
-    | DataCollectionStore<StringIdTestEntity>
-    | undefined;
+  stringIdTestEntityAssociationO2OsDc: DataCollectionStore<
+    StringIdTestEntity
+  > | null = null;
 
-  @observable stringIdTestEntityAssociationM2OsDc:
-    | DataCollectionStore<StringIdTestEntity>
-    | undefined;
+  stringIdTestEntityAssociationM2OsDc: DataCollectionStore<
+    StringIdTestEntity
+  > | null = null;
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -113,7 +117,7 @@ class DatatypesEdit2Component extends React.Component<
     "stringIdTestEntityAssociationM2O"
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   /**
    * This method should be called after the user permissions has been loaded
@@ -123,61 +127,68 @@ class DatatypesEdit2Component extends React.Component<
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
 
-      this.associationO2OattrsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "associationO2Oattr",
-        AssociationO2OTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.associationO2OattrsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "associationO2Oattr",
+          AssociationO2OTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.associationM2OattrsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "associationM2Oattr",
-        AssociationM2OTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.associationM2OattrsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "associationM2Oattr",
+          AssociationM2OTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.associationM2MattrsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "associationM2Mattr",
-        AssociationM2MTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.associationM2MattrsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "associationM2Mattr",
+          AssociationM2MTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.intIdentityIdTestEntityAssociationO2OAttrsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "intIdentityIdTestEntityAssociationO2OAttr",
-        IntIdentityIdTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.intIdentityIdTestEntityAssociationO2OAttrsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "intIdentityIdTestEntityAssociationO2OAttr",
+          IntIdentityIdTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.integerIdTestEntityAssociationM2MAttrsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "integerIdTestEntityAssociationM2MAttr",
-        IntegerIdTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.integerIdTestEntityAssociationM2MAttrsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "integerIdTestEntityAssociationM2MAttr",
+          IntegerIdTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.stringIdTestEntityAssociationO2OsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "stringIdTestEntityAssociationO2O",
-        StringIdTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.stringIdTestEntityAssociationO2OsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "stringIdTestEntityAssociationO2O",
+          StringIdTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.stringIdTestEntityAssociationM2OsDc = loadAssociationOptions(
-        DatatypesTestEntity.NAME,
-        "stringIdTestEntityAssociationM2O",
-        StringIdTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.stringIdTestEntityAssociationM2OsDc =
+        loadAssociationOptions(
+          DatatypesTestEntity.NAME,
+          "stringIdTestEntityAssociationM2O",
+          StringIdTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
     }
   };
 
@@ -211,6 +222,30 @@ class DatatypesEdit2Component extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === DatatypesManagement2.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      associationO2OattrsDc: observable,
+
+      associationM2OattrsDc: observable,
+
+      associationM2MattrsDc: observable,
+
+      intIdentityIdTestEntityAssociationO2OAttrsDc: observable,
+
+      integerIdTestEntityAssociationM2MAttrsDc: observable,
+
+      stringIdTestEntityAssociationO2OsDc: observable,
+
+      stringIdTestEntityAssociationM2OsDc: observable,
+
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -396,7 +431,7 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="associationO2Oattr"
-            optionsContainer={this.associationO2OattrsDc}
+            optionsContainer={this.associationO2OattrsDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -405,7 +440,7 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="associationM2Oattr"
-            optionsContainer={this.associationM2OattrsDc}
+            optionsContainer={this.associationM2OattrsDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -414,7 +449,7 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="associationM2Mattr"
-            optionsContainer={this.associationM2MattrsDc}
+            optionsContainer={this.associationM2MattrsDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -451,7 +486,9 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="intIdentityIdTestEntityAssociationO2OAttr"
-            optionsContainer={this.intIdentityIdTestEntityAssociationO2OAttrsDc}
+            optionsContainer={
+              this.intIdentityIdTestEntityAssociationO2OAttrsDc ?? undefined
+            }
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -460,7 +497,9 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="integerIdTestEntityAssociationM2MAttr"
-            optionsContainer={this.integerIdTestEntityAssociationM2MAttrsDc}
+            optionsContainer={
+              this.integerIdTestEntityAssociationM2MAttrsDc ?? undefined
+            }
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -469,7 +508,9 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="stringIdTestEntityAssociationO2O"
-            optionsContainer={this.stringIdTestEntityAssociationO2OsDc}
+            optionsContainer={
+              this.stringIdTestEntityAssociationO2OsDc ?? undefined
+            }
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -478,7 +519,9 @@ class DatatypesEdit2Component extends React.Component<
           <Field
             entityName={DatatypesTestEntity.NAME}
             propertyName="stringIdTestEntityAssociationM2O"
-            optionsContainer={this.stringIdTestEntityAssociationM2OsDc}
+            optionsContainer={
+              this.stringIdTestEntityAssociationM2OsDc ?? undefined
+            }
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -538,7 +581,7 @@ class DatatypesEdit2Component extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -553,7 +596,7 @@ class DatatypesEdit2Component extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -581,4 +624,4 @@ class DatatypesEdit2Component extends React.Component<
   }
 }
 
-export default injectIntl(DatatypesEdit2Component);
+export default injectIntl(injectMainStore(observer(DatatypesEdit2Component)));

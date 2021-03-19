@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { Datatypes2Management } from "./Datatypes2Management";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -33,8 +39,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class Datatypes2EditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -43,8 +47,8 @@ class Datatypes2EditComponent extends React.Component<
     loadImmediately: false
   });
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -55,7 +59,7 @@ class Datatypes2EditComponent extends React.Component<
     "weirdStringIdTestEntityAttr"
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -87,6 +91,16 @@ class Datatypes2EditComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === Datatypes2Management.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -246,7 +260,7 @@ class Datatypes2EditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -274,4 +288,4 @@ class Datatypes2EditComponent extends React.Component<
   }
 }
 
-export default injectIntl(Datatypes2EditComponent);
+export default injectIntl(injectMainStore(observer(Datatypes2EditComponent)));

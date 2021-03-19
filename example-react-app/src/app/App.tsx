@@ -24,8 +24,6 @@ import {
   WrappedComponentProps
 } from "react-intl";
 
-@injectMainStore
-@observer
 class AppComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
 > {
@@ -141,5 +139,6 @@ function collectRouteItems(items: Array<RouteItem | SubMenu>): RouteItem[] {
   }, [] as Array<RouteItem>);
 }
 
-const App = injectIntl(AppComponent);
+const App = injectIntl(injectMainStore(observer(AppComponent)));
+
 export default App;

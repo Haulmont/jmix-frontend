@@ -34,8 +34,6 @@ type Props = MainStoreInjected &
     onPagingChange: (current: number, pageSize: number) => void;
   };
 
-@injectMainStore
-@observer
 class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
   dataCollection = collection<WeirdStringIdTestEntity>(
     WeirdStringIdTestEntity.NAME,
@@ -174,7 +172,7 @@ class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -184,7 +182,7 @@ class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
 }
 
 const WeirdStringIdMgtListBrowse = injectIntl(
-  WeirdStringIdMgtListBrowseComponent
+  injectMainStore(observer(WeirdStringIdMgtListBrowseComponent))
 );
 
 export default WeirdStringIdMgtListBrowse;

@@ -34,8 +34,6 @@ type Props = MainStoreInjected &
     onPagingChange: (current: number, pageSize: number) => void;
   };
 
-@injectMainStore
-@observer
 class IntIdMgtListBrowseComponent extends React.Component<Props> {
   dataCollection = collection<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local",
@@ -164,7 +162,7 @@ class IntIdMgtListBrowseComponent extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -173,6 +171,8 @@ class IntIdMgtListBrowseComponent extends React.Component<Props> {
   }
 }
 
-const IntIdMgtListBrowse = injectIntl(IntIdMgtListBrowseComponent);
+const IntIdMgtListBrowse = injectIntl(
+  injectMainStore(observer(IntIdMgtListBrowseComponent))
+);
 
 export default IntIdMgtListBrowse;

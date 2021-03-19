@@ -33,8 +33,7 @@ type Props = MainStoreInjected &
     paginationConfig: PaginationConfig;
     onPagingChange: (current: number, pageSize: number) => void;
   };
-@injectMainStore
-@observer
+
 class CarCardsComponent extends React.Component<Props> {
   dataCollection = collection<Car>(Car.NAME, {
     view: "car-edit",
@@ -162,7 +161,7 @@ class CarCardsComponent extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -171,6 +170,6 @@ class CarCardsComponent extends React.Component<Props> {
   }
 }
 
-const CarCards = injectIntl(CarCardsComponent);
+const CarCards = injectIntl(injectMainStore(observer(CarCardsComponent)));
 
 export default CarCards;

@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { AssociationM2MManagement } from "./AssociationM2MManagement";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -36,8 +42,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class AssociationM2MEditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -49,17 +53,17 @@ class AssociationM2MEditComponent extends React.Component<
     }
   );
 
-  @observable datatypesTestEntitiessDc:
-    | DataCollectionStore<DatatypesTestEntity>
-    | undefined;
+  datatypesTestEntitiessDc: DataCollectionStore<
+    DatatypesTestEntity
+  > | null = null;
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = ["name", "datatypesTestEntities"];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   /**
    * This method should be called after the user permissions has been loaded
@@ -69,13 +73,14 @@ class AssociationM2MEditComponent extends React.Component<
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
 
-      this.datatypesTestEntitiessDc = loadAssociationOptions(
-        AssociationM2MTestEntity.NAME,
-        "datatypesTestEntities",
-        DatatypesTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.datatypesTestEntitiessDc =
+        loadAssociationOptions(
+          AssociationM2MTestEntity.NAME,
+          "datatypesTestEntities",
+          DatatypesTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
     }
   };
 
@@ -109,6 +114,18 @@ class AssociationM2MEditComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === AssociationM2MManagement.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      datatypesTestEntitiessDc: observable,
+
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -155,7 +172,7 @@ class AssociationM2MEditComponent extends React.Component<
           <Field
             entityName={AssociationM2MTestEntity.NAME}
             propertyName="datatypesTestEntities"
-            optionsContainer={this.datatypesTestEntitiessDc}
+            optionsContainer={this.datatypesTestEntitiessDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -215,7 +232,7 @@ class AssociationM2MEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -230,7 +247,7 @@ class AssociationM2MEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -258,4 +275,6 @@ class AssociationM2MEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(AssociationM2MEditComponent);
+export default injectIntl(
+  injectMainStore(observer(AssociationM2MEditComponent))
+);

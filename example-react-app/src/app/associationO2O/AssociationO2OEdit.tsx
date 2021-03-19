@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { AssociationO2OManagement } from "./AssociationO2OManagement";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -36,8 +42,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class AssociationO2OEditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -49,17 +53,17 @@ class AssociationO2OEditComponent extends React.Component<
     }
   );
 
-  @observable datatypesTestEntitysDc:
-    | DataCollectionStore<DatatypesTestEntity>
-    | undefined;
+  datatypesTestEntitysDc: DataCollectionStore<
+    DatatypesTestEntity
+  > | null = null;
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = ["name", "datatypesTestEntity"];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   /**
    * This method should be called after the user permissions has been loaded
@@ -69,13 +73,14 @@ class AssociationO2OEditComponent extends React.Component<
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
 
-      this.datatypesTestEntitysDc = loadAssociationOptions(
-        AssociationO2OTestEntity.NAME,
-        "datatypesTestEntity",
-        DatatypesTestEntity.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.datatypesTestEntitysDc =
+        loadAssociationOptions(
+          AssociationO2OTestEntity.NAME,
+          "datatypesTestEntity",
+          DatatypesTestEntity.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
     }
   };
 
@@ -109,6 +114,18 @@ class AssociationO2OEditComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === AssociationO2OManagement.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      datatypesTestEntitysDc: observable,
+
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -155,7 +172,7 @@ class AssociationO2OEditComponent extends React.Component<
           <Field
             entityName={AssociationO2OTestEntity.NAME}
             propertyName="datatypesTestEntity"
-            optionsContainer={this.datatypesTestEntitysDc}
+            optionsContainer={this.datatypesTestEntitysDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -215,7 +232,7 @@ class AssociationO2OEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -230,7 +247,7 @@ class AssociationO2OEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -258,4 +275,6 @@ class AssociationO2OEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(AssociationO2OEditComponent);
+export default injectIntl(
+  injectMainStore(observer(AssociationO2OEditComponent))
+);
