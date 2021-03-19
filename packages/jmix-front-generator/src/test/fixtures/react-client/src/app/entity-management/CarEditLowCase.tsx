@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { CarManagementLowCase } from "./CarManagementLowCase";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -38,8 +44,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class CarEditLowCaseComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -48,16 +52,16 @@ class CarEditLowCaseComponent extends React.Component<
     loadImmediately: false
   });
 
-  @observable garagesDc: DataCollectionStore<Garage> | undefined;
+  garagesDc: DataCollectionStore<Garage> | null = null;
 
-  @observable technicalCertificatesDc:
-    | DataCollectionStore<TechnicalCertificate>
-    | undefined;
+  technicalCertificatesDc: DataCollectionStore<
+    TechnicalCertificate
+  > | null = null;
 
-  @observable photosDc: DataCollectionStore<FileDescriptor> | undefined;
+  photosDc: DataCollectionStore<FileDescriptor> | null = null;
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -77,7 +81,7 @@ class CarEditLowCaseComponent extends React.Component<
     "photo"
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   /**
    * This method should be called after the user permissions has been loaded
@@ -87,29 +91,32 @@ class CarEditLowCaseComponent extends React.Component<
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
 
-      this.garagesDc = loadAssociationOptions(
-        Car.NAME,
-        "garage",
-        Garage.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.garagesDc =
+        loadAssociationOptions(
+          Car.NAME,
+          "garage",
+          Garage.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.technicalCertificatesDc = loadAssociationOptions(
-        Car.NAME,
-        "technicalCertificate",
-        TechnicalCertificate.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.technicalCertificatesDc =
+        loadAssociationOptions(
+          Car.NAME,
+          "technicalCertificate",
+          TechnicalCertificate.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.photosDc = loadAssociationOptions(
-        Car.NAME,
-        "photo",
-        FileDescriptor.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.photosDc =
+        loadAssociationOptions(
+          Car.NAME,
+          "photo",
+          FileDescriptor.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
     }
   };
 
@@ -143,6 +150,22 @@ class CarEditLowCaseComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === CarManagementLowCase.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      garagesDc: observable,
+
+      technicalCertificatesDc: observable,
+
+      photosDc: observable,
+
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -272,7 +295,7 @@ class CarEditLowCaseComponent extends React.Component<
           <Field
             entityName={Car.NAME}
             propertyName="garage"
-            optionsContainer={this.garagesDc}
+            optionsContainer={this.garagesDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -281,7 +304,7 @@ class CarEditLowCaseComponent extends React.Component<
           <Field
             entityName={Car.NAME}
             propertyName="technicalCertificate"
-            optionsContainer={this.technicalCertificatesDc}
+            optionsContainer={this.technicalCertificatesDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -290,7 +313,7 @@ class CarEditLowCaseComponent extends React.Component<
           <Field
             entityName={Car.NAME}
             propertyName="photo"
-            optionsContainer={this.photosDc}
+            optionsContainer={this.photosDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -350,7 +373,7 @@ class CarEditLowCaseComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -365,7 +388,7 @@ class CarEditLowCaseComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -393,4 +416,4 @@ class CarEditLowCaseComponent extends React.Component<
   }
 }
 
-export default injectIntl(CarEditLowCaseComponent);
+export default injectIntl(injectMainStore(observer(CarEditLowCaseComponent)));
