@@ -4,7 +4,7 @@ import {FormInstance} from "antd/es/form";
 import {observer} from "mobx-react";
 import {<%= className %>} from "./<%= className %>";
 import {Link, Redirect} from "react-router-dom";
-import {IReactionDisposer, observable, reaction, toJS} from "mobx";
+import {IReactionDisposer, observable, reaction, toJS, makeObservable} from "mobx";
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {defaultHandleFinish, createAntdFormValidationMessages} from '@haulmont/jmix-react-ui';
 
@@ -36,8 +36,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class <%= editComponentClass %>Component extends React.Component<Props & WrappedComponentProps> {
 
   dataInstance = instance<<%= entity.className %>>(<%= entity.className %>.NAME, {
@@ -49,11 +47,11 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   });
 
   <% Object.entries(editAssociations).forEach(([attrName, nestedEntity]) => { %>
-    @observable <%= attrName %>sDc: DataCollectionStore<<%= nestedEntity.className %>> | undefined;
+    <%= attrName %>sDc: DataCollectionStore<<%= nestedEntity.className %>> | null = null;
   <% }) %>
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -62,7 +60,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   <% }) %>
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   <% if (Object.keys(editAssociations).length > 0) { %>
   /**
@@ -75,7 +73,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
       <% Object.entries(editAssociations).forEach(([attrName, nestedEntity]) => { %>
         this.<%= attrName %>sDc = loadAssociationOptions(
           <%= entity.className %>.NAME, '<%= attrName %>', <%= nestedEntity.className %>.NAME, getAttributePermission, { view: "_minimal" }
-        );
+        ) ?? null;
       <% }) %>
     }
   };
@@ -105,6 +103,19 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   isNewEntity = () => {
     return this.props.entityId === <%= className %>.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      <% Object.entries(editAssociations).forEach(([attrName]) => { %>
+        <%= attrName %>sDc: observable,
+      <% }) %>
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
 
@@ -157,7 +168,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
               <% } %>
 
               <% if (Object.keys(editAssociations).includes(attr.name)) { %>
-                   optionsContainer={this.<%= attr.name %>sDc}
+                   optionsContainer={this.<%= attr.name %>sDc ?? undefined}
               <% } %>
 
                    formItemProps={{
@@ -222,7 +233,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
     <% if (Object.keys(editAssociations).length > 0) { %>
       this.reactionDisposers.push(reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -236,7 +247,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
 
     this.reactionDisposers.push(reaction(
       () => this.formRef.current,
-      (formRefCurrent, formRefReaction) => {
+      (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
         if (formRefCurrent != null) {
           // The Form has been successfully created.
           // It is now safe to set values on Form fields.
@@ -262,4 +273,10 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
 
 }
 
-export default injectIntl(<%= editComponentClass %>Component);
+export default injectIntl(
+  injectMainStore(
+    observer(
+      <%= editComponentClass %>Component
+    )
+  )
+);

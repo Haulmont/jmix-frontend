@@ -335,7 +335,7 @@ export function setFilters<E>(
     });
   }
 
-  dataCollection.filter = entityFilter;
+  dataCollection.filter = entityFilter ?? null;
 }
 
 function pushCondition(ef: EntityFilter,
@@ -368,7 +368,7 @@ export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, d
 
     dataCollection.sort = sortOrderPrefix + sortField;
   } else {
-    dataCollection.sort = defaultSort;
+    dataCollection.sort = defaultSort ?? null;
   }
 }
 

@@ -1,4 +1,4 @@
-import {action, computed, observable, ObservableMap} from 'mobx';
+import { action, computed, observable, ObservableMap, makeObservable } from 'mobx';
 import {
   JmixRestConnection,
   EntityAttrPermissionValue,
@@ -11,11 +11,18 @@ import {
 
 export class Security {
 
-  @observable attrPermissionCache: ObservableMap<string, EntityAttrPermissionValue> = new ObservableMap();
-  @observable private effectivePermissions?: EffectivePermsInfo;
+  attrPermissionCache: ObservableMap<string, EntityAttrPermissionValue> = new ObservableMap();
+  private effectivePermissions: EffectivePermsInfo | null = null;
   permissionsRequestCount = 0;
 
   constructor(private jmixREST: JmixRestConnection) {
+    makeObservable<Security, "effectivePermissions">(this, {
+      attrPermissionCache: observable,
+      effectivePermissions: observable,
+      isDataLoaded: computed,
+      permissions: computed,
+      loadPermissions: action
+    });
   }
 
   /**
@@ -23,14 +30,14 @@ export class Security {
    * NOTE: will always return `true` if the REST API version doesn't support effective permissions
    * (REST API version < 7.2).
    */
-  @computed get isDataLoaded(): boolean {
+  get isDataLoaded(): boolean {
     return this.effectivePermissions != null;
   };
 
   /**
    * Returns current user permissions.
    */
-  @computed get permissions(): EffectivePermsInfo {
+  get permissions(): EffectivePermsInfo {
     return JSON.parse(JSON.stringify(this.effectivePermissions));
   }
 
@@ -43,7 +50,7 @@ export class Security {
     let perm = this.attrPermissionCache.get(attrFqn);
     if (perm != null) return perm;
 
-    perm = getAttributePermission(entityName, attributeName, this.effectivePermissions);
+    perm = getAttributePermission(entityName, attributeName, this.effectivePermissions ?? undefined);
     this.attrPermissionCache.set(attrFqn, perm);
     return perm;
   };
@@ -58,7 +65,7 @@ export class Security {
       return false;
     }
 
-    return isOperationAllowed('sys$FileDescriptor', 'create', this.effectivePermissions);
+    return isOperationAllowed('sys$FileDescriptor', 'create', this.effectivePermissions ?? undefined);
   };
 
   /**
@@ -71,7 +78,7 @@ export class Security {
   isOperationPermissionGranted = (entityName: string, operation: EntityOperationType): boolean => {
     if (!this.isDataLoaded) { return false; }
 
-    return isOperationAllowed(entityName, operation, this.effectivePermissions);
+    return isOperationAllowed(entityName, operation, this.effectivePermissions ?? undefined);
   };
 
   /**
@@ -100,9 +107,9 @@ export class Security {
     return requiredAttrPerm === 'VIEW';
   }
 
-  @action loadPermissions(): Promise<void> {
+  loadPermissions(): Promise<void> {
     const requestId = ++this.permissionsRequestCount;
-    this.effectivePermissions = undefined;
+    this.effectivePermissions = null;
     this.attrPermissionCache.clear();
 
     return this.jmixREST.getEffectivePermissions()

@@ -1,4 +1,13 @@
-import {action, computed, IObservableArray, observable, reaction, runInAction, toJS} from "mobx";
+import {
+  action,
+  computed,
+  IObservableArray,
+  observable,
+  reaction,
+  runInAction,
+  toJS,
+  makeObservable,
+} from "mobx";
 import {
   EntitiesLoadOptions,
   EntitiesWithCount,
@@ -38,48 +47,48 @@ export interface DataCollectionStore<T> extends DataContainer {
   /**
    * Name of a view used to limit the entity graph. MobX observable.
    */
-  view: string;
+  view: string | null;
   /**
    * Sort order. Property name opionally preceeded by `+` or `-` character.
    * If the name is preceeded by `+`, or there is no preceeding character, then the sort order is ascending.
    * If the name is preceeded by `-`, then the sort order is descending.
    * MobX observable.
    */
-  sort?: string;
+  sort: string | null;
   /**
    * An object describing the filtering criteria.
    * MobX observable.
    */
-  filter?: EntityFilter;
+  filter: EntityFilter | null;
   /**
    * Maximum number of entities to retrieve.
    * MobX observable.
    */
-  limit?: number;
+  limit: number | null;
   /**
    * Position of the first entity to retrieve. Useful if you want to skip first N entities
    * (for example, in a pagination scenario).
    * MobX observable.
    */
-  offset?: number;
+  offset: number | null;
   /**
    * Total number of entities available in the source.
    * MobX observable.
    */
-  count?: number;
+  count: number| null;
   /**
    * When the source of entity instances is REST API, the {@link load} method will by default
    * request a total count of entity instances to be sent along with the retrieved instances.
    * This number will be stored as {@link count}.
    * When `skipCount` is `true`, the total count will not be queried for.
    */
-  skipCount?: boolean;
+  skipCount: boolean | null;
   /**
    * Name of the ID attribute of a String ID entity.
    * Indicates that the entity is a String ID entity.
    * Mandatory for String ID entities, shall be omitted otherwise.
    */
-  stringIdName?: string;
+  stringIdName: string | null;
   /**
    * Retrieves the entity instances. Once retrieval is complete, the instances will be
    * available as {@link items}.
@@ -124,17 +133,17 @@ export interface ClientSideDataCollectionStore<T> extends DataCollectionStore<T>
 
 class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
 
-  @observable items: Array<SerializedEntity<T>> = [];
-  @observable status: DataContainerStatus = "CLEAN";
-  @observable lastError?: DataContainerError;
-  @observable view: string;
-  @observable sort?: string;
-  @observable filter?: EntityFilter;
-  @observable limit?: number;
-  @observable offset?: number;
-  @observable count?: number;
-  @observable skipCount?: boolean;
-  @observable stringIdName?: string;
+  items: Array<SerializedEntity<T>> = [];
+  status: DataContainerStatus = "CLEAN";
+  lastError: DataContainerError | null = null;
+  view: string;
+  sort: string | null = null;
+  filter: EntityFilter | null = null;
+  limit: number | null = null;
+  offset: number | null = null;
+  count: number | null = null;
+  skipCount: boolean | null = null;
+  stringIdName: string | null = null;
 
   allItems: Array<SerializedEntity<T>> = []; // Client mode only
 
@@ -143,11 +152,29 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
   constructor(public readonly entityName: string,
               public readonly trackChanges = false,
               viewName: string = PredefinedView.MINIMAL,
-              sort?: string) {
+              sort: string | null = null) {
+
     this.view = viewName;
-    if (sort) {
-      this.sort = sort;
-    }
+    this.sort = sort;
+
+    makeObservable(this, {
+      items: observable,
+      status: observable,
+      lastError: observable,
+      view: observable,
+      sort: observable,
+      filter: observable,
+      limit: observable,
+      offset: observable,
+      count: observable,
+      skipCount: observable,
+      stringIdName: observable,
+      load: action,
+      clear: action,
+      delete: action,
+      readOnlyItems: computed,
+      properties: computed
+    });
 
     if (this.trackChanges) {
       reaction(
@@ -159,11 +186,9 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     }
 
     reaction(() => this.status,
-      status => this.lastError = status !== "ERROR" ? undefined : this.lastError)
-
+      status => this.lastError = status !== "ERROR" ? null : this.lastError)
   }
 
-  @action
   load = (): Promise<void> => {
     this.changedItems.clear();
     this.status = "LOADING";
@@ -186,14 +211,12 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     return loadingPromise;
   };
 
-  @action
   clear = () => {
     this.items = [];
     this.changedItems.clear();
     this.status = 'CLEAN';
   };
 
-  @action
   delete = (e: T & WithId): Promise<any> => {
     if (e == null || e.id == null) {
       throw new Error('Unable to delete entity without ID');
@@ -211,19 +234,17 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
       }));
   };
 
-  @computed
   get readOnlyItems(): Array<SerializedEntity<T>> {
     return toJS(this.items)
   }
 
-  @computed // todo
   get properties(): string[] {
     return [];
   }
 
   private get entitiesLoadOptions() {
     const loadOptions: EntitiesLoadOptions = {
-      view: this.view,
+      view: this.view ?? undefined,
     };
     if (this.sort) {
       loadOptions.sort = this.sort;
@@ -241,7 +262,7 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     return promise
       .then((resp) => {
         runInAction(() => {
-          this.items = fromRestModel<T>(resp.result, this.stringIdName);
+          this.items = fromRestModel<T>(resp.result, this.stringIdName ?? undefined);
           this.count = resp.count;
           this.status = 'DONE';
         })
@@ -252,8 +273,8 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     return promise
       .then((resp: Array<SerializedEntity<T>>) => {
         runInAction(() => {
-          this.items = fromRestModel<T>(resp, this.stringIdName);
-          this.count = undefined;
+          this.items = fromRestModel<T>(resp, this.stringIdName ?? undefined);
+          this.count = null;
           this.status = 'DONE';
         })
       })
@@ -268,22 +289,25 @@ class ClientSideDataCollectionStoreImpl<T> extends DataCollectionStoreImpl<T> im
               viewName: string = PredefinedView.MINIMAL,
               sort?: string) {
     super(entityName, trackChanges, viewName, sort);
+
+    makeObservable(this, {
+      load: action,
+      adjustItems: action,
+      delete: action
+    });
   }
 
-  @action
   load = (): Promise<void> => {
     this.adjustItems();
     return Promise.resolve();
   };
 
-  @action
   adjustItems = () => {
     // Currently only sorts the items. Client-side filtering can be implemented here:
     // const filteredItems = filterEntityInstances([...this.allItems], this.filter);
-    this.items = sortEntityInstances([...this.allItems], this.sort);
+    this.items = sortEntityInstances([...this.allItems], this.sort ?? undefined);
   };
 
-  @action
   delete = (e: T & WithId): Promise<any> => {
     this.allItems = this.allItems.filter((item: T & WithId) => (item != null && item.id !== e.id));
     this.adjustItems();
@@ -453,24 +477,30 @@ export interface DataCollectionProps<E> extends DataCollectionOptions {
   children?: (store: Partial<DataCollectionStore<E>>) => React.ReactNode;
 }
 
-@observer
-export class Collection<E> extends React.Component<DataCollectionProps<E>> {
+class CollectionComponent<E> extends React.Component<DataCollectionProps<E>> {
 
-  @observable store: DataCollectionStore<E>;
+  store: DataCollectionStore<E>;
 
   constructor(props: DataCollectionProps<E>) {
     super(props);
+
     this.store = createStore(this.props.entityName, this.props);
     this.store.load();
+
+    makeObservable(this, {
+      store: observable,
+      childrenProps: computed
+    });
   }
 
   render() {
     return !!this.props.children && this.props.children(this.childrenProps);
   }
 
-  @computed
   get childrenProps() {
     const {items, status, load, clear} = this.store;
     return {...{items, status, load, clear}};
   }
 }
+
+export const Collection = observer(CollectionComponent);

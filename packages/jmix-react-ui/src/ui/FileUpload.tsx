@@ -2,7 +2,7 @@ import { UploadOutlined } from '@ant-design/icons';
 import { message, Upload, Spin } from 'antd';
 import * as React from 'react';
 import {UploadChangeParam} from 'antd/es/upload';
-import {IReactionDisposer, observable, reaction} from 'mobx';
+import { IReactionDisposer, observable, reaction, makeObservable } from 'mobx';
 import {observer} from 'mobx-react';
 import {UploadProps} from 'antd/es/upload';
 import {UploadFile} from 'antd/es/upload/interface';
@@ -48,22 +48,30 @@ export interface FileInfo {
   name: string,
 }
 
-@injectMainStore
-@observer
 class FileUploadComponent extends React.Component<FileUploadProps & WrappedComponentProps> {
-
-  @observable
   fileList: UploadFile[] = [];
-  @observable isPreviewVisible = false;
-  @observable isPreviewLoading = false;
-  @observable previewImageObjectUrl: string | undefined;
-  @observable previewFileName: string | undefined;
+  isPreviewVisible = false;
+  isPreviewLoading = false;
+  previewImageObjectUrl: string | null = null;
+  previewFileName: string | null = null;
 
   reactionDisposers: IReactionDisposer[] = [];
 
   static defaultProps = {
     enableFullWidth: true
   };
+
+  constructor(props: FileUploadProps & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      fileList: observable,
+      isPreviewVisible: observable,
+      isPreviewLoading: observable,
+      previewImageObjectUrl: observable,
+      previewFileName: observable
+    });
+  }
 
   componentDidMount(): void {
     this.reactionDisposers.push(reaction(
@@ -156,8 +164,8 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     if (this.previewImageObjectUrl) {
       URL.revokeObjectURL(this.previewImageObjectUrl);
     }
-    this.previewImageObjectUrl = undefined;
-    this.previewFileName = undefined;
+    this.previewImageObjectUrl = null;
+    this.previewFileName = null;
   };
 
   dropArea = (mainStore: MainStore) => {
@@ -208,8 +216,8 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
         </Upload>
         <ImagePreview isVisible={this.isPreviewVisible}
                       isLoading={this.isPreviewLoading}
-                      objectUrl={this.previewImageObjectUrl}
-                      fileName={this.previewFileName}
+                      objectUrl={this.previewImageObjectUrl ?? undefined}
+                      fileName={this.previewFileName ?? undefined}
                       onClose={this.handleClosePreview}
         />
       </>
@@ -248,7 +256,11 @@ function isImageFile(fileName: string): boolean {
 
 const fileUpload =
   injectIntl(
-    FileUploadComponent
+    injectMainStore(
+      observer(
+        FileUploadComponent
+      )
+    )
   );
 
 export {fileUpload as FileUpload};

@@ -8,8 +8,6 @@ import {LanguageSwitcher} from '../../i18n/LanguageSwitcher';
 import {injectIntl, WrappedComponentProps} from 'react-intl';
 import JmixLightIcon from '../icons/JmixLightIcon';
 
-@injectMainStore
-@observer
 class AppHeader extends React.Component<MainStoreInjected & WrappedComponentProps> {
 
   render() {
@@ -45,4 +43,10 @@ class AppHeader extends React.Component<MainStoreInjected & WrappedComponentProp
 
 }
 
-export default injectIntl(AppHeader);
+export default injectIntl(
+  injectMainStore(
+    observer(
+      AppHeader
+    )
+  )
+);

@@ -63,7 +63,15 @@ import {BigDecimalInput} from './BigDecimalInput';
 import {UuidInput} from './UuidInput';
 import {CharInput} from "./CharInput";
 import {FormattedMessage, injectIntl, WrappedComponentProps, IntlShape} from 'react-intl';
-import {computed, IObservableArray, IReactionDisposer, observable, reaction, toJS} from 'mobx';
+import {
+  computed,
+  IObservableArray,
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable,
+} from 'mobx';
 import {RefObject} from 'react';
 import './EntityEditor.less';
 import './NestedEntitiesTableField.less';
@@ -143,7 +151,7 @@ export const Field = injectMainStore(observer((props: FieldProps) => {
 
 }));
 
-function getDefaultFormItemProps(metadata: MetaClassInfo[] | undefined, entityName: string, propertyName: string): FormItemProps {
+function getDefaultFormItemProps(metadata: MetaClassInfo[] | null | undefined, entityName: string, propertyName: string): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
     label: <Msg entityName={entityName} propertyName={propertyName}/>
@@ -318,17 +326,25 @@ type AssociationOptionsReactionData = [
   IObservableArray<MetaClassInfo> | undefined,
   boolean | undefined
 ];
-
-@injectMainStore
-@observer
 class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps> {
+  isDrawerOpen = false;
+  fields: string[] = [];
+  dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null = null;
+  associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
 
-  @observable isDrawerOpen = false;
-  @observable fields: string[] = [];
-  @observable dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | undefined;
-  @observable associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
+  constructor(props: NestedEntityFieldProps) {
+    super(props);
 
-  @computed get instanceName(): string | undefined {
+    makeObservable(this, {
+      isDrawerOpen: observable,
+      fields: observable,
+      dataInstance: observable,
+      associationOptions: observable,
+      instanceName: computed
+    });
+  }
+
+  get instanceName(): string | undefined {
     const {intl} = this.props;
 
     const instanceName = this.dataInstance?.item?._instanceName;
@@ -357,8 +373,11 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
         this.fields,
         this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData,
-      ([fields, metadata, isDataLoaded]: AssociationOptionsReactionData, thisReaction) => {
+      ] as AssociationOptionsReactionData, (
+        [fields, metadata, isDataLoaded]: AssociationOptionsReactionData,
+        _prevData : AssociationOptionsReactionData,
+        thisReaction
+      ) => {
         if (fields.length > 0 && metadata != null && isDataLoaded && this.props.mainStore != null) {
           const {getAttributePermission} = this.props.mainStore.security;
           const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, fields, metadata);
@@ -485,7 +504,15 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
   }
 }
 
-const NestedEntityField = injectIntl(NestedEntityFieldComponent);
+const NestedEntityField = 
+  injectIntl(
+    injectMainStore(
+      observer(
+        NestedEntityFieldComponent
+      )
+    )
+  );
+  
 export {NestedEntityField};
 
 export interface NestedEntitiesTableFieldProps extends MainStoreInjected, WrappedComponentProps {
@@ -514,22 +541,34 @@ export interface NestedEntitiesTableFieldProps extends MainStoreInjected, Wrappe
    */
   parentEntityInstanceId?: string;
 }
-
-@injectMainStore
-@observer
 class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTableFieldProps> {
-
-  @observable selectedRowKey: string | undefined;
-  @observable isDrawerOpen = false;
-  @observable allFields: string[] | undefined;
-  @observable editorFields: string[] | undefined;
-  @observable tableFields: string[] | undefined;
-  @observable inverseAttributeName: string | undefined;
-  @observable dataCollection: ClientSideDataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined;
-  @observable editedInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | undefined;
-  @observable associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
+  selectedRowKey: string | null = null;
+  isDrawerOpen = false;
+  allFields: string[] | null = null;
+  editorFields: string[] | null = null;
+  tableFields: string[] | null = null;
+  inverseAttributeName: string | null = null;
+  dataCollection: ClientSideDataCollectionStore<Partial<WithId & SerializedEntityProps>> | null = null;
+  editedInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null = null;
+  associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
 
   disposers: IReactionDisposer[] = [];
+
+  constructor(props: NestedEntitiesTableFieldProps) {
+    super(props);
+
+    makeObservable(this, {
+      selectedRowKey: observable,
+      isDrawerOpen: observable,
+      allFields: observable,
+      editorFields: observable,
+      tableFields: observable,
+      inverseAttributeName: observable,
+      dataCollection: observable,
+      editedInstance: observable,
+      associationOptions: observable
+    });
+  }
 
   componentDidMount(): void {
     const {nestedEntityName, nestedEntityView, parentEntityName, mainStore} = this.props;
@@ -571,8 +610,11 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
         this.allFields,
         this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData,
-      ([allFields, metadata, isDataLoaded]: AssociationOptionsReactionData, thisReaction) => {
+      ] as AssociationOptionsReactionData, (
+        [allFields, metadata, isDataLoaded]: AssociationOptionsReactionData,
+        _prevData : AssociationOptionsReactionData,
+        thisReaction
+      ) => {
         if (allFields != null && metadata != null && isDataLoaded === true && this.props.mainStore != null) {
           const {getAttributePermission} = this.props.mainStore.security;
           const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, allFields, metadata);
@@ -586,7 +628,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
 
     this.disposers.push(reaction(
       () => [this.allFields, this.props.mainStore?.metadata],
-      (_data, thisReaction) => {
+      (_data, _prevData, thisReaction) => {
         if (this.allFields != null
           && this.allFields.length > 0
           && this.props.mainStore?.metadata != null
@@ -595,7 +637,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
             getEntityProperties(nestedEntityName, this.allFields, this.props.mainStore?.metadata);
           this.inverseAttributeName = entityProperties
             .find(property => property.type === parentEntityName)
-            ?.name;
+            ?.name ?? null;
           const propertiesExceptInverseAttr = entityProperties
             .filter(property => property.type !== parentEntityName);
           this.editorFields = propertiesExceptInverseAttr
@@ -632,7 +674,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
   editEntity = () => {
     const {nestedEntityName} = this.props;
     this.editedInstance = instance(nestedEntityName, {});
-    const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey);
+    const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey) ?? null;
     this.editedInstance?.setItem(record);
     this.openDrawer();
   };
@@ -657,7 +699,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
         if (record) {
           this.dataCollection?.delete(record);
         }
-        this.selectedRowKey = undefined;
+        this.selectedRowKey = null;
         this.updateFormFieldValue();
       }
     });
@@ -775,7 +817,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
           </Button>
         </div>
         <DataTable dataCollection={this.dataCollection}
-                   columnDefinitions={this.tableFields}
+                   columnDefinitions={this.tableFields ?? undefined}
                    hideSelectionColumn={true}
                    onRowSelectionChange={this.handleRowSelectionChange}
                    enableFiltersOnColumns={[]} // TODO Remove once client-side filtering is implemented
@@ -799,7 +841,14 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
   }
 }
 
-const NestedEntitiesTableField = injectIntl(NestedEntitiesTableFieldComponent);
+const NestedEntitiesTableField = injectIntl(
+  injectMainStore(
+    observer(
+      NestedEntitiesTableFieldComponent
+    )
+  )
+);
+
 export {NestedEntitiesTableField};
 
 export interface EntityEditorProps extends MainStoreInjected, WrappedComponentProps {
@@ -852,14 +901,20 @@ export interface EntityEditorProps extends MainStoreInjected, WrappedComponentPr
   submitButtonText?: string;
 }
 
-@injectMainStore
-@observer
 class EntityEditorComponent extends React.Component<EntityEditorProps> {
-
-  @observable globalErrors: string[] = [];
-  @observable formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
+  globalErrors: string[] = [];
+  formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
 
   reactionDisposers: IReactionDisposer[] = [];
+
+  constructor(props: EntityEditorProps) {
+    super(props);
+
+    makeObservable(this, {
+      globalErrors: observable,
+      formRef: observable
+    });
+  }
 
   componentDidMount(): void {
     this.reactionDisposers.push(reaction(
@@ -1046,7 +1101,15 @@ export const defaultHandleFinish = <E extends unknown>(
     });
 };
 
-const EntityEditor = injectIntl<'intl', EntityEditorProps>(EntityEditorComponent);
+const EntityEditor = 
+  injectIntl<'intl', EntityEditorProps>(
+    injectMainStore(
+      observer(
+        EntityEditorComponent
+      )
+    )
+  );
+
 
 export function getEntityProperties(entityName: string, fields: string[], metadata: MetaClassInfo[]): MetaPropertyInfo[] {
   const allProperties = metadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)

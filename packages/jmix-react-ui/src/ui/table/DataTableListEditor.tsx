@@ -1,5 +1,5 @@
 import * as React from "react";
-import {action, observable, computed} from "mobx";
+import { action, observable, computed, makeObservable } from "mobx";
 import { PlusOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
 import { DatePicker, Input, Select, Tag, TimePicker, Tooltip, InputNumber } from "antd";
@@ -39,18 +39,41 @@ export enum DataTableListEditorType {
   SELECT = 'select',
 }
 
-@observer
-export class DataTableListEditor extends React.Component<DataTableListEditorProps> {
-
-  @observable inputVisible = false;
-  @observable inputModel: CaptionValuePair = {
+class DataTableListEditorComponent extends React.Component<DataTableListEditorProps> {
+  inputVisible = false;
+  inputModel: CaptionValuePair = {
     caption: '',
     value: undefined,
   };
-  @observable items: CaptionValuePair[] = [];
-  @observable availableOptions!: CaptionValuePair[];
+  items: CaptionValuePair[] = [];
+  availableOptions: CaptionValuePair[] = [];
 
-  @computed
+  constructor(props: DataTableListEditorProps) {
+    super(props);
+
+    makeObservable(this, {
+      inputVisible: observable,
+      inputModel: observable,
+      items: observable,
+      availableOptions: observable,
+      type: computed,
+      handleClose: action,
+      onTextInputChange: action,
+      onInputBlurOrEnter: action,
+      onDatePickerChange: action,
+      onDateTimePickerChange: action,
+      onTimePickerChange: action,
+      onTimePickerOpenChange: action,
+      onSelect: action,
+      handleInputChange: action,
+      handleInputNumberChange: action,
+      handleInputConfirm: action,
+      showInput: action,
+      input: computed,
+      selectFieldOptions: computed
+    });
+  }
+
   get type(): DataTableListEditorType {
     if (this.props.propertyInfo.attributeType === 'ASSOCIATION' || this.props.propertyInfo.attributeType === 'COMPOSITION') {
       return DataTableListEditorType.SELECT;
@@ -90,7 +113,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     this.availableOptions = [ ...this.props.nestedEntityOptions ];
   }
 
-  @action
   handleClose = (item: CaptionValuePair): void => {
     this.items = this.items.filter(savedItem => savedItem !== item);
     if (this.type === DataTableListEditorType.SELECT) {
@@ -99,18 +121,15 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     this.props.onChange(this.items.map((savedItem) => savedItem.value) as string[] | number[]);
   };
 
-  @action
   onTextInputChange = (event: any): void => {
     this.handleInputChange(event.target.value);
   };
 
-  @action
   onInputBlurOrEnter = (event: any): void => {
     event.preventDefault();
     this.handleInputConfirm();
   };
 
-  @action
   onDatePickerChange = (date: Moment | null): void => {
     if (date != null) {
       const normalizedDate = stripMilliseconds(date);
@@ -119,7 +138,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @action
   onDateTimePickerChange = (date: Moment | null): void => {
     if (date != null) {
       const {propertyInfo} = this.props;
@@ -133,7 +151,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @action
   onTimePickerChange = (time: Moment | null, _timeString: string): void => {
     if (time != null) {
       const normalizedTime = stripMilliseconds(time);
@@ -142,14 +159,12 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @action
   onTimePickerOpenChange = (open: boolean): void => {
     if (!open && this.inputModel) {
       this.handleInputConfirm();
     }
   };
 
-  @action
   onSelect = (value: string | number | LabeledValue): void => {
     const caption: string = this.props.nestedEntityOptions
       .find((option) => option.value === value)!
@@ -161,13 +176,11 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     this.handleInputConfirm();
   };
 
-  @action
   handleInputChange = (value: string, caption: string = value): void => {
     this.inputModel.value = value;
     this.inputModel.caption = caption;
   };
 
-  @action
   handleInputNumberChange = (value: string | number | null | undefined): void => {
     if (value != null) {
       this.inputModel.value = value;
@@ -175,7 +188,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @action
   handleInputConfirm = (): void => {
     if (this.inputModel
         && this.inputModel.value != null
@@ -188,7 +200,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @action
   showInput = (): void => {
     this.inputVisible = true;
   };
@@ -228,7 +239,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     }
   };
 
-  @computed
   get input(): ReactNode {
     switch (this.type) {
       case DataTableListEditorType.TEXT:
@@ -334,7 +344,6 @@ export class DataTableListEditor extends React.Component<DataTableListEditorProp
     };
   }
 
-  @computed
   get selectFieldOptions(): ReactNode {
     return this.availableOptions
       .filter(option => option.value != null)
@@ -375,3 +384,5 @@ function ListItemTag(props: ListItemTagProps) {
     tag
   );
 }
+
+export const DataTableListEditor = observer(DataTableListEditorComponent);

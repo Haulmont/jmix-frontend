@@ -95,8 +95,8 @@ export function setPagination<E>(pagination: PaginationConfig | TablePaginationC
   const {disabled, pageSize, current} = pagination;
 
   if (disabled === true) {
-    dataCollection.limit = undefined;
-    dataCollection.offset = undefined;
+    dataCollection.limit = null;
+    dataCollection.offset = null;
     dataCollection.skipCount = true;
     if (reload) dataCollection.load();
     return;
