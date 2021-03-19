@@ -3,7 +3,15 @@ import { FilterOutlined } from '@ant-design/icons';
 import { Button, message, Spin, Table } from 'antd';
 import {ColumnProps, TableProps} from 'antd/es/table';
 import {Key, RowSelectionType, SorterResult, TablePaginationConfig} from 'antd/es/table/interface';
-import {action, computed, IReactionDisposer, observable, reaction, toJS} from 'mobx';
+import {
+  action,
+  computed,
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable,
+} from 'mobx';
 import {observer} from 'mobx-react';
 import {ComparisonType, CustomFilterInputValue} from './DataTableCustomFilter';
 import './DataTable.less';
@@ -116,17 +124,14 @@ export interface ColumnDefinition<E> {
    */
   columnProps: ColumnProps<E>
 }
-
-@injectMainStore
-@observer
 class DataTableComponent<E extends object> extends React.Component<DataTableProps<E>> {
 
   static readonly NO_COLUMN_DEF_ERROR = 'You need to provide either columnDefinitions or fields prop';
 
-  @observable selectedRowKeys: string[] = [];
-  @observable.ref tableFilters: Record<string, any> = {};
-  @observable operatorsByProperty: Map<string, ComparisonType> = new Map();
-  @observable valuesByProperty: Map<string, CustomFilterInputValue> = new Map();
+  selectedRowKeys: string[] = [];
+  tableFilters: Record<string, any> = {};
+  operatorsByProperty: Map<string, ComparisonType> = new Map();
+  valuesByProperty: Map<string, CustomFilterInputValue> = new Map();
 
   // We need to mount and unmount several reactions (listeners) on componentDidMount/componentWillUnmount
   disposers: IReactionDisposer[] = [];
@@ -134,7 +139,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
   firstLoad: boolean = true;
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
   // todo introduce Sort type
-  defaultSort: string | undefined;
+  defaultSort: string | null | undefined;
 
   constructor(props: DataTableProps<E>) {
     super(props);
@@ -144,6 +149,25 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
       this.tableFilters = entityFilterToTableFilters(filter, this.fields);
     }
     this.defaultSort = sort;
+
+    makeObservable(this, {
+      selectedRowKeys: observable,
+      tableFilters: observable.ref,
+      operatorsByProperty: observable,
+      valuesByProperty: observable,
+      fields: computed,
+      paginationConfig: computed,
+      handleFilterOperatorChange: action,
+      handleFilterValueChange: action,
+      onChange: action,
+      onRowClicked: action,
+      onRowSelectionColumnClicked: action,
+      onRow: action,
+      clearFilters: action,
+      clearFiltersButton: computed,
+      generateColumnProps: computed
+    });
+
   }
 
   static defaultProps = {
@@ -236,7 +260,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     return `[DataTable, entity: ${this.props.dataCollection.entityName}]`;
   }
 
-  @computed get fields(): string[] {
+  get fields(): string[] {
 
     const {columnDefinitions, fields} = this.props;
 
@@ -258,24 +282,21 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     throw new Error(`${this.errorContext} ${DataTableComponent.NO_COLUMN_DEF_ERROR}`);
   }
 
-  @computed get paginationConfig(): TablePaginationConfig {
+  get paginationConfig(): TablePaginationConfig {
     return {
       showSizeChanger: true,
-      total: this.props.dataCollection.count,
+      total: this.props.dataCollection.count ?? undefined,
     };
   }
 
-  @action
   handleFilterOperatorChange = (operator: ComparisonType, propertyName: string) => {
     this.operatorsByProperty.set(propertyName, operator);
   };
 
-  @action
   handleFilterValueChange = (value: CustomFilterInputValue, propertyName: string) => {
     this.valuesByProperty.set(propertyName, value);
   };
 
-  @action
   onChange = (pagination: TablePaginationConfig, filters: Record<string, (Key | boolean)[] | null>, sorter: SorterResult<E> | SorterResult<E>[]): void => {
     this.tableFilters = filters;
 
@@ -284,11 +305,10 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     const mainStore = this.props.mainStore!;
 
     handleTableChange<E>({
-      pagination, filters, sorter, defaultSort, fields, mainStore, dataCollection
+      pagination, filters, sorter, defaultSort: defaultSort ?? undefined, fields, mainStore, dataCollection
     });
   };
 
-  @action
   onRowClicked = (record: E): void => {
     if (this.isRowSelectionEnabled) {
       const clickedRowKey = this.constructRowKey(record);
@@ -321,21 +341,18 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     }
   };
 
-  @action
   onRowSelectionColumnClicked = (selectedRowKeys: ReactText[]): void => {
     if (this.isRowSelectionEnabled) {
       this.selectedRowKeys = selectedRowKeys as string[];
     }
   };
 
-  @action
   onRow = (record: E): React.HTMLAttributes<HTMLElement> => {
     return {
       onClick: () => this.onRowClicked(record)
     }
   };
 
-  @action
   clearFilters = (): void => {
     this.tableFilters = {};
     this.operatorsByProperty.clear();
@@ -361,7 +378,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
       if (preservedConditions.length > 0) {
         filter.conditions = preservedConditions;
       } else {
-        this.props.dataCollection.filter = undefined;
+        this.props.dataCollection.filter = null;
       }
     }
     load();
@@ -433,7 +450,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     );
   }
 
-  @computed get clearFiltersButton(): ReactNode {
+  get clearFiltersButton(): ReactNode {
     if (this.isClearFiltersShown) {
       return (
         <Button htmlType='button'
@@ -456,7 +473,6 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
       && filter.conditions.some((condition: Condition | ConditionsGroup) => !isPreservedCondition(condition, this.fields));
   }
 
-  @computed
   get generateColumnProps(): Array<ColumnProps<E>> {
     const {columnDefinitions, fields, dataCollection, mainStore} = this.props;
 
@@ -529,5 +545,13 @@ function columnDefToPropertyName<E>(columnDef: string | ColumnDefinition<E>): st
   return typeof columnDef === 'string' ? columnDef : columnDef.field;
 }
 
-const dataTable = injectIntl(DataTableComponent);
+const dataTable = 
+  injectIntl(
+    injectMainStore(
+      observer(
+        DataTableComponent
+      )
+    )
+  );
+
 export {dataTable as DataTable};

@@ -1,6 +1,6 @@
 import {observer} from 'mobx-react';
 import React, {ReactNode} from 'react';
-import {action, computed, observable} from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import { Form } from 'antd';
 import { Checkbox, InputNumber, Radio, Select } from 'antd';
 import {RadioChangeEvent} from 'antd/es/radio';
@@ -26,39 +26,54 @@ export type DataTableIntervalEditorMode = 'last' | 'next' | 'predefined';
 export type TimeUnit = 'days' | 'hours' | 'minutes' | 'months';
 export type PredefinedIntervalOption = 'today' | 'yesterday' | 'tomorrow' | 'lastMonth' | 'thisMonth' | 'nextMonth';
 
-@observer
 class DataTableIntervalEditorComponent extends React.Component<DataTableIntervalEditorProps & WrappedComponentProps> {
+  mode: DataTableIntervalEditorMode = 'last';
+  option: PredefinedIntervalOption = 'today';
+  numberOfUnits: number = 5;
+  timeUnit: TimeUnit = 'days';
+  includeCurrent: boolean = false;
 
-  @observable mode: DataTableIntervalEditorMode = 'last';
-  @observable option: PredefinedIntervalOption = 'today';
-  @observable numberOfUnits: number = 5;
-  @observable timeUnit: TimeUnit = 'days';
-  @observable includeCurrent: boolean = false;
+  constructor(props: DataTableIntervalEditorProps & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      mode: observable,
+      option: observable,
+      numberOfUnits: observable,
+      timeUnit: observable,
+      includeCurrent: observable,
+      interval: computed,
+      onModeChanged: action,
+      onPredefinedIntervalOptionChanged: action,
+      onIntervalNumberChanged: action,
+      onIntervalUnitChanged: action,
+      onIncludeCurrentChanged: action,
+      modeSelect: computed,
+      predefinedIntervals: computed,
+      intervalInput: computed
+    });
+  }
 
   componentDidMount(): void {
     this.props.onChange(this.interval);
   }
 
-  @computed
   get interval(): TemporalInterval {
     return (this.mode === 'predefined')
       ? determinePredefinedInterval(this.option, this.props.propertyType)
       : determineLastNextXInterval(this.mode, this.numberOfUnits, this.timeUnit, this.includeCurrent, this.props.propertyType);
   }
 
-  @action
   onModeChanged = (e: RadioChangeEvent) => {
     this.mode = e.target.value;
     this.props.onChange(this.interval);
   };
 
-  @action
   onPredefinedIntervalOptionChanged = (option: PredefinedIntervalOption) => {
     this.option = option;
     this.props.onChange(this.interval);
   };
 
-  @action
   onIntervalNumberChanged = (value: string | number | null | undefined) => {
     if (value != null && typeof value === 'number' && isFinite(value)) {
       this.numberOfUnits = value;
@@ -66,13 +81,11 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
     }
   };
 
-  @action
   onIntervalUnitChanged = (unit: TimeUnit) => {
     this.timeUnit = unit;
     this.props.onChange(this.interval);
   };
 
-  @action
   onIncludeCurrentChanged = (includeCurrent: CheckboxChangeEvent) => {
     this.includeCurrent = includeCurrent.target.checked;
     this.props.onChange(this.interval);
@@ -87,7 +100,6 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
     );
   }
 
-  @computed
   get modeSelect(): ReactNode {
     return (
       <Radio.Group
@@ -107,7 +119,6 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
     );
   }
 
-  @computed
   get predefinedIntervals(): ReactNode {
     return (
       <Form.Item className='filtercontrol'
@@ -145,7 +156,6 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
     );
   };
 
-  @computed
   get intervalInput(): ReactNode {
     return (
       <div className='cuba-filter-controls-layout'>
@@ -193,7 +203,9 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
 
 const dataTableIntervalEditor =
     injectIntl(
-      DataTableIntervalEditorComponent
+      observer(
+        DataTableIntervalEditorComponent
+      )
     );
 
 export { dataTableIntervalEditor as DataTableIntervalEditor };

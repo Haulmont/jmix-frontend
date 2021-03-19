@@ -17,7 +17,7 @@
   "peerDependencies": {
     "@ant-design/icons": "^4.0.0",
     "antd": "^4.12.3",
-    "mobx": "^4.13.0 || ^5.13.0",
+    "mobx": "^6.1.8",
     "mobx-react": "^6.2.2",
     "react": "^17.0.1",
     "react-input-mask": "^2.0.4",
@@ -38,7 +38,7 @@
     "copyfiles": "^2.1.1",
     "jest": "^25.1.0",
     "less": "^3.10.3",
-    "mobx": "^4.13.0",
+    "mobx": "^6.1.8",
     "mobx-react": "^6.2.2",
     "moment-timezone": "^0.5.26",
     "react": "^17.0.1",

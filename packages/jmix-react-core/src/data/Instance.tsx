@@ -1,4 +1,4 @@
-import {action, computed, observable, reaction, runInAction, toJS} from "mobx";
+import { action, computed, observable, reaction, runInAction, toJS, makeObservable } from "mobx";
 import {
   PredefinedView, 
   SerializedEntityProps, 
@@ -38,24 +38,24 @@ export class DataInstanceStore<T> implements DataContainer {
   /**
    * Retrieved entity instance.
    */
-  @observable item?: T & Partial<SerializedEntityProps> & WithId;
+  item: T & Partial<SerializedEntityProps> & WithId | null = null;
   /**
    * @inheritDoc
    */
-  @observable status: DataContainerStatus = "CLEAN";
+  status: DataContainerStatus = "CLEAN";
   /**
    * @inheritDoc
    */
-  @observable lastError?: DataContainerError;
+  lastError: DataContainerError | null = null;
   /**
    * Name of the view used to limit the entity graph.
    */
-  @observable viewName: string;
+  viewName: string;
   /**
    * Name of the ID attribute of a String ID entity.
    * Mandatory for String ID entities, shall be omitted otherwise.
    */
-  @observable stringIdName?: string;
+  stringIdName: string | null;
 
   /**
    * @inheritDoc
@@ -65,13 +65,26 @@ export class DataInstanceStore<T> implements DataContainer {
   constructor(private mainStore: MainStore,
               public readonly entityName: string,
               viewName: string = PredefinedView.MINIMAL,
-              stringIdName?: string) {
+              stringIdName: string | null = null) {
+
     this.viewName = viewName;
     this.stringIdName = stringIdName;
 
-    reaction(() => this.status,
-      status => this.lastError = status !== "ERROR" ? undefined : this.lastError)
+    makeObservable(this, {
+      item: observable,
+      status: observable,
+      lastError: observable,
+      viewName: observable,
+      stringIdName: observable,
+      load: action,
+      setItem: action,
+      setItemToFormFields: action,
+      update: action,
+      commit: action
+    });
 
+    reaction(() => this.status,
+      status => this.lastError = status !== "ERROR" ? null : this.lastError)
   }
 
   /**
@@ -79,9 +92,8 @@ export class DataInstanceStore<T> implements DataContainer {
    *
    * @param id - id of an entity instance to be retrieved.
    */
-  @action
   load = (id: string) => {
-    this.item = undefined;
+    this.item = null;
     if (!id) {
       return;
     }
@@ -106,7 +118,6 @@ export class DataInstanceStore<T> implements DataContainer {
    *
    * @param item - entity instance to be set as the {@link item}.
    */
-  @action
   setItem(item: this["item"]) {
     this.item = item;
     this.status = "DONE";
@@ -117,9 +128,8 @@ export class DataInstanceStore<T> implements DataContainer {
    *
    * @param formFields - a object representing the values of Ant Design {@link https://ant.design/components/form/ | Form} fields.
    */
-  @action
   setItemToFormFields(formFields: Partial<T>) {
-    this.item = formFieldsToInstanceItem(formFields, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName) as T & Partial<SerializedEntityProps> & WithId;
+    this.item = formFieldsToInstanceItem(formFields, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName ?? undefined) as T & Partial<SerializedEntityProps> & WithId;
     this.status = "DONE";
   }
 
@@ -138,9 +148,8 @@ export class DataInstanceStore<T> implements DataContainer {
    *
    * @returns a promise that resolves to the update result returned by the REST API.
    */
-  @action
   update(entityPatch: Record<string, any>, commitMode?: CommitMode): Promise<any> {
-    const normalizedPatch: Record<string, any> = formFieldsToInstanceItem(entityPatch, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName);
+    const normalizedPatch: Record<string, any> = formFieldsToInstanceItem(entityPatch, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName ?? undefined);
     Object.assign(this.item, normalizedPatch);
     return this.commit(commitMode);
   }
@@ -152,7 +161,6 @@ export class DataInstanceStore<T> implements DataContainer {
    *
    * @returns a promise that resolves to the update result returned by the REST API.
    */
-  @action
   commit = (commitMode?: CommitMode): Promise<Partial<T>> => {
     if (this.item == null) {
       return Promise.reject();
@@ -193,7 +201,7 @@ export class DataInstanceStore<T> implements DataContainer {
       this.entityName,
       toJS(this.mainStore!.metadata!),
       properties,
-      this.stringIdName
+      this.stringIdName ?? undefined
     ) as Partial<{[prop in keyof T]: any}>;
   }
 
@@ -261,13 +269,13 @@ export interface DataInstanceInjected<E> {
   dataInstance?: DataInstanceStore<E>
 }
 
-@observer
-export class Instance<E> extends React.Component<DataInstanceProps<E>> {
+class InstanceComponent<E> extends React.Component<DataInstanceProps<E>> {
 
-  @observable store: DataInstanceStore<E>;
+  store: DataInstanceStore<E>;
 
   constructor(props: DataInstanceProps<E>) {
     super(props);
+
     const {entityName, view, stringIdName} = this.props;
     this.store = new DataInstanceStore<E>(getMainStore(), entityName);
     if (view != null) {
@@ -276,18 +284,24 @@ export class Instance<E> extends React.Component<DataInstanceProps<E>> {
     if (stringIdName != null) {
       this.store.stringIdName = stringIdName;
     }
+
+    makeObservable(this, {
+      store: observable,
+      childrenProps: computed
+    });
   }
 
   render() {
     return this.props.children(this.childrenProps);
   }
 
-  @computed
   get childrenProps() {
     const {item, status, load, commit} = this.store;
     return {...{item, status, load, commit}};
   }
 }
+
+export const Instance = observer(InstanceComponent);
 
 // TODO Remove in the next major version
 /**

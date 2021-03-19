@@ -1,4 +1,4 @@
-import {action, computed, IObservableArray, observable} from "mobx";
+import { action, computed, IObservableArray, observable, makeObservable } from "mobx";
 import {getJmixREST} from "../app/JmixAppProvider";
 
 export interface DataContainer {
@@ -16,13 +16,19 @@ export interface Containers {
 
 class DataContext<T extends Containers> {
 
-  @observable containers: T;
+  containers: T;
 
   constructor(containers: T) {
     this.containers = containers;
+
+    makeObservable(this, {
+      containers: observable,
+      save: action,
+      hasChanges: computed
+    });
+
   }
 
-  @action
   save = () => {
     for (const containerName in this.containers) {
       if (!this.containers.hasOwnProperty(containerName)) {
@@ -35,7 +41,6 @@ class DataContext<T extends Containers> {
     }
   };
 
-  @computed
   get hasChanges(): boolean {
     if (!this.containers || Object.getOwnPropertyNames(this.containers).length < 1) {
       return false;

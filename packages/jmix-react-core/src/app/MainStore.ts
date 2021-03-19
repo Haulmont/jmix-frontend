@@ -1,4 +1,4 @@
-import {action, autorun, computed, IObservableArray, observable} from "mobx";
+import { action, autorun, computed, IObservableArray, observable, makeObservable } from "mobx";
 import {JmixRestConnection, EntityMessages, EnumInfo, JmixRestError, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
@@ -12,32 +12,32 @@ export class MainStore {
   /**
    * Whether the `MainStore` instance is initialized.
    */
-  @observable initialized = false;
+  initialized = false;
   /**
    * Whether the user authenticated.
    */
-  @observable authenticated = false;
+  authenticated = false;
   /**
    * Whether the user is anonymous.
    */
-  @observable usingAnonymously = false;
-  @observable userName?: string;
+  usingAnonymously = false;
+  userName: string | null = null;
   /**
    * Currently selected locale.
    */
-  @observable locale?: string;
+  locale: string | null = null;
   /**
    * Information about project entities.
    */
-  @observable metadata?: IObservableArray<MetaClassInfo>;
+  metadata: IObservableArray<MetaClassInfo> | null = null;
   /**
    * Localized entity messages.
    */
-  @observable messages?: EntityMessages;
+  messages: EntityMessages | null = null;
   /**
    * Localized enums.
    */
-  @observable enums?: IObservableArray<EnumInfo>;
+  enums: IObservableArray<EnumInfo> | null = null;
 
   security: Security;
 
@@ -48,8 +48,27 @@ export class MainStore {
   private disposeTokenExpiryListener?: () => {};
 
   constructor(private jmixREST: JmixRestConnection) {
+
     this.jmixREST.onLocaleChange(this.handleLocaleChange);
     this.security = new Security(this.jmixREST);
+
+    makeObservable<MainStore, "handleLocaleChange">(this, {
+      initialized: observable,
+      authenticated: observable,
+      usingAnonymously: observable,
+      userName: observable,
+      locale: observable,
+      metadata: observable,
+      messages: observable,
+      enums: observable,
+      loadEnums: action,
+      loadMetadata: action,
+      loadMessages: action,
+      loginRequired: computed,
+      login: action,
+      logout: action,
+      handleLocaleChange: action
+    });
 
     autorun(() => {
       if (this.initialized && (this.authenticated || this.usingAnonymously)) {
@@ -75,7 +94,6 @@ export class MainStore {
   /**
    * Retrieves localized enums using REST API.
    */
-  @action
   loadEnums() {
     const requestId = ++this.enumsRequestCount;
     this.jmixREST.loadEnums()
@@ -89,7 +107,6 @@ export class MainStore {
   /**
    * Retrieves entity metadata using REST API.
    */
-  @action
   loadMetadata() {
     const requestId = ++this.metadataRequestCount;
     this.jmixREST.loadMetadata()
@@ -103,7 +120,6 @@ export class MainStore {
   /**
    * Retrieves localized entity messages using REST API.
    */
-  @action
   loadMessages() {
     const requestId = ++this.messagesRequestCount;
     this.jmixREST.loadEntitiesMessages()
@@ -123,11 +139,10 @@ export class MainStore {
     this.jmixREST.locale = locale;
   };
 
-  @computed get loginRequired(): boolean {
+  get loginRequired(): boolean {
     return !this.authenticated && !this.usingAnonymously;
   }
 
-  @action
   login(login: string, password: string) {
     return this.jmixREST.login(login, password).then(action(() => {
       this.userName = login;
@@ -138,7 +153,6 @@ export class MainStore {
     }))
   }
 
-  @action
   logout(): Promise<void> {
     if (this.usingAnonymously) {
       this.usingAnonymously = false;
@@ -179,7 +193,6 @@ export class MainStore {
       }));
   }
 
-  @action
   private handleLocaleChange = (locale: string) => {
     this.locale = locale;
 

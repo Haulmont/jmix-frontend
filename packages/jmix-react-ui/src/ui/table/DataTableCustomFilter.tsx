@@ -4,7 +4,7 @@ import { Button, DatePicker, Divider, Input, message, Select, Spin, TimePicker }
 import {FilterDropdownProps} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {MetaClassInfo, MetaPropertyInfo, NumericPropertyType, OperatorType, PropertyType, getStringId} from '@haulmont/jmix-rest';
-import {action, computed, observable} from 'mobx';
+import { action, computed, observable, makeObservable } from 'mobx';
 import {Moment} from 'moment';
 import {DataTableListEditor} from './DataTableListEditor';
 import {DataTableIntervalEditor, TemporalInterval} from './DataTableIntervalEditor';
@@ -73,14 +73,10 @@ enum OperatorGroup {
   LOGICAL_VALUE = 'logicalValue',
   INTERVAL_VALUE = 'intervalValue',
 }
+class DataTableCustomFilterComponent<E extends WithId> extends React.Component<DataTableCustomFilterProps & WrappedComponentProps> {
 
-@injectMainStore
-@observer
-class DataTableCustomFilterComponent<E extends WithId>
-  extends React.Component<DataTableCustomFilterProps & WrappedComponentProps> {
-
-  @observable nestedEntityOptions: CaptionValuePair[] = [];
-  @observable loading = true;
+  nestedEntityOptions: CaptionValuePair[] = [];
+  loading = true;
 
   formInstance: FormInstance | undefined | null;
 
@@ -104,6 +100,36 @@ class DataTableCustomFilterComponent<E extends WithId>
 
   constructor(props: DataTableCustomFilterProps & WrappedComponentProps) {
     super(props);
+
+    makeObservable(this, {
+      nestedEntityOptions: observable,
+      loading: observable,
+      propertyCaption: computed,
+      propertyInfoNN: computed,
+      handleFinish: action,
+      resetFilter: action,
+      changeOperator: action,
+      onTextInputChange: action,
+      onNumberInputChange: action,
+      onTemporalPickerChange: action,
+      onYesNoSelectChange: action,
+      onSelectChange: action,
+      operatorTypeOptions: computed,
+      simpleFilterEditor: computed,
+      complexFilterEditor: computed,
+      conditionInput: computed,
+      textInputField: computed,
+      charInputField: computed,
+      uuidInputField: computed,
+      selectField: computed,
+      selectFieldOptions: computed,
+      yesNoSelectField: computed,
+      listEditor: computed,
+      intervalEditor: computed,
+      datePickerField: computed,
+      timePickerField: computed,
+      dateTimePickerField: computed
+    });
 
     this.initValue();
   }
@@ -143,11 +169,11 @@ class DataTableCustomFilterComponent<E extends WithId>
     return `[DataTableCustomFilter, entity: ${this.props.entityName}, property: ${this.props.entityProperty}]`;
   }
 
-  @computed get propertyCaption(): string {
+  get propertyCaption(): string {
     return this.props.mainStore!.messages![this.props.entityName + '.' + this.props.entityProperty];
   }
 
-  @computed get propertyInfoNN(): MetaPropertyInfo {
+  get propertyInfoNN(): MetaPropertyInfo {
     const propertyInfo: MetaPropertyInfo | null = getPropertyInfo(
       this.props.mainStore!.metadata!,
       this.props.entityName,
@@ -160,7 +186,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     return propertyInfo;
   }
 
-  @action
   handleFinish = (): void => {
     if (this.value != null) {
       const {filterProps} = this.props;
@@ -212,7 +237,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   };
 
-  @action
   resetFilter = (): void => {
     const {filterProps} = this.props;
 
@@ -222,7 +246,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     filterProps.clearFilters!();
   };
 
-  @action
   changeOperator = (newOperator: ComparisonType): void => {
     this.operator = newOperator;
   };
@@ -237,29 +260,24 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   };
 
-  @action
   onTextInputChange = (event: any): void => {
     this.value = event.target.value;
   };
 
-  @action
   onNumberInputChange = (value: string | number | null | undefined): void => {
     this.value = value;
   };
 
-  @action
   onTemporalPickerChange = (value: Moment | null) => {
     if (value != null) {
       this.value = applyDataTransferFormat(stripMilliseconds(value), this.propertyInfoNN.type as PropertyType);
     }
   }
 
-  @action
   onYesNoSelectChange = (value: string | number | LabeledValue): void => {
     this.value = (value === 'true');
   };
 
-  @action
   onSelectChange = (value: string | number | LabeledValue): void => {
     this.value = value as string;
   };
@@ -353,7 +371,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   }
 
-  @computed
   get operatorTypeOptions(): ReactNode {
     const propertyInfo: MetaPropertyInfo = this.propertyInfoNN;
 
@@ -391,12 +408,10 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   };
 
-  @computed
   get simpleFilterEditor(): ReactNode {
     return isComplexOperator(this.operator) ? null : this.conditionInput;
   }
 
-  @computed
   get complexFilterEditor(): ReactNode {
     return isComplexOperator(this.operator) ? this.conditionInput : null;
   }
@@ -405,7 +420,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     return `${this.errorContext} Unexpected combination of property type ${propertyType} and condition operator ${this.operator} when trying to determine the condition input field type`;
   }
 
-  @computed
   get conditionInput(): ReactNode {
     const propertyInfo: MetaPropertyInfo = this.propertyInfoNN;
 
@@ -555,17 +569,14 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   }
 
-  @computed
   get textInputField(): ReactNode {
     return this.createFilterInput(<Input onChange={this.onTextInputChange}/>, true);
   }
 
-  @computed
   get charInputField(): ReactNode {
     return this.createFilterInput(<CharInput onChange={this.onTextInputChange}/>, true);
   }
 
-  @computed
   get uuidInputField(): ReactNode {
     const {entityProperty} = this.props;
 
@@ -598,7 +609,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     }
   }
 
-  @computed
   get selectField(): ReactNode {
     return this.createFilterInput(
       <Select dropdownMatchSelectWidth={false}
@@ -610,7 +620,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     );
   }
 
-  @computed
   get selectFieldOptions(): ReactNodeArray {
     return this.nestedEntityOptions
       .filter(option => option.value != null)
@@ -627,7 +636,6 @@ class DataTableCustomFilterComponent<E extends WithId>
       })
   }
 
-  @computed
   get yesNoSelectField(): ReactNode {
     const {entityProperty} = this.props;
 
@@ -656,7 +664,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     });
   }
 
-  @computed
   get listEditor(): ReactNode {
     return (
       <Form.Item className='filtercontrol -complex-editor'>
@@ -669,7 +676,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     );
   }
 
-  @computed
   get intervalEditor(): ReactNode {
     return (
       <Form.Item className='filtercontrol -complex-editor'>
@@ -681,7 +687,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     );
   };
 
-  @computed
   get datePickerField(): ReactNode {
     const component = (
       <DatePicker onChange={this.onTemporalPickerChange}/>
@@ -689,7 +694,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     return this.createFilterInput(component, true);
   }
 
-  @computed
   get timePickerField(): ReactNode {
     const component = (
       <TimePicker onChange={this.onTemporalPickerChange}/>
@@ -697,7 +701,6 @@ class DataTableCustomFilterComponent<E extends WithId>
     return this.createFilterInput(component, true);
   }
 
-  @computed
   get dateTimePickerField(): ReactNode {
     const component = (
       <DatePicker showTime={true}
@@ -820,6 +823,13 @@ export function operatorToOptionClassName(operator: ComparisonType): string {
   return className;
 }
 
-const dataTableCustomFilter = injectIntl(DataTableCustomFilterComponent);
+const dataTableCustomFilter = 
+  injectIntl(
+    injectMainStore(
+      observer(
+        DataTableCustomFilterComponent
+      )
+    )
+  );
 
 export {dataTableCustomFilter as DataTableCustomFilter};

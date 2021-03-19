@@ -20,8 +20,6 @@ paginationConfig: PaginationConfig;
 onPagingChange: (current: number, pageSize: number) => void;
 };
 
-@injectMainStore
-@observer
 class <%= listComponentClass %>Component extends React.Component<Props> {
 
   dataCollection = collection<<%= entity.className %>>(<%= entity.className %>.NAME, {
@@ -127,7 +125,7 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -137,6 +135,13 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
   }
 }
 
-const <%=listComponentClass%> = injectIntl(<%=listComponentClass%>Component);
+const <%=listComponentClass%> = 
+  injectIntl(
+    injectMainStore(
+      observer(
+        <%=listComponentClass%>Component
+      )
+    )
+  );
 
 export default <%=listComponentClass%>;

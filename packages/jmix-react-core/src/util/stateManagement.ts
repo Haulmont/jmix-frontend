@@ -15,7 +15,7 @@ import { useEffect } from "react";
  */
 export const useReaction = <T extends unknown>(
   expression: (reactionObject: IReactionPublic) => T,
-  effect: (expressionResult: T, reactionObject: IReactionPublic) => void,
+  effect: (expressionResult: T, prevExpressionResult: T, reactionObject: IReactionPublic) => void,
   options?: IReactionOptions
 ) => {
   useEffect(

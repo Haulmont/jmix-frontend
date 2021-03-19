@@ -23,7 +23,7 @@ export class LanguageSwitcher extends React.Component<LanguageSwitcherProps> {
     }
 
     return (
-      <Select defaultValue={getMainStore().locale}
+      <Select defaultValue={getMainStore().locale ?? undefined}
               onChange={this.handleChange}
               size={'small'}
               style={this.props.style}
