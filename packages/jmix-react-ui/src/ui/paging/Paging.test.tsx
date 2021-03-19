@@ -98,12 +98,12 @@ describe('setPagination', () => {
     ds.load = jest.fn();
     const config = {...pagingConfig, disabled: true};
     setPagination(config, ds, true);
-    expect(ds).toMatchObject({offset: undefined, limit: undefined});
+    expect(ds).toMatchObject({offset: null, limit: null});
     expect(ds.load).toBeCalled();
 
     ds.load = jest.fn();
     setPagination(config, ds);
-    expect(ds).toMatchObject({offset: undefined, limit: undefined});
+    expect(ds).toMatchObject({offset: null, limit: null});
     expect(ds.load).not.toBeCalled();
   });
 

@@ -208,7 +208,7 @@ const HooksPOCEdit = (props: Props) => {
   // loads Association options and disposes itself
   useReaction(
     () => mainStore.security.isDataLoaded,
-    (isDataLoaded, permsReaction) => {
+    (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
       if (isDataLoaded === true) {
         // User permissions has been loaded.
         // We can now load association options.
