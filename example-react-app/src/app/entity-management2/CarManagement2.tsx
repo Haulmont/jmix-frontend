@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import CarEdit2 from "./CarEdit2";
 import CarList from "./CarList";
 import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 import {
   addPagingParams,
   createPagingConfig,
@@ -13,12 +13,20 @@ import {
 
 type Props = RouteComponentProps<{ entityId?: string }>;
 
-@observer
-export class CarManagement2 extends React.Component<Props> {
+class CarManagement2Component extends React.Component<Props> {
   static PATH = "/carManagement2";
   static NEW_SUBPATH = "new";
 
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+
+  constructor(props: Props) {
+    super(props);
+
+    makeObservable(this, {
+      paginationConfig: observable,
+      onPagingChange: action
+    });
+  }
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
@@ -37,10 +45,12 @@ export class CarManagement2 extends React.Component<Props> {
     );
   }
 
-  @action onPagingChange = (current: number, pageSize: number) => {
+  onPagingChange = (current: number, pageSize: number) => {
     this.props.history.push(
       addPagingParams("carManagement2", current, pageSize)
     );
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };
   };
 }
+
+export const CarManagement2 = observer(CarManagement2Component);

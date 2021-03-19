@@ -5,7 +5,7 @@ import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { JmixRestError } from "@haulmont/jmix-rest";
 import { Button, Input, message } from "antd";
 import { observer } from "mobx-react";
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 import { injectMainStore, MainStoreInjected } from "@haulmont/jmix-react-core";
 import "./Login.css";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
@@ -17,24 +17,19 @@ import {
 import JmixDarkIcon from "../icons/JmixDarkIcon";
 import { loginMapJmixRestErrorToIntlId } from "@haulmont/jmix-react-ui";
 
-@injectMainStore
-@observer
 class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
-  @observable login: string;
-  @observable password: string;
-  @observable performingLoginRequest = false;
+  login: string = "";
+  password: string = "";
+  performingLoginRequest = false;
 
-  @action
   changeLogin = (e: ChangeEvent<HTMLInputElement>) => {
     this.login = e.target.value;
   };
 
-  @action
   changePassword = (e: ChangeEvent<HTMLInputElement>) => {
     this.password = e.target.value;
   };
 
-  @action
   doLogin = () => {
     this.performingLoginRequest = true;
     this.props
@@ -55,6 +50,19 @@ class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
         })
       );
   };
+
+  constructor(props: MainStoreInjected & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      login: observable,
+      password: observable,
+      performingLoginRequest: observable,
+      changeLogin: action,
+      changePassword: action,
+      doLogin: action
+    });
+  }
 
   render() {
     return (
@@ -111,4 +119,4 @@ class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
   }
 }
 
-export default injectIntl(Login);
+export default injectIntl(injectMainStore(observer(Login)));

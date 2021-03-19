@@ -4,7 +4,7 @@ import { observer } from "mobx-react";
 import HooksPOCEdit from "./HooksPOCEdit";
 import HooksPOCList from "./HooksPOCList";
 import { PaginationConfig } from "antd/es/pagination";
-import { action, observable } from "mobx";
+import { action, observable, makeObservable } from "mobx";
 import {
   addPagingParams,
   createPagingConfig,
@@ -13,12 +13,20 @@ import {
 
 type Props = RouteComponentProps<{ entityId?: string }>;
 
-@observer
-export class HooksPOCManagement extends React.Component<Props> {
+class HooksPOCManagementComponent extends React.Component<Props> {
   static PATH = "/hooksPOCManagement";
   static NEW_SUBPATH = "new";
 
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+
+  constructor(props: Props) {
+    super(props);
+
+    makeObservable(this, {
+      paginationConfig: observable,
+      onPagingChange: action
+    });
+  }
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
@@ -30,10 +38,12 @@ export class HooksPOCManagement extends React.Component<Props> {
     return entityId ? <HooksPOCEdit entityId={entityId} /> : <HooksPOCList />;
   }
 
-  @action onPagingChange = (current: number, pageSize: number) => {
+  onPagingChange = (current: number, pageSize: number) => {
     this.props.history.push(
       addPagingParams("hooksPOCManagement", current, pageSize)
     );
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };
   };
 }
+
+export const HooksPOCManagement = observer(HooksPOCManagementComponent);

@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { AssociationM2OManagement } from "./AssociationM2OManagement";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -33,8 +39,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class AssociationM2OEditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -46,13 +50,13 @@ class AssociationM2OEditComponent extends React.Component<
     }
   );
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = ["name"];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -84,6 +88,16 @@ class AssociationM2OEditComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === AssociationM2OManagement.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -181,7 +195,7 @@ class AssociationM2OEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -209,4 +223,6 @@ class AssociationM2OEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(AssociationM2OEditComponent);
+export default injectIntl(
+  injectMainStore(observer(AssociationM2OEditComponent))
+);

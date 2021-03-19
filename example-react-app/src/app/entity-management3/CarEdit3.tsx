@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { CarManagement3 } from "./CarManagement3";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -37,22 +43,20 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   dataInstance = instance<Car>(Car.NAME, {
     view: "car-edit",
     loadImmediately: false
   });
 
-  @observable garagesDc: DataCollectionStore<Garage> | undefined;
+  garagesDc: DataCollectionStore<Garage> | null = null;
 
-  @observable technicalCertificatesDc:
-    | DataCollectionStore<TechnicalCertificate>
-    | undefined;
+  technicalCertificatesDc: DataCollectionStore<
+    TechnicalCertificate
+  > | null = null;
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -71,7 +75,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
     "technicalCertificate"
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   /**
    * This method should be called after the user permissions has been loaded
@@ -81,21 +85,23 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
 
-      this.garagesDc = loadAssociationOptions(
-        Car.NAME,
-        "garage",
-        Garage.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.garagesDc =
+        loadAssociationOptions(
+          Car.NAME,
+          "garage",
+          Garage.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
 
-      this.technicalCertificatesDc = loadAssociationOptions(
-        Car.NAME,
-        "technicalCertificate",
-        TechnicalCertificate.NAME,
-        getAttributePermission,
-        { view: "_minimal" }
-      );
+      this.technicalCertificatesDc =
+        loadAssociationOptions(
+          Car.NAME,
+          "technicalCertificate",
+          TechnicalCertificate.NAME,
+          getAttributePermission,
+          { view: "_minimal" }
+        ) ?? null;
     }
   };
 
@@ -129,6 +135,20 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   isNewEntity = () => {
     return this.props.entityId === CarManagement3.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      garagesDc: observable,
+
+      technicalCertificatesDc: observable,
+
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -258,7 +278,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           <Field
             entityName={Car.NAME}
             propertyName="garage"
-            optionsContainer={this.garagesDc}
+            optionsContainer={this.garagesDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -267,7 +287,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           <Field
             entityName={Car.NAME}
             propertyName="technicalCertificate"
-            optionsContainer={this.technicalCertificatesDc}
+            optionsContainer={this.technicalCertificatesDc ?? undefined}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -327,7 +347,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
     this.reactionDisposers.push(
       reaction(
         () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, permsReaction) => {
+        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
           if (isDataLoaded === true) {
             // User permissions has been loaded.
             // We can now load association options.
@@ -342,7 +362,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -370,4 +390,4 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   }
 }
 
-export default injectIntl(CarEdit3Component);
+export default injectIntl(injectMainStore(observer(CarEdit3Component)));

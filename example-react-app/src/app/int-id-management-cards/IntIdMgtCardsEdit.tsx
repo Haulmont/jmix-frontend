@@ -4,7 +4,13 @@ import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
 import { IntIdManagementCards } from "./IntIdManagementCards";
 import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -33,8 +39,6 @@ type EditorProps = {
   entityId: string;
 };
 
-@injectMainStore
-@observer
 class IntIdMgtCardsEditComponent extends React.Component<
   Props & WrappedComponentProps
 > {
@@ -43,8 +47,8 @@ class IntIdMgtCardsEditComponent extends React.Component<
     loadImmediately: false
   });
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -58,7 +62,7 @@ class IntIdMgtCardsEditComponent extends React.Component<
     "version"
   ];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -90,6 +94,16 @@ class IntIdMgtCardsEditComponent extends React.Component<
   isNewEntity = () => {
     return this.props.entityId === IntIdManagementCards.NEW_SUBPATH;
   };
+
+  constructor(props: Props & WrappedComponentProps) {
+    super(props);
+
+    makeObservable(this, {
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
 
   render() {
     if (this.updated) {
@@ -244,7 +258,7 @@ class IntIdMgtCardsEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -272,4 +286,6 @@ class IntIdMgtCardsEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(IntIdMgtCardsEditComponent);
+export default injectIntl(
+  injectMainStore(observer(IntIdMgtCardsEditComponent))
+);

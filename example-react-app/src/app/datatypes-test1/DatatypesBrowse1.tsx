@@ -33,8 +33,7 @@ type Props = MainStoreInjected &
     paginationConfig: PaginationConfig;
     onPagingChange: (current: number, pageSize: number) => void;
   };
-@injectMainStore
-@observer
+
 class DatatypesBrowse1Component extends React.Component<Props> {
   dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
     view: "datatypesTestEntity-view",
@@ -182,7 +181,7 @@ class DatatypesBrowse1Component extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -191,6 +190,8 @@ class DatatypesBrowse1Component extends React.Component<Props> {
   }
 }
 
-const DatatypesBrowse1 = injectIntl(DatatypesBrowse1Component);
+const DatatypesBrowse1 = injectIntl(
+  injectMainStore(observer(DatatypesBrowse1Component))
+);
 
 export default DatatypesBrowse1;
