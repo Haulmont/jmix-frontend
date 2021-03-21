@@ -4,8 +4,8 @@ import { observable } from 'mobx';
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
-import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens} from "@haulmont/jmix-react-core";
-import { DataTable, Spinner, routerData, referencesListByEntityName } from "@haulmont/jmix-react-ui";
+import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens, ScreensContext, Screens} from "@haulmont/jmix-react-core";
+import { DataTable, Spinner, referencesListByEntityName } from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {SerializedEntity} from "@haulmont/jmix-rest";
@@ -14,9 +14,13 @@ import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
+interface I<%= listComponentClass %>ComponentProps {
+  screens: Screens;
+}
+
 @injectMainStore
 @observer
-class <%= listComponentClass %>Component extends React.Component<MainStoreInjected & WrappedComponentProps> {
+class <%= listComponentClass %>Component extends React.Component<MainStoreInjected & WrappedComponentProps & I<%= listComponentClass %>ComponentProps> {
 
   dataCollection = collection<<%= entity.className %>>(<%= entity.className %>.NAME, {
       view: '<%= listView.name %>',
@@ -53,7 +57,7 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -63,11 +67,11 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState({}, '', ROUTING_PATH + "/" + this.selectedRowKey);
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -145,4 +149,8 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
 
 const <%=listComponentClass%> = injectIntl(<%=listComponentClass%>Component);
 
-export default <%=listComponentClass%>;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <<%=listComponentClass%> screens={screens} />
+});

@@ -9,12 +9,13 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  routerData,
   referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
@@ -29,10 +30,14 @@ import {
 const ENTITY_NAME = "scr_IntegerIdTestEntity";
 const ROUTING_PATH = "/intIdManagementTable";
 
+interface IIntIdMgtTableBrowseComponentProps {
+  screens: Screens;
+}
+
 @injectMainStore
 @observer
 class IntIdMgtTableBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected & WrappedComponentProps & IIntIdMgtTableBrowseComponentProps
 > {
   dataCollection = collection<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local"
@@ -70,7 +75,7 @@ class IntIdMgtTableBrowseComponent extends React.Component<
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -80,11 +85,15 @@ class IntIdMgtTableBrowseComponent extends React.Component<
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState(
+        {},
+        "",
+        ROUTING_PATH + "/" + this.selectedRowKey
+      );
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -180,4 +189,8 @@ class IntIdMgtTableBrowseComponent extends React.Component<
 
 const IntIdMgtTableBrowse = injectIntl(IntIdMgtTableBrowseComponent);
 
-export default IntIdMgtTableBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <IntIdMgtTableBrowse screens={screens} />;
+});

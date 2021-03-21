@@ -9,12 +9,13 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  routerData,
   referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
@@ -29,10 +30,14 @@ import {
 const ENTITY_NAME = "scr_DatatypesTestEntity2";
 const ROUTING_PATH = "/datatypes2Management";
 
+interface IDatatypes2BrowseComponentProps {
+  screens: Screens;
+}
+
 @injectMainStore
 @observer
 class Datatypes2BrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected & WrappedComponentProps & IDatatypes2BrowseComponentProps
 > {
   dataCollection = collection<DatatypesTestEntity2>(DatatypesTestEntity2.NAME, {
     view: "datatypesTestEntity2-view"
@@ -67,7 +72,7 @@ class Datatypes2BrowseComponent extends React.Component<
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -77,11 +82,15 @@ class Datatypes2BrowseComponent extends React.Component<
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState(
+        {},
+        "",
+        ROUTING_PATH + "/" + this.selectedRowKey
+      );
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -177,4 +186,8 @@ class Datatypes2BrowseComponent extends React.Component<
 
 const Datatypes2Browse = injectIntl(Datatypes2BrowseComponent);
 
-export default Datatypes2Browse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <Datatypes2Browse screens={screens} />;
+});

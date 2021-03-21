@@ -9,12 +9,13 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  routerData,
   referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
@@ -29,10 +30,16 @@ import {
 const ENTITY_NAME = "scr_AssociationO2OTestEntity";
 const ROUTING_PATH = "/associationO2OManagement";
 
+interface IAssociationO2OBrowseComponentProps {
+  screens: Screens;
+}
+
 @injectMainStore
 @observer
 class AssociationO2OBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected &
+    WrappedComponentProps &
+    IAssociationO2OBrowseComponentProps
 > {
   dataCollection = collection<AssociationO2OTestEntity>(
     AssociationO2OTestEntity.NAME,
@@ -64,7 +71,7 @@ class AssociationO2OBrowseComponent extends React.Component<
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -74,11 +81,15 @@ class AssociationO2OBrowseComponent extends React.Component<
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState(
+        {},
+        "",
+        ROUTING_PATH + "/" + this.selectedRowKey
+      );
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -174,4 +185,8 @@ class AssociationO2OBrowseComponent extends React.Component<
 
 const AssociationO2OBrowse = injectIntl(AssociationO2OBrowseComponent);
 
-export default AssociationO2OBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <AssociationO2OBrowse screens={screens} />;
+});

@@ -115,3 +115,5 @@ export class Screens {
 }
 
 export const screens = new Screens();
+
+export const ScreensContext = React.createContext<Screens>(null!);

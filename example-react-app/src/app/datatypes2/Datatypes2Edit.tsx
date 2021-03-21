@@ -11,10 +11,13 @@ import {
 import {
   defaultHandleFinish,
   createAntdFormValidationMessages,
-  routerData,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -28,6 +31,10 @@ import "../../app/App.css";
 
 import { DatatypesTestEntity2 } from "../../jmix/entities/scr_DatatypesTestEntity2";
 
+interface IDatatypes2EditComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = 'scr_DatatypesTestEntity2';
@@ -36,7 +43,7 @@ const ROUTING_PATH = "/datatypes2Management";
 @injectMainStore
 @observer
 class Datatypes2EditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IDatatypes2EditComponentProps
 > {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
@@ -92,10 +99,10 @@ class Datatypes2EditComponent extends React.Component<
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -266,4 +273,10 @@ class Datatypes2EditComponent extends React.Component<
   }
 }
 
-export default injectIntl(Datatypes2EditComponent);
+const Datatypes2Edit = injectIntl(Datatypes2EditComponent);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <Datatypes2Edit screens={screens} />;
+});

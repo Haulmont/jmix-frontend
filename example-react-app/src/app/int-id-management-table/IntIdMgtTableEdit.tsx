@@ -11,10 +11,13 @@ import {
 import {
   defaultHandleFinish,
   createAntdFormValidationMessages,
-  routerData,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -28,6 +31,10 @@ import "../../app/App.css";
 
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 
+interface IIntIdMgtTableEditComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = 'scr_IntegerIdTestEntity';
@@ -36,7 +43,7 @@ const ROUTING_PATH = "/intIdManagementTable";
 @injectMainStore
 @observer
 class IntIdMgtTableEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IIntIdMgtTableEditComponentProps
 > {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
@@ -95,10 +102,10 @@ class IntIdMgtTableEditComponent extends React.Component<
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -279,4 +286,10 @@ class IntIdMgtTableEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(IntIdMgtTableEditComponent);
+const IntIdMgtTableEdit = injectIntl(IntIdMgtTableEditComponent);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <IntIdMgtTableEdit screens={screens} />;
+});

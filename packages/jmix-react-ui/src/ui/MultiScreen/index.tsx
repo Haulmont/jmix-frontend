@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useContext } from 'react';
 import { observer } from "mobx-react";
-import { screens, IMultiScreenItem } from '@haulmont/jmix-react-core';
+import { ScreensContext, IMultiScreenItem } from '@haulmont/jmix-react-core';
 
 import "./styles.less";
 
@@ -12,6 +12,7 @@ export interface IMultiScreenProps {
 }
 
 export const MultiScreen = observer((props: IMultiScreenProps) => {
+  const screens = useContext(ScreensContext);
   screens.props = props;
 
   let content = props.children;
@@ -19,7 +20,7 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
     content = screens.screens.map((item, index) => {
       const params = {} as { key?: string };
       // If we render last screen than force "create" it because {item} link can be same, but other params can be changes (example edit screen with another entityId param)
-      if (index === screens.screens.length - 1) {
+      if (index > 0 && index === screens.screens.length - 1) {
         params.key = Math.random() + "";
       }
 
@@ -40,6 +41,7 @@ interface IMultiScreenItemProps {
 }
 
 export const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
+  const screens = useContext(ScreensContext);
   const { item } = props;
 
   const style: any = {};
@@ -60,6 +62,7 @@ export const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
 });
 
 const Breadcrumbs = observer(() => {
+  const screens = useContext(ScreensContext);
   if (screens.screens.length <= 1) return null;
 
   return (
@@ -76,6 +79,7 @@ interface IBreadcrumbProps {
 }
 
 const Breadcrumb = observer((props: IBreadcrumbProps) => {
+  const screens = useContext(ScreensContext);
   const { screen } = props;
 
   function handleClick() {

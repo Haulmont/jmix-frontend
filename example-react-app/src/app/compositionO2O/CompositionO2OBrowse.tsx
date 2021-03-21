@@ -9,12 +9,13 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  routerData,
   referencesListByEntityName
 } from "@haulmont/jmix-react-ui";
 
@@ -29,10 +30,16 @@ import {
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
 const ROUTING_PATH = "/compositionO2OManagement";
 
+interface ICompositionO2OBrowseComponentProps {
+  screens: Screens;
+}
+
 @injectMainStore
 @observer
 class CompositionO2OBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected &
+    WrappedComponentProps &
+    ICompositionO2OBrowseComponentProps
 > {
   dataCollection = collection<CompositionO2OTestEntity>(
     CompositionO2OTestEntity.NAME,
@@ -64,7 +71,7 @@ class CompositionO2OBrowseComponent extends React.Component<
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -74,11 +81,15 @@ class CompositionO2OBrowseComponent extends React.Component<
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + this.selectedRowKey);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState(
+        {},
+        "",
+        ROUTING_PATH + "/" + this.selectedRowKey
+      );
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -174,4 +185,8 @@ class CompositionO2OBrowseComponent extends React.Component<
 
 const CompositionO2OBrowse = injectIntl(CompositionO2OBrowseComponent);
 
-export default CompositionO2OBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CompositionO2OBrowse screens={screens} />;
+});

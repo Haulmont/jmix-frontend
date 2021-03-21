@@ -11,10 +11,13 @@ import {
 import {
   defaultHandleFinish,
   createAntdFormValidationMessages,
-  routerData,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -28,6 +31,10 @@ import "../../app/App.css";
 
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
+interface IStringIdMgtCardsEditComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = 'scr_StringIdTestEntity';
@@ -36,7 +43,7 @@ const ROUTING_PATH = "/stringIdMgtCardsManagement";
 @injectMainStore
 @observer
 class StringIdMgtCardsEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IStringIdMgtCardsEditComponentProps
 > {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
@@ -96,10 +103,10 @@ class StringIdMgtCardsEditComponent extends React.Component<
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -288,4 +295,10 @@ class StringIdMgtCardsEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(StringIdMgtCardsEditComponent);
+const StringIdMgtCardsEdit = injectIntl(StringIdMgtCardsEditComponent);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <StringIdMgtCardsEdit screens={screens} />;
+});

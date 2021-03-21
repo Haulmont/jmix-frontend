@@ -11,10 +11,13 @@ import {
 import {
   defaultHandleFinish,
   createAntdFormValidationMessages,
-  routerData,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -28,6 +31,10 @@ import "../../app/App.css";
 
 import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
 
+interface IAssociationM2OEditComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = 'scr_AssociationM2OTestEntity';
@@ -36,7 +43,7 @@ const ROUTING_PATH = "/associationM2OManagement";
 @injectMainStore
 @observer
 class AssociationM2OEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IAssociationM2OEditComponentProps
 > {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
@@ -89,10 +96,10 @@ class AssociationM2OEditComponent extends React.Component<
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -216,4 +223,10 @@ class AssociationM2OEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(AssociationM2OEditComponent);
+const AssociationM2OEdit = injectIntl(AssociationM2OEditComponent);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <AssociationM2OEdit screens={screens} />;
+});

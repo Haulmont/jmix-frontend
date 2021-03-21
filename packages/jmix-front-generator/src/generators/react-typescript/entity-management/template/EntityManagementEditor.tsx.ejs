@@ -4,8 +4,8 @@ import {FormInstance} from "antd/es/form";
 import {observer} from "mobx-react";
 import {IReactionDisposer, observable, reaction, toJS} from "mobx";
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import {defaultHandleFinish, createAntdFormValidationMessages, routerData, MultiScreenContext} from '@haulmont/jmix-react-ui';
-import {screens, IMultiScreenItem} from "@haulmont/jmix-react-core";
+import {defaultHandleFinish, createAntdFormValidationMessages, MultiScreenContext} from '@haulmont/jmix-react-ui';
+import {Screens, ScreensContext, IMultiScreenItem} from "@haulmont/jmix-react-core";
 
 import {
 <% if (Object.keys(editAssociations).length > 0) { %>
@@ -29,6 +29,10 @@ import "<%= relDirShift %>app/App.css";
   import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImport.path %>";
 <% }) %>
 
+interface I<%= editComponentClass %>ComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = '<%= entity.name %>';
@@ -36,7 +40,7 @@ const ROUTING_PATH = '/<%= nameLiteral %>';
 
 @injectMainStore
 @observer
-class <%= editComponentClass %>Component extends React.Component<Props & WrappedComponentProps> {
+class <%= editComponentClass %>Component extends React.Component<Props & WrappedComponentProps & I<%= editComponentClass %>ComponentProps> {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
 
@@ -107,10 +111,10 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, '', ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -262,4 +266,10 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
 
 }
 
-export default injectIntl(<%= editComponentClass %>Component);
+const <%=editComponentClass%> =  injectIntl(<%= editComponentClass %>Component);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <<%=editComponentClass%> screens={screens} />
+});

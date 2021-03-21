@@ -9,14 +9,14 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
   Spinner,
-  routerData,
   referencesListByEntityName,
   addPagingParams,
   createPagingConfig,
@@ -32,7 +32,13 @@ import {
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
-type Props = MainStoreInjected & WrappedComponentProps;
+interface ICarCardsComponentProps {
+  screens: Screens;
+}
+
+type Props = MainStoreInjected &
+  WrappedComponentProps &
+  ICarCardsComponentProps;
 
 const ENTITY_NAME = "scr$Car";
 const ROUTING_PATH = "/carManagement";
@@ -62,7 +68,7 @@ class CarCardsComponent extends React.Component<Props> {
     "technicalCertificate"
   ];
 
-  @observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
 
   componentDidMount(): void {
     this.reactionDisposers.push(
@@ -78,8 +84,8 @@ class CarCardsComponent extends React.Component<Props> {
     );
 
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(routerData.location.search);
-
+    //this.paginationConfig = createPagingConfig(window.location.search);
+    /*
     this.reactionDisposers.push(
       reaction(
         () => this.paginationConfig,
@@ -88,6 +94,7 @@ class CarCardsComponent extends React.Component<Props> {
       )
     );
     setPagination(this.paginationConfig, this.dataCollection, true);
+    */
   }
 
   componentWillUnmount() {
@@ -96,12 +103,13 @@ class CarCardsComponent extends React.Component<Props> {
 
   @action onPagingChange = (current: number, pageSize: number) => {
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
+    /*
+    if (this.props.screens.currentScreenIndex === 0) {
       routerData.history.push(
         addPagingParams("carManagement", current, pageSize)
       );
-      this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-    }
+      this.paginationConfig = {...this.paginationConfig, current, pageSize};
+    }*/
   };
 
   showDeletionDialog = (e: SerializedEntity<Car>) => {
@@ -123,7 +131,7 @@ class CarCardsComponent extends React.Component<Props> {
   onCrateBtnClick = () => {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemNew.title,
       content: registeredReferral.entityItemNew.content
     });
@@ -133,11 +141,11 @@ class CarCardsComponent extends React.Component<Props> {
     const registeredReferral = referencesListByEntityName[ENTITY_NAME];
 
     // If we on root screen
-    if (screens.currentScreenIndex === 0) {
-      routerData.history.replace(ROUTING_PATH + "/" + itemId);
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState({}, "", ROUTING_PATH + "/" + itemId);
     }
 
-    screens.push({
+    this.props.screens.push({
       title: registeredReferral.entityItemEdit.title,
       content: registeredReferral.entityItemEdit.content,
       params: {
@@ -199,7 +207,7 @@ class CarCardsComponent extends React.Component<Props> {
             ))}
           </Card>
         ))}
-
+        {/*
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
             paginationConfig={this.paginationConfig}
@@ -207,6 +215,7 @@ class CarCardsComponent extends React.Component<Props> {
             total={count}
           />
         </div>
+          */}
       </div>
     );
   }
@@ -214,4 +223,8 @@ class CarCardsComponent extends React.Component<Props> {
 
 const CarCards = injectIntl(CarCardsComponent);
 
-export default CarCards;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CarCards screens={screens} />;
+});

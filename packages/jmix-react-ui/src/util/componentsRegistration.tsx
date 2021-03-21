@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { MultiScreen } from '../ui/MultiScreen';
-import { getMenuItems } from '@haulmont/jmix-react-core';
+import { getMenuItems, ScreensContext } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
-import { screens } from '@haulmont/jmix-react-core';
 import { sleep } from '@haulmont/jmix-react-core';
 
 export const menuItems = getMenuItems();
@@ -82,6 +81,8 @@ export function registerEntityEditorScreen(entityName: string, title: string, co
 
 export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string) {
   const Comp = observer((props: any) => {
+    const screens = useContext(ScreensContext);
+
     screens.currentRootPageData.title = title;
     useState(() => {
       routerData.history = props.history;
@@ -113,7 +114,7 @@ export function registerRoute(routePath: string, menuPath: string, title: string
   menuItems.push({
     pathPattern: routePath,
     menuLink: menuPath,
-    component: Comp,
+    component: <Comp />,
     caption: title,
   });
 }

@@ -1,0 +1,42 @@
+.jmix-tabs__container {
+  display: flex;
+  margin-bottom: 20px;
+  border-bottom: 1px #c7c7c7 solid;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.jmix-tabs__content {
+  display: none;
+}
+
+.jmix-tabs__content[data-visible="true"] {
+  display: block;
+}
+
+.jmix-tabs__tab {
+  padding: 10px 20px;
+  border: 1px #c7c7c7 solid;
+  border-top-left-radius: 6px;
+  border-top-right-radius: 6px;
+  position: relative;
+  top: 1px;
+  background-color: #e8e8e8;
+  white-space: nowrap;
+  cursor: pointer;
+
+  transition: background-color .3s ease;
+
+  &:hover {
+    background-color: #fff;
+  }
+
+  span {
+    margin-left: 10px;
+    cursor: pointer;
+  }
+}
+.jmix-tabs__tab[data-active="true"] {
+  border-bottom-color: #f0f2f5;
+  background-color: #fff;
+}

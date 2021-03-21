@@ -11,10 +11,13 @@ import {
 import {
   defaultHandleFinish,
   createAntdFormValidationMessages,
-  routerData,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import { screens, IMultiScreenItem } from "@haulmont/jmix-react-core";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
@@ -32,6 +35,10 @@ import { Car } from "../../jmix/entities/scr$Car";
 import { Garage } from "../../jmix/entities/scr$Garage";
 import { TechnicalCertificate } from "../../jmix/entities/scr$TechnicalCertificate";
 
+interface ICarEdit2ComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected;
 
 // const ENTITY_NAME = 'scr$Car';
@@ -39,7 +46,9 @@ const ROUTING_PATH = "/carManagement2";
 
 @injectMainStore
 @observer
-class CarEdit2Component extends React.Component<Props & WrappedComponentProps> {
+class CarEdit2Component extends React.Component<
+  Props & WrappedComponentProps & ICarEdit2ComponentProps
+> {
   static contextType = MultiScreenContext;
   context: IMultiScreenItem = null!;
 
@@ -134,10 +143,10 @@ class CarEdit2Component extends React.Component<Props & WrappedComponentProps> {
   };
 
   onCancelBtnClick = () => {
-    if (screens.currentScreenIndex === 1) {
-      routerData.history.replace(ROUTING_PATH);
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
-    screens.setActiveScreen(this.context.parent!, true);
+    this.props.screens.setActiveScreen(this.context.parent!, true);
   };
 
   render() {
@@ -377,4 +386,10 @@ class CarEdit2Component extends React.Component<Props & WrappedComponentProps> {
   }
 }
 
-export default injectIntl(CarEdit2Component);
+const CarEdit2 = injectIntl(CarEdit2Component);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CarEdit2 screens={screens} />;
+});
