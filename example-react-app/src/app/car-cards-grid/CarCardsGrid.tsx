@@ -1,12 +1,13 @@
 import React, { useEffect } from "react";
 import { observer, useLocalObservable } from "mobx-react";
-import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
+import { Row, Col } from "antd";
+import { Car } from "../../jmix/entities/scr$Car";
 import { Card } from "antd";
 import { useCollection } from "@haulmont/jmix-react-core";
 import {
   addPagingParams,
   createPagingConfig,
-  defaultPagingConfig,
+  defaultGridPagingConfig,
   EntityProperty,
   Paging,
   setPagination,
@@ -16,37 +17,44 @@ import { getStringId } from "@haulmont/jmix-rest";
 import { useLocation, useHistory } from "react-router";
 
 const FIELDS = [
-  "description",
-  "productCode",
-  "createTs",
+  "manufacturer",
+  "model",
+  "regNumber",
+  "purchaseDate",
+  "manufactureDate",
+  "wheelOnRight",
+  "carType",
+  "ecoRank",
+  "maxPassengers",
+  "price",
+  "mileage",
+  "version",
   "createdBy",
-  "updateTs",
-  "updatedBy",
-  "deleteTs",
-  "deletedBy",
-  "version"
+  "createdDate",
+  "lastModifiedBy",
+  "lastModifiedDate",
+  "photo",
+  "garage",
+  "technicalCertificate"
 ];
 
-export const StringIdCards = observer(() => {
+export const CarCardsGrid = observer(() => {
   const location = useLocation();
   const history = useHistory();
 
   const pagination = useLocalObservable(() => ({
     // to disable paging config pass 'true' as disabled param in function below
-    config: createPagingConfig(location.search, false, defaultPagingConfig),
+    config: createPagingConfig(location.search, false, defaultGridPagingConfig),
     onChange(current: number, pageSize: number) {
-      history.push(addPagingParams("stringIdCards", current, pageSize));
+      history.push(addPagingParams("carCardsGrid", current, pageSize));
       this.config = { ...this.config, current, pageSize };
     }
   }));
 
-  const { current: dataCollection } = useCollection<StringIdTestEntity>(
-    StringIdTestEntity.NAME,
-    {
-      view: "_local",
-      loadImmediately: false
-    }
-  );
+  const { current: dataCollection } = useCollection<Car>(Car.NAME, {
+    view: "car-edit",
+    loadImmediately: false
+  });
 
   const { status, items, count } = dataCollection;
 
@@ -59,22 +67,22 @@ export const StringIdCards = observer(() => {
 
   return (
     <div className="narrow-layout">
-      {items.map(e => (
-        <Card
-          title={e._instanceName}
-          key={e.id ? getStringId(e.id) : undefined}
-          style={{ marginBottom: "12px" }}
-        >
-          {FIELDS.map(p => (
-            <EntityProperty
-              entityName={StringIdTestEntity.NAME}
-              propertyName={p}
-              value={e[p]}
-              key={p}
-            />
-          ))}
-        </Card>
-      ))}
+      <Row gutter={[12, 12]}>
+        {items.map(e => (
+          <Col key={e.id ? getStringId(e.id) : undefined} xl={8} sm={24}>
+            <Card title={e._instanceName} style={{ height: "100%" }}>
+              {FIELDS.map(p => (
+                <EntityProperty
+                  entityName={Car.NAME}
+                  propertyName={p}
+                  value={e[p]}
+                  key={p}
+                />
+              ))}
+            </Card>
+          </Col>
+        ))}
+      </Row>
 
       {!pagination.config.disabled && (
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>

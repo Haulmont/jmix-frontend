@@ -83,6 +83,17 @@
       "name": "mpg$FavoriteCar"
     }
   },
+  "entityCardsGrid": {
+    "entityView": {
+      "name": "favoriteCar-view",
+      "entityName": "mpg$FavoriteCar"
+    },
+    "componentName": "mpg-favorite-car-cards-grid",
+    "entity": {
+      "name": "mpg$FavoriteCar"
+    },
+    "cardsInRow": "3 columns"
+  },
   "queryResults": {
     "query": {
       "name": "carsByType",

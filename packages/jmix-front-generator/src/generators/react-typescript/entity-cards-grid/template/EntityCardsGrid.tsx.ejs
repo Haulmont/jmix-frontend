@@ -1,11 +1,12 @@
 import React, {useEffect} from "react";
 import {observer, useLocalObservable} from "mobx-react";
+import { Row, Col } from 'antd';
 import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entity.name %>";
 import {Card} from "antd";
 import {useCollection} from "@haulmont/jmix-react-core";
 import {
 addPagingParams, createPagingConfig,
-defaultPagingConfig,
+defaultGridPagingConfig,
 EntityProperty,
 Paging,
 setPagination,
@@ -21,15 +22,15 @@ const FIELDS = [
 ];
 
 export const <%= className %> = observer(() => {
-  const location = useLocation()
-  const history = useHistory()
+  const location = useLocation();
+  const history = useHistory();
 
   const pagination = useLocalObservable(() => ({
     // to disable paging config pass 'true' as disabled param in function below
     config: createPagingConfig(
       location.search,
       false,
-      defaultPagingConfig
+      defaultGridPagingConfig
     ),
     onChange(current: number, pageSize: number) {
       history.push(addPagingParams('<%= nameLiteral %>', current, pageSize));
@@ -59,23 +60,30 @@ export const <%= className %> = observer(() => {
 
   return (
     <div className='narrow-layout'>
-      {items.map(e =>
-        <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
-        <Card
-          title={e._instanceName}
-          key={e.id ? getStringId(e.id) : undefined}
-          style={{marginBottom: '12px'}}
-        >
-          {FIELDS.map(p =>
-            <EntityProperty
-              entityName={<%= entity.className %>.NAME}
-              propertyName={p}
-              value={e[p]}
-              key={p}
-            />
-          )}
-        </Card>
-      )}
+      <Row gutter={[12, 12]}>
+        {items.map(e =>
+          <Col 
+            key={e.id ? getStringId(e.id) : undefined}  
+            xl={<%= 24 / cardsInRow %>}
+            sm={24}
+          >
+            <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
+            <Card 
+              title={e._instanceName}
+              style={{height: '100%'}}
+            >
+              {FIELDS.map(p =>
+                <EntityProperty
+                  entityName={<%= entity.className %>.NAME}
+                  propertyName={p}
+                  value={e[p]}
+                  key={p}
+                />
+              )}
+            </Card>
+          </Col>
+        )}
+      </Row>
 
       {!pagination.config.disabled && (
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>

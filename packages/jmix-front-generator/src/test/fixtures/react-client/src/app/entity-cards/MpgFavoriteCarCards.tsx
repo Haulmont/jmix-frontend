@@ -1,13 +1,8 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-
+import React, { useEffect } from "react";
+import { observer, useLocalObservable } from "mobx-react";
 import { FavoriteCar } from "jmix/entities/mpg$FavoriteCar";
 import { Card } from "antd";
-import {
-  collection,
-  MainStoreInjected,
-  injectMainStore
-} from "@haulmont/jmix-react-core";
+import { useCollection } from "@haulmont/jmix-react-core";
 import {
   addPagingParams,
   createPagingConfig,
@@ -18,100 +13,68 @@ import {
   Spinner
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
-import {
-  action,
-  IReactionDisposer,
-  observable,
-  reaction,
-  makeObservable
-} from "mobx";
-import { PaginationConfig } from "antd/es/pagination";
-import { RouteComponentProps } from "react-router";
+import { useLocation, useHistory } from "react-router";
 
-type Props = MainStoreInjected & Partial<RouteComponentProps>;
+const FIELDS = ["notes", "car", "user"];
 
-export class MpgFavoriteCarCardsComponent extends React.Component<Props> {
-  dataCollection = collection<FavoriteCar>(FavoriteCar.NAME, {
-    view: "favoriteCar-view",
-    loadImmediately: false
-  });
+export const MpgFavoriteCarCards = observer(() => {
+  const location = useLocation();
+  const history = useHistory();
 
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-  reactionDisposer: IReactionDisposer;
-  fields = ["notes", "car", "user"];
-
-  constructor(props: Props) {
-    super(props);
-
-    makeObservable(this, {
-      paginationConfig: observable,
-      onPagingChange: action
-    });
-  }
-
-  componentDidMount(): void {
+  const pagination = useLocalObservable(() => ({
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props.location?.search ?? ""
-    );
+    config: createPagingConfig(location.search, false, defaultPagingConfig),
+    onChange(current: number, pageSize: number) {
+      history.push(addPagingParams("mpgFavoriteCarCards", current, pageSize));
+      this.config = { ...this.config, current, pageSize };
+    }
+  }));
 
-    this.reactionDisposer = reaction(
-      () => this.paginationConfig,
-      paginationConfig =>
-        setPagination(paginationConfig, this.dataCollection, true)
-    );
-    setPagination(this.paginationConfig, this.dataCollection, true);
-  }
+  const { current: dataCollection } = useCollection<FavoriteCar>(
+    FavoriteCar.NAME,
+    {
+      view: "favoriteCar-view",
+      loadImmediately: false
+    }
+  );
 
-  componentWillUnmount() {
-    this.reactionDisposer();
-  }
+  const { status, items, count } = dataCollection;
 
-  render() {
-    const { status, items, count } = this.dataCollection;
+  useEffect(() => setPagination(pagination.config, dataCollection, true), [
+    dataCollection,
+    pagination.config
+  ]);
 
-    if (status === "LOADING") return <Spinner />;
+  if (status === "LOADING") return <Spinner />;
 
-    return (
-      <div className="narrow-layout">
-        {items.map(e => (
-          <Card
-            title={e._instanceName}
-            key={e.id ? getStringId(e.id) : undefined}
-            style={{ marginBottom: "12px" }}
-          >
-            {this.fields.map(p => (
-              <EntityProperty
-                entityName={FavoriteCar.NAME}
-                propertyName={p}
-                value={e[p]}
-                key={p}
-              />
-            ))}
-          </Card>
-        ))}
-
-        {!this.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={this.paginationConfig}
-              onPagingChange={this.onPagingChange}
-              total={count ?? undefined}
+  return (
+    <div className="narrow-layout">
+      {items.map(e => (
+        <Card
+          title={e._instanceName}
+          key={e.id ? getStringId(e.id) : undefined}
+          style={{ marginBottom: "12px" }}
+        >
+          {FIELDS.map(p => (
+            <EntityProperty
+              entityName={FavoriteCar.NAME}
+              propertyName={p}
+              value={e[p]}
+              key={p}
             />
-          </div>
-        )}
-      </div>
-    );
-  }
+          ))}
+        </Card>
+      ))}
 
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props.history?.push(
-      addPagingParams("mpgFavoriteCarCards", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
-
-export const MpgFavoriteCarCards = injectMainStore(
-  observer(MpgFavoriteCarCardsComponent)
-);
+      {!pagination.config.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={pagination.config}
+            onPagingChange={pagination.onChange}
+            total={count ?? undefined}
+          />
+        </div>
+      )}
+    </div>
+  );
+});

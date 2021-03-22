@@ -1,21 +1,27 @@
-
-
 import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {ProjectModel, View} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
-import {askStringIdQuestions, StringIdAnswers} from "../../../building-blocks/stages/answers/pieces/stringId";
+import { askStringIdQuestions, StringIdAnswers } from "../../../building-blocks/stages/answers/pieces/stringId";
 import { isStringIdEntity } from "../common/entity";
 
+export type CardsInRowOption =
+  "2 columns"
+  | "3 columns"
+  | "4 columns"
+
+const cardsInRowOptions: CardsInRowOption[] = ["2 columns", "3 columns", "4 columns"];
+
 export interface Answers extends StringIdAnswers {
-  componentName: string,
-  entityView: View,
-  entity: EntityWithPath
+  componentName: string;
+  entityView: View;
+  entity: EntityWithPath;
+  cardsInRow: CardsInRowOption;
 }
 
-const entityCardsQuestions: StudioTemplateProperty[] = [
+const entityCardsGridQuestions: StudioTemplateProperty[] = [
   {
     caption: "Entity",
     code: "entity",
@@ -26,8 +32,15 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
     caption: "Component class name",
     code: "componentName",
     propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: "Cards",
+    defaultValue: "CardsGrid",
     required: true
+  },
+  {
+    caption: "Select the number of cards in a row",
+    code: "cardsInRow",
+    propertyType: StudioTemplatePropertyType.OPTION,
+    required: true,
+    options: cardsInRowOptions
   },
   {
     caption: "Entity view",
@@ -39,17 +52,17 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
 ];
 
 const questionsToBeAskedInCLI = [
-  ...entityCardsQuestions
+  ...entityCardsGridQuestions
 ];
 
 export const allQuestions: StudioTemplateProperty[] = [
-  ...questionsToBeAskedInCLI
+  ...questionsToBeAskedInCLI,
 ];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
 ): Promise<Answers> => {  
-  let answers: Answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
+  let answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
   let stringIdAnswers: StringIdAnswers = isStringIdEntity(projectModel, answers.entity) 
     ? await askStringIdQuestions(
         answers.entity,
@@ -57,6 +70,5 @@ export const getAnswersFromPrompt = async (
         gen
       )
     : {}
-
   return {...answers, ...stringIdAnswers};
 }

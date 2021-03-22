@@ -28,6 +28,7 @@ import { HooksPOCManagement } from "./app/hooks-poc/HooksPOCManagement";
 import { DatatypesManagement3 } from "./app/datatypes-test3/DatatypesManagement3";
 import { DatatypesManagement2 } from "./app/datatypes-test2/DatatypesManagement2";
 import { DatatypesManagement1 } from "./app/datatypes-test1/DatatypesManagement1";
+import { CarCardsGrid } from "./app/car-cards-grid/CarCardsGrid";
 import { CarManagement3 } from "./app/entity-management3/CarManagement3";
 import { CarManagement2 } from "./app/entity-management2/CarManagement2";
 import { CarManagement } from "./app/entity-management/CarManagement";
@@ -57,14 +58,14 @@ menuItems.push(userSettingsSubMenu);
 */
 
 menuItems.push({
-  pathPattern: "/testBlankComponent/:entityId?",
+  pathPattern: "/testBlankComponent",
   menuLink: "/testBlankComponent",
   component: TestBlankComponent,
   caption: "TestBlankComponent"
 });
 
 menuItems.push({
-  pathPattern: "/favoriteCars/:entityId?",
+  pathPattern: "/favoriteCars",
   menuLink: "/favoriteCars",
   component: FavoriteCars,
   caption: "FavoriteCars"
@@ -89,6 +90,13 @@ menuItems.push({
   menuLink: "/carManagement3",
   component: CarManagement3,
   caption: "CarManagement3"
+});
+
+menuItems.push({
+  pathPattern: "/carCardsGrid",
+  menuLink: "/carCardsGrid",
+  component: CarCardsGrid,
+  caption: "CarCardsGrid"
 });
 
 menuItems.push({
@@ -183,14 +191,14 @@ menuItems.push({
 });
 
 menuItems.push({
-  pathPattern: "/datatypesCards/:entityId?",
+  pathPattern: "/datatypesCards",
   menuLink: "/datatypesCards",
   component: DatatypesCards,
   caption: "DatatypesCards"
 });
 
 menuItems.push({
-  pathPattern: "/intIdentityIdCards/:entityId?",
+  pathPattern: "/intIdentityIdCards",
   menuLink: "/intIdentityIdCards",
   component: IntIdentityIdCards,
   caption: "IntIdentityIdCards"
@@ -239,7 +247,7 @@ menuItems.push({
 });
 
 menuItems.push({
-  pathPattern: "/stringIdCards/:entityId?",
+  pathPattern: "/stringIdCards",
   menuLink: "/stringIdCards",
   component: StringIdCards,
   caption: "StringIdCards"
