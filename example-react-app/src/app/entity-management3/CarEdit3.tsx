@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { CarManagement3 } from "./CarManagement3";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
@@ -18,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
@@ -37,13 +41,21 @@ import { Car } from "../../jmix/entities/scr$Car";
 import { Garage } from "../../jmix/entities/scr$Garage";
 import { TechnicalCertificate } from "../../jmix/entities/scr$TechnicalCertificate";
 
-type Props = EditorProps & MainStoreInjected;
+interface ICarEdit3ComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
 
-class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
+// const ENTITY_NAME = 'scr$Car';
+const ROUTING_PATH = "/carManagement3";
+
+class CarEdit3Component extends React.Component<
+  Props & WrappedComponentProps & ICarEdit3ComponentProps
+> {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<Car>(Car.NAME, {
     view: "car-edit",
     loadImmediately: false
@@ -133,10 +145,17 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   };
 
   isNewEntity = () => {
-    return this.props.entityId === CarManagement3.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  constructor(props: Props & WrappedComponentProps) {
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -151,12 +170,8 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={CarManagement3.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -168,7 +183,10 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -302,11 +320,9 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={CarManagement3.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -326,7 +342,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new Car());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -390,4 +406,10 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
   }
 }
 
-export default injectIntl(injectMainStore(observer(CarEdit3Component)));
+const CarEdit3 = injectIntl(injectMainStore(observer(CarEdit3Component)));
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CarEdit3 screens={screens} />;
+});

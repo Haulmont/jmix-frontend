@@ -1,21 +1,20 @@
 import * as React from "react";
 import "./App.css";
 
-import { BarsOutlined, HomeOutlined } from '@ant-design/icons';
+import { BarsOutlined, HomeOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { observer } from "mobx-react";
 import Login from "./login/Login";
 import Centered from "./common/Centered";
 import AppHeader from "./header/AppHeader";
-import { NavLink, Route, Switch } from "react-router-dom";
 import HomePage from "./home/HomePage";
-import { menuItems } from "../routing";
+import { menuItems, MultiTabs } from "@haulmont/jmix-react-ui";
 import {
   injectMainStore,
   MainStoreInjected,
   RouteItem,
-  SubMenu
-} from "@haulmont/jmix-react-core";
+  SubMenu, tabs,
+} from '@haulmont/jmix-react-core';
 import { CenteredLoader } from "./CenteredLoader";
 import {
   FormattedMessage,
@@ -23,10 +22,13 @@ import {
   IntlFormatters,
   WrappedComponentProps
 } from "react-intl";
+import "../routing";
+
+tabs.homePage = <HomePage />;
 
 class AppComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
-> {
+  > {
   render() {
     const mainStore = this.props.mainStore!;
     const { initialized, locale, loginRequired } = mainStore;
@@ -50,36 +52,26 @@ class AppComponent extends React.Component<
         <Layout.Header>
           <AppHeader />
         </Layout.Header>
-        <Layout className='layout-container'>
+        <Layout className="layout-container">
           <Layout.Sider
             width={200}
             breakpoint="sm"
             collapsedWidth={0}
-            className='layout-sider'
+            className="layout-sider"
           >
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-              <Menu.Item key={menuIdx}>
-                <NavLink to={"/"}>
-                  <HomeOutlined />
-                  <FormattedMessage id="router.home" />
-                </NavLink>
+              <Menu.Item key={menuIdx} onClick={tabs.closeAll}>
+                <HomeOutlined />
+                <FormattedMessage id="router.home" />
               </Menu.Item>
               {menuItems.map((item, idx) =>
-                menuItem(item, '' + (idx + 1 + menuIdx), this.props.intl))}
+                menuItem(item, "" + (idx + 1 + menuIdx), this.props.intl)
+              )}
             </Menu>
           </Layout.Sider>
-          <Layout className='layout-content'>
+          <Layout className="layout-content">
             <Layout.Content>
-              <Switch>
-                <Route exact={true} path="/" component={HomePage} />
-                {collectRouteItems(menuItems).map(route => (
-                  <Route
-                    key={route.pathPattern}
-                    path={route.pathPattern}
-                    component={route.component}
-                  />
-                ))}
-              </Switch>
+              <MultiTabs />
             </Layout.Content>
           </Layout>
         </Layout>
@@ -88,8 +80,11 @@ class AppComponent extends React.Component<
   }
 }
 
-function menuItem(item: RouteItem | SubMenu, keyString: string, intl: IntlFormatters) {
-
+function menuItem(
+  item: RouteItem | SubMenu,
+  keyString: string,
+  intl: IntlFormatters
+) {
   // Sub Menu
 
   if ((item as any).items != null) {
@@ -101,40 +96,40 @@ function menuItem(item: RouteItem | SubMenu, keyString: string, intl: IntlFormat
           id: "router." + item.caption
         })}
       >
-        {(item as SubMenu).items
-          .map((ri, index) => menuItem(ri, keyString + '-' + (index + 1), intl))}
+        {(item as SubMenu).items.map((ri, index) =>
+          menuItem(ri, keyString + "-" + (index + 1), intl)
+        )}
       </Menu.SubMenu>
     );
   }
 
   // Route Item
+  const routeItem = item as RouteItem;
 
-  const { menuLink } = item as RouteItem;
+  function handleClick() {
+    tabs.push({ title: routeItem.caption, content: routeItem.component, key: routeItem.menuLink });
+    window.history.pushState({}, '', routeItem.menuLink);
+  }
 
   return (
-    <Menu.Item key={keyString}>
-      <NavLink to={menuLink}>
-        <BarsOutlined />
-        <FormattedMessage id={"router." + item.caption} />
-      </NavLink>
+    <Menu.Item key={keyString} onClick={handleClick}>
+      <BarsOutlined />
+      <FormattedMessage id={"router." + item.caption} />
     </Menu.Item>
   );
 }
 
 function collectRouteItems(items: Array<RouteItem | SubMenu>): RouteItem[] {
-  return items.reduce(
-    (acc, curr) => {
-      if ((curr as SubMenu).items == null) {
-        // Route item
-        acc.push(curr as RouteItem);
-      } else {
-        // Items from sub menu
-        acc.push(...collectRouteItems((curr as SubMenu).items));
-      }
-      return acc;
-    },
-    [] as Array<RouteItem>
-  );
+  return items.reduce((acc, curr) => {
+    if ((curr as SubMenu).items == null) {
+      // Route item
+      acc.push(curr as RouteItem);
+    } else {
+      // Items from sub menu
+      acc.push(...collectRouteItems((curr as SubMenu).items));
+    }
+    return acc;
+  }, [] as Array<RouteItem>);
 }
 
 const App = 

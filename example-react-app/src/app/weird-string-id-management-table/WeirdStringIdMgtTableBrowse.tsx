@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { observable, makeObservable } from "mobx";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,21 +8,36 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  Spinner,
+  referencesListByEntityName
+} from "@haulmont/jmix-react-ui";
 
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { WeirdStringIdMgtTableManagement } from "./WeirdStringIdMgtTableManagement";
 import {
   FormattedMessage,
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
 
+const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
+const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
+
+interface IWeirdStringIdMgtTableBrowseComponentProps {
+  screens: Screens;
+}
+
 class WeirdStringIdMgtTableBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected &
+    WrappedComponentProps &
+    IWeirdStringIdMgtTableBrowseComponentProps
 > {
   dataCollection = collection<WeirdStringIdTestEntity>(
     WeirdStringIdTestEntity.NAME,
@@ -62,7 +76,37 @@ class WeirdStringIdMgtTableBrowseComponent extends React.Component<
     });
   };
 
-  constructor(props: MainStoreInjected & WrappedComponentProps) {
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState(
+        {},
+        "",
+        ROUTING_PATH + "/" + this.selectedRowKey
+      );
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: this.selectedRowKey!
+      }
+    });
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -79,42 +123,32 @@ class WeirdStringIdMgtTableBrowseComponent extends React.Component<
         operation="create"
         key="create"
       >
-        <Link
-          to={
-            WeirdStringIdMgtTableManagement.PATH +
-            "/" +
-            WeirdStringIdMgtTableManagement.NEW_SUBPATH
-          }
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          onClick={this.onCrateBtnClick}
+          type="primary"
+          icon={<PlusOutlined />}
         >
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </Link>
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={WeirdStringIdTestEntity.NAME}
         operation="update"
         key="update"
       >
-        <Link
-          to={WeirdStringIdMgtTableManagement.PATH + "/" + this.selectedRowKey}
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={!this.selectedRowKey}
+          onClick={this.onEditBtnClick}
+          type="default"
         >
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            disabled={!this.selectedRowKey}
-            type="default"
-          >
-            <FormattedMessage id="common.edit" />
-          </Button>
-        </Link>
+          <FormattedMessage id="common.edit" />
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={WeirdStringIdTestEntity.NAME}
@@ -171,4 +205,8 @@ const WeirdStringIdMgtTableBrowse = injectIntl(
   injectMainStore(observer(WeirdStringIdMgtTableBrowseComponent))
 );
 
-export default WeirdStringIdMgtTableBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <WeirdStringIdMgtTableBrowse screens={screens} />;
+});

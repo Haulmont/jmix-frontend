@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+             version="2.0">
+    <persistence-unit name="sample-car-rent"
+                      transaction-type="RESOURCE_LOCAL">
+        <class>com.company.scr.entity.Car</class>
+        <class>com.company.scr.entity.Garage</class>
+        <class>com.company.scr.entity.FavoriteCar</class>
+        <class>com.company.scr.entity.CarRent</class>
+        <class>com.company.scr.entity.TechnicalCertificate</class>
+        <class>com.company.scr.entity.SparePart</class>
+        <class>com.company.scr.entity.ScrUser</class>
+        <class>com.company.scr.entity.test.DatatypesTestEntity</class>
+        <class>com.company.scr.entity.test.AssociationO2OTestEntity</class>
+        <class>com.company.scr.entity.test.CompositionO2OTestEntity</class>
+        <class>com.company.scr.entity.test.CompositionO2MTestEntity</class>
+        <class>com.company.scr.entity.test.AssociationO2MTestEntity</class>
+        <class>com.company.scr.entity.test.AssociationM2OTestEntity</class>
+        <class>com.company.scr.entity.test.AssociationM2MTestEntity</class>
+        <class>com.company.scr.entity.test.StringIdTestEntity</class>
+        <class>com.company.scr.entity.test.IntIdentityIdTestEntity</class>
+        <class>com.company.scr.entity.test.DeeplyNestedTestEntity</class>
+        <class>com.company.scr.entity.test.DatatypesTestEntity2</class>
+        <class>com.company.scr.entity.test.DatatypesTestEntity3</class>
+        <class>com.company.scr.entity.test.IntegerIdTestEntity</class>
+        <class>com.company.scr.entity.test.WeirdStringIdTestEntity</class>
+        <class>com.company.scr.entity.test.BoringStringIdTestEntity</class>
+    </persistence-unit>
+</persistence>

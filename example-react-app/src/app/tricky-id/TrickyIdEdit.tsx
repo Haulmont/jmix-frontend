@@ -2,9 +2,13 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { TrickyIdMgr } from "./TrickyIdMgr";
-import { Link, Redirect } from "react-router-dom";
-import { IReactionDisposer, observable, reaction, toJS } from "mobx";
+import {
+  IReactionDisposer,
+  observable,
+  reaction,
+  toJS,
+  makeObservable
+} from "mobx";
 import {
   FormattedMessage,
   injectIntl,
@@ -12,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -27,29 +37,33 @@ import "../../app/App.css";
 
 import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface ITrickyIdEditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
 
-@injectMainStore
-@observer
+// const ENTITY_NAME = 'scr_TrickyIdTestEntity';
+const ROUTING_PATH = "/trickyIdMgr";
+
 class TrickyIdEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & ITrickyIdEditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<TrickyIdTestEntity>(TrickyIdTestEntity.NAME, {
     view: "_base",
     loadImmediately: false
   });
 
-  @observable updated = false;
-  @observable formRef: React.RefObject<FormInstance> = React.createRef();
+  updated = false;
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = ["otherAttr"];
 
-  @observable globalErrors: string[] = [];
+  globalErrors: string[] = [];
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -79,16 +93,29 @@ class TrickyIdEditComponent extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === TrickyIdMgr.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  render() {
-    if (this.updated) {
-      return <Redirect to={TrickyIdMgr.PATH} />;
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
     }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
 
+  constructor(props) {
+    super(props);
+
+    makeObservable(this, {
+      updated: observable,
+      formRef: observable,
+      globalErrors: observable
+    });
+  }
+
+  render() {
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -100,7 +127,10 @@ class TrickyIdEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -133,11 +163,9 @@ class TrickyIdEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={TrickyIdMgr.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -157,7 +185,7 @@ class TrickyIdEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new TrickyIdTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -178,7 +206,7 @@ class TrickyIdEditComponent extends React.Component<
     this.reactionDisposers.push(
       reaction(
         () => this.formRef.current,
-        (formRefCurrent, formRefReaction) => {
+        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
           if (formRefCurrent != null) {
             // The Form has been successfully created.
             // It is now safe to set values on Form fields.
@@ -206,4 +234,12 @@ class TrickyIdEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(TrickyIdEditComponent);
+const TrickyIdEdit = injectIntl(
+  injectMainStore(observer(TrickyIdEditComponent))
+);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <TrickyIdEdit screens={screens} />;
+});

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import { IReactionDisposer, reaction } from "mobx";
+import { IReactionDisposer, reaction, action, observable } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Modal, Button, Card, message } from "antd";
 
@@ -9,18 +8,23 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
-  Spinner
+  Spinner,
+  referencesListByEntityName,
+  addPagingParams,
+  createPagingConfig,
+  defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { StringIdMgtCardsManagement } from "./StringIdMgtCardsManagement";
 import {
   FormattedMessage,
   injectIntl,
@@ -28,11 +32,16 @@ import {
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
+interface IStringIdMgtCardsBrowseComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected &
-  WrappedComponentProps & {
-    paginationConfig: PaginationConfig;
-    onPagingChange: (current: number, pageSize: number) => void;
-  };
+  WrappedComponentProps &
+  IStringIdMgtCardsBrowseComponentProps;
+
+const ENTITY_NAME = "scr_StringIdTestEntity";
+const ROUTING_PATH = "/stringIdMgtCardsManagement";
 
 class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
   dataCollection = collection<StringIdTestEntity>(StringIdTestEntity.NAME, {
@@ -53,16 +62,9 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
     "version"
   ];
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
+  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
 
+  componentDidMount(): void {
     this.reactionDisposers.push(
       reaction(
         () => this.dataCollection.status,
@@ -74,11 +76,35 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
         }
       )
     );
+
+    // to disable paging config pass 'true' as disabled param in function below
+    //this.paginationConfig = createPagingConfig(window.location.search);
+    /*
+    this.reactionDisposers.push(
+      reaction(
+        () => this.paginationConfig,
+        paginationConfig =>
+          setPagination(paginationConfig, this.dataCollection, true)
+      )
+    );
+    setPagination(this.paginationConfig, this.dataCollection, true);
+    */
   }
 
   componentWillUnmount() {
     this.reactionDisposers.forEach(dispose => dispose());
   }
+
+  @action onPagingChange = (current: number, pageSize: number) => {
+    // If we on root screen
+    /*
+    if (this.props.screens.currentScreenIndex === 0) {
+      routerData.history.push(
+        addPagingParams("stringIdMgtCardsManagement", current, pageSize)
+      );
+      this.paginationConfig = {...this.paginationConfig, current, pageSize};
+    }*/
+  };
 
   showDeletionDialog = (e: SerializedEntity<StringIdTestEntity>) => {
     Modal.confirm({
@@ -96,9 +122,35 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = (itemId: string) => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState({}, "", ROUTING_PATH + "/" + itemId);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: itemId
+      }
+    });
+  };
+
   render() {
     const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
+    const { mainStore } = this.props;
 
     if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
       return <Spinner />;
@@ -111,19 +163,16 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
           operation="create"
         >
           <div style={{ marginBottom: "12px" }}>
-            <Link
-              to={
-                StringIdMgtCardsManagement.PATH +
-                "/" +
-                StringIdMgtCardsManagement.NEW_SUBPATH
-              }
+            <Button
+              htmlType="button"
+              type="primary"
+              onClick={this.onCrateBtnClick}
+              icon={<PlusOutlined />}
             >
-              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </Link>
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
           </div>
         </EntityPermAccessControl>
 
@@ -142,12 +191,7 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
                 key="delete"
                 onClick={() => this.showDeletionDialog(e)}
               />,
-              <Link
-                to={StringIdMgtCardsManagement.PATH + "/" + getStringId(e.id!)}
-                key="edit"
-              >
-                <EditOutlined />
-              </Link>
+              <EditOutlined onClick={() => this.onEditBtnClick(e.id!)} />
             ]}
           >
             {this.fields.map(p => (
@@ -160,16 +204,15 @@ class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
             ))}
           </Card>
         ))}
-
-        {!this.props.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={count ?? undefined}
-            />
-          </div>
-        )}
+        {/*
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={this.paginationConfig}
+            onPagingChange={this.onPagingChange}
+            total={count}
+          />
+        </div>
+          */}
       </div>
     );
   }
@@ -179,4 +222,8 @@ const StringIdMgtCardsBrowse = injectIntl(
   injectMainStore(observer(StringIdMgtCardsBrowseComponent))
 );
 
-export default StringIdMgtCardsBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <StringIdMgtCardsBrowse screens={screens} />;
+});

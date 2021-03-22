@@ -1,55 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
 import CompositionO2MEdit from "./CompositionO2MEdit";
 import CompositionO2MBrowse from "./CompositionO2MBrowse";
-import { PaginationConfig } from "antd/es/pagination";
-import { action, observable, makeObservable } from "mobx";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+const ENTITY_NAME = "scr_CompositionO2MTestEntity";
+const ROUTING_PATH = "/compositionO2MManagement";
 
-class CompositionO2MManagementComponent extends React.Component<Props> {
-  static PATH = "/compositionO2MManagement";
-  static NEW_SUBPATH = "new";
-
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  constructor(props: Props) {
-    super(props);
-
-    makeObservable(this, {
-      paginationConfig: observable,
-      onPagingChange: action
-    });
-  }
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
-  }
-
-  render() {
-    const { entityId } = this.props.match.params;
-    return entityId ? (
-      <CompositionO2MEdit entityId={entityId} />
-    ) : (
-      <CompositionO2MBrowse />
-    );
-  }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
-      addPagingParams("compositionO2MManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
-
-export const CompositionO2MManagement = observer(
-  CompositionO2MManagementComponent
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  "compositionO2MManagement list",
+  <CompositionO2MBrowse />,
+  ENTITY_NAME
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  "compositionO2MManagement",
+  <CompositionO2MEdit />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  "compositionO2MManagement",
+  <CompositionO2MBrowse />
 );

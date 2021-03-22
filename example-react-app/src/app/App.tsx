@@ -7,14 +7,14 @@ import { observer } from "mobx-react";
 import Login from "./login/Login";
 import Centered from "./common/Centered";
 import AppHeader from "./header/AppHeader";
-import { NavLink, Route, Switch } from "react-router-dom";
 import HomePage from "./home/HomePage";
-import { menuItems } from "../routing";
+import { menuItems, MultiTabs } from "@haulmont/jmix-react-ui";
 import {
   injectMainStore,
   MainStoreInjected,
   RouteItem,
-  SubMenu
+  SubMenu,
+  tabs
 } from "@haulmont/jmix-react-core";
 import { CenteredLoader } from "./CenteredLoader";
 import {
@@ -23,6 +23,9 @@ import {
   IntlFormatters,
   WrappedComponentProps
 } from "react-intl";
+import "../routing";
+
+tabs.homePage = <HomePage />;
 
 class AppComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
@@ -58,11 +61,9 @@ class AppComponent extends React.Component<
             className="layout-sider"
           >
             <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-              <Menu.Item key={menuIdx}>
-                <NavLink to={"/"}>
-                  <HomeOutlined />
-                  <FormattedMessage id="router.home" />
-                </NavLink>
+              <Menu.Item key={menuIdx} onClick={tabs.closeAll}>
+                <HomeOutlined />
+                <FormattedMessage id="router.home" />
               </Menu.Item>
               {menuItems.map((item, idx) =>
                 menuItem(item, "" + (idx + 1 + menuIdx), this.props.intl)
@@ -71,16 +72,7 @@ class AppComponent extends React.Component<
           </Layout.Sider>
           <Layout className="layout-content">
             <Layout.Content>
-              <Switch>
-                <Route exact={true} path="/" component={HomePage} />
-                {collectRouteItems(menuItems).map(route => (
-                  <Route
-                    key={route.pathPattern}
-                    path={route.pathPattern}
-                    component={route.component}
-                  />
-                ))}
-              </Switch>
+              <MultiTabs />
             </Layout.Content>
           </Layout>
         </Layout>
@@ -113,15 +105,21 @@ function menuItem(
   }
 
   // Route Item
+  const routeItem = item as RouteItem;
 
-  const { menuLink } = item as RouteItem;
+  function handleClick() {
+    tabs.push({
+      title: routeItem.caption,
+      content: routeItem.component,
+      key: routeItem.menuLink
+    });
+    window.history.pushState({}, "", routeItem.menuLink);
+  }
 
   return (
-    <Menu.Item key={keyString}>
-      <NavLink to={menuLink}>
-        <BarsOutlined />
-        <FormattedMessage id={"router." + item.caption} />
-      </NavLink>
+    <Menu.Item key={keyString} onClick={handleClick}>
+      <BarsOutlined />
+      <FormattedMessage id={"router." + item.caption} />
     </Menu.Item>
   );
 }

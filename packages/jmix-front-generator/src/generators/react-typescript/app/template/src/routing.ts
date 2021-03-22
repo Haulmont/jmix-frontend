@@ -1,6 +1,3 @@
-import {getMenuItems} from "@haulmont/jmix-react-core";
-
-export const menuItems = getMenuItems();
 
 // Code below demonstrates how we can create SubMenu section
 // Remove '/*' '*/' comments and restart app to get this block in menu

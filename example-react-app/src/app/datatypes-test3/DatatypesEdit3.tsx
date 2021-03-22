@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { DatatypesManagement3 } from "./DatatypesManagement3";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
@@ -18,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
@@ -41,15 +45,21 @@ import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTe
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface IDatatypesEdit3ComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_DatatypesTestEntity';
+const ROUTING_PATH = "/datatypesManagement3";
 
 class DatatypesEdit3Component extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IDatatypesEdit3ComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
     view: "datatypesTestEntity-view",
     loadImmediately: false
@@ -220,10 +230,17 @@ class DatatypesEdit3Component extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === DatatypesManagement3.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  constructor(props: Props & WrappedComponentProps) {
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -248,12 +265,8 @@ class DatatypesEdit3Component extends React.Component<
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={DatatypesManagement3.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -265,7 +278,10 @@ class DatatypesEdit3Component extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -459,11 +475,7 @@ class DatatypesEdit3Component extends React.Component<
             entityName={DatatypesTestEntity.NAME}
             propertyName="compositionO2Oattr"
             nestedEntityView="compositionO2OTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== DatatypesManagement3.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -473,11 +485,7 @@ class DatatypesEdit3Component extends React.Component<
             entityName={DatatypesTestEntity.NAME}
             propertyName="compositionO2Mattr"
             nestedEntityView="compositionO2MTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== DatatypesManagement3.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -536,11 +544,9 @@ class DatatypesEdit3Component extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={DatatypesManagement3.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -560,7 +566,7 @@ class DatatypesEdit3Component extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new DatatypesTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -624,4 +630,12 @@ class DatatypesEdit3Component extends React.Component<
   }
 }
 
-export default injectIntl(injectMainStore(observer(DatatypesEdit3Component)));
+const DatatypesEdit3 = injectIntl(
+  injectMainStore(observer(DatatypesEdit3Component))
+);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <DatatypesEdit3 screens={screens} />;
+});

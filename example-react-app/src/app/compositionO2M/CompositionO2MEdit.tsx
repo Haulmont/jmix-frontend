@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { CompositionO2MManagement } from "./CompositionO2MManagement";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
@@ -18,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   loadAssociationOptions,
@@ -36,15 +40,21 @@ import "../../app/App.css";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface ICompositionO2MEditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_CompositionO2MTestEntity';
+const ROUTING_PATH = "/compositionO2MManagement";
 
 class CompositionO2MEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & ICompositionO2MEditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<CompositionO2MTestEntity>(
     CompositionO2MTestEntity.NAME,
     {
@@ -112,10 +122,17 @@ class CompositionO2MEditComponent extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === CompositionO2MManagement.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  constructor(props: Props & WrappedComponentProps) {
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -128,12 +145,8 @@ class CompositionO2MEditComponent extends React.Component<
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={CompositionO2MManagement.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -145,7 +158,10 @@ class CompositionO2MEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -195,11 +211,9 @@ class CompositionO2MEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={CompositionO2MManagement.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -219,7 +233,7 @@ class CompositionO2MEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new CompositionO2MTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -283,6 +297,12 @@ class CompositionO2MEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(
+const CompositionO2MEdit = injectIntl(
   injectMainStore(observer(CompositionO2MEditComponent))
 );
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CompositionO2MEdit screens={screens} />;
+});

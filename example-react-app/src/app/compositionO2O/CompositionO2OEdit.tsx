@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { CompositionO2OManagement } from "./CompositionO2OManagement";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
@@ -18,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -33,15 +37,21 @@ import "../../app/App.css";
 
 import { CompositionO2OTestEntity } from "../../jmix/entities/scr_CompositionO2OTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface ICompositionO2OEditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_CompositionO2OTestEntity';
+const ROUTING_PATH = "/compositionO2OManagement";
 
 class CompositionO2OEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & ICompositionO2OEditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<CompositionO2OTestEntity>(
     CompositionO2OTestEntity.NAME,
     {
@@ -86,10 +96,17 @@ class CompositionO2OEditComponent extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === CompositionO2OManagement.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  constructor(props: Props & WrappedComponentProps) {
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -100,12 +117,8 @@ class CompositionO2OEditComponent extends React.Component<
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={CompositionO2OManagement.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -117,7 +130,10 @@ class CompositionO2OEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -153,11 +169,7 @@ class CompositionO2OEditComponent extends React.Component<
             entityName={CompositionO2OTestEntity.NAME}
             propertyName="nestedComposition"
             nestedEntityView="deeplyNestedTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== CompositionO2OManagement.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -172,11 +184,9 @@ class CompositionO2OEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={CompositionO2OManagement.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -196,7 +206,7 @@ class CompositionO2OEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new CompositionO2OTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -245,6 +255,12 @@ class CompositionO2OEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(
+const CompositionO2OEdit = injectIntl(
   injectMainStore(observer(CompositionO2OEditComponent))
 );
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <CompositionO2OEdit screens={screens} />;
+});

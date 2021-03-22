@@ -2,8 +2,6 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { WeirdStringIdMgtTableManagement } from "./WeirdStringIdMgtTableManagement";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
@@ -18,8 +16,14 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -33,15 +37,21 @@ import "../../app/App.css";
 
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface IWeirdStringIdMgtTableEditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_WeirdStringIdTestEntity';
+const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
 class WeirdStringIdMgtTableEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IWeirdStringIdMgtTableEditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<WeirdStringIdTestEntity>(
     WeirdStringIdTestEntity.NAME,
     {
@@ -96,10 +106,17 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
   };
 
   isNewEntity = () => {
-    return this.props.entityId === WeirdStringIdMgtTableManagement.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  constructor(props: Props & WrappedComponentProps) {
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      window.history.pushState({}, "", ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -110,12 +127,8 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={WeirdStringIdMgtTableManagement.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -127,7 +140,10 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -225,11 +241,9 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={WeirdStringIdMgtTableManagement.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -249,7 +263,7 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new WeirdStringIdTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -298,6 +312,12 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(
+const WeirdStringIdMgtTableEdit = injectIntl(
   injectMainStore(observer(WeirdStringIdMgtTableEditComponent))
 );
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <WeirdStringIdMgtTableEdit screens={screens} />;
+});

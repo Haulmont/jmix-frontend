@@ -1,7 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import { IReactionDisposer, reaction } from "mobx";
+import { IReactionDisposer, reaction, observable, action } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Modal, Button, List, message } from "antd";
 
@@ -9,18 +8,24 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  screens,
+  ScreensContext,
+  Screens
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
-  Spinner
+  Spinner,
+  referencesListByEntityName,
+  addPagingParams,
+  createPagingConfig,
+  defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { IntIdentityIdMgtListManagement } from "./IntIdentityIdMgtListManagement";
+import { SerializedEntity } from "@haulmont/jmix-rest";
 import {
   FormattedMessage,
   injectIntl,
@@ -28,11 +33,16 @@ import {
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
+interface IIntIdentityIdMgtListBrowseComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected &
-  WrappedComponentProps & {
-    paginationConfig: PaginationConfig;
-    onPagingChange: (current: number, pageSize: number) => void;
-  };
+  WrappedComponentProps &
+  IIntIdentityIdMgtListBrowseComponentProps;
+
+const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
+const ROUTING_PATH = "/intIdentityIdMgtListManagement";
 
 class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
   dataCollection = collection<IntIdentityIdTestEntity>(
@@ -55,16 +65,9 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
     "version"
   ];
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
+  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
 
+  componentDidMount(): void {
     this.reactionDisposers.push(
       reaction(
         () => this.dataCollection.status,
@@ -76,11 +79,35 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
         }
       )
     );
+
+    // to disable paging config pass 'true' as disabled param in function below
+    //this.paginationConfig = createPagingConfig(window.location.search);
+    /*
+    this.reactionDisposers.push(
+      reaction(
+        () => this.paginationConfig,
+        paginationConfig =>
+          setPagination(paginationConfig, this.dataCollection, true)
+      )
+    );
+    setPagination(this.paginationConfig, this.dataCollection, true);
+    */
   }
 
   componentWillUnmount() {
     this.reactionDisposers.forEach(dispose => dispose());
   }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    // If we on root screen
+    /*
+    if (this.props.screens.currentScreenIndex === 0) {
+      routerData.history.push(
+        addPagingParams("intIdentityIdMgtListManagement", current, pageSize)
+      );
+      this.paginationConfig = {...this.paginationConfig, current, pageSize};
+    }*/
+  };
 
   showDeletionDialog = (e: SerializedEntity<IntIdentityIdTestEntity>) => {
     Modal.confirm({
@@ -98,9 +125,35 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = (itemId: string) => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      window.history.pushState({}, "", ROUTING_PATH + "/" + itemId);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: itemId
+      }
+    });
+  };
+
   render() {
     const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
+    const { mainStore } = this.props;
 
     if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
       return <Spinner />;
@@ -113,19 +166,16 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
           operation="create"
         >
           <div style={{ marginBottom: "12px" }}>
-            <Link
-              to={
-                IntIdentityIdMgtListManagement.PATH +
-                "/" +
-                IntIdentityIdMgtListManagement.NEW_SUBPATH
-              }
+            <Button
+              htmlType="button"
+              type="primary"
+              onClick={this.onCrateBtnClick}
+              icon={<PlusOutlined />}
             >
-              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </Link>
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
           </div>
         </EntityPermAccessControl>
 
@@ -140,16 +190,7 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link
-                  to={
-                    IntIdentityIdMgtListManagement.PATH +
-                    "/" +
-                    getStringId(item.id!)
-                  }
-                  key="edit"
-                >
-                  <EditOutlined />
-                </Link>
+                <EditOutlined onClick={() => this.onEditBtnClick(item.id!)} />
               ]}
             >
               <div style={{ flexGrow: 1 }}>
@@ -165,16 +206,15 @@ class IntIdentityIdMgtListBrowseComponent extends React.Component<Props> {
             </List.Item>
           )}
         />
-
-        {!this.props.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={count ?? undefined}
-            />
-          </div>
-        )}
+        {/*
+        <div style={{margin: "12px 0 12px 0", float: "right"}}>
+          <Paging
+            paginationConfig={this.paginationConfig}
+            onPagingChange={this.onPagingChange}
+            total={count}
+          />
+        </div>
+        */}
       </div>
     );
   }
@@ -184,4 +224,8 @@ const IntIdentityIdMgtListBrowse = injectIntl(
   injectMainStore(observer(IntIdentityIdMgtListBrowseComponent))
 );
 
-export default IntIdentityIdMgtListBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <IntIdentityIdMgtListBrowse screens={screens} />;
+});

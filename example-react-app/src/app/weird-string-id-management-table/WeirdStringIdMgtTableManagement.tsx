@@ -1,55 +1,29 @@
 import * as React from "react";
-import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
 import WeirdStringIdMgtTableEdit from "./WeirdStringIdMgtTableEdit";
 import WeirdStringIdMgtTableBrowse from "./WeirdStringIdMgtTableBrowse";
-import { PaginationConfig } from "antd/es/pagination";
-import { action, observable, makeObservable } from "mobx";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
+const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
-class WeirdStringIdMgtTableManagementComponent extends React.Component<Props> {
-  static PATH = "/weirdStringIdMgtTableManagement";
-  static NEW_SUBPATH = "new";
-
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  constructor(props: Props) {
-    super(props);
-
-    makeObservable(this, {
-      paginationConfig: observable,
-      onPagingChange: action
-    });
-  }
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
-  }
-
-  render() {
-    const { entityId } = this.props.match.params;
-    return entityId ? (
-      <WeirdStringIdMgtTableEdit entityId={entityId} />
-    ) : (
-      <WeirdStringIdMgtTableBrowse />
-    );
-  }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
-      addPagingParams("weirdStringIdMgtTableManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
-
-export const WeirdStringIdMgtTableManagement = observer(
-  WeirdStringIdMgtTableManagementComponent
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  "weirdStringIdMgtTableManagement list",
+  <WeirdStringIdMgtTableBrowse />,
+  ENTITY_NAME
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  "weirdStringIdMgtTableManagement",
+  <WeirdStringIdMgtTableEdit />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  "weirdStringIdMgtTableManagement",
+  <WeirdStringIdMgtTableBrowse />
 );
