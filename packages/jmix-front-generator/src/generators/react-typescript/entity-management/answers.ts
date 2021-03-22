@@ -22,27 +22,26 @@ export interface Answers extends StringIdAnswers {
     nestedEntityInfo?: Record<string, string>
   }
 
-  export const allQuestions: StudioTemplateProperty[] = [
+  const questionsToBeAskedInCLI = [
     ...commonEntityManagementQuestions,
     ...viewQuestions
+  ];
+
+  export const allQuestions: StudioTemplateProperty[] = [
+    ...questionsToBeAskedInCLI
   ];
 
   export const getAnswersFromPrompt = async (
     projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
   ): Promise<Answers> => {
-  
-    const initialQuestions = [
-      ...commonEntityManagementQuestions,
-      ...viewQuestions
-    ];
-    let answers: Answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
+    let answers: Answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
     let stringIdAnswers: StringIdAnswers = isStringIdEntity(projectModel, answers.entity) 
-    ? await askStringIdQuestions(
-        answers.entity,
-        projectModel,
-        gen
-      )
-    : {}
+      ? await askStringIdQuestions(
+          answers.entity,
+          projectModel,
+          gen
+        )
+      : {}
   
     return {...answers, ...stringIdAnswers};
   }

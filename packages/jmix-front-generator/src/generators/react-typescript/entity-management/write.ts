@@ -1,7 +1,7 @@
 import {WriteStage} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Options} from "./options";
 import {TemplateModel} from "./template-model";
-import {addMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
+import {addEntityMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
 import {
   writeEditorComponent,
   writeListComponent,
@@ -43,7 +43,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     }
   );
 
-  addMenuItem(gen, dirShift, className, nameLiteral);
+  addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, editComponentClass, editComponentClass, true, {entityId: 'new'});
   addComponentPreviews(gen, dirShift, listComponentClass, listComponentClass, true, generateMockProps(listType));
 };

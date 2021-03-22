@@ -16,19 +16,19 @@ export interface Answers {
     componentName: string
 }
 
+  
+const questionsToBeAskedInCLI = [
+  ...blankComponentQuestions
+];
+
 export const allQuestions: StudioTemplateProperty[] = [
-    ...blankComponentQuestions
+    ...questionsToBeAskedInCLI
   ];
 
   export const getAnswersFromPrompt = async (
     projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
-  ): Promise<Answers> => {
-  
-    const initialQuestions = [
-      ...blankComponentQuestions
-    ];
-    
-    let answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
+  ): Promise<Answers> => {    
+    const answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
 
     return answers;
   }

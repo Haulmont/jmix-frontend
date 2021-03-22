@@ -1,13 +1,8 @@
-import * as React from "react";
-import { observer } from "mobx-react";
-
+import React, { useEffect } from "react";
+import { observer, useLocalObservable } from "mobx-react";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { Card } from "antd";
-import {
-  collection,
-  MainStoreInjected,
-  injectMainStore
-} from "@haulmont/jmix-react-core";
+import { useCollection } from "@haulmont/jmix-react-core";
 import {
   addPagingParams,
   createPagingConfig,
@@ -18,20 +13,33 @@ import {
   Spinner
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
-import {
-  action,
-  IReactionDisposer,
-  observable,
-  reaction,
-  makeObservable
-} from "mobx";
-import { PaginationConfig } from "antd/es/pagination";
-import { RouteComponentProps } from "react-router";
+import { useLocation, useHistory } from "react-router";
 
-type Props = MainStoreInjected & Partial<RouteComponentProps>;
+const FIELDS = [
+  "description",
+  "updateTs",
+  "updatedBy",
+  "deleteTs",
+  "deletedBy",
+  "createTs",
+  "createdBy",
+  "version"
+];
 
-export class IntIdentityIdCardsComponent extends React.Component<Props> {
-  dataCollection = collection<IntIdentityIdTestEntity>(
+export const IntIdentityIdCards = observer(() => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const pagination = useLocalObservable(() => ({
+    // to disable paging config pass 'true' as disabled param in function below
+    config: createPagingConfig(location.search, false, defaultPagingConfig),
+    onChange(current: number, pageSize: number) {
+      history.push(addPagingParams("intIdentityIdCards", current, pageSize));
+      this.config = { ...this.config, current, pageSize };
+    }
+  }));
+
+  const { current: dataCollection } = useCollection<IntIdentityIdTestEntity>(
     IntIdentityIdTestEntity.NAME,
     {
       view: "_local",
@@ -39,91 +47,43 @@ export class IntIdentityIdCardsComponent extends React.Component<Props> {
     }
   );
 
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-  reactionDisposer: IReactionDisposer;
-  fields = [
-    "description",
-    "updateTs",
-    "updatedBy",
-    "deleteTs",
-    "deletedBy",
-    "createTs",
-    "createdBy",
-    "version"
-  ];
+  const { status, items, count } = dataCollection;
 
-  constructor(props: Props) {
-    super(props);
+  useEffect(() => setPagination(pagination.config, dataCollection, true), [
+    dataCollection,
+    pagination.config
+  ]);
 
-    makeObservable(this, {
-      paginationConfig: observable,
-      onPagingChange: action
-    });
-  }
+  if (status === "LOADING") return <Spinner />;
 
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props.location?.search ?? ""
-    );
-
-    this.reactionDisposer = reaction(
-      () => this.paginationConfig,
-      paginationConfig =>
-        setPagination(paginationConfig, this.dataCollection, true)
-    );
-    setPagination(this.paginationConfig, this.dataCollection, true);
-  }
-
-  componentWillUnmount() {
-    this.reactionDisposer();
-  }
-
-  render() {
-    const { status, items, count } = this.dataCollection;
-
-    if (status === "LOADING") return <Spinner />;
-
-    return (
-      <div className="narrow-layout">
-        {items.map(e => (
-          <Card
-            title={e._instanceName}
-            key={e.id ? getStringId(e.id) : undefined}
-            style={{ marginBottom: "12px" }}
-          >
-            {this.fields.map(p => (
-              <EntityProperty
-                entityName={IntIdentityIdTestEntity.NAME}
-                propertyName={p}
-                value={e[p]}
-                key={p}
-              />
-            ))}
-          </Card>
-        ))}
-
-        {!this.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={this.paginationConfig}
-              onPagingChange={this.onPagingChange}
-              total={count ?? undefined}
+  return (
+    <div className="narrow-layout">
+      {items.map(e => (
+        <Card
+          title={e._instanceName}
+          key={e.id ? getStringId(e.id) : undefined}
+          style={{ marginBottom: "12px" }}
+        >
+          {FIELDS.map(p => (
+            <EntityProperty
+              entityName={IntIdentityIdTestEntity.NAME}
+              propertyName={p}
+              value={e[p]}
+              key={p}
             />
-          </div>
-        )}
-      </div>
-    );
-  }
+          ))}
+        </Card>
+      ))}
 
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props.history?.push(
-      addPagingParams("intIdentityIdCards", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
-}
-
-export const IntIdentityIdCards = injectMainStore(
-  observer(IntIdentityIdCardsComponent)
-);
+      {!pagination.config.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={pagination.config}
+            onPagingChange={pagination.onChange}
+            total={count ?? undefined}
+          />
+        </div>
+      )}
+    </div>
+  );
+});

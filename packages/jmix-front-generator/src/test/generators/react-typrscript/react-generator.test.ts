@@ -19,6 +19,7 @@ const hooksPOCAnswers = require('../../fixtures/answers/hooks-poc.json');
 const REACT_DIR = path.join(process.cwd(), `src/test/generated/react-client`);
 const COMPONENT_DIR = path.join(REACT_DIR, 'src/app/component');
 const CARDS_DIR = path.join(REACT_DIR, 'src/app/entity-cards');
+const CARDS_GRID_DIR = path.join(REACT_DIR, 'src/app/entity-cards-grid');
 const EM_DIR = path.join(REACT_DIR, 'src/app/entity-management');
 
 const FIXTURES_DIR = path.join(process.cwd(), `src/test/fixtures/react-client`);
@@ -66,6 +67,15 @@ describe('react generator test', () => {
       opts(CARDS_DIR, answers.entityCards, componentRelativeModelPath));
 
     assertFilesPlain('src/app/entity-cards/MpgFavoriteCarCards.tsx', REACT_DIR, FIXTURES_DIR);
+  });
+
+  it('should generate React client entity-cards-grid', async function () {
+    await rimraf(`${CARDS_GRID_DIR}/*`);
+
+    await generate('react-typescript', 'entity-cards-grid',
+      opts(CARDS_GRID_DIR, answers.entityCardsGrid, componentRelativeModelPath));
+
+    assertFilesPlain('src/app/entity-cards-grid/MpgFavoriteCarCardsGrid.tsx', REACT_DIR, FIXTURES_DIR);
   });
 
   it('should generate React client entity-management', async function () {
