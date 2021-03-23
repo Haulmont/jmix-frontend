@@ -17,11 +17,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_CAR",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -260,6 +255,183 @@
           "length": "255",
           "mappedBy": "",
           "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "VERSION",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "CREATED_BY",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "createdDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "CREATED_DATE",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "temporalType": "DATE"
+        },
+        {
+          "name": "lastModifiedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "LAST_MODIFIED_BY",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "LAST_MODIFIED_DATE",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "temporalType": "DATE"
+        },
+        {
+          "name": "photo",
+          "type": {
+            "packageName": "io.jmix.core",
+            "className": "FileRef",
+            "fqn": "io.jmix.core.FileRef",
+            "label": "fileRef"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "PHOTO",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_CarDto",
+      "className": "CarDto",
+      "packageName": "com.company.scr.entity",
+      "dataStore": "main",
+      "embeddable": false,
+      "persistentEntity": false,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.CarDto",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "id",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "manufacturer",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "manufacturer",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "price",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "price",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "model",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "model",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
         }
       ]
     },
@@ -491,6 +663,23 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
+          "transient": false
+        },
+        {
+          "name": "cars",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "unique": false,
+          "mappedBy": "garage",
           "transient": false
         },
         {
@@ -1741,7 +1930,7 @@
             "label": "Time"
           },
           "mappingType": "DATATYPE",
-          "readOnly": true,
+          "readOnly": false,
           "column": "TIME_ATTR",
           "mandatory": false,
           "unique": false,
@@ -3409,6 +3598,30 @@
         {
           "name": "mileage",
           "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "createdBy",
+          "lazy": false
+        },
+        {
+          "name": "createdDate",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "lazy": false
+        },
+        {
+          "name": "photo",
+          "lazy": false
         }
       ],
       "allProperties": [
@@ -3455,6 +3668,30 @@
         {
           "name": "mileage",
           "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "createdBy",
+          "lazy": false
+        },
+        {
+          "name": "createdDate",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "lazy": false
+        },
+        {
+          "name": "photo",
+          "lazy": false
         }
       ]
     },
@@ -3464,8 +3701,26 @@
       "classFqn": "com.company.scr.entity.Car",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "manufacturer",
+          "lazy": false
+        },
+        {
+          "name": "model",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "manufacturer",
+          "lazy": false
+        },
+        {
+          "name": "model",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -3517,6 +3772,30 @@
         {
           "name": "mileage",
           "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "createdBy",
+          "lazy": false
+        },
+        {
+          "name": "createdDate",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "lazy": false
+        },
+        {
+          "name": "photo",
+          "lazy": false
         }
       ],
       "allProperties": [
@@ -3562,6 +3841,30 @@
         },
         {
           "name": "mileage",
+          "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "createdBy",
+          "lazy": false
+        },
+        {
+          "name": "createdDate",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "lazy": false
+        },
+        {
+          "name": "photo",
           "lazy": false
         }
       ]
@@ -3631,6 +3934,30 @@
           "lazy": false
         },
         {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "createdBy",
+          "lazy": false
+        },
+        {
+          "name": "createdDate",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "lazy": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "lazy": false
+        },
+        {
+          "name": "photo",
+          "lazy": false
+        },
+        {
           "name": "garage",
           "entity": "scr$Garage",
           "lazy": false
@@ -3641,6 +3968,33 @@
           "lazy": false
         }
       ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_CarDto",
+      "classFqn": "com.company.scr.entity.CarDto",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_CarDto",
+      "classFqn": "com.company.scr.entity.CarDto",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_CarDto",
+      "classFqn": "com.company.scr.entity.CarDto",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
     },
     {
       "name": "_base",
@@ -3763,11 +4117,21 @@
       "systemProperties": false,
       "properties": [
         {
+          "name": "car",
+          "entity": "scr$Car",
+          "lazy": false
+        },
+        {
           "name": "notes",
           "lazy": false
         }
       ],
       "allProperties": [
+        {
+          "name": "car",
+          "entity": "scr$Car",
+          "lazy": false
+        },
         {
           "name": "notes",
           "lazy": false
@@ -3780,8 +4144,20 @@
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "car",
+          "entity": "scr$Car",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "car",
+          "entity": "scr$Car",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -3939,8 +4315,18 @@
       "classFqn": "com.company.scr.entity.Garage",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4026,8 +4412,18 @@
       "classFqn": "com.company.scr.entity.SparePart",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4099,8 +4495,18 @@
       "classFqn": "com.company.scr.entity.TechnicalCertificate",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "certNumber",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "certNumber",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4129,7 +4535,11 @@
       "systemProperties": false,
       "properties": [
         {
-          "name": "version",
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
           "lazy": false
         },
         {
@@ -4137,15 +4547,11 @@
           "lazy": false
         },
         {
+          "name": "version",
+          "lazy": false
+        },
+        {
           "name": "password",
-          "lazy": false
-        },
-        {
-          "name": "firstName",
-          "lazy": false
-        },
-        {
-          "name": "lastName",
           "lazy": false
         },
         {
@@ -4163,7 +4569,11 @@
       ],
       "allProperties": [
         {
-          "name": "version",
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
           "lazy": false
         },
         {
@@ -4171,15 +4581,11 @@
           "lazy": false
         },
         {
+          "name": "version",
+          "lazy": false
+        },
+        {
           "name": "password",
-          "lazy": false
-        },
-        {
-          "name": "firstName",
-          "lazy": false
-        },
-        {
-          "name": "lastName",
           "lazy": false
         },
         {
@@ -4202,8 +4608,34 @@
       "classFqn": "com.company.scr.entity.User",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4305,8 +4737,18 @@
       "classFqn": "com.company.scr.entity.test.AssociationM2MTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4378,8 +4820,18 @@
       "classFqn": "com.company.scr.entity.test.AssociationM2OTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4440,8 +4892,18 @@
       "classFqn": "com.company.scr.entity.test.AssociationO2MTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4513,8 +4975,18 @@
       "classFqn": "com.company.scr.entity.test.AssociationO2OTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4650,8 +5122,18 @@
       "classFqn": "com.company.scr.entity.test.BoringStringIdTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4744,21 +5226,21 @@
       "systemProperties": false,
       "properties": [
         {
-          "name": "quantity",
+          "name": "name",
           "lazy": false
         },
         {
-          "name": "name",
+          "name": "quantity",
           "lazy": false
         }
       ],
       "allProperties": [
         {
-          "name": "quantity",
+          "name": "name",
           "lazy": false
         },
         {
-          "name": "name",
+          "name": "quantity",
           "lazy": false
         }
       ]
@@ -4769,8 +5251,18 @@
       "classFqn": "com.company.scr.entity.test.CompositionO2MTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -4862,8 +5354,18 @@
       "classFqn": "com.company.scr.entity.test.CompositionO2OTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -5539,8 +6041,18 @@
       "classFqn": "com.company.scr.entity.test.DatatypesTestEntity3",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -5652,8 +6164,18 @@
       "classFqn": "com.company.scr.entity.test.DeeplyNestedTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -5781,8 +6303,18 @@
       "classFqn": "com.company.scr.entity.test.IntIdentityIdTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -5940,8 +6472,18 @@
       "classFqn": "com.company.scr.entity.test.IntegerIdTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -6026,6 +6568,10 @@
       "systemProperties": false,
       "properties": [
         {
+          "name": "identifier",
+          "lazy": false
+        },
+        {
           "name": "description",
           "lazy": false
         },
@@ -6063,6 +6609,10 @@
         }
       ],
       "allProperties": [
+        {
+          "name": "identifier",
+          "lazy": false
+        },
         {
           "name": "description",
           "lazy": false
@@ -6107,8 +6657,18 @@
       "classFqn": "com.company.scr.entity.test.StringIdTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "identifier",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "identifier",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
@@ -6282,8 +6842,18 @@
       "classFqn": "com.company.scr.entity.test.WeirdStringIdTestEntity",
       "overwrite": false,
       "systemProperties": false,
-      "properties": [],
-      "allProperties": []
+      "properties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "description",
+          "lazy": false
+        }
+      ]
     },
     {
       "name": "_local",
