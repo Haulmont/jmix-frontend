@@ -34,8 +34,6 @@ type Props = MainStoreInjected &
     onPagingChange: (current: number, pageSize: number) => void;
   };
 
-@injectMainStore
-@observer
 class TrickyIdListComponent extends React.Component<Props> {
   dataCollection = collection<TrickyIdTestEntity>(TrickyIdTestEntity.NAME, {
     view: "_base",
@@ -151,7 +149,7 @@ class TrickyIdListComponent extends React.Component<Props> {
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count}
+              total={count ?? undefined}
             />
           </div>
         )}
@@ -160,6 +158,8 @@ class TrickyIdListComponent extends React.Component<Props> {
   }
 }
 
-const TrickyIdList = injectIntl(TrickyIdListComponent);
+const TrickyIdList = injectIntl(
+  injectMainStore(observer(TrickyIdListComponent))
+);
 
 export default TrickyIdList;

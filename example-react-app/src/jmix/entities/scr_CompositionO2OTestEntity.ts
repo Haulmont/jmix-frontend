@@ -15,6 +15,8 @@ export type CompositionO2OTestEntityView<
   V extends CompositionO2OTestEntityViewName
 > = V extends "_base"
   ? Pick<CompositionO2OTestEntity, "id" | "name" | "quantity">
+  : V extends "_instance_name"
+  ? Pick<CompositionO2OTestEntity, "id" | "name">
   : V extends "_local"
   ? Pick<CompositionO2OTestEntity, "id" | "name" | "quantity">
   : V extends "compositionO2OTestEntity-view"

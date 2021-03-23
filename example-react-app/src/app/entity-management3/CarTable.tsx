@@ -42,6 +42,12 @@ class CarTableComponent extends React.Component<
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
+    "photo",
     "garage",
     "technicalCertificate"
   ];
