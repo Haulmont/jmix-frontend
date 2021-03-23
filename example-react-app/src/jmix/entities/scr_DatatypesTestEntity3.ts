@@ -22,6 +22,8 @@ export type DatatypesTestEntity3View<
   V extends DatatypesTestEntity3ViewName
 > = V extends "_base"
   ? Pick<DatatypesTestEntity3, "id" | "name">
+  : V extends "_instance_name"
+  ? Pick<DatatypesTestEntity3, "id" | "name">
   : V extends "_local"
   ? Pick<DatatypesTestEntity3, "id" | "name">
   : V extends "datatypesTestEntity3-view"

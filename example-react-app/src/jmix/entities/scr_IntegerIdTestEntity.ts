@@ -30,6 +30,8 @@ export type IntegerIdTestEntityView<
       | "deletedBy"
       | "version"
     >
+  : V extends "_instance_name"
+  ? Pick<IntegerIdTestEntity, "id" | "description">
   : V extends "_local"
   ? Pick<
       IntegerIdTestEntity,

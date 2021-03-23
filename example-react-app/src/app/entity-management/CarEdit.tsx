@@ -71,6 +71,12 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
+    "photo",
     "garage",
     "technicalCertificate"
   ];
@@ -270,6 +276,55 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           <Field
             entityName={Car.NAME}
             propertyName="mileage"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="version"
+            formItemProps={{
+              style: { marginBottom: "12px" },
+              rules: [{ required: true }]
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="createdBy"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="createdDate"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="lastModifiedBy"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="lastModifiedDate"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="photo"
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

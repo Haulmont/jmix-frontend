@@ -14,6 +14,8 @@ export type AssociationO2MTestEntityView<
   V extends AssociationO2MTestEntityViewName
 > = V extends "_base"
   ? Pick<AssociationO2MTestEntity, "id" | "name">
+  : V extends "_instance_name"
+  ? Pick<AssociationO2MTestEntity, "id" | "name">
   : V extends "_local"
   ? Pick<AssociationO2MTestEntity, "id" | "name">
   : V extends "associationO2MTestEntity-view"

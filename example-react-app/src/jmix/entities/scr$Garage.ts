@@ -1,8 +1,9 @@
-import { User } from "./scr_User";
 import { Car } from "./scr$Car";
+import { User } from "./scr_User";
 export class Garage {
   static NAME = "scr$Garage";
   id?: string;
+  cars?: Car[] | null;
   name?: string | null;
   address?: string | null;
   personnel?: User[] | null;
@@ -24,6 +25,8 @@ export type GarageView<V extends GarageViewName> = V extends "_base"
       | "workingHoursFrom"
       | "workingHoursTo"
     >
+  : V extends "_instance_name"
+  ? Pick<Garage, "id" | "name">
   : V extends "_local"
   ? Pick<
       Garage,

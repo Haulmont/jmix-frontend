@@ -17,6 +17,12 @@ export class Car {
   price?: any | null;
   mileage?: any | null;
   technicalCertificate?: TechnicalCertificate | null;
+  version?: number | null;
+  createdBy?: string | null;
+  createdDate?: any | null;
+  lastModifiedBy?: string | null;
+  lastModifiedDate?: any | null;
+  photo?: any | null;
 }
 export type CarViewName = "_base" | "_instance_name" | "_local" | "car-edit";
 export type CarView<V extends CarViewName> = V extends "_base"
@@ -34,7 +40,15 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "maxPassengers"
       | "price"
       | "mileage"
+      | "version"
+      | "createdBy"
+      | "createdDate"
+      | "lastModifiedBy"
+      | "lastModifiedDate"
+      | "photo"
     >
+  : V extends "_instance_name"
+  ? Pick<Car, "id" | "manufacturer" | "model">
   : V extends "_local"
   ? Pick<
       Car,
@@ -50,6 +64,12 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "maxPassengers"
       | "price"
       | "mileage"
+      | "version"
+      | "createdBy"
+      | "createdDate"
+      | "lastModifiedBy"
+      | "lastModifiedDate"
+      | "photo"
     >
   : V extends "car-edit"
   ? Pick<
@@ -66,6 +86,12 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "maxPassengers"
       | "price"
       | "mileage"
+      | "version"
+      | "createdBy"
+      | "createdDate"
+      | "lastModifiedBy"
+      | "lastModifiedDate"
+      | "photo"
       | "garage"
       | "technicalCertificate"
     >

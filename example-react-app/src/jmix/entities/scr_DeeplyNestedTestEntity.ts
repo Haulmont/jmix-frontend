@@ -14,6 +14,8 @@ export type DeeplyNestedTestEntityView<
   V extends DeeplyNestedTestEntityViewName
 > = V extends "_base"
   ? Pick<DeeplyNestedTestEntity, "id" | "name">
+  : V extends "_instance_name"
+  ? Pick<DeeplyNestedTestEntity, "id" | "name">
   : V extends "_local"
   ? Pick<DeeplyNestedTestEntity, "id" | "name">
   : V extends "deeplyNestedTestEntity-view"

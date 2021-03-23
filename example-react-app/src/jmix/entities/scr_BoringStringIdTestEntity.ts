@@ -31,6 +31,8 @@ export type BoringStringIdTestEntityView<
       | "version"
       | "uuid"
     >
+  : V extends "_instance_name"
+  ? Pick<BoringStringIdTestEntity, "id" | "description">
   : V extends "_local"
   ? Pick<
       BoringStringIdTestEntity,
