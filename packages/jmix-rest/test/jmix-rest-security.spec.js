@@ -17,7 +17,7 @@ describe('JmixRestConnection security methods', () => {
     const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
     const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
 
-    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes', 'specifics'].sort());
 
     // admin should has access for all car operation
     expect(carEntityPerms.sort()).toEqual(
@@ -41,7 +41,7 @@ describe('JmixRestConnection security methods', () => {
     const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
     const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
 
-    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes', 'specifics'].sort());
 
     // mechanic should has access for all car operation
     expect(carEntityPerms.sort()).toEqual(
@@ -72,7 +72,7 @@ describe('JmixRestConnection security methods', () => {
     const carEntityPerms = perms.entities.filter(item => item.target.startsWith('scr$Car:'));
     const carEntityAttrPerms = perms.entityAttributes.filter(item => item.target.startsWith('scr$Car:'));
 
-    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes'].sort());
+    expect(Object.keys(perms).sort()).toEqual(['entities', 'entityAttributes', 'specifics'].sort());
 
     // manager should has access for all car operation
     expect(carEntityPerms.sort()).toEqual(
