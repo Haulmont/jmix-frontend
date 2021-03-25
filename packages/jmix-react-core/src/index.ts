@@ -5,6 +5,8 @@ export * from './access-control/EntityPermAccessControl';
 export * from './app/JmixAppProvider';
 export * from './app/MainStore';
 export * from './app/MenuConfig';
+export * from './app/EventEmitter';
+export * from './app/Router';
 
 export * from './data/DataContext';
 export * from './data/Collection';
