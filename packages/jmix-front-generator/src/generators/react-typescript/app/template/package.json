@@ -2,9 +2,9 @@
   "name": "<%= project.name %>",
   "private": true,
   "dependencies": {
-    "@haulmont/jmix-react-core": "^0.3.0-beta.1",
-    "@haulmont/jmix-react-ui": "^0.3.0-beta.1",
-    "@haulmont/jmix-rest": "^0.3.0-beta.1",
+    "@haulmont/jmix-react-core": "^0.9.0-beta.0",
+    "@haulmont/jmix-react-ui": "^0.9.0-beta.0",
+    "@haulmont/jmix-rest": "^0.9.0-beta.0",
     "@haulmont/react-scripts": "4.0.2-alpha.2",
     "@ant-design/icons": "^4.0.0",
     "antd": "^4.12.3",
@@ -25,7 +25,7 @@
     "update-model": "gen-jmix-front sdk:all --dest src/jmix"
   },
   "devDependencies": {
-    "@haulmont/jmix-front-generator": "^0.3.0-beta.2",
+    "@haulmont/jmix-front-generator": "^0.9.0-beta.0",
     "@types/jest": "^23.3.12",
     "@types/node": "^10.12.18",
     "@types/react": "^17.0.2",
