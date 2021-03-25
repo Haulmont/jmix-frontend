@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { observable, reaction } from 'mobx';
+import { makeObservable, observable, reaction } from 'mobx';
 import pathToRegexp from 'path-to-regexp';
 import { EventEmitter } from './EventEmitter';
 
@@ -66,6 +66,7 @@ class CurrentRoute {
   @observable hashMode = false;
 
   constructor() {
+    makeObservable(this);
     this.setCurrentRoute();
 
     window.addEventListener('popstate', this.setCurrentRoute);
@@ -124,6 +125,7 @@ class RouterState {
   disposer: (() => any) | null = null;
 
   constructor(routes: IRoutes) {
+    makeObservable(this);
     this.routes = routes;
 
     this.disposer = eventEmitter.on('navigate', this.navigate);

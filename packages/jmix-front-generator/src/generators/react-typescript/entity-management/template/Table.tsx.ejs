@@ -4,7 +4,7 @@ import { observable, makeObservable } from 'mobx';
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
-import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens, ScreensContext, Screens} from "@haulmont/jmix-react-core";
+import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens, ScreensContext, Screens, redirect} from "@haulmont/jmix-react-core";
 import { DataTable, Spinner, referencesListByEntityName } from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
@@ -66,7 +66,7 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
 
     // If we on root screen
     if (this.props.screens.currentScreenIndex === 0) {
-      window.history.pushState({}, '', ROUTING_PATH + "/" + this.selectedRowKey);
+      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
     }
 
     this.props.screens.push({

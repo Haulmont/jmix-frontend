@@ -11,7 +11,8 @@ import {
   EntityPermAccessControl,
   screens,
   ScreensContext,
-  Screens
+  Screens,
+  redirect
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
@@ -90,11 +91,7 @@ class BoringStringIdMgtTableBrowseComponent extends React.Component<
 
     // If we on root screen
     if (this.props.screens.currentScreenIndex === 0) {
-      window.history.pushState(
-        {},
-        "",
-        ROUTING_PATH + "/" + this.selectedRowKey
-      );
+      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
     }
 
     this.props.screens.push({

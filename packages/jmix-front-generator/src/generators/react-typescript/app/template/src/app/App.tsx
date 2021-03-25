@@ -13,7 +13,9 @@ import {
   injectMainStore,
   MainStoreInjected,
   RouteItem,
-  SubMenu, tabs,
+  SubMenu,
+  tabs,
+  Router, redirect,
 } from '@haulmont/jmix-react-core';
 import { CenteredLoader } from "./CenteredLoader";
 import {
@@ -25,6 +27,11 @@ import {
 import "../routing";
 
 tabs.homePage = <HomePage />;
+
+const routes = {
+  '/': <HomePage />,
+  '/:entityName/:entityId?': <MultiTabs />,
+};
 
 class AppComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
@@ -71,7 +78,7 @@ class AppComponent extends React.Component<
           </Layout.Sider>
           <Layout className="layout-content">
             <Layout.Content>
-              <MultiTabs />
+              <Router global routes={routes} />
             </Layout.Content>
           </Layout>
         </Layout>
@@ -107,8 +114,13 @@ function menuItem(
   const routeItem = item as RouteItem;
 
   function handleClick() {
-    tabs.push({ title: routeItem.caption, content: routeItem.component, key: routeItem.menuLink });
-    window.history.pushState({}, '', routeItem.menuLink);
+    tabs.push({
+      title: routeItem.caption,
+      content: routeItem.component,
+      key: routeItem.menuLink
+    });
+    //window.history.pushState({}, "", routeItem.menuLink);
+    redirect(routeItem.menuLink);
   }
 
   return (
@@ -132,13 +144,6 @@ function collectRouteItems(items: Array<RouteItem | SubMenu>): RouteItem[] {
   }, [] as Array<RouteItem>);
 }
 
-const App = 
-  injectIntl(
-    injectMainStore(
-      observer(
-        AppComponent
-      )
-    )
-  );
+const App = injectIntl(injectMainStore(observer(AppComponent)));
 
 export default App;

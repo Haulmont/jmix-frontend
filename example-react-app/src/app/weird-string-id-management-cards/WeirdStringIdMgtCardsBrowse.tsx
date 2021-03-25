@@ -10,7 +10,8 @@ import {
   MainStoreInjected,
   EntityPermAccessControl,
   ScreensContext,
-  Screens
+  Screens,
+  redirect
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -139,7 +140,7 @@ class WeirdStringIdMgtCardsBrowseComponent extends React.Component<Props> {
 
     // If we on root screen
     if (this.props.screens.currentScreenIndex === 0) {
-      window.history.pushState({}, "", ROUTING_PATH + "/" + itemId);
+      redirect(ROUTING_PATH + "/" + itemId);
     }
 
     this.props.screens.push({

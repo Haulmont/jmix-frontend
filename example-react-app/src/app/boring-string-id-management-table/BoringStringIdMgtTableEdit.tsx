@@ -22,7 +22,8 @@ import {
 import {
   Screens,
   ScreensContext,
-  IMultiScreenItem
+  IMultiScreenItem,
+  redirect
 } from "@haulmont/jmix-react-core";
 
 import {
@@ -111,7 +112,7 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
 
   onCancelBtnClick = () => {
     if (this.props.screens.currentScreenIndex === 1) {
-      window.history.pushState({}, "", ROUTING_PATH);
+      redirect(ROUTING_PATH);
     }
     this.props.screens.setActiveScreen(this.context.parent!, true);
   };

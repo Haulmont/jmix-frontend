@@ -14,7 +14,9 @@ import {
   MainStoreInjected,
   RouteItem,
   SubMenu,
-  tabs
+  tabs,
+  Router,
+  redirect
 } from "@haulmont/jmix-react-core";
 import { CenteredLoader } from "./CenteredLoader";
 import {
@@ -26,6 +28,11 @@ import {
 import "../routing";
 
 tabs.homePage = <HomePage />;
+
+const routes = {
+  "/": <HomePage />,
+  "/:entityName/:entityId?": <MultiTabs />
+};
 
 class AppComponent extends React.Component<
   MainStoreInjected & WrappedComponentProps
@@ -72,7 +79,7 @@ class AppComponent extends React.Component<
           </Layout.Sider>
           <Layout className="layout-content">
             <Layout.Content>
-              <MultiTabs />
+              <Router global routes={routes} />
             </Layout.Content>
           </Layout>
         </Layout>
@@ -113,7 +120,8 @@ function menuItem(
       content: routeItem.component,
       key: routeItem.menuLink
     });
-    window.history.pushState({}, "", routeItem.menuLink);
+    //window.history.pushState({}, "", routeItem.menuLink);
+    redirect(routeItem.menuLink);
   }
 
   return (

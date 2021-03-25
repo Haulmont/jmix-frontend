@@ -1,8 +1,8 @@
 import React, { useContext, useState } from 'react';
 import { MultiScreen } from '../ui/MultiScreen';
-import { getMenuItems, ScreensContext } from '@haulmont/jmix-react-core';
+import { getMenuItems, ScreensContext, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
-import { sleep } from '@haulmont/jmix-react-core';
+import { sleep, currentRoute } from '@haulmont/jmix-react-core';
 
 export const menuItems = getMenuItems();
 
@@ -91,8 +91,8 @@ export function registerRoute(routePath: string, menuPath: string, title: string
 
       screens.closeAll();
 
-      const entityId = props?.match?.params?.entityId;
-      if (entityId) {
+      const entityId = currentRoute.routeParams.entityId;
+      if (entityId && tabs.tabs.length === 1) {
         (async () => {
           await sleep();
           const registeredReferral = referencesListByEntityName[entityName];
