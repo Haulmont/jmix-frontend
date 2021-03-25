@@ -17,17 +17,18 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
+import { FormWizardCompositionO2OTestEntity } from "../../jmix/entities/scr_FormWizardCompositionO2OTestEntity";
 
-const ENTITY_NAME = "scr_AssociationM2MTestEntity";
-const ROUTING_PATH = "/associationM2MEditor";
+const ENTITY_NAME = "scr_FormWizardCompositionO2OTestEntity";
+const ROUTING_PATH = "/formWizardCompositionO2O";
 
-const LOAD_SCR_ASSOCIATIONM2MTESTENTITY = gql`
-  query scr_AssociationM2MTestEntityById(
+const LOAD_SCR_FORMWIZARDCOMPOSITIONO2OTESTENTITY = gql`
+  query scr_FormWizardCompositionO2OTestEntityById(
     $id: String = ""
     $loadItem: Boolean!
   ) {
-    scr_AssociationM2MTestEntityById(id: $id) @include(if: $loadItem) {
+    scr_FormWizardCompositionO2OTestEntityById(id: $id)
+      @include(if: $loadItem) {
       id
       _instanceName
       name
@@ -35,20 +36,20 @@ const LOAD_SCR_ASSOCIATIONM2MTESTENTITY = gql`
   }
 `;
 
-const UPSERT_SCR_ASSOCIATIONM2MTESTENTITY = gql`
-  mutation Upsert_scr_AssociationM2MTestEntity(
-    $associationM2MTestEntity: inp_scr_AssociationM2MTestEntity!
+const UPSERT_SCR_FORMWIZARDCOMPOSITIONO2OTESTENTITY = gql`
+  mutation Upsert_scr_FormWizardCompositionO2OTestEntity(
+    $formWizardCompositionO2OTestEntity: inp_scr_FormWizardCompositionO2OTestEntity!
   ) {
-    upsert_scr_AssociationM2MTestEntity(
-      associationM2MTestEntity: $associationM2MTestEntity
+    upsert_scr_FormWizardCompositionO2OTestEntity(
+      formWizardCompositionO2OTestEntity: $formWizardCompositionO2OTestEntity
     ) {
       id
     }
   }
 `;
 
-const AssociationM2MEditor = observer(
-  (props: EntityEditorProps<AssociationM2MTestEntity>) => {
+const FormWizardCompositionO2O = observer(
+  (props: EntityEditorProps<FormWizardCompositionO2OTestEntity>) => {
     const {
       onCommit,
       entityInstance,
@@ -66,9 +67,9 @@ const AssociationM2MEditor = observer(
       handleSubmit,
       handleSubmitFailed,
       handleCancelBtnClick
-    } = useEntityEditor<AssociationM2MTestEntity>({
-      loadQuery: LOAD_SCR_ASSOCIATIONM2MTESTENTITY,
-      upsertMutation: UPSERT_SCR_ASSOCIATIONM2MTESTENTITY,
+    } = useEntityEditor<FormWizardCompositionO2OTestEntity>({
+      loadQuery: LOAD_SCR_FORMWIZARDCOMPOSITIONO2OTESTENTITY,
+      upsertMutation: UPSERT_SCR_FORMWIZARDCOMPOSITIONO2OTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
@@ -125,9 +126,9 @@ const AssociationM2MEditor = observer(
 );
 
 registerEntityEditor({
-  component: AssociationM2MEditor,
-  caption: "screen.AssociationM2MEditor",
-  screenId: "AssociationM2MEditor",
+  component: FormWizardCompositionO2O,
+  caption: "screen.FormWizardCompositionO2O",
+  screenId: "FormWizardCompositionO2O",
   entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: ROUTING_PATH,
@@ -135,4 +136,4 @@ registerEntityEditor({
   }
 });
 
-export default AssociationM2MEditor;
+export default FormWizardCompositionO2O;
