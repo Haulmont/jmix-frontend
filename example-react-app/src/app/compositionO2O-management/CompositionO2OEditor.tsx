@@ -16,7 +16,6 @@ import {
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { CompositionO2OTestEntity } from "../../jmix/entities/scr_CompositionO2OTestEntity";
 
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";

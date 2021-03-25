@@ -32,6 +32,8 @@ export * from './ui/paging/Paging';
 export * from './ui/retry-dialog/RetryDialog';
 export * from './ui/DatePicker';
 export * from './ui/TimePicker';
+export * from './ui/form-steps/FormStepsManager'
+export * from './ui/form-steps/FormStepsStore'
 
 export * from './util/errorHandling';
 export * from './util/mapJmixRestErrorToIntlId';

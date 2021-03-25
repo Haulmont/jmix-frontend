@@ -16,7 +16,6 @@ import {
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";

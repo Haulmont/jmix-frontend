@@ -5,6 +5,8 @@
   "common.edit": "Изменить",
   "common.remove": "Удалить",
   "common.submit": "ОК",
+  "common.next": "Следующий",
+  "common.previous": "Предыдущий",
   "common.unsavedEntity": "(несохранённая сущность)",
   "common.requestFailed": "Не удалось выполнить операцию",
   "common.retry": "Повторить",

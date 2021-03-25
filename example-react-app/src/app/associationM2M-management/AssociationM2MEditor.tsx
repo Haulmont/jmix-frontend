@@ -16,7 +16,6 @@ import {
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
 
 const ENTITY_NAME = "scr_AssociationM2MTestEntity";

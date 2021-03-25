@@ -1,0 +1,162 @@
+import {
+    <% if (attributes.length > 0) { %>
+        Field,
+      <% } %>
+    FormStepsManager,
+    FormStepsStore,
+    FormStepConfig,
+    Spinner,
+    RetryDialog,
+    useEntityEditorFormSteps,
+    MultiScreenContext
+} from '@haulmont/jmix-react-ui';
+import { ScreensContext } from '@haulmont/jmix-react-core';
+import { observer } from 'mobx-react';
+import React, { useContext, useState } from 'react';
+import gql from 'graphql-tag';
+<% /* -%>
+<% relationImports.forEach(relationImport =>{ -%>
+import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImport.path %>";
+<% }) %>
+<% */ -%>
+
+const ENTITY_NAME = '<%= entity.name %>';
+const UPSERT_INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+interface FormStepProps {
+    <% if (Object.keys(associations).length > 0) { -%>
+        data?: Record<string, any>;
+    <% } -%>
+}
+
+const formStepsConfig: FormStepConfig<FormStepProps>[] = [
+    <% steps.forEach(step => { %>
+        {
+            name: "<%= step.name %>",
+            fieldNames: [
+                <% step.fieldNames.forEach(fieldName => { -%>
+                    "<%= fieldName %>",
+                <% }) -%>
+            ],
+            component: (
+                <% if(Object.keys(step.associations).length > 0) { -%>
+                    {data}
+                <% } -%>
+            ) => (
+                <>
+                    <% step.attributes.forEach(attr => { %>
+                        <Field entityName={ENTITY_NAME}
+                            propertyName="<%= attr.name %>"
+            
+                        <% if (step.readOnlyFields.includes(attr.name)) { %>
+                            disabled={true}
+                        <% } else if (attr.name === locals.stringIdName) { %>
+                            disabled={!isNewEntity(entityId)}
+                        <% } %>
+            
+                        <% /* TODO Compositions %>
+                        <% */ %>
+            
+                        <% if (Object.keys(step.associations).includes(attr.name)) { %>
+                            associationOptions={data?.<%= dollarsToUnderscores(step.associations[attr.name].name) %>List}
+                        <% } %>
+            
+                                formItemProps={{
+                                style: {marginBottom: "12px"},
+                        <% if (attr.mandatory) { -%>
+                                rules: [{required: true}],
+                        <% } -%>
+                        <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
+                                valuePropName: "checked",
+                        <% } -%>
+                        }}
+                        /> <%# end Field %>
+                    <% }) %>
+                </>
+            )
+        },
+    <% }) %>
+]
+
+const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
+  query <%= dollarsToUnderscores(entity.name) %>ById($id: String = "", $loadItem: Boolean!) {
+    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) @include(if: $loadItem) <%= query -%>
+    <% Object.keys(associations).forEach(attrName => { %>
+      <%= dollarsToUnderscores(associations[attrName].name) %>List {
+        id
+        _instanceName
+      }
+    <% }) %>
+  }
+`;
+
+const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
+  mutation Upsert_<%= dollarsToUnderscores(entity.name) %>($<%= unCapitalizeFirst(entity.className) %>: inp_<%= dollarsToUnderscores(entity.name) %>!) {
+    upsert_<%= dollarsToUnderscores(entity.name) %>(<%= unCapitalizeFirst(entity.className) %>: $<%= unCapitalizeFirst(entity.className) %>) {
+      id
+    }
+  }
+`;
+
+const <%= className %> = observer(() => {
+    const multiScreen = useContext(MultiScreenContext);
+    const screens = useContext(ScreensContext);
+    const [formStepsStore] = useState(() => new FormStepsStore(formStepsConfig))
+
+    const {
+        load,
+        loadQueryResult: {
+            loading: queryLoading, error: queryError,
+            <% if (Object.keys(associations).length > 0) { -%>
+                data,
+            <% } -%>
+        },
+        handleFinish,
+        handleFinishFailed,
+        handleCancelBtnClick,
+    } = useEntityEditorFormSteps({
+        loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+        onLoadEntity: (values) => formStepsStore.setStepValuesFromValues(values),
+        upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+        entityId: multiScreen?.params?.entityId,
+        upsertInputName: UPSERT_INPUT_NAME,
+        entityName: ENTITY_NAME,
+        routingPath: ROUTING_PATH,
+        <% if (Object.keys(associations).length > 0) { -%>
+            hasAssociations: true,
+        <% } -%>
+        screens,
+        multiScreen
+    });
+
+    if (queryLoading) {
+        return <Spinner />;
+    }
+    
+    if (queryError != null) {
+        console.error(queryError);
+        return <RetryDialog onRetry={load} />;
+    }
+
+    const CURRENT_STEP_COMPONENT = formStepsStore.currentStep.COMPONENT;
+
+    return (
+        <div className="narrow-layout">
+            <FormStepsManager
+                onFinish={handleFinish}
+                onFinishFailed={handleFinishFailed}
+                formStepsStore={formStepsStore}
+                onCancel={handleCancelBtnClick}
+            >
+                <CURRENT_STEP_COMPONENT
+                    <% if (Object.keys(associations).length > 0) { -%>
+                        data={data} 
+                    <% } -%>
+                />
+            </FormStepsManager>
+        </div>
+    )
+})
+
+export default <%= className %>;

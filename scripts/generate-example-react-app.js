@@ -24,6 +24,7 @@ const boringStringIdEditorConfig = require('./screens/boring-string-id-editor');
 const boringStringIdBrowserTableConfig = require('./screens/boring-string-id-browser-table.js');
 const trickyIdEditorConfig = require('./screens/tricky-id-editor.js');
 const trickyIdBrowserTableConfig = require('./screens/tricky-id-browser-table.js');
+const carFormWizardConfig = require('./screens/car-form-wizard.js');
 const dirShift = '../../';
 
 gen(
@@ -51,6 +52,12 @@ gen(
         dirShift,
         dest: 'src/app/car-editor',
         answers: answers.carEditor
+      },
+      {
+        command: 'react-typescript:entity-form-wizard',
+        dirShift,
+        dest: 'src/app/car-form-wizard',
+        answers: carFormWizardConfig
       },
       {
         command: 'react-typescript:entity-browser',

@@ -41,6 +41,7 @@ import "./app/car-cards-grid/CarCardsGrid";
 import "./app/car-browser-table/CarBrowserTable";
 import "./app/car-browser-list/CarBrowserList";
 import "./app/car-browser-cards/CarBrowserCards";
+import "./app/car-form-wizard/FormSteps";
 import "./app/car-editor/CarEditor";
 import "./app/structure/StructureComponent";
 import "./app/blank-components/TestBlankComponent";

@@ -16,7 +16,6 @@ import {
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { Car } from "../../jmix/entities/scr$Car";
 
 const ENTITY_NAME = "scr$Car";

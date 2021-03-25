@@ -216,6 +216,8 @@ const ALL_I18N_KEYS = [
   "common.edit",
   "common.remove",
   "common.submit",
+  "common.next",
+  "common.previous",
   "common.unsavedEntity",
   "common.requestFailed",
   "common.retry",

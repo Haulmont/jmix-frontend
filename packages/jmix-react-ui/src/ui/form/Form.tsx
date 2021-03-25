@@ -280,7 +280,7 @@ export const defaultHandleFinish = <E extends unknown>(
   intl: IntlShape,
   formInstance: FormInstance,
   commitMode?: CommitMode,
-): Promise<{success: boolean, globalErrors: string[]}> => {
+  ): Promise<{success: boolean, globalErrors: string[]}> => {
   clearFieldErrors(formInstance);
 
   return dataInstance
@@ -311,6 +311,7 @@ export const defaultHandleFinish = <E extends unknown>(
         message.error(
           intl.formatMessage({ id: defaultMapJmixRestErrorToIntlId(serverError) })
         );
+
         return {success: false, globalErrors: []};
       }
     });
