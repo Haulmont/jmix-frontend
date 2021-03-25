@@ -888,20 +888,6 @@
           "readOnly": false,
           "mandatory": false,
           "transient": false
-        },
-        {
-          "name": "authorities",
-          "type": {
-            "packageName": "java.util.Collection<? extends org.springframework.security.core",
-            "className": "GrantedAuthority>",
-            "fqn": "java.util.Collection<? extends org.springframework.security.core.GrantedAuthority>",
-            "label": "GrantedAuthority>"
-          },
-          "mappingType": "DATATYPE",
-          "cardinality": "ONE_TO_MANY",
-          "readOnly": false,
-          "mandatory": false,
-          "transient": true
         }
       ]
     },
@@ -2341,6 +2327,189 @@
             "entityName": "scr_AssociationO2OTestEntity"
           },
           "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_FormWizardAssociationO2OTestEntity",
+      "className": "FormWizardAssociationO2OTestEntity",
+      "persistentEntity": true,
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "formWizardTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "FormWizardTestEntity",
+            "fqn": "com.company.scr.entity.test.FormWizardTestEntity",
+            "label": "FormWizardTestEntity",
+            "entityName": "scr_FormWizardTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_FormWizardCompositionO2OTestEntity",
+      "className": "FormWizardCompositionO2OTestEntity",
+      "persistentEntity": true,
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_FormWizardTestEntity",
+      "className": "FormWizardTestEntity",
+      "persistentEntity": true,
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "notNull",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "associationO2O",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "FormWizardAssociationO2OTestEntity",
+            "fqn": "com.company.scr.entity.test.FormWizardAssociationO2OTestEntity",
+            "label": "FormWizardAssociationO2OTestEntity",
+            "entityName": "scr_FormWizardAssociationO2OTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "date",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "time",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Time"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "integer",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "compositionO2O",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "FormWizardCompositionO2OTestEntity",
+            "fqn": "com.company.scr.entity.test.FormWizardCompositionO2OTestEntity",
+            "label": "FormWizardCompositionO2OTestEntity",
+            "entityName": "scr_FormWizardCompositionO2OTestEntity"
+          },
+          "mappingType": "COMPOSITION",
           "cardinality": "ONE_TO_ONE",
           "readOnly": false,
           "mandatory": false,

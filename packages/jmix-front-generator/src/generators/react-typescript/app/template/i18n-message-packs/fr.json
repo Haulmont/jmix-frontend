@@ -5,6 +5,8 @@
     "common.edit": "Modifier",
     "common.remove": "Supprimer",
     "common.submit": "Envoyer",
+    "common.next": "common.next [TRANSLATION NOT AVAILABLE]",
+    "common.previous": "common.previous [TRANSLATION NOT AVAILABLE]",
     "common.unsavedEntity": "(entité non enregistrée)",
     "common.requestFailed": "L'éxecution de l'opération demandée a échouée",
     "common.retry": "Recommencer",

@@ -17,7 +17,6 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";

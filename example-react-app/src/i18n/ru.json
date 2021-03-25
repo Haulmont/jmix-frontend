@@ -1,4 +1,6 @@
 {
+  "formWizard.currectStepValidationError": "Ошибка валидации на текущем шаге. Пожалуйста, проверьте введенные данные.",
+  "formWizard.serverValidationError": "Ошибка валидации на сервера.",
   "masterDetail.entityUnselected": "Выберете сущность для редактирования",
   "masterDetail.create.ifEntitySelected": "Вы уверены, что не хотите сохранить сущность?",
   "management.browser.delete.areYouSure": "Вы уверены, что хотите удалить {instanceName}?",
@@ -13,6 +15,8 @@
   "common.edit": "Изменить",
   "common.remove": "Удалить",
   "common.submit": "ОК",
+  "common.next": "Следующий",
+  "common.previous": "Предыдущий",
   "common.unsavedEntity": "(несохранённая сущность)",
   "common.requestFailed": "Не удалось выполнить операцию",
   "common.retry": "Повторить",
