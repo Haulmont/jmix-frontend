@@ -17,7 +17,6 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
 const ENTITY_NAME = "scr_StringIdTestEntity";
