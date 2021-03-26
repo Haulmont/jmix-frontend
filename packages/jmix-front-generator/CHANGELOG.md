@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@0.9.0-beta.1...@haulmont/jmix-front-generator@0.9.0-beta.2) (2021-03-26)
+
+
+### Bug Fixes
+
+* fixed issue with string id questions [#179](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/179) ([61d3b1d](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/61d3b1d031e5330d039b91ef333640169a173807))
+
+
+
+
+
 # 0.9.0-beta.1 (2021-03-25)
 
 
