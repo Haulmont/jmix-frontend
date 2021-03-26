@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-front-generator",
-  "version": "0.9.0-beta.2",
+  "version": "0.9.0-beta.3",
   "description": "Jmix front-end clients generator",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

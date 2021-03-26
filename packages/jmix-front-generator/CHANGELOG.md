@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.9.0-beta.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@0.9.0-beta.2...@haulmont/jmix-front-generator@0.9.0-beta.3) (2021-03-26)
+
+
+### Bug Fixes
+
+* fixed issue with string id questions in entity-cards generator [#181](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/181) ([597f4eb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/597f4eb91090cd31d82003e2896c42c0e2206564))
+
+
+
+
+
 # [0.9.0-beta.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@0.9.0-beta.1...@haulmont/jmix-front-generator@0.9.0-beta.2) (2021-03-26)
 
 
