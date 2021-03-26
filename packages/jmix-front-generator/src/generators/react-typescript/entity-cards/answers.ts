@@ -6,15 +6,13 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
+import {askStringIdQuestions, StringIdAnswers} from "../../../building-blocks/stages/answers/pieces/stringId";
+import { isStringIdEntity } from "../common/entity";
 
-export type Answers = {
-  componentName: string;
-  entityView: View;
-  entity: EntityWithPath;
-  listShowIdAttr?: boolean;
-  listIdAttrPos?: number;
-  editIdAttrPos?: number;
-  idAttrName?: string; // Will be asked for if not found in project model
+export interface Answers extends StringIdAnswers {
+  componentName: string,
+  entityView: View,
+  entity: EntityWithPath
 }
 
 const entityCardsQuestions: StudioTemplateProperty[] = [
@@ -40,30 +38,9 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
   }
 ];
 
-const listShowIdQuestions = [
-  {
-    code: 'listShowIdAttr',
-    caption: 'Show ID attribute in the component?',
-    propertyType: StudioTemplatePropertyType.BOOLEAN,
-    required: true
-  }
-];
-
-const listIdPositionQuestions = [
-  {
-    code: 'listIdAttrPos',
-    caption: 'Position of the ID attribute in the card \n' +
-      '(behaves like an array index, e.g. enter 0 for the ID to appear as the first row, \n' +
-      '-1 for next-to-last, etc.).',
-    propertyType: StudioTemplatePropertyType.INTEGER,
-    required: true
-  }
-];
 
 export const allQuestions: StudioTemplateProperty[] = [
-  ...entityCardsQuestions,
-  ...listShowIdQuestions,
-  ...listIdPositionQuestions
+  ...entityCardsQuestions
 ];
 
 export const getAnswersFromPrompt = async (
@@ -74,6 +51,14 @@ export const getAnswersFromPrompt = async (
     ...entityCardsQuestions
   ];
   
-  let answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
-  return answers;
+  let answers: Answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
+  let stringIdAnswers: StringIdAnswers = isStringIdEntity(projectModel, answers.entity) 
+  ? await askStringIdQuestions(
+      answers.entity,
+      projectModel,
+      gen
+    )
+  : {}
+
+  return {...answers, ...stringIdAnswers};
 }
