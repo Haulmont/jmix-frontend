@@ -24,6 +24,8 @@
   "header.logout.areYouSure": "确认退出？",
   "header.logout.ok": "退出",
   "header.logout.cancel": "取消",
+  "file.download.notAllowed": "[TRANSLATION NOT AVAILABLE]",
+  "file.noFile": "[TRANSLATION NOT AVAILABLE]",
 
   "cubaReact.dataTable.clearAllFilters": "清空过滤器",
   "cubaReact.dataTable.validation.requiredField": "必填字段",

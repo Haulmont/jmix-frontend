@@ -57,6 +57,8 @@
   "header.logout.areYouSure": "Are you sure you want to logout?",
   "header.logout.ok": "Logout",
   "header.logout.cancel": "Cancel",
+  "file.download.notAllowed": "You do not have a permission to download files",
+  "file.noFile": "No file",
   "cubaReact.dataTable.clearAllFilters": "Clear filters",
   "cubaReact.dataTable.validation.requiredField": "Required field",
   "cubaReact.dataTable.validation.uuid": "Not a valid UUID",

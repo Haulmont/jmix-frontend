@@ -19,6 +19,8 @@
   "header.logout.areYouSure": "Вы действительно хотите выйти?",
   "header.logout.ok": "Выйти",
   "header.logout.cancel": "Отмена",
+  "file.download.notAllowed": "У Вас отсутствует разрешение на скачивание файлов",
+  "file.noFile": "Нет файла",
 
 
   "cubaReact.dataTable.clearAllFilters": "Очистить фильтры",
