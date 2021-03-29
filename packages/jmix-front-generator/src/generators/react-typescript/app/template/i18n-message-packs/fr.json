@@ -19,7 +19,8 @@
     "header.logout.areYouSure": "Êtes-vous sûr de vouloir vous déconnecter?",
     "header.logout.ok": "Déconnection",
     "header.logout.cancel": "Annuler",
-
+    "file.download.notAllowed": "[TRANSLATION NOT AVAILABLE]",
+    "file.noFile": "[TRANSLATION NOT AVAILABLE]",
 
     "cubaReact.dataTable.clearAllFilters": "Effacer les filtres",
     "cubaReact.dataTable.validation.requiredField": "Champ obligatoire",

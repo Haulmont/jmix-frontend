@@ -56,6 +56,17 @@ export function isOperationAllowed(entityName: string,
   return false;
 }
 
+export function isSpecificPermissionGranted(target: string, perms?: EffectivePermsInfo): boolean {
+  if (perms == null) {
+    return false;
+  }
+
+  return perms
+    .specifics
+    .find((perm => perm.target === target))
+    ?.value === 1;
+}
+
 function convertAttributePermValue(val: AttributePermissionValue): EntityAttrPermissionValue {
   switch (val) {
     case 2: return 'MODIFY';

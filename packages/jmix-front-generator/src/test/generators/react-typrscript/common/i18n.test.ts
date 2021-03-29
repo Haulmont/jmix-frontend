@@ -228,6 +228,8 @@ const ALL_I18N_KEYS = [
   "header.logout.areYouSure",
   "header.logout.ok",
   "header.logout.cancel",
+  "file.download.notAllowed",
+  "file.noFile",
   "cubaReact.dataTable.clearAllFilters",
   "cubaReact.dataTable.validation.requiredField",
   "cubaReact.dataTable.validation.uuid",

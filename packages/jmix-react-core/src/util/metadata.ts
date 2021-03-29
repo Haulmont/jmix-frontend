@@ -76,8 +76,8 @@ export function isPropertyTypeSupported(propertyInfo: MetaPropertyInfo): boolean
     || supportedTypes.indexOf(propertyInfo.type) > -1;
 }
 
-export function isFileProperty(propertyInfo: MetaPropertyInfo): boolean {
-  return (propertyInfo.type === 'sys$FileDescriptor') && isRelationProperty(propertyInfo);
+export function isFileProperty({type}: MetaPropertyInfo): boolean {
+  return type === 'fileRef';
 }
 
 export function isDateProperty({type}: MetaPropertyInfo): boolean {
