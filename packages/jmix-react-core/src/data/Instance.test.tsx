@@ -115,7 +115,7 @@ describe('formFieldsToInstanceItem', () => {
   it('strips milliseconds', () => {
     const patch = {dateTimeAttr: moment('2012-01-02 14:15:16.123', 'YYYY-MM-DD HH:mm:ss.SSS')};
     const normalizedPatch = formFieldsToInstanceItem(patch, 'test', MOCK_METADATA);
-    expect(normalizedPatch.dateTimeAttr).toEqual('2012-01-02 14:15:16.000');
+    expect(normalizedPatch.dateTimeAttr).toEqual('2012-01-02T14:15:16.000');
   });
 });
 
