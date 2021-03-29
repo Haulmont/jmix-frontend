@@ -137,19 +137,13 @@ describe('instanceItemToFormFields', () => {
     expect(fields).toEqual(item);
   });
 
-  it('transforms file descriptor', () => {
+  it('transforms fileRef', () => {
+    const fileRef = 'fs://2021/03/25/917a7cc9-3e36-ed57-2d75-db45b5c10d7a.txt?name=test-file.txt';
     const item = {
-      fileDescriptorAttr: {
-        id: '86722b66-379b-4abf-9a1f-e984637827b3',
-        name: 'Terms and Conditions',
-        extension: 'pdf'
-      }
+      fileRefAttr: fileRef
     };
-    const fields = instanceItemToFormFields(item, 'test', MOCK_METADATA, ['fileDescriptorAttr']);
-    expect(fields.fileDescriptorAttr).toEqual({
-      id: '86722b66-379b-4abf-9a1f-e984637827b3',
-      name: 'Terms and Conditions',
-    });
+    const fields = instanceItemToFormFields(item, 'test', MOCK_METADATA, ['fileRefAttr']);
+    expect(fields.fileRefAttr).toEqual(fileRef);
   });
 
   it('does not transform compositions', () => {
@@ -297,10 +291,10 @@ const MOCK_METADATA = [
     entityName: 'test',
     properties: [
       {
-        name: "fileDescriptorAttr",
-        attributeType: "ASSOCIATION" as AttributeType,
-        type: "sys$FileDescriptor",
-        cardinality: "MANY_TO_ONE" as Cardinality,
+        name: "fileRefAttr",
+        attributeType: "DATATYPE" as AttributeType,
+        type: "fileRef",
+        cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
         readOnly: false,

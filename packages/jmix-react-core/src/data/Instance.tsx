@@ -17,7 +17,6 @@ import {
   getPropertyInfo, isOneToManyComposition, isOneToOneComposition,
   isTemporalProperty, isToManyAssociation,
   WithId,
-  WithName,
   isToOneAssociation, isFileProperty, isRelationProperty,
 } from "../util/metadata";
 import moment from 'moment';
@@ -462,10 +461,7 @@ export function instanceItemToFormFields<T>(
     }
 
     if (isFileProperty(propInfo)) {
-      fields[key] = {
-        id: (value as WithId).id!,
-        name: (value as WithName).name!,
-      };
+      fields[key] = value; // FileRef string
       return;
     }
 

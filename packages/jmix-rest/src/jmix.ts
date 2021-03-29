@@ -359,6 +359,7 @@ export class JmixRestConnection {
     const loadOpts = {
       entities: true,
       entityAttributes: true,
+      specifics: true,
       ... effectivePermsLoadOptions
     };
 
@@ -373,8 +374,8 @@ export class JmixRestConnection {
     return this.apiUrl + 'files';
   }
 
-  public getFile(id: string, fetchOptions?: FetchOptions): Promise<Blob> {
-    return this.fetch('GET', 'files/' + id, null, {handleAs: 'blob', ...fetchOptions});
+  public getFile(fileRef: string, fetchOptions?: FetchOptions): Promise<Blob> {
+    return this.fetch('GET', 'files?fileRef=' + fileRef, null, {handleAs: 'blob', ...fetchOptions});
   }
 
   /**

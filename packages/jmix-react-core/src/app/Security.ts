@@ -5,6 +5,7 @@ import {
   EffectivePermsInfo,
   getAttributePermission,
   isOperationAllowed,
+  isSpecificPermissionGranted,
   EntityOperationType
 } from '@haulmont/jmix-rest';
 
@@ -57,15 +58,16 @@ export class Security {
 
   /**
    * Returns a boolean indicating whether the current user is allowed to upload files.
-   * This is convenience method that checks whether a user has a `create` operation permission
-   * on `sys$FileDescriptor` entity and `cuba.restApi.fileUpload.enabled` specific permission.
    */
-  canUploadAndLinkFile = (): boolean => {
-    if (!this.isDataLoaded) {
-      return false;
-    }
+  canUploadFiles = (): boolean => {
+    return this.isSpecificPermissionGranted('rest.fileUpload.enabled');
+  };
 
-    return isOperationAllowed('sys$FileDescriptor', 'create', this.effectivePermissions ?? undefined);
+  /**
+   * Returns a boolean indicating whether the current user is allowed to download files.
+   */
+  canDownloadFiles = (): boolean => {
+    return this.isSpecificPermissionGranted('rest.fileDownload.enabled');
   };
 
   /**
@@ -105,6 +107,12 @@ export class Security {
       return true;
     }
     return requiredAttrPerm === 'VIEW';
+  }
+
+  isSpecificPermissionGranted = (target: string): boolean => {
+    if (!this.isDataLoaded) { return false; }
+
+    return isSpecificPermissionGranted(target, this.effectivePermissions ?? undefined);
   }
 
   loadPermissions(): Promise<void> {
