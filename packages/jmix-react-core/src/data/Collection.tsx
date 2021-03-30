@@ -169,9 +169,6 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
       count: observable,
       skipCount: observable,
       stringIdName: observable,
-      load: action,
-      clear: action,
-      delete: action,
       readOnlyItems: computed,
       properties: computed
     });
@@ -189,7 +186,7 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
       status => this.lastError = status !== "ERROR" ? null : this.lastError)
   }
 
-  load = (): Promise<void> => {
+  load = action((): Promise<void> => {
     this.changedItems.clear();
     this.status = "LOADING";
 
@@ -209,15 +206,15 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     }));
 
     return loadingPromise;
-  };
+  });
 
-  clear = () => {
+  clear = action(() => {
     this.items = [];
     this.changedItems.clear();
     this.status = 'CLEAN';
-  };
+  });
 
-  delete = (e: T & WithId): Promise<any> => {
+  delete = action((e: T & WithId): Promise<any> => {
     if (e == null || e.id == null) {
       throw new Error('Unable to delete entity without ID');
     }
@@ -232,7 +229,7 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
         this.lastError = "COMMIT_ERROR";
         return true;
       }));
-  };
+  });
 
   get readOnlyItems(): Array<SerializedEntity<T>> {
     return toJS(this.items)
@@ -289,30 +286,24 @@ class ClientSideDataCollectionStoreImpl<T> extends DataCollectionStoreImpl<T> im
               viewName: string = PredefinedView.MINIMAL,
               sort?: string) {
     super(entityName, trackChanges, viewName, sort);
-
-    makeObservable(this, {
-      load: action,
-      adjustItems: action,
-      delete: action
-    });
   }
 
-  load = (): Promise<void> => {
+  load = action((): Promise<void> => {
     this.adjustItems();
     return Promise.resolve();
-  };
+  });
 
-  adjustItems = () => {
+  adjustItems = action(() => {
     // Currently only sorts the items. Client-side filtering can be implemented here:
     // const filteredItems = filterEntityInstances([...this.allItems], this.filter);
     this.items = sortEntityInstances([...this.allItems], this.sort ?? undefined);
-  };
+  });
 
-  delete = (e: T & WithId): Promise<any> => {
+  delete = action((e: T & WithId): Promise<any> => {
     this.allItems = this.allItems.filter((item: T & WithId) => (item != null && item.id !== e.id));
     this.adjustItems();
     return Promise.resolve();
-  };
+  });
 }
 
 export interface DataCollectionOptions {
