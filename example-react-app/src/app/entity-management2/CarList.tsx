@@ -9,7 +9,6 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens,
   ScreensContext,
   Screens,
   redirect
@@ -62,6 +61,12 @@ class CarListComponent extends React.Component<Props> {
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
+    "photo",
     "garage",
     "technicalCertificate"
   ];

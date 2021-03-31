@@ -32,6 +32,8 @@ export type StringIdTestEntityView<
       | "deletedBy"
       | "version"
     >
+  : V extends "_instance_name"
+  ? Pick<StringIdTestEntity, "id">
   : V extends "_local"
   ? Pick<
       StringIdTestEntity,

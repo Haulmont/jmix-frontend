@@ -14,7 +14,9 @@ export type FavoriteCarViewName =
   | "favoriteCar-edit"
   | "favoriteCar-view";
 export type FavoriteCarView<V extends FavoriteCarViewName> = V extends "_base"
-  ? Pick<FavoriteCar, "id" | "notes">
+  ? Pick<FavoriteCar, "id" | "car" | "notes">
+  : V extends "_instance_name"
+  ? Pick<FavoriteCar, "id" | "car">
   : V extends "_local"
   ? Pick<FavoriteCar, "id" | "notes">
   : V extends "favoriteCar-edit"

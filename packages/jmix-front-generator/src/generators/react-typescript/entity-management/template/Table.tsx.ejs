@@ -4,7 +4,7 @@ import { observable, makeObservable } from 'mobx';
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
-import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, screens, ScreensContext, Screens, redirect} from "@haulmont/jmix-react-core";
+import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, ScreensContext, Screens, redirect} from "@haulmont/jmix-react-core";
 import { DataTable, Spinner, referencesListByEntityName } from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";

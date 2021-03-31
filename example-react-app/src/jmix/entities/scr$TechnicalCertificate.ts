@@ -13,6 +13,8 @@ export type TechnicalCertificateView<
   V extends TechnicalCertificateViewName
 > = V extends "_base"
   ? Pick<TechnicalCertificate, "id" | "certNumber">
+  : V extends "_instance_name"
+  ? Pick<TechnicalCertificate, "id" | "certNumber">
   : V extends "_local"
   ? Pick<TechnicalCertificate, "id" | "certNumber">
   : never;

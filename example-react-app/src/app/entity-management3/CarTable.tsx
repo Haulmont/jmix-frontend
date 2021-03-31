@@ -9,7 +9,6 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens,
   ScreensContext,
   Screens,
   redirect
@@ -55,6 +54,12 @@ class CarTableComponent extends React.Component<
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
+    "photo",
     "garage",
     "technicalCertificate"
   ];

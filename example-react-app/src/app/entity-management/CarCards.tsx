@@ -63,6 +63,12 @@ class CarCardsComponent extends React.Component<Props> {
     "maxPassengers",
     "price",
     "mileage",
+    "version",
+    "createdBy",
+    "createdDate",
+    "lastModifiedBy",
+    "lastModifiedDate",
+    "photo",
     "garage",
     "technicalCertificate"
   ];

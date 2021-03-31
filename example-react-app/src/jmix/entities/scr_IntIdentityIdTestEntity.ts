@@ -33,6 +33,8 @@ export type IntIdentityIdTestEntityView<
       | "createdBy"
       | "version"
     >
+  : V extends "_instance_name"
+  ? Pick<IntIdentityIdTestEntity, "id" | "description">
   : V extends "_local"
   ? Pick<
       IntIdentityIdTestEntity,

@@ -9,7 +9,6 @@ import {
   injectMainStore,
   MainStoreInjected,
   EntityPermAccessControl,
-  screens,
   ScreensContext,
   Screens,
   redirect

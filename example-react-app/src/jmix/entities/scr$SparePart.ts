@@ -11,6 +11,8 @@ export type SparePartViewName =
   | "sparePart-view";
 export type SparePartView<V extends SparePartViewName> = V extends "_base"
   ? Pick<SparePart, "id" | "name">
+  : V extends "_instance_name"
+  ? Pick<SparePart, "id" | "name">
   : V extends "_local"
   ? Pick<SparePart, "id" | "name">
   : V extends "sparePart-view"
