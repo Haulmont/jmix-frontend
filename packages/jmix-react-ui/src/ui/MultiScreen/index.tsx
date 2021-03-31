@@ -40,7 +40,7 @@ interface IMultiScreenItemProps {
   item: IMultiScreenItem;
 }
 
-export const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
+const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
   const screens = useContext(ScreensContext);
   const { item } = props;
 

@@ -55,18 +55,43 @@ function getRefItem(entityName: string) {
   return referencesListByEntityName[entityName];
 }
 
+/**
+ * Registration screens that present entity list view.
+ * Important: File with this function must be included in src/routing.ts.
+ *
+ * @param entityName - name of your entity
+ * @param title - page title
+ * @param component - your screen component. Example: <MyComponent />
+ */
 export function registerEntityBrowserScreen(entityName: string, title: string, component: React.ReactNode) {
   const refItem = getRefItem(entityName);
   refItem.entityList.title = title;
   refItem.entityList.content = component;
 }
 
+/**
+ * Registration screens that present entity creation view.
+ * Important: File with this function must be included in src/routing.ts.
+ *
+ * @param entityName - name of your entity
+ * @param title - page title
+ * @param component - your screen component. Example: <MyComponent />
+ */
 export function registerEntityCreatorScreen(entityName: string, title: string, component: React.ReactNode) {
   const refItem = getRefItem(entityName);
   refItem.entityItemNew.title = title;
   refItem.entityItemNew.content = component;
 }
 
+
+/**
+ * Registration screens that present entity edit view. Also this function register entity creation view if that wasn't previously defined.
+ * Important: File with this function must be included in src/routing.ts.
+ *
+ * @param entityName - name of your entity
+ * @param title - page title
+ * @param component - your screen component. Example: <MyComponent />
+ */
 export function registerEntityEditorScreen(entityName: string, title: string, component: React.ReactNode) {
   const refItem = getRefItem(entityName);
   refItem.entityItemEdit.title = title;
@@ -79,16 +104,22 @@ export function registerEntityEditorScreen(entityName: string, title: string, co
   }
 }
 
+/**
+ * Register route
+ * Important: File with this function must be included in src/routing.ts.
+ *
+ * @param routePath - router path param. See router docs. Example: '/my_list_view/:entityId?'
+ * @param menuPath - link that use side menu for this page. Example: '/my_list_view'
+ * @param title - page title for breadcrumbs in multi screen.
+ * @param component - your screen component. Example: <MyComponent />.
+ * @param entityName - name of your entity.
+ */
 export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string) {
-  const Comp = observer((props: any) => {
+  const Comp = observer(() => {
     const screens = useContext(ScreensContext);
 
     screens.currentRootPageData.title = title;
     useState(() => {
-      routerData.history = props.history;
-      routerData.location = props.location;
-      routerData.match = props.matchl;
-
       screens.closeAll();
 
       const entityId = currentRoute.routeParams.entityId;

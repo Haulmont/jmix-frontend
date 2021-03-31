@@ -28,6 +28,12 @@ function exec(re: RegExp, str: string, keys: pathToRegexp.Key[]) {
   return result;
 }
 
+/**
+ * Redirect. Example `redirect('/my_page', false, 'My page browser tab title');`
+ * @param to - url to redirect
+ * @param replace - use `history.replaceState(...)` instead of `history.pushState(...)`
+ * @param title - browser tab title
+ */
 export function redirect(to: string, replace = false, title = '') {
   const currentFullPath = window.location.href.substr(window.location.origin.length);
   if (currentFullPath === to) return;
@@ -43,7 +49,7 @@ export function redirect(to: string, replace = false, title = '') {
   currentRoute.setCurrentRoute();
 }
 
-class CurrentRoute {
+export class CurrentRoute {
   @observable currentLocation = {
     path: '',
     fullPath: '',
@@ -60,8 +66,14 @@ class CurrentRoute {
     },
   };
   @observable fullPath = window.location.pathname + window.location.search;
+  /**
+   * Object with route params
+   */
   @observable routeParams: anyObject = {};
   @observable.ref currentRegExp: RegExp | null = null;
+  /**
+   * Object with window.location.search params
+   */
   @observable searchParams: anyObject = {};
   @observable hashMode = false;
 
@@ -82,6 +94,9 @@ class CurrentRoute {
     );
   }
 
+  /**
+   * Parse current window.location and make routing navigation
+   */
   setCurrentRoute = () => {
     const windowLocation = JSON.parse(JSON.stringify(window.location));
 
@@ -111,11 +126,14 @@ class CurrentRoute {
   };
 }
 
+/**
+ * See {@link CurrentRoute}
+ */
 export const currentRoute = new CurrentRoute();
 
 let globalRoutersCount = 0;
 
-interface IRoutes {
+export interface IRoutes {
   [k: string]: JSX.Element;
 }
 
@@ -185,17 +203,32 @@ class RouterState {
   };
 }
 
-interface IRouterProps {
+export interface IRouterProps {
+  /**
+   * key-value object where key is route and value is what must to rendered. If key is "" or "*" that means Page not found
+   * Example ['/my_page/:pageId?'] where `pageId` is optional param
+   */
   routes: IRoutes;
+  /**
+   * mark router as global for populate currentRoute.routeParams and currentRoute.currentRegExp
+   */
   global?: boolean;
+  /**
+   * hash router instead of regular url's
+   */
   hashMode?: boolean;
 }
 
 /**
- * Props explanation:
- * @routes - key-value object where key is route and value is what must to rendered. If key is "" or "*" that means Page not found
- * @global - mark router as global for populate currentRoute.routeParams and currentRoute.currentRegExp
- * @hashMode - hash router instead of regular url's
+ * Example
+ * ```
+ * const myRoutes = {
+ *   '/my_page/:pageId?': <MyPage />,
+ *   '/my_page2': <MyPage2 />,
+ * }
+ * // ...
+ * <Router routes={myRoutes} />
+ * ```
  */
 export const Router = observer((props: IRouterProps) => {
   const { routes, global = false, hashMode = false } = props;
@@ -221,11 +254,26 @@ export const Router = observer((props: IRouterProps) => {
   return state.currentComponent as JSX.Element;
 });
 
-interface ILinkProps {
+export interface ILinkProps {
+  /**
+   * link url
+   */
   to: string;
+  /**
+   * mark active only if to === currentLocation.fullPath instead of current global route regexp match
+   */
   exact?: boolean;
+  /**
+   * Don't ignore hash when exact active
+   */
   dontIgnoreHash?: boolean;
+  /**
+   * callback function that tells is link active or not
+   */
   grabActive?: (active: boolean) => any;
+  /**
+   * class that applied when url related to this Link
+   */
   activeClass?: string;
   children?: React.ReactNode;
   className?: string;
@@ -235,12 +283,7 @@ interface ILinkProps {
 }
 
 /**
- * Props explanation:
- * @to - link url
- * @exact - mark active only if to === currentLocation.fullPath instead of current global route regexp match
- * @dontIgnoreHash - Don't ignore hash when exact active
- * @grabActive - callback function that tells is link active or not
- * @activeClass - class that applied when url related to this Link
+ * Example `<Link to="/my_list_component" />`
  */
 export const Link = observer(
   (props: ILinkProps) => {

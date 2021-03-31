@@ -14,6 +14,9 @@ export interface IMultiScreenItem {
   };
 }
 
+/**
+ * Screens API
+ */
 export class Screens {
   props: IMultiScreenProps = null!;
   currentRootPageData = {
@@ -26,6 +29,9 @@ export class Screens {
     makeObservable(this);
   }
 
+  /**
+   * Return active screen content
+   */
   get content() {
     const {screens: screensList, currentScreen, props} = this;
     if (screensList.length === 0) {
@@ -41,6 +47,9 @@ export class Screens {
     return props.children;
   }
 
+  /**
+   * Return current active screen index
+   */
   get currentScreenIndex() {
     const {screens: screensList, currentScreen} = this;
     let index = 0;
@@ -56,11 +65,18 @@ export class Screens {
     return index;
   }
 
+  /**
+   * Close all screens
+   */
   closeAll = () => {
     this.screens = [];
     this.currentScreen = null!;
   };
 
+  /**
+   * Push screen
+   * @param screenToPush
+   */
   push = (screenToPush: IMultiScreenItem) => {
     const lastScreen = this.screens[this.screens.length - 1] ?? null;
     let newScreens = [...this.screens];
@@ -97,6 +113,11 @@ export class Screens {
     this.screens = [...newScreens];
   };
 
+  /**
+   * Set active screen
+   * @param activeScreen
+   * @param removeScreensToRight remove screens after active screen
+   */
   setActiveScreen = (
     activeScreen: IMultiScreenItem,
     removeScreensToRight = false,
@@ -117,7 +138,5 @@ export class Screens {
     }
   };
 }
-
-export const screens = new Screens();
 
 export const ScreensContext = React.createContext<Screens>(null!);

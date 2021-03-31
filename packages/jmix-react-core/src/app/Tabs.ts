@@ -8,6 +8,9 @@ export interface IMultiTabItem {
   key: string;
 }
 
+/**
+ * Tabs API
+ */
 export class Tabs {
   @observable.ref tabs: IMultiTabItem[] = [];
   @observable.ref currentTab: IMultiTabItem = null!;
@@ -18,6 +21,9 @@ export class Tabs {
     makeObservable(this);
   }
 
+  /**
+   * Return current active tab index
+   */
   get currentTabIndex() {
     const {tabs: tabsList, currentTab} = this;
     let index = 0;
@@ -33,11 +39,18 @@ export class Tabs {
     return index;
   }
 
+  /**
+   * Close all tabs
+   */
   closeAll = () => {
     this.tabs = [];
     this.currentTab = null!;
   };
 
+  /**
+   * Push tab
+   * @param tab
+   */
   push = (tab: IMultiTabItem) => {
     tab.key += '__' + this.tabsIndex++;
     this.currentTab = tab;
@@ -45,6 +58,10 @@ export class Tabs {
     this.tabs = [...this.tabs, tab];
   };
 
+  /**
+   * Close tab
+   * @param tabToRemove
+   */
   close = (tabToRemove: IMultiTabItem) => {
     const switchTab = this.currentTab === tabToRemove && this.tabs.length > 1;
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
@@ -53,9 +70,16 @@ export class Tabs {
     }
   };
 
+  /**
+   * Set active tab
+   * @param activeTab
+   */
   setActiveTab = (activeTab: IMultiTabItem) => {
     this.currentTab = activeTab;
   };
 }
 
+/**
+ * See {@link Tabs}
+ */
 export const tabs = new Tabs();
