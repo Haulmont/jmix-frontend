@@ -6,6 +6,7 @@
 ** xref:creating-react-components.adoc[Creating React Components]
 ** xref:mobx.adoc[Observable State with MobX]
 ** xref:routing.adoc[Routing and Menu]
+** xref:screens-api.adoc[Screens API]
 ** xref:forms.adoc[Forms]
 ** xref:i18n.adoc[I18n]
 ** xref:theme.adoc[Customizing Theme]
