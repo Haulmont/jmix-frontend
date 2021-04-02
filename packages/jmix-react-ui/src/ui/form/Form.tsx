@@ -1045,7 +1045,7 @@ class EntityEditorComponent extends React.Component<EntityEditorProps> {
 
 }
 
-function selectFormSuccessMessageId(commitMode?: CommitMode): string {
+export function selectFormSuccessMessageId(commitMode?: CommitMode): string {
   switch (commitMode) {
     case 'create': return "management.editor.created";
     case 'edit': return "management.editor.updated";

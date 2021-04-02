@@ -23,6 +23,7 @@ import { AssociationM2MManagement } from "./app/associationM2M/AssociationM2MMan
 import { AssociationM2OManagement } from "./app/associationM2O/AssociationM2OManagement";
 import { AssociationO2MManagement } from "./app/associationO2M/AssociationO2MManagement";
 import { AssociationO2OManagement } from "./app/associationO2O/AssociationO2OManagement";
+import { GraphQLManagement } from "./app/graphql/GraphQLManagement";
 import { HooksPOCManagement } from "./app/hooks-poc/HooksPOCManagement";
 import { DatatypesManagement3 } from "./app/datatypes-test3/DatatypesManagement3";
 import { DatatypesManagement2 } from "./app/datatypes-test2/DatatypesManagement2";
@@ -116,6 +117,13 @@ menuItems.push({
   menuLink: "/hooksPOCManagement",
   component: HooksPOCManagement,
   caption: "HooksPOCManagement"
+});
+
+menuItems.push({
+  pathPattern: "/graphQLManagement/:entityId?",
+  menuLink: "/graphQLManagement",
+  component: GraphQLManagement,
+  caption: "GraphQLManagement"
 });
 
 menuItems.push({
