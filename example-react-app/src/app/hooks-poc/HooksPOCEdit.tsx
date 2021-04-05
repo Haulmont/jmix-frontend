@@ -1,11 +1,11 @@
-import React, { useCallback, useEffect, RefObject } from "react";
+import React, { useCallback, useEffect, MutableRefObject } from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import useForm from "antd/lib/form/hooks/useForm";
 import { useLocalStore, useObserver } from "mobx-react";
 import { HooksPOCManagement } from "./HooksPOCManagement";
 import { Link, Redirect } from "react-router-dom";
-import { toJS } from "mobx";
+import { toJS, action } from "mobx";
 import { FormattedMessage, useIntl } from "react-intl";
 import {
   defaultHandleFinish,
@@ -47,11 +47,12 @@ type HooksPOCEditAssociationOptions = {
   stringIdTestEntityAssociationM2OsDc?: DataCollectionStore<StringIdTestEntity>;
 };
 
-type HooksPOCEditLocalStore = HooksPOCEditAssociationOptions & {
+interface HooksPOCEditLocalStore extends HooksPOCEditAssociationOptions {
   updated: boolean;
   globalErrors: string[];
-  formRef: RefObject<FormInstance>;
-};
+  formRef: MutableRefObject<FormInstance | null>;
+  setFormRef: (ref: FormInstance | null) => void;
+}
 
 const FIELDS = [
   "bigDecimalAttr",
@@ -167,7 +168,7 @@ const HooksPOCEdit = (props: Props) => {
     }
   );
 
-  const store: HooksPOCEditLocalStore = useLocalStore(() => ({
+  const store = useLocalStore<HooksPOCEditLocalStore>(() => ({
     // Association options
     associationO2OattrsDc: undefined,
     associationM2OattrsDc: undefined,
@@ -180,7 +181,10 @@ const HooksPOCEdit = (props: Props) => {
     // Other
     updated: false,
     globalErrors: [],
-    formRef: React.createRef()
+    formRef: { current: null },
+    setFormRef(ref) {
+      this.formRef.current = ref;
+    }
   }));
 
   useEffect(() => {
@@ -246,13 +250,15 @@ const HooksPOCEdit = (props: Props) => {
           intl,
           form,
           isNewEntity(entityId) ? "create" : "edit"
-        ).then(({ success, globalErrors }) => {
-          if (success) {
-            store.updated = true;
-          } else {
-            store.globalErrors = globalErrors;
-          }
-        });
+        ).then(
+          action(({ success, globalErrors }) => {
+            if (success) {
+              store.updated = true;
+            } else {
+              store.globalErrors = globalErrors;
+            }
+          })
+        );
       }
     },
     [entityId, intl, form, store.globalErrors, store.updated, dataInstance]
@@ -289,7 +295,7 @@ const HooksPOCEdit = (props: Props) => {
           onFinish={handleFinish}
           onFinishFailed={handleFinishFailed}
           layout="vertical"
-          ref={store.formRef}
+          ref={store.setFormRef}
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
         >

@@ -92,6 +92,7 @@ export class MainStore {
       metadata: observable,
       messages: observable,
       enums: observable,
+      initialize: action,
       loadEnums: action,
       loadMetadata: action,
       loadMessages: action,

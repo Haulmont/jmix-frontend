@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
+  action,
   reaction,
   toJS,
   makeObservable
@@ -48,7 +49,7 @@ class IntIdMgtTableEditComponent extends React.Component<
   });
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -81,13 +82,15 @@ class IntIdMgtTableEditComponent extends React.Component<
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
+      ).then(
+        action(({ success, globalErrors }) => {
+          if (success) {
+            this.updated = true;
+          } else {
+            this.globalErrors = globalErrors;
+          }
+        })
+      );
     }
   };
 
@@ -95,13 +98,18 @@ class IntIdMgtTableEditComponent extends React.Component<
     return this.props.entityId === IntIdManagementTable.NEW_SUBPATH;
   };
 
+  setFormRef(ref: FormInstance | null) {
+    this.formRef.current = ref;
+  }
+
   constructor(props: Props & WrappedComponentProps) {
     super(props);
 
     makeObservable(this, {
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+      setFormRef: action.bound
     });
   }
 
@@ -136,7 +144,7 @@ class IntIdMgtTableEditComponent extends React.Component<
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.formRef}
+          ref={this.setFormRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field

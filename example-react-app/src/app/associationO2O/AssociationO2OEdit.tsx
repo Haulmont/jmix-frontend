@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
+  action,
   reaction,
   toJS,
   makeObservable
@@ -58,7 +59,7 @@ class AssociationO2OEditComponent extends React.Component<
   > | null = null;
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = ["name", "datatypesTestEntity"];
@@ -68,7 +69,7 @@ class AssociationO2OEditComponent extends React.Component<
   /**
    * This method should be called after the user permissions has been loaded
    */
-  loadAssociationOptions = () => {
+  loadAssociationOptions() {
     // MainStore should exist at this point
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
@@ -82,7 +83,7 @@ class AssociationO2OEditComponent extends React.Component<
           { view: "_minimal" }
         ) ?? null;
     }
-  };
+  }
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -101,19 +102,25 @@ class AssociationO2OEditComponent extends React.Component<
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
+      ).then(
+        action(({ success, globalErrors }) => {
+          if (success) {
+            this.updated = true;
+          } else {
+            this.globalErrors = globalErrors;
+          }
+        })
+      );
     }
   };
 
   isNewEntity = () => {
     return this.props.entityId === AssociationO2OManagement.NEW_SUBPATH;
   };
+
+  setFormRef(ref: FormInstance | null) {
+    this.formRef.current = ref;
+  }
 
   constructor(props: Props & WrappedComponentProps) {
     super(props);
@@ -123,7 +130,10 @@ class AssociationO2OEditComponent extends React.Component<
 
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+      setFormRef: action.bound,
+
+      loadAssociationOptions: action.bound
     });
   }
 
@@ -158,7 +168,7 @@ class AssociationO2OEditComponent extends React.Component<
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.formRef}
+          ref={this.setFormRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field

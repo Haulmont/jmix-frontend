@@ -24,14 +24,25 @@ class IntIdManagementTableComponent extends React.Component<Props> {
 
     makeObservable(this, {
       paginationConfig: observable,
-      onPagingChange: action
+      setPaginationConfig: action.bound
     });
   }
 
+  setPaginationConfig(paginationConfig: PaginationConfig) {
+    this.paginationConfig = paginationConfig;
+  }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    this.props?.history?.push(
+      addPagingParams("intIdManagementTable", current, pageSize)
+    );
+    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
+  };
+
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props?.location?.search ?? ""
+    this.setPaginationConfig(
+      createPagingConfig(this.props?.location?.search ?? "")
     );
   }
 
@@ -43,13 +54,6 @@ class IntIdManagementTableComponent extends React.Component<Props> {
       <IntIdMgtTableBrowse />
     );
   }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("intIdManagementTable", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
 }
 
 export const IntIdManagementTable = observer(IntIdManagementTableComponent);

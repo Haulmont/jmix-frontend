@@ -71,6 +71,7 @@ import {
   reaction,
   toJS,
   makeObservable,
+  action,
 } from 'mobx';
 import {RefObject} from 'react';
 import './EntityEditor.less';
@@ -340,7 +341,10 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
       fields: observable,
       dataInstance: observable,
       associationOptions: observable,
-      instanceName: computed
+      instanceName: computed,
+      openDrawer: action.bound,
+      closeDrawer: action.bound,
+      setDataInstance: action.bound,
     });
   }
 
@@ -359,21 +363,25 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
 
   reactionDisposers: IReactionDisposer[] = [];
 
+  setDataInstance(dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null) {
+    this.dataInstance = dataInstance;
+  }
+
   componentDidMount(): void {
     const {nestedEntityName, nestedEntityView} = this.props;
 
-    this.dataInstance = instance(nestedEntityName, {view: nestedEntityView});
+    this.setDataInstance(instance(nestedEntityName, {view: nestedEntityView}));
     this.loadViewPropertyNames(nestedEntityName, nestedEntityView)
-      ?.then((propertyNames: string[]) => {
+      ?.then(action((propertyNames: string[]) => {
         this.fields = propertyNames;
-      });
+      }));
 
     this.reactionDisposers.push(reaction(
       () => [
         this.fields,
         this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData, (
+      ] as AssociationOptionsReactionData, action((
         [fields, metadata, isDataLoaded]: AssociationOptionsReactionData,
         _prevData : AssociationOptionsReactionData,
         thisReaction
@@ -385,13 +393,13 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
           this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
           thisReaction.dispose();
         }
-      },
+      }),
       {fireImmediately: true}
     ));
 
     this.reactionDisposers.push(reaction(
       () => this.props.value,
-      () => {
+      action(() => {
         if (this.props.value == null) {
           this.dataInstance?.setItem({});
         } else {
@@ -401,7 +409,7 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
             this.dataInstance.item.id = id;
           }
         }
-      },
+      }),
       {fireImmediately: true}
     ));
   }
@@ -445,11 +453,11 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
     }
   };
 
-  openDrawer = () => {
+  openDrawer() {
     this.isDrawerOpen = true
   };
 
-  closeDrawer = () => {
+  closeDrawer() {
     this.isDrawerOpen = false;
   };
 
@@ -541,6 +549,7 @@ export interface NestedEntitiesTableFieldProps extends MainStoreInjected, Wrappe
    */
   parentEntityInstanceId?: string;
 }
+
 class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTableFieldProps> {
   selectedRowKey: string | null = null;
   isDrawerOpen = false;
@@ -566,31 +575,42 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
       inverseAttributeName: observable,
       dataCollection: observable,
       editedInstance: observable,
-      associationOptions: observable
+      associationOptions: observable,
+
+      openDrawer: action.bound,
+      closeDrawer: action.bound,
+      setDataCollection: action.bound,
+      createEntity: action.bound,
+      editEntity: action.bound,
+      handleSubmitInstance: action.bound,
+      handleRowSelectionChange: action.bound,
     });
+  }
+
+  setDataCollection(dataCollection: ClientSideDataCollectionStore<Partial<WithId & SerializedEntityProps>> | null) {
+    this.dataCollection = dataCollection;
   }
 
   componentDidMount(): void {
     const {nestedEntityName, nestedEntityView, parentEntityName, mainStore} = this.props;
 
-    this.dataCollection = clientSideCollection(nestedEntityName, {loadImmediately: false});
-
+    this.setDataCollection(clientSideCollection(nestedEntityName, {loadImmediately: false}))
     // HTTP request
     if (this.allFields == null) {
       getJmixREST()?.loadEntityView(nestedEntityName, nestedEntityView)
-        .then((view: View) => {
+        .then(action((view: View) => {
           this.allFields = view.properties.map((viewProp: ViewProperty) => {
             if (typeof viewProp === 'string') {
               return viewProp;
             }
             return viewProp.name;
           });
-        });
+        }));
     }
 
     this.disposers.push(reaction(
       () => this.props.value,
-      () => {
+      action(() => {
         if (this.dataCollection) {
           this.dataCollection.allItems = this.props.value.map((element: any) => {
             return {
@@ -601,7 +621,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
           this.dataCollection.adjustItems();
         }
       }
-    ));
+    )));
 
     // Performs several HTTP requests (one per each one-to-many association).
     // That should happen only once after the requests to load permissions and entity view and metadata are resolved.
@@ -610,7 +630,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
         this.allFields,
         this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData, (
+      ] as AssociationOptionsReactionData, action((
         [allFields, metadata, isDataLoaded]: AssociationOptionsReactionData,
         _prevData : AssociationOptionsReactionData,
         thisReaction
@@ -622,13 +642,13 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
           this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
           thisReaction.dispose();
         }
-      },
+      }),
       {fireImmediately: true}
     ));
 
     this.disposers.push(reaction(
       () => [this.allFields, this.props.mainStore?.metadata],
-      (_data, _prevData, thisReaction) => {
+      action((_data, _prevData, thisReaction) => {
         if (this.allFields != null
           && this.allFields.length > 0
           && this.props.mainStore?.metadata != null
@@ -654,14 +674,14 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
           thisReaction.dispose();
         }
       }
-    ));
+    )));
   }
 
   componentWillUnmount(): void {
     this.disposers.forEach(dispose => dispose());
   }
 
-  createEntity = () => {
+  createEntity() {
     const {nestedEntityName, intl} = this.props;
     this.editedInstance = instance(nestedEntityName, {});
     const newItem: any = {
@@ -671,7 +691,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
     this.openDrawer();
   };
 
-  editEntity = () => {
+  editEntity() {
     const {nestedEntityName} = this.props;
     this.editedInstance = instance(nestedEntityName, {});
     const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey) ?? null;
@@ -679,11 +699,11 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
     this.openDrawer();
   };
 
-  openDrawer = () => {
+  openDrawer() {
     this.isDrawerOpen = true
   };
 
-  closeDrawer = () => {
+  closeDrawer() {
     this.isDrawerOpen = false;
   };
 
@@ -694,14 +714,14 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
       title: intl.formatMessage({ id: "cubaReact.nestedEntitiesTableField.delete.areYouSure" }),
       okText: intl.formatMessage({id: "common.ok"}),
       cancelText: intl.formatMessage({id: "common.cancel"}),
-      onOk: () => {
+      onOk: action(() => {
         const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey);
         if (record) {
           this.dataCollection?.delete(record);
         }
         this.selectedRowKey = null;
         this.updateFormFieldValue();
-      }
+      })
     });
   };
 
@@ -710,7 +730,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
    *
    * @param updatedValues
    */
-  handleSubmitInstance = (updatedValues: {[field: string]: any}) => {
+  handleSubmitInstance(updatedValues: {[field: string]: any}) {
     const {parentEntityInstanceId} = this.props;
 
     if (this.editedInstance?.item?.id != null) {
@@ -769,7 +789,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
     }
   };
 
-  handleRowSelectionChange = (selectedRowKeys: string[]) => {
+  handleRowSelectionChange(selectedRowKeys: string[]) {
     this.selectedRowKey = toJS(selectedRowKeys)[0];
   };
 
@@ -912,7 +932,8 @@ class EntityEditorComponent extends React.Component<EntityEditorProps> {
 
     makeObservable(this, {
       globalErrors: observable,
-      formRef: observable
+      formRef: observable,
+      entityProperties: computed
     });
   }
 

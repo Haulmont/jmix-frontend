@@ -1,4 +1,4 @@
-import { action, computed, observable, reaction, runInAction, toJS, makeObservable } from "mobx";
+import { action, computed, observable, reaction, toJS, makeObservable } from "mobx";
 import {
   PredefinedView, 
   SerializedEntityProps, 
@@ -82,8 +82,10 @@ export class DataInstanceStore<T> implements DataContainer {
       commit: action
     });
 
-    reaction(() => this.status,
-      status => this.lastError = status !== "ERROR" ? null : this.lastError)
+    reaction(
+      () => this.status,
+      action(status => this.lastError = status !== "ERROR" ? null : this.lastError)
+    )
   }
 
   /**
@@ -98,18 +100,14 @@ export class DataInstanceStore<T> implements DataContainer {
     }
     this.status = "LOADING";
     getJmixREST()!.loadEntity<T>(this.entityName, id, {view: this.viewName})
-      .then((loadedEntity) => {
-        runInAction(() => {
-          this.item = loadedEntity;
-          this.status = "DONE"
-        })
-      })
-      .catch(() => {
-        runInAction(() => {
-          this.status = "ERROR";
-          this.lastError = "LOAD_ERROR";
-        })
-      })
+      .then(action((loadedEntity) => {
+        this.item = loadedEntity;
+        this.status = "DONE"
+      }))
+      .catch(action(() => {
+        this.status = "ERROR";
+        this.lastError = "LOAD_ERROR";
+      }))
   };
 
   /**
@@ -171,21 +169,19 @@ export class DataInstanceStore<T> implements DataContainer {
     const fetchOptions = commitMode != null ? {commitMode} : undefined;
 
     return getJmixREST()!.commitEntity(this.entityName, commitItem, fetchOptions)
-      .then((updateResult) => {
-        runInAction(() => {
-          if (updateResult.id != null && this.item != null) {
-            this.item.id = updateResult.id;
-            this.item._instanceName = updateResult._instanceName;
-          }
-          this.status = 'DONE';
-        });
+      .then(action((updateResult) => {
+        if (updateResult.id != null && this.item != null) {
+          this.item.id = updateResult.id;
+          this.item._instanceName = updateResult._instanceName;
+        }
+        this.status = 'DONE';
         return updateResult;
-      })
-      .catch((e) => {
+      }))
+      .catch(action((e) => {
         this.status = 'ERROR';
         this.lastError = 'COMMIT_ERROR';
         throw e;
-      })
+      }))
   };
 
   /**
