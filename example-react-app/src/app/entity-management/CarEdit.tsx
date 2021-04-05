@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
+  action,
   reaction,
   toJS,
   makeObservable
@@ -56,7 +57,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
   > | null = null;
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -86,7 +87,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
   /**
    * This method should be called after the user permissions has been loaded
    */
-  loadAssociationOptions = () => {
+  loadAssociationOptions() {
     // MainStore should exist at this point
     if (this.props.mainStore != null) {
       const { getAttributePermission } = this.props.mainStore.security;
@@ -109,7 +110,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           { view: "_minimal" }
         ) ?? null;
     }
-  };
+  }
 
   handleFinishFailed = () => {
     const { intl } = this.props;
@@ -128,19 +129,25 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
+      ).then(
+        action(({ success, globalErrors }) => {
+          if (success) {
+            this.updated = true;
+          } else {
+            this.globalErrors = globalErrors;
+          }
+        })
+      );
     }
   };
 
   isNewEntity = () => {
     return this.props.entityId === CarManagement.NEW_SUBPATH;
   };
+
+  setFormRef(ref: FormInstance | null) {
+    this.formRef.current = ref;
+  }
 
   constructor(props: Props & WrappedComponentProps) {
     super(props);
@@ -152,7 +159,10 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
 
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+      setFormRef: action.bound,
+
+      loadAssociationOptions: action.bound
     });
   }
 
@@ -187,7 +197,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.formRef}
+          ref={this.setFormRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field

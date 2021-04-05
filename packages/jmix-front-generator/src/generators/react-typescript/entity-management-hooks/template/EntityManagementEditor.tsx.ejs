@@ -1,11 +1,11 @@
-import React, {useCallback, useEffect, RefObject} from "react";
+import React, {useCallback, useEffect, MutableRefObject} from "react";
 import {Form, Alert, Button, Card, message} from "antd";
 import {FormInstance} from "antd/es/form";
 import useForm from "antd/lib/form/hooks/useForm";
 import {useLocalStore, useObserver} from "mobx-react";
 import {<%= className %>} from "./<%= className %>";
 import {Link, Redirect} from "react-router-dom";
-import {toJS} from "mobx";
+import {toJS, action} from "mobx";
 import {FormattedMessage, useIntl} from 'react-intl';
 import {defaultHandleFinish, createAntdFormValidationMessages} from '@haulmont/jmix-react-ui';
 import {
@@ -40,10 +40,11 @@ type <%= editComponentClass %>AssociationOptions = {
   <% }) %>
 };
 
-type <%= editComponentClass %>LocalStore = <%= editComponentClass %>AssociationOptions & {
+interface <%= editComponentClass %>LocalStore extends <%= editComponentClass %>AssociationOptions {
   updated: boolean;
   globalErrors: string[];
-  formRef: RefObject<FormInstance>;
+  formRef: MutableRefObject<FormInstance | null>;
+  setFormRef: (ref: FormInstance | null) => void;
 };
 
 const FIELDS = [
@@ -88,7 +89,7 @@ const <%= editComponentClass %> = (props: Props) => {
     <% } -%>
   });
 
-  const store: <%= editComponentClass %>LocalStore = useLocalStore(() => ({
+  const store = useLocalStore<<%= editComponentClass %>LocalStore>(() => ({
     // Association options
     <% Object.entries(editAssociations).forEach(([attrName, nestedEntity]) => { -%>
       <%= attrName %>sDc: undefined,
@@ -96,7 +97,10 @@ const <%= editComponentClass %> = (props: Props) => {
     // Other
     updated: false,
     globalErrors: [],
-    formRef: React.createRef(),
+    formRef: { current: null },
+    setFormRef(ref) {
+      this.formRef.current = ref
+    }
   }));
 
   useEffect(
@@ -167,13 +171,13 @@ const <%= editComponentClass %> = (props: Props) => {
           intl,
           form,
           isNewEntity(entityId) ? "create" : "edit"
-        ).then(({ success, globalErrors }) => {
+        ).then(action(({ success, globalErrors }) => {
           if (success) {
             store.updated = true;
           } else {
             store.globalErrors = globalErrors;
           }
-        });
+        }));
       }
     },
     [entityId, intl, form, store.globalErrors, store.updated, dataInstance]
@@ -209,7 +213,7 @@ const <%= editComponentClass %> = (props: Props) => {
         <Form onFinish={handleFinish}
               onFinishFailed={handleFinishFailed}
               layout='vertical'
-              ref={store.formRef}
+              ref={store.setFormRef}
               form={form}
               validateMessages={createAntdFormValidationMessages(intl)}
         >

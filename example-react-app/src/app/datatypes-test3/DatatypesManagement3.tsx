@@ -24,14 +24,25 @@ class DatatypesManagement3Component extends React.Component<Props> {
 
     makeObservable(this, {
       paginationConfig: observable,
-      onPagingChange: action
+      setPaginationConfig: action.bound
     });
   }
 
+  setPaginationConfig(paginationConfig: PaginationConfig) {
+    this.paginationConfig = paginationConfig;
+  }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    this.props?.history?.push(
+      addPagingParams("datatypesManagement3", current, pageSize)
+    );
+    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
+  };
+
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props?.location?.search ?? ""
+    this.setPaginationConfig(
+      createPagingConfig(this.props?.location?.search ?? "")
     );
   }
 
@@ -43,13 +54,6 @@ class DatatypesManagement3Component extends React.Component<Props> {
       <DatatypesBrowse3 />
     );
   }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("datatypesManagement3", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
 }
 
 export const DatatypesManagement3 = observer(DatatypesManagement3Component);

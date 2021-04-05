@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
+  action,
   reaction,
   toJS,
   makeObservable
@@ -61,7 +62,7 @@ class CarEditLowCaseComponent extends React.Component<
   photosDc: DataCollectionStore<FileDescriptor> | null = null;
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -137,13 +138,15 @@ class CarEditLowCaseComponent extends React.Component<
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
+      ).then(
+        action(({ success, globalErrors }) => {
+          if (success) {
+            this.updated = true;
+          } else {
+            this.globalErrors = globalErrors;
+          }
+        })
+      );
     }
   };
 
@@ -163,7 +166,9 @@ class CarEditLowCaseComponent extends React.Component<
 
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+
+      loadAssociationOptions: action
     });
   }
 
@@ -198,7 +203,9 @@ class CarEditLowCaseComponent extends React.Component<
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.formRef}
+          ref={action(
+            (ref: FormInstance | null) => (this.formRef.current = ref)
+          )}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field

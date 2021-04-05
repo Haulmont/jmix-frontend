@@ -24,14 +24,25 @@ class HooksPOCManagementComponent extends React.Component<Props> {
 
     makeObservable(this, {
       paginationConfig: observable,
-      onPagingChange: action
+      setPaginationConfig: action.bound
     });
   }
 
+  setPaginationConfig(paginationConfig: PaginationConfig) {
+    this.paginationConfig = paginationConfig;
+  }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    this.props?.history?.push(
+      addPagingParams("hooksPOCManagement", current, pageSize)
+    );
+    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
+  };
+
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props?.location?.search ?? ""
+    this.setPaginationConfig(
+      createPagingConfig(this.props?.location?.search ?? "")
     );
   }
 
@@ -39,13 +50,6 @@ class HooksPOCManagementComponent extends React.Component<Props> {
     const entityId = this.props?.match?.params?.entityId;
     return entityId ? <HooksPOCEdit entityId={entityId} /> : <HooksPOCList />;
   }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("hooksPOCManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
 }
 
 export const HooksPOCManagement = observer(HooksPOCManagementComponent);

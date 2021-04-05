@@ -4,7 +4,7 @@ import {FormInstance} from "antd/es/form";
 import {observer} from "mobx-react";
 import {<%= className %>} from "./<%= className %>";
 import {Link, Redirect} from "react-router-dom";
-import {IReactionDisposer, observable, reaction, toJS, makeObservable} from "mobx";
+import {IReactionDisposer, observable, action, reaction, toJS, makeObservable} from "mobx";
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {defaultHandleFinish, createAntdFormValidationMessages} from '@haulmont/jmix-react-ui';
 
@@ -51,7 +51,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   <% }) %>
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = {current: null};
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -66,7 +66,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   /**
   * This method should be called after the user permissions has been loaded
   */
-  loadAssociationOptions = () => {
+  loadAssociationOptions() {
     // MainStore should exist at this point
     if (this.props.mainStore != null) {
       const {getAttributePermission} = this.props.mainStore.security;
@@ -90,19 +90,23 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
     if (this.formRef.current != null) {
       defaultHandleFinish(
         values, this.dataInstance, intl, this.formRef.current, this.isNewEntity() ? 'create' : 'edit'
-      ).then(({success, globalErrors}) => {
+      ).then(action(({success, globalErrors}) => {
         if (success) {
           this.updated = true;
         } else {
           this.globalErrors = globalErrors;
         }
-      });
+      }));
     }
   };
 
   isNewEntity = () => {
     return this.props.entityId === <%= className %>.NEW_SUBPATH;
   };
+
+  setFormRef(ref: FormInstance | null) {
+    this.formRef.current = ref;
+  }
 
   constructor(props: Props & WrappedComponentProps) {
     super(props);
@@ -113,7 +117,11 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
       <% }) %>
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+      setFormRef: action.bound,
+      <% if (Object.keys(editAssociations).length > 0) { %>
+        loadAssociationOptions: action.bound,
+      <% } %>
     });
   }
 
@@ -146,7 +154,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
         <Form onFinish={this.handleFinish}
               onFinishFailed={this.handleFinishFailed}
               layout='vertical'
-              ref={this.formRef}
+              ref={this.setFormRef}
               validateMessages={createAntdFormValidationMessages(intl)}
         >
 

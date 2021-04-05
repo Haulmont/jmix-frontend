@@ -24,8 +24,13 @@ class CarManagementLowCaseComponent extends React.Component<Props> {
 
     makeObservable(this, {
       paginationConfig: observable,
-      onPagingChange: action
+      onPagingChange: action,
+      setPaginationConfig: action
     });
+  }
+
+  setPaginationConfig(paginationConfig: PaginationConfig) {
+    this.paginationConfig = paginationConfig;
   }
 
   componentDidMount(): void {

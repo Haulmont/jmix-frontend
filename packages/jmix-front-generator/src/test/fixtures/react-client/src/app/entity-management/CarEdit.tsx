@@ -7,6 +7,7 @@ import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
+  action,
   reaction,
   toJS,
   makeObservable
@@ -59,7 +60,7 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
   photosDc: DataCollectionStore<FileDescriptor> | null = null;
 
   updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
+  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -135,13 +136,15 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
+      ).then(
+        action(({ success, globalErrors }) => {
+          if (success) {
+            this.updated = true;
+          } else {
+            this.globalErrors = globalErrors;
+          }
+        })
+      );
     }
   };
 
@@ -161,7 +164,9 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
 
       updated: observable,
       formRef: observable,
-      globalErrors: observable
+      globalErrors: observable,
+
+      loadAssociationOptions: action
     });
   }
 
@@ -196,7 +201,9 @@ class CarEditComponent extends React.Component<Props & WrappedComponentProps> {
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.formRef}
+          ref={action(
+            (ref: FormInstance | null) => (this.formRef.current = ref)
+          )}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field

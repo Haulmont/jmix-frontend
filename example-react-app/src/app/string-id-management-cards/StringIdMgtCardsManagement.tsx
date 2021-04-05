@@ -24,14 +24,25 @@ class StringIdMgtCardsManagementComponent extends React.Component<Props> {
 
     makeObservable(this, {
       paginationConfig: observable,
-      onPagingChange: action
+      setPaginationConfig: action.bound
     });
   }
 
+  setPaginationConfig(paginationConfig: PaginationConfig) {
+    this.paginationConfig = paginationConfig;
+  }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    this.props?.history?.push(
+      addPagingParams("stringIdMgtCardsManagement", current, pageSize)
+    );
+    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
+  };
+
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(
-      this.props?.location?.search ?? ""
+    this.setPaginationConfig(
+      createPagingConfig(this.props?.location?.search ?? "")
     );
   }
 
@@ -46,13 +57,6 @@ class StringIdMgtCardsManagementComponent extends React.Component<Props> {
       />
     );
   }
-
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("stringIdMgtCardsManagement", current, pageSize)
-    );
-    this.paginationConfig = { ...this.paginationConfig, current, pageSize };
-  };
 }
 
 export const StringIdMgtCardsManagement = observer(
