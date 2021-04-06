@@ -8,7 +8,7 @@ import {throwError} from '../../../common/utils';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 
 export const write: WriteStage<Options, TemplateModel> = async (
-  projectModel, templateModel, gen, options
+  projectModel, templateModel, gen, options, invocationDir
 ) => {
 
   gen.log(`Generating to ${gen.destinationPath()}`);
@@ -56,12 +56,13 @@ export const write: WriteStage<Options, TemplateModel> = async (
   gen.fs.copy(gen.templatePath('_editorconfig'), gen.destinationPath('.editorconfig'));
 
   const modelFilePath = templateModel.modelFilePath ?? options.model;
-  generateSdk(gen, require.resolve('../../sdk/sdk-generator'), modelFilePath);
+  generateSdk(gen, require.resolve('../../sdk/sdk-generator'), invocationDir, modelFilePath);
 }
 
 export function generateSdk(
   gen: YeomanGenerator,
   sdkGeneratorPath: string,
+  invocationDir: string,
   modelFilePath?: string
 ): void {
   if (modelFilePath == null) {
@@ -71,8 +72,12 @@ export function generateSdk(
   const sdkDest = 'src/jmix';
   gen.log(`Generate SDK model and services to ${sdkDest}`);
 
+  const absoluteModelFilePath = path.isAbsolute(modelFilePath)
+    ? modelFilePath
+    : path.join(invocationDir, modelFilePath)
+
   const sdkOpts = {
-    model: modelFilePath,
+    model: absoluteModelFilePath,
     dest: sdkDest
   };
 

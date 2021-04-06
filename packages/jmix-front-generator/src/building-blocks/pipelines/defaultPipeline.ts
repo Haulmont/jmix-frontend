@@ -34,7 +34,7 @@ export type ProjectModelStage<O extends CommonGenerationOptions> = (invocationDi
 export type AnswersFromOptionsStage<O extends CommonGenerationOptions, A> = (projectModel: ProjectModel, gen: YeomanGenerator, options: O, questions: StudioTemplateProperty[]) => Promise<A>;
 export type AnswersFromPromptStage<O extends CommonGenerationOptions, A> = (projectModel: ProjectModel, gen: YeomanGenerator, options: O, questions?: StudioTemplateProperty[]) => Promise<A>;
 export type TemplateModelStage<O extends CommonGenerationOptions, A, M> = (answers: A, projectModel: ProjectModel, gen: YeomanGenerator, options: O) => Promise<M>;
-export type WriteStage<O extends CommonGenerationOptions, M> = (projectModel: ProjectModel, templateModel: M, gen: YeomanGenerator, options: O) => Promise<void>;
+export type WriteStage<O extends CommonGenerationOptions, M> = (projectModel: ProjectModel, templateModel: M, gen: YeomanGenerator, options: O, invocationDir: string) => Promise<void>;
 
 export interface DefaultPipelineStages<O extends CommonGenerationOptions, A, M> {
   getOptions?: OptionsStage<O>;
@@ -95,7 +95,7 @@ export async function defaultPipeline<O extends CommonGenerationOptions, A, M>(
 
   // Write files to disk, performing interpolations using the template model
   gen.log(`Generating to ${gen.destinationPath()}`);
-  await write(projectModel, templateModel, gen, options);
+  await write(projectModel, templateModel, gen, options, invocationDir);
 }
 
 async function obtainAnswers<O extends CommonGenerationOptions, A>(
