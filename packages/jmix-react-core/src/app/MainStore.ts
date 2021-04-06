@@ -4,10 +4,22 @@ import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
 import React from "react";
+import { login, logout } from "./Auth";
+
+export interface MainStoreOptions {
+  appName?: string;
+  storage?: Storage;
+  clientId?: string;
+  secret?: string;
+  obtainTokenEndpoint?: string;
+  revokeTokenEndpoint?: string;
+  locale?: string;
+}
 
 export class MainStore {
 
   static NAME = 'mainStore';
+  static TOKEN_STORAGE_KEY = "jmixRestAccessToken";
 
   /**
    * Whether the `MainStore` instance is initialized.
@@ -45,9 +57,28 @@ export class MainStore {
   private messagesRequestCount = 0;
   private enumsRequestCount = 0;
 
-  private disposeTokenExpiryListener?: () => {};
+  private tokenExpiryListeners: Array<(() => void)> = [];
+  private disposeTokenExpiryListener?: () => void;
 
-  constructor(private jmixREST: JmixRestConnection) {
+  private appName: string;
+  private storage: Storage;
+  private clientId: string;
+  private secret: string;
+  private obtainTokenEndpoint: string;
+  private revokeTokenEndpoint: string;
+
+  constructor(
+    private jmixREST: JmixRestConnection,
+    options?: MainStoreOptions
+  ) {
+
+    this.appName = options?.appName ?? '';
+    this.storage = options?.storage ?? window.localStorage;
+    this.clientId = options?.clientId ?? 'client';
+    this.secret = options?.secret ?? 'secret';
+    this.obtainTokenEndpoint = options?.obtainTokenEndpoint ?? '/oauth/token';
+    this.revokeTokenEndpoint = options?.revokeTokenEndpoint ?? '/oauth/revoke';
+    this.locale = options?.locale ?? 'en';
 
     this.jmixREST.onLocaleChange(this.handleLocaleChange);
     this.security = new Security(this.jmixREST);
@@ -78,6 +109,23 @@ export class MainStore {
         this.loadMessages();
       }
     })
+  }
+
+  get authToken(): string | null {
+    return this.storage.getItem(this.tokenStorageKey);
+  }
+
+  set authToken(token: string | null) {
+    if (token != null) {
+      this.storage.setItem(this.tokenStorageKey, token);
+      return;
+    }
+
+    this.storage.removeItem(this.tokenStorageKey);
+  }
+
+  get tokenStorageKey(): string {
+    return this.appName + "_" + MainStore.TOKEN_STORAGE_KEY;
   }
 
   /**
@@ -143,32 +191,112 @@ export class MainStore {
     return !this.authenticated && !this.usingAnonymously;
   }
 
-  login(login: string, password: string) {
-    return this.jmixREST.login(login, password).then(action(() => {
-      this.userName = login;
+  /**
+   * Login using Jmix OAuth module.
+   * Sends the request to obtain an access token,
+   * saves it in the storage and sets the application state to "logged in".
+   *
+   * @param userName
+   * @param password
+   */
+  login(userName: string, password: string): Promise<{ access_token: string }> {
+    return login({
+      userName,
+      password,
+      clientId: this.clientId,
+      secret: this.secret,
+      endpoint: this.obtainTokenEndpoint,
+      locale: this.locale ?? undefined
+    }).then(action((data) => {
+      const {access_token} = data;
+
+      this.authToken = access_token;
+
+      this.userName = userName;
       this.authenticated = true;
-      this.disposeTokenExpiryListener = this.jmixREST.onTokenExpiry(() => {
+      this.disposeTokenExpiryListener = this.onTokenExpiry(() => {
         this.authenticated = false;
       });
-    }))
+
+      return data;
+    }));
   }
 
+  /**
+   * Login using a custom authentication method.
+   * Saves an externally obtained token in the storage
+   * and sets the application state to "logged in".
+   *
+   * @param userName
+   * @param token
+   */
+  loginCustom(userName: string, token: string): void {
+    this.authToken = token;
+    this.userName = userName;
+    this.authenticated = true;
+    this.disposeTokenExpiryListener = this.onTokenExpiry(() => {
+      this.authenticated = false;
+    });
+  }
+
+  /**
+   * Logout using Jmix OAuth module.
+   * Sends the logout request, clears the stored access token
+   * and sets the application state to "logged out".
+   */
   logout(): Promise<void> {
     if (this.usingAnonymously) {
       this.usingAnonymously = false;
       return Promise.resolve();
     }
-    if (this.jmixREST.restApiToken != null) {
-      return this.jmixREST.logout()
-        .then(action(() => {
+
+    if (this.authToken != null) {
+      const token = this.authToken;
+      this.authToken = null;
+
+      return logout({
+        clientId: this.clientId,
+        secret: this.secret,
+        token,
+        endpoint: this.revokeTokenEndpoint,
+        locale: this.locale ?? undefined
+      }).then(action(() => {
           this.authenticated = false;
+          this.userName = null;
           if (this.disposeTokenExpiryListener != null) {
             this.disposeTokenExpiryListener();
             this.disposeTokenExpiryListener = undefined;
           }
         }));
     }
+
     return Promise.resolve();
+  }
+
+  /**
+   * Logout using a custom authentication method.
+   * Clears the stored access token
+   * and sets the application state to "logged out".
+   */
+  logoutCustom(): void {
+    if (this.usingAnonymously) {
+      this.usingAnonymously = false;
+      return;
+    }
+
+    this.authToken = null;
+
+    this.authenticated = false;
+    this.userName = null;
+    if (this.disposeTokenExpiryListener != null) {
+      this.disposeTokenExpiryListener();
+      this.disposeTokenExpiryListener = undefined;
+    }
+  }
+
+  onTokenExpiry(c: () => void) {
+    this.tokenExpiryListeners.push(c);
+    return () => this.tokenExpiryListeners.splice(this.tokenExpiryListeners.indexOf(c), 1);
   }
 
   /**

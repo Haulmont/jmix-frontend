@@ -28,7 +28,15 @@ export const jmixREST = initializeApp({
 });
 
 ReactDOM.render(
-  <JmixAppProvider jmixREST={jmixREST}>
+  <JmixAppProvider
+    jmixREST={jmixREST}
+    config={{
+      appName: "mpg",
+      clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
+      secret: REST_CLIENT_SECRET,
+      locale: "en"
+    }}
+  >
     <I18nProvider
       messagesMapping={messagesMapping}
       antdLocaleMapping={antdLocaleMapping}

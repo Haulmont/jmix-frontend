@@ -33,7 +33,14 @@ export const jmixREST = initializeApp({
 });
 
 ReactDOM.render(
-  <JmixAppProvider jmixREST={jmixREST}>
+  <JmixAppProvider jmixREST={jmixREST}
+                   config={{
+                     appName: '<%=project.namespace%>',
+                     clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
+                     secret: REST_CLIENT_SECRET,
+                     locale: '<%= clientLocales.length > 0 ? clientLocales[0] : 'en' %>'
+                   }}
+  >
     <I18nProvider messagesMapping={messagesMapping}
                   antdLocaleMapping={antdLocaleMapping}>
       <HashRouter>
