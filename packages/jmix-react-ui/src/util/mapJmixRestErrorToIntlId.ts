@@ -1,6 +1,6 @@
-import { JmixRestError } from "@haulmont/jmix-rest";
+import { JmixServerError } from "@haulmont/jmix-react-core";
 
-export function defaultMapJmixRestErrorToIntlId(error: JmixRestError): string {
+export function defaultMapJmixRestErrorToIntlId(error: JmixServerError): string {
     if (error.message === "Failed to fetch") {
       return "cubaRest.error.serverNotResponded";
     }
@@ -14,7 +14,7 @@ export function defaultMapJmixRestErrorToIntlId(error: JmixRestError): string {
     }
 }
   
-export function mapJmixRestErrorToIntlId(localMapJmixRestErrorToIntlId: (error: JmixRestError) => string | void, error: JmixRestError): string {
+export function mapJmixRestErrorToIntlId(localMapJmixRestErrorToIntlId: (error: JmixServerError) => string | void, error: JmixServerError): string {
     console.error(error);
 
     const errorMassageId = localMapJmixRestErrorToIntlId(error);
@@ -22,8 +22,8 @@ export function mapJmixRestErrorToIntlId(localMapJmixRestErrorToIntlId: (error: 
     return errorMassageId || defaultMapJmixRestErrorToIntlId(error);
 }
   
-export const loginMapJmixRestErrorToIntlId = (error: JmixRestError): string => mapJmixRestErrorToIntlId(
-    (error: JmixRestError): string | void => {
+export const loginMapJmixRestErrorToIntlId = (error: JmixServerError): string => mapJmixRestErrorToIntlId(
+    (error: JmixServerError): string | void => {
         switch (error?.response?.status) {
             case 400: return 'login.failed';
         }

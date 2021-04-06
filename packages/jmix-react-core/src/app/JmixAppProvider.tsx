@@ -27,6 +27,35 @@ export function getJmixAppConfig(): JmixAppConfig | undefined {
 
 export interface JmixAppConfig {
   /**
+   * Short application name
+   */
+  appName?: string;
+  /**
+   * Storage that will be used by the application.
+   * Defaults to `window.localStorage`.
+   */
+  storage?: Storage;
+  /**
+   * Client ID used during authentication.
+   */
+  clientId?: string;
+  /**
+   * Client secret used during authentication.
+   */
+  secret?: string;
+  /**
+   * Defaults to `/oauth/token`.
+   */
+  obtainTokenEndpoint?: string;
+  /**
+   * Defaults to `/oauth/revoke`.
+   */
+  revokeTokenEndpoint?: string;
+  /**
+   * Default locale. Defaults to `en`.
+   */
+  locale?: string;
+  /**
    * Serialization formats for entity properties of temporal types.
    * Can be used to override the default formats used to (de)serialize the data transferred by REST API.
    * See @{link https://momentjs.com/docs/#/displaying/ | Moment documentation}
@@ -77,7 +106,24 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = (
         if (jmixREST && context.jmixREST !== jmixREST) {
           jmixAppConfig = config;
           globalJmixREST = jmixREST;
-          mainStore = new MainStore(jmixREST);
+          const {
+            appName,
+            storage,
+            clientId,
+            secret,
+            obtainTokenEndpoint,
+            revokeTokenEndpoint,
+            locale
+          } = jmixAppConfig ?? {};
+          mainStore = new MainStore(jmixREST, {
+            appName,
+            storage,
+            clientId,
+            secret,
+            obtainTokenEndpoint,
+            revokeTokenEndpoint,
+            locale
+          });
           retrieveRestApiToken().then((restApiToken) => {
             if (restApiToken != null) {
               jmixREST.restApiToken = restApiToken;

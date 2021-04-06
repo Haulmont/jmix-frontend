@@ -2,7 +2,9 @@ export * from './access-control/AccessControl';
 export * from './access-control/AttrPermAccessControl';
 export * from './access-control/EntityPermAccessControl';
 
+export * from './app/Auth';
 export * from './app/JmixAppProvider';
+export * from './app/JmixServerError';
 export * from './app/MainStore';
 export * from './app/MenuConfig';
 

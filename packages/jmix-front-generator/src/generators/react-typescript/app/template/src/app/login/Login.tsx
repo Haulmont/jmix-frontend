@@ -2,11 +2,10 @@ import * as React from "react";
 import {ChangeEvent} from "react";
 import { Form } from 'antd';
 import { UserOutlined, LockOutlined } from '@ant-design/icons';
-import {JmixRestError} from '@haulmont/jmix-rest';
 import {Button, Input, message} from "antd";
 import {observer} from "mobx-react";
 import { action, observable, makeObservable } from "mobx";
-import {injectMainStore, MainStoreInjected} from "@haulmont/jmix-react-core";
+import {injectMainStore, MainStoreInjected, JmixServerError} from "@haulmont/jmix-react-core";
 import './Login.css';
 import {LanguageSwitcher} from '../../i18n/LanguageSwitcher';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
@@ -32,7 +31,7 @@ class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
       .then(action(() => {
         this.performingLoginRequest = false;
       }))
-      .catch(action((error: JmixRestError) => {
+      .catch(action((error: JmixServerError) => {
         this.performingLoginRequest = false;
 
         const loginMessageErrorIntlId = loginMapJmixRestErrorToIntlId(error)
