@@ -40,7 +40,7 @@ describe('car browse list paging', () => {
 
 
   it('should check page button click', async () => {
-    await page.goto(`http://localhost:3000/#/${url}`);
+    await page.goto(`http://localhost:3000/${url}`);
     await page.waitFor('.ant-pagination > .ant-pagination-item-2 > a');
 
     await page.click('.ant-pagination > .ant-pagination-item-2 > a');
@@ -50,12 +50,12 @@ describe('car browse list paging', () => {
       .$eval('ul.ant-pagination li.ant-pagination-item-active', el => el.getAttribute('title'));
 
     expect(activePageButtonTitle).toEqual('2');
-    expect(page.url()).toEqual(`http://localhost:3000/#/${url}?page=2&pageSize=10`);
+    expect(page.url()).toEqual(`http://localhost:3000/${url}?page=2&pageSize=10`);
   });
 
   // TODO non-deterministic false positives
   // it('should check page size change button click', async () => {
-  //   await page.goto(`http://localhost:3000/#/${url}`);
+  //   await page.goto(`http://localhost:3000/${url}`);
   //   await page.waitFor('.ant-pagination > .ant-pagination-item-2 > a');
   //
   //   await page.waitFor('.ant-pagination-options-size-changer .ant-select-selection-selected-value');
@@ -69,7 +69,7 @@ describe('car browse list paging', () => {
   //     .$eval('ul.ant-pagination li.ant-pagination-item-active', el => el.getAttribute('title'));
   //
   //   expect(activePageButtonTitle).toEqual('1');
-  //   expect(page.url()).toEqual(`http://localhost:3000/#/${url}?page=1&pageSize=50`);
+  //   expect(page.url()).toEqual(`http://localhost:3000/${url}?page=1&pageSize=50`);
   // });
 
   afterAll(async done => {
