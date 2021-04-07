@@ -91,7 +91,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           "garage",
           Garage.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.technicalCertificatesDc =
@@ -100,7 +100,7 @@ class CarEdit3Component extends React.Component<Props & WrappedComponentProps> {
           "technicalCertificate",
           TechnicalCertificate.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
     }
   };

@@ -37,11 +37,11 @@ global.fetch = require('node-fetch');
 ## Usage
 
 ```javascript
-import * as cuba from 'cuba-rest-js';
+import * as jmix from '@haulmont/jmix-rest';
 
-const app = cuba.initializeApp({
+const app = jmix.initializeApp({
   name: 'myApp',
-  apiUrl: 'http://localhost:8080/app/rest/'
+  apiUrl: 'http://localhost:8080/rest/'
 });
 
 app.getUserInfo().then((d) => {
@@ -59,7 +59,7 @@ const myApp = new JmixRestConnection("myApp", "/rest/")
 ```
 
 ```javascript
-myApp.loadEntities('sec$User', {view: '_minimal', sort: 'login'}).then((users) => {
+myApp.loadEntities('sec$User', {view: '_instance_name', sort: 'login'}).then((users) => {
   console.log(users);
 });
 ```

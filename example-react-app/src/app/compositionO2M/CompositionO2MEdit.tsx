@@ -79,7 +79,7 @@ class CompositionO2MEditComponent extends React.Component<
           "datatypesTestEntity",
           DatatypesTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
     }
   };

@@ -98,7 +98,7 @@ const getAssociationOptions = (
     "associationO2Oattr",
     AssociationO2OTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.associationM2OattrsDc = loadAssociationOptions(
@@ -106,7 +106,7 @@ const getAssociationOptions = (
     "associationM2Oattr",
     AssociationM2OTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.associationM2MattrsDc = loadAssociationOptions(
@@ -114,7 +114,7 @@ const getAssociationOptions = (
     "associationM2Mattr",
     AssociationM2MTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.intIdentityIdTestEntityAssociationO2OAttrsDc = loadAssociationOptions(
@@ -122,7 +122,7 @@ const getAssociationOptions = (
     "intIdentityIdTestEntityAssociationO2OAttr",
     IntIdentityIdTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.integerIdTestEntityAssociationM2MAttrsDc = loadAssociationOptions(
@@ -130,7 +130,7 @@ const getAssociationOptions = (
     "integerIdTestEntityAssociationM2MAttr",
     IntegerIdTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.stringIdTestEntityAssociationO2OsDc = loadAssociationOptions(
@@ -138,7 +138,7 @@ const getAssociationOptions = (
     "stringIdTestEntityAssociationO2O",
     StringIdTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   associationOptions.stringIdTestEntityAssociationM2OsDc = loadAssociationOptions(
@@ -146,7 +146,7 @@ const getAssociationOptions = (
     "stringIdTestEntityAssociationM2O",
     StringIdTestEntity.NAME,
     getAttributePermission,
-    { view: "_minimal" }
+    { view: "_instance_name" }
   );
 
   return associationOptions;

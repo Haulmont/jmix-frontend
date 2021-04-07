@@ -42,7 +42,7 @@ describe('interactive CLI question helpers', () => {
     expect(question.choices).to.exist;
     expect(question.choices).to.be.a('Function');
 
-    const expectedViewNames = ["_minimal", "_local", "_base", "favoriteCar-view", "favoriteCar-edit"];
+    const expectedViewNames = ["_instance_name", "_local", "_base", "favoriteCar-view", "favoriteCar-edit"];
     const actualViewNames = (question.choices as Function)(previousAnswers).map((choice: ObjectChoice) => choice.name);
     expect(actualViewNames).to.deep.equal(expectedViewNames);
   });

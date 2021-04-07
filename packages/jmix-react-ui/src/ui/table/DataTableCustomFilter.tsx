@@ -142,7 +142,7 @@ class DataTableCustomFilterComponent<E extends WithId> extends React.Component<D
 
     if (metaClassInfo) {
       // This is a nested entity column. Fetch select options.
-      getJmixREST()!.loadEntities<E>(metaClassInfo.entityName, {view: '_minimal'})
+      getJmixREST()!.loadEntities<E>(metaClassInfo.entityName, {view: '_instance_name'})
         .then(
           (resp) => {
             resp.forEach((instance) => {
