@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.9.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@0.9.0...@haulmont/jmix-front-generator@0.9.1) (2021-04-07)
+
+
+### Bug Fixes
+
+* use _instance_name instead of _minimal fetchPlan [#204](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/204) ([f6753bb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f6753bb8401d9515a74ae980a50ab4da5b54ea30))
+
+
+
+
+
 # 0.9.0 (2021-03-30)
 
 
