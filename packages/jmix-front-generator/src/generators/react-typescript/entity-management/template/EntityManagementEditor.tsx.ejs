@@ -72,7 +72,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
       const {getAttributePermission} = this.props.mainStore.security;
       <% Object.entries(editAssociations).forEach(([attrName, nestedEntity]) => { %>
         this.<%= attrName %>sDc = loadAssociationOptions(
-          <%= entity.className %>.NAME, '<%= attrName %>', <%= nestedEntity.className %>.NAME, getAttributePermission, { view: "_minimal" }
+          <%= entity.className %>.NAME, '<%= attrName %>', <%= nestedEntity.className %>.NAME, getAttributePermission, { view: "_instance_name" }
         ) ?? null;
       <% }) %>
     }

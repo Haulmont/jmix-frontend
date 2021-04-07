@@ -9773,7 +9773,7 @@
   ],
   "views": [
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "MpgUserInfo",
       "classFqn": "com.company.mpg.entity.MpgUserInfo",
       "overwrite": false,
@@ -9800,7 +9800,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$SparePart",
       "classFqn": "com.company.mpg.entity.SparePart",
       "overwrite": false,
@@ -9883,7 +9883,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$Car",
       "classFqn": "com.company.mpg.entity.Car",
       "overwrite": false,
@@ -10194,7 +10194,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$FavoriteCar",
       "classFqn": "com.company.mpg.entity.FavoriteCar",
       "overwrite": false,
@@ -10335,7 +10335,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$TechnicalCertificate",
       "classFqn": "com.company.mpg.entity.TechnicalCertificate",
       "overwrite": false,
@@ -10392,7 +10392,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$Garage",
       "classFqn": "com.company.mpg.entity.Garage",
       "overwrite": false,
@@ -10465,7 +10465,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "mpg$CarRent",
       "classFqn": "com.company.mpg.entity.CarRent",
       "overwrite": false,
@@ -10578,7 +10578,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$InfoParamEntity",
       "classFqn": "com.haulmont.cuba.gui.app.core.showinfo.InfoParamEntity",
       "overwrite": false,
@@ -10625,7 +10625,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$ScreenComponentDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.ScreenComponentDescriptor",
       "overwrite": false,
@@ -10652,7 +10652,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$ScheduledExecution",
       "classFqn": "com.haulmont.cuba.core.entity.ScheduledExecution",
       "overwrite": false,
@@ -10763,7 +10763,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityPropertyDiff",
       "classFqn": "com.haulmont.cuba.core.entity.diff.EntityPropertyDiff",
       "overwrite": false,
@@ -10790,7 +10790,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$Category",
       "classFqn": "com.haulmont.cuba.core.entity.Category",
       "overwrite": false,
@@ -10964,7 +10964,7 @@
       "name": "category.defaultEdit",
       "entity": "sys$Category",
       "classFqn": "com.haulmont.cuba.core.entity.Category",
-      "parentName": "_minimal",
+      "parentName": "_instance_name",
       "overwrite": false,
       "systemProperties": false,
       "properties": [
@@ -11027,7 +11027,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$CustomConditionCreator",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.CustomConditionCreator",
       "overwrite": false,
@@ -11054,7 +11054,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "classFqn": "com.haulmont.cuba.core.entity.AbstractSearchFolder",
       "overwrite": false,
       "systemProperties": false,
@@ -11194,7 +11194,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$AbstractTarget",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.AbstractPermissionTarget",
       "overwrite": false,
@@ -11221,7 +11221,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$JmxInstance",
       "classFqn": "com.haulmont.cuba.core.entity.JmxInstance",
       "overwrite": false,
@@ -11334,7 +11334,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseIntegerIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseIntegerIdEntity",
       "overwrite": false,
@@ -11361,7 +11361,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$UiTarget",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.UiPermissionTarget",
       "overwrite": false,
@@ -11388,7 +11388,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$LoggedAttribute",
       "classFqn": "com.haulmont.cuba.security.entity.LoggedAttribute",
       "overwrite": false,
@@ -11435,7 +11435,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$AbstractConditionDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.AbstractConditionDescriptor",
       "overwrite": false,
@@ -11462,7 +11462,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Group",
       "classFqn": "com.haulmont.cuba.security.entity.Group",
       "overwrite": false,
@@ -11703,7 +11703,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$CustomCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.CustomCondition",
       "overwrite": false,
@@ -11730,7 +11730,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$PropertyCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.PropertyCondition",
       "overwrite": false,
@@ -11757,7 +11757,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$Folder",
       "classFqn": "com.haulmont.cuba.core.entity.Folder",
       "overwrite": false,
@@ -11836,7 +11836,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Role",
       "classFqn": "com.haulmont.cuba.security.entity.Role",
       "overwrite": false,
@@ -12125,7 +12125,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$GroupHierarchy",
       "classFqn": "com.haulmont.cuba.security.entity.GroupHierarchy",
       "overwrite": false,
@@ -12172,7 +12172,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$ScreenAndComponent",
       "classFqn": "com.haulmont.cuba.gui.app.core.categories.ScreenAndComponent",
       "overwrite": false,
@@ -12199,7 +12199,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$AppPropertyEntity",
       "classFqn": "com.haulmont.cuba.core.config.AppPropertyEntity",
       "overwrite": false,
@@ -12226,7 +12226,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseDbGeneratedIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseDbGeneratedIdEntity",
       "overwrite": false,
@@ -12253,7 +12253,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Constraint",
       "classFqn": "com.haulmont.cuba.security.entity.Constraint",
       "overwrite": false,
@@ -12590,7 +12590,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$KeyValueEntity",
       "classFqn": "com.haulmont.cuba.core.entity.KeyValueEntity",
       "overwrite": false,
@@ -12617,7 +12617,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$Config",
       "classFqn": "com.haulmont.cuba.core.entity.Config",
       "overwrite": false,
@@ -12723,7 +12723,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$GroupCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.GroupCondition",
       "overwrite": false,
@@ -12750,7 +12750,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$AttributeTarget",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.AttributeTarget",
       "overwrite": false,
@@ -12777,7 +12777,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$RefreshToken",
       "classFqn": "com.haulmont.cuba.core.entity.RefreshToken",
       "overwrite": false,
@@ -12904,7 +12904,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$HeaderConditionDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.HeaderConditionDescriptor",
       "overwrite": false,
@@ -12931,7 +12931,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$PropertyConditionDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.PropertyConditionDescriptor",
       "overwrite": false,
@@ -12958,7 +12958,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityDiff",
       "classFqn": "com.haulmont.cuba.core.entity.diff.EntityDiff",
       "overwrite": false,
@@ -12985,7 +12985,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$EntityLogAttr",
       "classFqn": "com.haulmont.cuba.security.entity.EntityLogAttr",
       "overwrite": false,
@@ -13012,7 +13012,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseLongIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseLongIdEntity",
       "overwrite": false,
@@ -13039,7 +13039,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "jmxcontrol$ManagedBeanDomain",
       "classFqn": "com.haulmont.cuba.web.jmx.entity.ManagedBeanDomain",
       "overwrite": false,
@@ -13066,7 +13066,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseStringIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseStringIdEntity",
       "overwrite": false,
@@ -13093,7 +13093,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityBasicPropertyDiff",
       "classFqn": "com.haulmont.cuba.core.entity.diff.EntityBasicPropertyDiff",
       "overwrite": false,
@@ -13120,7 +13120,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$AppFolder",
       "classFqn": "com.haulmont.cuba.core.entity.AppFolder",
       "overwrite": false,
@@ -13295,7 +13295,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$LockDescriptor",
       "classFqn": "com.haulmont.cuba.core.entity.LockDescriptor",
       "overwrite": false,
@@ -13358,7 +13358,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$CategorizedEntity",
       "classFqn": "com.haulmont.cuba.core.entity.CategorizedEntity",
       "overwrite": false,
@@ -13385,7 +13385,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntitySnapshot",
       "classFqn": "com.haulmont.cuba.core.entity.EntitySnapshot",
       "overwrite": false,
@@ -13566,7 +13566,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$CategoryAttribute",
       "classFqn": "com.haulmont.cuba.core.entity.CategoryAttribute",
       "overwrite": false,
@@ -14401,7 +14401,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "stat$ThreadSnapshot",
       "classFqn": "com.haulmont.cuba.web.app.ui.statistics.ThreadSnapshot",
       "overwrite": false,
@@ -14428,7 +14428,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityStatistics",
       "classFqn": "com.haulmont.cuba.core.entity.EntityStatistics",
       "overwrite": false,
@@ -14555,7 +14555,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$ReferenceToEntity",
       "classFqn": "com.haulmont.cuba.core.entity.ReferenceToEntity",
       "overwrite": false,
@@ -14650,7 +14650,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseIdentityIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseIdentityIdEntity",
       "overwrite": false,
@@ -14677,7 +14677,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityCollectionPropertyDiff",
       "classFqn": "com.haulmont.cuba.core.entity.diff.EntityCollectionPropertyDiff",
       "overwrite": false,
@@ -14704,7 +14704,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$RememberMeToken",
       "classFqn": "com.haulmont.cuba.security.entity.RememberMeToken",
       "overwrite": false,
@@ -14751,7 +14751,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$FtsConditionDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.FtsConditionDescriptor",
       "overwrite": false,
@@ -14778,7 +14778,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$FtsQueue",
       "classFqn": "com.haulmont.cuba.core.entity.FtsQueue",
       "overwrite": false,
@@ -14953,7 +14953,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$CategoryAttributeValue",
       "classFqn": "com.haulmont.cuba.core.entity.CategoryAttributeValue",
       "overwrite": false,
@@ -15126,7 +15126,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$OperationTarget",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.OperationPermissionTarget",
       "overwrite": false,
@@ -15153,7 +15153,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$Server",
       "classFqn": "com.haulmont.cuba.core.entity.Server",
       "overwrite": false,
@@ -15242,7 +15242,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EmbeddableEntity",
       "classFqn": "com.haulmont.cuba.core.entity.EmbeddableEntity",
       "overwrite": false,
@@ -15269,7 +15269,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Filter",
       "classFqn": "com.haulmont.cuba.security.entity.FilterEntity",
       "overwrite": false,
@@ -15451,7 +15451,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$SendingMessage",
       "classFqn": "com.haulmont.cuba.core.entity.SendingMessage",
       "overwrite": false,
@@ -15970,7 +15970,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "stat$PerformanceParameter",
       "classFqn": "com.haulmont.cuba.web.app.ui.statistics.PerformanceParameter",
       "overwrite": false,
@@ -15997,7 +15997,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$ScreenHistory",
       "classFqn": "com.haulmont.cuba.security.entity.ScreenHistoryEntity",
       "overwrite": false,
@@ -16148,7 +16148,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "jmxcontrol$ManagedBeanOperationParameter",
       "classFqn": "com.haulmont.cuba.web.jmx.entity.ManagedBeanOperationParameter",
       "overwrite": false,
@@ -16175,7 +16175,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseGenericIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseGenericIdEntity",
       "overwrite": false,
@@ -16202,7 +16202,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$AbstractCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.AbstractCondition",
       "overwrite": false,
@@ -16229,7 +16229,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Presentation",
       "classFqn": "com.haulmont.cuba.security.entity.Presentation",
       "overwrite": false,
@@ -16387,7 +16387,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$EntityLog",
       "classFqn": "com.haulmont.cuba.security.entity.EntityLogItem",
       "overwrite": false,
@@ -16550,7 +16550,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$User",
       "classFqn": "com.haulmont.cuba.security.entity.User",
       "overwrite": false,
@@ -16858,7 +16858,7 @@
       "name": "app",
       "entity": "sec$User",
       "classFqn": "com.haulmont.cuba.security.entity.User",
-      "parentName": "_minimal",
+      "parentName": "_instance_name",
       "overwrite": false,
       "systemProperties": false,
       "properties": [],
@@ -17101,7 +17101,7 @@
       "name": "user.copySettings",
       "entity": "sec$User",
       "classFqn": "com.haulmont.cuba.security.entity.User",
-      "parentName": "_minimal",
+      "parentName": "_instance_name",
       "overwrite": false,
       "systemProperties": false,
       "properties": [
@@ -17239,7 +17239,7 @@
       "name": "user.locale",
       "entity": "sec$User",
       "classFqn": "com.haulmont.cuba.security.entity.User",
-      "parentName": "_minimal",
+      "parentName": "_instance_name",
       "overwrite": false,
       "systemProperties": false,
       "properties": [
@@ -17340,7 +17340,7 @@
       "name": "scheduling",
       "entity": "sec$User",
       "classFqn": "com.haulmont.cuba.security.entity.User",
-      "parentName": "_minimal",
+      "parentName": "_instance_name",
       "overwrite": false,
       "systemProperties": false,
       "properties": [],
@@ -17414,7 +17414,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$UserSetting",
       "classFqn": "com.haulmont.cuba.security.entity.UserSetting",
       "overwrite": false,
@@ -17512,7 +17512,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$FileDescriptor",
       "classFqn": "com.haulmont.cuba.core.entity.FileDescriptor",
       "overwrite": false,
@@ -17676,7 +17676,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$StandardEntity",
       "classFqn": "com.haulmont.cuba.core.entity.StandardEntity",
       "overwrite": false,
@@ -17703,7 +17703,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "jmxcontrol$ManagedBeanInfo",
       "classFqn": "com.haulmont.cuba.web.jmx.entity.ManagedBeanInfo",
       "overwrite": false,
@@ -17730,7 +17730,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$SearchFolder",
       "classFqn": "com.haulmont.cuba.security.entity.SearchFolder",
       "overwrite": false,
@@ -18015,7 +18015,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$FtsCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.FtsCondition",
       "overwrite": false,
@@ -18042,7 +18042,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$EntityClassPropertyDiff",
       "classFqn": "com.haulmont.cuba.core.entity.diff.EntityClassPropertyDiff",
       "overwrite": false,
@@ -18069,7 +18069,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$SendingAttachment",
       "classFqn": "com.haulmont.cuba.core.entity.SendingAttachment",
       "overwrite": false,
@@ -18294,7 +18294,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$LoggedEntity",
       "classFqn": "com.haulmont.cuba.security.entity.LoggedEntity",
       "overwrite": false,
@@ -18418,7 +18418,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseUuidEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseUuidEntity",
       "overwrite": false,
@@ -18445,7 +18445,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "jmxcontrol$ManagedBeanOperation",
       "classFqn": "com.haulmont.cuba.web.jmx.entity.ManagedBeanOperation",
       "overwrite": false,
@@ -18472,7 +18472,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$LocalizedConstraintMessage",
       "classFqn": "com.haulmont.cuba.security.entity.LocalizedConstraintMessage",
       "overwrite": false,
@@ -18551,7 +18551,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$CategoryAttributeEnumValue",
       "classFqn": "com.haulmont.cuba.core.entity.CategoryAttributeEnumValue",
       "overwrite": false,
@@ -18578,7 +18578,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$ScheduledTask",
       "classFqn": "com.haulmont.cuba.core.entity.ScheduledTask",
       "overwrite": false,
@@ -19011,7 +19011,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$AbstractNotPersistentEntity",
       "classFqn": "com.haulmont.cuba.core.entity.AbstractNotPersistentEntity",
       "overwrite": false,
@@ -19038,7 +19038,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$LockInfo",
       "classFqn": "com.haulmont.cuba.core.global.LockInfo",
       "overwrite": false,
@@ -19065,7 +19065,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "jmxcontrol$ManagedBeanAttribute",
       "classFqn": "com.haulmont.cuba.web.jmx.entity.ManagedBeanAttribute",
       "overwrite": false,
@@ -19092,7 +19092,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$BaseIntIdentityIdEntity",
       "classFqn": "com.haulmont.cuba.core.entity.BaseIntIdentityIdEntity",
       "overwrite": false,
@@ -19119,7 +19119,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$UserSessionEntity",
       "classFqn": "com.haulmont.cuba.security.entity.UserSessionEntity",
       "overwrite": false,
@@ -19146,7 +19146,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Permission",
       "classFqn": "com.haulmont.cuba.security.entity.Permission",
       "overwrite": false,
@@ -19260,7 +19260,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$MultipleTarget",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.MultiplePermissionTarget",
       "overwrite": false,
@@ -19287,7 +19287,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$CustomConditionDescriptor",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.CustomConditionDescriptor",
       "overwrite": false,
@@ -19314,7 +19314,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$Target",
       "classFqn": "com.haulmont.cuba.gui.app.security.entity.BasicPermissionTarget",
       "overwrite": false,
@@ -19341,7 +19341,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$QueryResult",
       "classFqn": "com.haulmont.cuba.core.entity.QueryResult",
       "overwrite": false,
@@ -19468,7 +19468,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$DynamicAttributesConditionCreator",
       "classFqn": "com.haulmont.cuba.gui.components.filter.descriptor.DynamicAttributesConditionCreator",
       "overwrite": false,
@@ -19495,7 +19495,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sys$AccessToken",
       "classFqn": "com.haulmont.cuba.core.entity.AccessToken",
       "overwrite": false,
@@ -19670,7 +19670,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$DynamicAttributesCondition",
       "classFqn": "com.haulmont.cuba.gui.components.filter.condition.DynamicAttributesCondition",
       "overwrite": false,
@@ -19697,7 +19697,7 @@
       "allProperties": []
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$UserSubstitution",
       "classFqn": "com.haulmont.cuba.security.entity.UserSubstitution",
       "overwrite": false,
@@ -19865,7 +19865,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$SessionLogEntry",
       "classFqn": "com.haulmont.cuba.security.entity.SessionLogEntry",
       "overwrite": false,
@@ -20108,7 +20108,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$UserRole",
       "classFqn": "com.haulmont.cuba.security.entity.UserRole",
       "overwrite": false,
@@ -20187,7 +20187,7 @@
       ]
     },
     {
-      "name": "_minimal",
+      "name": "_instance_name",
       "entity": "sec$SessionAttribute",
       "classFqn": "com.haulmont.cuba.security.entity.SessionAttribute",
       "overwrite": false,

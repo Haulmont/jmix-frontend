@@ -133,7 +133,7 @@ class DatatypesEdit3Component extends React.Component<
           "associationO2Oattr",
           AssociationO2OTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.associationM2OattrsDc =
@@ -142,7 +142,7 @@ class DatatypesEdit3Component extends React.Component<
           "associationM2Oattr",
           AssociationM2OTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.associationM2MattrsDc =
@@ -151,7 +151,7 @@ class DatatypesEdit3Component extends React.Component<
           "associationM2Mattr",
           AssociationM2MTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.intIdentityIdTestEntityAssociationO2OAttrsDc =
@@ -160,7 +160,7 @@ class DatatypesEdit3Component extends React.Component<
           "intIdentityIdTestEntityAssociationO2OAttr",
           IntIdentityIdTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.integerIdTestEntityAssociationM2MAttrsDc =
@@ -169,7 +169,7 @@ class DatatypesEdit3Component extends React.Component<
           "integerIdTestEntityAssociationM2MAttr",
           IntegerIdTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.stringIdTestEntityAssociationO2OsDc =
@@ -178,7 +178,7 @@ class DatatypesEdit3Component extends React.Component<
           "stringIdTestEntityAssociationO2O",
           StringIdTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.stringIdTestEntityAssociationM2OsDc =
@@ -187,7 +187,7 @@ class DatatypesEdit3Component extends React.Component<
           "stringIdTestEntityAssociationM2O",
           StringIdTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
     }
   };

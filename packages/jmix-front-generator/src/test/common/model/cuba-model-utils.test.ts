@@ -15,7 +15,7 @@ describe('cuba model utils', function () {
 
   it('should find view', function () {
     expect(findView(projectModel, {entityName: '', name: ''})).to.be.undefined;
-    expect(findView(projectModel, {entityName: 'MpgUserInfo', name: '_minimal'})!.classFqn)
+    expect(findView(projectModel, {entityName: 'MpgUserInfo', name: '_instance_name'})!.classFqn)
       .eq('com.company.mpg.entity.MpgUserInfo');
   });
 

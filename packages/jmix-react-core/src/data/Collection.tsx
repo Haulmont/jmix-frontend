@@ -151,7 +151,7 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
 
   constructor(public readonly entityName: string,
               public readonly trackChanges = false,
-              viewName: string = PredefinedView.MINIMAL,
+              viewName: string = PredefinedView.INSTANCE_NAME,
               sort: string | null = null) {
 
     this.view = viewName;
@@ -283,7 +283,7 @@ class ClientSideDataCollectionStoreImpl<T> extends DataCollectionStoreImpl<T> im
 
   constructor(public readonly entityName: string,
               public readonly trackChanges = false,
-              viewName: string = PredefinedView.MINIMAL,
+              viewName: string = PredefinedView.INSTANCE_NAME,
               sort?: string) {
     super(entityName, trackChanges, viewName, sort);
   }

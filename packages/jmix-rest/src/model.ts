@@ -103,7 +103,7 @@ export interface View {
 }
 
 export enum PredefinedView {
-  MINIMAL = '_minimal',
+  INSTANCE_NAME = '_instance_name',
   LOCAL = '_local',
   BASE = '_base', // Available since CUBA 6.7
 }

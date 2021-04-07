@@ -27,7 +27,7 @@ export const loadAssociationOptions = <E>(
   attributeName: string,
   nestedEntityName: string,
   getAttributePermission: (entityName: string, attributeName: string) => EntityAttrPermissionValue,
-  opts: DataCollectionOptions = { view: "_minimal" }
+  opts: DataCollectionOptions = { view: "_instance_name" }
 ): DataCollectionStore<E> | undefined => {
   const permission: EntityAttrPermissionValue = getAttributePermission(parentEntityName, attributeName);
   // `collection` initialization function performs an HTTP request asynchronously

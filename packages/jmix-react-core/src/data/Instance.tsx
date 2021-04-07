@@ -63,7 +63,7 @@ export class DataInstanceStore<T> implements DataContainer {
 
   constructor(private mainStore: MainStore,
               public readonly entityName: string,
-              viewName: string = PredefinedView.MINIMAL,
+              viewName: string = PredefinedView.INSTANCE_NAME,
               stringIdName: string | null = null) {
 
     this.viewName = viewName;

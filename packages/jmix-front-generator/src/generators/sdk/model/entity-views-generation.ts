@@ -23,7 +23,7 @@ export function createEntityViewTypes(entity: Entity, projectModel: ProjectModel
  * E.g.
  *
  * ```typescript
- * export type EntityViewName = "_minimal" | "_local" | "_base" | "entity-edit";
+ * export type EntityViewName = "_instance_name" | "_local" | "_base" | "entity-edit";
  * ```
  */
 function createViewNamesType(className: string, views: View[]): ts.TypeAliasDeclaration {
@@ -48,7 +48,7 @@ function createViewNamesType(className: string, views: View[]): ts.TypeAliasDecl
  * e.g.
  *
  * ```typescript
- * export type EntityView<V extends EntityViewName> = V extends '_minimal' ? Pick<Entity, 'id', 'name'> : never
+ * export type EntityView<V extends EntityViewName> = V extends '_instance_name' ? Pick<Entity, 'id', 'name'> : never
  * ```
  *
  * @param className

@@ -79,7 +79,7 @@ class AssociationM2MEditComponent extends React.Component<
           "datatypesTestEntities",
           DatatypesTestEntity.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
     }
   };

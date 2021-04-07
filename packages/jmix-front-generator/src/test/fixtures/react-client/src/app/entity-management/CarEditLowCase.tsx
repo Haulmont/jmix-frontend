@@ -97,7 +97,7 @@ class CarEditLowCaseComponent extends React.Component<
           "garage",
           Garage.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.technicalCertificatesDc =
@@ -106,7 +106,7 @@ class CarEditLowCaseComponent extends React.Component<
           "technicalCertificate",
           TechnicalCertificate.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
 
       this.photosDc =
@@ -115,7 +115,7 @@ class CarEditLowCaseComponent extends React.Component<
           "photo",
           FileDescriptor.NAME,
           getAttributePermission,
-          { view: "_minimal" }
+          { view: "_instance_name" }
         ) ?? null;
     }
   };

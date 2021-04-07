@@ -103,7 +103,7 @@ export interface ViewProperty {
   lazy?: boolean;
 }
 
-export type BuiltinView = '_local' | '_minimal' | '_base'
+export type BuiltinView = '_local' | '_instance_name' | '_base'
 
 export interface Locale {
   code: string;
