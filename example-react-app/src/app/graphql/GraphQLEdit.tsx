@@ -1,25 +1,23 @@
 import React from "react";
 import { Form, Alert, Button, Card } from "antd";
-import useForm from "antd/lib/form/hooks/useForm";
 import { useObserver } from "mobx-react";
 import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
 import { Link, Redirect } from "react-router-dom";
 import { toJS} from "mobx";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import {
   createAntdFormValidationMessages,
   RetryDialog
 } from "@haulmont/jmix-react-ui";
-import {useMainStore} from "@haulmont/jmix-react-core";
 import {
   Field,
   MultilineText,
   Spinner,
 } from "@haulmont/jmix-react-ui";
-import { gql, useMutation, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import "../../app/App.css";
 import { Car } from "../../jmix/entities/scr$Car";
-import {EntityEditorStore, useEntityEditorStore, useEntityInstance, useFormSubmitCallbacks} from "./lib/jmix-react-ui";
+import {useEntityEditor} from "./lib/jmix-react-ui";
 
 type Props = {
   entityId: string;
@@ -60,39 +58,23 @@ const UPSERT_SCR_CAR = gql`
 const GraphQLEdit = (props: Props) => {
   const { entityId } = props;
 
-  const intl = useIntl();
-  const mainStore = useMainStore();
-  const [form] = useForm();
-
-  const [loadItem, { loading: queryLoading, error: queryError, data }] = useLazyQuery(LOAD_SCR_CAR);
-  const [upsertItem, { loading: upsertLoading }] = useMutation(UPSERT_SCR_CAR);
-
-  const store: EntityEditorStore = useEntityEditorStore();
-
-  /* TODO It won't react to change of mainStore.metadata (or anything) unless it also causes a re-render.
-   * TODO Probably it's better to leave it as it is since we will get rid of metadata anyway.
-   */
-  useEntityInstance({
-    entityId,
+  const {
     loadItem,
-    isNewEntity: isNewEntity(entityId),
-    formRef: store.formRef,
-    queryLoading,
-    queryError,
-    data,
-    metadata: mainStore.metadata,
-    queryName: 'scr_CarById',
-    entityName: Car.NAME
-  });
-
-  const [handleFinish, handleFinishFailed] = useFormSubmitCallbacks({
-    intl,
+    loadQueryResult: {loading: queryLoading, error: queryError},
+    upsertMutationResult: {loading: upsertLoading},
+    store,
     form,
-    mainStore,
-    upsertItem,
+    intl,
+    handleFinish,
+    handleFinishFailed,
+    metadata
+  } = useEntityEditor({
+    loadQuery: LOAD_SCR_CAR,
+    upsertMutation: UPSERT_SCR_CAR,
     entityId,
-    isNewEntity: isNewEntity(entityId),
-    store
+    queryName: 'scr_CarById',
+    entityName: Car.NAME,
+    isNewEntity: isNewEntity(entityId)
   });
 
   return useObserver(() => {
@@ -100,7 +82,7 @@ const GraphQLEdit = (props: Props) => {
       return <Redirect to={PATH} />;
     }
 
-    if (queryLoading || mainStore.metadata == null) {
+    if (queryLoading || metadata == null) {
       return <Spinner />;
     }
 
