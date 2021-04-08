@@ -79,13 +79,8 @@ function formatValue(value: any): string {
     return value;
   }
   if (valType === "object") {
-    // Value coming from REST API
     if (Object.prototype.hasOwnProperty.call(value, '_instanceName')) {
-      return value._instanceName!;
-    }
-    // Value coming from GraphQL
-    if (Object.prototype.hasOwnProperty.call(value, 'instanceName')) {
-      return value.instanceName ?? value.id;
+      return value._instanceName ?? value.id;
     }
     if (Array.isArray(value)) {
       const items = value.map(formatValue);

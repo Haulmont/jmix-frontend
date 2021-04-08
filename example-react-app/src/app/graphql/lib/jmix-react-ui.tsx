@@ -1,34 +1,69 @@
 import {PaginationConfig} from "antd/es/pagination";
 import React, {RefObject, useCallback, useEffect} from "react";
 import {message, Modal} from "antd";
-import {Reference} from "@apollo/client";
-import {IntlShape} from "react-intl";
-import {addIdIfExistingEntity, EntityInstance, GraphQLMutation, GraphQLQuery} from "./jmix-react-core";
-import {MainStore} from "@haulmont/jmix-react-core";
+import {LazyQueryHookOptions, LazyQueryResult, MutationHookOptions, MutationResult, Reference, useLazyQuery, useMutation} from "@apollo/client";
+import {IntlShape, useIntl} from "react-intl";
+import {addIdIfExistingEntity, EntityInstance, GraphQLMutationFn, GraphQLQueryFn } from "./jmix-react-core";
+import {MainStore, useMainStore} from "@haulmont/jmix-react-core";
 import {FormInstance} from "antd/es/form";
-import {ApolloError} from "@apollo/client/errors";
 import {useLocalStore} from "mobx-react";
 import {graphqlToAntForm, selectFormSuccessMessageId} from "@haulmont/jmix-react-ui";
 import {Car} from "../../../jmix/entities/scr$Car";
-import {IObservableArray} from "mobx";
+import {action, IObservableArray} from "mobx";
 import {MetaClassInfo} from "@haulmont/jmix-rest";
+import {DocumentNode} from "graphql";
+import {TypedDocumentNode} from "@graphql-typed-document-node/core";
+import {ValidateErrorEntity} from "rc-field-form/lib/interface";
+import {useForm} from "antd/es/form/Form";
 
 // Contents of this file will be moved to jmix-react-ui lib
 
-export interface EntityCollectionHookOptions {
-  loadItems: GraphQLQuery,
+export interface EntityListHookOptions<TData, TVariables> {
+  listQuery: DocumentNode | TypedDocumentNode,
+  listQueryOptions?: LazyQueryHookOptions<TData, TVariables>,
+  deleteMutation: DocumentNode | TypedDocumentNode,
+  deleteMutationOptions?: MutationHookOptions,
   paginationConfig: PaginationConfig
 }
 
-export const useEntityCollection = (options: EntityCollectionHookOptions) => {
-  const {loadItems, paginationConfig} = options;
+export interface EntityListHookResult<TEntity, TData, TVariables> {
+  loadItems: GraphQLQueryFn<TVariables>,
+  listQueryResult: LazyQueryResult<TData, TVariables>,
+  deleteItem: GraphQLMutationFn<TData, TVariables>,
+  deleteMutationResult: MutationResult,
+  intl: IntlShape;
+  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+}
 
+export function useEntityList<TEntity, TData = any, TVariables extends LimitAndOffset = LimitAndOffset>(
+  options: EntityListHookOptions<TData, TVariables>
+): EntityListHookResult<TEntity, TData, TVariables> {
+  const {
+    listQuery,
+    listQueryOptions,
+    deleteMutation,
+    deleteMutationOptions,
+    paginationConfig
+  } = options;
+
+  const intl = useIntl();
+
+  const [loadItems, listQueryResult] = useLazyQuery<TData, TVariables>(listQuery, listQueryOptions);
+  const [deleteItem, deleteMutationResult] = useMutation(deleteMutation, deleteMutationOptions);
+
+  // Load items
   useEffect(() => {
     loadItems({
-      variables: toLimitAndOffset(paginationConfig)
+      variables: toLimitAndOffset(paginationConfig) as TVariables
     });
   }, [paginationConfig, loadItems]);
-};
+
+  const showDeletionDialog = useDeletionDialogCallback(intl, deleteItem);
+
+  return {
+    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog
+  };
+}
 
 export type EntityEditorStore = {
   updated: boolean;
@@ -44,34 +79,52 @@ export const useEntityEditorStore = () => {
   }));
 };
 
-export interface EntityInstanceHookOptions<T> {
+export interface EntityEditorHookOptions<TData, TVariables> {
+  loadQuery: DocumentNode | TypedDocumentNode;
+  loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
+  upsertMutation: DocumentNode | TypedDocumentNode;
+  upsertMutationOptions?: MutationHookOptions;
   entityId: string;
-  loadItem: GraphQLQuery;
   isNewEntity: boolean;
-  formRef: RefObject<FormInstance>,
-  queryLoading: boolean;
-  queryError: ApolloError | undefined;
-  data: T | undefined;
-  metadata: IObservableArray<MetaClassInfo> | null;
   queryName: string;
   entityName: string;
 }
 
-export const useEntityInstance = <T extends unknown>(
-  options: EntityInstanceHookOptions<T>
-) => {
+export interface EntityEditorHookResult<TEntity, TData, TVariables> {
+  loadItem: GraphQLQueryFn<TVariables>;
+  loadQueryResult: LazyQueryResult<TData, TVariables>;
+  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  upsertMutationResult: MutationResult;
+  store: EntityEditorStore;
+  form: FormInstance;
+  intl: IntlShape;
+  handleFinish: (values: TEntity) => void;
+  handleFinishFailed: (errorInfo: ValidateErrorEntity<TEntity>) => void;
+  metadata: IObservableArray<MetaClassInfo> | null;
+}
+
+export function useEntityEditor<TEntity, TData = any, TVariables extends HasId = HasId>(
+  options: EntityEditorHookOptions<TData, TVariables>
+): EntityEditorHookResult<TEntity, TData, TVariables> {
   const {
+    loadQuery,
+    loadQueryOptions,
+    upsertMutation,
+    upsertMutationOptions,
     entityId,
-    loadItem,
     isNewEntity,
-    formRef,
-    queryLoading,
-    queryError,
-    data,
-    metadata,
     queryName,
     entityName
   } = options;
+
+  const intl = useIntl();
+  const mainStore = useMainStore();
+  const [form] = useForm();
+  const store: EntityEditorStore = useEntityEditorStore();
+
+  const [loadItem, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  const {loading: queryLoading, error: queryError, data} = loadQueryResult;
+  const [upsertItem, upsertMutationResult] = useMutation(upsertMutation, upsertMutationOptions);
 
   // Fetch the entity from backend
   useEffect(() => {
@@ -79,38 +132,68 @@ export const useEntityInstance = <T extends unknown>(
       loadItem({
         variables: {
           id: entityId
-        }
+        } as TVariables
       });
     }
-  }, [options.entityId, options.loadItem, options.isNewEntity]);
+  }, [entityId, loadItem, isNewEntity]);
 
   // Fill the form based on retrieved data
   useEffect(() => {
     if (
-      formRef.current != null &&
+      store.formRef.current != null &&
       !queryLoading &&
       queryError == null &&
       data != null &&
-      metadata != null
+      mainStore.metadata != null
     ) {
-      formRef.current.setFieldsValue(
-        graphqlToAntForm<Car>(data[queryName], entityName, metadata)
+      store.formRef.current.setFieldsValue(
+        graphqlToAntForm<Car>(data[queryName], entityName, mainStore.metadata)
       );
     }
-  }, [formRef.current, queryLoading, queryError, data, metadata, queryName, entityName]);
-};
+  }, [store.formRef.current, queryLoading, queryError, data, mainStore.metadata, queryName, entityName]);
 
-export interface FormSubmitCallbacksHookOptions {
+  const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
+    intl,
+    form,
+    mainStore,
+    upsertItem,
+    entityId,
+    isNewEntity,
+    store
+  });
+
+  return {
+    loadItem,
+    loadQueryResult,
+    upsertItem,
+    upsertMutationResult,
+    store,
+    form,
+    intl,
+    handleFinish,
+    handleFinishFailed,
+    metadata: mainStore.metadata
+  };
+}
+
+export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   intl: IntlShape;
   form: FormInstance;
   mainStore: MainStore;
-  upsertItem: GraphQLMutation;
+  upsertItem: GraphQLMutationFn<TData, TVariables>;
   entityId: string;
   isNewEntity: boolean;
   store: EntityEditorStore;
 }
 
-export const useFormSubmitCallbacks = (options: FormSubmitCallbacksHookOptions) => {
+export interface FormSubmitCallbacksHookResult<TEntity> {
+  handleFinish: (values: TEntity) => void;
+  handleFinishFailed: (errorInfo: ValidateErrorEntity<TEntity>) => void;
+}
+
+export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
+  options: FormSubmitCallbacksHookOptions<TData, TVariables>
+): FormSubmitCallbacksHookResult<TEntity> {
   const {
     intl,
     form,
@@ -136,9 +219,9 @@ export const useFormSubmitCallbacks = (options: FormSubmitCallbacksHookOptions) 
               ...values,
               ...addIdIfExistingEntity(entityId, isNewEntity)
             }
-          }
+          } as any
         })
-          .then(({ errors }) => {
+          .then(action(({ errors }) => {
             if (errors == null || errors.length === 0) {
               const successMessageId = selectFormSuccessMessageId(
                 isNewEntity ? "create" : "edit"
@@ -149,7 +232,7 @@ export const useFormSubmitCallbacks = (options: FormSubmitCallbacksHookOptions) 
               console.error(errors);
               message.error(intl.formatMessage({ id: "common.requestFailed" }));
             }
-          })
+          }))
           .catch(e => {
             console.error(e);
             message.error(intl.formatMessage({ id: "common.requestFailed" }));
@@ -159,15 +242,18 @@ export const useFormSubmitCallbacks = (options: FormSubmitCallbacksHookOptions) 
     [entityId, form, mainStore.metadata, store.updated, upsertItem, intl]
   );
 
-  return [handleFinish, handleFinishFailed];
+  return {handleFinish, handleFinishFailed};
 };
 
-export const useDeletionDialogCallback = <T extends unknown>(
+// TODO Deprecate WithId and replace with HasId/MayHaveId
+export type HasId = {id: string};
+
+export function useDeletionDialogCallback<TEntity, TData = any, TVariables extends HasId = HasId>(
   intl: IntlShape,
-  deleteMutation: GraphQLMutation
-) => {
+  deleteMutation: GraphQLMutationFn<TData, TVariables>
+) {
   return useCallback(
-    (e: EntityInstance<T>) => {
+    (e: EntityInstance<TEntity>) => {
       Modal.confirm({
         title: intl.formatMessage(
           { id: "management.browser.delete.areYouSure" },
@@ -181,7 +267,7 @@ export const useDeletionDialogCallback = <T extends unknown>(
           if (e.id != null) {
             // noinspection JSIgnoredPromiseFromCall
             deleteMutation({
-              variables: { id: e.id },
+              variables: { id: e.id } as TVariables,
               update(cache) {
                 // Remove deleted item from cache
                 cache.modify({
@@ -201,11 +287,13 @@ export const useDeletionDialogCallback = <T extends unknown>(
     },
     [intl, deleteMutation]
   );
-};
+}
+
+export type LimitAndOffset = { limit: number | undefined; offset: number | undefined };
 
 export function toLimitAndOffset(
   paginationConfig: PaginationConfig
-): { limit: number | undefined; offset: number | undefined } {
+): LimitAndOffset {
   const { disabled, current, pageSize } = paginationConfig;
 
   if (disabled) {

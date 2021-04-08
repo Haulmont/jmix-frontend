@@ -11,11 +11,11 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
-import { FormattedMessage, useIntl } from "react-intl";
+import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
-import { gql, useMutation, useLazyQuery } from "@apollo/client";
+import { gql } from "@apollo/client";
 import {getFields, EntityInstance} from "./lib/jmix-react-core";
-import {useDeletionDialogCallback, useEntityCollection} from "./lib/jmix-react-ui";
+import {useEntityList} from "./lib/jmix-react-ui";
 
 type Props = {
   paginationConfig: PaginationConfig;
@@ -62,15 +62,15 @@ const DELETE_SCR_CAR = gql`
 const GraphQLList = (props: Props) => {
   const { paginationConfig, onPagingChange } = props;
 
-  const intl = useIntl();
-
-  const [loadItems, { loading, error, data }] = useLazyQuery(SCR_CAR_LIST);
-  const [deleteItem] = useMutation(DELETE_SCR_CAR);
-
-  // Make sure items are loaded
-  useEntityCollection({ loadItems, paginationConfig });
-
-  const showDeletionDialog = useDeletionDialogCallback<Car>(intl, deleteItem);
+  const {
+    loadItems,
+    listQueryResult: {loading, error, data},
+    showDeletionDialog
+  } = useEntityList<Car>({
+    listQuery: SCR_CAR_LIST,
+    deleteMutation: DELETE_SCR_CAR,
+    paginationConfig
+  });
 
   return useObserver(() => {
     if (error != null) {

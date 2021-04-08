@@ -1,6 +1,12 @@
-import {MutationFunctionOptions, QueryLazyOptions} from "@apollo/client/react/types/types";
-import {OperationVariables} from "@apollo/client/core";
+import {
+  LazyQueryHookOptions,
+  MutationFunctionOptions,
+  MutationHookOptions,
+  QueryLazyOptions
+} from "@apollo/client/react/types/types";
 import {FetchResult} from "@apollo/client/link/core";
+import {DocumentNode} from "graphql";
+import {TypedDocumentNode} from "@graphql-typed-document-node/core";
 
 // Contents of this file will be moved to jmix-react-core lib
 
@@ -14,8 +20,8 @@ export interface EntityInstanceProps {
 export declare type EntityInstance<T> = EntityInstanceProps & T;
 
 // Aliases of Apollo types
-export type GraphQLQuery = (options?: QueryLazyOptions<OperationVariables>) => void;
-export type GraphQLMutation = (options?: MutationFunctionOptions) => Promise<FetchResult>;
+export type GraphQLQueryFn<TVariables> = (options?: QueryLazyOptions<TVariables>) => void;
+export type GraphQLMutationFn<TData, TVariables> =(options?: MutationFunctionOptions<TData, TVariables>) => Promise<FetchResult<TData>>;
 
 export function getFields<T>(
   item: EntityInstance<T>,
