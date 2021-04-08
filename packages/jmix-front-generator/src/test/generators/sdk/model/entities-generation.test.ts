@@ -1,10 +1,10 @@
-import {createEntityClass, ProjectEntityInfo} from "../../../../generators/sdk/model/entities-generation";
+import {createEntityClass, ProjectEntityInfo} from "../../../../building-blocks/stages/writing/pieces/sdk/model/entities-generation"
 import {assertContent, createTestProjectEntityInfo} from "../../../test-commons";
 
 import {EnumDeclaration} from "typescript";
 import {Entity} from "../../../../common/model/cuba-model";
 import {renderTSNodes} from "../../../../common/ts-helpers";
-import {createIncludes} from "../../../../generators/sdk/import-utils";
+import {createIncludes} from "../../../../building-blocks/stages/writing/pieces/sdk/import-utils";
 
 const entityModel: Entity = require('../../../fixtures/entity-model.json');
 const projectModel = require('../../../fixtures/project-model--scr.json');

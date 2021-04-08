@@ -1,4 +1,3 @@
-import * as path from "path";
 import {ProjectInfo, ProjectModel} from '../../../common/model/cuba-model';
 import {Answers} from "./answers";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
