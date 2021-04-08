@@ -1,6 +1,6 @@
 import {ProjectEntityInfo} from "./entities-generation";
 import {EnumDeclaration} from "typescript";
-import {Entity, getEntitiesArray, ProjectModel} from "../../../common/model/cuba-model";
+import {Entity, getEntitiesArray, ProjectModel} from "../../../../../../common/model/cuba-model";
 import {createEnums} from "./enums-generation";
 
 export type ModelContext = {

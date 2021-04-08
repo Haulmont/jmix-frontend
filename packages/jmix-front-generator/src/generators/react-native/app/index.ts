@@ -1,6 +1,6 @@
 import {BaseGenerator} from '../../../common/base-generator';
 import {ProjectInfo} from '../../../common/model/cuba-model';
-import {SdkAllGenerator} from '../../sdk/sdk-generator';
+import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
 import {CommonGenerationOptions, commonGenerationOptionsConfig} from '../../../common/cli-options';
 import * as path from "path";
 import {normalizeSecret} from "../../../common/studio/studio-integration";
@@ -63,17 +63,7 @@ class ReactNativeAppGenerator extends BaseGenerator<ReactNativeAnswers, ReactNat
     const sdkDest = 'cuba';
     this.log(`Generating SDK model and services in ${sdkDest}`);
 
-    const sdkOpts = {
-      model: this.modelFilePath,
-      dest: sdkDest
-    };
-
-    const generatorOpts = {
-      Generator: SdkAllGenerator,
-      path: require.resolve('../../sdk/sdk-generator')
-    };
-
-    this.composeWith(generatorOpts as any, sdkOpts);
+    writeSdkAll(this, this.cubaProjectModel!, sdkDest);
   }
 
   end() {
