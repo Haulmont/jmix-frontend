@@ -28,7 +28,7 @@ import {
 import { PaginationConfig } from "antd/es/pagination";
 import { RouteComponentProps } from "react-router";
 
-type Props = MainStoreInjected & RouteComponentProps;
+type Props = MainStoreInjected & Partial<RouteComponentProps>;
 
 export class FavoriteCarsComponent extends React.Component<Props> {
   dataCollection = collection<FavoriteCar>(FavoriteCar.NAME, {
@@ -51,7 +51,9 @@ export class FavoriteCarsComponent extends React.Component<Props> {
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
+    this.paginationConfig = createPagingConfig(
+      this.props.location?.search ?? ""
+    );
 
     this.reactionDisposer = reaction(
       () => this.paginationConfig,
@@ -103,7 +105,9 @@ export class FavoriteCarsComponent extends React.Component<Props> {
   }
 
   onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(addPagingParams("favoriteCars", current, pageSize));
+    this.props.history?.push(
+      addPagingParams("favoriteCars", current, pageSize)
+    );
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };
   };
 }
