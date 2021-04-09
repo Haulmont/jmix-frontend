@@ -3,7 +3,7 @@ import { Form } from 'antd';
 import { Button, DatePicker, Divider, Input, message, Select, Spin, TimePicker } from 'antd';
 import {FilterDropdownProps} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
-import {MetaClassInfo, MetaPropertyInfo, NumericPropertyType, OperatorType, PropertyType, getStringId} from '@haulmont/jmix-rest';
+import {NumericPropertyType, OperatorType, PropertyType, getStringId} from '@haulmont/jmix-rest';
 import { action, computed, observable, makeObservable } from 'mobx';
 import {Moment} from 'moment';
 import {DataTableListEditor} from './DataTableListEditor';
@@ -19,7 +19,11 @@ import {
   getPropertyInfo,
   assertNever,
   applyDataTransferFormat,
-  stripMilliseconds
+  stripMilliseconds,
+  injectMetadata,
+  MetadataInjected,
+  MetaClassInfo,
+  MetaPropertyInfo,
 } from '@haulmont/jmix-react-core';
 import {IntegerInput} from "../form/IntegerInput";
 import {BigDecimalInput} from "../form/BigDecimalInput";
@@ -39,7 +43,7 @@ export interface CaptionValuePair {
 
 export type CustomFilterInputValue = string | number | boolean | string[] | number[] | TemporalInterval | null | undefined;
 
-export interface DataTableCustomFilterProps extends MainStoreInjected {
+export interface DataTableCustomFilterProps extends MainStoreInjected, MetadataInjected {
   entityName: string,
   entityProperty: string,
   /**
@@ -136,7 +140,7 @@ class DataTableCustomFilterComponent<E extends WithId> extends React.Component<D
 
   componentDidMount(): void {
     const propertyInfo: MetaPropertyInfo = this.propertyInfoNN;
-    const metaClassInfo: MetaClassInfo | undefined = this.props.mainStore!.metadata!.find((classInfo: MetaClassInfo) => {
+    const metaClassInfo: MetaClassInfo | undefined = this.props.metadata.entities.find((classInfo: MetaClassInfo) => {
       return classInfo.entityName === propertyInfo.type;
     });
 
@@ -175,7 +179,7 @@ class DataTableCustomFilterComponent<E extends WithId> extends React.Component<D
 
   get propertyInfoNN(): MetaPropertyInfo {
     const propertyInfo: MetaPropertyInfo | null = getPropertyInfo(
-      this.props.mainStore!.metadata!,
+      this.props.metadata.entities,
       this.props.entityName,
       this.props.entityProperty);
 
@@ -826,8 +830,10 @@ export function operatorToOptionClassName(operator: ComparisonType): string {
 const dataTableCustomFilter = 
   injectIntl(
     injectMainStore(
-      observer(
-        DataTableCustomFilterComponent
+      injectMetadata(
+        observer(
+          DataTableCustomFilterComponent
+        )
       )
     )
   );

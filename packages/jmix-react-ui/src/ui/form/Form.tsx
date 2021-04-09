@@ -14,7 +14,14 @@ import {
   isFileProperty, isOneToManyAssociation,
   MainStoreInjected,
   WithId,
-  loadAllAssociationOptions
+  loadAllAssociationOptions,
+  useMetadata,
+  injectMetadata,
+  MetadataInjected,
+  EnumInfo,
+  MetaClassInfo,
+  MetaPropertyInfo,
+  Cardinality,
 } from '@haulmont/jmix-react-core';
 import { FormItemProps, FormInstance } from 'antd/es/form';
 import {observer} from 'mobx-react';
@@ -37,12 +44,7 @@ import {
   Form,
 } from 'antd';
 import {
-  Cardinality,
-  JmixRestError,
-  EnumInfo,
-  EnumValueInfo,
-  MetaClassInfo,
-  MetaPropertyInfo,
+  JmixRestError,  
   PropertyType,
   SerializedEntityProps, View, ViewProperty,
 } from '@haulmont/jmix-rest';
@@ -65,7 +67,6 @@ import {CharInput} from "./CharInput";
 import {FormattedMessage, injectIntl, WrappedComponentProps, IntlShape} from 'react-intl';
 import {
   computed,
-  IObservableArray,
   IReactionDisposer,
   observable,
   reaction,
@@ -92,7 +93,7 @@ import {createAntdFormValidationMessages} from '../../i18n/validation';
 import {CommitMode} from '@haulmont/jmix-rest';
 
 
-export interface FieldProps extends MainStoreInjected {
+export interface FieldProps {
   entityName: string;
   propertyName: string;
   /**
@@ -127,17 +128,19 @@ export interface FieldProps extends MainStoreInjected {
 }
 
 // noinspection JSUnusedGlobalSymbols
-export const Field = injectMainStore(observer((props: FieldProps) => {
+export const Field = observer((props: FieldProps) => {
 
   const {
-    entityName, propertyName, optionsContainer, mainStore, componentProps,
+    entityName, propertyName, optionsContainer, componentProps,
     nestedEntityView, parentEntityInstanceId, disabled, formItemProps
   } = props;
+
+  const metadata = useMetadata();
 
   return (
     <FieldPermissionContainer entityName={entityName} propertyName={propertyName} renderField={(isReadOnly: boolean) => {
 
-      return <Form.Item {...{...getDefaultFormItemProps(mainStore?.metadata, entityName, propertyName), ...formItemProps}}>
+      return <Form.Item {...{...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps}}>
         <FormField entityName={entityName}
                    propertyName={propertyName}
                    disabled={isReadOnly || disabled}
@@ -150,19 +153,15 @@ export const Field = injectMainStore(observer((props: FieldProps) => {
 
     }}/>);
 
-}));
+});
 
-function getDefaultFormItemProps(metadata: MetaClassInfo[] | null | undefined, entityName: string, propertyName: string): FormItemProps {
+function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
     label: <Msg entityName={entityName} propertyName={propertyName}/>
   };
 
-  if (!metadata) {
-    return formItemProps;
-  }
-
-  const propertyInfo = getPropertyInfo(metadata, entityName, propertyName);
+  const propertyInfo = getPropertyInfo(entitiesMetadata, entityName, propertyName);
 
   if (propertyInfo?.type === 'uuid') {
     formItemProps.rules = [
@@ -200,10 +199,12 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
     ...rest
   } = props;
 
-  if (mainStore == null || mainStore.metadata == null) {
+  const metadata = useMetadata();
+
+  if (mainStore == null) {
     return <Input {...(rest as InputProps)}/>;
   }
-  const propertyInfo = getPropertyInfo(mainStore!.metadata, entityName, propertyName);
+  const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
   if (propertyInfo == null) {
     return <Input {...(rest as InputProps)}/>
   }
@@ -220,7 +221,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       return <EntitySelectField {...{mode, optionsContainer}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
     case 'COMPOSITION':
       if (nestedEntityView) {
-        const nestedEntityName = mainStore.metadata.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
+        const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
           .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
 
         if (nestedEntityName) {
@@ -273,24 +274,22 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
   return <Input {...(rest as InputProps)}/>;
 })));
 
-type EnumFieldProps = MainStoreInjected & SelectProps<SelectValue> & {
+interface EnumFieldProps extends SelectProps<SelectValue> {
   enumClass: string;
 };
 
-export const EnumField = injectMainStore(observer(({enumClass, mainStore, ...rest}: EnumFieldProps) => {
-  let enumValues: EnumValueInfo[] = [];
-  if (mainStore!.enums != null) {
-    const enumInfo = mainStore!.enums.find((enm: EnumInfo) => enm.name === enumClass);
-    if (enumInfo != null) {
-      enumValues = enumInfo.values;
-    }
-  }
+export const EnumField = observer(({enumClass, ...rest}: EnumFieldProps) => {
+  const metadata = useMetadata();
+
+  const enumInfo = metadata.enums.find((enm: EnumInfo) => enm.name === enumClass);
+  const enumValues: EnumInfo['values']= enumInfo?.values || []
+
   return <Select {...rest} >
-    {enumValues.map(enumValue =>
+    {enumValues.map((enumValue) =>
       <Select.Option key={enumValue.name} value={enumValue.name}>{enumValue.caption}</Select.Option>
     )}
   </Select>
-}));
+});
 
 function getSelectMode(cardinality: Cardinality): "default" | "multiple" {
   if (cardinality === "ONE_TO_MANY" || cardinality === "MANY_TO_MANY") {
@@ -303,7 +302,7 @@ function getAllowClear(propertyInfo: MetaPropertyInfo): boolean {
   return !propertyInfo.mandatory;
 }
 
-export interface NestedEntityFieldProps extends MainStoreInjected, WrappedComponentProps {
+export interface NestedEntityFieldProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
   /**
    * Сoming from antd Form field decorator
    */
@@ -324,7 +323,6 @@ export interface NestedEntityFieldProps extends MainStoreInjected, WrappedCompon
 
 type AssociationOptionsReactionData = [
   string[],
-  IObservableArray<MetaClassInfo> | undefined,
   boolean | undefined
 ];
 class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps> {
@@ -368,7 +366,7 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
   }
 
   componentDidMount(): void {
-    const {nestedEntityName, nestedEntityView} = this.props;
+    const {nestedEntityName, nestedEntityView, metadata} = this.props;
 
     this.setDataInstance(instance(nestedEntityName, {view: nestedEntityView}));
     this.loadViewPropertyNames(nestedEntityName, nestedEntityView)
@@ -379,16 +377,15 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
     this.reactionDisposers.push(reaction(
       () => [
         this.fields,
-        this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
       ] as AssociationOptionsReactionData, action((
-        [fields, metadata, isDataLoaded]: AssociationOptionsReactionData,
+        [fields, isDataLoaded]: AssociationOptionsReactionData,
         _prevData : AssociationOptionsReactionData,
         thisReaction
       ) => {
-        if (fields.length > 0 && metadata != null && isDataLoaded && this.props.mainStore != null) {
+        if (fields.length > 0 && isDataLoaded && this.props.mainStore != null) {
           const {getAttributePermission} = this.props.mainStore.security;
-          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, fields, metadata);
+          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, fields, metadata.entities);
           // Performs HTTP requests:
           this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
           thisReaction.dispose();
@@ -515,15 +512,17 @@ class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps>
 const NestedEntityField = 
   injectIntl(
     injectMainStore(
-      observer(
-        NestedEntityFieldComponent
+      injectMetadata(
+        observer(
+          NestedEntityFieldComponent
+        )
       )
     )
   );
   
 export {NestedEntityField};
 
-export interface NestedEntitiesTableFieldProps extends MainStoreInjected, WrappedComponentProps {
+export interface NestedEntitiesTableFieldProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
   /**
    * Сoming from antd Form field decorator
    */
@@ -592,7 +591,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
   }
 
   componentDidMount(): void {
-    const {nestedEntityName, nestedEntityView, parentEntityName, mainStore} = this.props;
+    const {nestedEntityName, nestedEntityView, parentEntityName, metadata} = this.props;
 
     this.setDataCollection(clientSideCollection(nestedEntityName, {loadImmediately: false}))
     // HTTP request
@@ -615,7 +614,7 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
           this.dataCollection.allItems = this.props.value.map((element: any) => {
             return {
               id: generateTemporaryEntityId(),
-              ...formFieldsToInstanceItem(element, nestedEntityName, mainStore!.metadata!)
+              ...formFieldsToInstanceItem(element, nestedEntityName, metadata.entities)
             };
           });
           this.dataCollection.adjustItems();
@@ -628,16 +627,15 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
     this.disposers.push(reaction(
       () => [
         this.allFields,
-        this.props.mainStore?.metadata,
         this.props.mainStore?.security.isDataLoaded
       ] as AssociationOptionsReactionData, action((
-        [allFields, metadata, isDataLoaded]: AssociationOptionsReactionData,
+        [allFields, isDataLoaded]: AssociationOptionsReactionData,
         _prevData : AssociationOptionsReactionData,
         thisReaction
       ) => {
-        if (allFields != null && metadata != null && isDataLoaded === true && this.props.mainStore != null) {
+        if (allFields != null && isDataLoaded === true && this.props.mainStore != null) {
           const {getAttributePermission} = this.props.mainStore.security;
-          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, allFields, metadata);
+          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, allFields, metadata.entities);
           // Performs HTTP requests:
           this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
           thisReaction.dispose();
@@ -647,14 +645,13 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
     ));
 
     this.disposers.push(reaction(
-      () => [this.allFields, this.props.mainStore?.metadata],
+      () => [this.allFields],
       action((_data, _prevData, thisReaction) => {
         if (this.allFields != null
           && this.allFields.length > 0
-          && this.props.mainStore?.metadata != null
         ) {
           const entityProperties: MetaPropertyInfo[] =
-            getEntityProperties(nestedEntityName, this.allFields, this.props.mainStore?.metadata);
+            getEntityProperties(nestedEntityName, this.allFields, metadata.entities);
           this.inverseAttributeName = entityProperties
             .find(property => property.type === parentEntityName)
             ?.name ?? null;
@@ -771,12 +768,12 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
   };
 
   updateFormFieldValue = () => {
-    const {onChange, nestedEntityName, mainStore} = this.props;
+    const {onChange, nestedEntityName, metadata} = this.props;
 
     if (onChange) {
       const newValue = this.dataCollection?.allItems.map(item => {
         const id = item.id;
-        const formFields = instanceItemToFormFields(item, nestedEntityName, toJS(mainStore!.metadata!), this.allFields || []);
+        const formFields = instanceItemToFormFields(item, nestedEntityName, metadata.entities, this.allFields || []);
         if (id != null) {
           formFields.id = id;
         } else {
@@ -863,15 +860,17 @@ class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTa
 
 const NestedEntitiesTableField = injectIntl(
   injectMainStore(
-    observer(
-      NestedEntitiesTableFieldComponent
+    injectMetadata(
+      observer(
+        NestedEntitiesTableFieldComponent
+      )
     )
   )
 );
 
 export {NestedEntitiesTableField};
 
-export interface EntityEditorProps extends MainStoreInjected, WrappedComponentProps {
+export interface EntityEditorProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
   /**
    * Name of the entity being edited
    */
@@ -957,11 +956,9 @@ class EntityEditorComponent extends React.Component<EntityEditorProps> {
   }
 
   get entityProperties(): MetaPropertyInfo[] {
-    const {entityName, fields, mainStore} = this.props;
-    return mainStore?.metadata
-      ? getEntityProperties(entityName, fields, mainStore?.metadata)
-        .sort((a, b) => defaultCompare(a.name, b.name))
-      : [];
+    const {entityName, fields, metadata} = this.props;
+    return getEntityProperties(entityName, fields, metadata.entities)
+    .sort((a, b) => defaultCompare(a.name, b.name))
   }
 
   handleFinish = (values: {[field: string]: any}) => {
@@ -1123,17 +1120,19 @@ export const defaultHandleFinish = <E extends unknown>(
 };
 
 const EntityEditor = 
-  injectIntl<'intl', EntityEditorProps>(
-    injectMainStore(
-      observer(
-        EntityEditorComponent
+  injectMetadata(
+    injectIntl<'intl', EntityEditorProps>(
+      injectMainStore(
+        observer(
+          EntityEditorComponent
+        )
       )
     )
   );
 
 
-export function getEntityProperties(entityName: string, fields: string[], metadata: MetaClassInfo[]): MetaPropertyInfo[] {
-  const allProperties = metadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)
+export function getEntityProperties(entityName: string, fields: string[], entitiesMetadata: MetaClassInfo[]): MetaPropertyInfo[] {
+  const allProperties = entitiesMetadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)
     ?.properties || [];
 
   return allProperties.filter((property: MetaPropertyInfo) => {

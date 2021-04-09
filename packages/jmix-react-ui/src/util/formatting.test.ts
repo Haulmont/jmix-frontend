@@ -1,19 +1,16 @@
 import {toDisplayValue} from './formatting';
-import {
-  MetaPropertyInfo,
-  PropertyType
-} from '@haulmont/jmix-rest';
+import {PropertyType} from '@haulmont/jmix-rest';
+import {MetaPropertyInfo} from '@haulmont/jmix-react-core';
 import moment from 'moment-timezone';
 
 const mockPropertyInfo: MetaPropertyInfo = {
   attributeType: 'DATATYPE',
   cardinality: 'NONE',
-  description: '',
   isTransient: false,
   mandatory: false,
   name: '',
   readOnly: false,
-  type: ''
+  type: '',
 };
 
 function createMockPropertyInfo(type: PropertyType): MetaPropertyInfo {

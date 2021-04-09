@@ -5,9 +5,6 @@ import {
   Condition,
   ConditionsGroup,
   EntityFilter,
-  EnumInfo,
-  EnumValueInfo,
-  MetaPropertyInfo
 } from '@haulmont/jmix-rest';
 import {DataTableCell} from './DataTableCell';
 import {
@@ -15,7 +12,18 @@ import {
   DataTableCustomFilter as CustomFilter,
 } from './DataTableCustomFilter';
 import { toJS } from 'mobx';
-import { MainStore, getPropertyInfoNN, DataCollectionStore, getPropertyCaption, isPropertyTypeSupported } from '@haulmont/jmix-react-core';
+import {
+  MainStore,
+  getPropertyInfoNN,
+  DataCollectionStore,
+  getPropertyCaption,
+  isPropertyTypeSupported,
+  getMetadata,
+  Metadata,
+  EnumInfo,
+  EnumValueInfo,
+  MetaPropertyInfo,
+} from '@haulmont/jmix-react-core';
 import {OperatorType, FilterValue} from "@haulmont/jmix-rest";
 import {setPagination} from "../paging/Paging";
 import {Key} from 'antd/es/table/interface';
@@ -170,7 +178,11 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
   } = config;
 
   let dataIndex: string | string[];
-  const propertyInfo = getPropertyInfoNN(propertyName as string, entityName, mainStore!.metadata!);
+
+  const metadata = getMetadata();
+  
+  const propertyInfo = getPropertyInfoNN(propertyName as string, entityName, metadata.entities);
+  
 
   switch(propertyInfo.attributeType) {
     case 'COMPOSITION':
@@ -210,7 +222,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
 
     if (propertyInfo.attributeType === 'ENUM') {
       defaultColumnProps = {
-        filters: generateEnumFilter(propertyInfo, mainStore),
+        filters: generateEnumFilter(propertyInfo, metadata),
         ...defaultColumnProps
       };
     } else {
@@ -236,10 +248,9 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
  * Generates a standard antd table column filter for enum fields.
  *
  * @param propertyInfo
- * @param mainStore
  */
-export function generateEnumFilter(propertyInfo: MetaPropertyInfo, mainStore: MainStore): ColumnFilterItem[] {
-  const propertyEnumInfo: EnumInfo | undefined = mainStore!.enums!
+export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Metadata): ColumnFilterItem[] {
+  const propertyEnumInfo: EnumInfo | undefined = metadata.enums
     .find((enumInfo: EnumInfo) => enumInfo.name === propertyInfo.type);
 
   if (!propertyEnumInfo) {
@@ -290,7 +301,6 @@ export function generateCustomFilterDropdown(
 export function setFilters<E>(
   tableFilters: Record<string, (ReactText | boolean)[] | null>,
   fields: string[],
-  mainStore: MainStore,
   dataCollection: DataCollectionStore<E>,
 ) {
   let entityFilter: EntityFilter | undefined;
@@ -318,7 +328,7 @@ export function setFilters<E>(
           };
         }
 
-        const propertyInfoNN = getPropertyInfoNN(propertyName as string, dataCollection.entityName, mainStore.metadata!);
+        const propertyInfoNN = getPropertyInfoNN(propertyName as string, dataCollection.entityName, getMetadata().entities);
         if (propertyInfoNN.attributeType === 'ENUM') {
           pushCondition(entityFilter, propertyName, 'in', tableFilters[propertyName]);
         } else {
@@ -399,7 +409,6 @@ export interface TableChangeDTO<E> {
    * Names of the entity properties that should be displayed.
    */
   fields: string[],
-  mainStore: MainStore,
   dataCollection: DataCollectionStore<E>,
 }
 
@@ -418,11 +427,10 @@ export function handleTableChange<E>(tableChangeDTO: TableChangeDTO<E>): Promise
     sorter,
     defaultSort,
     fields,
-    mainStore,
     dataCollection
   } = tableChangeDTO;
 
-  setFilters(filters, fields, mainStore, dataCollection);
+  setFilters(filters, fields, dataCollection);
   setSorter(sorter, defaultSort, dataCollection);
   setPagination(pagination, dataCollection);
 

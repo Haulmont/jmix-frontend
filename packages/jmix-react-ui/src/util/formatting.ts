@@ -1,10 +1,11 @@
-import {MetaPropertyInfo, TemporalPropertyType} from '@haulmont/jmix-rest';
+import {TemporalPropertyType} from '@haulmont/jmix-rest';
 import {
   getDataTransferFormat,
   getDisplayFormat,
   isTemporalProperty,
   isFileProperty,
-  extractName
+  extractName,
+  MetaPropertyInfo,
 } from '@haulmont/jmix-react-core';
 import moment from 'moment';
 

@@ -1,0 +1,2619 @@
+{
+  "entities": [
+    {
+      "name": "scr$Car",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "manufacturer",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "model",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "regNumber",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "purchaseDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "manufactureDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "DateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "wheelOnRight",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "carType",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "CarType",
+            "fqn": "com.company.scr.entity.CarType",
+            "label": "CarType"
+          },
+          "mappingType": "ENUM",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "ecoRank",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "EcoRank",
+            "fqn": "com.company.scr.entity.EcoRank",
+            "label": "EcoRank"
+          },
+          "mappingType": "ENUM",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "garage",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Garage",
+            "fqn": "com.company.scr.entity.Garage",
+            "label": "Garage",
+            "entityName": "scr$Garage"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "maxPassengers",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "price",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "mileage",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Double",
+            "fqn": "java.lang.Double",
+            "label": "Double"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "technicalCertificate",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "TechnicalCertificate",
+            "fqn": "com.company.scr.entity.TechnicalCertificate",
+            "label": "TechnicalCertificate",
+            "entityName": "scr$TechnicalCertificate"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "lastModifiedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "lastModifiedDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "photo",
+          "type": {
+            "packageName": "io.jmix.core",
+            "className": "FileRef",
+            "fqn": "io.jmix.core.FileRef",
+            "label": "fileRef"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_CarDto",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "manufacturer",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "price",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "model",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr$CarRent",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "car",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "fromDate",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "fromTime",
+          "type": {
+            "packageName": "java.sql",
+            "className": "Time",
+            "fqn": "java.sql.Time",
+            "label": "Time"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "fromDateTime",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "DateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr$FavoriteCar",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "car",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "user",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "User",
+            "fqn": "com.company.scr.entity.User",
+            "label": "User",
+            "entityName": "scr_User"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "notes",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr$Garage",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "cars",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "address",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "personnel",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "User",
+            "fqn": "com.company.scr.entity.User",
+            "label": "User",
+            "entityName": "scr_User"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "capacity",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "vanEntry",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "workingHoursFrom",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalTime",
+            "fqn": "java.time.LocalTime",
+            "label": "LocalTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "workingHoursTo",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalTime",
+            "fqn": "java.time.LocalTime",
+            "label": "LocalTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "currentCars",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": true
+        }
+      ]
+    },
+    {
+      "name": "scr$SparePart",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "spareParts",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "SparePart",
+            "fqn": "com.company.scr.entity.SparePart",
+            "label": "SparePart",
+            "entityName": "scr$SparePart"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr$TechnicalCertificate",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "certNumber",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "car",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_User",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "username",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "password",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "firstName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "lastName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "email",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "enabled",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "phone",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_AssociationM2MTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntities",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_AssociationM2OTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_AssociationO2MTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_AssociationO2OTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deeplyNestedTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DeeplyNestedTestEntity",
+            "fqn": "com.company.scr.entity.test.DeeplyNestedTestEntity",
+            "label": "DeeplyNestedTestEntity",
+            "entityName": "scr_DeeplyNestedTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_BoringStringIdTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "description",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deleteTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deletedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updateTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updatedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "uuid",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_CompositionO2MTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_CompositionO2OTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "nestedComposition",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DeeplyNestedTestEntity",
+            "fqn": "com.company.scr.entity.test.DeeplyNestedTestEntity",
+            "label": "DeeplyNestedTestEntity",
+            "entityName": "scr_DeeplyNestedTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DatatypesTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "bigDecimalAttr",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "booleanAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "dateAttr",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "dateTimeAttr",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "DateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "doubleAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Double",
+            "fqn": "java.lang.Double",
+            "label": "Double"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "integerAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "longAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Long",
+            "fqn": "java.lang.Long",
+            "label": "Long"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "stringAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "timeAttr",
+          "type": {
+            "packageName": "java.sql",
+            "className": "Time",
+            "fqn": "java.sql.Time",
+            "label": "Time"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "uuidAttr",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "localDateTimeAttr",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalDateTime",
+            "fqn": "java.time.LocalDateTime",
+            "label": "LocalDateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "offsetDateTimeAttr",
+          "type": {
+            "packageName": "java.time",
+            "className": "OffsetDateTime",
+            "fqn": "java.time.OffsetDateTime",
+            "label": "OffsetDateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "localDateAttr",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalDate",
+            "fqn": "java.time.LocalDate",
+            "label": "LocalDate"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "localTimeAttr",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalTime",
+            "fqn": "java.time.LocalTime",
+            "label": "LocalTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "offsetTimeAttr",
+          "type": {
+            "packageName": "java.time",
+            "className": "OffsetTime",
+            "fqn": "java.time.OffsetTime",
+            "label": "OffsetTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "enumAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "TestEnum",
+            "fqn": "com.company.scr.entity.test.TestEnum",
+            "label": "TestEnum"
+          },
+          "mappingType": "ENUM",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "associationO2Oattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "AssociationO2OTestEntity",
+            "fqn": "com.company.scr.entity.test.AssociationO2OTestEntity",
+            "label": "AssociationO2OTestEntity",
+            "entityName": "scr_AssociationO2OTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "associationO2Mattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "AssociationO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.AssociationO2MTestEntity",
+            "label": "AssociationO2MTestEntity",
+            "entityName": "scr_AssociationO2MTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "associationM2Oattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "AssociationM2OTestEntity",
+            "fqn": "com.company.scr.entity.test.AssociationM2OTestEntity",
+            "label": "AssociationM2OTestEntity",
+            "entityName": "scr_AssociationM2OTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "associationM2Mattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "AssociationM2MTestEntity",
+            "fqn": "com.company.scr.entity.test.AssociationM2MTestEntity",
+            "label": "AssociationM2MTestEntity",
+            "entityName": "scr_AssociationM2MTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "compositionO2Oattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "CompositionO2OTestEntity",
+            "fqn": "com.company.scr.entity.test.CompositionO2OTestEntity",
+            "label": "CompositionO2OTestEntity",
+            "entityName": "scr_CompositionO2OTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "compositionO2Mattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "CompositionO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.CompositionO2MTestEntity",
+            "label": "CompositionO2MTestEntity",
+            "entityName": "scr_CompositionO2MTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "intIdentityIdTestEntityAssociationO2OAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntIdentityIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntIdentityIdTestEntity",
+            "label": "IntIdentityIdTestEntity",
+            "entityName": "scr_IntIdentityIdTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "integerIdTestEntityAssociationM2MAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntegerIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntegerIdTestEntity",
+            "label": "IntegerIdTestEntity",
+            "entityName": "scr_IntegerIdTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity3",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity3",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity3",
+            "label": "DatatypesTestEntity3",
+            "entityName": "scr_DatatypesTestEntity3"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "stringIdTestEntityAssociationO2O",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "StringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.StringIdTestEntity",
+            "label": "StringIdTestEntity",
+            "entityName": "scr_StringIdTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "stringIdTestEntityAssociationM2O",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "StringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.StringIdTestEntity",
+            "label": "StringIdTestEntity",
+            "entityName": "scr_StringIdTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "readOnlyStringAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": true,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DatatypesTestEntity2",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "intIdentityIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntIdentityIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntIdentityIdTestEntity",
+            "label": "IntIdentityIdTestEntity",
+            "entityName": "scr_IntIdentityIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "integerIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntegerIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntegerIdTestEntity",
+            "label": "IntegerIdTestEntity",
+            "entityName": "scr_IntegerIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "stringIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "StringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.StringIdTestEntity",
+            "label": "StringIdTestEntity",
+            "entityName": "scr_StringIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "weirdStringIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "WeirdStringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.WeirdStringIdTestEntity",
+            "label": "WeirdStringIdTestEntity",
+            "entityName": "scr_WeirdStringIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DatatypesTestEntity3",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "integerIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntegerIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntegerIdTestEntity",
+            "label": "IntegerIdTestEntity",
+            "entityName": "scr_IntegerIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "intIdentityIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "IntIdentityIdTestEntity",
+            "fqn": "com.company.scr.entity.test.IntIdentityIdTestEntity",
+            "label": "IntIdentityIdTestEntity",
+            "entityName": "scr_IntIdentityIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "stringIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "StringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.StringIdTestEntity",
+            "label": "StringIdTestEntity",
+            "entityName": "scr_StringIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "weirdStringIdTestEntityAttr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "WeirdStringIdTestEntity",
+            "fqn": "com.company.scr.entity.test.WeirdStringIdTestEntity",
+            "label": "WeirdStringIdTestEntity",
+            "entityName": "scr_WeirdStringIdTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DeeplyNestedTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "associationO2Oattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "AssociationO2OTestEntity",
+            "fqn": "com.company.scr.entity.test.AssociationO2OTestEntity",
+            "label": "AssociationO2OTestEntity",
+            "entityName": "scr_AssociationO2OTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_IntIdentityIdTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "description",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updateTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updatedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deleteTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deletedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity3",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity3",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity3",
+            "label": "DatatypesTestEntity3",
+            "entityName": "scr_DatatypesTestEntity3"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_IntegerIdTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "description",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updateTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updatedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deleteTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deletedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity3",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity3",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity3",
+            "label": "DatatypesTestEntity3",
+            "entityName": "scr_DatatypesTestEntity3"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntities",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_StringIdTestEntity",
+      "attributes": [
+        {
+          "name": "identifier",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "description",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "productCode",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updateTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updatedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deleteTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deletedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity",
+            "label": "DatatypesTestEntity",
+            "entityName": "scr_DatatypesTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity3",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity3",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity3",
+            "label": "DatatypesTestEntity3",
+            "entityName": "scr_DatatypesTestEntity3"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_WeirdStringIdTestEntity",
+      "attributes": [
+        {
+          "name": "identifier",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "description",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "createdBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updateTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "updatedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deleteTs",
+          "type": {
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
+            "label": "Date"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "deletedBy",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "datatypesTestEntity3",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DatatypesTestEntity3",
+            "fqn": "com.company.scr.entity.test.DatatypesTestEntity3",
+            "label": "DatatypesTestEntity3",
+            "entityName": "scr_DatatypesTestEntity3"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_TrickyIdTestEntity",
+      "attributes": [
+        {
+          "name": "trickyId",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Long",
+            "fqn": "java.lang.Long",
+            "label": "Long"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "otherAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    }
+  ],
+  "enums": [
+    {
+      "className": "CarType",
+      "fqn": "com.company.scr.entity.CarType",
+      "values": [
+        {
+          "name": "SEDAN",
+          "id": "SEDAN"
+        },
+        {
+          "name": "HATCHBACK",
+          "id": "HATCHBACK"
+        }
+      ]
+    },
+    {
+      "className": "EcoRank",
+      "fqn": "com.company.scr.entity.EcoRank",
+      "values": [
+        {
+          "name": "EURO1",
+          "id": 1
+        },
+        {
+          "name": "EURO2",
+          "id": 2
+        },
+        {
+          "name": "EURO3",
+          "id": 3
+        }
+      ]
+    },
+    {
+      "className": "TestEnum",
+      "fqn": "com.company.scr.entity.test.TestEnum",
+      "values": [
+        {
+          "name": "NEW_VALUE",
+          "id": "A"
+        },
+        {
+          "name": "NEW_VALUE1",
+          "id": "B"
+        },
+        {
+          "name": "NEW_VALUE2",
+          "id": "C"
+        }
+      ]
+    }
+  ]
+}

@@ -71,11 +71,7 @@ describe('JmixRestConnection', () => {
     return app.login('admin', 'admin', loginOpts);
   });
 
-  it('.loadMetadata()', () => app.loadMetadata());
-
   it('.loadMessages()', () => app.loadEntitiesMessages());
-
-  it('.loadEnums()', () => app.loadEnums());
 
   it('.getUserInfo()', () => app.getUserInfo());
 

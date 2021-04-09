@@ -11,6 +11,7 @@ import { initializeApp } from "@haulmont/jmix-rest";
 import { JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET } from "./config";
 import "mobx-react-lite/batchingForReactDom";
 
+import metadata from "./jmix/metadata.json";
 import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
@@ -34,6 +35,7 @@ ReactDOM.render(
       secret: REST_CLIENT_SECRET,
       locale: "en"
     }}
+    metadata={metadata}
   >
     <I18nProvider
       messagesMapping={messagesMapping}

@@ -29,14 +29,16 @@ import {
   injectMainStore,
   assertNever,
   getPropertyInfoNN,
-  WithId
+  WithId,
+  injectMetadata,
+  MetadataInjected,
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 
 /**
  * @typeparam E - entity type.
  */
-export interface DataTableProps<E extends object> extends MainStoreInjected, WrappedComponentProps {
+export interface DataTableProps<E extends object> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
   dataCollection: DataCollectionStore<E>,
   /**
    * @deprecated use `columnDefinitions` instead. If used together, `columnDefinitions` will take precedence.
@@ -302,10 +304,9 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
 
     const {defaultSort, fields} = this;
     const {dataCollection} = this.props;
-    const mainStore = this.props.mainStore!;
 
     handleTableChange<E>({
-      pagination, filters, sorter, defaultSort: defaultSort ?? undefined, fields, mainStore, dataCollection
+      pagination, filters, sorter, defaultSort: defaultSort ?? undefined, fields, dataCollection
     });
   };
 
@@ -361,7 +362,7 @@ class DataTableComponent<E extends object> extends React.Component<DataTableProp
     const {filter, load, entityName} = this.props.dataCollection;
 
     this.fields.forEach((field: string) => {
-      const propertyInfo = getPropertyInfoNN(field, entityName, this.props.mainStore!.metadata!);
+      const propertyInfo = getPropertyInfoNN(field, entityName, this.props.metadata.entities);
       if (propertyInfo.type === 'boolean') {
         this.valuesByProperty.set(field, 'true');
       }
@@ -548,8 +549,10 @@ function columnDefToPropertyName<E>(columnDef: string | ColumnDefinition<E>): st
 const dataTable = 
   injectIntl(
     injectMainStore(
-      observer(
-        DataTableComponent
+      injectMetadata(
+        observer(
+          DataTableComponent
+        )
       )
     )
   );
