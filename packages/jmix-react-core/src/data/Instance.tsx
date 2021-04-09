@@ -2,8 +2,7 @@ import { action, computed, observable, reaction, toJS, makeObservable } from "mo
 import {
   PredefinedView, 
   SerializedEntityProps, 
-  TemporalPropertyType, 
-  MetaClassInfo, 
+  TemporalPropertyType,  
   CommitMode,
   getStringId
 } from "@haulmont/jmix-rest";
@@ -11,8 +10,7 @@ import {inject, observer} from "mobx-react";
 import { IReactComponent } from "mobx-react/dist/types/IReactComponent";
 import * as React from "react";
 import {DataContainer, DataContainerError, DataContainerStatus} from "./DataContext";
-import {getJmixREST, getMainStore} from "../app/JmixAppProvider";
-import {MainStore} from "../app/MainStore";
+import {getJmixREST} from "../app/JmixAppProvider";
 import {
   getPropertyInfo, isOneToManyComposition, isOneToOneComposition,
   isTemporalProperty, isToManyAssociation,
@@ -26,6 +24,7 @@ import {
 import {stripMilliseconds} from '../util/temporal';
 import {TEMPORARY_ENTITY_ID_PREFIX} from "../util/data";
 import { prepareForCommit } from "../util/internal/data";
+import { getMetadata, MetaClassInfo } from "../app/MetadataProvider";
 
 /**
  * Retrieves an entity instance using Generic REST API.
@@ -61,8 +60,7 @@ export class DataInstanceStore<T> implements DataContainer {
    */
   changedItems = observable([]);
 
-  constructor(private mainStore: MainStore,
-              public readonly entityName: string,
+  constructor(public readonly entityName: string,
               viewName: string = PredefinedView.MINIMAL,
               stringIdName: string | null = null) {
 
@@ -126,7 +124,13 @@ export class DataInstanceStore<T> implements DataContainer {
    * @param formFields - a object representing the values of Ant Design {@link https://ant.design/components/form/ | Form} fields.
    */
   setItemToFormFields(formFields: Partial<T>) {
-    this.item = formFieldsToInstanceItem(formFields, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName ?? undefined) as T & Partial<SerializedEntityProps> & WithId;
+    
+    this.item = formFieldsToInstanceItem(
+      formFields,
+      this.entityName,
+      getMetadata().entities,
+      this.stringIdName ?? undefined,
+    ) as T & Partial<SerializedEntityProps> & WithId;
     this.status = "DONE";
   }
 
@@ -146,7 +150,12 @@ export class DataInstanceStore<T> implements DataContainer {
    * @returns a promise that resolves to the update result returned by the REST API.
    */
   update(entityPatch: Record<string, any>, commitMode?: CommitMode): Promise<any> {
-    const normalizedPatch: Record<string, any> = formFieldsToInstanceItem(entityPatch, this.entityName, toJS(this.mainStore.metadata!), this.stringIdName ?? undefined);
+    const normalizedPatch: Record<string, any> = formFieldsToInstanceItem(
+      entityPatch,
+      this.entityName,
+      getMetadata().entities,
+      this.stringIdName ?? undefined,
+    );
     Object.assign(this.item, normalizedPatch);
     return this.commit(commitMode);
   }
@@ -164,7 +173,7 @@ export class DataInstanceStore<T> implements DataContainer {
     }
     this.status = 'LOADING';
 
-    const commitItem = prepareForCommit(this.item, this.entityName, this.mainStore!.metadata!);
+    const commitItem = prepareForCommit(this.item, this.entityName, getMetadata().entities);
 
     const fetchOptions = commitMode != null ? {commitMode} : undefined;
 
@@ -194,7 +203,7 @@ export class DataInstanceStore<T> implements DataContainer {
     return instanceItemToFormFields<T>(
       this.item || {},
       this.entityName,
-      toJS(this.mainStore!.metadata!),
+      getMetadata().entities,
       properties,
       this.stringIdName ?? undefined
     ) as Partial<{[prop in keyof T]: any}>;
@@ -232,12 +241,12 @@ export interface DataInstanceProps<E> extends DataInstanceOptions {
  * @param opts - {@link DataInstanceStore} configuration.
  */
 export function instance<T>(entityName: string, opts: DataInstanceOptions) {
-  return new DataInstanceStore<T>(getMainStore(), entityName, opts.view, opts.stringIdName);
+  return new DataInstanceStore<T>(entityName, opts.view, opts.stringIdName);
 }
 
 export const withDataInstance = (entityName: string, opts: DataInstanceOptions = {loadImmediately: true}) => <T extends IReactComponent>(target: T) => {
   return inject(() => {
-    const dataInstance = new DataInstanceStore(getMainStore(), entityName, opts.view, opts.stringIdName);
+    const dataInstance = new DataInstanceStore(entityName, opts.view, opts.stringIdName);
     return {dataInstance}
   })(target);
 };
@@ -272,7 +281,7 @@ class InstanceComponent<E> extends React.Component<DataInstanceProps<E>> {
     super(props);
 
     const {entityName, view, stringIdName} = this.props;
-    this.store = new DataInstanceStore<E>(getMainStore(), entityName);
+    this.store = new DataInstanceStore<E>(entityName);
     if (view != null) {
       this.store.viewName = view;
     }

@@ -1,6 +1,7 @@
 import {collection, DataCollectionOptions, DataCollectionStore} from './Collection';
-import {EntityAttrPermissionValue, MetaPropertyInfo, SerializedEntityProps} from '@haulmont/jmix-rest';
+import {EntityAttrPermissionValue, SerializedEntityProps} from '@haulmont/jmix-rest';
 import {WithId} from '../util/metadata';
+import {MetaPropertyInfo} from '../app/MetadataProvider';
 
 /**
  * Invokes Generic REST API to retrieve the possible options for an Association attribute

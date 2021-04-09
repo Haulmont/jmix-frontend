@@ -4,8 +4,7 @@ import {
   EffectivePermsLoadOptions,
   EntitiesWithCount,
   EntityMessages,
-  EnumInfo, ICubaRestCheckStatusError,
-  MetaClassInfo,
+  ICubaRestCheckStatusError,
   SerializedEntity,
   UserInfo,
   View,
@@ -103,7 +102,7 @@ export interface TokenOptions {
 
 const throwNormolizedJmixRestError = (e: Error | JmixRestError) => {
   throw e.name === 'JmixRestError' ? e : new JmixRestError({message: e.message});
-}
+};
 
 export class JmixRestConnection {
 
@@ -114,7 +113,6 @@ export class JmixRestConnection {
   private static LOCALE_STORAGE_KEY = "jmixLocale";
 
   public messagesCache: EntityMessages;
-  public enumsCache: EnumInfo[];
 
   private tokenExpiryListeners: Array<(() => {})> = [];
   private messagesLoadingListeners: Array<((messages: EntityMessages) => {})> = [];
@@ -316,14 +314,6 @@ export class JmixRestConnection {
     return this.fetch('GET', 'queries/' + entityName + '/' + queryName + '/count', params, fetchOptions);
   }
 
-  public loadMetadata(fetchOptions?: FetchOptions): Promise<MetaClassInfo[]> {
-    return this.fetch('GET', 'metadata/entities', null, {handleAs: 'json', ...fetchOptions});
-  }
-
-  public loadEntityMetadata(entityName: string, fetchOptions?: FetchOptions): Promise<MetaClassInfo> {
-    return this.fetch('GET', 'metadata/entities' + '/' + entityName, null, {handleAs: 'json', ...fetchOptions});
-  }
-
   public loadEntityViews(entityName: string, fetchOptions?: FetchOptions): Promise<View[]> {
     return this.fetch('GET', 'metadata/entities/' + entityName + '/views', null,
       {handleAs: 'json', ...fetchOptions});
@@ -340,15 +330,6 @@ export class JmixRestConnection {
     fetchRes.then((messages) => {
       this.messagesCache = messages;
       this.messagesLoadingListeners.forEach((l) => l(messages));
-    });
-    return fetchRes;
-  }
-
-  public loadEnums(fetchOptions?: FetchOptions): Promise<EnumInfo[]> {
-    const fetchRes = this.fetch<EnumInfo[]>('GET', 'metadata/enums', null, {handleAs: 'json', ...fetchOptions});
-    fetchRes.then((enums) => {
-      this.enumsCache = enums;
-      this.enumsLoadingListeners.forEach((l) => l(enums));
     });
     return fetchRes;
   }
@@ -417,13 +398,13 @@ export class JmixRestConnection {
     const fetchRes = fetch(url, settings).then(this.checkStatus);
 
     fetchRes.catch((error: ICubaRestCheckStatusError) => {
-      restEventEmitter.emit('fetch_fail', error);
+          restEventEmitter.emit('fetch_fail', error);
 
-      if (this.isTokenExpiredResponse(error.response)) {
-        this.clearAuthData();
-        this.tokenExpiryListeners.forEach((l) => l());
-      }
-    });
+          if (this.isTokenExpiredResponse(error.response)) {
+            this.clearAuthData();
+            this.tokenExpiryListeners.forEach((l) => l());
+          }
+      });
 
     return fetchRes.then((resp) => {
 

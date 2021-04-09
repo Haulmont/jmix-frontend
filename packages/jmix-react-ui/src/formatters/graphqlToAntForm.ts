@@ -1,5 +1,4 @@
-import { MetaClassInfo } from "@haulmont/jmix-rest";
-import { instanceItemToFormFields } from "@haulmont/jmix-react-core";
+import { instanceItemToFormFields, MetaClassInfo } from "@haulmont/jmix-react-core";
 
 /**
  * Takes the data received from backend via GraphQL and reformats it so that it can be

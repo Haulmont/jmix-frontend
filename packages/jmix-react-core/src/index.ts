@@ -9,6 +9,7 @@ export * from './app/MainStore';
 export * from './app/MenuConfig';
 export * from './app/EventEmitter';
 export * from './app/Router';
+export * from './app/MetadataProvider';
 
 export * from './data/DataContext';
 export * from './data/Collection';
@@ -26,3 +27,4 @@ export * from './util/stateManagement';
 export * from './util/misc';
 export * from './app/Screens';
 export * from './app/Tabs';
+export * from './util/normalizeMetadata';

@@ -1,6 +1,7 @@
 import {WithId, getPropertyInfo, isOneToOneComposition, isOneToManyComposition} from '../metadata';
-import {SerializedEntityProps, MetaClassInfo} from '@haulmont/jmix-rest';
+import {SerializedEntityProps} from '@haulmont/jmix-rest';
 import {TEMPORARY_ENTITY_ID_PREFIX} from '../data';
+import {MetaClassInfo} from '../../app/MetadataProvider';
 
 /**
  *

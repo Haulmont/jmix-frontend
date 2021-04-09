@@ -1,5 +1,5 @@
-import { action, autorun, computed, IObservableArray, observable, makeObservable } from "mobx";
-import {JmixRestConnection, EntityMessages, EnumInfo, JmixRestError, MetaClassInfo, UserInfo} from "@haulmont/jmix-rest";
+import { action, autorun, computed, observable, makeObservable } from "mobx";
+import {JmixRestConnection, EntityMessages, JmixRestError, UserInfo} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
@@ -39,23 +39,13 @@ export class MainStore {
    */
   locale: string | null = null;
   /**
-   * Information about project entities.
-   */
-  metadata: IObservableArray<MetaClassInfo> | null = null;
-  /**
    * Localized entity messages.
    */
   messages: EntityMessages | null = null;
-  /**
-   * Localized enums.
-   */
-  enums: IObservableArray<EnumInfo> | null = null;
 
   security: Security;
 
-  private metadataRequestCount = 0;
   private messagesRequestCount = 0;
-  private enumsRequestCount = 0;
 
   private tokenExpiryListeners: Array<(() => void)> = [];
   private disposeTokenExpiryListener?: () => void;
@@ -89,12 +79,8 @@ export class MainStore {
       usingAnonymously: observable,
       userName: observable,
       locale: observable,
-      metadata: observable,
       messages: observable,
-      enums: observable,
       initialize: action,
-      loadEnums: action,
-      loadMetadata: action,
       loadMessages: action,
       loginRequired: computed,
       login: action,
@@ -105,8 +91,6 @@ export class MainStore {
     autorun(() => {
       if (this.initialized && (this.authenticated || this.usingAnonymously)) {
         this.security.loadPermissions();
-        this.loadEnums();
-        this.loadMetadata();
         this.loadMessages();
       }
     })
@@ -135,35 +119,7 @@ export class MainStore {
    */
   isEntityDataLoaded(): boolean {
     return this.messages != null
-      && this.metadata != null
-      && this.enums != null
       && this.security.isDataLoaded;
-  }
-
-  /**
-   * Retrieves localized enums using REST API.
-   */
-  loadEnums() {
-    const requestId = ++this.enumsRequestCount;
-    this.jmixREST.loadEnums()
-      .then(action((enums: EnumInfo[]) => {
-        if (requestId === this.enumsRequestCount) {
-          this.enums = observable(enums);
-        }
-      }));
-  }
-
-  /**
-   * Retrieves entity metadata using REST API.
-   */
-  loadMetadata() {
-    const requestId = ++this.metadataRequestCount;
-    this.jmixREST.loadMetadata()
-      .then(action((metadata: MetaClassInfo[]) => {
-        if (requestId === this.metadataRequestCount) {
-          this.metadata = observable(metadata);
-        }
-      }));
   }
 
   /**
@@ -326,7 +282,6 @@ export class MainStore {
     this.locale = locale;
 
     if (this.initialized && (this.authenticated || this.usingAnonymously)) {
-      this.loadEnums();
       this.loadMessages();
     }
 

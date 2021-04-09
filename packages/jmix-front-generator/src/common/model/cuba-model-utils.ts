@@ -11,49 +11,19 @@ export function findEntity(projectModel: ProjectModel, entityInfo: EntityInfo | 
   const entityName = typeof entityInfo === 'string'
     ? entityInfo
     : entityInfo.name;
-  let entity: Entity | undefined;
-  if (Array.isArray(projectModel.entities)) {
-    entity = projectModel.entities.find(e => e.name === entityName);
-    if (entity != null) {
-      return entity;
-    }
-  } else { // old model structure
-    if (projectModel.entities.hasOwnProperty(entityName)) {
-      return projectModel.entities[entityName];
-    }
-  }
 
-  if (projectModel.baseProjectEntities != null) {
-    if (Array.isArray(projectModel.baseProjectEntities)) {
-      entity = projectModel.baseProjectEntities.find(e => e.name === entityName);
-      if (entity != null) {
-        return entity;
-      }
-    } else {
-      return projectModel.baseProjectEntities[entityName];
-    }
-  }
+  const allEntities = getAllEntities(projectModel);
+
+  return allEntities.find(e => e.name === entityName);
 }
 
 export function findEntityByFqn(projectModel: ProjectModel, fqn: string): Entity | undefined {
   return getAllEntities(projectModel).find(e => e.fqn === fqn);
 }
 
-function getAllEntities(projectModel: ProjectModel): Entity[] {
-  const projectEntities = Array.isArray(projectModel.entities)
-    ? projectModel.entities
-    : Object.values(projectModel.entities);
-
-  let baseEntities: Entity[];
-  if (Array.isArray(projectModel.baseProjectEntities)) {
-    baseEntities = projectModel.baseProjectEntities;
-  } else if (projectModel.baseProjectEntities == null) {
-    baseEntities = [];
-  } else {
-    baseEntities = Object.values(projectModel.baseProjectEntities);
-  }
-
-  return [...projectEntities, ...baseEntities];
+export function getAllEntities(projectModel: ProjectModel): Entity[] {
+  const baseEntities: Entity[] = projectModel.baseProjectEntities || [];
+  return [...projectModel.entities, ...baseEntities];
 }
 
 export function findView(projectModel: ProjectModel, view: ViewInfo) {
@@ -117,9 +87,7 @@ export function isBaseProjectEntity(entity: Entity, projectModel: ProjectModel) 
 
   if (!projectModel.baseProjectEntities) return false;
 
-  const baseProjectEntities = Array.isArray(projectModel.baseProjectEntities)
-    ? projectModel.baseProjectEntities
-    : Object.values(projectModel.baseProjectEntities);
+  const baseProjectEntities = projectModel.baseProjectEntities;
 
   if (baseProjectEntities.find(bpe => bpe.name === entity.name)){
     return true;

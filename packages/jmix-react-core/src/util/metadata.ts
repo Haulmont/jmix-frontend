@@ -1,4 +1,5 @@
-import {AttributeType, EntityMessages, EnumInfo, MetaClassInfo, MetaPropertyInfo} from "@haulmont/jmix-rest";
+import {EntityMessages} from "@haulmont/jmix-rest";
+import {AttributeType, EnumInfo, MetaClassInfo, MetaPropertyInfo} from '../app/MetadataProvider'
 
 export function getPropertyInfo(metadata: MetaClassInfo[], entityName: string, propertyName: string): MetaPropertyInfo | null {
     const metaClass = metadata.find(mci => mci.entityName === entityName);

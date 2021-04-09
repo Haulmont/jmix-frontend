@@ -1,7 +1,9 @@
 import {JmixRestConnection, PropertyType} from "@haulmont/jmix-rest";
-import * as React from "react";
+import React from "react";
 import {MainStore} from "./MainStore";
 import {Provider} from "mobx-react";
+import { MetadataProvider } from "./MetadataProvider";
+import { normalizeMetadata, ProjectModelMetadata } from "../util/normalizeMetadata";
 
 let jmixAppContext: React.Context<JmixAppContextValue>;
 let jmixAppConfig: JmixAppConfig | undefined;
@@ -72,6 +74,7 @@ export interface JmixAppConfig {
 }
 
 export interface JmixAppProviderProps {
+  metadata: ProjectModelMetadata,
   /**
    * REST API facade
    */
@@ -91,14 +94,13 @@ export interface JmixAppProviderProps {
   config?: JmixAppConfig;
 }
 
-export const JmixAppProvider: React.FC<JmixAppProviderProps> = (
-  {
-    jmixREST,
-    children,
-    retrieveRestApiToken = () => Promise.resolve(undefined),
-    config
-  }
-) => {
+export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
+  jmixREST,
+  children,
+  retrieveRestApiToken = () => Promise.resolve(undefined),
+  config,
+  metadata,
+}) => {
   const JmixRestConnectionContext = getContext();
   return (
     <JmixRestConnectionContext.Consumer>
@@ -138,9 +140,11 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = (
         }
         return (
           <JmixRestConnectionContext.Provider value={context}>
-            <Provider mainStore={mainStore}>
-              {children}
-            </Provider>
+            <MetadataProvider metadata={normalizeMetadata(metadata)}>
+              <Provider mainStore={mainStore}>
+                {children}
+              </Provider>
+            </MetadataProvider>
           </JmixRestConnectionContext.Provider>
         );
       }}

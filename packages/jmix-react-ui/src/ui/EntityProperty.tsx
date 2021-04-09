@@ -1,12 +1,13 @@
 import * as React from "react";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
-import {MetaPropertyInfo} from '@haulmont/jmix-rest';
 import {
   getEnumCaption,
   getPropertyInfo,
+  useMetadata,
   injectMainStore,
-  MainStoreInjected
+  MainStoreInjected,
+  MetaPropertyInfo
 } from "@haulmont/jmix-react-core";
 import {toDisplayValue} from '../util/formatting';
 
@@ -37,6 +38,8 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
     mainStore,
   } = props;
 
+  const metadata = useMetadata()
+
   if (hideIfEmpty && value == null) {
     return null;
   }
@@ -45,7 +48,7 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
   }
 
   // store not ready yet
-  if (!mainStore || !mainStore.messages || !mainStore.metadata || !mainStore.enums) {
+  if (!mainStore || !mainStore.messages) {
     return null;
   }
 
@@ -53,7 +56,7 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
   const label: string = mainStore.messages[propertyFullName];
 
   const propertyInfo: MetaPropertyInfo | null = getPropertyInfo(
-    mainStore.metadata,
+    metadata.entities,
     entityName,
     propertyName);
 
@@ -62,7 +65,7 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
   }
 
   const displayValue = propertyInfo.attributeType === 'ENUM'
-    ? getEnumCaption(value, propertyInfo, mainStore.enums)
+    ? getEnumCaption(value, propertyInfo, metadata.enums)
     : toDisplayValue(toJS(value), propertyInfo);
 
   return label != null
