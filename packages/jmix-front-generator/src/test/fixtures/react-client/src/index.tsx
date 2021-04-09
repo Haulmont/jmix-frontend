@@ -1,6 +1,9 @@
 import * as React from "react";
 import * as ReactDOM from "react-dom";
 import App from "./app/App";
+import { ComponentPreviews } from "./dev/previews";
+import { useDevLogin } from "./dev/hooks";
+import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
 import { JmixAppProvider } from "@haulmont/jmix-react-core";
 import { I18nProvider } from "@haulmont/jmix-react-ui";
@@ -31,7 +34,12 @@ ReactDOM.render(
       antdLocaleMapping={antdLocaleMapping}
     >
       <HashRouter>
-        <Route component={App} />
+        <DevSupport
+          ComponentPreviews={<Route component={ComponentPreviews} />}
+          useInitialHook={useDevLogin}
+        >
+          <Route component={App} />
+        </DevSupport>
       </HashRouter>
     </I18nProvider>
   </JmixAppProvider>,
