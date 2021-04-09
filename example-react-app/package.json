@@ -19,7 +19,7 @@
     "react-router-dom": "^5.2.0"
   },
   "scripts": {
-    "start": "cross-env REACT_APP_IDE_DEVMODE=true react-scripts start",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
