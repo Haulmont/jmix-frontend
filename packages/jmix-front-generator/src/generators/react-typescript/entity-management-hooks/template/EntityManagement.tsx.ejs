@@ -7,12 +7,12 @@ import {PaginationConfig} from "antd/es/pagination";
 import {action, observable, makeObservable} from "mobx";
 import {addPagingParams, createPagingConfig, defaultPagingConfig} from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{entityId?: string}>;
+type Props = Partial<RouteComponentProps<{entityId?: string}>>;
 
 class <%= className %>Component extends React.Component<Props> {
   static PATH = '/<%= nameLiteral %>';
   static NEW_SUBPATH = 'new';
-
+  
   paginationConfig: PaginationConfig = {...defaultPagingConfig};
 
   constructor(props: Props) {
@@ -26,11 +26,11 @@ class <%= className %>Component extends React.Component<Props> {
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
+    this.paginationConfig = createPagingConfig(this.props?.location?.search ?? "");
   }
 
   render() {
-    const {entityId} = this.props.match.params;
+    const entityId = this.props?.match?.params?.entityId;
     return (
       entityId
           ? < <%= editComponentClass %> entityId={entityId}/>
@@ -46,9 +46,11 @@ class <%= className %>Component extends React.Component<Props> {
   }
 
   onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(addPagingParams('<%= nameLiteral %>', current, pageSize));
+    this.props?.history?.push(addPagingParams('<%= nameLiteral %>', current, pageSize));
     this.paginationConfig = {...this.paginationConfig, current, pageSize};
   };
 }
 
-export const <%= className %> = observer(<%= className %>Component);
+export const <%= className %> = observer(
+  <%= className %>Component
+);

@@ -11,12 +11,20 @@ import {writeComponentI18nMessages} from "../../../building-blocks/stages/writin
 import * as entityManagementEn from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-en.json";
 import * as entityManagementFr from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-fr.json";
 import * as entityManagementRu from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-ru.json";
+import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
+
 
 export const write: WriteStage<Options, TemplateModel> = async (
   projectModel, templateModel, gen, options
 ) => {
   const {dirShift} = options;
-  const {className, nameLiteral} = templateModel;
+  const {
+    className, 
+    nameLiteral,
+    editComponentClass,
+    listComponentClass,
+    listType
+  } = templateModel;
 
   const extension = '.tsx.ejs';
 
@@ -34,5 +42,19 @@ export const write: WriteStage<Options, TemplateModel> = async (
       ru: entityManagementRu
     }
   );
+
   addMenuItem(gen, dirShift, className, nameLiteral);
+  addComponentPreviews(gen, dirShift, editComponentClass, editComponentClass, true, {entityId: 'new'});
+  addComponentPreviews(gen, dirShift, listComponentClass, listComponentClass, true, generateMockProps(listType));
 };
+
+function generateMockProps(listType: string): any {
+  if(listType === "table") {
+    return null;
+  }
+
+  return {
+    paginationConfig: {},
+    onPagingChange: () => {}
+  }
+}
