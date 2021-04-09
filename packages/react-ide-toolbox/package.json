@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/react-ide-toolbox",
-  "version": "0.3.0",
+  "version": "0.1.0-beta.1",
   "description": "React IDE toolbox",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,8 +9,6 @@
     "dist/"
   ],
   "peerDependencies": {
-    "mobx": "^6.1.8",
-    "mobx-react": "^7.1.0",
     "react": "^17.0.1"
   },
   "devDependencies": {
@@ -42,7 +40,7 @@
     "typescript": "~4.1.3"
   },
   "scripts": {
-    "compile": "npm run clean && rollup -c",
+    "compile": "npm run clean && tsc && rollup -c",
     "clean": "rimraf dist",
     "test": "jest",
     "coverage": "npm test -- --coverage",

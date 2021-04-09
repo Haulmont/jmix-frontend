@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "rootDir": "src",
+    "outDir": "dist-transpiled",
     "declaration": true,
     "declarationDir": "dist",
     "module": "esnext",
