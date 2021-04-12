@@ -1,4 +1,4 @@
-
+import { menuItems } from "@haulmont/jmix-react-ui";
 // Code below demonstrates how we can create SubMenu section
 // Remove '/*' '*/' comments and restart app to get this block in menu
 
