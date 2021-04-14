@@ -1,6 +1,6 @@
-import {createService, generateServices} from "../../../../generators/sdk/services/services-generation";
+import {createService, generateServices} from "../../../../building-blocks/stages/writing/pieces/sdk/services/services-generation";
 import {renderTSNodes} from "../../../../common/ts-helpers";
-import {collectMethods} from "../../../../generators/sdk/services/method-params-type";
+import {collectMethods} from "../../../../building-blocks/stages/writing/pieces/sdk/services/method-params-type";
 import {RestService} from "../../../../common/model/cuba-model";
 import * as assert from "assert";
 import {assertContent, modelCtx} from "../../../test-commons";

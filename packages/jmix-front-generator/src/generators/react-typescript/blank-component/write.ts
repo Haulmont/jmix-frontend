@@ -4,6 +4,7 @@ import {addMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {Options} from "./options";
 import {TemplateModel} from "./template-model";
+import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
 
 export const write: WriteStage<Options, TemplateModel> = async (
     projectModel, templateModel, gen, options
@@ -22,6 +23,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     );
 
     addMenuItem(gen, dirShift, className, nameLiteral);
+    addComponentPreviews(gen, dirShift, className, nameLiteral);
 }
 
 function writeBlankComponent<M extends {className: string}>(

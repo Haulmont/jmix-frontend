@@ -3,7 +3,7 @@ import {generate} from "../../../init";
 import * as fs from "fs";
 import {promisify} from "util";
 import * as path from "path";
-import {SdkAllGenerator, SdkModelGenerator} from "../../../generators/sdk/sdk-generator";
+import {SdkAllGenerator} from "../../../generators/sdk/all"
 import * as YeomanEnvironment from "yeoman-environment";
 import {expect} from "chai";
 import {ERR_STUDIO_NOT_CONNECTED} from "../../../common/studio/studio-integration";
@@ -55,17 +55,27 @@ describe('sdk generator test', () => {
     //TODO
   });
 
-  it('should fail writing if no model provided', (done) => {
+  it('should fail generate if model file does not exist', (done) => {
+    const notExistingModelPath = 'not/existing/model/path.json';
+    const absoluteModelPath = path.join(SDK_ALL_DIR, notExistingModelPath)
+    const gerOptions = {
+      model: notExistingModelPath,
+      dest: SDK_ALL_DIR,
+      debug: true
+    }
 
-    const Gen = class extends SdkModelGenerator {
+    const Gen = class extends SdkAllGenerator {
+      constructor(){
+        super('', gerOptions);
+      }
       // noinspection JSUnusedGlobalSymbols
       testing() {
-        this.writing()
+        this.generate();
       }
     };
 
     runGenerator(Gen, e => {
-      expect(e.message).eq('Skip sdk generation - no project model provided');
+      expect(e.message).eq('Specified model file does not exist ' + absoluteModelPath);
       done();
     });
   });
@@ -75,7 +85,7 @@ describe('sdk generator test', () => {
     const Gen = class extends SdkAllGenerator {
       // noinspection JSUnusedGlobalSymbols
       testing() {
-        this.prompting();
+        this.generate();
       }
     };
 

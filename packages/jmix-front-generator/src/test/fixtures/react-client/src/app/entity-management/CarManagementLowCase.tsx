@@ -11,7 +11,7 @@ import {
   defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 
-type Props = RouteComponentProps<{ entityId?: string }>;
+type Props = Partial<RouteComponentProps<{ entityId?: string }>>;
 
 class CarManagementLowCaseComponent extends React.Component<Props> {
   static PATH = "/carManagementLowCase";
@@ -30,11 +30,13 @@ class CarManagementLowCaseComponent extends React.Component<Props> {
 
   componentDidMount(): void {
     // to disable paging config pass 'true' as disabled param in function below
-    this.paginationConfig = createPagingConfig(this.props.location.search);
+    this.paginationConfig = createPagingConfig(
+      this.props?.location?.search ?? ""
+    );
   }
 
   render() {
-    const { entityId } = this.props.match.params;
+    const entityId = this.props?.match?.params?.entityId;
     return entityId ? (
       <CarEditLowCase entityId={entityId} />
     ) : (
@@ -43,7 +45,7 @@ class CarManagementLowCaseComponent extends React.Component<Props> {
   }
 
   onPagingChange = (current: number, pageSize: number) => {
-    this.props.history.push(
+    this.props?.history?.push(
       addPagingParams("carManagementLowCase", current, pageSize)
     );
     this.paginationConfig = { ...this.paginationConfig, current, pageSize };

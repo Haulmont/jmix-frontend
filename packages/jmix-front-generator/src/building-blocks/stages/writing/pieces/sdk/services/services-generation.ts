@@ -1,4 +1,4 @@
-import {RestService} from "../../../common/model/cuba-model";
+import {RestService} from "../../../../../../common/model/cuba-model";
 import * as ts from "typescript";
 import {
   ArrowFunction,
@@ -9,7 +9,7 @@ import {
   TypeAliasDeclaration, TypeNode,
   VariableStatement
 } from "typescript";
-import {renderTSNodes} from "../../../common/ts-helpers";
+import {renderTSNodes} from "../../../../../../common/ts-helpers";
 import {collectMethods, createMethodParamsType, MethodWithOverloads} from "./method-params-type";
 import {createIncludes, importDeclaration, ImportInfo} from "../import-utils";
 import {
@@ -18,8 +18,8 @@ import {
   CUBA_APP_TYPE,
   FETCH_OPTIONS_NAME,
   FETCH_OPTIONS_TYPE
-} from "../../../common/constants";
-import {exportModifier, idn, param, str} from "../../../common/ts-shorthands";
+} from "../../../../../../common/constants";
+import {exportModifier, idn, param, str} from "../../../../../../common/ts-shorthands";
 import {ModelContext} from "../model/model-utils";
 
 const REST_SERVICES_VAR_NAME = 'restServices';

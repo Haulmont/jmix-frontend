@@ -1,11 +1,9 @@
-import * as path from "path";
 import {ProjectInfo, ProjectModel} from '../../../common/model/cuba-model';
 import {Answers} from "./answers";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {readProjectModel} from '../../../building-blocks/stages/project-model/defaultGetProjectModel';
 import {Options} from "./options";
 import {ownVersion} from '../../../cli';
-import {exportProjectModel, normalizeSecret} from '../../../common/studio/studio-integration';
+import {normalizeSecret} from '../../../common/studio/studio-integration';
 import {throwError} from '../../../common/utils';
 export interface TemplateModel {
   title: string;
@@ -20,19 +18,8 @@ export async function deriveTemplateModel(
 ): Promise<TemplateModel> {
   if (projectModel != null) {
     return createModel(projectModel.project);
-  } else if (answers != null) {
-    const modelFilePath = path.join(process.cwd(), 'projectModel.json');
-
-    await exportProjectModel(answers.projectInfo.locationHash, modelFilePath);
-
-    const cubaProjectModel = readProjectModel(modelFilePath);
-    const model = createModel(cubaProjectModel.project);
-
-    return {
-      ...model,
-      modelFilePath,
-    } as TemplateModel
   }
+
   throwError(gen, 'Failed to derive template model');
 }
 

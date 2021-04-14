@@ -1,0 +1,99 @@
+import React, {useEffect} from "react";
+import {observer, useLocalObservable} from "mobx-react";
+import { Row, Col } from 'antd';
+import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entity.name %>";
+import {Card} from "antd";
+import {useCollection} from "@haulmont/jmix-react-core";
+import {
+addPagingParams, createPagingConfig,
+defaultGridPagingConfig,
+EntityProperty,
+Paging,
+setPagination,
+Spinner
+} from "@haulmont/jmix-react-ui";
+import {getStringId} from "@haulmont/jmix-rest";
+import {useLocation, useHistory} from "react-router";
+
+const FIELDS = [
+  <% attributes.forEach(p => { -%>
+    '<%= p.name %>',
+  <% }) %>
+];
+
+export const <%= className %> = observer(() => {
+  const location = useLocation();
+  const history = useHistory();
+
+  const pagination = useLocalObservable(() => ({
+    // to disable paging config pass 'true' as disabled param in function below
+    config: createPagingConfig(
+      location.search,
+      false,
+      defaultGridPagingConfig
+    ),
+    onChange(current: number, pageSize: number) {
+      history.push(addPagingParams('<%= nameLiteral %>', current, pageSize));
+      this.config = { ...this.config, current, pageSize };
+    }
+  }));
+
+  const {current: dataCollection} = useCollection<<%= entity.className %>>(<%= entity.className %>.NAME, {
+    view: '<%=view.name%>',
+    <% if (entity.updatable == true) { -%>
+      sort: '-updateTs',
+    <% } -%>
+    loadImmediately: false,
+    <% if (locals.stringIdName != null) { -%>
+      stringIdName: '<%= stringIdName %>'
+    <% } -%>
+  });
+
+  const { status, items, count } = dataCollection;
+  
+  useEffect(
+    () => setPagination(pagination.config, dataCollection, true),
+    [dataCollection, pagination.config]
+  );
+
+  if (status === "LOADING") return <Spinner />;
+
+  return (
+    <div className='narrow-layout'>
+      <Row gutter={[12, 12]}>
+        {items.map(e =>
+          <Col 
+            key={e.id ? getStringId(e.id) : undefined}  
+            xl={<%= 24 / cardsInRow %>}
+            sm={24}
+          >
+            <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
+            <Card 
+              title={e._instanceName}
+              style={{height: '100%'}}
+            >
+              {FIELDS.map(p =>
+                <EntityProperty
+                  entityName={<%= entity.className %>.NAME}
+                  propertyName={p}
+                  value={e[p]}
+                  key={p}
+                />
+              )}
+            </Card>
+          </Col>
+        )}
+      </Row>
+
+      {!pagination.config.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={pagination.config}
+            onPagingChange={pagination.onChange}
+            total={count ?? undefined}
+          />
+        </div>
+      )}
+    </div>
+  )
+});

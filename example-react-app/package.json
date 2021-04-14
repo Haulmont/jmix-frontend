@@ -6,7 +6,8 @@
     "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-0.9.0-beta.1.tgz",
     "@haulmont/jmix-react-ui": "file:../packages/jmix-react-ui/haulmont-jmix-react-ui-0.9.0-beta.1.tgz",
     "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-0.9.0-beta.1.tgz",
-    "@haulmont/react-scripts": "4.0.2-alpha.2",
+    "@haulmont/react-ide-toolbox": "file:../packages/react-ide-toolbox/haulmont-react-ide-toolbox-0.1.0-beta.1.tgz",
+    "@haulmont/react-scripts": "4.0.2-alpha.3",
     "antd": "^4.12.3",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
@@ -32,7 +33,7 @@
     "@types/react-dom": "^17.0.1",
     "@types/react-input-mask": "^2.0.5",
     "@types/react-router-dom": "^5.1.5",
-    "typescript": "~4.1.3"
+    "typescript": "~4.2.4"
   },
   "eslintConfig": {
     "extends": [

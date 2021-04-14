@@ -5,12 +5,14 @@ packClientLibs(
         '@haulmont/jmix-front-generator',
         '@haulmont/jmix-rest',
         '@haulmont/jmix-react-core',
-        '@haulmont/jmix-react-ui'
+        '@haulmont/jmix-react-ui',
+        '@haulmont/react-ide-toolbox'
     ],
     [
         '@haulmont/jmix-rest',
         '@haulmont/jmix-react-core',
-        '@haulmont/jmix-react-ui'
+        '@haulmont/jmix-react-ui',
+        '@haulmont/react-ide-toolbox'
     ]
 );
 

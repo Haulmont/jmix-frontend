@@ -1,4 +1,4 @@
-import {RestQuery} from "../../../common/model/cuba-model";
+import {RestQuery} from "../../../../../../common/model/cuba-model";
 import {collectMethods, createMethodParamsType, MethodWithOverloads} from "./method-params-type";
 import * as ts from "typescript";
 import {ImportDeclaration, PropertyAssignment, TypeAliasDeclaration, TypeNode} from "typescript";
@@ -11,9 +11,9 @@ import {
   ENTITIES_WITH_COUNT_TYPE,
   FETCH_OPTIONS_TYPE,
   SERIALIZED_ENTITY_TYPE
-} from "../../../common/constants";
-import {renderTSNodes} from "../../../common/ts-helpers";
-import {exportModifier} from "../../../common/ts-shorthands";
+} from "../../../../../../common/constants";
+import {renderTSNodes} from "../../../../../../common/ts-helpers";
+import {exportModifier} from "../../../../../../common/ts-shorthands";
 import {findEntityByName, ModelContext} from "../model/model-utils";
 import {ProjectEntityInfo} from "../model/entities-generation";
 

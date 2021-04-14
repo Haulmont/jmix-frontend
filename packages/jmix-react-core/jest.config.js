@@ -15,5 +15,9 @@ module.exports = {
   },
   "collectCoverageFrom": [
     "src/**/*.{ts,tsx}",
+  ],
+  "coveragePathIgnorePatterns": [
+    "src/index.ts", // This file only contains exports
+    "src/test-doubles/*"
   ]
 };

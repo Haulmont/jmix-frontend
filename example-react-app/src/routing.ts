@@ -27,11 +27,13 @@ import "./app/hooks-poc/HooksPOCManagement";
 import "./app/datatypes-test3/DatatypesManagement3";
 import "./app/datatypes-test2/DatatypesManagement2";
 import "./app/datatypes-test1/DatatypesManagement1";
+import "./app/car-cards-grid/CarCardsGrid";
 import "./app/entity-management3/CarManagement3";
 import "./app/entity-management2/CarManagement2";
 import "./app/entity-management/CarManagement";
 import "./app/entity-cards/FavoriteCars";
 import "./app/blank-components/TestBlankComponent";
+import { menuItems } from "@haulmont/jmix-react-ui";
 // Code below demonstrates how we can create SubMenu section
 // Remove '/*' '*/' comments and restart app to get this block in menu
 

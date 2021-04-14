@@ -1,8 +1,8 @@
 import {renderTSNodes} from "../../../../common/ts-helpers";
 import {RestQuery} from "../../../../common/model/cuba-model";
 import {assertContent, createTestProjectEntityInfo, modelCtx} from "../../../test-commons";
-import {createQuery, generateQueries} from "../../../../generators/sdk/services/queries-generation";
-import {cubaAppCallFunc} from "../../../../generators/sdk/services/services-generation";
+import {createQuery, generateQueries} from "../../../../building-blocks/stages/writing/pieces/sdk/services/queries-generation";
+import {cubaAppCallFunc} from "../../../../building-blocks/stages/writing/pieces/sdk/services/services-generation";
 import {TypeNode} from "typescript";
 import * as ts from "typescript";
 

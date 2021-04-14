@@ -1,11 +1,10 @@
-import * as path from "path";
 import {WriteStage} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Options} from "./options";
 import {TemplateModel} from "./template-model";
 import {SUPPORTED_CLIENT_LOCALES} from '../common/i18n';
-import {SdkAllGenerator} from '../../sdk/sdk-generator';
-import {throwError} from '../../../common/utils';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
+import {ProjectModel} from '../../../common/model/cuba-model';
 
 export const write: WriteStage<Options, TemplateModel> = async (
   projectModel, templateModel, gen, options
@@ -56,30 +55,15 @@ export const write: WriteStage<Options, TemplateModel> = async (
   gen.fs.copy(gen.templatePath('_editorconfig'), gen.destinationPath('.editorconfig'));
 
   const modelFilePath = templateModel.modelFilePath ?? options.model;
-  generateSdk(gen, require.resolve('../../sdk/sdk-generator'), modelFilePath);
+  generateSdk(gen, projectModel);
 }
 
 export function generateSdk(
   gen: YeomanGenerator,
-  sdkGeneratorPath: string,
-  modelFilePath?: string
+  projectModel: ProjectModel
 ): void {
-  if (modelFilePath == null) {
-    throwError(gen, 'Failed to generate SDK: unable to find model file path');
-  }
 
   const sdkDest = 'src/jmix';
   gen.log(`Generate SDK model and services to ${sdkDest}`);
-
-  const sdkOpts = {
-    model: modelFilePath,
-    dest: sdkDest
-  };
-
-  const generatorOpts = {
-    Generator: SdkAllGenerator,
-    path: sdkGeneratorPath
-  };
-
-  gen.composeWith(generatorOpts as any, sdkOpts);
+  writeSdkAll(gen, projectModel, sdkDest);
 }

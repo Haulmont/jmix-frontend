@@ -80,7 +80,7 @@ function formatValue(value: any): string {
   }
   if (valType === "object") {
     if (Object.prototype.hasOwnProperty.call(value, '_instanceName')) {
-      return value._instanceName!;
+      return value._instanceName ?? value.id;
     }
     if (Array.isArray(value)) {
       const items = value.map(formatValue);

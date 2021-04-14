@@ -18,6 +18,7 @@ const weirdStringIdManagementCardsConfig = require('./screens/weird-string-id-ma
 const weirdStringIdManagementListConfig = require('./screens/weird-string-id-management-list.json');
 const boringStringIdManagementTableConfig = require('./screens/boring-string-id-management-table.json');
 const trickyIdConfig = require('./screens/tricky-id-list.json');
+const carCardsGridConfig = require('./screens/car-cards-grid.json');
 const hooksPOC = require('./screens/hooks-poc.json');
 const dirShift = '../../';
 
@@ -57,6 +58,12 @@ gen(
         dirShift,
         dest: 'src/app/entity-management3',
         answers: answers.entityManagement3
+      },
+      {
+        command: 'react-typescript:entity-cards-grid',
+        dirShift,
+        dest: 'src/app/car-cards-grid',
+        answers: carCardsGridConfig
       },
       // All datatypes
       {

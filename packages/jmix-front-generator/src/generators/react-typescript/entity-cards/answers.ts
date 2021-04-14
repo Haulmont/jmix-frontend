@@ -38,27 +38,25 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
   }
 ];
 
+const questionsToBeAskedInCLI = [
+  ...entityCardsQuestions
+];
 
 export const allQuestions: StudioTemplateProperty[] = [
-  ...entityCardsQuestions
+  ...questionsToBeAskedInCLI
 ];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
-): Promise<Answers> => {
-  
-  const initialQuestions = [
-    ...entityCardsQuestions
-  ];
-  
-  let answers: Answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
+): Promise<Answers> => {  
+  let answers: Answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
   let stringIdAnswers: StringIdAnswers = isStringIdEntity(projectModel, answers.entity) 
-  ? await askStringIdQuestions(
-      answers.entity,
-      projectModel,
-      gen
-    )
-  : {}
+    ? await askStringIdQuestions(
+        answers.entity,
+        projectModel,
+        gen
+      )
+    : {}
 
   return {...answers, ...stringIdAnswers};
 }
