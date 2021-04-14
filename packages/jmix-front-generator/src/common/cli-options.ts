@@ -75,7 +75,7 @@ export interface PolymerElementOptions extends CommonGenerationOptions {
 /**
  * Same as PolymerElementOptions but with a neutral name. To be used in non-Polymer generators.
  *
- * @alpha
+ * @deprecated use ComponentOptions from building-blocks
  */
 export interface ComponentOptions extends CommonGenerationOptions {
   dirShift?: string;

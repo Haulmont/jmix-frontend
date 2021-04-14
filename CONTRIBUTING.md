@@ -129,6 +129,26 @@ During the file processing the suffix will be removed.
 It means that files ```EntityManagementEditor.tsx.ejs``` and ```EntityManagementEditor.tsx``` both will be processed to file
 ```EntityManagementEditor.tsx``` and the only difference is how they will be highlighted in IDE. 
 
+#### Template Utilities
+
+You can add `templateUtilities` to your template model in order to use utility functions (case-conversion, etc.) inside your templates. If you do so, your template model type should have a union with `UtilTemplateModel`.
+
+```
+export type TemplateModel = CommonTemplateModel & UtilTemplateModel & {
+  // ...
+}
+
+export const deriveTemplateModel = (
+  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
+): TemplateModel => {
+  // ...
+  return {
+    // ...
+    ...templateUtilities
+  };
+}
+```
+
 <a name="react-client-testing"/>
 
 ### Coding Conventions

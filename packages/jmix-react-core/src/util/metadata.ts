@@ -208,6 +208,23 @@ export function isOneToManyComposition(propertyInfo: MetaPropertyInfo): boolean 
   return isComposition(propertyInfo) && isOneToManyRelation(propertyInfo);
 }
 
+// Deprecated as "WithSomething" implies that "something" is mandatory rather than optional.
+// Also, "withSomething" is a standard convention for HOCs.
+// Use "HasSomething" or "MayHaveSomething" instead.
+/**
+ * @deprecated use {@link MayHaveId}
+ */
 export type WithId = {id?: string | object};
-
+/**
+ * @deprecated use {@link MayHaveName}
+ */
 export type WithName = {name?: string};
+
+export type HasId = {id: string | object};
+export type MayHaveId = {id?: string | object};
+
+export type HasInstanceName = {_instanceName: string};
+export type MayHaveInstanceName = {_instanceName?: string};
+
+export type HasName = {name: string};
+export type MayHaveName = {name?: string};

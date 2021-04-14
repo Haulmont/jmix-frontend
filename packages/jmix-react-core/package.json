@@ -14,11 +14,14 @@
     "path-to-regexp": "^3.1.0"
   },
   "peerDependencies": {
+    "@apollo/client": "^3.3.6",
+    "graphql": "^15.4.0",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "react": "^17.0.1"
   },
   "devDependencies": {
+    "@apollo/client": "^3.3.6",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@types/isomorphic-fetch": "0.0.35",
@@ -26,6 +29,7 @@
     "@types/react": "^17.0.2",
     "@types/react-test-renderer": "^17.0.1",
     "babel-jest": "^25.1.0",
+    "graphql": "^15.4.0",
     "isomorphic-fetch": "^3.0.0",
     "jest": "^25.1.0",
     "mobx": "^6.1.8",

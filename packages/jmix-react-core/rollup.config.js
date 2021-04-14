@@ -15,7 +15,9 @@ export default {
     }
   ],
   external: [
+    '@apollo/client',
     '@haulmont/jmix-rest',
+    'graphql',
     'mobx',
     'mobx-react',
     'moment',
