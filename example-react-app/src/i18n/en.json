@@ -30,6 +30,7 @@
   "router.AssociationM2OManagement": "Association M2 OManagement",
   "router.AssociationO2MManagement": "Association O2 MManagement",
   "router.AssociationO2OManagement": "Association O2 OManagement",
+  "router.GraphQLCardsManagement": "Graph QLCards Management",
   "router.GraphQLManagement": "Graph QLManagement",
   "router.HooksPOCManagement": "Hooks POCManagement",
   "router.DatatypesManagement3": "Datatypes Management3",

@@ -3,21 +3,19 @@ import { Form, Alert, Button, Card } from "antd";
 import { useObserver } from "mobx-react";
 import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
 import { Link, Redirect } from "react-router-dom";
-import { toJS} from "mobx";
+import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
   createAntdFormValidationMessages,
-  RetryDialog
-} from "@haulmont/jmix-react-ui";
-import {
+  RetryDialog,
   Field,
   MultilineText,
   Spinner,
+  useEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
 import { Car } from "../../jmix/entities/scr$Car";
-import {useEntityEditor} from "./lib/jmix-react-ui";
 
 type Props = {
   entityId: string;
@@ -43,6 +41,7 @@ const LOAD_SCR_CAR = gql`
       maxPassengers
       price
       mileage
+      photo
     }
   }
 `;
@@ -60,8 +59,8 @@ const GraphQLEdit = (props: Props) => {
 
   const {
     loadItem,
-    loadQueryResult: {loading: queryLoading, error: queryError},
-    upsertMutationResult: {loading: upsertLoading},
+    loadQueryResult: { loading: queryLoading, error: queryError },
+    upsertMutationResult: { loading: upsertLoading },
     store,
     form,
     intl,
@@ -72,7 +71,7 @@ const GraphQLEdit = (props: Props) => {
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
     entityId,
-    queryName: 'scr_CarById',
+    queryName: "scr_CarById",
     entityName: Car.NAME,
     isNewEntity: isNewEntity(entityId)
   });
@@ -203,6 +202,14 @@ const GraphQLEdit = (props: Props) => {
           <Field
             entityName={Car.NAME}
             propertyName="technicalCertificate"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={Car.NAME}
+            propertyName="photo"
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

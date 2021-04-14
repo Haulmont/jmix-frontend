@@ -57,7 +57,7 @@ export interface JmixAppConfig {
   locale?: string;
   /**
    * Serialization formats for entity properties of temporal types.
-   * Can be used to override the default formats used to (de)serialize the data transferred by REST API.
+   * Can be used to override the default formats used to (de)serialize the data transferred by server API.
    * See @{link https://momentjs.com/docs/#/displaying/ | Moment documentation}
    * for details on available formats.
    */

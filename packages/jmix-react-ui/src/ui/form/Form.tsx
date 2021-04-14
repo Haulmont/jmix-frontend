@@ -14,7 +14,9 @@ import {
   isFileProperty, isOneToManyAssociation,
   MainStoreInjected,
   WithId,
-  loadAllAssociationOptions
+  loadAllAssociationOptions,
+  HasId,
+  MayHaveInstanceName,
 } from '@haulmont/jmix-react-core';
 import { FormItemProps, FormInstance } from 'antd/es/form';
 import {observer} from 'mobx-react';
@@ -96,11 +98,16 @@ export interface FieldProps extends MainStoreInjected {
   entityName: string;
   propertyName: string;
   /**
-   * This prop shall be supplied if the entity property has Association relation type.
    * It is a data collection containing entity instances that can be assigned to this property
    * (i.e. possible options that can be selected in a form field).
+   *
+   * @deprecated use {@link associationOptions}
    */
   optionsContainer?: DataCollectionStore<WithId>;
+  /**
+   * Contains the possible options that can be selected in a form field.
+   */
+  associationOptions?: Array<HasId & MayHaveInstanceName>;
   /**
    * This prop shall be supplied if the entity property has Composition relation type.
    * It is a view that will be used to limit the entity graph of a nested entity.
@@ -130,7 +137,7 @@ export interface FieldProps extends MainStoreInjected {
 export const Field = injectMainStore(observer((props: FieldProps) => {
 
   const {
-    entityName, propertyName, optionsContainer, mainStore, componentProps,
+    entityName, propertyName, optionsContainer, associationOptions, mainStore, componentProps,
     nestedEntityView, parentEntityInstanceId, disabled, formItemProps
   } = props;
 
@@ -142,6 +149,7 @@ export const Field = injectMainStore(observer((props: FieldProps) => {
                    propertyName={propertyName}
                    disabled={isReadOnly || disabled}
                    optionsContainer={optionsContainer}
+                   associationOptions={associationOptions}
                    nestedEntityView={nestedEntityView}
                    parentEntityInstanceId={parentEntityInstanceId}
                    {...componentProps}
@@ -187,6 +195,7 @@ export type FormFieldProps = MainStoreInjected & {
   propertyName: string;
   disabled?: boolean;
   optionsContainer?: DataCollectionStore<WithId>;
+  associationOptions?: Array<HasId & MayHaveInstanceName>;
   nestedEntityView?: string;
   parentEntityInstanceId?: string;
 } & FormFieldComponentProps;
@@ -196,7 +205,7 @@ export type FormFieldProps = MainStoreInjected & {
 export const FormField = injectMainStore(observer(React.forwardRef((props: FormFieldProps, _ref: any) => {
 
   const {
-    entityName, propertyName, optionsContainer, mainStore, nestedEntityView, parentEntityInstanceId,
+    entityName, propertyName, optionsContainer, associationOptions, mainStore, nestedEntityView, parentEntityInstanceId,
     ...rest
   } = props;
 
@@ -217,7 +226,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       return <EnumField enumClass={propertyInfo.type} allowClear={getAllowClear(propertyInfo)} {...rest as SelectProps<SelectValue> & MainStoreInjected}/>;
     case 'ASSOCIATION':
       const mode = getSelectMode(propertyInfo.cardinality);
-      return <EntitySelectField {...{mode, optionsContainer}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
+      return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
     case 'COMPOSITION':
       if (nestedEntityView) {
         const nestedEntityName = mainStore.metadata.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties

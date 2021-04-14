@@ -19,9 +19,12 @@ export default {
   ],
   external: [
     '@ant-design/icons',
+    '@apollo/client',
     '@haulmont/jmix-rest',
     '@haulmont/jmix-react-core',
     'antd',
+    'antd/es/form/Form',
+    'graphql',
     'mobx',
     'mobx-react',
     'moment',

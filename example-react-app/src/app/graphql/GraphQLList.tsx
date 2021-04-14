@@ -4,18 +4,23 @@ import { Link } from "react-router-dom";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, List } from "antd";
 import {
+  EntityInstance,
+  getFields,
+  EntityPermAccessControl,
+  toIdString
+} from "@haulmont/jmix-react-core";
+import {
   EntityProperty,
   Paging,
   Spinner,
-  RetryDialog
+  RetryDialog,
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
 import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 import { gql } from "@apollo/client";
-import {getFields, EntityInstance} from "./lib/jmix-react-core";
-import {useEntityList} from "./lib/jmix-react-ui";
 
 type Props = {
   paginationConfig: PaginationConfig;
@@ -49,6 +54,7 @@ const SCR_CAR_LIST = gql`
       maxPassengers
       price
       mileage
+      photo
     }
   }
 `;
@@ -64,7 +70,7 @@ const GraphQLList = (props: Props) => {
 
   const {
     loadItems,
-    listQueryResult: {loading, error, data},
+    listQueryResult: { loading, error, data },
     showDeletionDialog
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
@@ -87,15 +93,17 @@ const GraphQLList = (props: Props) => {
 
     return (
       <div className="narrow-layout">
-        <div style={{ marginBottom: "12px" }}>
-          <Link to={PATH + "/" + NEW_SUBPATH}>
-            <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-              <span>
-                <FormattedMessage id="common.create" />
-              </span>
-            </Button>
-          </Link>
-        </div>
+        <EntityPermAccessControl entityName={Car.NAME} operation="create">
+          <div style={{ marginBottom: "12px" }}>
+            <Link to={PATH + "/" + NEW_SUBPATH}>
+              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
+                <span>
+                  <FormattedMessage id="common.create" />
+                </span>
+              </Button>
+            </Link>
+          </div>
+        </EntityPermAccessControl>
 
         <List
           itemLayout="horizontal"
@@ -104,13 +112,23 @@ const GraphQLList = (props: Props) => {
           renderItem={(item: EntityInstance<Car>) => (
             <List.Item
               actions={[
-                <DeleteOutlined
-                  key="delete"
-                  onClick={() => showDeletionDialog(item)}
-                />,
-                <Link to={PATH + "/" + item.id} key="edit">
-                  <EditOutlined />
-                </Link>
+                <EntityPermAccessControl
+                  entityName={Car.NAME}
+                  operation="delete"
+                >
+                  <DeleteOutlined
+                    key="delete"
+                    onClick={() => showDeletionDialog(item)}
+                  />
+                </EntityPermAccessControl>,
+                <EntityPermAccessControl
+                  entityName={Car.NAME}
+                  operation="update"
+                >
+                  <Link to={PATH + "/" + toIdString(item.id)} key="edit">
+                    <EditOutlined />
+                  </Link>
+                </EntityPermAccessControl>
               ]}
             >
               <div style={{ flexGrow: 1 }}>

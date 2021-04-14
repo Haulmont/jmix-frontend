@@ -1,69 +1,23 @@
-import {PaginationConfig} from "antd/es/pagination";
 import React, {RefObject, useCallback, useEffect} from "react";
-import {message, Modal} from "antd";
-import {LazyQueryHookOptions, LazyQueryResult, MutationHookOptions, MutationResult, Reference, useLazyQuery, useMutation} from "@apollo/client";
-import {IntlShape, useIntl} from "react-intl";
-import {addIdIfExistingEntity, EntityInstance, GraphQLMutationFn, GraphQLQueryFn } from "./jmix-react-core";
-import {MainStore, useMainStore} from "@haulmont/jmix-react-core";
-import {FormInstance} from "antd/es/form";
+import {FormInstance, message} from "antd";
 import {useLocalStore} from "mobx-react";
-import {graphqlToAntForm, selectFormSuccessMessageId} from "@haulmont/jmix-react-ui";
-import {Car} from "../../../jmix/entities/scr$Car";
-import {action, IObservableArray} from "mobx";
+import {
+  DocumentNode, FetchResult,
+  LazyQueryHookOptions,
+  LazyQueryResult,
+  MutationHookOptions, MutationResult,
+  TypedDocumentNode, useLazyQuery, useMutation
+} from "@apollo/client";
+import {
+  GraphQLMutationFn, GraphQLQueryFn, addIdIfExistingEntity, HasId, MainStore, useMainStore
+} from "@haulmont/jmix-react-core";
+import {IntlShape, useIntl} from "react-intl";
 import {MetaClassInfo} from "@haulmont/jmix-rest";
-import {DocumentNode} from "graphql";
-import {TypedDocumentNode} from "@graphql-typed-document-node/core";
+import {action, IObservableArray} from "mobx";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
-
-// Contents of this file will be moved to jmix-react-ui lib
-
-export interface EntityListHookOptions<TData, TVariables> {
-  listQuery: DocumentNode | TypedDocumentNode,
-  listQueryOptions?: LazyQueryHookOptions<TData, TVariables>,
-  deleteMutation: DocumentNode | TypedDocumentNode,
-  deleteMutationOptions?: MutationHookOptions,
-  paginationConfig: PaginationConfig
-}
-
-export interface EntityListHookResult<TEntity, TData, TVariables> {
-  loadItems: GraphQLQueryFn<TVariables>,
-  listQueryResult: LazyQueryResult<TData, TVariables>,
-  deleteItem: GraphQLMutationFn<TData, TVariables>,
-  deleteMutationResult: MutationResult,
-  intl: IntlShape;
-  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
-}
-
-export function useEntityList<TEntity, TData = any, TVariables extends LimitAndOffset = LimitAndOffset>(
-  options: EntityListHookOptions<TData, TVariables>
-): EntityListHookResult<TEntity, TData, TVariables> {
-  const {
-    listQuery,
-    listQueryOptions,
-    deleteMutation,
-    deleteMutationOptions,
-    paginationConfig
-  } = options;
-
-  const intl = useIntl();
-
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TVariables>(listQuery, listQueryOptions);
-  const [deleteItem, deleteMutationResult] = useMutation(deleteMutation, deleteMutationOptions);
-
-  // Load items
-  useEffect(() => {
-    loadItems({
-      variables: toLimitAndOffset(paginationConfig) as TVariables
-    });
-  }, [paginationConfig, loadItems]);
-
-  const showDeletionDialog = useDeletionDialogCallback(intl, deleteItem);
-
-  return {
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog
-  };
-}
+import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
+import {selectFormSuccessMessageId} from "../ui/form/Form";
 
 export type EntityEditorStore = {
   updated: boolean;
@@ -83,7 +37,7 @@ export interface EntityEditorHookOptions<TData, TVariables> {
   loadQuery: DocumentNode | TypedDocumentNode;
   loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
   upsertMutation: DocumentNode | TypedDocumentNode;
-  upsertMutationOptions?: MutationHookOptions;
+  upsertMutationOptions?: MutationHookOptions<TData, TVariables>;
   entityId: string;
   isNewEntity: boolean;
   queryName: string;
@@ -103,7 +57,11 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
   metadata: IObservableArray<MetaClassInfo> | null;
 }
 
-export function useEntityEditor<TEntity, TData = any, TVariables extends HasId = HasId>(
+export function useEntityEditor<
+  TEntity,
+  TData extends Record<string, any> = Record<string, any>,
+  TVariables extends HasId = HasId
+>(
   options: EntityEditorHookOptions<TData, TVariables>
 ): EntityEditorHookResult<TEntity, TData, TVariables> {
   const {
@@ -124,7 +82,7 @@ export function useEntityEditor<TEntity, TData = any, TVariables extends HasId =
 
   const [loadItem, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
   const {loading: queryLoading, error: queryError, data} = loadQueryResult;
-  const [upsertItem, upsertMutationResult] = useMutation(upsertMutation, upsertMutationOptions);
+  const [upsertItem, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
 
   // Fetch the entity from backend
   useEffect(() => {
@@ -132,7 +90,7 @@ export function useEntityEditor<TEntity, TData = any, TVariables extends HasId =
       loadItem({
         variables: {
           id: entityId
-        } as TVariables
+        } as unknown as TVariables
       });
     }
   }, [entityId, loadItem, isNewEntity]);
@@ -147,7 +105,7 @@ export function useEntityEditor<TEntity, TData = any, TVariables extends HasId =
       mainStore.metadata != null
     ) {
       store.formRef.current.setFieldsValue(
-        graphqlToAntForm<Car>(data[queryName], entityName, mainStore.metadata)
+        graphqlToAntForm<TEntity>(data[queryName], entityName, mainStore.metadata)
       );
     }
   }, [store.formRef.current, queryLoading, queryError, data, mainStore.metadata, queryName, entityName]);
@@ -220,8 +178,7 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
               ...addIdIfExistingEntity(entityId, isNewEntity)
             }
           } as any
-        })
-          .then(action(({ errors }) => {
+        }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
             if (errors == null || errors.length === 0) {
               const successMessageId = selectFormSuccessMessageId(
                 isNewEntity ? "create" : "edit"
@@ -233,85 +190,14 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
               message.error(intl.formatMessage({ id: "common.requestFailed" }));
             }
           }))
-          .catch(e => {
+          .catch((e: Error) => {
             console.error(e);
             message.error(intl.formatMessage({ id: "common.requestFailed" }));
           });
       }
     },
-    [entityId, form, mainStore.metadata, store.updated, upsertItem, intl]
+    [entityId, isNewEntity, store, form, mainStore.metadata, store.updated, upsertItem, intl]
   );
 
   return {handleFinish, handleFinishFailed};
-};
-
-// TODO Deprecate WithId and replace with HasId/MayHaveId
-export type HasId = {id: string};
-
-export function useDeletionDialogCallback<TEntity, TData = any, TVariables extends HasId = HasId>(
-  intl: IntlShape,
-  deleteMutation: GraphQLMutationFn<TData, TVariables>
-) {
-  return useCallback(
-    (e: EntityInstance<TEntity>) => {
-      Modal.confirm({
-        title: intl.formatMessage(
-          { id: "management.browser.delete.areYouSure" },
-          { instanceName: (e as any)._instanceName }
-        ),
-        okText: intl.formatMessage({
-          id: "management.browser.delete.ok"
-        }),
-        cancelText: intl.formatMessage({ id: "common.cancel" }),
-        onOk: () => {
-          if (e.id != null) {
-            // noinspection JSIgnoredPromiseFromCall
-            deleteMutation({
-              variables: { id: e.id } as TVariables,
-              update(cache) {
-                // Remove deleted item from cache
-                cache.modify({
-                  fields: {
-                    scr_CarList(existingRefs, { readField }) {
-                      return existingRefs.filter(
-                        (ref: Reference) => e.id !== readField("id", ref)
-                      );
-                    }
-                  }
-                });
-              }
-            });
-          }
-        }
-      });
-    },
-    [intl, deleteMutation]
-  );
-}
-
-export type LimitAndOffset = { limit: number | undefined; offset: number | undefined };
-
-export function toLimitAndOffset(
-  paginationConfig: PaginationConfig
-): LimitAndOffset {
-  const { disabled, current, pageSize } = paginationConfig;
-
-  if (disabled) {
-    return {
-      limit: undefined,
-      offset: undefined
-    };
-  }
-
-  if (pageSize != null && current != null) {
-    return {
-      limit: pageSize,
-      offset: pageSize * (current - 1)
-    };
-  }
-
-  return {
-    limit: undefined,
-    offset: undefined
-  };
 }

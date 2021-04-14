@@ -2,7 +2,7 @@ import { EntityAttrPermissionValue } from "@haulmont/jmix-rest";
 import * as React from "react";
 import {AccessControl} from './AccessControl';
 
-interface AttrPermAccessControlProps {
+export interface AttrPermAccessControlProps {
   entityName: string;
   attrName: string;
   /**

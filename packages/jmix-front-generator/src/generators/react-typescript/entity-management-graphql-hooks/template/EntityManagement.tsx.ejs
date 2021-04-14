@@ -1,0 +1,46 @@
+import React, {useCallback} from "react";
+import {RouteComponentProps} from "react-router";
+import {useLocalStore, useObserver} from "mobx-react";
+import <%= editComponentClass %> from "./<%= editComponentClass %>";
+import <%= listComponentClass %> from "./<%= listComponentClass %>";
+import {action} from "mobx";
+import {PaginationConfig} from "antd/es/pagination";
+import {addPagingParams, createPagingConfig} from "@haulmont/jmix-react-ui";
+
+type Props = Partial<RouteComponentProps<{entityId?: string}>>;
+
+type <%= className %>LocalStore = {
+  paginationConfig: PaginationConfig;
+};
+
+export const PATH = '/<%= nameLiteral %>';
+export const NEW_SUBPATH = 'new';
+
+export const <%= className %> = (props: Props) => {
+  const { entityId } = props.match?.params ?? {};
+
+  const store: <%= className %>LocalStore = useLocalStore(() => ({
+    paginationConfig: createPagingConfig(props.location?.search ?? "")
+  }));
+
+  const onPagingChange = useCallback(
+    action((current: number, pageSize: number) => {
+      props.history?.push(
+        addPagingParams("<%= nameLiteral %>", current, pageSize)
+      );
+      store.paginationConfig = { ...store.paginationConfig, current, pageSize };
+    }),
+    []
+  );
+
+  return useObserver(() => {
+    return entityId != null ? (
+      <<%= editComponentClass %> entityId={entityId} />
+    ) : (
+      <<%= listComponentClass %>
+        onPagingChange={onPagingChange}
+        paginationConfig={store.paginationConfig}
+      />
+    );
+  });
+};

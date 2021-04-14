@@ -2,7 +2,7 @@ import { EntityOperationType } from "@haulmont/jmix-rest";
 import {AccessControl} from './AccessControl';
 import * as React from "react";
 
-interface EntityPermAccessControlProps {
+export interface EntityPermAccessControlProps {
   entityName: string;
   /**
    * Required operation permission. Defaults to `read`.
@@ -11,6 +11,7 @@ interface EntityPermAccessControlProps {
   /**
    * What should happen when the requirement is NOT met. `hide` means that access-controlled components
    * won't be rendered, `disable` means that the components will be rendered as disabled / non-modifiable.
+   * Defaults to `hide`.
    */
   mode?: 'hide' | 'disable';
   /**

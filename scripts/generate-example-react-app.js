@@ -21,6 +21,9 @@ const trickyIdConfig = require('./screens/tricky-id-list.json');
 const carCardsGridConfig = require('./screens/car-cards-grid.json');
 const hooksPOC = require('./screens/hooks-poc.json');
 const structureConfig = require('./screens/structure.json');
+const graphQLListConfig = require('./screens/graphql-list.json');
+const graphQLCardsConfig = require('./screens/graphql-cards.json');
+// const graphQLTableConfig = require('./screens/graphql-table.json');
 const dirShift = '../../';
 
 gen(
@@ -96,6 +99,19 @@ gen(
         dirShift,
         dest: 'src/app/hooks-poc',
         answers: hooksPOC
+      },
+      // GraphQL template
+      {
+        command: 'react-typescript:entity-management-graphql-hooks',
+        dirShift,
+        dest: 'src/app/graphql',
+        answers: graphQLListConfig
+      },
+      {
+        command: 'react-typescript:entity-management-graphql-hooks',
+        dirShift,
+        dest: 'src/app/graphql-cards',
+        answers: graphQLCardsConfig
       },
       // Relations
       {

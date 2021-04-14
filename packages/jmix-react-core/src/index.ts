@@ -8,7 +8,9 @@ export * from './app/JmixServerError';
 export * from './app/MainStore';
 export * from './app/MenuConfig';
 
+export * from './data/aliases';
 export * from './data/DataContext';
+export * from './data/EntityInstance';
 export * from './data/Collection';
 export * from './data/Instance';
 export * from './data/Association';
