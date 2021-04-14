@@ -2,12 +2,9 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { Datatypes3Management } from "./Datatypes3Management";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
-  action,
   reaction,
   toJS,
   makeObservable
@@ -19,8 +16,15 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem,
+  redirect
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -34,22 +38,28 @@ import "../../app/App.css";
 
 import { DatatypesTestEntity3 } from "../../jmix/entities/scr_DatatypesTestEntity3";
 
-type Props = EditorProps & MainStoreInjected;
+interface IDatatypes3EditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_DatatypesTestEntity3';
+const ROUTING_PATH = "/datatypes3Management";
 
 class Datatypes3EditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IDatatypes3EditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<DatatypesTestEntity3>(DatatypesTestEntity3.NAME, {
     view: "datatypesTestEntity3-view",
     loadImmediately: false
   });
 
   updated = false;
-  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -80,44 +90,40 @@ class Datatypes3EditComponent extends React.Component<
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(
-        action(({ success, globalErrors }) => {
-          if (success) {
-            this.updated = true;
-          } else {
-            this.globalErrors = globalErrors;
-          }
-        })
-      );
+      ).then(({ success, globalErrors }) => {
+        if (success) {
+          this.updated = true;
+        } else {
+          this.globalErrors = globalErrors;
+        }
+      });
     }
   };
 
   isNewEntity = () => {
-    return this.props.entityId === Datatypes3Management.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  setFormRef(ref: FormInstance | null) {
-    this.formRef.current = ref;
-  }
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      redirect(ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
 
-  constructor(props: Props & WrappedComponentProps) {
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
       updated: observable,
       formRef: observable,
-      globalErrors: observable,
-      setFormRef: action.bound
+      globalErrors: observable
     });
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={Datatypes3Management.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -129,7 +135,10 @@ class Datatypes3EditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -142,7 +151,7 @@ class Datatypes3EditComponent extends React.Component<
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.setFormRef}
+          ref={this.formRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field
@@ -157,11 +166,7 @@ class Datatypes3EditComponent extends React.Component<
             entityName={DatatypesTestEntity3.NAME}
             propertyName="datatypesTestEntityAttr"
             nestedEntityView="datatypesTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== Datatypes3Management.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -171,11 +176,7 @@ class Datatypes3EditComponent extends React.Component<
             entityName={DatatypesTestEntity3.NAME}
             propertyName="integerIdTestEntityAttr"
             nestedEntityView="_local"
-            parentEntityInstanceId={
-              this.props.entityId !== Datatypes3Management.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -185,11 +186,7 @@ class Datatypes3EditComponent extends React.Component<
             entityName={DatatypesTestEntity3.NAME}
             propertyName="intIdentityIdTestEntityAttr"
             nestedEntityView="_local"
-            parentEntityInstanceId={
-              this.props.entityId !== Datatypes3Management.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -199,11 +196,7 @@ class Datatypes3EditComponent extends React.Component<
             entityName={DatatypesTestEntity3.NAME}
             propertyName="stringIdTestEntityAttr"
             nestedEntityView="_local"
-            parentEntityInstanceId={
-              this.props.entityId !== Datatypes3Management.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -213,11 +206,7 @@ class Datatypes3EditComponent extends React.Component<
             entityName={DatatypesTestEntity3.NAME}
             propertyName="weirdStringIdTestEntityAttr"
             nestedEntityView="_local"
-            parentEntityInstanceId={
-              this.props.entityId !== Datatypes3Management.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
+            parentEntityInstanceId={this.context?.params?.entityId}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -232,11 +221,9 @@ class Datatypes3EditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={Datatypes3Management.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -256,7 +243,7 @@ class Datatypes3EditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new DatatypesTestEntity3());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -305,4 +292,12 @@ class Datatypes3EditComponent extends React.Component<
   }
 }
 
-export default injectIntl(injectMainStore(observer(Datatypes3EditComponent)));
+const Datatypes3Edit = injectIntl(
+  injectMainStore(observer(Datatypes3EditComponent))
+);
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <Datatypes3Edit screens={screens} />;
+});

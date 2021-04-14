@@ -2,12 +2,9 @@ import * as React from "react";
 import { Form, Alert, Button, Card, message } from "antd";
 import { FormInstance } from "antd/es/form";
 import { observer } from "mobx-react";
-import { BoringStringIdManagementTable } from "./BoringStringIdManagementTable";
-import { Link, Redirect } from "react-router-dom";
 import {
   IReactionDisposer,
   observable,
-  action,
   reaction,
   toJS,
   makeObservable
@@ -19,8 +16,15 @@ import {
 } from "react-intl";
 import {
   defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  MultiScreenContext
 } from "@haulmont/jmix-react-ui";
+import {
+  Screens,
+  ScreensContext,
+  IMultiScreenItem,
+  redirect
+} from "@haulmont/jmix-react-core";
 
 import {
   instance,
@@ -34,15 +38,21 @@ import "../../app/App.css";
 
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
+interface IBoringStringIdMgtTableEditComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
+
+// const ENTITY_NAME = 'scr_BoringStringIdTestEntity';
+const ROUTING_PATH = "/boringStringIdManagementTable";
 
 class BoringStringIdMgtTableEditComponent extends React.Component<
-  Props & WrappedComponentProps
+  Props & WrappedComponentProps & IBoringStringIdMgtTableEditComponentProps
 > {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
+
   dataInstance = instance<BoringStringIdTestEntity>(
     BoringStringIdTestEntity.NAME,
     {
@@ -52,7 +62,7 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
   );
 
   updated = false;
-  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -86,44 +96,40 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
         intl,
         this.formRef.current,
         this.isNewEntity() ? "create" : "edit"
-      ).then(
-        action(({ success, globalErrors }) => {
-          if (success) {
-            this.updated = true;
-          } else {
-            this.globalErrors = globalErrors;
-          }
-        })
-      );
+      ).then(({ success, globalErrors }) => {
+        if (success) {
+          this.updated = true;
+        } else {
+          this.globalErrors = globalErrors;
+        }
+      });
     }
   };
 
   isNewEntity = () => {
-    return this.props.entityId === BoringStringIdManagementTable.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  setFormRef(ref: FormInstance | null) {
-    this.formRef.current = ref;
-  }
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      redirect(ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
 
-  constructor(props: Props & WrappedComponentProps) {
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
       updated: observable,
       formRef: observable,
-      globalErrors: observable,
-      setFormRef: action.bound
+      globalErrors: observable
     });
   }
 
   render() {
-    if (this.updated) {
-      return <Redirect to={BoringStringIdManagementTable.PATH} />;
-    }
-
     const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
+    const { mainStore, intl } = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
@@ -135,7 +141,10 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
           <FormattedMessage id="common.requestFailed" />.
           <br />
           <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
+          <Button
+            htmlType="button"
+            onClick={() => load(this.context?.params?.entityId!)}
+          >
             <FormattedMessage id="common.retry" />
           </Button>
         </>
@@ -148,7 +157,7 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
           onFinish={this.handleFinish}
           onFinishFailed={this.handleFinishFailed}
           layout="vertical"
-          ref={this.setFormRef}
+          ref={this.formRef}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field
@@ -233,11 +242,9 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={BoringStringIdManagementTable.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
+            <Button htmlType="button" onClick={this.onCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
             <Button
               type="primary"
               htmlType="submit"
@@ -257,7 +264,7 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new BoringStringIdTestEntity());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -306,6 +313,12 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
   }
 }
 
-export default injectIntl(
+const BoringStringIdMgtTableEdit = injectIntl(
   injectMainStore(observer(BoringStringIdMgtTableEditComponent))
 );
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <BoringStringIdMgtTableEdit screens={screens} />;
+});

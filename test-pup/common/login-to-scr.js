@@ -1,5 +1,5 @@
 exports.login = async (page, login = 'admin', password = 'admin') => {
-  await page.goto('http://localhost:3000/#/');
+  await page.goto('http://localhost:3000/');
   await page.waitFor('#input_login');
   await page.type('#input_login', login);
 
