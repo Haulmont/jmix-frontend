@@ -24,15 +24,24 @@ import {
 } from "../../../building-blocks/stages/template-model/pieces/entity-browser/browser";
 import {deriveEditorTemplateModel} from "../../../building-blocks/stages/template-model/pieces/entity-management/editor";
 
+/**
+ * @deprecated
+ */
 export interface EditRelations {
   [propName: string]: EntityWithPath
 }
 
+/**
+ * @deprecated
+ */
 export interface EditRelationsSplit {
   editAssociations: EditRelations;
   editCompositions: EditRelations;
 }
 
+/**
+ * @deprecated
+ */
 export interface RelationImport {
   className: string
   path: string

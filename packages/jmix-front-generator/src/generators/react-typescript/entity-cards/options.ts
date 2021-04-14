@@ -1,4 +1,3 @@
-import {CommonGenerationOptions} from "../../../common/cli-options";
-import {DirShiftOption} from "../../../building-blocks/stages/options/pieces/dir-shift";
+import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
-export type Options = CommonGenerationOptions & DirShiftOption;
+export type Options = ComponentOptions;

@@ -1,10 +1,15 @@
-import {
-  EditRelations,
-  RelationImport
-} from "../../../../../generators/react-typescript/entity-management/template-model";
 import {EntityAttribute, ProjectModel} from "../../../../../common/model/cuba-model";
 import {EntityWithPath} from "../entity";
 import {getRelationImports, getRelations} from "../relations";
+
+export interface EditRelations {
+  [propName: string]: EntityWithPath
+}
+
+export interface RelationImport {
+  className: string
+  path: string
+}
 
 export type EntityEditorTemplateModel = {
   readOnlyFields: string[];

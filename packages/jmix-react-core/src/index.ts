@@ -11,7 +11,9 @@ export * from './app/EventEmitter';
 export * from './app/Router';
 export * from './app/MetadataProvider';
 
+export * from './data/aliases';
 export * from './data/DataContext';
+export * from './data/EntityInstance';
 export * from './data/Collection';
 export * from './data/Instance';
 export * from './data/Association';

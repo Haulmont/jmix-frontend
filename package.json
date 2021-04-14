@@ -74,5 +74,6 @@
     }
   },
   "license": "Apache-2.0",
-  "author": "Haulmont <info@haulmont.com>"
+  "author": "Haulmont <info@haulmont.com>",
+  "dependencies": {}
 }

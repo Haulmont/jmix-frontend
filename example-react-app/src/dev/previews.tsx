@@ -45,6 +45,10 @@ import AssociationO2MBrowse from "../app/associationO2M/AssociationO2MBrowse";
 import AssociationO2MEdit from "../app/associationO2M/AssociationO2MEdit";
 import AssociationO2OBrowse from "../app/associationO2O/AssociationO2OBrowse";
 import AssociationO2OEdit from "../app/associationO2O/AssociationO2OEdit";
+import GraphQLCardsBrowser from "../app/graphql-cards/GraphQLCardsBrowser";
+import GraphQLCardsEdit from "../app/graphql-cards/GraphQLCardsEdit";
+import GraphQLList from "../app/graphql/GraphQLList";
+import GraphQLEdit from "../app/graphql/GraphQLEdit";
 import HooksPOCList from "../app/hooks-poc/HooksPOCList";
 import HooksPOCEdit from "../app/hooks-poc/HooksPOCEdit";
 import DatatypesBrowse3 from "../app/datatypes-test3/DatatypesBrowse3";
@@ -129,6 +133,22 @@ export const ComponentPreviews: React.FC = () => {
 
       <ComponentPreview path="/HooksPOCList">
         <HooksPOCList />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLEdit">
+        <GraphQLEdit entityId={"new"} />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLList">
+        <GraphQLList paginationConfig={{}} onPagingChange={() => {}} />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLCardsEdit">
+        <GraphQLCardsEdit entityId={"new"} />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLCardsBrowser">
+        <GraphQLCardsBrowser paginationConfig={{}} onPagingChange={() => {}} />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OEdit">

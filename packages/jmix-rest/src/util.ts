@@ -80,6 +80,11 @@ function serialize(rawParam): string {
   return rawParam;
 }
 
+/**
+ * @deprecated use toIdString() from jmix-react-core
+ *
+ * @param id
+ */
 export function getStringId(id: string | object) : string {
   return typeof id === "object" ? base64encode(JSON.stringify(id)) : id;
 }
