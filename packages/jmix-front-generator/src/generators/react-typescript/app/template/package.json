@@ -37,6 +37,11 @@
     "@types/react-router-dom": "^5.1.5",
     "typescript": "~4.2.4"
   },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!antd|@ant-design|rc-.+?|@babel/runtime).+(js|jsx)$"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",
