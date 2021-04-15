@@ -7,7 +7,6 @@ import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
 import { JmixAppProvider } from "@haulmont/jmix-react-core";
 import { I18nProvider } from "@haulmont/jmix-react-ui";
-import { HashRouter, Route } from "react-router-dom";
 import { initializeApp } from "@haulmont/jmix-rest";
 import { JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET } from "./config";
 import "mobx-react-lite/batchingForReactDom";
@@ -40,14 +39,12 @@ ReactDOM.render(
       messagesMapping={messagesMapping}
       antdLocaleMapping={antdLocaleMapping}
     >
-      <HashRouter>
-        <DevSupport
-          ComponentPreviews={<Route component={ComponentPreviews} />}
-          useInitialHook={useDevLogin}
-        >
-          <Route component={App} />
-        </DevSupport>
-      </HashRouter>
+      <DevSupport
+        ComponentPreviews={<ComponentPreviews />}
+        useInitialHook={useDevLogin}
+      >
+        <App />
+      </DevSupport>
     </I18nProvider>
   </JmixAppProvider>,
   document.getElementById("root") as HTMLElement

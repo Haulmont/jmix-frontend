@@ -179,7 +179,9 @@ class RouterState {
         result = component;
 
         for (const key in res) {
-          res[key] = decodeURI(res[key]);
+          if (res[key] !== undefined) {
+            res[key] = decodeURI(res[key]);
+          }
         }
 
         // Set global route params only from global router, not from local
