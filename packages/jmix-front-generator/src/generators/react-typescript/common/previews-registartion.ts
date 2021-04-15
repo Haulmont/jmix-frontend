@@ -71,7 +71,7 @@ export const addComponent = (
 ) => `` + `${generateComponentImport(isDefaultExport, componentClassName,componentPath )}
   ${removeClosedPreviewsJsxElement(componentPreviewsContents)}
     <ComponentPreview path="${pathPattern}">
-      <${componentClassName} ${serializeComponentsProps(componentProps)}/>
+      <${componentClassName} ${serializeComponentsProps(componentClassName, componentProps)}/>
     </ComponentPreview>
   </Previews>
   ${addClosedBracket(componentPreviewsContents)}
@@ -93,7 +93,9 @@ function addClosedBracket(componentPreviewsContents: string): string {
   return componentPreviewsContents.includes("return (") ? ");" : "";
 }
 
-function serializeComponentsProps(componentProps?: { [param: string]: unknown }): string {
+function serializeComponentsProps(componentClassName:string, componentProps?: { [param: string]: unknown }): string {
+  if (componentClassName !== 'HooksPOCEdit') return "";
+
   return componentProps
     ? Object.entries(componentProps).map(
       ([propName, propValue]) => {

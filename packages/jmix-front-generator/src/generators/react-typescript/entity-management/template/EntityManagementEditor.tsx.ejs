@@ -2,11 +2,10 @@ import * as React from "react";
 import {Form, Alert, Button, Card, message} from "antd";
 import {FormInstance} from "antd/es/form";
 import {observer} from "mobx-react";
-import {<%= className %>} from "./<%= className %>";
-import {Link, Redirect} from "react-router-dom";
-import {IReactionDisposer, observable, action, reaction, toJS, makeObservable} from "mobx";
+import {IReactionDisposer, observable, reaction, toJS, makeObservable} from "mobx";
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import {defaultHandleFinish, createAntdFormValidationMessages} from '@haulmont/jmix-react-ui';
+import {defaultHandleFinish, createAntdFormValidationMessages, MultiScreenContext} from '@haulmont/jmix-react-ui';
+import {Screens, ScreensContext, IMultiScreenItem, redirect} from "@haulmont/jmix-react-core";
 
 import {
 <% if (Object.keys(editAssociations).length > 0) { %>
@@ -30,13 +29,18 @@ import "<%= relDirShift %>app/App.css";
   import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImport.path %>";
 <% }) %>
 
-type Props = EditorProps & MainStoreInjected;
+interface I<%= editComponentClass %>ComponentProps {
+  screens: Screens;
+}
 
-type EditorProps = {
-  entityId: string;
-};
+type Props = MainStoreInjected;
 
-class <%= editComponentClass %>Component extends React.Component<Props & WrappedComponentProps> {
+// const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+class <%= editComponentClass %>Component extends React.Component<Props & WrappedComponentProps & I<%= editComponentClass %>ComponentProps> {
+  static contextType = MultiScreenContext;
+  context: IMultiScreenItem = null!;
 
   dataInstance = instance<<%= entity.className %>>(<%= entity.className %>.NAME, {
     view: '<%= editView.name %>',
@@ -51,7 +55,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   <% }) %>
 
   updated = false;
-  formRef: React.MutableRefObject<FormInstance | null> = {current: null};
+  formRef: React.RefObject<FormInstance> = React.createRef();
   reactionDisposers: IReactionDisposer[] = [];
 
   fields = [
@@ -66,7 +70,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
   /**
   * This method should be called after the user permissions has been loaded
   */
-  loadAssociationOptions() {
+  loadAssociationOptions = () => {
     // MainStore should exist at this point
     if (this.props.mainStore != null) {
       const {getAttributePermission} = this.props.mainStore.security;
@@ -90,25 +94,28 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
     if (this.formRef.current != null) {
       defaultHandleFinish(
         values, this.dataInstance, intl, this.formRef.current, this.isNewEntity() ? 'create' : 'edit'
-      ).then(action(({success, globalErrors}) => {
+      ).then(({success, globalErrors}) => {
         if (success) {
           this.updated = true;
         } else {
           this.globalErrors = globalErrors;
         }
-      }));
+      });
     }
   };
 
   isNewEntity = () => {
-    return this.props.entityId === <%= className %>.NEW_SUBPATH;
+    return this.context?.params?.entityId === undefined;
   };
 
-  setFormRef(ref: FormInstance | null) {
-    this.formRef.current = ref;
-  }
+  onCancelBtnClick = () => {
+    if (this.props.screens.currentScreenIndex === 1) {
+      redirect(ROUTING_PATH);
+    }
+    this.props.screens.setActiveScreen(this.context.parent!, true);
+  };
 
-  constructor(props: Props & WrappedComponentProps) {
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -117,22 +124,13 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
       <% }) %>
       updated: observable,
       formRef: observable,
-      globalErrors: observable,
-      setFormRef: action.bound,
-      <% if (Object.keys(editAssociations).length > 0) { %>
-        loadAssociationOptions: action.bound,
-      <% } %>
+      globalErrors: observable
     });
   }
 
   render() {
-
-    if (this.updated) {
-      return <Redirect to={<%= className %>.PATH}/>
-    }
-
     const {status, lastError, load} = this.dataInstance;
-    const {mainStore, entityId, intl} = this.props;
+    const {mainStore, intl} = this.props;
     if (mainStore == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner/>;
     }
@@ -143,7 +141,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
         <FormattedMessage id="common.requestFailed" />.
         <br/><br/>
         <Button htmlType="button"
-                onClick={() => load(entityId)}>
+                onClick={() => load(this.context?.params?.entityId!)}>
           <FormattedMessage id="common.retry" />
         </Button>
         </>;
@@ -154,7 +152,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
         <Form onFinish={this.handleFinish}
               onFinishFailed={this.handleFinishFailed}
               layout='vertical'
-              ref={this.setFormRef}
+              ref={this.formRef}
               validateMessages={createAntdFormValidationMessages(intl)}
         >
 
@@ -172,7 +170,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
                    <% if (typeof nestedEntityInfo !== 'undefined' && typeof nestedEntityInfo[attr.name] !== 'undefined') {%>
                         nestedEntityView='<%= nestedEntityInfo[attr.name] %>'
                    <% } %>
-                   parentEntityInstanceId={this.props.entityId !== <%= className %>.NEW_SUBPATH ? this.props.entityId : undefined}
+                   parentEntityInstanceId={this.context?.params?.entityId}
               <% } %>
 
               <% if (Object.keys(editAssociations).includes(attr.name)) { %>
@@ -201,11 +199,9 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
           )}
 
           <Form.Item style={{textAlign: 'center'}}>
-            <Link to={<%= className %>.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id='common.cancel'/>
-              </Button>
-            </Link>
+            <Button htmlType='button' onClick={this.onCancelBtnClick}>
+              <FormattedMessage id='common.cancel' />
+            </Button>
             <Button type="primary"
                     htmlType="submit"
                     disabled={status !== "DONE" && status !== "ERROR"}
@@ -223,7 +219,7 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
     if (this.isNewEntity()) {
       this.dataInstance.setItem(new <%= entity.className %>());
     } else {
-      this.dataInstance.load(this.props.entityId);
+      this.dataInstance.load(this.context?.params?.entityId!);
     }
 
     this.reactionDisposers.push(
@@ -281,10 +277,16 @@ class <%= editComponentClass %>Component extends React.Component<Props & Wrapped
 
 }
 
-export default injectIntl(
+const <%=editComponentClass%> = injectIntl(
   injectMainStore(
     observer(
       <%= editComponentClass %>Component
     )
   )
 );
+
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <<%=editComponentClass%> screens={screens} />
+});

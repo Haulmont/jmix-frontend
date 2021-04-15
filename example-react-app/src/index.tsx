@@ -7,16 +7,14 @@ import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
 import { JmixAppProvider } from "@haulmont/jmix-react-core";
 import { I18nProvider } from "@haulmont/jmix-react-ui";
-import { HashRouter, Route } from "react-router-dom";
 import { initializeApp } from "@haulmont/jmix-rest";
 import { JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET } from "./config";
 import "mobx-react-lite/batchingForReactDom";
+
 import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
-import { ApolloProvider } from "@apollo/client";
-import { createApolloClient } from "./graphql/graphql";
 
 export const jmixREST = initializeApp({
   name: "scr-jmix",
@@ -26,8 +24,6 @@ export const jmixREST = initializeApp({
   storage: window.localStorage,
   defaultLocale: "en"
 });
-
-const client = createApolloClient();
 
 ReactDOM.render(
   <JmixAppProvider
@@ -39,21 +35,17 @@ ReactDOM.render(
       locale: "en"
     }}
   >
-    <ApolloProvider client={client}>
-      <I18nProvider
-        messagesMapping={messagesMapping}
-        antdLocaleMapping={antdLocaleMapping}
+    <I18nProvider
+      messagesMapping={messagesMapping}
+      antdLocaleMapping={antdLocaleMapping}
+    >
+      <DevSupport
+        ComponentPreviews={<ComponentPreviews />}
+        useInitialHook={useDevLogin}
       >
-        <HashRouter>
-          <DevSupport
-            ComponentPreviews={<Route component={ComponentPreviews} />}
-            useInitialHook={useDevLogin}
-          >
-            <Route component={App} />
-          </DevSupport>
-        </HashRouter>
-      </I18nProvider>
-    </ApolloProvider>
+        <App />
+      </DevSupport>
+    </I18nProvider>
   </JmixAppProvider>,
   document.getElementById("root") as HTMLElement
 );

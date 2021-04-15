@@ -20,11 +20,11 @@ class FilterActions {
 
   beforeEach = async () => {
     await Promise.all([
-      this.page.goto('http://localhost:3000/#/'),
+      this.page.goto('http://localhost:3000/'),
       this.page.waitForNavigation()
     ]);
     await Promise.all([
-      this.page.goto('http://localhost:3000/#/datatypesManagement3'),
+      this.page.goto('http://localhost:3000/datatypesManagement3'),
       this.page.waitForNavigation()
     ]);
     await this.waitForSelector('.ant-table-tbody:not(:empty)'); // Wait until the data is loaded.

@@ -10,7 +10,7 @@ describe('app-start', () => {
   });
 
   it('should check that app started', async () => {
-    await page.goto('http://localhost:3000/#/');
+    await page.goto('http://localhost:3000/');
     await expect(page.title()).resolves.toMatch('scr-jmix');
   });
 

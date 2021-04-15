@@ -1,0 +1,116 @@
+= Screens API
+
+This API provides screens registration. Please check xref:routing.adoc[Routing and Menu] first.
+
+To register your screens you need to do following:
+
+1) Create file that menage your screens and route for that screens.
+
+Example `src/app/associationM2M/AssociationM2MManagement.tsx`
+
+2) Write some code:
+[source,typescript]
+----
+// File: src/app/associationM2M/AssociationM2MManagement.tsx
+import {
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerEntityCreatorScreen,
+  registerRoute
+} from "@haulmont/jmix-react-ui";
+
+// Import screens you want to register
+import AssociationM2MEdit from "./AssociationM2MEdit";
+import AssociationM2MBrowse from "./AssociationM2MBrowse";
+
+// Entity name that presents to our screens
+const ENTITY_NAME = "scr_AssociationM2MTestEntity";
+// Routing path to open your screen
+const ROUTING_PATH = "/associationM2MManagement";
+
+// Register route for our screen (also push some data in menuItems)
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`, // Router parameters (entityId param is optional, and used in edit screen in this case) (pathPattern in menuItems)
+  ROUTING_PATH, // URL in side menu (menuLink in menuItems)
+  "associationM2MManagement list", side menu caption (caption in menuItems)
+  <AssociationM2MBrowse />, Your screen component (component in menuItems)
+  ENTITY_NAME // Entity name that belong to this screen
+);
+
+// Register screen that presents Entity Editor for ENTITY_NAME
+registerEntityEditorScreen(
+  ENTITY_NAME, // Entity name that we want to edit using this screen
+  "associationM2MManagement", // Caption in bread crumbs when this screen are opened
+  <AssociationM2MEdit /> // Screen component
+);
+
+// Register screen that presents Entity Creation for ENTITY_NAME
+registerEntityCreatorScreen(
+  ENTITY_NAME, // Entity name that we want to create using this screen
+  "associationM2MManagement", // Caption in bread crumbs when this screen are opened
+  <AssociationM2MEdit /> // Screen component
+);
+
+// Register screen that presents Entity List Browser for ENTITY_NAME
+registerEntityBrowserScreen(
+  ENTITY_NAME, // Entity name that we want to browse using this screen
+  "associationM2MManagement", // Caption in bread crumbs when this screen are opened
+  <AssociationM2MBrowse /> // Screen component
+);
+----
+
+3) Import this file in `src/routing.ts`. (Make sure your routing file in imported in `src/app/App.tsx`)
+[source,typescript]
+----
+// ...
+import "./app/associationM2M/AssociationM2MManagement";
+// ...
+----
+
+After that your screens will be successful registered.
+
+For debug you can check `menuItems`.
+[source,typescript]
+----
+import { menuItems } from "@haulmont/jmix-react-ui";
+console.log('menuItems', menuItems);
+----
+
+## Advanced usage
+
+Create multi screen container:
+[source,typescript]
+----
+import { ScreensContext, Screens } from '@haulmont/jmix-react-core';
+import { MultiScreen } from '@haulmont/jmix-react-ui';
+
+const MultiScreenContainer = observer(() => {
+  const [screens] = useState(() => new Screens());
+
+  return (
+      <ScreensContext.Provider value={screens}>
+        <MultiScreen>
+          <MyBaseScreenComponent />
+        </MultiScreen>
+      </ScreensContext.Provider>
+  )
+});
+----
+
+To get information about your current Screens instance and manipulate screens, use following:
+[source,typescript]
+----
+import { ScreensContext } from '@haulmont/jmix-react-core';
+
+const MyComponent = observer(() => {
+  const screens = React.useContext(ScreensContext); // Your Screens instance
+
+  function handleClick() {
+      screens.push({
+        title: 'Some new screen',
+        content: <SomeNewScreenComponent />
+      });
+    };
+  //...
+});
+----

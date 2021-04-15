@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { observable, makeObservable } from "mobx";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,21 +8,36 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  ScreensContext,
+  Screens,
+  redirect
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  Spinner,
+  referencesListByEntityName
+} from "@haulmont/jmix-react-ui";
 
 import { AssociationO2MTestEntity } from "../../jmix/entities/scr_AssociationO2MTestEntity";
 import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { AssociationO2MManagement } from "./AssociationO2MManagement";
 import {
   FormattedMessage,
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
 
+const ENTITY_NAME = "scr_AssociationO2MTestEntity";
+const ROUTING_PATH = "/associationO2MManagement";
+
+interface IAssociationO2MBrowseComponentProps {
+  screens: Screens;
+}
+
 class AssociationO2MBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected &
+    WrappedComponentProps &
+    IAssociationO2MBrowseComponentProps
 > {
   dataCollection = collection<AssociationO2MTestEntity>(
     AssociationO2MTestEntity.NAME,
@@ -52,7 +66,33 @@ class AssociationO2MBrowseComponent extends React.Component<
     });
   };
 
-  constructor(props: MainStoreInjected & WrappedComponentProps) {
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: this.selectedRowKey!
+      }
+    });
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -69,40 +109,32 @@ class AssociationO2MBrowseComponent extends React.Component<
         operation="create"
         key="create"
       >
-        <Link
-          to={
-            AssociationO2MManagement.PATH +
-            "/" +
-            AssociationO2MManagement.NEW_SUBPATH
-          }
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          onClick={this.onCrateBtnClick}
+          type="primary"
+          icon={<PlusOutlined />}
         >
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </Link>
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={AssociationO2MTestEntity.NAME}
         operation="update"
         key="update"
       >
-        <Link to={AssociationO2MManagement.PATH + "/" + this.selectedRowKey}>
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            disabled={!this.selectedRowKey}
-            type="default"
-          >
-            <FormattedMessage id="common.edit" />
-          </Button>
-        </Link>
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={!this.selectedRowKey}
+          onClick={this.onEditBtnClick}
+          type="default"
+        >
+          <FormattedMessage id="common.edit" />
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={AssociationO2MTestEntity.NAME}
@@ -159,4 +191,8 @@ const AssociationO2MBrowse = injectIntl(
   injectMainStore(observer(AssociationO2MBrowseComponent))
 );
 
-export default AssociationO2MBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <AssociationO2MBrowse screens={screens} />;
+});

@@ -1,7 +1,6 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import { IReactionDisposer, reaction } from "mobx";
+import { IReactionDisposer, reaction, observable, action } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Modal, Button, List, message } from "antd";
 
@@ -9,18 +8,24 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  ScreensContext,
+  Screens,
+  redirect
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
   setPagination,
-  Spinner
+  Spinner,
+  referencesListByEntityName,
+  addPagingParams,
+  createPagingConfig,
+  defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { DatatypesManagement2 } from "./DatatypesManagement2";
+import { SerializedEntity } from "@haulmont/jmix-rest";
 import {
   FormattedMessage,
   injectIntl,
@@ -28,11 +33,16 @@ import {
 } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 
+interface IDatatypesBrowse2ComponentProps {
+  screens: Screens;
+}
+
 type Props = MainStoreInjected &
-  WrappedComponentProps & {
-    paginationConfig: PaginationConfig;
-    onPagingChange: (current: number, pageSize: number) => void;
-  };
+  WrappedComponentProps &
+  IDatatypesBrowse2ComponentProps;
+
+const ENTITY_NAME = "scr_DatatypesTestEntity";
+const ROUTING_PATH = "/datatypesManagement2";
 
 class DatatypesBrowse2Component extends React.Component<Props> {
   dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
@@ -68,16 +78,9 @@ class DatatypesBrowse2Component extends React.Component<Props> {
     "stringIdTestEntityAssociationM2O"
   ];
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
+  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
 
+  componentDidMount(): void {
     this.reactionDisposers.push(
       reaction(
         () => this.dataCollection.status,
@@ -89,11 +92,35 @@ class DatatypesBrowse2Component extends React.Component<Props> {
         }
       )
     );
+
+    // to disable paging config pass 'true' as disabled param in function below
+    //this.paginationConfig = createPagingConfig(window.location.search);
+    /*
+    this.reactionDisposers.push(
+      reaction(
+        () => this.paginationConfig,
+        paginationConfig =>
+          setPagination(paginationConfig, this.dataCollection, true)
+      )
+    );
+    setPagination(this.paginationConfig, this.dataCollection, true);
+    */
   }
 
   componentWillUnmount() {
     this.reactionDisposers.forEach(dispose => dispose());
   }
+
+  onPagingChange = (current: number, pageSize: number) => {
+    // If we on root screen
+    /*
+    if (this.props.screens.currentScreenIndex === 0) {
+      routerData.history.push(
+        addPagingParams("datatypesManagement2", current, pageSize)
+      );
+      this.paginationConfig = {...this.paginationConfig, current, pageSize};
+    }*/
+  };
 
   showDeletionDialog = (e: SerializedEntity<DatatypesTestEntity>) => {
     Modal.confirm({
@@ -111,9 +138,35 @@ class DatatypesBrowse2Component extends React.Component<Props> {
     });
   };
 
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = (itemId: string) => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      redirect(ROUTING_PATH + "/" + itemId);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: itemId
+      }
+    });
+  };
+
   render() {
     const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
+    const { mainStore } = this.props;
 
     if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
       return <Spinner />;
@@ -126,19 +179,16 @@ class DatatypesBrowse2Component extends React.Component<Props> {
           operation="create"
         >
           <div style={{ marginBottom: "12px" }}>
-            <Link
-              to={
-                DatatypesManagement2.PATH +
-                "/" +
-                DatatypesManagement2.NEW_SUBPATH
-              }
+            <Button
+              htmlType="button"
+              type="primary"
+              onClick={this.onCrateBtnClick}
+              icon={<PlusOutlined />}
             >
-              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </Link>
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
           </div>
         </EntityPermAccessControl>
 
@@ -153,12 +203,7 @@ class DatatypesBrowse2Component extends React.Component<Props> {
                   key="delete"
                   onClick={() => this.showDeletionDialog(item)}
                 />,
-                <Link
-                  to={DatatypesManagement2.PATH + "/" + getStringId(item.id!)}
-                  key="edit"
-                >
-                  <EditOutlined />
-                </Link>
+                <EditOutlined onClick={() => this.onEditBtnClick(item.id!)} />
               ]}
             >
               <div style={{ flexGrow: 1 }}>
@@ -174,16 +219,15 @@ class DatatypesBrowse2Component extends React.Component<Props> {
             </List.Item>
           )}
         />
-
-        {!this.props.paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={count ?? undefined}
-            />
-          </div>
-        )}
+        {/*
+        <div style={{margin: "12px 0 12px 0", float: "right"}}>
+          <Paging
+            paginationConfig={this.paginationConfig}
+            onPagingChange={this.onPagingChange}
+            total={count}
+          />
+        </div>
+        */}
       </div>
     );
   }
@@ -193,4 +237,8 @@ const DatatypesBrowse2 = injectIntl(
   injectMainStore(observer(DatatypesBrowse2Component))
 );
 
-export default DatatypesBrowse2;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <DatatypesBrowse2 screens={screens} />;
+});

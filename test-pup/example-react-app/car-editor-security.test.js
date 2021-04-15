@@ -17,7 +17,7 @@ xdescribe('car editor security - mechanic', () => {
 
     await login(pageMech, 'mechanic', '1');
 
-    await pageMech.goto('http://localhost:3000/#/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
+    await pageMech.goto('http://localhost:3000/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
     await pageMech.waitFor('div.ant-card-body');
 
     const fieldLabels = await pageMech.$$eval('div.ant-col.ant-form-item-label',
@@ -35,7 +35,7 @@ xdescribe('car editor security - mechanic', () => {
 
     await login(pageMan, 'manager', '2');
 
-    await pageMan.goto('http://localhost:3000/#/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
+    await pageMan.goto('http://localhost:3000/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
     await pageMan.waitFor('div.ant-card-body');
 
     const fieldLabels = await pageMan.$$eval('div.ant-col.ant-form-item-label',
@@ -48,7 +48,7 @@ xdescribe('car editor security - mechanic', () => {
   it('should check that security shows all car fields on editor for admin', async () => {
     await login(pageAdmin);
 
-    await pageAdmin.goto('http://localhost:3000/#/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
+    await pageAdmin.goto('http://localhost:3000/carManagement/3da61043-aaad-7e30-c7f5-c1f1328d3980');
     await pageAdmin.waitFor('div.ant-card-body');
 
     const fieldLabels = await pageAdmin.$$eval('div.ant-col.ant-form-item-label',

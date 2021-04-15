@@ -1,9 +1,37 @@
 = Routing and Menu
 
-Routing is based on well-known https://reacttraining.com/react-router/web/guides/quick-start[React Router] library. The React client has a single point (`src/routing.ts`) to define the screens that will be automatically placed in the main menu:
+See our router api reference in `@haulmont/jmix-react-core/app/Router`.
+
+Basic and regular usage:
+[source,typescript]
+----
+import { Router, currentRoute } from '@haulmont/jmix-react-core';
+// ...
+const myRoutes = {
+  '/my_page/:pageId?': <MyPage />, // See example of this component below
+  '/my_page2': <MyPage2 />,
+}
+
+// ...
+<Router global routes={myRoutes} /> // Put it to JSX tree to handle routes
+
+//..
+const MyPage = observer(() => {
+  let content = `I don't have "pageId" route parameter`;
+  const pageId = currentRoute.routeParams.pageId;
+  if (pageId !== undefined) {
+    content = `I have "pageId" route parameter and it's value is "${pageId}"`;
+  }
+  return <div>{content}</div>;
+});
+----
+
+To define the screens that will be automatically placed in the main menu:
 
 [source,typescript]
 ----
+import { menuItems } from "@haulmont/jmix-react-ui";
+
 menuItems.push({
   pathPattern: '/pets', // pattern may be used to consume some parameters, e.g.: /pets/:petId?
   menuLink: '/pets',
@@ -11,20 +39,6 @@ menuItems.push({
   caption: 'Pets' // Menu item caption
 });
 ----
-
-The `src/App.tsx` contains `Switch` component that renders a screen depending on the URL path:
-
-[source,typescript]
-----
-  <Switch>
-    <Route exact={true} path="/" component={HomePage}/>
-  {collectRouteItems(menuItems).map(route => (  // get all routes from main and sub menus
-  <Route key={route.pathPattern} path={route.pathPattern} component={route.component}/>
-    )}
-  </Switch>
-----
-
-You can manually add a `Route` to the `Switch` component or customize the structure used in `routes.ts` for example in order to create a hierarchical menu.
 
 == Sub Menus
 

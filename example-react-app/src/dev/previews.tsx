@@ -76,23 +76,23 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/CarEdit">
-        <CarEdit entityId={"new"} />
+        <CarEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/CarCards">
-        <CarCards paginationConfig={{}} onPagingChange={() => {}} />
+        <CarCards />
       </ComponentPreview>
 
       <ComponentPreview path="/CarEdit2">
-        <CarEdit2 entityId={"new"} />
+        <CarEdit2 />
       </ComponentPreview>
 
       <ComponentPreview path="/CarList">
-        <CarList paginationConfig={{}} onPagingChange={() => {}} />
+        <CarList />
       </ComponentPreview>
 
       <ComponentPreview path="/CarEdit3">
-        <CarEdit3 entityId={"new"} />
+        <CarEdit3 />
       </ComponentPreview>
 
       <ComponentPreview path="/CarTable">
@@ -100,23 +100,23 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesEdit1">
-        <DatatypesEdit1 entityId={"new"} />
+        <DatatypesEdit1 />
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesBrowse1">
-        <DatatypesBrowse1 paginationConfig={{}} onPagingChange={() => {}} />
+        <DatatypesBrowse1 />
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesEdit2">
-        <DatatypesEdit2 entityId={"new"} />
+        <DatatypesEdit2 />
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesBrowse2">
-        <DatatypesBrowse2 paginationConfig={{}} onPagingChange={() => {}} />
+        <DatatypesBrowse2 />
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesEdit3">
-        <DatatypesEdit3 entityId={"new"} />
+        <DatatypesEdit3 />
       </ComponentPreview>
 
       <ComponentPreview path="/DatatypesBrowse3">
@@ -132,7 +132,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OEdit">
-        <AssociationO2OEdit entityId={"new"} />
+        <AssociationO2OEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OBrowse">
@@ -140,7 +140,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2MEdit">
-        <AssociationO2MEdit entityId={"new"} />
+        <AssociationO2MEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2MBrowse">
@@ -148,7 +148,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationM2OEdit">
-        <AssociationM2OEdit entityId={"new"} />
+        <AssociationM2OEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationM2OBrowse">
@@ -156,7 +156,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationM2MEdit">
-        <AssociationM2MEdit entityId={"new"} />
+        <AssociationM2MEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationM2MBrowse">
@@ -164,7 +164,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/CompositionO2OEdit">
-        <CompositionO2OEdit entityId={"new"} />
+        <CompositionO2OEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/CompositionO2OBrowse">
@@ -172,7 +172,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/CompositionO2MEdit">
-        <CompositionO2MEdit entityId={"new"} />
+        <CompositionO2MEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/CompositionO2MBrowse">
@@ -180,7 +180,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/Datatypes2Edit">
-        <Datatypes2Edit entityId={"new"} />
+        <Datatypes2Edit />
       </ComponentPreview>
 
       <ComponentPreview path="/Datatypes2Browse">
@@ -188,7 +188,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/Datatypes3Edit">
-        <Datatypes3Edit entityId={"new"} />
+        <Datatypes3Edit />
       </ComponentPreview>
 
       <ComponentPreview path="/Datatypes3Browse">
@@ -204,7 +204,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtTableEdit">
-        <IntIdMgtTableEdit entityId={"new"} />
+        <IntIdMgtTableEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtTableBrowse">
@@ -212,23 +212,23 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtCardsEdit">
-        <IntIdMgtCardsEdit entityId={"new"} />
+        <IntIdMgtCardsEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtCardsBrowse">
-        <IntIdMgtCardsBrowse paginationConfig={{}} onPagingChange={() => {}} />
+        <IntIdMgtCardsBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtListEdit">
-        <IntIdMgtListEdit entityId={"new"} />
+        <IntIdMgtListEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdMgtListBrowse">
-        <IntIdMgtListBrowse paginationConfig={{}} onPagingChange={() => {}} />
+        <IntIdMgtListBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtTableEdit">
-        <IntIdentityIdMgtTableEdit entityId={"new"} />
+        <IntIdentityIdMgtTableEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtTableBrowse">
@@ -236,25 +236,19 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtCardsEdit">
-        <IntIdentityIdMgtCardsEdit entityId={"new"} />
+        <IntIdentityIdMgtCardsEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtCardsBrowse">
-        <IntIdentityIdMgtCardsBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <IntIdentityIdMgtCardsBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtListEdit">
-        <IntIdentityIdMgtListEdit entityId={"new"} />
+        <IntIdentityIdMgtListEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdentityIdMgtListBrowse">
-        <IntIdentityIdMgtListBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <IntIdentityIdMgtListBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/stringIdCards">
@@ -262,29 +256,23 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtCardsEdit">
-        <StringIdMgtCardsEdit entityId={"new"} />
+        <StringIdMgtCardsEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtCardsBrowse">
-        <StringIdMgtCardsBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <StringIdMgtCardsBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtListEdit">
-        <StringIdMgtListEdit entityId={"new"} />
+        <StringIdMgtListEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtListBrowse">
-        <StringIdMgtListBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <StringIdMgtListBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtTableEdit">
-        <StringIdMgtTableEdit entityId={"new"} />
+        <StringIdMgtTableEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/StringIdMgtTableBrowse">
@@ -292,29 +280,23 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtCardsEdit">
-        <WeirdStringIdMgtCardsEdit entityId={"new"} />
+        <WeirdStringIdMgtCardsEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtCardsBrowse">
-        <WeirdStringIdMgtCardsBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <WeirdStringIdMgtCardsBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtListEdit">
-        <WeirdStringIdMgtListEdit entityId={"new"} />
+        <WeirdStringIdMgtListEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtListBrowse">
-        <WeirdStringIdMgtListBrowse
-          paginationConfig={{}}
-          onPagingChange={() => {}}
-        />
+        <WeirdStringIdMgtListBrowse />
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtTableEdit">
-        <WeirdStringIdMgtTableEdit entityId={"new"} />
+        <WeirdStringIdMgtTableEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/WeirdStringIdMgtTableBrowse">
@@ -322,7 +304,7 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/BoringStringIdMgtTableEdit">
-        <BoringStringIdMgtTableEdit entityId={"new"} />
+        <BoringStringIdMgtTableEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/BoringStringIdMgtTableBrowse">
@@ -330,11 +312,11 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/TrickyIdEdit">
-        <TrickyIdEdit entityId={"new"} />
+        <TrickyIdEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/TrickyIdList">
-        <TrickyIdList paginationConfig={{}} onPagingChange={() => {}} />
+        <TrickyIdList />
       </ComponentPreview>
     </Previews>
   );
