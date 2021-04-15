@@ -1,6 +1,5 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
 import { observable, makeObservable } from "mobx";
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
@@ -9,21 +8,34 @@ import {
   collection,
   injectMainStore,
   MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  ScreensContext,
+  Screens,
+  redirect
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  Spinner,
+  referencesListByEntityName
+} from "@haulmont/jmix-react-ui";
 
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { IntIdManagementTable } from "./IntIdManagementTable";
 import {
   FormattedMessage,
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
 
+const ENTITY_NAME = "scr_IntegerIdTestEntity";
+const ROUTING_PATH = "/intIdManagementTable";
+
+interface IIntIdMgtTableBrowseComponentProps {
+  screens: Screens;
+}
+
 class IntIdMgtTableBrowseComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
+  MainStoreInjected & WrappedComponentProps & IIntIdMgtTableBrowseComponentProps
 > {
   dataCollection = collection<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local"
@@ -58,7 +70,33 @@ class IntIdMgtTableBrowseComponent extends React.Component<
     });
   };
 
-  constructor(props: MainStoreInjected & WrappedComponentProps) {
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: this.selectedRowKey!
+      }
+    });
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -75,38 +113,32 @@ class IntIdMgtTableBrowseComponent extends React.Component<
         operation="create"
         key="create"
       >
-        <Link
-          to={
-            IntIdManagementTable.PATH + "/" + IntIdManagementTable.NEW_SUBPATH
-          }
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          onClick={this.onCrateBtnClick}
+          type="primary"
+          icon={<PlusOutlined />}
         >
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            type="primary"
-            icon={<PlusOutlined />}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </Link>
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={IntegerIdTestEntity.NAME}
         operation="update"
         key="update"
       >
-        <Link to={IntIdManagementTable.PATH + "/" + this.selectedRowKey}>
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            disabled={!this.selectedRowKey}
-            type="default"
-          >
-            <FormattedMessage id="common.edit" />
-          </Button>
-        </Link>
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={!this.selectedRowKey}
+          onClick={this.onEditBtnClick}
+          type="default"
+        >
+          <FormattedMessage id="common.edit" />
+        </Button>
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={IntegerIdTestEntity.NAME}
@@ -163,4 +195,8 @@ const IntIdMgtTableBrowse = injectIntl(
   injectMainStore(observer(IntIdMgtTableBrowseComponent))
 );
 
-export default IntIdMgtTableBrowse;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <IntIdMgtTableBrowse screens={screens} />;
+});

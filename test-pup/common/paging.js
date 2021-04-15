@@ -1,6 +1,6 @@
 
 exports.checkPaging = (rowSelector) => async (page, url, [cardsCount, buttonTitles]) => {
-  await page.goto(`http://localhost:3000/#/${url}`);
+  await page.goto(`http://localhost:3000/${url}`);
   await page.reload();
   await page.waitFor(rowSelector);
   await page.waitFor('ul.ant-pagination li');

@@ -7,6 +7,8 @@ export * from './app/JmixAppProvider';
 export * from './app/JmixServerError';
 export * from './app/MainStore';
 export * from './app/MenuConfig';
+export * from './app/EventEmitter';
+export * from './app/Router';
 
 export * from './data/DataContext';
 export * from './data/Collection';
@@ -21,3 +23,6 @@ export * from './util/formats';
 export * from './util/temporal';
 export * from './util/errorHandling';
 export * from './util/stateManagement';
+export * from './util/misc';
+export * from './app/Screens';
+export * from './app/Tabs';

@@ -52,6 +52,7 @@
       "trace"
     ],
     "react-hooks/rules-of-hooks": "error",
-    "react-hooks/exhaustive-deps": "warn"
+    "react-hooks/exhaustive-deps": "warn",
+    "forin": false
   }
 }

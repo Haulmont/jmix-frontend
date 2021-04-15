@@ -1,19 +1,24 @@
 import * as React from "react";
 import { observer } from "mobx-react";
-import { Link } from "react-router-dom";
-import { observable, makeObservable } from "mobx";
+import { observable, makeObservable } from 'mobx';
 import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
 
-import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl} from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
+import {collection, injectMainStore, MainStoreInjected, EntityPermAccessControl, ScreensContext, Screens, redirect} from "@haulmont/jmix-react-core";
+import { DataTable, Spinner, referencesListByEntityName } from "@haulmont/jmix-react-ui";
 
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {SerializedEntity, getStringId} from "@haulmont/jmix-rest";
-import {<%= className %>} from "./<%= className %>";
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 
-class <%= listComponentClass %>Component extends React.Component<MainStoreInjected & WrappedComponentProps> {
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+interface I<%= listComponentClass %>ComponentProps {
+  screens: Screens;
+}
+
+class <%= listComponentClass %>Component extends React.Component<MainStoreInjected & WrappedComponentProps & I<%= listComponentClass %>ComponentProps> {
 
   dataCollection = collection<<%= entity.className %>>(<%= entity.className %>.NAME, {
       view: '<%= listView.name %>',
@@ -47,7 +52,33 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
     });
   };
 
-  constructor(props: MainStoreInjected & WrappedComponentProps) {
+  onCrateBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  };
+
+  onEditBtnClick = () => {
+    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
+
+    // If we on root screen
+    if (this.props.screens.currentScreenIndex === 0) {
+      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
+    }
+
+    this.props.screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId: this.selectedRowKey!
+      }
+    });
+  };
+
+  constructor(props) {
     super(props);
 
     makeObservable(this, {
@@ -62,24 +93,22 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
     const buttons = (
       [
         (<EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='create' key='create'>
-          <Link to={<%= className %>.PATH + '/' + <%= className %>.NEW_SUBPATH}>
-            <Button htmlType='button'
-                    style={{margin: '0 12px 12px 0'}}
-                    type='primary'
-                    icon={<PlusOutlined />}>
-              <span><FormattedMessage id='common.create'/></span>
-            </Button>
-          </Link>
+          <Button htmlType='button'
+                  style={{margin: '0 12px 12px 0'}}
+                  onClick={this.onCrateBtnClick}
+                  type='primary'
+                  icon={<PlusOutlined />}>
+            <span><FormattedMessage id='common.create'/></span>
+          </Button>
         </EntityPermAccessControl>),
         (<EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='update' key='update'>
-          <Link to={<%= className %>.PATH + '/' + this.selectedRowKey}>
-            <Button htmlType='button'
-                    style={{margin: '0 12px 12px 0'}}
-                    disabled={!this.selectedRowKey}
-                    type='default'>
-              <FormattedMessage id='common.edit'/>
-            </Button>
-          </Link>
+          <Button htmlType='button'
+                  style={{margin: '0 12px 12px 0'}}
+                  disabled={!this.selectedRowKey}
+                  onClick={this.onEditBtnClick}
+                  type='default'>
+            <FormattedMessage id='common.edit'/>
+          </Button>
         </EntityPermAccessControl>),
         (<EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='delete' key='delete'>
           <Button htmlType='button'
@@ -124,7 +153,7 @@ class <%= listComponentClass %>Component extends React.Component<MainStoreInject
 
 }
 
-const <%=listComponentClass%> = 
+const <%=listComponentClass%> =
   injectIntl(
     injectMainStore(
       observer(
@@ -133,4 +162,8 @@ const <%=listComponentClass%> =
     )
   );
 
-export default <%=listComponentClass%>;
+export default observer(() => {
+  const screens = React.useContext(ScreensContext);
+
+  return <<%=listComponentClass%> screens={screens} />
+});
