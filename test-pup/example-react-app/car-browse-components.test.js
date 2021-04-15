@@ -1,7 +1,7 @@
 const {login} = require("../common/login-to-scr");
 const puppeteer = require("puppeteer");
 
-describe('car browse components for mechanic', () => {
+xdescribe('car browse components for mechanic', () => {
 
   let page;
 

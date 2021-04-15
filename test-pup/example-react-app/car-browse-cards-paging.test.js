@@ -4,7 +4,7 @@ const puppeteer = require("puppeteer");
 
 const checkCarsPaging = checkPaging('div.ant-card');
 
-describe('car browse cards paging', () => {
+xdescribe('car browse cards paging', () => {
 
   let page;
   const url = 'carManagement';
