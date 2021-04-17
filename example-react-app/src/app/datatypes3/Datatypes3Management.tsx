@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "datatypes3Management list",
   <Datatypes3Browse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "Datatypes3Management"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

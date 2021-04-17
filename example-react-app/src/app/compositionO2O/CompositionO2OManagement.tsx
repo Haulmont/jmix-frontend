@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "compositionO2OManagement list",
   <CompositionO2OBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "CompositionO2OManagement"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

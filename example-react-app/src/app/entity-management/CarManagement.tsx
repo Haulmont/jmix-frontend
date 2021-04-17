@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "carManagement list",
   <CarCards />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "CarManagement"
 );
 registerEntityEditorScreen(ENTITY_NAME, "carManagement", <CarEdit />);
 registerEntityBrowserScreen(ENTITY_NAME, "carManagement", <CarCards />);
