@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "boringStringIdManagementTable list",
   <BoringStringIdMgtTableBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "BoringStringIdManagementTable"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

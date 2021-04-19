@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "intIdManagementCards list",
   <IntIdMgtCardsBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "IntIdManagementCards"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

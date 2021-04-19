@@ -64,7 +64,7 @@ const Content = observer((props: ITabProps) => {
 });
 
 function checkRoute(item: RouteItem) {
-  if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink) === 0) {
+  if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
     tabs.push({
       title: item.caption,
       content: item.component,

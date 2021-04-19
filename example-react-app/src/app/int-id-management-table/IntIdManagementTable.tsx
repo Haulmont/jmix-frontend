@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "intIdManagementTable list",
   <IntIdMgtTableBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "IntIdManagementTable"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

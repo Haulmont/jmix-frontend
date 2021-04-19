@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "trickyIdMgr list",
   <TrickyIdList />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "TrickyIdMgr"
 );
 registerEntityEditorScreen(ENTITY_NAME, "trickyIdMgr", <TrickyIdEdit />);
 registerEntityBrowserScreen(ENTITY_NAME, "trickyIdMgr", <TrickyIdList />);

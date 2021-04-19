@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "associationM2MManagement list",
   <AssociationM2MBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "AssociationM2MManagement"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

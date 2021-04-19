@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "stringIdMgtListManagement list",
   <StringIdMgtListBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "StringIdMgtListManagement"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "weirdStringIdMgtCardsManagement list",
   <WeirdStringIdMgtCardsBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "WeirdStringIdMgtCardsManagement"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,

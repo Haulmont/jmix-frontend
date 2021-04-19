@@ -126,7 +126,7 @@ function menuItem(
   return (
     <Menu.Item key={keyString} onClick={handleClick}>
       <BarsOutlined />
-      <FormattedMessage id={"router." + item.caption} />
+      <FormattedMessage id={"router." + routeItem.screenId} />
     </Menu.Item>
   );
 }

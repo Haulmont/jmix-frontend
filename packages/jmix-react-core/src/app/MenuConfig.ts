@@ -3,6 +3,7 @@ export interface RouteItem {
   menuLink: string
   component: any
   caption: string
+  screenId: string;
 }
 
 export interface SubMenu {

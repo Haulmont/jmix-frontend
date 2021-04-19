@@ -114,7 +114,7 @@ export function registerEntityEditorScreen(entityName: string, title: string, co
  * @param component - your screen component. Example: <MyComponent />.
  * @param entityName - name of your entity.
  */
-export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string) {
+export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string, screenId: string) {
   const Comp = observer(() => {
     const screens = useContext(ScreensContext);
 
@@ -147,5 +147,6 @@ export function registerRoute(routePath: string, menuPath: string, title: string
     menuLink: menuPath,
     component: <Comp />,
     caption: title,
+    screenId,
   });
 }

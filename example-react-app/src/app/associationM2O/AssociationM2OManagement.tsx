@@ -15,7 +15,8 @@ registerRoute(
   ROUTING_PATH,
   "associationM2OManagement list",
   <AssociationM2OBrowse />,
-  ENTITY_NAME
+  ENTITY_NAME,
+  "AssociationM2OManagement"
 );
 registerEntityEditorScreen(
   ENTITY_NAME,
