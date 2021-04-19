@@ -1,10 +1,10 @@
 import {PaginationConfig} from "antd/es/pagination";
-import {DataCollectionStore} from "@haulmont/jmix-react-core";
 import React from "react";
 import queryString from "query-string"
 import {Pagination} from "antd";
 import {toJS} from "mobx";
 import { TablePaginationConfig } from "antd/es/table";
+import {PaginationChangeCallback} from "../table/DataTable";
 
 type Props = {
   paginationConfig: PaginationConfig;
@@ -73,7 +73,7 @@ export function parsePagingParams(locationSearch: string,
 
 function parseIntParam(param: string | string[] | null | undefined, defaultValue: number | undefined): number | undefined {
   if (typeof param !== 'string') return defaultValue;
-  const parsed = parseInt(param);
+  const parsed = parseInt(param, 10);
   return isNaN(parsed) ? defaultValue : parsed;
 }
 
@@ -91,6 +91,7 @@ export function addPagingParams(url: string, current: number | undefined, pageSi
   return `${url}?page=${current}&pageSize=${pageSize}`;
 }
 
+// TODO docs
 /**
  * Apply paginationConfig to collectionDataStore, reload dataStore if required
  *
@@ -98,29 +99,29 @@ export function addPagingParams(url: string, current: number | undefined, pageSi
  * @param dataCollection -page size and current page will be set to this collection data store
  * @param reload - reload collection data store, if needsr
  */
-export function setPagination<E>(pagination: PaginationConfig | TablePaginationConfig, dataCollection: DataCollectionStore<E>, reload: boolean = false) {
+export function setPagination(pagination: PaginationConfig | TablePaginationConfig, onPaginationChange: PaginationChangeCallback) {
 
   const {disabled, pageSize, current} = pagination;
 
   if (disabled === true) {
-    dataCollection.limit = null;
-    dataCollection.offset = null;
-    dataCollection.skipCount = true;
-    if (reload) dataCollection.load();
+    onPaginationChange({
+      limit: null,
+      offset: null,
+      skipCount: true
+    });
+    // TODO reload?
     return;
   }
 
-  // need to sync enabled pagination config and dataCollection - reset limit and offset
-  if (dataCollection.skipCount) {
-    dataCollection.skipCount = false;
-  }
-
   if (pageSize && current) {
-    dataCollection.limit = pageSize;
-    dataCollection.offset = pageSize * (current - 1);
+    onPaginationChange({
+      limit: pageSize,
+      offset: pageSize * (current - 1),
+      skipCount: false
+    });
   }
 
-  if (reload) dataCollection.load();
+  // TODO reload? if (reload) dataCollection.load();
 }
 
 

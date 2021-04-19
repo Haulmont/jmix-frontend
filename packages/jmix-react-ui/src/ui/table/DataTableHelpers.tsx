@@ -2,9 +2,6 @@ import {ColumnProps, TablePaginationConfig} from 'antd/es/table';
 import {SorterResult, ColumnFilterItem, FilterDropdownProps} from 'antd/es/table/interface';
 import React, { ReactText } from 'react';
 import {
-  Condition,
-  ConditionsGroup,
-  EntityFilter,
   EnumInfo,
   EnumValueInfo,
   MetaPropertyInfo
@@ -15,48 +12,55 @@ import {
   DataTableCustomFilter as CustomFilter,
 } from './DataTableCustomFilter';
 import { toJS } from 'mobx';
-import { MainStore, getPropertyInfoNN, DataCollectionStore, getPropertyCaption, isPropertyTypeSupported } from '@haulmont/jmix-react-core';
-import {OperatorType, FilterValue} from "@haulmont/jmix-rest";
+import { MainStore, getPropertyInfoNN, getPropertyCaption, isPropertyTypeSupported, HasId, MayHaveInstanceName } from '@haulmont/jmix-react-core';
 import {setPagination} from "../paging/Paging";
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
+import {
+  FilterChangeCallback,
+  FilterConditions,
+  PaginationChangeCallback,
+  SortOrder,
+  SortOrderChangeCallback
+} from "./DataTable";
 
 // todo we should not use '*Helpers' in class name in case of lack semantic. This class need to be split
 //  to different files like 'DataColumn', 'Conditions', 'Filters', 'Paging' ot something like this
 //  https://github.com/cuba-platform/frontend/issues/133
 
 export interface DataColumnConfig {
-  propertyName: string,
-  entityName: string,
+  propertyName: string;
+  entityName: string;
   /**
    * Whether to enable a filter for this column
    */
-  enableFilter: boolean,
+  enableFilter: boolean;
   /**
    * An object received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback,
    * it is a mapping between column names and currently applied filters.
    */
-  filters: Record<string, any> | undefined,
+  filters: Record<string, any> | undefined;
   /**
    * See {@link DataTableCustomFilterProps.operator}
    */
-  operator: ComparisonType | undefined,
-  onOperatorChange: (operator: ComparisonType, propertyName: string) => void,
+  operator: ComparisonType | undefined;
+  onOperatorChange: (operator: ComparisonType, propertyName: string) => void;
   /**
    * See {@link DataTableCustomFilterProps.value}
    */
   // TODO probably type should be changed to CustomFilterInputValue
-  value: any,
-  onValueChange: (value: any, propertyName: string) => void,
+  value: any;
+  onValueChange: (value: any, propertyName: string) => void;
   /**
    * Whether to enable sorting on this column
    */
-  enableSorter: boolean,
-  mainStore: MainStore,
+  enableSorter: boolean;
+  mainStore: MainStore;
   /**
    * See {@link DataTableCustomFilterProps.customFilterRef}
    */
-  customFilterRef?: (instance: FormInstance) => void
+  customFilterRef?: (instance: FormInstance) => void;
+  associationOptions?: Array<HasId & MayHaveInstanceName>;
 }
 
 /**
@@ -166,7 +170,8 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     onValueChange,
     enableSorter,
     mainStore,
-    customFilterRef
+    customFilterRef,
+    associationOptions
   } = config;
 
   let dataIndex: string | string[];
@@ -223,6 +228,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
           value,
           onValueChange,
           customFilterRef,
+          associationOptions
         ),
         ...defaultColumnProps
       };
@@ -263,6 +269,7 @@ export function generateCustomFilterDropdown(
   value: any,
   onValueChange: (value: any, propertyName: string) => void,
   customFilterRefCallback?: (instance: FormInstance) => void,
+  associationOptions?: any,
 ): (props: FilterDropdownProps) => React.ReactNode {
 
   return (props: FilterDropdownProps) => (
@@ -274,11 +281,13 @@ export function generateCustomFilterDropdown(
                   value={value}
                   onValueChange={onValueChange}
                   customFilterRef={customFilterRefCallback}
+                  associationOptions={associationOptions}
     />
   )
 
 }
 
+// TODO docs
 /**
  * Sets filters on provided `dataCollection` based on current state of table filters
  *
@@ -287,65 +296,59 @@ export function generateCustomFilterDropdown(
  * @param mainStore
  * @param dataCollection
  */
-export function setFilters<E>(
-  tableFilters: Record<string, (ReactText | boolean)[] | null>,
+export function setFilters(
+  tableFilters: Record<string, Array<ReactText | boolean> | null>,
+  apiFilters: FilterConditions,
+  onFilterChange: FilterChangeCallback,
+  entityName: string,
   fields: string[],
   mainStore: MainStore,
-  dataCollection: DataCollectionStore<E>,
 ) {
-  let entityFilter: EntityFilter | undefined;
+  let nextApiFilters: FilterConditions = {};
 
-  if (dataCollection.filter && dataCollection.filter.conditions && dataCollection.filter.conditions.length > 0) {
+  if (Object.keys(apiFilters).length > 0) {
 
-    const preservedConditions: Array<Condition | ConditionsGroup> = dataCollection.filter.conditions
-      .filter(condition => isPreservedCondition(condition, fields));
+    // We check which of the current API filter conditions needs to be preserved regardless of table filters state.
+    // Particularly we preserve filters on columns that are not displayed.
+    // TODO proper type
+    const preservedConditions: FilterConditions = getPreservedConditions(apiFilters, fields);
 
     if (preservedConditions.length > 0) {
-      entityFilter = {
-        conditions: preservedConditions
+      nextApiFilters = {
+        ...nextApiFilters,
+        ...preservedConditions
       };
     }
   }
 
+  // Now we modify API filters based on the state of table filters
   if (tableFilters) {
     fields.forEach((propertyName: string) => {
       if (tableFilters.hasOwnProperty(propertyName)
           && tableFilters[propertyName] != null
           && tableFilters[propertyName]!.length > 0) {
-        if (!entityFilter) {
-          entityFilter = {
-            conditions: []
-          };
-        }
 
-        const propertyInfoNN = getPropertyInfoNN(propertyName as string, dataCollection.entityName, mainStore.metadata!);
+        const propertyInfoNN = getPropertyInfoNN(propertyName as string, entityName, mainStore.metadata!);
         if (propertyInfoNN.attributeType === 'ENUM') {
-          pushCondition(entityFilter, propertyName, 'in', tableFilters[propertyName]);
+          nextApiFilters[propertyName] = {_in: tableFilters[propertyName]};
         } else {
           const {operator, value} = JSON.parse(String(tableFilters[propertyName]![0]));
-          if (operator === 'inInterval') {
+          if (operator === '__inInterval') {
             const {minDate, maxDate} = value;
-            pushCondition(entityFilter, propertyName, '>=', minDate);
-            pushCondition(entityFilter, propertyName, '<=', maxDate);
+            nextApiFilters[propertyName] = {'_gte': minDate};
+            nextApiFilters[propertyName] = {'_lte': maxDate};
           } else {
-            pushCondition(entityFilter, propertyName, operator, value);
+            nextApiFilters[propertyName] = {[operator]: value};
           }
         }
       }
     });
   }
 
-  dataCollection.filter = entityFilter ?? null;
+  onFilterChange(nextApiFilters);
 }
 
-function pushCondition(ef: EntityFilter,
-                       property: string,
-                       operator: OperatorType,
-                       val: ReactText | (ReactText | boolean)[] | null) {
-  const value = val as FilterValue;
-  ef.conditions.push({property, operator, value});
-}
-
+// TODO docs
 /**
  * Sets sort field/order on provided `dataCollection` based on current state of table `sorter`.
  *
@@ -355,9 +358,9 @@ function pushCondition(ef: EntityFilter,
  * @param dataCollection
  */
 // todo could we make defaultSort of type defined as properties keys of 'E' ?
-export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, defaultSort: string | undefined, dataCollection: DataCollectionStore<E>) {
+export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, onSortOrderChange: SortOrderChangeCallback, defaultSort?: SortOrder) {
   if (sorter != null && !Array.isArray(sorter) && sorter.order != null) {
-    const sortOrderPrefix: string = (sorter.order === 'descend') ? '-' : '+';
+    const sortDirection: 'ASC' | 'DESC' = (sorter.order === 'descend') ? 'DESC' : 'ASC';
 
     let sortField: string;
     if (typeof sorter.field === 'string' && sorter.field.endsWith('._instanceName')) {
@@ -366,16 +369,16 @@ export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, d
       sortField = String(sorter.field);
     }
 
-    dataCollection.sort = sortOrderPrefix + sortField;
+    onSortOrderChange({[sortField]: sortDirection});
   } else {
-    dataCollection.sort = defaultSort ?? null;
+    onSortOrderChange(defaultSort);
   }
 }
 
 /**
  * @typeparam E - entity type
  */
-export interface TableChangeDTO<E> {
+export interface TableChangeShape<E> {
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
@@ -383,24 +386,25 @@ export interface TableChangeDTO<E> {
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
-  filters: Record<string, (Key | boolean)[] | null>,
+  tableFilters: Record<string, Array<Key | boolean> | null>,
+  apiFilters: FilterConditions;
+  onFilterChange: FilterChangeCallback;
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
   sorter: SorterResult<E> | Array<SorterResult<E>>,
   /**
    * Default sort order.
-   * Property name opionally preceeded by `+` or `-` character.
-   * If the name is preceeded by `+`, or there is no preceeding character, then the sort order is ascending.
-   * If the name is preceeded by `-`, then the sort order is descending.
    */
-  defaultSort: string | undefined,
+  defaultSortOrder?: SortOrder,
+  onSortOrderChange: SortOrderChangeCallback,
+  onPaginationChange: PaginationChangeCallback,
   /**
    * Names of the entity properties that should be displayed.
    */
   fields: string[],
   mainStore: MainStore,
-  dataCollection: DataCollectionStore<E>,
+  entityName: string;
 }
 
 /**
@@ -409,50 +413,37 @@ export interface TableChangeDTO<E> {
  *
  * @typeparam E - entity type.
  *
- * @param tableChangeDTO
+ * @param tableChange
  */
-export function handleTableChange<E>(tableChangeDTO: TableChangeDTO<E>): Promise<void> {
+export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
   const {
     pagination,
-    filters,
+    tableFilters,
+    apiFilters,
+    onFilterChange,
     sorter,
-    defaultSort,
+    defaultSortOrder,
+    onSortOrderChange,
+    onPaginationChange,
     fields,
     mainStore,
-    dataCollection
-  } = tableChangeDTO;
+    entityName
+  } = tableChange;
 
-  setFilters(filters, fields, mainStore, dataCollection);
-  setSorter(sorter, defaultSort, dataCollection);
-  setPagination(pagination, dataCollection);
-
-  return dataCollection.load();
+  setFilters(tableFilters, apiFilters, onFilterChange, entityName, fields, mainStore);
+  setSorter(sorter, onSortOrderChange, defaultSortOrder);
+  setPagination(pagination, onPaginationChange);
 }
 
-/**
- * Converts EntityFilter to antd table filters object.
- * Useful e.g. to set the initial state of table filters when the table is loaded with a predefined EntityFilter.
- *
- * @param entityFilter
- * @param fields - names of the entity properties displayed in the table.
- * Allows to check the `EntityFilter.conditions` against the list of displayed fields and ensure that only
- * the conditions related to the displayed fields are used.
- */
-export function entityFilterToTableFilters(entityFilter: EntityFilter, fields?: string[]): Record<string, any> {
+// TODO docs
+export function graphqlFilterToTableFilters(initialFilter: FilterConditions, fields?: string[]): Record<string, any> {
   const tableFilters: Record<string, any> = {};
 
-  entityFilter.conditions.forEach(condition => {
-    if (isConditionsGroup(condition)) {
-      // ConditionsGroup cannot be represented in / changed via the table UI
-      return;
-    }
-    condition = condition as Condition;
-
-    // TODO @deprecated We might want to make `fields` parameter mandatory in the next major version
-    if (!fields || fields.indexOf(condition.property)) {
-      tableFilters[condition.property] = [JSON.stringify({
-        operator: condition.operator,
-        value: condition.value
+  Object.entries(initialFilter).forEach(([propertyName, condition]) => {
+    if (!fields || fields.indexOf(propertyName)) {
+      tableFilters[propertyName] = [JSON.stringify({
+        operator: Object.keys(condition)[0],
+        value: Object.values(condition)[0]
       })];
     }
   });
@@ -460,20 +451,11 @@ export function entityFilterToTableFilters(entityFilter: EntityFilter, fields?: 
   return tableFilters;
 }
 
-export function isConditionsGroup(conditionOrConditionsGroup: Condition | ConditionsGroup): boolean {
-  return 'conditions' in conditionOrConditionsGroup;
-}
-
-/**
- * Determines whether a condition shall be preserved in `DataCollectionStore` when clearing table filters.
- *
- * @remarks
- * Preserved conditions include `ConditionGroup`s and conditions on fields that are not displayed in the table.
- * Effectively they act as invisible filters that cannot be disabled.
- *
- * @param condition
- * @param fields - names of the entity properties displayed in the table
- */
-export function isPreservedCondition(condition: Condition | ConditionsGroup, fields: string[]): boolean {
-  return isConditionsGroup(condition) || fields.indexOf((condition as Condition).property) === -1;
+export function getPreservedConditions(filters: FilterConditions, fields: string[]): FilterConditions {
+  return Object.keys(filters)
+    .filter((attrName: string) => fields.indexOf(attrName) === -1) // filter attributes that are not displayed
+    .reduce((preservedFilters: FilterConditions, attrName: string) => {
+      preservedFilters[attrName] = filters[attrName];
+      return preservedFilters;
+    }, {});
 }
