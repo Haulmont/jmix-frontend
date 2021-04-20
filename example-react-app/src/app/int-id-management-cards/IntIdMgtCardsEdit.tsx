@@ -55,7 +55,7 @@ class IntIdMgtCardsEditComponent extends React.Component<
 
   dataInstance = instance<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   updated = false;

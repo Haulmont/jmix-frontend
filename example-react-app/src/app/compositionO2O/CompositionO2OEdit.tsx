@@ -57,7 +57,7 @@ class CompositionO2OEditComponent extends React.Component<
     CompositionO2OTestEntity.NAME,
     {
       view: "compositionO2OTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

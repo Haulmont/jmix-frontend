@@ -59,7 +59,7 @@ export const DatatypesCards = observer(() => {
     DatatypesTestEntity.NAME,
     {
       view: "datatypesTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

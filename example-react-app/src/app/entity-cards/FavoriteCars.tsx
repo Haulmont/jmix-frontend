@@ -34,7 +34,7 @@ export const FavoriteCars = observer(() => {
     FavoriteCar.NAME,
     {
       view: "favoriteCar-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

@@ -49,7 +49,7 @@ class IntIdentityIdMgtCardsBrowseComponent extends React.Component<Props> {
     IntIdentityIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

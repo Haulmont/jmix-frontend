@@ -55,7 +55,7 @@ class StringIdMgtCardsEditComponent extends React.Component<
 
   dataInstance = instance<StringIdTestEntity>(StringIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   updated = false;

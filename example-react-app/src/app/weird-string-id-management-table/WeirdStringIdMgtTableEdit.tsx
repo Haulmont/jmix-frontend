@@ -57,7 +57,7 @@ class WeirdStringIdMgtTableEditComponent extends React.Component<
     WeirdStringIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

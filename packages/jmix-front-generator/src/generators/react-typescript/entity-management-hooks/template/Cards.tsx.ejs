@@ -41,7 +41,7 @@ class <%= listComponentClass %>Component extends React.Component<Props> {
     <% if (entity.updatable == true) { -%>
       sort: '-updateTs',
     <% } -%>
-    loadImmediately: false,
+    loadImmediately: true,
     <% if (locals.stringIdName != null) { %>
       stringIdName: '<%= stringIdName %>'
     <% } %>

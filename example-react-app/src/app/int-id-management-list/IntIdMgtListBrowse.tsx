@@ -47,7 +47,7 @@ const ROUTING_PATH = "/intIdManagementList";
 class IntIdMgtListBrowseComponent extends React.Component<Props> {
   dataCollection = collection<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

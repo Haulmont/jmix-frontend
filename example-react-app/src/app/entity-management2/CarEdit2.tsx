@@ -59,7 +59,7 @@ class CarEdit2Component extends React.Component<
 
   dataInstance = instance<Car>(Car.NAME, {
     view: "car-edit",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   garagesDc: DataCollectionStore<Garage> | null = null;

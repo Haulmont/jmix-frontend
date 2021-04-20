@@ -60,7 +60,7 @@ class AssociationM2MEditComponent extends React.Component<
     AssociationM2MTestEntity.NAME,
     {
       view: "associationM2MTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

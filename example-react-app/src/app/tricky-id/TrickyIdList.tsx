@@ -47,7 +47,7 @@ const ROUTING_PATH = "/trickyIdMgr";
 class TrickyIdListComponent extends React.Component<Props> {
   dataCollection = collection<TrickyIdTestEntity>(TrickyIdTestEntity.NAME, {
     view: "_base",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

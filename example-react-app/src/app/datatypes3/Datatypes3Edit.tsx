@@ -55,7 +55,7 @@ class Datatypes3EditComponent extends React.Component<
 
   dataInstance = instance<DatatypesTestEntity3>(DatatypesTestEntity3.NAME, {
     view: "datatypesTestEntity3-view",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   updated = false;

@@ -164,7 +164,7 @@ const HooksPOCEdit = (props: Props) => {
     DatatypesTestEntity.NAME,
     {
       view: "datatypesTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

@@ -44,7 +44,7 @@ export const StringIdCards = observer(() => {
     StringIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

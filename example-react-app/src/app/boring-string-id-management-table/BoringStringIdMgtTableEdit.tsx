@@ -57,7 +57,7 @@ class BoringStringIdMgtTableEditComponent extends React.Component<
     BoringStringIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

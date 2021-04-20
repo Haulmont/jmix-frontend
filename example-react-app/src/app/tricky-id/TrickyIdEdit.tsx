@@ -55,7 +55,7 @@ class TrickyIdEditComponent extends React.Component<
 
   dataInstance = instance<TrickyIdTestEntity>(TrickyIdTestEntity.NAME, {
     view: "_base",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   updated = false;
