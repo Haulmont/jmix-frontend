@@ -1,8 +1,9 @@
 export * from './formatters/antFormToGraphql';
 export * from './formatters/graphqlToAntForm';
 
-export * from './crud/EntityEditor';
-export * from './crud/EntityList';
+export * from './crud/useEntityEditor';
+export * from './crud/useEntityList';
+export * from './crud/useEntityTable';
 export * from './crud/interfaces';
 
 export * from './ui/EntityProperty';

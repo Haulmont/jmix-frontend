@@ -7,11 +7,10 @@ import {
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
 import {PaginationConfig} from "antd/es/pagination";
-import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId, toIdString} from "@haulmont/jmix-react-core";
+import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect} from "react";
 import {Modal} from "antd";
-import { useLocalStore } from "mobx-react";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
@@ -19,7 +18,6 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
   paginationConfig: PaginationConfig;
-  queryName: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -29,14 +27,6 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   deleteMutationResult: MutationResult,
   intl: IntlShape;
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
-  getRecordById: (id: string) => EntityInstance<TEntity>;
-  deleteSelectedRow: () => void;
-  handleRowSelectionChange: (selectedRowKeys: string[]) => void;
-  selectedRowKey?: string;
-}
-
-export interface EntityListLocalStore {
-  selectedRowKey?: string;
 }
 
 export function useEntityList<
@@ -53,19 +43,12 @@ export function useEntityList<
     deleteMutation,
     deleteMutationOptions,
     paginationConfig,
-    queryName
   } = options;
 
   const intl = useIntl();
-  const store: EntityListLocalStore = useLocalStore(() => ({
-    selectedRowKey: undefined
-  }));
 
   const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, listQueryOptions);
   const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
-
-  const {data} = listQueryResult;
-  const items = data?.[queryName];
 
   // Load items
   useEffect(() => {
@@ -74,42 +57,10 @@ export function useEntityList<
     });
   }, [paginationConfig, loadItems]);
 
-  // Callbacks for list components
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem);
 
-  const getRecordById = useCallback(
-    (id: string): EntityInstance<TEntity> => {
-      const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
-
-      if (!record) {
-        throw new Error("Cannot find entity with id " + id);
-      }
-
-      return record;
-    },
-    [items]
-  );
-
-  const deleteSelectedRow = useCallback(
-    () => {
-      if (store.selectedRowKey != null) {
-        showDeletionDialog(getRecordById(store.selectedRowKey));
-      }
-    },
-    [getRecordById, showDeletionDialog, store.selectedRowKey]
-  );
-
-  const handleRowSelectionChange = useCallback(
-    (selectedRowKeys: string[]) => {
-      store.selectedRowKey = selectedRowKeys[0];
-    },
-    [store.selectedRowKey]
-  );
-
   return {
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl,
-    showDeletionDialog, getRecordById, deleteSelectedRow, handleRowSelectionChange,
-    selectedRowKey: store.selectedRowKey
+    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog
   };
 }
 
