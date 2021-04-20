@@ -1,10 +1,10 @@
 import React from "react";
 import {useObserver} from "mobx-react";
 import {Link} from "react-router-dom";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, List} from "antd";
-import {EntityInstance, getFields, EntityPermAccessControl, toIdString} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
+import {PlusOutlined} from '@ant-design/icons';
+import {Button} from "antd";
+import {EntityPermAccessControl, useMainStore} from "@haulmont/jmix-react-core";
+import {DataTable, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {PATH, NEW_SUBPATH} from "./<%= className %>";
 import {FormattedMessage} from "react-intl";
@@ -48,6 +48,8 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 const <%= listComponentClass %> = (props: Props) => {
   const { paginationConfig, onPagingChange } = props;
 
+  const mainStore = useMainStore();
+
   const {
     loadItems,
     listQueryResult: {loading, error, data},
@@ -57,7 +59,8 @@ const <%= listComponentClass %> = (props: Props) => {
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    paginationConfig
+    paginationConfig,
+    queryName: '<%= dollarsToUnderscores(entity.name) %>'
   });
 
   return useObserver(() => {

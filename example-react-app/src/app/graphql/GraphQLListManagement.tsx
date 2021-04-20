@@ -1,32 +1,32 @@
 import React, { useCallback } from "react";
 import { RouteComponentProps } from "react-router";
 import { useLocalStore, useObserver } from "mobx-react";
-import GraphQLEdit from "./GraphQLEdit";
-import GraphQLList from "./GraphQLList";
+import GraphQLListEdit from "./GraphQLListEdit";
+import GraphQLListBrowser from "./GraphQLListBrowser";
 import { action } from "mobx";
 import { PaginationConfig } from "antd/es/pagination";
 import { addPagingParams, createPagingConfig } from "@haulmont/jmix-react-ui";
 
 type Props = Partial<RouteComponentProps<{ entityId?: string }>>;
 
-type GraphQLManagementLocalStore = {
+type GraphQLListManagementLocalStore = {
   paginationConfig: PaginationConfig;
 };
 
-export const PATH = "/graphQLManagement";
+export const PATH = "/graphQLListManagement";
 export const NEW_SUBPATH = "new";
 
-export const GraphQLManagement = (props: Props) => {
+export const GraphQLListManagement = (props: Props) => {
   const { entityId } = props.match?.params ?? {};
 
-  const store: GraphQLManagementLocalStore = useLocalStore(() => ({
+  const store: GraphQLListManagementLocalStore = useLocalStore(() => ({
     paginationConfig: createPagingConfig(props.location?.search ?? "")
   }));
 
   const onPagingChange = useCallback(
     action((current: number, pageSize: number) => {
       props.history?.push(
-        addPagingParams("graphQLManagement", current, pageSize)
+        addPagingParams("graphQLListManagement", current, pageSize)
       );
       store.paginationConfig = { ...store.paginationConfig, current, pageSize };
     }),
@@ -35,9 +35,9 @@ export const GraphQLManagement = (props: Props) => {
 
   return useObserver(() => {
     return entityId != null ? (
-      <GraphQLEdit entityId={entityId} />
+      <GraphQLListEdit entityId={entityId} />
     ) : (
-      <GraphQLList
+      <GraphQLListBrowser
         onPagingChange={onPagingChange}
         paginationConfig={store.paginationConfig}
       />

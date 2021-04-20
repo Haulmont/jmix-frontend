@@ -1,7 +1,7 @@
 import React from "react";
 import { Form, Alert, Button, Card } from "antd";
 import { useObserver } from "mobx-react";
-import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
+import { PATH, NEW_SUBPATH } from "./GraphQLListManagement";
 import { Link, Redirect } from "react-router-dom";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
@@ -54,7 +54,7 @@ const UPSERT_SCR_CAR = gql`
   }
 `;
 
-const GraphQLEdit = (props: Props) => {
+const GraphQLListEdit = (props: Props) => {
   const { entityId } = props;
 
   const {
@@ -244,4 +244,4 @@ const GraphQLEdit = (props: Props) => {
   });
 };
 
-export default GraphQLEdit;
+export default GraphQLListEdit;

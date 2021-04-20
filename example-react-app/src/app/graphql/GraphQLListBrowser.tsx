@@ -17,7 +17,7 @@ import {
   useEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
-import { PATH, NEW_SUBPATH } from "./GraphQLManagement";
+import { PATH, NEW_SUBPATH } from "./GraphQLListManagement";
 import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 import { gql } from "@apollo/client";
@@ -65,7 +65,7 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const GraphQLList = (props: Props) => {
+const GraphQLListBrowser = (props: Props) => {
   const { paginationConfig, onPagingChange } = props;
 
   const {
@@ -84,7 +84,7 @@ const GraphQLList = (props: Props) => {
       return <RetryDialog onRetry={loadItems} />;
     }
 
-    if (loading || data == null) {
+    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
 
@@ -159,4 +159,4 @@ const GraphQLList = (props: Props) => {
   });
 };
 
-export default GraphQLList;
+export default GraphQLListBrowser;

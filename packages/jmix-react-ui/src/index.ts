@@ -3,6 +3,7 @@ export * from './formatters/graphqlToAntForm';
 
 export * from './crud/EntityEditor';
 export * from './crud/EntityList';
+export * from './crud/interfaces';
 
 export * from './ui/EntityProperty';
 export * from './ui/form/Form';

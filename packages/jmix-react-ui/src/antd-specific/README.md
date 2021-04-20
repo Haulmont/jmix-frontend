@@ -1,0 +1,1 @@
+Put all new antd-specific code into this folder. In future we might extract antd-specific code into a separate library.

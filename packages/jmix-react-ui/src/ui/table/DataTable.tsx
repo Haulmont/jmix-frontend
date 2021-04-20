@@ -35,21 +35,11 @@ import {
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
+import {JmixEntityFilter, JmixPagination, JmixSortOrder} from '../../crud/interfaces';
 
-// TODO move to react-core
-export type SortOrder = {[key: string]: 'ASC' | 'DESC'};
-export type FilterConditions = {
-  [key: string]: any
-};
-export type PaginationConditions = {
-  limit: number | null;
-  offset: number | null;
-  skipCount: boolean;
-};
-
-export type FilterChangeCallback = (filters?: FilterConditions) => void;
-export type SortOrderChangeCallback = (sortOrder?: SortOrder) => void
-export type PaginationChangeCallback = (pagination: PaginationConditions) => void;
+export type FilterChangeCallback = (filters?: JmixEntityFilter) => void;
+export type SortOrderChangeCallback = (sortOrder?: JmixSortOrder) => void
+export type PaginationChangeCallback = (pagination: JmixPagination) => void;
 
 /**
  * @typeparam TEntity - entity type.
@@ -63,9 +53,9 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, WrappedCompo
    * Initial state of table filters.
    * Can be used to set a filtering condition on an entity attribute that is not displayed.
    */
-  initialFilter: FilterConditions;
+  initialFilter: JmixEntityFilter;
   onFilterChange: FilterChangeCallback;
-  defaultSortOrder: SortOrder;
+  defaultSortOrder: JmixSortOrder;
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
   entityName: string;

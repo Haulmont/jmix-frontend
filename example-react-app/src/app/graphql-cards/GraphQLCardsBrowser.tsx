@@ -84,7 +84,7 @@ const GraphQLCardsBrowser = (props: Props) => {
       return <RetryDialog onRetry={loadItems} />;
     }
 
-    if (loading || data == null) {
+    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
 

@@ -13,16 +13,15 @@ import {
 } from './DataTableCustomFilter';
 import { toJS } from 'mobx';
 import { MainStore, getPropertyInfoNN, getPropertyCaption, isPropertyTypeSupported, HasId, MayHaveInstanceName } from '@haulmont/jmix-react-core';
-import {setPagination} from "../paging/Paging";
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
 import {
   FilterChangeCallback,
-  FilterConditions,
   PaginationChangeCallback,
-  SortOrder,
   SortOrderChangeCallback
 } from "./DataTable";
+import { convertPaginationAntd2Jmix } from '../../antd-specific/pagination';
+import {JmixEntityFilter, JmixSortOrder} from "../../crud/interfaces";
 
 // todo we should not use '*Helpers' in class name in case of lack semantic. This class need to be split
 //  to different files like 'DataColumn', 'Conditions', 'Filters', 'Paging' ot something like this
@@ -298,20 +297,20 @@ export function generateCustomFilterDropdown(
  */
 export function setFilters(
   tableFilters: Record<string, Array<ReactText | boolean> | null>,
-  apiFilters: FilterConditions,
+  apiFilters: JmixEntityFilter,
   onFilterChange: FilterChangeCallback,
   entityName: string,
   fields: string[],
   mainStore: MainStore,
 ) {
-  let nextApiFilters: FilterConditions = {};
+  let nextApiFilters: JmixEntityFilter = {};
 
   if (Object.keys(apiFilters).length > 0) {
 
     // We check which of the current API filter conditions needs to be preserved regardless of table filters state.
     // Particularly we preserve filters on columns that are not displayed.
     // TODO proper type
-    const preservedConditions: FilterConditions = getPreservedConditions(apiFilters, fields);
+    const preservedConditions: JmixEntityFilter = getPreservedConditions(apiFilters, fields);
 
     if (preservedConditions.length > 0) {
       nextApiFilters = {
@@ -358,7 +357,7 @@ export function setFilters(
  * @param dataCollection
  */
 // todo could we make defaultSort of type defined as properties keys of 'E' ?
-export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, onSortOrderChange: SortOrderChangeCallback, defaultSort?: SortOrder) {
+export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, onSortOrderChange: SortOrderChangeCallback, defaultSort?: JmixSortOrder) {
   if (sorter != null && !Array.isArray(sorter) && sorter.order != null) {
     const sortDirection: 'ASC' | 'DESC' = (sorter.order === 'descend') ? 'DESC' : 'ASC';
 
@@ -387,7 +386,7 @@ export interface TableChangeShape<E> {
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
   tableFilters: Record<string, Array<Key | boolean> | null>,
-  apiFilters: FilterConditions;
+  apiFilters: JmixEntityFilter;
   onFilterChange: FilterChangeCallback;
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
@@ -396,7 +395,7 @@ export interface TableChangeShape<E> {
   /**
    * Default sort order.
    */
-  defaultSortOrder?: SortOrder,
+  defaultSortOrder?: JmixSortOrder,
   onSortOrderChange: SortOrderChangeCallback,
   onPaginationChange: PaginationChangeCallback,
   /**
@@ -432,11 +431,11 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
 
   setFilters(tableFilters, apiFilters, onFilterChange, entityName, fields, mainStore);
   setSorter(sorter, onSortOrderChange, defaultSortOrder);
-  setPagination(pagination, onPaginationChange);
+  onPaginationChange(convertPaginationAntd2Jmix(pagination));
 }
 
 // TODO docs
-export function graphqlFilterToTableFilters(initialFilter: FilterConditions, fields?: string[]): Record<string, any> {
+export function graphqlFilterToTableFilters(initialFilter: JmixEntityFilter, fields?: string[]): Record<string, any> {
   const tableFilters: Record<string, any> = {};
 
   Object.entries(initialFilter).forEach(([propertyName, condition]) => {
@@ -451,10 +450,10 @@ export function graphqlFilterToTableFilters(initialFilter: FilterConditions, fie
   return tableFilters;
 }
 
-export function getPreservedConditions(filters: FilterConditions, fields: string[]): FilterConditions {
+export function getPreservedConditions(filters: JmixEntityFilter, fields: string[]): JmixEntityFilter {
   return Object.keys(filters)
     .filter((attrName: string) => fields.indexOf(attrName) === -1) // filter attributes that are not displayed
-    .reduce((preservedFilters: FilterConditions, attrName: string) => {
+    .reduce((preservedFilters: JmixEntityFilter, attrName: string) => {
       preservedFilters[attrName] = filters[attrName];
       return preservedFilters;
     }, {});

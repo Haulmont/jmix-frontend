@@ -45,10 +45,12 @@ import AssociationO2MBrowse from "../app/associationO2M/AssociationO2MBrowse";
 import AssociationO2MEdit from "../app/associationO2M/AssociationO2MEdit";
 import AssociationO2OBrowse from "../app/associationO2O/AssociationO2OBrowse";
 import AssociationO2OEdit from "../app/associationO2O/AssociationO2OEdit";
+import GraphQLTableBrowser from "../app/graphql-table/GraphQLTableBrowser";
+import GraphQLTableEdit from "../app/graphql-table/GraphQLTableEdit";
 import GraphQLCardsBrowser from "../app/graphql-cards/GraphQLCardsBrowser";
 import GraphQLCardsEdit from "../app/graphql-cards/GraphQLCardsEdit";
-import GraphQLList from "../app/graphql/GraphQLList";
-import GraphQLEdit from "../app/graphql/GraphQLEdit";
+import GraphQLListBrowser from "../app/graphql/GraphQLListBrowser";
+import GraphQLListEdit from "../app/graphql/GraphQLListEdit";
 import HooksPOCList from "../app/hooks-poc/HooksPOCList";
 import HooksPOCEdit from "../app/hooks-poc/HooksPOCEdit";
 import DatatypesBrowse3 from "../app/datatypes-test3/DatatypesBrowse3";
@@ -135,12 +137,12 @@ export const ComponentPreviews: React.FC = () => {
         <HooksPOCList />
       </ComponentPreview>
 
-      <ComponentPreview path="/GraphQLEdit">
-        <GraphQLEdit entityId={"new"} />
+      <ComponentPreview path="/GraphQLListEdit">
+        <GraphQLListEdit entityId={"new"} />
       </ComponentPreview>
 
-      <ComponentPreview path="/GraphQLList">
-        <GraphQLList paginationConfig={{}} onPagingChange={() => {}} />
+      <ComponentPreview path="/GraphQLListBrowser">
+        <GraphQLListBrowser paginationConfig={{}} onPagingChange={() => {}} />
       </ComponentPreview>
 
       <ComponentPreview path="/GraphQLCardsEdit">
@@ -149,6 +151,14 @@ export const ComponentPreviews: React.FC = () => {
 
       <ComponentPreview path="/GraphQLCardsBrowser">
         <GraphQLCardsBrowser paginationConfig={{}} onPagingChange={() => {}} />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLTableEdit">
+        <GraphQLTableEdit entityId={"new"} />
+      </ComponentPreview>
+
+      <ComponentPreview path="/GraphQLTableBrowser">
+        <GraphQLTableBrowser />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OEdit">

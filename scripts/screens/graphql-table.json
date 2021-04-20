@@ -1,11 +1,11 @@
 {
   "editAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
-  "editComponentName": "GraphQLEdit",
+  "editComponentName": "GraphQLTableEdit",
   "listAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
-  "listComponentName": "GraphQLTable",
+  "listComponentName": "GraphQLTableBrowser",
   "listType": "table",
   "entity": {
     "name": "scr$Car"
   },
-  "managementComponentName": "GraphQLManagement"
+  "managementComponentName": "GraphQLTableManagement"
 }

@@ -23,8 +23,9 @@ import { AssociationM2MManagement } from "./app/associationM2M/AssociationM2MMan
 import { AssociationM2OManagement } from "./app/associationM2O/AssociationM2OManagement";
 import { AssociationO2MManagement } from "./app/associationO2M/AssociationO2MManagement";
 import { AssociationO2OManagement } from "./app/associationO2O/AssociationO2OManagement";
+import { GraphQLTableManagement } from "./app/graphql-table/GraphQLTableManagement";
 import { GraphQLCardsManagement } from "./app/graphql-cards/GraphQLCardsManagement";
-import { GraphQLManagement } from "./app/graphql/GraphQLManagement";
+import { GraphQLListManagement } from "./app/graphql/GraphQLListManagement";
 import { HooksPOCManagement } from "./app/hooks-poc/HooksPOCManagement";
 import { DatatypesManagement3 } from "./app/datatypes-test3/DatatypesManagement3";
 import { DatatypesManagement2 } from "./app/datatypes-test2/DatatypesManagement2";
@@ -137,10 +138,10 @@ menuItems.push({
 });
 
 menuItems.push({
-  pathPattern: "/graphQLManagement/:entityId?",
-  menuLink: "/graphQLManagement",
-  component: GraphQLManagement,
-  caption: "GraphQLManagement"
+  pathPattern: "/graphQLListManagement/:entityId?",
+  menuLink: "/graphQLListManagement",
+  component: GraphQLListManagement,
+  caption: "GraphQLListManagement"
 });
 
 menuItems.push({
@@ -148,6 +149,13 @@ menuItems.push({
   menuLink: "/graphQLCardsManagement",
   component: GraphQLCardsManagement,
   caption: "GraphQLCardsManagement"
+});
+
+menuItems.push({
+  pathPattern: "/graphQLTableManagement/:entityId?",
+  menuLink: "/graphQLTableManagement",
+  component: GraphQLTableManagement,
+  caption: "GraphQLTableManagement"
 });
 
 menuItems.push({
