@@ -1,62 +1,44 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
+import { useLocalStore, useObserver } from "mobx-react";
 import CarEdit2 from "./CarEdit2";
 import CarList from "./CarList";
+import { action } from "mobx";
 import { PaginationConfig } from "antd/es/pagination";
-import { action, observable, makeObservable } from "mobx";
-import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
-} from "@haulmont/jmix-react-ui";
+import { addPagingParams, createPagingConfig } from "@haulmont/jmix-react-ui";
 
 type Props = Partial<RouteComponentProps<{ entityId?: string }>>;
 
-class CarManagement2Component extends React.Component<Props> {
-  static PATH = "/carManagement2";
-  static NEW_SUBPATH = "new";
+type CarManagement2LocalStore = {
+  paginationConfig: PaginationConfig;
+};
 
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+export const PATH = "/carManagement2";
+export const NEW_SUBPATH = "new";
 
-  constructor(props: Props) {
-    super(props);
+export const CarManagement2 = (props: Props) => {
+  const { entityId } = props.match?.params ?? {};
 
-    makeObservable(this, {
-      paginationConfig: observable,
-      setPaginationConfig: action.bound
-    });
-  }
+  const store: CarManagement2LocalStore = useLocalStore(() => ({
+    paginationConfig: createPagingConfig(props.location?.search ?? "")
+  }));
 
-  setPaginationConfig(paginationConfig: PaginationConfig) {
-    this.paginationConfig = paginationConfig;
-  }
+  const onPagingChange = useCallback(
+    action((current: number, pageSize: number) => {
+      props.history?.push(addPagingParams("carManagement2", current, pageSize));
+      store.paginationConfig = { ...store.paginationConfig, current, pageSize };
+    }),
+    []
+  );
 
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("carManagement2", current, pageSize)
-    );
-    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
-  };
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.setPaginationConfig(
-      createPagingConfig(this.props?.location?.search ?? "")
-    );
-  }
-
-  render() {
-    const entityId = this.props?.match?.params?.entityId;
-    return entityId ? (
+  return useObserver(() => {
+    return entityId != null ? (
       <CarEdit2 entityId={entityId} />
     ) : (
       <CarList
-        onPagingChange={this.onPagingChange}
-        paginationConfig={this.paginationConfig}
+        onPagingChange={onPagingChange}
+        paginationConfig={store.paginationConfig}
       />
     );
-  }
-}
-
-export const CarManagement2 = observer(CarManagement2Component);
+  });
+};

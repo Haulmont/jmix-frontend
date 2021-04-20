@@ -20,11 +20,12 @@ import {
   Select,
   TimePicker,
   Form,
+  FormInstance, message,
 } from 'antd';
 import {
   Cardinality, CommitMode,
   EnumInfo,
-  EnumValueInfo,
+  EnumValueInfo, JmixRestError,
   MetaClassInfo,
   MetaPropertyInfo,
   PropertyType,
@@ -48,6 +49,10 @@ import {CharInput} from "./CharInput";
 import './EntityEditor.less';
 import './NestedEntitiesTableField.less';
 import './NestedEntityField.less';
+import {DataInstanceStore} from "@haulmont/jmix-react-core";
+import { IntlShape } from 'react-intl';
+import {clearFieldErrors, constructFieldsWithErrors, extractServerValidationErrors} from "../../util/errorHandling";
+import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../util/mapJmixRestErrorToIntlId";
 
 
 export interface FieldProps extends MainStoreInjected {
@@ -266,6 +271,54 @@ export function selectFormSuccessMessageId(commitMode?: CommitMode): string {
     default: return "management.editor.updated";
   }
 }
+
+function selectFormErrorMessageId(globalErrors: string[], fieldErrors: Map<string, string[]>): string | void {
+  if (fieldErrors.size > 0 || globalErrors.length > 0) {
+    return "management.editor.validationError";
+  }
+}
+
+export const defaultHandleFinish = <E extends unknown>(
+  values: Record<string, any>,
+  dataInstance: DataInstanceStore<E>,
+  intl: IntlShape,
+  formInstance: FormInstance,
+  commitMode?: CommitMode,
+): Promise<{success: boolean, globalErrors: string[]}> => {
+  clearFieldErrors(formInstance);
+
+  return dataInstance
+    .update(values, commitMode)
+    .then(() => {
+      const successMessageId = selectFormSuccessMessageId(commitMode);
+      message.success(intl.formatMessage({id: successMessageId}));
+
+      return {success: true, globalErrors: []};
+    })
+    .catch((serverError: JmixRestError) => {
+      if (serverError.response && typeof serverError.response.json === "function") {
+        return serverError.response.json().then((response: any) => {
+          const {globalErrors, fieldErrors} = extractServerValidationErrors(response);
+          if (fieldErrors.size > 0) {
+            formInstance.setFields(constructFieldsWithErrors(fieldErrors, formInstance));
+          }
+
+          const errorMessageId = mapJmixRestErrorToIntlId(
+            () => selectFormErrorMessageId(globalErrors, fieldErrors),
+            serverError,
+          )
+          message.error(intl.formatMessage({id: errorMessageId}));
+
+          return {success: false, globalErrors};
+        });
+      } else {
+        message.error(
+          intl.formatMessage({ id: defaultMapJmixRestErrorToIntlId(serverError) })
+        );
+        return {success: false, globalErrors: []};
+      }
+    });
+};
 
 export function getEntityProperties(entityName: string, fields: string[], metadata: MetaClassInfo[]): MetaPropertyInfo[] {
   const allProperties = metadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)

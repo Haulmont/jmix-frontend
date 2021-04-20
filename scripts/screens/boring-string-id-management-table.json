@@ -1,14 +1,8 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_BoringStringIdTestEntity"
-  },
+  "editAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
+  "listAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
   "editComponentName": "BoringStringIdMgtTableEdit",
   "editIdAttrPos": 1,
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_BoringStringIdTestEntity"
-  },
   "listComponentName": "BoringStringIdMgtTableBrowse",
   "listType": "table",
   "listShowIdAttr": true,

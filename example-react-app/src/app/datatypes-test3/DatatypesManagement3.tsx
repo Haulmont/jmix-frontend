@@ -1,59 +1,46 @@
-import * as React from "react";
+import React, { useCallback } from "react";
 import { RouteComponentProps } from "react-router";
-import { observer } from "mobx-react";
+import { useLocalStore, useObserver } from "mobx-react";
 import DatatypesEdit3 from "./DatatypesEdit3";
 import DatatypesBrowse3 from "./DatatypesBrowse3";
+import { action } from "mobx";
 import { PaginationConfig } from "antd/es/pagination";
-import { action, observable, makeObservable } from "mobx";
-import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
-} from "@haulmont/jmix-react-ui";
+import { addPagingParams, createPagingConfig } from "@haulmont/jmix-react-ui";
 
 type Props = Partial<RouteComponentProps<{ entityId?: string }>>;
 
-class DatatypesManagement3Component extends React.Component<Props> {
-  static PATH = "/datatypesManagement3";
-  static NEW_SUBPATH = "new";
+type DatatypesManagement3LocalStore = {
+  paginationConfig: PaginationConfig;
+};
 
-  paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+export const PATH = "/datatypesManagement3";
+export const NEW_SUBPATH = "new";
 
-  constructor(props: Props) {
-    super(props);
+export const DatatypesManagement3 = (props: Props) => {
+  const { entityId } = props.match?.params ?? {};
 
-    makeObservable(this, {
-      paginationConfig: observable,
-      setPaginationConfig: action.bound
-    });
-  }
+  const store: DatatypesManagement3LocalStore = useLocalStore(() => ({
+    paginationConfig: createPagingConfig(props.location?.search ?? "")
+  }));
 
-  setPaginationConfig(paginationConfig: PaginationConfig) {
-    this.paginationConfig = paginationConfig;
-  }
+  const onPagingChange = useCallback(
+    action((current: number, pageSize: number) => {
+      props.history?.push(
+        addPagingParams("datatypesManagement3", current, pageSize)
+      );
+      store.paginationConfig = { ...store.paginationConfig, current, pageSize };
+    }),
+    []
+  );
 
-  onPagingChange = (current: number, pageSize: number) => {
-    this.props?.history?.push(
-      addPagingParams("datatypesManagement3", current, pageSize)
-    );
-    this.setPaginationConfig({ ...this.paginationConfig, current, pageSize });
-  };
-
-  componentDidMount(): void {
-    // to disable paging config pass 'true' as disabled param in function below
-    this.setPaginationConfig(
-      createPagingConfig(this.props?.location?.search ?? "")
-    );
-  }
-
-  render() {
-    const entityId = this.props?.match?.params?.entityId;
-    return entityId ? (
+  return useObserver(() => {
+    return entityId != null ? (
       <DatatypesEdit3 entityId={entityId} />
     ) : (
-      <DatatypesBrowse3 />
+      <DatatypesBrowse3
+        onPagingChange={onPagingChange}
+        paginationConfig={store.paginationConfig}
+      />
     );
-  }
-}
-
-export const DatatypesManagement3 = observer(DatatypesManagement3Component);
+  });
+};

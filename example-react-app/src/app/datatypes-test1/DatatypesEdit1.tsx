@@ -1,294 +1,111 @@
-import * as React from "react";
-import { Form, Alert, Button, Card, message } from "antd";
-import { FormInstance } from "antd/es/form";
-import { observer } from "mobx-react";
-import { DatatypesManagement1 } from "./DatatypesManagement1";
+import React from "react";
+import { Form, Alert, Button, Card } from "antd";
+import { useObserver } from "mobx-react";
+import { PATH, NEW_SUBPATH } from "./DatatypesManagement1";
 import { Link, Redirect } from "react-router-dom";
+import { toJS } from "mobx";
+import { FormattedMessage } from "react-intl";
 import {
-  IReactionDisposer,
-  observable,
-  action,
-  reaction,
-  toJS,
-  makeObservable
-} from "mobx";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import {
-  defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  RetryDialog,
+  Field,
+  MultilineText,
+  Spinner,
+  useEntityEditor
 } from "@haulmont/jmix-react-ui";
-
-import {
-  loadAssociationOptions,
-  DataCollectionStore,
-  instance,
-  MainStoreInjected,
-  injectMainStore
-} from "@haulmont/jmix-react-core";
-
-import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
-
+import { gql } from "@apollo/client";
 import "../../app/App.css";
-
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import { AssociationO2OTestEntity } from "../../jmix/entities/scr_AssociationO2OTestEntity";
-import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
-import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
-import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
-import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
-type Props = EditorProps & MainStoreInjected;
-
-type EditorProps = {
+type Props = {
   entityId: string;
 };
 
-class DatatypesEdit1Component extends React.Component<
-  Props & WrappedComponentProps
-> {
-  dataInstance = instance<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
-    view: "datatypesTestEntity-view",
-    loadImmediately: false
+function isNewEntity(entityId: string) {
+  return entityId === NEW_SUBPATH;
+}
+
+const LOAD_SCR_DATATYPESTESTENTITY = gql`
+  query scr_DatatypesTestEntityById($id: String!) {
+    scr_DatatypesTestEntityById(id: $id) {
+      _instanceName
+      id
+      bigDecimalAttr
+      booleanAttr
+      dateAttr
+      dateTimeAttr
+      doubleAttr
+      integerAttr
+      longAttr
+      stringAttr
+      timeAttr
+      uuidAttr
+      localDateTimeAttr
+      offsetDateTimeAttr
+      localDateAttr
+      localTimeAttr
+      offsetTimeAttr
+      enumAttr
+      name
+      readOnlyStringAttr
+    }
+  }
+`;
+
+const UPSERT_SCR_DATATYPESTESTENTITY = gql`
+  mutation Upsert_scr_DatatypesTestEntity(
+    $datatypesTestEntity: inp_scr_DatatypesTestEntity!
+  ) {
+    upsert_scr_DatatypesTestEntity(datatypesTestEntity: $datatypesTestEntity) {
+      id
+    }
+  }
+`;
+
+const DatatypesEdit1 = (props: Props) => {
+  const { entityId } = props;
+
+  const {
+    loadItem,
+    loadQueryResult: { loading: queryLoading, error: queryError },
+    upsertMutationResult: { loading: upsertLoading },
+    store,
+    form,
+    intl,
+    handleFinish,
+    handleFinishFailed,
+    metadata
+  } = useEntityEditor({
+    loadQuery: LOAD_SCR_DATATYPESTESTENTITY,
+    upsertMutation: UPSERT_SCR_DATATYPESTESTENTITY,
+    entityId,
+    queryName: "scr_DatatypesTestEntityById",
+    entityName: DatatypesTestEntity.NAME,
+    isNewEntity: isNewEntity(entityId)
   });
 
-  associationO2OattrsDc: DataCollectionStore<
-    AssociationO2OTestEntity
-  > | null = null;
-
-  associationM2OattrsDc: DataCollectionStore<
-    AssociationM2OTestEntity
-  > | null = null;
-
-  associationM2MattrsDc: DataCollectionStore<
-    AssociationM2MTestEntity
-  > | null = null;
-
-  intIdentityIdTestEntityAssociationO2OAttrsDc: DataCollectionStore<
-    IntIdentityIdTestEntity
-  > | null = null;
-
-  integerIdTestEntityAssociationM2MAttrsDc: DataCollectionStore<
-    IntegerIdTestEntity
-  > | null = null;
-
-  stringIdTestEntityAssociationO2OsDc: DataCollectionStore<
-    StringIdTestEntity
-  > | null = null;
-
-  stringIdTestEntityAssociationM2OsDc: DataCollectionStore<
-    StringIdTestEntity
-  > | null = null;
-
-  updated = false;
-  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
-  reactionDisposers: IReactionDisposer[] = [];
-
-  fields = [
-    "bigDecimalAttr",
-    "booleanAttr",
-    "dateAttr",
-    "dateTimeAttr",
-    "doubleAttr",
-    "integerAttr",
-    "longAttr",
-    "stringAttr",
-    "timeAttr",
-    "uuidAttr",
-    "localDateTimeAttr",
-    "offsetDateTimeAttr",
-    "localDateAttr",
-    "localTimeAttr",
-    "offsetTimeAttr",
-    "enumAttr",
-    "name",
-    "readOnlyStringAttr",
-    "associationO2Oattr",
-    "associationM2Oattr",
-    "associationM2Mattr",
-    "compositionO2Oattr",
-    "compositionO2Mattr",
-    "intIdentityIdTestEntityAssociationO2OAttr",
-    "integerIdTestEntityAssociationM2MAttr",
-    "stringIdTestEntityAssociationO2O",
-    "stringIdTestEntityAssociationM2O"
-  ];
-
-  globalErrors: string[] = [];
-
-  /**
-   * This method should be called after the user permissions has been loaded
-   */
-  loadAssociationOptions() {
-    // MainStore should exist at this point
-    if (this.props.mainStore != null) {
-      const { getAttributePermission } = this.props.mainStore.security;
-
-      this.associationO2OattrsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "associationO2Oattr",
-          AssociationO2OTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.associationM2OattrsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "associationM2Oattr",
-          AssociationM2OTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.associationM2MattrsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "associationM2Mattr",
-          AssociationM2MTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.intIdentityIdTestEntityAssociationO2OAttrsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "intIdentityIdTestEntityAssociationO2OAttr",
-          IntIdentityIdTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.integerIdTestEntityAssociationM2MAttrsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "integerIdTestEntityAssociationM2MAttr",
-          IntegerIdTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.stringIdTestEntityAssociationO2OsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "stringIdTestEntityAssociationO2O",
-          StringIdTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.stringIdTestEntityAssociationM2OsDc =
-        loadAssociationOptions(
-          DatatypesTestEntity.NAME,
-          "stringIdTestEntityAssociationM2O",
-          StringIdTestEntity.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-    }
-  }
-
-  handleFinishFailed = () => {
-    const { intl } = this.props;
-    message.error(
-      intl.formatMessage({ id: "management.editor.validationError" })
-    );
-  };
-
-  handleFinish = (values: { [field: string]: any }) => {
-    const { intl } = this.props;
-
-    if (this.formRef.current != null) {
-      defaultHandleFinish(
-        values,
-        this.dataInstance,
-        intl,
-        this.formRef.current,
-        this.isNewEntity() ? "create" : "edit"
-      ).then(
-        action(({ success, globalErrors }) => {
-          if (success) {
-            this.updated = true;
-          } else {
-            this.globalErrors = globalErrors;
-          }
-        })
-      );
-    }
-  };
-
-  isNewEntity = () => {
-    return this.props.entityId === DatatypesManagement1.NEW_SUBPATH;
-  };
-
-  setFormRef(ref: FormInstance | null) {
-    this.formRef.current = ref;
-  }
-
-  constructor(props: Props & WrappedComponentProps) {
-    super(props);
-
-    makeObservable(this, {
-      associationO2OattrsDc: observable,
-
-      associationM2OattrsDc: observable,
-
-      associationM2MattrsDc: observable,
-
-      intIdentityIdTestEntityAssociationO2OAttrsDc: observable,
-
-      integerIdTestEntityAssociationM2MAttrsDc: observable,
-
-      stringIdTestEntityAssociationO2OsDc: observable,
-
-      stringIdTestEntityAssociationM2OsDc: observable,
-
-      updated: observable,
-      formRef: observable,
-      globalErrors: observable,
-      setFormRef: action.bound,
-
-      loadAssociationOptions: action.bound
-    });
-  }
-
-  render() {
-    if (this.updated) {
-      return <Redirect to={DatatypesManagement1.PATH} />;
+  return useObserver(() => {
+    if (store.updated) {
+      return <Redirect to={PATH} />;
     }
 
-    const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
-    if (mainStore == null || !mainStore.isEntityDataLoaded()) {
+    if (queryLoading || metadata == null) {
       return <Spinner />;
     }
 
-    // do not stop on "COMMIT_ERROR" - it could be bean validation, so we should show fields with errors
-    if (status === "ERROR" && lastError === "LOAD_ERROR") {
-      return (
-        <>
-          <FormattedMessage id="common.requestFailed" />.
-          <br />
-          <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
-            <FormattedMessage id="common.retry" />
-          </Button>
-        </>
-      );
+    if (queryError != null) {
+      console.error(queryError);
+      return <RetryDialog onRetry={loadItem} />;
     }
 
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={this.handleFinish}
-          onFinishFailed={this.handleFinishFailed}
+          onFinish={handleFinish}
+          onFinishFailed={handleFinishFailed}
           layout="vertical"
-          ref={this.setFormRef}
+          ref={store.formRef}
+          form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <Field
@@ -437,115 +254,16 @@ class DatatypesEdit1Component extends React.Component<
             }}
           />
 
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="associationO2Oattr"
-            optionsContainer={this.associationO2OattrsDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="associationM2Oattr"
-            optionsContainer={this.associationM2OattrsDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="associationM2Mattr"
-            optionsContainer={this.associationM2MattrsDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="compositionO2Oattr"
-            nestedEntityView="compositionO2OTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== DatatypesManagement1.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="compositionO2Mattr"
-            nestedEntityView="compositionO2MTestEntity-view"
-            parentEntityInstanceId={
-              this.props.entityId !== DatatypesManagement1.NEW_SUBPATH
-                ? this.props.entityId
-                : undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="intIdentityIdTestEntityAssociationO2OAttr"
-            optionsContainer={
-              this.intIdentityIdTestEntityAssociationO2OAttrsDc ?? undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="integerIdTestEntityAssociationM2MAttr"
-            optionsContainer={
-              this.integerIdTestEntityAssociationM2MAttrsDc ?? undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="stringIdTestEntityAssociationO2O"
-            optionsContainer={
-              this.stringIdTestEntityAssociationO2OsDc ?? undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity.NAME}
-            propertyName="stringIdTestEntityAssociationM2O"
-            optionsContainer={
-              this.stringIdTestEntityAssociationM2OsDc ?? undefined
-            }
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          {this.globalErrors.length > 0 && (
+          {store.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(this.globalErrors)} />}
+              message={<MultilineText lines={toJS(store.globalErrors)} />}
               type="error"
               style={{ marginBottom: "24px" }}
             />
           )}
 
           <Form.Item style={{ textAlign: "center" }}>
-            <Link to={DatatypesManagement1.PATH}>
+            <Link to={PATH}>
               <Button htmlType="button">
                 <FormattedMessage id="common.cancel" />
               </Button>
@@ -553,8 +271,7 @@ class DatatypesEdit1Component extends React.Component<
             <Button
               type="primary"
               htmlType="submit"
-              disabled={status !== "DONE" && status !== "ERROR"}
-              loading={status === "LOADING"}
+              loading={upsertLoading}
               style={{ marginLeft: "8px" }}
             >
               <FormattedMessage id="common.submit" />
@@ -563,74 +280,7 @@ class DatatypesEdit1Component extends React.Component<
         </Form>
       </Card>
     );
-  }
+  });
+};
 
-  componentDidMount() {
-    if (this.isNewEntity()) {
-      this.dataInstance.setItem(new DatatypesTestEntity());
-    } else {
-      this.dataInstance.load(this.props.entityId);
-    }
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataInstance.status,
-        () => {
-          const { intl } = this.props;
-          if (
-            this.dataInstance.lastError != null &&
-            this.dataInstance.lastError !== "COMMIT_ERROR"
-          ) {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
-          if (isDataLoaded === true) {
-            // User permissions has been loaded.
-            // We can now load association options.
-            this.loadAssociationOptions(); // Calls REST API
-            permsReaction.dispose();
-          }
-        },
-        { fireImmediately: true }
-      )
-    );
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.formRef.current,
-        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
-          if (formRefCurrent != null) {
-            // The Form has been successfully created.
-            // It is now safe to set values on Form fields.
-            this.reactionDisposers.push(
-              reaction(
-                () => this.dataInstance.item,
-                () => {
-                  formRefCurrent.setFieldsValue(
-                    this.dataInstance.getFieldValues(this.fields)
-                  );
-                },
-                { fireImmediately: true }
-              )
-            );
-            formRefReaction.dispose();
-          }
-        },
-        { fireImmediately: true }
-      )
-    );
-  }
-
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-}
-
-export default injectIntl(injectMainStore(observer(DatatypesEdit1Component)));
+export default DatatypesEdit1;

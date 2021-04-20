@@ -1,84 +1,113 @@
-import * as React from "react";
-import { observer } from "mobx-react";
+import React from "react";
+import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
-import { observable, makeObservable } from "mobx";
-import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-
+import { Button } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
-  EntityPermAccessControl
+  EntityPermAccessControl,
+  useMainStore
 } from "@haulmont/jmix-react-core";
-import { DataTable, Spinner } from "@haulmont/jmix-react-ui";
-
-import { Car } from "../../jmix/entities/scr$Car";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { CarManagement3 } from "./CarManagement3";
 import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
+  DataTable,
+  Spinner,
+  RetryDialog,
+  useEntityList
+} from "@haulmont/jmix-react-ui";
+import { Car } from "../../jmix/entities/scr$Car";
+import { PATH, NEW_SUBPATH } from "./CarManagement3";
+import { FormattedMessage } from "react-intl";
+import { PaginationConfig } from "antd/es/pagination";
+import { gql } from "@apollo/client";
 
-class CarTableComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
-> {
-  dataCollection = collection<Car>(Car.NAME, {
-    view: "car-edit"
-  });
-  selectedRowKey: string | null = null;
+type Props = {
+  paginationConfig: PaginationConfig;
+  onPagingChange: (current: number, pageSize: number) => void;
+};
 
-  fields = [
-    "manufacturer",
-    "model",
-    "regNumber",
-    "purchaseDate",
-    "manufactureDate",
-    "wheelOnRight",
-    "carType",
-    "ecoRank",
-    "maxPassengers",
-    "price",
-    "mileage",
-    "version",
-    "createdBy",
-    "createdDate",
-    "lastModifiedBy",
-    "lastModifiedDate",
-    "photo",
-    "garage",
-    "technicalCertificate"
-  ];
+const FIELDS = [
+  "manufacturer",
+  "model",
+  "regNumber",
+  "purchaseDate",
+  "manufactureDate",
+  "wheelOnRight",
+  "carType",
+  "ecoRank",
+  "maxPassengers",
+  "price",
+  "mileage",
+  "garage",
+  "technicalCertificate",
+  "photo"
+];
 
-  showDeletionDialog = (e: SerializedEntity<Car>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        this.selectedRowKey = null;
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
-
-  constructor(props: MainStoreInjected & WrappedComponentProps) {
-    super(props);
-
-    makeObservable(this, {
-      selectedRowKey: observable
-    });
+const SCR_CAR_LIST = gql`
+  query scr_CarList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_CarOrderBy
+    $filter: [inp_scr_CarFilterCondition]
+  ) {
+    scr_CarCount
+    scr_CarList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      manufacturer
+      model
+      regNumber
+      purchaseDate
+      manufactureDate
+      wheelOnRight
+      carType
+      ecoRank
+      maxPassengers
+      price
+      mileage
+      photo
+    }
   }
+`;
 
-  render() {
-    if (this.props.mainStore?.isEntityDataLoaded() !== true) return <Spinner />;
+const DELETE_SCR_CAR = gql`
+  mutation Delete_scr_Car($id: String!) {
+    delete_scr_Car(id: $id)
+  }
+`;
+
+const CarTable = (props: Props) => {
+  const { paginationConfig, onPagingChange } = props;
+
+  const mainStore = useMainStore();
+
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    handleRowSelectionChange,
+    deleteSelectedRow,
+    selectedRowKey
+  } = useEntityList<Car>({
+    listQuery: SCR_CAR_LIST,
+    deleteMutation: DELETE_SCR_CAR,
+    paginationConfig,
+    queryName: "scr_Car"
+  });
+
+  return useObserver(() => {
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={loadItems} />;
+    }
+
+    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
+      return <Spinner />;
+    }
+
+    const items = data.scr_Car;
 
     const buttons = [
       <EntityPermAccessControl
@@ -86,7 +115,7 @@ class CarTableComponent extends React.Component<
         operation="create"
         key="create"
       >
-        <Link to={CarManagement3.PATH + "/" + CarManagement3.NEW_SUBPATH}>
+        <Link to={PATH + "/" + NEW_SUBPATH} key="create">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}
@@ -104,11 +133,11 @@ class CarTableComponent extends React.Component<
         operation="update"
         key="update"
       >
-        <Link to={CarManagement3.PATH + "/" + this.selectedRowKey}>
+        <Link to={PATH + "/" + selectedRowKey} key="edit">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}
-            disabled={!this.selectedRowKey}
+            disabled={selectedRowKey == null}
             type="default"
           >
             <FormattedMessage id="common.edit" />
@@ -123,8 +152,9 @@ class CarTableComponent extends React.Component<
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={!this.selectedRowKey}
-          onClick={this.deleteSelectedRow}
+          disabled={selectedRowKey == null}
+          onClick={deleteSelectedRow}
+          key="remove"
           type="default"
         >
           <FormattedMessage id="common.remove" />
@@ -134,38 +164,14 @@ class CarTableComponent extends React.Component<
 
     return (
       <DataTable
-        dataCollection={this.dataCollection}
-        fields={this.fields}
-        onRowSelectionChange={this.handleRowSelectionChange}
+        items={items}
+        fields={FIELDS}
+        onRowSelectionChange={handleRowSelectionChange}
         hideSelectionColumn={true}
         buttons={buttons}
       />
     );
-  }
-
-  getRecordById(id: string): SerializedEntity<Car> {
-    const record:
-      | SerializedEntity<Car>
-      | undefined = this.dataCollection.items.find(
-      record => getStringId(record.id!) === id
-    );
-
-    if (!record) {
-      throw new Error("Cannot find entity with id " + id);
-    }
-
-    return record;
-  }
-
-  handleRowSelectionChange = (selectedRowKeys: string[]) => {
-    this.selectedRowKey = selectedRowKeys[0];
-  };
-
-  deleteSelectedRow = () => {
-    this.showDeletionDialog(this.getRecordById(this.selectedRowKey!));
-  };
-}
-
-const CarTable = injectIntl(injectMainStore(observer(CarTableComponent)));
+  });
+};
 
 export default CarTable;

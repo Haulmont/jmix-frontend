@@ -1,124 +1,101 @@
-import * as React from "react";
-import { observer } from "mobx-react";
+import React from "react";
+import { useObserver } from "mobx-react";
 import { Link } from "react-router-dom";
-import { IReactionDisposer, reaction } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Modal, Button, Card, message } from "antd";
-
+import { Button, Card } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
-  EntityPermAccessControl
+  EntityInstance,
+  EntityPermAccessControl,
+  toIdString,
+  getFields
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
-  setPagination,
-  Spinner
+  Spinner,
+  RetryDialog,
+  useEntityList
 } from "@haulmont/jmix-react-ui";
-
 import { Car } from "../../jmix/entities/scr$Car";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import { CarManagement } from "./CarManagement";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
+import { PATH, NEW_SUBPATH } from "./CarManagement";
+import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
+import { gql } from "@apollo/client";
 
-type Props = MainStoreInjected &
-  WrappedComponentProps & {
-    paginationConfig: PaginationConfig;
-    onPagingChange: (current: number, pageSize: number) => void;
-  };
+type Props = {
+  paginationConfig: PaginationConfig;
+  onPagingChange: (current: number, pageSize: number) => void;
+};
 
-class CarCardsComponent extends React.Component<Props> {
-  dataCollection = collection<Car>(Car.NAME, {
-    view: "car-edit",
-    loadImmediately: false
+const SCR_CAR_LIST = gql`
+  query scr_CarList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_CarOrderBy
+    $filter: [inp_scr_CarFilterCondition]
+  ) {
+    scr_CarCount
+    scr_CarList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      manufacturer
+      model
+      regNumber
+      purchaseDate
+      manufactureDate
+      wheelOnRight
+      carType
+      ecoRank
+      maxPassengers
+      price
+      mileage
+      photo
+    }
+  }
+`;
+
+const DELETE_SCR_CAR = gql`
+  mutation Delete_scr_Car($id: String!) {
+    delete_scr_Car(id: $id)
+  }
+`;
+
+const CarCards = (props: Props) => {
+  const { paginationConfig, onPagingChange } = props;
+
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    showDeletionDialog
+  } = useEntityList<Car>({
+    listQuery: SCR_CAR_LIST,
+    deleteMutation: DELETE_SCR_CAR,
+    paginationConfig
   });
 
-  reactionDisposers: IReactionDisposer[] = [];
-  fields = [
-    "manufacturer",
-    "model",
-    "regNumber",
-    "purchaseDate",
-    "manufactureDate",
-    "wheelOnRight",
-    "carType",
-    "ecoRank",
-    "maxPassengers",
-    "price",
-    "mileage",
-    "version",
-    "createdBy",
-    "createdDate",
-    "lastModifiedBy",
-    "lastModifiedDate",
-    "photo",
-    "garage",
-    "technicalCertificate"
-  ];
+  return useObserver(() => {
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={loadItems} />;
+    }
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.props.paginationConfig, this.dataCollection, true);
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataCollection.status,
-        status => {
-          const { intl } = this.props;
-          if (status === "ERROR") {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
-  }
-
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-
-  showDeletionDialog = (e: SerializedEntity<Car>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
-
-  render() {
-    const { status, items, count } = this.dataCollection;
-    const { paginationConfig, onPagingChange, mainStore } = this.props;
-
-    if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
+    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
+
+    const dataSource = data.scr_CarList;
+    const pagesTotal = data.scr_CarCount;
 
     return (
       <div className="narrow-layout">
         <EntityPermAccessControl entityName={Car.NAME} operation="create">
           <div style={{ marginBottom: "12px" }}>
-            <Link to={CarManagement.PATH + "/" + CarManagement.NEW_SUBPATH}>
+            <Link to={PATH + "/" + NEW_SUBPATH}>
               <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
                 <span>
                   <FormattedMessage id="common.create" />
@@ -128,30 +105,31 @@ class CarCardsComponent extends React.Component<Props> {
           </div>
         </EntityPermAccessControl>
 
-        {items == null || items.length === 0 ? (
+        {dataSource == null || dataSource.length === 0 ? (
           <p>
             <FormattedMessage id="management.browser.noItems" />
           </p>
         ) : null}
-        {items.map(e => (
+        {dataSource.map((e: EntityInstance<Car>) => (
           <Card
             title={e._instanceName}
-            key={e.id ? getStringId(e.id) : undefined}
+            key={e.id ? toIdString(e.id) : undefined}
             style={{ marginBottom: "12px" }}
             actions={[
-              <DeleteOutlined
-                key="delete"
-                onClick={() => this.showDeletionDialog(e)}
-              />,
-              <Link
-                to={CarManagement.PATH + "/" + getStringId(e.id!)}
-                key="edit"
-              >
-                <EditOutlined />
-              </Link>
+              <EntityPermAccessControl entityName={Car.NAME} operation="delete">
+                <DeleteOutlined
+                  key="delete"
+                  onClick={() => showDeletionDialog(e)}
+                />
+              </EntityPermAccessControl>,
+              <EntityPermAccessControl entityName={Car.NAME} operation="update">
+                <Link to={PATH + "/" + toIdString(e.id!)} key="edit">
+                  <EditOutlined />
+                </Link>
+              </EntityPermAccessControl>
             ]}
           >
-            {this.fields.map(p => (
+            {getFields(e).map(p => (
               <EntityProperty
                 entityName={Car.NAME}
                 propertyName={p}
@@ -162,20 +140,18 @@ class CarCardsComponent extends React.Component<Props> {
           </Card>
         ))}
 
-        {!this.props.paginationConfig.disabled && (
+        {!paginationConfig.disabled && (
           <div style={{ margin: "12px 0 12px 0", float: "right" }}>
             <Paging
               paginationConfig={paginationConfig}
               onPagingChange={onPagingChange}
-              total={count ?? undefined}
+              total={pagesTotal}
             />
           </div>
         )}
       </div>
     );
-  }
-}
-
-const CarCards = injectIntl(injectMainStore(observer(CarCardsComponent)));
+  });
+};
 
 export default CarCards;
