@@ -54,6 +54,9 @@ const <%= listComponentClass %> = (props: Props) => {
     loadItems,
     listQueryResult: {loading, error, data},
     handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
     deleteSelectedRow,
     selectedRowKey
   } = useEntityTable<<%= entity.className %>>({
@@ -123,8 +126,14 @@ const <%= listComponentClass %> = (props: Props) => {
     return (
       <DataTable
         items={items}
+        entityName={<%= entity.className %>.NAME}
+        loading={loading}
+        error={error}
         columnDefinitions={FIELDS}
         onRowSelectionChange={handleRowSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
       />

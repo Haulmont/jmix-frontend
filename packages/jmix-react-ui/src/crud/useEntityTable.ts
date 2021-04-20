@@ -2,6 +2,14 @@ import {useLocalStore} from "mobx-react";
 import {useCallback} from "react";
 import {EntityListHookOptions, EntityListHookResult, LimitAndOffset, useEntityList} from "./useEntityList";
 import {EntityInstance, HasId, toIdString} from "@haulmont/jmix-react-core";
+import {
+  FilterChangeCallback,
+  JmixEntityFilter, JmixPagination,
+  JmixSortOrder,
+  PaginationChangeCallback,
+  SortOrderChangeCallback
+} from "./interfaces";
+import {operatorToOptionClassName} from "../ui/table/DataTableCustomFilter";
 
 export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   queryName: string;
@@ -13,11 +21,17 @@ export interface EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars
   getRecordById: (id: string) => EntityInstance<TEntity>;
   deleteSelectedRow: () => void;
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
+  handleFilterChange: FilterChangeCallback;
+  handleSortOrderChange: SortOrderChangeCallback;
+  handlePaginationChange: PaginationChangeCallback;
   selectedRowKey?: string;
 }
 
 export interface EntityTableLocalStore {
   selectedRowKey?: string;
+  filter?: JmixEntityFilter;
+  sortOrder?: JmixSortOrder;
+  pagination?: JmixPagination;
 }
 
 export function useEntityTable<
@@ -32,11 +46,12 @@ export function useEntityTable<
     queryName
   } = options;
 
-  const store: EntityTableLocalStore = useLocalStore(() => ({
-    selectedRowKey: undefined
-  }));
+  const store: EntityTableLocalStore = useLocalStore(() => ({}));
 
-  const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>(options);
+  const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>({
+    ...options,
+    listQueryOptions:
+  });
   const {listQueryResult: {data}, showDeletionDialog} = entityListHookResult;
   const items = data?.[queryName];
 
@@ -67,6 +82,13 @@ export function useEntityTable<
       store.selectedRowKey = selectedRowKeys[0];
     },
     [store.selectedRowKey]
+  );
+
+  const handleFilterChange = useCallback(
+    (filter: JmixEntityFilter) => {
+
+    },
+    []
   );
 
   return {

@@ -35,11 +35,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
-import {JmixEntityFilter, JmixPagination, JmixSortOrder} from '../../crud/interfaces';
-
-export type FilterChangeCallback = (filters?: JmixEntityFilter) => void;
-export type SortOrderChangeCallback = (sortOrder?: JmixSortOrder) => void
-export type PaginationChangeCallback = (pagination: JmixPagination) => void;
+import {FilterChangeCallback, JmixEntityFilter, JmixSortOrder, PaginationChangeCallback, SortOrderChangeCallback} from '../../crud/interfaces';
 
 /**
  * @typeparam TEntity - entity type.
@@ -53,9 +49,9 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, WrappedCompo
    * Initial state of table filters.
    * Can be used to set a filtering condition on an entity attribute that is not displayed.
    */
-  initialFilter: JmixEntityFilter;
+  initialFilter?: JmixEntityFilter;
   onFilterChange: FilterChangeCallback;
-  defaultSortOrder: JmixSortOrder;
+  defaultSortOrder?: JmixSortOrder;
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
   entityName: string;
@@ -118,7 +114,7 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, WrappedCompo
    * the column will have the default look&feel)
    * or a {@link ColumnDefinition} object (which allows creating a custom column).
    */
-  columnDefinitions?: Array<string | ColumnDefinition<TEntity>>
+  columnDefinitions: Array<string | ColumnDefinition<TEntity>>
 }
 
 export interface ColumnDefinition<TEntity> {

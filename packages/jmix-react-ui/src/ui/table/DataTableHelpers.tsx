@@ -19,7 +19,7 @@ import {
   FilterChangeCallback,
   PaginationChangeCallback,
   SortOrderChangeCallback
-} from "./DataTable";
+} from "../../crud/interfaces";
 import { convertPaginationAntd2Jmix } from '../../antd-specific/pagination';
 import {JmixEntityFilter, JmixSortOrder} from "../../crud/interfaces";
 
@@ -297,15 +297,15 @@ export function generateCustomFilterDropdown(
  */
 export function setFilters(
   tableFilters: Record<string, Array<ReactText | boolean> | null>,
-  apiFilters: JmixEntityFilter,
   onFilterChange: FilterChangeCallback,
   entityName: string,
   fields: string[],
   mainStore: MainStore,
+  apiFilters?: JmixEntityFilter,
 ) {
   let nextApiFilters: JmixEntityFilter = {};
 
-  if (Object.keys(apiFilters).length > 0) {
+  if (apiFilters != null && Object.keys(apiFilters).length > 0) {
 
     // We check which of the current API filter conditions needs to be preserved regardless of table filters state.
     // Particularly we preserve filters on columns that are not displayed.
@@ -386,7 +386,7 @@ export interface TableChangeShape<E> {
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
    */
   tableFilters: Record<string, Array<Key | boolean> | null>,
-  apiFilters: JmixEntityFilter;
+  apiFilters?: JmixEntityFilter;
   onFilterChange: FilterChangeCallback;
   /**
    * Received in antd {@link https://ant.design/components/table | Table}'s `onChange` callback
@@ -429,7 +429,7 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
     entityName
   } = tableChange;
 
-  setFilters(tableFilters, apiFilters, onFilterChange, entityName, fields, mainStore);
+  setFilters(tableFilters, onFilterChange, entityName, fields, mainStore, apiFilters);
   setSorter(sorter, onSortOrderChange, defaultSortOrder);
   onPaginationChange(convertPaginationAntd2Jmix(pagination));
 }
