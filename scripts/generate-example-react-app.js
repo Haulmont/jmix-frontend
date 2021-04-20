@@ -23,7 +23,7 @@ const hooksPOC = require('./screens/hooks-poc.json');
 const structureConfig = require('./screens/structure.json');
 const graphQLListConfig = require('./screens/graphql-list.json');
 const graphQLCardsConfig = require('./screens/graphql-cards.json');
-// const graphQLTableConfig = require('./screens/graphql-table.json');
+const graphQLTableConfig = require('./screens/graphql-table.json');
 const dirShift = '../../';
 
 gen(
@@ -112,6 +112,12 @@ gen(
         dirShift,
         dest: 'src/app/graphql-cards',
         answers: graphQLCardsConfig
+      },
+      {
+        command: 'react-typescript:entity-management-graphql-hooks',
+        dirShift,
+        dest: 'src/app/graphql-table',
+        answers: graphQLTableConfig
       },
       // Relations
       {

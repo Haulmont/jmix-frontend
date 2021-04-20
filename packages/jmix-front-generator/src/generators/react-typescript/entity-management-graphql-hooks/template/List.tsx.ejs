@@ -59,7 +59,7 @@ const <%= listComponentClass %> = (props: Props) => {
     }
 
     <%# TODO Spinner is not properly centered -%>
-    if (loading || data == null) {
+    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
       return <Spinner/>;
     }
 
