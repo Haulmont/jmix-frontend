@@ -43,7 +43,7 @@ export const IntIdentityIdCards = observer(() => {
     IntIdentityIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

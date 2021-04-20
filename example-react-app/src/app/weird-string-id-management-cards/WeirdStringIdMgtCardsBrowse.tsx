@@ -49,7 +49,7 @@ class WeirdStringIdMgtCardsBrowseComponent extends React.Component<Props> {
     WeirdStringIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

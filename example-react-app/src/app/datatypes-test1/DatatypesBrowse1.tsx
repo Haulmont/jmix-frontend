@@ -47,7 +47,7 @@ const ROUTING_PATH = "/datatypesManagement1";
 class DatatypesBrowse1Component extends React.Component<Props> {
   dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
     view: "datatypesTestEntity-view",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

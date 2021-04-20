@@ -45,7 +45,7 @@ const ROUTING_PATH = "/carManagement2";
 class CarListComponent extends React.Component<Props> {
   dataCollection = collection<Car>(Car.NAME, {
     view: "car-edit",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

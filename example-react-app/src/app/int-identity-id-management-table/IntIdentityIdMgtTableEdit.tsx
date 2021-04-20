@@ -57,7 +57,7 @@ class IntIdentityIdMgtTableEditComponent extends React.Component<
     IntIdentityIdTestEntity.NAME,
     {
       view: "_local",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

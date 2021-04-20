@@ -71,7 +71,7 @@ class AppComponent extends React.Component<
                 <HomeOutlined />
                 <FormattedMessage id="router.home" />
               </Menu.Item>
-              {menuItems.map((item, idx) =>
+              {menuItems.reverse().map((item, idx) =>
                 menuItem(item, "" + (idx + 1 + menuIdx), this.props.intl)
               )}
             </Menu>

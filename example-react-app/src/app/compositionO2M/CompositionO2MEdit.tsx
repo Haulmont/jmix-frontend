@@ -60,7 +60,7 @@ class CompositionO2MEditComponent extends React.Component<
     CompositionO2MTestEntity.NAME,
     {
       view: "compositionO2MTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

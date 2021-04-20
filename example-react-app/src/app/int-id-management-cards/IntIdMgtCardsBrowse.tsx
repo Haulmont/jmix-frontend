@@ -47,7 +47,7 @@ const ROUTING_PATH = "/intIdManagementCards";
 class IntIdMgtCardsBrowseComponent extends React.Component<Props> {
   dataCollection = collection<IntegerIdTestEntity>(IntegerIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

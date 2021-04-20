@@ -47,7 +47,7 @@ const ROUTING_PATH = "/stringIdMgtCardsManagement";
 class StringIdMgtCardsBrowseComponent extends React.Component<Props> {
   dataCollection = collection<StringIdTestEntity>(StringIdTestEntity.NAME, {
     view: "_local",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   reactionDisposers: IReactionDisposer[] = [];

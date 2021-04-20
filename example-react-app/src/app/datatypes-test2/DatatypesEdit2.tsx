@@ -63,7 +63,7 @@ class DatatypesEdit2Component extends React.Component<
 
   dataInstance = instance<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
     view: "datatypesTestEntity-view",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   associationO2OattrsDc: DataCollectionStore<

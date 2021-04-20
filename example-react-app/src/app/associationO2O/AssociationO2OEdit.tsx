@@ -60,7 +60,7 @@ class AssociationO2OEditComponent extends React.Component<
     AssociationO2OTestEntity.NAME,
     {
       view: "associationO2OTestEntity-view",
-      loadImmediately: false
+      loadImmediately: true
     }
   );
 

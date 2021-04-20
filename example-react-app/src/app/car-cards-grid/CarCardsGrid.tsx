@@ -53,7 +53,7 @@ export const CarCardsGrid = observer(() => {
 
   const { current: dataCollection } = useCollection<Car>(Car.NAME, {
     view: "car-edit",
-    loadImmediately: false
+    loadImmediately: true
   });
 
   const { status, items, count } = dataCollection;
