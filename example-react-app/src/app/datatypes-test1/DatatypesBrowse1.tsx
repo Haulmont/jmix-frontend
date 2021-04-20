@@ -7,7 +7,8 @@ import {
   EntityInstance,
   EntityPermAccessControl,
   toIdString,
-  getFields
+  getFields,
+  useMainStore
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -73,6 +74,8 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 
 const DatatypesBrowse1 = (props: Props) => {
   const { paginationConfig, onPagingChange } = props;
+
+  const mainStore = useMainStore();
 
   const {
     loadItems,

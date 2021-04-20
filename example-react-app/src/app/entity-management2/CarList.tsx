@@ -7,7 +7,8 @@ import {
   EntityInstance,
   getFields,
   EntityPermAccessControl,
-  toIdString
+  toIdString,
+  useMainStore
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -67,6 +68,8 @@ const DELETE_SCR_CAR = gql`
 
 const CarList = (props: Props) => {
   const { paginationConfig, onPagingChange } = props;
+
+  const mainStore = useMainStore();
 
   const {
     loadItems,

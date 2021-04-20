@@ -11,7 +11,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityTable
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { PATH, NEW_SUBPATH } from "./DatatypesManagement3";
@@ -100,7 +100,7 @@ const DatatypesBrowse3 = (props: Props) => {
     handleRowSelectionChange,
     deleteSelectedRow,
     selectedRowKey
-  } = useEntityList<DatatypesTestEntity>({
+  } = useEntityTable<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     paginationConfig,
@@ -175,7 +175,7 @@ const DatatypesBrowse3 = (props: Props) => {
     return (
       <DataTable
         items={items}
-        fields={FIELDS}
+        columnDefinitions={FIELDS}
         onRowSelectionChange={handleRowSelectionChange}
         hideSelectionColumn={true}
         buttons={buttons}

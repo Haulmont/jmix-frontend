@@ -11,7 +11,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityTable
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { PATH, NEW_SUBPATH } from "./CarManagement3";
@@ -90,7 +90,7 @@ const CarTable = (props: Props) => {
     handleRowSelectionChange,
     deleteSelectedRow,
     selectedRowKey
-  } = useEntityList<Car>({
+  } = useEntityTable<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
     paginationConfig,
@@ -165,7 +165,7 @@ const CarTable = (props: Props) => {
     return (
       <DataTable
         items={items}
-        fields={FIELDS}
+        columnDefinitions={FIELDS}
         onRowSelectionChange={handleRowSelectionChange}
         hideSelectionColumn={true}
         buttons={buttons}
