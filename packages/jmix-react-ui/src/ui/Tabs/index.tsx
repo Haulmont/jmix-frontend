@@ -1,11 +1,19 @@
 import React, { useState } from 'react';
 import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
-import { CloseOutlined } from '@ant-design/icons';
-import './styles.less';
+import { Tabs } from 'antd';
 import { menuItems } from '../../util/componentsRegistration';
 
+const { TabPane } = Tabs;
 
+function onTabChange(key: string) {
+  for (const tab of tabs.tabs) {
+    if (tab.key === key) {
+      tabs.setActiveTab(tab);
+      break;
+    }
+  }
+}
 
 export const MultiTabs = observer(() => {
   if (!tabs.tabs.length) {
@@ -13,49 +21,26 @@ export const MultiTabs = observer(() => {
   }
 
   return (
-    <div>
-      <div className="jmix-tabs__container">
-        {tabs.tabs.map((item) => <Tab item={item} key={item.key} />)}
-      </div>
-      <div>
-        {tabs.tabs.map((item) => <Content item={item} key={item.key} />)}
-      </div>
-    </div>
-  );
-});
-
-interface ITabProps {
-  item: IMultiTabItem;
-}
-
-const Tab = observer((props: ITabProps) => {
-  const {item} = props;
-
-  function handleClick() {
-    tabs.currentTab = item;
-  }
-
-  function handleClose(e:  React.MouseEvent<HTMLSpanElement, MouseEvent>) {
-    e.stopPropagation();
-    tabs.close(item);
-  }
-
-  return (
-      <div className="jmix-tabs__tab" data-active={item === tabs.currentTab} onClick={handleClick}>
-          {item.title}
-          <span onClick={handleClose}>
-            <CloseOutlined />
-          </span>
-      </div>
+    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
+      {tabs.tabs.map((item) => (
+        <TabPane tab={item.title} key={item.key}>
+          <Content item={item} />
+        </TabPane>
+      ))}
+    </Tabs>
   )
 });
 
-const Content = observer((props: ITabProps) => {
+interface IContentProps {
+  item: IMultiTabItem;
+}
+
+const Content = observer((props: IContentProps) => {
   const {item} = props;
   const [screens] = useState(() => new Screens());
 
   return (
-    <div className="jmix-tabs__content" data-visible={item === tabs.currentTab}>
+    <div>
       <ScreensContext.Provider value={screens}>
         {item.content}
       </ScreensContext.Provider>
@@ -73,7 +58,7 @@ function checkRoute(item: RouteItem) {
   }
 }
 
-function checkItems(mItems: (RouteItem | SubMenu)[]) {
+function checkItems(mItems: Array<RouteItem | SubMenu>) {
   for (const item of mItems) {
     const subMenuItem = item as SubMenu;
     if (subMenuItem.items != null) {
