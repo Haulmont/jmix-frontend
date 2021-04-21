@@ -55,7 +55,6 @@ const <%= listComponentClass %> = () => {
   } = useEntityTable<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    queryName: '<%= dollarsToUnderscores(entity.name) %>'
   });
 
   return useObserver(() => {
@@ -106,7 +105,7 @@ const <%= listComponentClass %> = () => {
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >

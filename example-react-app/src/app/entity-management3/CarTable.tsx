@@ -1,5 +1,5 @@
 import React from "react";
-import { useObserver } from "mobx-react";
+import {observer, useObserver} from "mobx-react";
 import { Link } from "react-router-dom";
 import { PlusOutlined } from "@ant-design/icons";
 import { Button } from "antd";
@@ -74,7 +74,7 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarTable = () => {
+const CarTable = observer(() => {
   const mainStore = useMainStore();
 
   const {
@@ -89,7 +89,6 @@ const CarTable = () => {
   } = useEntityTable<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
-    queryName: "scr_Car"
   });
 
   return useObserver(() => {
@@ -98,11 +97,11 @@ const CarTable = () => {
       return <RetryDialog onRetry={loadItems} />;
     }
 
-    if (loading || data == null || !mainStore.isEntityDataLoaded()) {
+    if (!mainStore.isEntityDataLoaded()) {
       return <Spinner />;
     }
 
-    const items = data.scr_CarList;
+    const items = data?.scr_CarList ?? [];
 
     const buttons = [
       <EntityPermAccessControl
@@ -148,7 +147,7 @@ const CarTable = () => {
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >
@@ -173,6 +172,6 @@ const CarTable = () => {
       />
     );
   });
-};
+});
 
 export default CarTable;

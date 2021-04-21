@@ -16,15 +16,13 @@ import {
 } from "./interfaces";
 import {runInAction} from "mobx";
 
-export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {
-  queryName: string;
-}
+export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {}
 
 export interface EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars>
   extends EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
 
-  getRecordById: (id: string) => EntityInstance<TEntity>;
-  deleteSelectedRow: () => void;
+  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
+  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
@@ -48,7 +46,6 @@ export function useEntityTable<
   options: EntityTableHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
-    queryName,
     listQueryOptions
   } = options;
 
@@ -59,8 +56,6 @@ export function useEntityTable<
     pagination: undefined
   }));
 
-  console.log('render', store.selectedRowKey);
-
   const tableQueryOptions = useMemo(() => ({
     variables: {
       filter: store.filter,
@@ -69,7 +64,9 @@ export function useEntityTable<
       offset: store.pagination?.offset
     } as TQueryVars,
     ...listQueryOptions
-  }), [store.filter, store.sortOrder, store.pagination, listQueryOptions]);
+  }), [store, store.filter, store.sortOrder, store.pagination, listQueryOptions]);
+
+  console.log('tableQueryOptions', tableQueryOptions);
 
   const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>({
     ...options,
@@ -78,10 +75,8 @@ export function useEntityTable<
 
   const {listQueryResult: {data}, showDeletionDialog} = entityListHookResult;
 
-  const items = data?.[queryName];
-
   const getRecordById = useCallback(
-    (id: string): EntityInstance<TEntity> => {
+    (id: string, items: Array<EntityInstance<TEntity>>): EntityInstance<TEntity> => {
       const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
 
       if (!record) {
@@ -90,13 +85,13 @@ export function useEntityTable<
 
       return record;
     },
-    [items]
+    [data]
   );
 
   const deleteSelectedRow = useCallback(
-    () => {
+    (items: Array<EntityInstance<TEntity>>) => {
       if (store.selectedRowKey != null) {
-        showDeletionDialog(getRecordById(store.selectedRowKey));
+        showDeletionDialog(getRecordById(store.selectedRowKey, items));
       }
     },
     [getRecordById, showDeletionDialog, store.selectedRowKey]
@@ -106,7 +101,6 @@ export function useEntityTable<
     (selectedRowKeys: string[]) => {
       runInAction(() => {
         store.selectedRowKey = selectedRowKeys[0];
-        console.log('handleRowSelectionChange', store.selectedRowKey);
       });
     },
     [store.selectedRowKey]
@@ -114,7 +108,9 @@ export function useEntityTable<
 
   const handleFilterChange = useCallback(
     (filter?: JmixEntityFilter) => {
-      store.filter = filter;
+      runInAction(() => {
+        store.filter = filter;
+      });
     },
     [store]
   );
@@ -125,13 +121,15 @@ export function useEntityTable<
         store.sortOrder = sortOrder;
       });
     },
-    [store]
+    [store.sortOrder]
   );
 
   const handlePaginationChange = useCallback(
     (pagination?: JmixPagination) => {
-      store.pagination = pagination;
-      // TODO save history
+      runInAction(() => {
+        store.pagination = pagination;
+        // TODO save history
+      });
     },
     [store]
   );

@@ -98,8 +98,7 @@ const DatatypesBrowse3 = () => {
     store
   } = useEntityTable<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-    queryName: "scr_DatatypesTestEntity"
+    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY
   });
 
   return useObserver(() => {
@@ -158,7 +157,7 @@ const DatatypesBrowse3 = () => {
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >
