@@ -473,7 +473,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
   }
 
   get isClearFiltersShown(): boolean {
-    return Object.keys(this.tableFilters).length > 0;
+    return Object.values(this.tableFilters).some(value => value != null);
   }
 
   get generateColumnProps(): Array<ColumnProps<TEntity>> {

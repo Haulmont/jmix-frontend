@@ -51,7 +51,7 @@ const <%= listComponentClass %> = () => {
     handleSortOrderChange,
     handlePaginationChange,
     deleteSelectedRow,
-    selectedRowKey
+    store
   } = useEntityTable<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
@@ -90,11 +90,11 @@ const <%= listComponentClass %> = () => {
         </Link>
       </EntityPermAccessControl>),
       (<EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='update' key='update'>
-        <Link to={PATH + "/" + selectedRowKey} key="edit">
+        <Link to={PATH + "/" + store.selectedRowKey} key="edit">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}
-            disabled={selectedRowKey == null}
+            disabled={store.selectedRowKey == null}
             type="default"
           >
             <FormattedMessage id="common.edit" />
@@ -105,7 +105,7 @@ const <%= listComponentClass %> = () => {
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={selectedRowKey == null}
+          disabled={store.selectedRowKey == null}
           onClick={deleteSelectedRow}
           key="remove"
           type="default"

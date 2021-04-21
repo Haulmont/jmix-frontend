@@ -95,7 +95,7 @@ const DatatypesBrowse3 = () => {
     handleSortOrderChange,
     handlePaginationChange,
     deleteSelectedRow,
-    selectedRowKey
+    store
   } = useEntityTable<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
@@ -112,7 +112,7 @@ const DatatypesBrowse3 = () => {
       return <Spinner />;
     }
 
-    const items = data.scr_DatatypesTestEntity;
+    const items = data.scr_DatatypesTestEntityList;
 
     const buttons = [
       <EntityPermAccessControl
@@ -138,11 +138,11 @@ const DatatypesBrowse3 = () => {
         operation="update"
         key="update"
       >
-        <Link to={PATH + "/" + selectedRowKey} key="edit">
+        <Link to={PATH + "/" + store.selectedRowKey} key="edit">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}
-            disabled={selectedRowKey == null}
+            disabled={store.selectedRowKey == null}
             type="default"
           >
             <FormattedMessage id="common.edit" />
@@ -157,7 +157,7 @@ const DatatypesBrowse3 = () => {
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={selectedRowKey == null}
+          disabled={store.selectedRowKey == null}
           onClick={deleteSelectedRow}
           key="remove"
           type="default"

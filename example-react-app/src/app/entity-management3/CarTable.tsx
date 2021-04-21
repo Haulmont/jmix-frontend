@@ -85,7 +85,7 @@ const CarTable = () => {
     handleSortOrderChange,
     handlePaginationChange,
     deleteSelectedRow,
-    selectedRowKey
+    store
   } = useEntityTable<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
@@ -128,11 +128,11 @@ const CarTable = () => {
         operation="update"
         key="update"
       >
-        <Link to={PATH + "/" + selectedRowKey} key="edit">
+        <Link to={PATH + "/" + store.selectedRowKey} key="edit">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}
-            disabled={selectedRowKey == null}
+            disabled={store.selectedRowKey == null}
             type="default"
           >
             <FormattedMessage id="common.edit" />
@@ -147,7 +147,7 @@ const CarTable = () => {
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={selectedRowKey == null}
+          disabled={store.selectedRowKey == null}
           onClick={deleteSelectedRow}
           key="remove"
           type="default"

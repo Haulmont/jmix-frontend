@@ -14,6 +14,7 @@ import {
   PaginationChangeCallback,
   SortOrderChangeCallback
 } from "./interfaces";
+import {runInAction} from "mobx";
 
 export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   queryName: string;
@@ -28,7 +29,7 @@ export interface EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
   handlePaginationChange: PaginationChangeCallback;
-  selectedRowKey?: string;
+  store: EntityTableLocalStore;
 }
 
 export interface EntityTableLocalStore {
@@ -51,7 +52,14 @@ export function useEntityTable<
     listQueryOptions
   } = options;
 
-  const store: EntityTableLocalStore = useLocalStore(() => ({}));
+  const store: EntityTableLocalStore = useLocalStore(() => ({
+    selectedRowKey: undefined,
+    filter: undefined,
+    sortOrder: undefined,
+    pagination: undefined
+  }));
+
+  console.log('render', store.selectedRowKey);
 
   const tableQueryOptions = useMemo(() => ({
     variables: {
@@ -96,7 +104,10 @@ export function useEntityTable<
 
   const handleRowSelectionChange = useCallback(
     (selectedRowKeys: string[]) => {
-      store.selectedRowKey = selectedRowKeys[0];
+      runInAction(() => {
+        store.selectedRowKey = selectedRowKeys[0];
+        console.log('handleRowSelectionChange', store.selectedRowKey);
+      });
     },
     [store.selectedRowKey]
   );
@@ -110,7 +121,9 @@ export function useEntityTable<
 
   const handleSortOrderChange = useCallback(
     (sortOrder?: JmixSortOrder) => {
-      store.sortOrder = sortOrder;
+      runInAction(() => {
+        store.sortOrder = sortOrder;
+      });
     },
     [store]
   );
@@ -130,6 +143,7 @@ export function useEntityTable<
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
-    handlePaginationChange
+    handlePaginationChange,
+    store
   };
 }
