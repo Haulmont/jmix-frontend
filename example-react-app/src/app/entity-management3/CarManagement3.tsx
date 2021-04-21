@@ -32,13 +32,6 @@ export const CarManagement3 = (props: Props) => {
   );
 
   return useObserver(() => {
-    return entityId != null ? (
-      <CarEdit3 entityId={entityId} />
-    ) : (
-      <CarTable
-        onPagingChange={onPagingChange}
-        paginationConfig={store.paginationConfig}
-      />
-    );
+    return entityId != null ? <CarEdit3 entityId={entityId} /> : <CarTable />;
   });
 };

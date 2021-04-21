@@ -19,11 +19,6 @@ import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 import { gql } from "@apollo/client";
 
-type Props = {
-  paginationConfig: PaginationConfig;
-  onPagingChange: (current: number, pageSize: number) => void;
-};
-
 const FIELDS = [
   "bigDecimalAttr",
   "booleanAttr",
@@ -89,7 +84,7 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
   }
 `;
 
-const DatatypesBrowse3 = (props: Props) => {
+const DatatypesBrowse3 = () => {
   const mainStore = useMainStore();
 
   const {

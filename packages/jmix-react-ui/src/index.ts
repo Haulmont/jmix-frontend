@@ -1,3 +1,5 @@
+export * from './antd-specific/pagination';
+
 export * from './formatters/antFormToGraphql';
 export * from './formatters/graphqlToAntForm';
 

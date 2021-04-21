@@ -37,10 +37,7 @@ export const DatatypesManagement3 = (props: Props) => {
     return entityId != null ? (
       <DatatypesEdit3 entityId={entityId} />
     ) : (
-      <DatatypesBrowse3
-        onPagingChange={onPagingChange}
-        paginationConfig={store.paginationConfig}
-      />
+      <DatatypesBrowse3 />
     );
   });
 };

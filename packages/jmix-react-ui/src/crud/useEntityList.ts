@@ -6,7 +6,6 @@ import {
   MutationHookOptions, MutationResult, Reference,
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
-import {PaginationConfig} from "antd/es/pagination";
 import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect} from "react";
@@ -18,7 +17,6 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
-  paginationConfig: PaginationConfig;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -39,9 +37,9 @@ export interface ListQueryVars {
 
 export function useEntityList<
   TEntity,
-  TData extends Record<string, any>,
-  TQueryVars extends ListQueryVars,
-  TMutationVars extends HasId
+  TData extends Record<string, any> = Record<string, any>,
+  TQueryVars extends ListQueryVars = ListQueryVars,
+  TMutationVars extends HasId = HasId
 >(
   options: EntityListHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {

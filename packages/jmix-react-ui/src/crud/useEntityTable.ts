@@ -40,9 +40,9 @@ export interface EntityTableLocalStore {
 
 export function useEntityTable<
   TEntity,
-  TData extends Record<string, any>,
-  TQueryVars extends ListQueryVars,
-  TMutationVars extends HasId
+  TData extends Record<string, any> = Record<string, any>,
+  TQueryVars extends ListQueryVars = ListQueryVars,
+  TMutationVars extends HasId = HasId
   >(
   options: EntityTableHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -115,6 +115,7 @@ export function useEntityTable<
   const handlePaginationChange = useCallback(
     (pagination?: JmixPagination) => {
       store.pagination = pagination;
+      // TODO save history
     },
     [store]
   );

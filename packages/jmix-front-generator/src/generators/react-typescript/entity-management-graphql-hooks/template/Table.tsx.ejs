@@ -11,11 +11,6 @@ import {FormattedMessage} from "react-intl";
 import {PaginationConfig} from "antd/es/pagination";
 import {gql} from '@apollo/client';
 
-type Props = {
-  paginationConfig: PaginationConfig;
-  onPagingChange: (current: number, pageSize: number) => void;
-};
-
 const FIELDS = [
 <% listAttributes.forEach(p => { -%>
   '<%= p.name %>',
@@ -45,7 +40,7 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 }
 `;
 
-const <%= listComponentClass %> = (props: Props) => {
+const <%= listComponentClass %> = () => {
   const mainStore = useMainStore();
 
   const {

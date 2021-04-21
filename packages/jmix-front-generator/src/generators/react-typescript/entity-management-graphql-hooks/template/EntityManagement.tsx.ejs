@@ -38,8 +38,10 @@ export const <%= className %> = (props: Props) => {
       <<%= editComponentClass %> entityId={entityId} />
     ) : (
       <<%= listComponentClass %>
-        onPagingChange={onPagingChange}
-        paginationConfig={store.paginationConfig}
+        <% if (listType !== 'table') { -%>
+          onPagingChange={onPagingChange}
+          paginationConfig={store.paginationConfig}
+        <% } -%>
       />
     );
   });

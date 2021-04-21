@@ -19,11 +19,6 @@ import { FormattedMessage } from "react-intl";
 import { PaginationConfig } from "antd/es/pagination";
 import { gql } from "@apollo/client";
 
-type Props = {
-  paginationConfig: PaginationConfig;
-  onPagingChange: (current: number, pageSize: number) => void;
-};
-
 const FIELDS = [
   "manufacturer",
   "model",
@@ -79,7 +74,7 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarTable = (props: Props) => {
+const CarTable = () => {
   const mainStore = useMainStore();
 
   const {
