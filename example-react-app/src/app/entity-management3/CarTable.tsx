@@ -80,20 +80,20 @@ const DELETE_SCR_CAR = gql`
 `;
 
 const CarTable = (props: Props) => {
-  const { paginationConfig, onPagingChange } = props;
-
   const mainStore = useMainStore();
 
   const {
     loadItems,
     listQueryResult: { loading, error, data },
     handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
     deleteSelectedRow,
     selectedRowKey
   } = useEntityTable<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
-    paginationConfig,
     queryName: "scr_Car"
   });
 
@@ -165,8 +165,14 @@ const CarTable = (props: Props) => {
     return (
       <DataTable
         items={items}
+        entityName={Car.NAME}
+        loading={loading}
+        error={error}
         columnDefinitions={FIELDS}
         onRowSelectionChange={handleRowSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
       />

@@ -59,10 +59,8 @@ export function useEntityList<
 
   // Load items
   useEffect(() => {
-    loadItems({
-      variables: toLimitAndOffset(paginationConfig) as TQueryVars
-    });
-  }, [paginationConfig, loadItems]);
+    loadItems(listQueryOptions);
+  }, [listQueryOptions, loadItems]);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem);
 

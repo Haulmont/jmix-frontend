@@ -3,7 +3,6 @@ import {useCallback} from "react";
 import {
   EntityListHookOptions,
   EntityListHookResult,
-  LimitAndOffset,
   ListQueryVars,
   useEntityList
 } from "./useEntityList";

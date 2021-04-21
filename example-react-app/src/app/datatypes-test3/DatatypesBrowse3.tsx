@@ -90,20 +90,20 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 `;
 
 const DatatypesBrowse3 = (props: Props) => {
-  const { paginationConfig, onPagingChange } = props;
-
   const mainStore = useMainStore();
 
   const {
     loadItems,
     listQueryResult: { loading, error, data },
     handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
     deleteSelectedRow,
     selectedRowKey
   } = useEntityTable<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-    paginationConfig,
     queryName: "scr_DatatypesTestEntity"
   });
 
@@ -175,8 +175,14 @@ const DatatypesBrowse3 = (props: Props) => {
     return (
       <DataTable
         items={items}
+        entityName={DatatypesTestEntity.NAME}
+        loading={loading}
+        error={error}
         columnDefinitions={FIELDS}
         onRowSelectionChange={handleRowSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
       />

@@ -15,7 +15,8 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityList,
+  convertPaginationAntd2Jmix
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { PATH, NEW_SUBPATH } from "./CarManagement";
@@ -77,8 +78,12 @@ const CarCards = (props: Props) => {
     showDeletionDialog
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
-    deleteMutation: DELETE_SCR_CAR,
-    paginationConfig
+    listQueryOptions: {
+      variables: {
+        ...convertPaginationAntd2Jmix(paginationConfig)
+      }
+    },
+    deleteMutation: DELETE_SCR_CAR
   });
 
   return useObserver(() => {

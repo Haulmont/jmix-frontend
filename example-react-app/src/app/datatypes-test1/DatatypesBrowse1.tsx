@@ -15,7 +15,8 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityList,
+  convertPaginationAntd2Jmix
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { PATH, NEW_SUBPATH } from "./DatatypesManagement1";
@@ -83,8 +84,12 @@ const DatatypesBrowse1 = (props: Props) => {
     showDeletionDialog
   } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-    paginationConfig
+    listQueryOptions: {
+      variables: {
+        ...convertPaginationAntd2Jmix(paginationConfig)
+      }
+    },
+    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY
   });
 
   return useObserver(() => {
