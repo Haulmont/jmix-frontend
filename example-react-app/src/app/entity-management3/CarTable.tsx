@@ -102,7 +102,7 @@ const CarTable = () => {
       return <Spinner />;
     }
 
-    const items = data.scr_Car;
+    const items = data.scr_CarList;
 
     const buttons = [
       <EntityPermAccessControl

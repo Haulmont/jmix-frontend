@@ -8,15 +8,18 @@ import {
 } from "@apollo/client";
 import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {JmixEntityFilter, JmixSortOrder} from "./interfaces";
+import {PaginationConfig} from "antd/es/pagination";
+import {convertPaginationAntd2Jmix} from "../antd-specific/pagination";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  paginationConfig?: PaginationConfig; // TODO decouple from antd
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -48,11 +51,19 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
+    paginationConfig
   } = options;
+
+  const optsWithPagination = useMemo(() => ({
+    variables: {
+      ...(paginationConfig != null ? convertPaginationAntd2Jmix(paginationConfig) : undefined)
+    } as TQueryVars,
+    ...listQueryOptions
+  }), [paginationConfig]);
 
   const intl = useIntl();
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, listQueryOptions);
+  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithPagination);
   const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   // Load items
@@ -69,8 +80,8 @@ export function useEntityList<
 
 export function useDeletionDialogCallback<
   TEntity,
-  TData extends Record<string, any>,
-  TVariables extends HasId
+  TData extends Record<string, any> = Record<string, any>,
+  TVariables extends HasId = HasId
   >(
   intl: IntlShape,
   deleteMutation: GraphQLMutationFn<TData, TVariables>

@@ -4,7 +4,7 @@ import {Link} from "react-router-dom";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, List} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, toIdString, useMainStore} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, convertPaginationAntd2Jmix} from "@haulmont/jmix-react-ui";
+import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {PATH, NEW_SUBPATH} from "./<%= className %>";
 import {FormattedMessage} from "react-intl";
@@ -50,12 +50,8 @@ const <%= listComponentClass %> = (props: Props) => {
     showDeletionDialog
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
-    listQueryOptions: {
-      variables: {
-        ...convertPaginationAntd2Jmix(paginationConfig),
-      }
-    },
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+    paginationConfig,
   });
 
   return useObserver(() => {

@@ -1,5 +1,5 @@
 import {useLocalStore} from "mobx-react";
-import {useCallback} from "react";
+import {useCallback, useMemo} from "react";
 import {
   EntityListHookOptions,
   EntityListHookResult,
@@ -47,22 +47,25 @@ export function useEntityTable<
   options: EntityTableHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
-    queryName
+    queryName,
+    listQueryOptions
   } = options;
 
   const store: EntityTableLocalStore = useLocalStore(() => ({}));
 
+  const tableQueryOptions = useMemo(() => ({
+    variables: {
+      filter: store.filter,
+      orderBy: store.sortOrder,
+      limit: store.pagination?.limit,
+      offset: store.pagination?.offset
+    } as TQueryVars,
+    ...listQueryOptions
+  }), [store.filter, store.sortOrder, store.pagination, listQueryOptions]);
+
   const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>({
     ...options,
-    listQueryOptions: {
-      variables: {
-        filter: store.filter,
-        orderBy: store.sortOrder,
-        limit: store.pagination?.limit,
-        offset: store.pagination?.offset
-      } as TQueryVars,
-      ...options.listQueryOptions
-    }
+    listQueryOptions: tableQueryOptions
   });
 
   const {listQueryResult: {data}, showDeletionDialog} = entityListHookResult;

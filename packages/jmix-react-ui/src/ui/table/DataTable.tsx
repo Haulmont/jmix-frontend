@@ -286,7 +286,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
 
     return {
       showSizeChanger: true,
-      total: items.length ?? undefined,
+      total: items?.length ?? undefined,
     };
   }
 

@@ -69,7 +69,7 @@ const <%= listComponentClass %> = () => {
       return <Spinner />;
     }
 
-    const items = data.<%= dollarsToUnderscores(entity.name) %>;
+    const items = data.<%= dollarsToUnderscores(entity.name) %>List;
 
     const buttons = [
       (<EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='create' key='create'>
