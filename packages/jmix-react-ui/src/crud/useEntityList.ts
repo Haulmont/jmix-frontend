@@ -11,6 +11,7 @@ import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId} from "@haulmon
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect} from "react";
 import {Modal} from "antd";
+import {JmixEntityFilter, JmixSortOrder} from "./interfaces";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
@@ -29,11 +30,18 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
 }
 
+export interface ListQueryVars {
+  filter?: JmixEntityFilter;
+  orderBy?: JmixSortOrder;
+  limit?: number;
+  offset?: number;
+}
+
 export function useEntityList<
   TEntity,
-  TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends LimitAndOffset = LimitAndOffset,
-  TMutationVars extends HasId = HasId
+  TData extends Record<string, any>,
+  TQueryVars extends ListQueryVars,
+  TMutationVars extends HasId
 >(
   options: EntityListHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -42,7 +50,6 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    paginationConfig,
   } = options;
 
   const intl = useIntl();
@@ -66,8 +73,8 @@ export function useEntityList<
 
 export function useDeletionDialogCallback<
   TEntity,
-  TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId,
+  TData extends Record<string, any>,
+  TVariables extends HasId
   >(
   intl: IntlShape,
   deleteMutation: GraphQLMutationFn<TData, TVariables>
@@ -107,31 +114,4 @@ export function useDeletionDialogCallback<
     },
     [intl, deleteMutation]
   );
-}
-
-export type LimitAndOffset = { limit: number | undefined; offset: number | undefined };
-
-export function toLimitAndOffset(
-  paginationConfig: PaginationConfig
-): LimitAndOffset {
-  const { disabled, current, pageSize } = paginationConfig;
-
-  if (disabled) {
-    return {
-      limit: undefined,
-      offset: undefined
-    };
-  }
-
-  if (pageSize != null && current != null) {
-    return {
-      limit: pageSize,
-      offset: pageSize * (current - 1)
-    };
-  }
-
-  return {
-    limit: undefined,
-    offset: undefined
-  };
 }

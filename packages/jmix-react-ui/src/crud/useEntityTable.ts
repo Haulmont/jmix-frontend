@@ -1,6 +1,12 @@
 import {useLocalStore} from "mobx-react";
 import {useCallback} from "react";
-import {EntityListHookOptions, EntityListHookResult, LimitAndOffset, useEntityList} from "./useEntityList";
+import {
+  EntityListHookOptions,
+  EntityListHookResult,
+  LimitAndOffset,
+  ListQueryVars,
+  useEntityList
+} from "./useEntityList";
 import {EntityInstance, HasId, toIdString} from "@haulmont/jmix-react-core";
 import {
   FilterChangeCallback,
@@ -9,7 +15,6 @@ import {
   PaginationChangeCallback,
   SortOrderChangeCallback
 } from "./interfaces";
-import {operatorToOptionClassName} from "../ui/table/DataTableCustomFilter";
 
 export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   queryName: string;
@@ -36,9 +41,9 @@ export interface EntityTableLocalStore {
 
 export function useEntityTable<
   TEntity,
-  TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends LimitAndOffset = LimitAndOffset,
-  TMutationVars extends HasId = HasId
+  TData extends Record<string, any>,
+  TQueryVars extends ListQueryVars,
+  TMutationVars extends HasId
   >(
   options: EntityTableHookOptions<TData, TQueryVars, TMutationVars>
 ): EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -50,9 +55,19 @@ export function useEntityTable<
 
   const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>({
     ...options,
-    listQueryOptions:
+    listQueryOptions: {
+      variables: {
+        filter: store.filter,
+        orderBy: store.sortOrder,
+        limit: store.pagination?.limit,
+        offset: store.pagination?.offset
+      } as TQueryVars,
+      ...options.listQueryOptions
+    }
   });
+
   const {listQueryResult: {data}, showDeletionDialog} = entityListHookResult;
+
   const items = data?.[queryName];
 
   const getRecordById = useCallback(
@@ -85,16 +100,33 @@ export function useEntityTable<
   );
 
   const handleFilterChange = useCallback(
-    (filter: JmixEntityFilter) => {
-
+    (filter?: JmixEntityFilter) => {
+      store.filter = filter;
     },
-    []
+    [store]
+  );
+
+  const handleSortOrderChange = useCallback(
+    (sortOrder?: JmixSortOrder) => {
+      store.sortOrder = sortOrder;
+    },
+    [store]
+  );
+
+  const handlePaginationChange = useCallback(
+    (pagination?: JmixPagination) => {
+      store.pagination = pagination;
+    },
+    [store]
   );
 
   return {
     ...entityListHookResult,
     getRecordById,
     deleteSelectedRow,
-    handleRowSelectionChange
+    handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange
   };
 }

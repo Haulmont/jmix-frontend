@@ -46,8 +46,6 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 `;
 
 const <%= listComponentClass %> = (props: Props) => {
-  const { paginationConfig, onPagingChange } = props;
-
   const mainStore = useMainStore();
 
   const {
@@ -62,7 +60,6 @@ const <%= listComponentClass %> = (props: Props) => {
   } = useEntityTable<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    paginationConfig,
     queryName: '<%= dollarsToUnderscores(entity.name) %>'
   });
 
