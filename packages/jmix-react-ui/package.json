@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-ui",
-  "version": "1.0.0-next.1",
+  "version": "1.0.0-next.2",
   "description": "Jmix utilities and components for React",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,8 +9,8 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^1.0.0-next.1",
-    "@haulmont/jmix-rest": "^1.0.0-next.1",
+    "@haulmont/jmix-react-core": "^1.0.0-next.2",
+    "@haulmont/jmix-rest": "^1.0.0-next.2",
     "moment": "^2.25.3",
     "query-string": "^6.11.0"
   },
@@ -30,7 +30,6 @@
     "@apollo/client": "^3.3.6",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
-    "graphql": "^15.4.0",
     "@types/jest": "^24.0.18",
     "@types/query-string": "^6.3.0",
     "@types/react": "^17.0.2",
@@ -40,6 +39,7 @@
     "autoprefixer": "^9.7.2",
     "babel-jest": "^25.1.0",
     "copyfiles": "^2.1.1",
+    "graphql": "^15.4.0",
     "jest": "^25.1.0",
     "less": "^3.10.3",
     "mobx": "^6.1.8",
