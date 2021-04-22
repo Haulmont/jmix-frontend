@@ -13,8 +13,8 @@ export function getFields<T>(
   return Object.keys(item).filter(key => !ignoredProperties.includes(key));
 }
 
-export function addIdIfExistingEntity(entityId: string, isNewEntity: boolean) {
-  return isNewEntity
+export function addIdIfExistingEntity(entityId?: string) {
+  return entityId != null
     ? undefined
     : { id: entityId };
 }

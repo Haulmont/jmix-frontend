@@ -1,13 +1,13 @@
-import React from "react";
-import { useObserver } from "mobx-react";
-import { Link } from "react-router-dom";
+import React, { useContext } from "react";
+import { observer } from "mobx-react";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Card } from "antd";
 import {
   EntityInstance,
+  getFields,
   EntityPermAccessControl,
   toIdString,
-  getFields
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -17,15 +17,11 @@ import {
   useEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
-import { PATH, NEW_SUBPATH } from "./GraphQLCardsManagement";
 import { FormattedMessage } from "react-intl";
-import { PaginationConfig } from "antd/es/pagination";
 import { gql } from "@apollo/client";
 
-type Props = {
-  paginationConfig: PaginationConfig;
-  onPagingChange: (current: number, pageSize: number) => void;
-};
+const ENTITY_NAME = "scr$Car";
+const ROUTING_PATH = "/graphQLCardsManagement";
 
 const SCR_CAR_LIST = gql`
   query scr_CarList(
@@ -65,93 +61,107 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const GraphQLCardsBrowser = (props: Props) => {
-  const { paginationConfig, onPagingChange } = props;
+const GraphQLCardsBrowser = observer(() => {
+  const screens = useContext(ScreensContext);
 
   const {
     loadItems,
     listQueryResult: { loading, error, data },
-    showDeletionDialog
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
-    paginationConfig
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH
   });
 
-  return useObserver(() => {
-    if (error != null) {
-      console.error(error);
-      return <RetryDialog onRetry={loadItems} />;
-    }
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
 
-    if (loading || data == null) {
-      return <Spinner />;
-    }
+  if (loading || data == null) {
+    return <Spinner />;
+  }
 
-    const dataSource = data.scr_CarList;
-    const pagesTotal = data.scr_CarCount;
+  const dataSource = data.scr_CarList;
+  const pagesTotal = data.scr_CarCount;
 
-    return (
-      <div className="narrow-layout">
-        <EntityPermAccessControl entityName={Car.NAME} operation="create">
-          <div style={{ marginBottom: "12px" }}>
-            <Link to={PATH + "/" + NEW_SUBPATH}>
-              <Button htmlType="button" type="primary" icon={<PlusOutlined />}>
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </Link>
-          </div>
-        </EntityPermAccessControl>
-
-        {dataSource == null || dataSource.length === 0 ? (
-          <p>
-            <FormattedMessage id="management.browser.noItems" />
-          </p>
-        ) : null}
-        {dataSource.map((e: EntityInstance<Car>) => (
-          <Card
-            title={e._instanceName}
-            key={e.id ? toIdString(e.id) : undefined}
-            style={{ marginBottom: "12px" }}
-            actions={[
-              <EntityPermAccessControl entityName={Car.NAME} operation="delete">
-                <DeleteOutlined
-                  key="delete"
-                  onClick={() => showDeletionDialog(e)}
-                />
-              </EntityPermAccessControl>,
-              <EntityPermAccessControl entityName={Car.NAME} operation="update">
-                <Link to={PATH + "/" + toIdString(e.id!)} key="edit">
-                  <EditOutlined />
-                </Link>
-              </EntityPermAccessControl>
-            ]}
+  return (
+    <div className="narrow-layout">
+      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+        <div style={{ marginBottom: "12px" }}>
+          <Button
+            htmlType="button"
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleCreateBtnClick}
           >
-            {getFields(e).map(p => (
-              <EntityProperty
-                entityName={Car.NAME}
-                propertyName={p}
-                value={e[p]}
-                key={p}
-              />
-            ))}
-          </Card>
-        ))}
+            <span>
+              <FormattedMessage id="common.create" />
+            </span>
+          </Button>
+        </div>
+      </EntityPermAccessControl>
 
-        {!paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={pagesTotal}
+      {dataSource == null || dataSource.length === 0 ? (
+        <p>
+          <FormattedMessage id="management.browser.noItems" />
+        </p>
+      ) : null}
+      {dataSource.map((e: EntityInstance<Car>) => (
+        <Card
+          title={e._instanceName}
+          key={e.id ? toIdString(e.id) : undefined}
+          style={{ marginBottom: "12px" }}
+          actions={[
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="delete"
+            >
+              <DeleteOutlined
+                key="delete"
+                onClick={showDeletionDialog.bind(null, e)}
+              />
+            </EntityPermAccessControl>,
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="update"
+            >
+              <EditOutlined
+                key="edit"
+                onClick={handleEditBtnClick.bind(null, e.id)}
+              />
+            </EntityPermAccessControl>
+          ]}
+        >
+          {getFields(e).map(p => (
+            <EntityProperty
+              entityName={ENTITY_NAME}
+              propertyName={p}
+              value={e[p]}
+              key={p}
             />
-          </div>
-        )}
-      </div>
-    );
-  });
-};
+          ))}
+        </Card>
+      ))}
+
+      {/* TODO pagination
+      {!paginationConfig.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={paginationConfig}
+            onPagingChange={onPagingChange}
+            total={pagesTotal}
+          />
+        </div>
+      )}
+      */}
+    </div>
+  );
+});
 
 export default GraphQLCardsBrowser;

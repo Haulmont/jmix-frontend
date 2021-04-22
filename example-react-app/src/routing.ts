@@ -23,6 +23,7 @@ import "./app/associationM2M/AssociationM2MManagement";
 import "./app/associationM2O/AssociationM2OManagement";
 import "./app/associationO2M/AssociationO2MManagement";
 import "./app/associationO2O/AssociationO2OManagement";
+import "./app/graphql-cards/GraphQLCardsManagement";
 import "./app/graphql/GraphQLManagement";
 import "./app/hooks-poc/HooksPOCManagement";
 import "./app/datatypes-test3/DatatypesManagement3";

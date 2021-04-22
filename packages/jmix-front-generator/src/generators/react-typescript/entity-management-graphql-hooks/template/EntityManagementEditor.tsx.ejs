@@ -1,10 +1,9 @@
-import React from "react";
+import React, {useContext} from "react";
 import {Form, Alert, Button, Card} from "antd";
-import {useObserver} from "mobx-react";
-import {PATH, NEW_SUBPATH} from "./<%= className %>";
-import {Link, Redirect} from "react-router-dom";
+import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {FormattedMessage} from 'react-intl';
+import {useMetadata, ScreensContext} from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -13,24 +12,19 @@ import {
   <% } %>
   MultilineText,
   Spinner,
-  useEntityEditor
+  useEntityEditor,
+  MultiScreenContext
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
 import "<%= relDirShift %>app/App.css";
-import {<%= relationImports[0].className %>} from "<%= relDirShift %><%= relationImports[0].path %>";
 <% /* -%>
 <% relationImports.forEach(relationImport =>{ -%>
 import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImport.path %>";
 <% }) %>
 <% */ -%>
 
-type Props = {
-  entityId: string;
-};
-
-function isNewEntity(entityId: string) {
-  return entityId === NEW_SUBPATH;
-}
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   query <%= dollarsToUnderscores(entity.name) %>ById($id: String!) {
@@ -65,8 +59,10 @@ const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= editComponentClass %> = (props: Props) => {
-  const { entityId } = props;
+const <%= editComponentClass %> = observer(() => {
+  const multiScreen = useContext(MultiScreenContext);
+  const screens = useContext(ScreensContext);
+  const metadata = useMetadata();
 
   const {
     loadItem,
@@ -77,101 +73,93 @@ const <%= editComponentClass %> = (props: Props) => {
     intl,
     handleFinish,
     handleFinishFailed,
-    metadata
+    handleCancelBtnClick,
   } = useEntityEditor({
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    entityId,
+    entityId: multiScreen?.params?.entityId,
     queryName: '<%= dollarsToUnderscores(entity.name) %>ById',
-    entityName: <%= entity.className %>.NAME,
-    isNewEntity: isNewEntity(entityId)
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    screens,
+    multiScreen
   });
 
-  return useObserver(() => {
-    if (store.updated) {
-      return <Redirect to={PATH} />;
-    }
+  if (queryLoading || metadata == null) {
+    return <Spinner />;
+  }
 
-    if (queryLoading || metadata == null) {
-      return <Spinner />;
-    }
+  if (queryError != null) {
+    console.error(queryError);
+    return <RetryDialog onRetry={loadItem} />;
+  }
 
-    if (queryError != null) {
-      console.error(queryError);
-      return <RetryDialog onRetry={loadItem} />;
-    }
+  return (
+    <Card className="narrow-layout">
+      <Form
+        onFinish={handleFinish}
+        onFinishFailed={handleFinishFailed}
+        layout="vertical"
+        ref={store.formRef}
+        form={form}
+        validateMessages={createAntdFormValidationMessages(intl)}
+      >
+        <% editAttributes.forEach(attr => { %>
+          <Field entityName={ENTITY_NAME}
+                 propertyName="<%= attr.name %>"
 
-    return (
-      <Card className="narrow-layout">
-        <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
-          layout="vertical"
-          ref={store.formRef}
-          form={form}
-          validateMessages={createAntdFormValidationMessages(intl)}
-        >
-          <% editAttributes.forEach(attr => { %>
-            <Field entityName={<%= entity.className %>.NAME}
-                   propertyName="<%= attr.name %>"
+            <% if (readOnlyFields.includes(attr.name)) { %>
+                 disabled={true}
+            <% } else if (attr.name === locals.stringIdName) { %>
+                 disabled={!isNewEntity(entityId)}
+            <% } %>
 
-              <% if (readOnlyFields.includes(attr.name)) { %>
-                   disabled={true}
-              <% } else if (attr.name === locals.stringIdName) { %>
-                   disabled={!isNewEntity(entityId)}
-              <% } %>
+            <% /* TODO Compositions %>
+            <% */ %>
 
-              <% if (Object.keys(editCompositions).includes(attr.name)) { %>
-                <% if (typeof nestedEntityInfo !== 'undefined' && typeof nestedEntityInfo[attr.name] !== 'undefined') {%>
-                   nestedEntityView='<%= nestedEntityInfo[attr.name] %>'
-                <% } %>
-                   parentEntityInstanceId={entityId !== NEW_SUBPATH ? entityId : undefined}
-              <% } %>
+            <% /* TODO Associations %>
+            <% if (Object.keys(editAssociations).includes(attr.name)) { %>
+                 associationOptions={<%= unCapitalizeFirst(entity.className) %>Data.<%= unCapitalizeFirst(editAssociations[attr.name].className) %>List}
+            <% } %>
+            <% */ %>
 
-              <% /* TODO Associations %>
-              <% if (Object.keys(editAssociations).includes(attr.name)) { %>
-                   associationOptions={<%= unCapitalizeFirst(entity.className) %>Data.<%= unCapitalizeFirst(editAssociations[attr.name].className) %>List}
-              <% } %>
-              <% */ %>
+                  formItemProps={{
+                  style: {marginBottom: "12px"},
+            <% if (attr.mandatory) { -%>
+                  rules: [{required: true}],
+            <% } -%>
+            <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
+                  valuePropName: "checked",
+            <% } -%>
+            }}
+          /> <%# end Field %>
+        <% }) %>
 
-                    formItemProps={{
-                    style: {marginBottom: "12px"},
-              <% if (attr.mandatory) { -%>
-                    rules: [{required: true}],
-              <% } -%>
-              <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
-                    valuePropName: "checked",
-              <% } -%>
-              }}
-            /> <%# end Field %>
-          <% }) %>
+        {store.globalErrors.length > 0 && (
+          <Alert
+            message={<MultilineText lines={toJS(store.globalErrors)} />}
+            type="error"
+            style={{ marginBottom: "24px" }}
+          />
+        )}
 
-          {store.globalErrors.length > 0 && (
-            <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
-              type="error"
-              style={{ marginBottom: "24px" }}
-            />
-          )}
-
-          <Form.Item style={{textAlign: 'center'}}>
-            <Link to={PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id='common.cancel'/>
-              </Button>
-            </Link>
-            <Button type="primary"
-                    htmlType="submit"
-                    <%# disabled={status !== "DONE" && status !== "ERROR"} //TODO client-side validation %>
-                    loading={upsertLoading}
-                    style={{marginLeft: '8px'}}>
-              <FormattedMessage id='common.submit'/>
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    );
-  });
-};
+        <Form.Item style={{textAlign: 'center'}}>
+          <Button htmlType="button"
+                  onClick={handleCancelBtnClick}
+          >
+            <FormattedMessage id='common.cancel'/>
+          </Button>
+          <Button type="primary"
+                  htmlType="submit"
+                  <%# disabled={status !== "DONE" && status !== "ERROR"} //TODO client-side validation %>
+                  loading={upsertLoading}
+                  style={{marginLeft: '8px'}}>
+            <FormattedMessage id='common.submit'/>
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
+  );
+});
 
 export default <%= editComponentClass %>;

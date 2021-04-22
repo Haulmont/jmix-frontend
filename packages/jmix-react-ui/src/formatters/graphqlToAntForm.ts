@@ -1,4 +1,4 @@
-import { instanceItemToFormFields, MetaClassInfo } from "@haulmont/jmix-react-core";
+import { instanceItemToFormFields, Metadata } from "@haulmont/jmix-react-core";
 
 /**
  * Takes the data received from backend via GraphQL and reformats it so that it can be
@@ -14,9 +14,9 @@ import { instanceItemToFormFields, MetaClassInfo } from "@haulmont/jmix-react-co
 export function graphqlToAntForm<T>(
   item: Record<string, any>,
   entityName: string,
-  metadata: MetaClassInfo[],
+  metadata: Metadata,
   stringIdName?: string
 ): Record<string, any> {
   // TODO Move instanceItemToFormFields from react-core to react-ui, call it `restToAntForm`, and extract the common functionality into a separate function
-  return instanceItemToFormFields<T>(item, entityName, metadata, undefined, stringIdName);
+  return instanceItemToFormFields<T>(item, entityName, metadata.entities, undefined, stringIdName);
 }

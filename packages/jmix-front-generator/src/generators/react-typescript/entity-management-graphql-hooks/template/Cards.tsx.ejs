@@ -1,20 +1,15 @@
-import React from "react";
-import {useObserver} from "mobx-react";
-import {Link} from "react-router-dom";
+import React, {useContext} from "react";
+import {observer} from "mobx-react";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Card} from "antd";
-import {EntityInstance, EntityPermAccessControl, toIdString, getFields} from "@haulmont/jmix-react-core";
+import {EntityInstance, getFields, EntityPermAccessControl, toIdString, ScreensContext} from "@haulmont/jmix-react-core";
 import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
-import {PATH, NEW_SUBPATH} from "./<%= className %>";
 import {FormattedMessage} from "react-intl";
-import {PaginationConfig} from "antd/es/pagination";
 import {gql} from '@apollo/client';
 
-type Props = {
-  paginationConfig: PaginationConfig;
-  onPagingChange: (current: number, pageSize: number) => void;
-};
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
@@ -39,87 +34,93 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= listComponentClass %> = (props: Props) => {
-  const { paginationConfig, onPagingChange } = props;
+const <%= listComponentClass %> = observer(() => {
+  const screens = useContext(ScreensContext);
 
   const {
     loadItems,
     listQueryResult: {loading, error, data},
-    showDeletionDialog
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    paginationConfig
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH
   });
 
-  return useObserver(() => {
-    if (error != null) {
-      console.error(error);
-      return <RetryDialog onRetry={loadItems} />;
-    }
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
 
-    <%# TODO Spinner is not properly centered -%>
-    if (loading || data == null) {
-      return <Spinner/>;
-    }
+  <%# TODO Spinner is not properly centered -%>
+  if (loading || data == null) {
+    return <Spinner/>;
+  }
 
-    const dataSource = data.<%= dollarsToUnderscores(entity.name) %>List;
-    const pagesTotal = data.<%= dollarsToUnderscores(entity.name) %>Count;
+  const dataSource = data.<%= dollarsToUnderscores(entity.name) %>List;
+  const pagesTotal = data.<%= dollarsToUnderscores(entity.name) %>Count;
 
-    return (
-      <div className='narrow-layout'>
-        <EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='create'>
-          <div style={{marginBottom: '12px'}}>
-            <Link to={PATH + '/' + NEW_SUBPATH}>
-              <Button htmlType='button'
-                      type='primary'
-                      icon={<PlusOutlined />}>
-                <span><FormattedMessage id='common.create'/></span>
-              </Button>
-            </Link>
-          </div>
-        </EntityPermAccessControl>
+  return (
+    <div className='narrow-layout'>
+      <EntityPermAccessControl entityName={ENTITY_NAME} operation='create'>
+        <div style={{marginBottom: '12px'}}>
+          <Button htmlType='button'
+                  type='primary'
+                  icon={<PlusOutlined />}
+                  onClick={handleCreateBtnClick}
+          >
+            <span><FormattedMessage id='common.create'/></span>
+          </Button>
+        </div>
+      </EntityPermAccessControl>
 
-        {dataSource == null || dataSource.length === 0 ?
-          <p><FormattedMessage id='management.browser.noItems'/></p> : null}
-        {dataSource.map((e: EntityInstance<<%= entity.className %>>) =>
-          <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
-          <Card title={e._instanceName}
-                key={e.id ? toIdString(e.id) : undefined}
-                style={{marginBottom: '12px'}}
-                actions={[
-                  <EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='delete'>
-                    <DeleteOutlined
-                      key='delete'
-                      onClick={() => showDeletionDialog(e)}/>
-                  </EntityPermAccessControl>,
-                  <EntityPermAccessControl entityName={<%= entity.className %>.NAME} operation='update'>
-                    <Link to={PATH + '/' + toIdString(e.id!)} key='edit'>
-                      <EditOutlined />
-                    </Link>
-                  </EntityPermAccessControl>
-                ]}>
-            {getFields(e).map(p =>
-              <EntityProperty entityName={<%= entity.className %>.NAME}
-                              propertyName={p}
-                              value={e[p]}
-                              key={p}/>
-            )}
-          </Card>
-        )}
+      {dataSource == null || dataSource.length === 0 ?
+        <p><FormattedMessage id='management.browser.noItems'/></p> : null}
+      {dataSource.map((e: EntityInstance<<%= entity.className %>>) =>
+        <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
+        <Card title={e._instanceName}
+              key={e.id ? toIdString(e.id) : undefined}
+              style={{marginBottom: '12px'}}
+              actions={[
+                <EntityPermAccessControl entityName={ENTITY_NAME} operation='delete'>
+                  <DeleteOutlined
+                    key='delete'
+                    onClick={showDeletionDialog.bind(null, e)}
+                  />
+                </EntityPermAccessControl>,
+                <EntityPermAccessControl entityName={ENTITY_NAME} operation='update'>
+                  <EditOutlined
+                    key="edit"
+                    onClick={handleEditBtnClick.bind(null, e.id)}
+                  />
+                </EntityPermAccessControl>
+              ]}>
+          {getFields(e).map(p =>
+            <EntityProperty entityName={ENTITY_NAME}
+                            propertyName={p}
+                            value={e[p]}
+                            key={p}/>
+          )}
+        </Card>
+      )}
 
-        {!paginationConfig.disabled && (
-          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-            <Paging
-              paginationConfig={paginationConfig}
-              onPagingChange={onPagingChange}
-              total={pagesTotal}
-            />
-          </div>
-        )}
-      </div>
-    );
-  });
-};
+      {/* TODO pagination
+      {!paginationConfig.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={paginationConfig}
+            onPagingChange={onPagingChange}
+            total={pagesTotal}
+          />
+        </div>
+      )}
+      */}
+    </div>
+  );
+});
 
 export default <%= listComponentClass %>;
