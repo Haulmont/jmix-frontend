@@ -2,9 +2,9 @@ import * as React from "react";
 import { action, observable, computed, makeObservable } from "mobx";
 import { PlusOutlined } from '@ant-design/icons';
 import { Form } from 'antd';
-import { DatePicker, Input, Select, Tag, TimePicker, Tooltip, InputNumber } from "antd";
+import { Input, Select, Tag, Tooltip, InputNumber } from "antd";
 import {observer} from "mobx-react";
-import {Moment} from "moment";
+import {Dayjs} from 'dayjs';
 import {CaptionValuePair} from "./DataTableCustomFilter";
 import {PropertyType} from '@haulmont/jmix-rest';
 import {ReactNode, Ref} from 'react';
@@ -14,10 +14,12 @@ import {DoubleInput} from '../form/DoubleInput';
 import {LongInput} from '../form/LongInput';
 import {BigDecimalInput} from '../form/BigDecimalInput';
 import {CharInput} from "../form/CharInput";
-import {assertNever, applyDataTransferFormat, applyDisplayFormat, stripMilliseconds, MetaPropertyInfo} from '@haulmont/jmix-react-core';
+import {assertNever, applyDataTransferFormat, applyDisplayFormat, MetaPropertyInfo} from '@haulmont/jmix-react-core';
 import {InputNumberProps} from 'antd/es/input-number';
 import {LabeledValue} from 'antd/es/select';
 import './DataTableListEditor.less';
+import {DatePicker} from "../DatePicker";
+import {TimePicker} from "../TimePicker";
 
 interface DataTableListEditorProps {
   onChange: (items: string[] | number []) => void,
@@ -130,19 +132,19 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
     this.handleInputConfirm();
   };
 
-  onDatePickerChange = (date: Moment | null): void => {
+  onDatePickerChange = (date: Dayjs | null): void => {
     if (date != null) {
-      const normalizedDate = stripMilliseconds(date);
+      const normalizedDate = date.millisecond(0);
       this.handleInputChange(applyDataTransferFormat(normalizedDate, this.props.propertyInfo.type as PropertyType));
       this.handleInputConfirm();
     }
   };
 
-  onDateTimePickerChange = (date: Moment | null): void => {
+  onDateTimePickerChange = (date: Dayjs | null): void => {
     if (date != null) {
       const {propertyInfo} = this.props;
       const propertyType = propertyInfo.type as PropertyType;
-      const normalizedDate = stripMilliseconds(date);
+      const normalizedDate = date.millisecond(0);
       this.handleInputChange(
         applyDataTransferFormat(normalizedDate, propertyType),
         applyDisplayFormat(normalizedDate, propertyType)
@@ -151,9 +153,9 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
     }
   };
 
-  onTimePickerChange = (time: Moment | null, _timeString: string): void => {
+  onTimePickerChange = (time: Dayjs | null, _timeString: string): void => {
     if (time != null) {
-      const normalizedTime = stripMilliseconds(time);
+      const normalizedTime = time.millisecond(0);
       const timeParam = applyDataTransferFormat(normalizedTime, this.props.propertyInfo.type as PropertyType);
       this.handleInputChange(timeParam);
     }

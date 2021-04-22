@@ -60,14 +60,14 @@ export interface JmixAppConfig {
   /**
    * Serialization formats for entity properties of temporal types.
    * Can be used to override the default formats used to (de)serialize the data transferred by server API.
-   * See @{link https://momentjs.com/docs/#/displaying/ | Moment documentation}
+   * See @{link https://day.js.org/docs/en/display/format | Day.js documentation}
    * for details on available formats.
    */
   dataTransferFormats?: Partial<Record<PropertyType, string>>;
   /**
    * Display formats for entity properties of temporal types.
    * Can be used to override the formats used for data presentation.
-   * See @{link https://momentjs.com/docs/#/displaying/ | Moment documentation}
+   * See @{link https://day.js.org/docs/en/display/format | Day.js documentation}
    * for details on available formats.
    */
   displayFormats?: Partial<Record<PropertyType, string>>;

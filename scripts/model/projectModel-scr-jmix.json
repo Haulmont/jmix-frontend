@@ -7,6 +7,11 @@
         "code": "en",
         "language": "English",
         "dataFormats": {}
+      },
+      {
+        "code": "ru",
+        "language": "Русский",
+        "dataFormats": {}
       }
     ]
   },

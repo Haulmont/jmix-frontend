@@ -16,7 +16,7 @@ import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
-import "moment/locale/ru";
+import "dayjs/locale/ru";
 
 export const jmixREST = initializeApp({
   name: "mpg",

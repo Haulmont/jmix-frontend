@@ -20,10 +20,8 @@ import {Msg} from '../Msg';
 import {FieldPermissionContainer} from './FieldPermssionContainer';
 import {
   Checkbox,
-  DatePicker,
   Input,
   Select,
-  TimePicker,
   Form,
   FormInstance, message,
 } from 'antd';
@@ -38,8 +36,6 @@ import {SelectProps, SelectValue} from 'antd/es/select';
 import {InputProps} from 'antd/es/input/Input';
 import {InputNumberProps} from 'antd/es/input-number';
 import {CheckboxProps} from 'antd/es/checkbox/Checkbox';
-import {DatePickerProps} from 'antd/es/date-picker';
-import {TimePickerProps} from 'antd/es/time-picker';
 import {FileUpload, FileUploadProps} from '../FileUpload';
 import {EntitySelectField} from '../EntitySelectField';
 import {IntegerInput} from './IntegerInput';
@@ -55,7 +51,8 @@ import {DataInstanceStore} from "@haulmont/jmix-react-core";
 import { IntlShape } from 'react-intl';
 import {clearFieldErrors, constructFieldsWithErrors, extractServerValidationErrors} from "../../util/errorHandling";
 import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../util/mapJmixRestErrorToIntlId";
-
+import { DatePicker, DatePickerProps } from '../DatePicker';
+import { TimePicker, TimePickerProps } from '../TimePicker';
 
 export interface FieldProps {
   entityName: string;
