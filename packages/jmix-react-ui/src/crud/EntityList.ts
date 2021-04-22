@@ -7,17 +7,20 @@ import {
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
 import {PaginationConfig} from "antd/es/pagination";
-import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId} from "@haulmont/jmix-react-core";
+import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId, Screens, redirect} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect} from "react";
 import {Modal} from "antd";
+import {referencesListByEntityName} from "../util/componentsRegistration";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
-  listQuery: DocumentNode | TypedDocumentNode,
-  listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>,
-  deleteMutation: DocumentNode | TypedDocumentNode,
-  deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>,
-  paginationConfig: PaginationConfig
+  listQuery: DocumentNode | TypedDocumentNode;
+  listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
+  deleteMutation: DocumentNode | TypedDocumentNode;
+  deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  screens: Screens;
+  entityName: string;
+  routingPath: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -27,6 +30,8 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   deleteMutationResult: MutationResult,
   intl: IntlShape;
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+  handleCreateBtnClick: () => void;
+  handleEditBtnClick: (id: string) => void;
 }
 
 export function useEntityList<
@@ -42,7 +47,9 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    paginationConfig
+    screens,
+    entityName,
+    routingPath
   } = options;
 
   const intl = useIntl();
@@ -52,16 +59,47 @@ export function useEntityList<
 
   // Load items
   useEffect(() => {
-    loadItems({
-      variables: toLimitAndOffset(paginationConfig) as TQueryVars
-    });
-  }, [paginationConfig, loadItems]);
+    loadItems(); // TODO pagination
+  }, [loadItems]);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
 
   return {
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog
+    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
+    handleCreateBtnClick, handleEditBtnClick
   };
+}
+
+export function useCreateBtnCallback(screens: Screens, entityName: string) {
+  return useCallback(() => {
+    const registeredReferral = referencesListByEntityName[entityName];
+
+    screens.push({
+      title: registeredReferral.entityItemNew.title,
+      content: registeredReferral.entityItemNew.content
+    });
+  }, [screens, entityName]);
+}
+
+export function useEditBtnCallbck(screens: Screens, entityName: string, routingPath: string) {
+  return useCallback((entityId: string) => {
+    const registeredReferral = referencesListByEntityName[entityName];
+
+    // If we are on root screen
+    if (screens.currentScreenIndex === 0) {
+      redirect(`${routingPath}/${entityId}`);
+    }
+
+    screens.push({
+      title: registeredReferral.entityItemEdit.title,
+      content: registeredReferral.entityItemEdit.content,
+      params: {
+        entityId
+      }
+    });
+  }, [screens, routingPath, entityName]);
 }
 
 export function useDeletionDialogCallback<

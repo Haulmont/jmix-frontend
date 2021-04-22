@@ -1,46 +1,30 @@
-import React, {useCallback} from "react";
-import {RouteComponentProps} from "react-router";
-import {useLocalStore, useObserver} from "mobx-react";
+import * as React from "react";
 import <%= editComponentClass %> from "./<%= editComponentClass %>";
 import <%= listComponentClass %> from "./<%= listComponentClass %>";
-import {action} from "mobx";
-import {PaginationConfig} from "antd/es/pagination";
-import {addPagingParams, createPagingConfig} from "@haulmont/jmix-react-ui";
+import {
+  registerEntityEditorScreen,
+  registerEntityBrowserScreen,
+  registerRoute
+} from "@haulmont/jmix-react-ui";
 
-type Props = Partial<RouteComponentProps<{entityId?: string}>>;
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
 
-type <%= className %>LocalStore = {
-  paginationConfig: PaginationConfig;
-};
-
-export const PATH = '/<%= nameLiteral %>';
-export const NEW_SUBPATH = 'new';
-
-export const <%= className %> = (props: Props) => {
-  const { entityId } = props.match?.params ?? {};
-
-  const store: <%= className %>LocalStore = useLocalStore(() => ({
-    paginationConfig: createPagingConfig(props.location?.search ?? "")
-  }));
-
-  const onPagingChange = useCallback(
-    action((current: number, pageSize: number) => {
-      props.history?.push(
-        addPagingParams("<%= nameLiteral %>", current, pageSize)
-      );
-      store.paginationConfig = { ...store.paginationConfig, current, pageSize };
-    }),
-    []
-  );
-
-  return useObserver(() => {
-    return entityId != null ? (
-      <<%= editComponentClass %> entityId={entityId} />
-    ) : (
-      <<%= listComponentClass %>
-        onPagingChange={onPagingChange}
-        paginationConfig={store.paginationConfig}
-      />
-    );
-  });
-};
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  '<%= nameLiteral %> list',
+  <<%= listComponentClass %> />,
+  ENTITY_NAME,
+  '<%= className %>'
+);
+registerEntityEditorScreen(
+  ENTITY_NAME,
+  '<%= nameLiteral %>',
+  <<%= editComponentClass %> />
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  '<%= nameLiteral %>',
+  <<%= listComponentClass %> />
+);

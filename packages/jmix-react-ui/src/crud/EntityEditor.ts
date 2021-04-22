@@ -9,11 +9,18 @@ import {
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
 import {
-  GraphQLMutationFn, GraphQLQueryFn, addIdIfExistingEntity, HasId, MainStore, useMainStore
+  GraphQLMutationFn,
+  GraphQLQueryFn,
+  addIdIfExistingEntity,
+  HasId,
+  useMetadata,
+  Metadata,
+  Screens,
+  IMultiScreenItem,
+  redirect
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {MetaClassInfo} from "@haulmont/jmix-rest";
-import {action, IObservableArray} from "mobx";
+import {action} from "mobx";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
 import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
@@ -38,10 +45,12 @@ export interface EntityEditorHookOptions<TData, TVariables> {
   loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
   upsertMutation: DocumentNode | TypedDocumentNode;
   upsertMutationOptions?: MutationHookOptions<TData, TVariables>;
-  entityId: string;
-  isNewEntity: boolean;
+  entityId?: string;
   queryName: string;
   entityName: string;
+  routingPath: string;
+  screens: Screens;
+  multiScreen: IMultiScreenItem;
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TVariables> {
@@ -54,7 +63,7 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
   intl: IntlShape;
   handleFinish: (values: TEntity) => void;
   handleFinishFailed: (errorInfo: ValidateErrorEntity<TEntity>) => void;
-  metadata: IObservableArray<MetaClassInfo> | null;
+  handleCancelBtnClick: () => void;
 }
 
 export function useEntityEditor<
@@ -70,13 +79,15 @@ export function useEntityEditor<
     upsertMutation,
     upsertMutationOptions,
     entityId,
-    isNewEntity,
     queryName,
-    entityName
+    entityName,
+    routingPath,
+    screens,
+    multiScreen
   } = options;
 
   const intl = useIntl();
-  const mainStore = useMainStore();
+  const metadata = useMetadata();
   const [form] = useForm();
   const store: EntityEditorStore = useEntityEditorStore();
 
@@ -86,14 +97,14 @@ export function useEntityEditor<
 
   // Fetch the entity from backend
   useEffect(() => {
-    if (entityId != null && !isNewEntity) {
+    if (entityId != null) {
       loadItem({
         variables: {
           id: entityId
         } as unknown as TVariables
       });
     }
-  }, [entityId, loadItem, isNewEntity]);
+  }, [entityId, loadItem]);
 
   // Fill the form based on retrieved data
   useEffect(() => {
@@ -102,23 +113,29 @@ export function useEntityEditor<
       !queryLoading &&
       queryError == null &&
       data != null &&
-      mainStore.metadata != null
+      metadata != null
     ) {
       store.formRef.current.setFieldsValue(
-        graphqlToAntForm<TEntity>(data[queryName], entityName, mainStore.metadata)
+        graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
       );
     }
-  }, [store.formRef.current, queryLoading, queryError, data, mainStore.metadata, queryName, entityName]);
+  }, [store.formRef.current, queryLoading, queryError, data, metadata, queryName, entityName]);
 
   const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
     intl,
     form,
-    mainStore,
+    metadata,
     upsertItem,
     entityId,
-    isNewEntity,
     store
   });
+
+  const handleCancelBtnClick = useCallback(() => {
+    if (screens.currentScreenIndex === 1) {
+      redirect(routingPath);
+    }
+    screens.setActiveScreen(multiScreen.parent!, true);
+  }, [screens, routingPath, multiScreen]);
 
   return {
     loadItem,
@@ -130,17 +147,16 @@ export function useEntityEditor<
     intl,
     handleFinish,
     handleFinishFailed,
-    metadata: mainStore.metadata
+    handleCancelBtnClick
   };
 }
 
 export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   intl: IntlShape;
   form: FormInstance;
-  mainStore: MainStore;
+  metadata: Metadata;
   upsertItem: GraphQLMutationFn<TData, TVariables>;
-  entityId: string;
-  isNewEntity: boolean;
+  entityId?: string;
   store: EntityEditorStore;
 }
 
@@ -155,12 +171,13 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
   const {
     intl,
     form,
-    mainStore,
+    metadata,
     upsertItem,
     entityId,
-    isNewEntity,
     store
   } = options;
+
+  const isNewEntity = (entityId == null);
 
   const handleFinishFailed = useCallback(() => {
     message.error(
@@ -170,12 +187,12 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
 
   const handleFinish = useCallback(
     (values: { [field: string]: any }) => {
-      if (form != null && mainStore.metadata != null) {
+      if (form != null && metadata != null) {
         upsertItem({
           variables: {
             car: {
               ...values,
-              ...addIdIfExistingEntity(entityId, isNewEntity)
+              ...addIdIfExistingEntity(entityId)
             }
           } as any
         }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
@@ -196,7 +213,7 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
           });
       }
     },
-    [entityId, isNewEntity, store, form, mainStore.metadata, store.updated, upsertItem, intl]
+    [entityId, isNewEntity, store, form, metadata, store.updated, upsertItem, intl]
   );
 
   return {handleFinish, handleFinishFailed};

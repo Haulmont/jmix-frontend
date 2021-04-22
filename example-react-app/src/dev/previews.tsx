@@ -136,19 +136,19 @@ export const ComponentPreviews: React.FC = () => {
       </ComponentPreview>
 
       <ComponentPreview path="/GraphQLEdit">
-        <GraphQLEdit entityId={"new"} />
+        <GraphQLEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/GraphQLList">
-        <GraphQLList paginationConfig={{}} onPagingChange={() => {}} />
+        <GraphQLList />
       </ComponentPreview>
 
       <ComponentPreview path="/GraphQLCardsEdit">
-        <GraphQLCardsEdit entityId={"new"} />
+        <GraphQLCardsEdit />
       </ComponentPreview>
 
       <ComponentPreview path="/GraphQLCardsBrowser">
-        <GraphQLCardsBrowser paginationConfig={{}} onPagingChange={() => {}} />
+        <GraphQLCardsBrowser />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OEdit">
