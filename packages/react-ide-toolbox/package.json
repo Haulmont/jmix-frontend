@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/react-ide-toolbox",
-  "version": "0.1.0-beta.1",
+  "version": "1.0.0-next.0",
   "description": "React IDE toolbox",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -32,10 +32,10 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-typescript2": "^0.30.0",
     "sass-loader": "^10.1.1",
+    "ts-jest": "^26.4.4",
     "tslint": "^5.18.0",
     "tslint-config-prettier": "^1.18.0",
     "tslint-react": "^4.0.0",
-    "ts-jest": "^26.4.4",
     "typedoc": "^0.20.28",
     "typescript": "~4.2.4"
   },
