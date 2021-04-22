@@ -1,11 +1,11 @@
 import React, {ReactNode, ReactNodeArray} from 'react';
 import { Form } from 'antd';
-import { Button, DatePicker, Divider, Input, Select, TimePicker } from 'antd';
+import { Button, Divider, Input, Select } from 'antd';
 import {FilterDropdownProps} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {NumericPropertyType, PropertyType} from '@haulmont/jmix-rest';
 import { action, computed, observable, makeObservable } from 'mobx';
-import {Moment} from 'moment';
+import {Dayjs} from 'dayjs';
 import {DataTableListEditor} from './DataTableListEditor';
 import {DataTableIntervalEditor, TemporalInterval} from './DataTableIntervalEditor';
 import './DataTableCustomFilter.less';
@@ -17,7 +17,6 @@ import {
   getPropertyInfo,
   assertNever,
   applyDataTransferFormat,
-  stripMilliseconds,
   injectMetadata,
   MetadataInjected,
   MetaPropertyInfo,
@@ -39,6 +38,8 @@ import {
   TextComparisonType,
   UuidComparisonType
 } from '../../crud/filter';
+import {DatePicker} from '../DatePicker';
+import {TimePicker} from '../TimePicker';
 
 export interface CaptionValuePair {
   caption: string;
@@ -244,9 +245,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     this.value = value;
   };
 
-  onTemporalPickerChange = (value: Moment | null) => {
+  onTemporalPickerChange = (value: Dayjs | null) => {
     if (value != null) {
-      this.value = applyDataTransferFormat(stripMilliseconds(value), this.propertyInfoNN.type as PropertyType);
+      this.value = applyDataTransferFormat(value.millisecond(0), this.propertyInfoNN.type as PropertyType);
     }
   }
 

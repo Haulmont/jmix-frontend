@@ -1,6 +1,6 @@
 import {formFieldsToInstanceItem, instanceItemToFormFields} from './Instance';
 import {AttributeType, Cardinality} from '../app/MetadataProvider';
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {prepareForCommit} from '../util/internal/data';
 
 describe('formFieldsToInstanceItem', () => {
@@ -17,7 +17,7 @@ describe('formFieldsToInstanceItem', () => {
   });
 
   it('transforms temporal property', () => {
-    const patch = {dateAttr: moment('2020-03-01', 'YYYY-MM-DD')};
+    const patch = {dateAttr: dayjs('2020-03-01', 'YYYY-MM-DD')};
     const normalizedPatch = formFieldsToInstanceItem(patch, 'test', MOCK_METADATA);
     expect(normalizedPatch.dateAttr).toEqual('2020-03-01');
   });
@@ -25,7 +25,7 @@ describe('formFieldsToInstanceItem', () => {
   it('transforms one-to-one composition', () => {
     const patch = {
       compositionO2Oattr: {
-        dateAttr: moment('2020-03-01', 'YYYY-MM-DD')
+        dateAttr: dayjs('2020-03-01', 'YYYY-MM-DD')
       }
     };
     const normalizedPatch = formFieldsToInstanceItem(patch, 'test', MOCK_METADATA);
@@ -44,13 +44,13 @@ describe('formFieldsToInstanceItem', () => {
     const patch = {
       compositionO2Mattr: [
         {
-          dateAttr: moment('2020-03-10', 'YYYY-MM-DD')
+          dateAttr: dayjs('2020-03-10', 'YYYY-MM-DD')
         },
         {
-          dateAttr: moment('2020-03-11', 'YYYY-MM-DD')
+          dateAttr: dayjs('2020-03-11', 'YYYY-MM-DD')
         },
         {
-          dateAttr: moment('2020-03-12', 'YYYY-MM-DD')
+          dateAttr: dayjs('2020-03-12', 'YYYY-MM-DD')
         }
       ]
     };
@@ -113,7 +113,7 @@ describe('formFieldsToInstanceItem', () => {
   });
 
   it('strips milliseconds', () => {
-    const patch = {dateTimeAttr: moment('2012-01-02 14:15:16.123', 'YYYY-MM-DD HH:mm:ss.SSS')};
+    const patch = {dateTimeAttr: dayjs('2012-01-02 14:15:16.123', 'YYYY-MM-DD HH:mm:ss.SSS')};
     const normalizedPatch = formFieldsToInstanceItem(patch, 'test', MOCK_METADATA);
     expect(normalizedPatch.dateTimeAttr).toEqual('2012-01-02T14:15:16.000');
   });
@@ -167,16 +167,16 @@ describe('instanceItemToFormFields', () => {
     expect(fields).toEqual({
       compositionO2Oattr: {
         id: '86722b66-379b-4abf-9a1f-e984637827b3',
-        dateAttr: moment('2020-03-01', 'YYYY-MM-DD')
+        dateAttr: dayjs('2020-03-01', 'YYYY-MM-DD')
       },
       compositionO2Mattr: [
         {
           id: 'c6a1cee6-f562-48a0-acbe-9625e0b278b1',
-          dateAttr: moment('2020-03-02', 'YYYY-MM-DD')
+          dateAttr: dayjs('2020-03-02', 'YYYY-MM-DD')
         },
         {
           id: '9b4188bf-c382-4b89-aedf-b6bcee6f2f76',
-          dateAttr: moment('2020-03-03', 'YYYY-MM-DD')
+          dateAttr: dayjs('2020-03-03', 'YYYY-MM-DD')
         },
       ],
     });
@@ -228,7 +228,7 @@ describe('instanceItemToFormFields', () => {
       dateAttr: '2020-03-01'
     };
     const fields = instanceItemToFormFields(item, 'test', MOCK_METADATA, ['dateAttr']);
-    expect(moment.isMoment(fields.dateAttr)).toBeTruthy();
+    expect(dayjs.isDayjs(fields.dateAttr)).toBeTruthy();
     expect(fields.dateAttr.format('YYYY-MM-DD')).toEqual('2020-03-01');
   });
 

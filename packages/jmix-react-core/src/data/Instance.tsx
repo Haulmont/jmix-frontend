@@ -17,11 +17,11 @@ import {
   WithId,
   isToOneAssociation, isFileProperty, isRelationProperty,
 } from "../util/metadata";
-import moment from 'moment';
+import dayjs from 'dayjs';
 import {
   getDataTransferFormat,
+  applyDataTransferFormat,
 } from '../util/formats';
-import {stripMilliseconds} from '../util/temporal';
 import {TEMPORARY_ENTITY_ID_PREFIX} from "../util/data";
 import { prepareForCommit } from "../util/internal/data";
 import { getMetadata, MetaClassInfo } from "../app/MetadataProvider";
@@ -375,9 +375,9 @@ export function formFieldsToInstanceItem<T>(
       return;
     }
 
-    if (propInfo && isTemporalProperty(propInfo) && moment.isMoment(value)) {
-      const normalizedValue = stripMilliseconds(value);
-      item[key] = normalizedValue?.format(getDataTransferFormat(propInfo.type as TemporalPropertyType));
+    if (propInfo && isTemporalProperty(propInfo) && dayjs.isDayjs(value)) {
+      const normalizedValue = value.millisecond(0);
+      item[key] = applyDataTransferFormat(normalizedValue, propInfo.type as TemporalPropertyType)
       return;
     }
 
@@ -477,7 +477,7 @@ export function instanceItemToFormFields<T>(
 
     if (isTemporalProperty(propInfo)) {
       if (value != null) {
-        fields[key] = moment(value, getDataTransferFormat(propInfo.type as TemporalPropertyType));
+        fields[key] = dayjs(value, getDataTransferFormat(propInfo.type as TemporalPropertyType));
       } else {
         fields[key] = null;
       }

@@ -1,7 +1,67 @@
-import moment, {Moment} from 'moment';
+import dayjs, {Dayjs} from 'dayjs';
 import {TemporalInterval, DataTableIntervalEditorMode, PredefinedIntervalOption, TimeUnit} from './DataTableIntervalEditor';
 import {PropertyType} from '@haulmont/jmix-rest';
-import {getDataTransferFormat} from '@haulmont/jmix-react-core';
+import {applyDataTransferFormat} from '@haulmont/jmix-react-core';
+
+const selectMinDateForInterval = (
+  mode: DataTableIntervalEditorMode,
+  numberOfUnits: number,
+  timeUnit: TimeUnit,
+  includeCurrent: boolean,
+): Dayjs => {
+  if (mode === 'last' && includeCurrent) {
+    return dayjs()
+      .subtract(numberOfUnits - 1, timeUnit)
+      .startOf(timeUnit);
+  }
+  if (mode === 'last' && !includeCurrent) {
+    return dayjs()
+      .subtract(numberOfUnits, timeUnit)
+      .startOf(timeUnit);
+  }
+  if (mode === 'next' && includeCurrent) {
+    return dayjs()
+      .add(0, timeUnit)
+      .startOf(timeUnit);
+  }
+  if (mode === 'next' && !includeCurrent) {
+    return dayjs()
+      .add(1, timeUnit)
+      .startOf(timeUnit);
+  }
+
+  throw new Error(`Expected 'last' or 'next' mode, encountered '${mode}' mode`);
+}
+
+const selectMaxDateForInterval = (
+  mode: DataTableIntervalEditorMode,
+  numberOfUnits: number,
+  timeUnit: TimeUnit,
+  includeCurrent: boolean,
+): Dayjs => {
+  if (mode === 'last' && includeCurrent) {
+    return dayjs()
+      .subtract(0, timeUnit)
+      .endOf(timeUnit);
+  }
+  if (mode === 'last' && !includeCurrent) {
+    return dayjs()
+      .subtract(1, timeUnit)
+      .endOf(timeUnit);
+  }
+  if (mode === 'next' && includeCurrent) {
+    return dayjs()
+      .add(numberOfUnits - 1, timeUnit)
+      .endOf(timeUnit);
+  }
+  if (mode === 'next' && !includeCurrent) {
+    return dayjs()
+      .add(numberOfUnits, timeUnit)
+      .endOf(timeUnit);
+  }
+
+  throw new Error(`Expected 'last' or 'next' mode, encountered '${mode}' mode`);
+}
 
 /**
  * Creates a {@link TemporalInterval} based on input in form of "last|next number of time units including|excluding current".
@@ -20,30 +80,15 @@ export function determineLastNextXInterval(
   includeCurrent: boolean,
   propertyType: PropertyType
 ): TemporalInterval {
-  let minDate: Moment;
-  let maxDate: Moment;
-
-  if (mode === 'last') {
-    maxDate = moment()
-      .subtract((includeCurrent ? 0 : 1), timeUnit)
-      .endOf(timeUnit);
-    minDate = moment()
-      .subtract(numberOfUnits - (includeCurrent ? 1 : 0), timeUnit)
-      .startOf(timeUnit);
-  } else if (mode === 'next') {
-    minDate = moment()
-      .add((includeCurrent ? 0 : 1), timeUnit)
-      .startOf(timeUnit);
-    maxDate = moment()
-      .add(numberOfUnits + (includeCurrent ? -1 : 0), timeUnit)
-      .endOf(timeUnit);
-  } else {
-    throw new Error(`Expected 'last' or 'next' mode, encountered '${mode}' mode`);
-  }
-
   return {
-    minDate: formatDate(minDate, propertyType),
-    maxDate: formatDate(maxDate, propertyType)
+    minDate: applyDataTransferFormat(
+      selectMinDateForInterval(mode, numberOfUnits, timeUnit, includeCurrent),
+      propertyType,
+    ),
+    maxDate: applyDataTransferFormat(
+      selectMaxDateForInterval(mode, numberOfUnits, timeUnit, includeCurrent),
+      propertyType,
+    ),
   };
 }
 
@@ -54,44 +99,40 @@ export function determineLastNextXInterval(
  * @param propertyType
  */
 export function determinePredefinedInterval(option: PredefinedIntervalOption, propertyType: PropertyType): TemporalInterval {
-  let minDate: Moment;
-  let maxDate: Moment;
+  let minDate: Dayjs;
+  let maxDate: Dayjs;
 
   switch (option) {
     case 'today':
-      minDate = moment().startOf('day');
-      maxDate = moment().endOf('day');
+      minDate = dayjs().startOf('day');
+      maxDate = dayjs().endOf('day');
       break;
     case 'yesterday':
-      minDate = moment().subtract(1, 'days').startOf('day');
-      maxDate = moment().subtract(1, 'days').endOf('day');
+      minDate = dayjs().subtract(1, 'days').startOf('day');
+      maxDate = dayjs().subtract(1, 'days').endOf('day');
       break;
     case 'tomorrow':
-      minDate = moment().add(1, 'days').startOf('day');
-      maxDate = moment().add(1, 'days').endOf('day');
+      minDate = dayjs().add(1, 'days').startOf('day');
+      maxDate = dayjs().add(1, 'days').endOf('day');
       break;
     case 'lastMonth':
-      minDate = moment().subtract(1, 'months').startOf('month');
-      maxDate = moment().subtract(1, 'months').endOf('month');
+      minDate = dayjs().subtract(1, 'months').startOf('month');
+      maxDate = dayjs().subtract(1, 'months').endOf('month');
       break;
     case 'thisMonth':
-      minDate = moment().startOf('month');
-      maxDate = moment().endOf('month');
+      minDate = dayjs().startOf('month');
+      maxDate = dayjs().endOf('month');
       break;
     case 'nextMonth':
-      minDate = moment().add(1, 'months').startOf('month');
-      maxDate = moment().add(1, 'months').endOf('month');
+      minDate = dayjs().add(1, 'months').startOf('month');
+      maxDate = dayjs().add(1, 'months').endOf('month');
       break;
     default:
       throw new Error('Unexpected PredefinedIntervalOption' + option);
   }
 
   return {
-    minDate: formatDate(minDate, propertyType),
-    maxDate: formatDate(maxDate, propertyType)
+    minDate: applyDataTransferFormat(minDate, propertyType),
+    maxDate: applyDataTransferFormat(maxDate, propertyType)
   };
-}
-
-export function formatDate(date: Moment, propertyType: PropertyType): string {
-  return date.format(getDataTransferFormat(propertyType));
 }

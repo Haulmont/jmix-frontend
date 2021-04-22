@@ -1,3 +1,11 @@
+// Define types of plugins used by dayjs
+import "dayjs/plugin/customParseFormat";
+import "dayjs/plugin/advancedFormat";
+import "dayjs/plugin/weekday";
+import "dayjs/plugin/localeData";
+import "dayjs/plugin/weekOfYear";
+import "dayjs/plugin/weekYear";
+
 export * from './crud/pagination';
 
 export * from './formatters/antFormToGraphql';
@@ -21,6 +29,8 @@ export * from './ui/MultilineText';
 export * from './ui/Spinner';
 export * from './ui/paging/Paging';
 export * from './ui/retry-dialog/RetryDialog';
+export * from './ui/DatePicker';
+export * from './ui/TimePicker';
 
 export * from './util/errorHandling';
 export * from './util/mapJmixRestErrorToIntlId';

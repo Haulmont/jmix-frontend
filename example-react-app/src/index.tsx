@@ -15,8 +15,17 @@ import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
+import "dayjs/locale/ru";
 import { ApolloProvider } from "@apollo/client";
 import { createApolloClient } from "./graphql/graphql";
+
+// Define types of plugins used by dayjs
+import "dayjs/plugin/customParseFormat";
+import "dayjs/plugin/advancedFormat";
+import "dayjs/plugin/weekday";
+import "dayjs/plugin/localeData";
+import "dayjs/plugin/weekOfYear";
+import "dayjs/plugin/weekYear";
 
 export const jmixREST = initializeApp({
   name: "scr-jmix",

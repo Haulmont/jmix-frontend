@@ -10,7 +10,7 @@ export interface LanguageSwitcherProps {
   style?: CSSProperties;
 }
 
-const localeOptions: string[] = ["en"];
+const localeOptions: string[] = ["en", "ru"];
 
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
