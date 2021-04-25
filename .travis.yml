@@ -3,7 +3,7 @@ language: node_js
 os: linux
 
 node_js:
-  - '12.14.1'
+  - '14.16.1'
 
 services:
   - postgresql
@@ -23,9 +23,9 @@ cache:
     - $HOME/.gradle/caches/
     - $HOME/.gradle/wrapper/
 
-before_script: |
-  npm run lerna bootstrap
-  npm run lerna run prepublishOnly
+before_script:
+  - npx lerna bootstrap
+  - npx lerna run prepublishOnly
 
 jobs:
   allow_failures:

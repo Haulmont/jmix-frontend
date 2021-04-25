@@ -8,11 +8,11 @@
   "devDependencies": {
     "@antora/cli": "^2.3.3",
     "@antora/site-generator-default": "^2.3.3",
-    "@commitlint/cli": "^8.3.4",
-    "@commitlint/config-conventional": "^8.3.4",
-    "@commitlint/travis-cli": "^8.3.4",
-    "commitizen": "^4.1.2",
-    "cz-lerna-changelog": "^2.0.2",
+    "@commitlint/cli": "^12.1.1",
+    "@commitlint/config-conventional": "^12.1.1",
+    "@commitlint/travis-cli": "^12.1.1",
+    "commitizen": "^4.2.3",
+    "cz-lerna-changelog": "^2.0.3",
     "fs-extra": "^8.1.0",
     "husky": "^4.0.6",
     "js-yaml": "^3.13.1",
@@ -20,8 +20,8 @@
     "mkdirp": "^1.0.4",
     "prettier": "^1.19.1",
     "rimraf": "^3.0.0",
-    "semantic-release": "^15.13.31",
-    "snyk": "^1.299.0"
+    "semantic-release": "^17.4.2",
+    "snyk": "^1.563.0"
   },
   "scripts": {
     "lerna": "lerna",
