@@ -12,9 +12,11 @@ import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
-import { getLimitAndOffset } from "./pagination";
+import {getLimitAndOffset, JmixPagination, LimitAndOffset, PaginationChangeCallback, saveHistory} from "./pagination";
 import { JmixEntityFilter } from "./filter";
 import { JmixSortOrder } from "./sort";
+import {action} from "mobx";
+import { useLocalStore } from "mobx-react";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
@@ -37,6 +39,11 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
   handleCreateBtnClick: () => void;
   handleEditBtnClick: (id: string) => void;
+  handlePaginationChange: PaginationChangeCallback;
+}
+
+export interface EntityListLocalStore {
+  pagination?: JmixPagination;
 }
 
 export interface ListQueryVars {
@@ -83,13 +90,27 @@ export function useEntityList<
     loadItems(listQueryOptions);
   }, [listQueryOptions, loadItems]);
 
+  const store: EntityListLocalStore = useLocalStore(() => ({
+    pagination: {
+      current: undefined,
+      pageSize: undefined,
+    }
+  }));
+
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
   const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
+  const handlePaginationChange = useCallback(
+    action((pagination?: JmixPagination) => {
+      store.pagination = pagination;
+      saveHistory(routingPath, pagination);
+    }),
+    [store.pagination, routingPath]
+  );
 
   return {
     loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick
+    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange,
   };
 }
 

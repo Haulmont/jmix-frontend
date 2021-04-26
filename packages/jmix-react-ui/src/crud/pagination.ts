@@ -7,6 +7,12 @@ export interface LimitAndOffset {
   offset?: number;
 }
 
+export interface JmixPagination {
+  current?: number;
+  pageSize?: number;
+  total?: number;
+}
+
 export function getLimitAndOffset(pagination: PaginationConfig | TablePaginationConfig): LimitAndOffset {
   const {disabled, pageSize, current} = pagination;
 
@@ -24,18 +30,9 @@ export function getLimitAndOffset(pagination: PaginationConfig | TablePagination
   return {};
 }
 
+export type PaginationChangeCallback = (pagination: JmixPagination) => void;
 
-
-export type PaginationChangeCallback = (pagination: LimitAndOffset) => void;
-
-export function saveHistory(routingPath: string, pagination?: LimitAndOffset) {
-  const {limit, offset} = pagination ?? {};
-
-  const pageSize = limit;
-  let current;
-  if (offset != null && limit != null) {
-    current = offset / limit + 1;
-  }
-
+export function saveHistory(routingPath: string, pagination?: JmixPagination) {
+  const {current, pageSize} = pagination ?? {};
   window.history.pushState({}, '', addPagingParams(routingPath, current, pageSize));
 }

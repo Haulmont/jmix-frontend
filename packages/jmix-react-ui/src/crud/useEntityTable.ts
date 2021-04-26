@@ -10,7 +10,7 @@ import {EntityInstance, HasId, toIdString} from "@haulmont/jmix-react-core";
 import {action} from "mobx";
 import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
-import {LimitAndOffset, PaginationChangeCallback, saveHistory} from "./pagination";
+import {LimitAndOffset, saveHistory} from "./pagination";
 
 export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {};
 
@@ -22,7 +22,6 @@ export interface EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
-  handlePaginationChange: PaginationChangeCallback;
   store: EntityTableLocalStore;
   total?: number;
 }
@@ -122,14 +121,6 @@ export function useEntityTable<
     [store.sortOrder]
   );
 
-  const handlePaginationChange = useCallback(
-    action((pagination?: LimitAndOffset) => {
-      store.pagination = pagination;
-      saveHistory(routingPath, pagination);
-    }),
-    [store.pagination, routingPath]
-  );
-
   return {
     ...entityListHookResult,
     getRecordById,
@@ -137,7 +128,6 @@ export function useEntityTable<
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
-    handlePaginationChange,
     store,
   };
 }

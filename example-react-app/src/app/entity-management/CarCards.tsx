@@ -147,20 +147,16 @@ const CarCards = observer(() => {
               key={p}
             />
           ))}
+          <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+            <Paging
+              paginationConfig={paginationConfig}
+              onPagingChange={onPagingChange}
+              total={pagesTotal}
+            />
+          </div>
         </Card>
       ))}
 
-      {/* TODO pagination
-      {!paginationConfig.disabled && (
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={paginationConfig}
-            onPagingChange={onPagingChange}
-            total={pagesTotal}
-          />
-        </div>
-      )}
-      */}
     </div>
   );
 });
