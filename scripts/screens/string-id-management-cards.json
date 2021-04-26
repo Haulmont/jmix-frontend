@@ -1,8 +1,6 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_StringIdTestEntity"
-  },
+  "editAttributes": "identifier,description,productCode",
+  "listAttributes": "identifier,description,productCode",
   "editComponentName": "StringIdMgtCardsEdit",
   "editIdAttrPos": 1,
   "listView": {

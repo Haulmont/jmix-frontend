@@ -1,14 +1,8 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_WeirdStringIdTestEntity"
-  },
+  "editAttributes": "identifier,description",
+  "listAttributes": "identifier,description",
   "editComponentName": "WeirdStringIdMgtListEdit",
   "editIdAttrPos": 1,
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_WeirdStringIdTestEntity"
-  },
   "listComponentName": "WeirdStringIdMgtListBrowse",
   "listType": "list",
   "listShowIdAttr": true,

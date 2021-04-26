@@ -5,13 +5,7 @@
   "managementComponentName": "TrickyIdMgr",
   "listType": "list",
   "listComponentName": "TrickyIdList",
-  "listView": {
-    "name": "_base",
-    "entityName": "scr_TrickyIdTestEntity"
-  },
-  "editComponentName": "TrickyIdEdit",
-  "editView": {
-    "name": "_base",
-    "entityName": "scr_TrickyIdTestEntity"
-  }
+  "editAttributes": "otherAttr",
+  "listAttributes": "otherAttr",
+  "editComponentName": "TrickyIdEdit"
 }

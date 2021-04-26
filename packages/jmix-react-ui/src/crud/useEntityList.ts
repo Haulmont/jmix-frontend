@@ -9,18 +9,23 @@ import {
 import {PaginationConfig} from "antd/es/pagination";
 import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId, Screens, redirect} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect} from "react";
+import {useCallback, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
+import { getLimitAndOffset } from "./pagination";
+import { JmixEntityFilter } from "./filter";
+import { JmixSortOrder } from "./sort";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  paginationConfig?: PaginationConfig,
   screens: Screens;
   entityName: string;
   routingPath: string;
+  queryName: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -34,10 +39,17 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   handleEditBtnClick: (id: string) => void;
 }
 
+export interface ListQueryVars {
+  filter?: JmixEntityFilter;
+  orderBy?: JmixSortOrder;
+  limit?: number;
+  offset?: number;
+}
+
 export function useEntityList<
   TEntity,
   TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends LimitAndOffset = LimitAndOffset,
+  TQueryVars extends ListQueryVars = ListQueryVars,
   TMutationVars extends HasId = HasId
 >(
   options: EntityListHookOptions<TData, TQueryVars, TMutationVars>
@@ -47,22 +59,31 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
+    paginationConfig,
     screens,
     entityName,
-    routingPath
+    routingPath,
+    queryName
   } = options;
+
+  const optsWithPagination = useMemo(() => ({
+    variables: {
+      ...(paginationConfig != null ? getLimitAndOffset(paginationConfig) : undefined)
+    } as TQueryVars,
+    ...listQueryOptions
+  }), [paginationConfig]);
 
   const intl = useIntl();
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, listQueryOptions);
+  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithPagination);
   const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   // Load items
   useEffect(() => {
-    loadItems(); // TODO pagination
-  }, [loadItems]);
+    loadItems(listQueryOptions);
+  }, [listQueryOptions, loadItems]);
 
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem);
+  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
   const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
 
@@ -105,10 +126,11 @@ export function useEditBtnCallbck(screens: Screens, entityName: string, routingP
 export function useDeletionDialogCallback<
   TEntity,
   TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId,
+  TVariables extends HasId = HasId
   >(
   intl: IntlShape,
-  deleteMutation: GraphQLMutationFn<TData, TVariables>
+  deleteMutation: GraphQLMutationFn<TData, TVariables>,
+  queryName: string
 ) {
   return useCallback(
     (e: EntityInstance<TEntity>) => {
@@ -130,7 +152,7 @@ export function useDeletionDialogCallback<
                 // Remove deleted item from cache
                 cache.modify({
                   fields: {
-                    scr_CarList(existingRefs, { readField }) {
+                    [queryName](existingRefs, { readField }) {
                       return existingRefs.filter(
                         (ref: Reference) => e.id !== readField("id", ref)
                       );
@@ -145,31 +167,4 @@ export function useDeletionDialogCallback<
     },
     [intl, deleteMutation]
   );
-}
-
-export type LimitAndOffset = { limit: number | undefined; offset: number | undefined };
-
-export function toLimitAndOffset(
-  paginationConfig: PaginationConfig
-): LimitAndOffset {
-  const { disabled, current, pageSize } = paginationConfig;
-
-  if (disabled) {
-    return {
-      limit: undefined,
-      offset: undefined
-    };
-  }
-
-  if (pageSize != null && current != null) {
-    return {
-      limit: pageSize,
-      offset: pageSize * (current - 1)
-    };
-  }
-
-  return {
-    limit: undefined,
-    offset: undefined
-  };
 }

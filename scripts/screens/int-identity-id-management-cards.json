@@ -1,17 +1,11 @@
 {
-    "editView": {
-      "name": "_local",
-      "entityName": "scr_IntIdentityIdTestEntity"
-    },
-    "editComponentName": "IntIdentityIdMgtCardsEdit",
-    "listView": {
-      "name": "_local",
-      "entityName": "scr_IntIdentityIdTestEntity"
-    },
-    "listComponentName": "IntIdentityIdMgtCardsBrowse",
-    "listType": "cards",
-    "entity": {
-      "name": "scr_IntIdentityIdTestEntity"
-    },
-    "managementComponentName": "int-identity-id-mgt-cards-management"
+  "editAttributes": "description",
+  "listAttributes": "description",
+  "editComponentName": "IntIdentityIdMgtCardsEdit",
+  "listComponentName": "IntIdentityIdMgtCardsBrowse",
+  "listType": "cards",
+  "entity": {
+    "name": "scr_IntIdentityIdTestEntity"
+  },
+  "managementComponentName": "int-identity-id-mgt-cards-management"
 }
