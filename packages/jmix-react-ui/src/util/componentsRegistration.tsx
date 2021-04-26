@@ -113,12 +113,15 @@ export function registerEntityEditorScreen(entityName: string, title: string, co
  * @param title - page title for breadcrumbs in multi screen.
  * @param component - your screen component. Example: <MyComponent />.
  * @param entityName - name of your entity.
+ * @param screenId - id of the screen
  */
 export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string, screenId: string) {
   const Comp = observer(() => {
     const screens = useContext(ScreensContext);
 
     screens.currentRootPageData.title = title;
+    screens.currentRootPageData.menuPath = menuPath;
+
     useState(() => {
       screens.closeAll();
 

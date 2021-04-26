@@ -38,6 +38,7 @@ interface IContentProps {
 const Content = observer((props: IContentProps) => {
   const {item} = props;
   const [screens] = useState(() => new Screens());
+  item.screensInTab = screens;
 
   return (
     <div>
