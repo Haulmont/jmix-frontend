@@ -1,52 +1,43 @@
 import {LogoutOutlined} from '@ant-design/icons';
 import {Button, Modal} from "antd";
-import * as React from "react";
+import React, {useCallback} from "react";
 import {observer} from "mobx-react";
 import './AppHeader.css';
-import {injectMainStore, MainStoreInjected} from "@haulmont/jmix-react-core";
+import {useMainStore} from "@haulmont/jmix-react-core";
 import {LanguageSwitcher} from '../../i18n/LanguageSwitcher';
-import {injectIntl, WrappedComponentProps} from 'react-intl';
+import {useIntl} from 'react-intl';
 import JmixLightIcon from '../icons/JmixLightIcon';
 
-class AppHeader extends React.Component<MainStoreInjected & WrappedComponentProps> {
+const AppHeader = observer(() => {
+  const intl = useIntl();
+  const mainStore = useMainStore();
 
-  render() {
-    const appState = this.props.mainStore!;
-
-    return (
-      <div className="app-header">
-        <JmixLightIcon className="app-header__icon" />
-
-        <div className="user-panel">
-          <LanguageSwitcher className='panelelement language-switcher -header'/>
-          <span className="panelelement">{appState.userName}</span>
-          <Button className="panelelement"
-                  id='button_logout'
-                  ghost={true}
-                  icon={<LogoutOutlined />}
-                  onClick={this.showLogoutConfirm}/>
-        </div>
-      </div>
-    );
-  }
-
-  showLogoutConfirm = () => {
+  const showLogoutConfirm = useCallback(() => {
     Modal.confirm({
-      title: this.props.intl.formatMessage({id: 'header.logout.areYouSure'}),
-      okText: this.props.intl.formatMessage({id: 'header.logout.ok'}),
-      cancelText: this.props.intl.formatMessage({id: 'header.logout.cancel'}),
-      onOk: () => {
-        this.props.mainStore!.logout()
-      }
+      title: intl.formatMessage({id: 'header.logout.areYouSure'}),
+      okText: intl.formatMessage({id: 'header.logout.ok'}),
+      cancelText: intl.formatMessage({id: 'header.logout.cancel'}),
+      onOk: () => mainStore.logout()
     });
-  }
+  }, [mainStore, intl]);
 
-}
+  return (
+    <div className="app-header">
+      <JmixLightIcon className="app-header__icon" />
 
-export default injectIntl(
-  injectMainStore(
-    observer(
-      AppHeader
-    )
-  )
-);
+      <div className="user-panel">
+        <LanguageSwitcher className='panelelement language-switcher -header'/>
+        <span className="panelelement">{mainStore.userName}</span>
+        <Button
+          className="panelelement"
+          id='button_logout'
+          ghost={true}
+          icon={<LogoutOutlined />}
+          onClick={showLogoutConfirm}
+        />
+      </div>
+    </div>
+  );
+});
+
+export default AppHeader;

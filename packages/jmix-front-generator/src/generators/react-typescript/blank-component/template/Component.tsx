@@ -1,11 +1,7 @@
-import * as React from "react";
+import React from "react";
 
-export class <%= className %> extends React.Component {
-  render() {
-    return(
-      <div>
-        <%= className %>
-      </div>
-    )
-  }
-}
+export const <%= className %> = () => (
+  <div>
+    <%= className %>
+  </div>
+);

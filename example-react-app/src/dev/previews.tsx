@@ -62,7 +62,7 @@ import { TestBlankComponent } from "../app/blank-components/TestBlankComponent";
 import React from "react";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
-export const ComponentPreviews: React.FC = () => {
+export const ComponentPreviews = () => {
   return (
     <Previews>
       <ComponentPreview path="/testBlankComponent">
