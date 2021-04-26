@@ -1,6 +1,7 @@
-import React, {CSSProperties} from 'react';
+import React, {CSSProperties, useCallback} from 'react';
+import { observer } from "mobx-react";
 import {Select} from 'antd';
-import {getMainStore} from '@haulmont/jmix-react-core';
+import {useMainStore} from '@haulmont/jmix-react-core';
 import localeCaptions from './localeCaptions';
 import './LanguageSwitcher.css';
 
@@ -9,32 +10,29 @@ export interface LanguageSwitcherProps {
   style?: CSSProperties;
 }
 
-export class LanguageSwitcher extends React.Component<LanguageSwitcherProps> {
+const localeOptions: string[] = <%- JSON.stringify(clientLocales) %>;
 
-  localeOptions: string[] = <%- JSON.stringify(clientLocales) %>;
+export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
+  const mainStore = useMainStore();
 
-  handleChange = (locale: string) => {
-    getMainStore().setLocale(locale);
-  };
+  const handleChange = useCallback((locale: string) => mainStore.setLocale(locale), [mainStore]);
 
-  render() {
-    if (this.localeOptions.length === 1) {
-      return null; // Do not show LanguageSwitcher if there is only a single locale option
-    }
-
-    return (
-      <Select defaultValue={getMainStore().locale ?? undefined}
-              onChange={this.handleChange}
-              size={'small'}
-              style={this.props.style}
-              bordered={false}
-              className={this.props.className}
-              dropdownMatchSelectWidth={false}
-      >
-        {this.localeOptions.map((locale) => (
-          <Select.Option key={locale} value={locale}>{localeCaptions[locale]}</Select.Option>
-        ))}
-      </Select>
-    );
+  if (localeOptions.length === 1) {
+    return null; // Do not show LanguageSwitcher if there is only a single locale option
   }
-}
+
+  return (
+    <Select defaultValue={mainStore.locale ?? undefined}
+            onChange={handleChange}
+            size="small"
+            style={props.style}
+            bordered={false}
+            className={props.className}
+            dropdownMatchSelectWidth={false}
+    >
+      {localeOptions.map((locale) => (
+        <Select.Option key={locale} value={locale}>{localeCaptions[locale]}</Select.Option>
+      ))}
+    </Select>
+  );
+});

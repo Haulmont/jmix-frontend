@@ -11,8 +11,8 @@ const JmixLightSvg = () => (
         <path d="M16.0439 74.2713C10.4919 68.7205 10.3858 59.8082 15.633 54.071L22.5215 47.1837L14.1447 38.8082L7.25744 45.6955L7.28089 45.7189C-2.56196 56.0529 -2.43239 72.4548 7.71404 82.6025L30.4183 105.305L38.7482 96.9756L16.0439 74.2713Z" fill="#FDB42B"/>
         <path d="M120.286 45.2391L97.5816 22.5348L89.2517 30.8647L111.956 53.569C117.508 59.121 117.614 68.0321 112.367 73.7693L105.561 80.6676L113.867 88.9741L120.72 82.1214C130.562 71.7874 130.432 55.3855 120.286 45.2391Z" fill="#22D685"/>
     </svg>
-)
+);
 
-const JmixLightIcon = (props: any) => <Icon component={JmixLightSvg} {...props} />
+const JmixLightIcon = (props: any) => <Icon component={JmixLightSvg} {...props} />;
 
 export default JmixLightIcon;

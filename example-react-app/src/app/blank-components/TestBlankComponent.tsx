@@ -1,7 +1,3 @@
-import * as React from "react";
+import React from "react";
 
-export class TestBlankComponent extends React.Component {
-  render() {
-    return <div>TestBlankComponent</div>;
-  }
-}
+export const TestBlankComponent = () => <div>TestBlankComponent</div>;

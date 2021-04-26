@@ -1,18 +1,14 @@
 import { Row, Col, Card } from 'antd';
 import * as React from "react";
 
-export class <%= className %> extends React.Component {
-  render() {
-    return(
-      <Row gutter={16}>
-        <% columnOptions.forEach(columnOption => { %>
-          <Col span={<%= columnOption.gridSize %>}>
-            <Card title="<%= columnOption.name %> header">
-              Content
-            </Card>
-          </Col>
-        <% }) %>
-      </Row>
-    )
-  }
-}
+export const <%= className %> = () => (
+  <Row gutter={16}>
+    <% columnOptions.forEach(columnOption => { %>
+      <Col span={<%= columnOption.gridSize %>}>
+        <Card title="<%= columnOption.name %> header">
+          Content
+        </Card>
+      </Col>
+    <% }) %>
+  </Row>
+);

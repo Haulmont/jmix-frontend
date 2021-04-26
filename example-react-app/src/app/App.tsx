@@ -1,6 +1,4 @@
-import * as React from "react";
-import "./App.css";
-
+import React from "react";
 import { BarsOutlined, HomeOutlined } from "@ant-design/icons";
 import { Layout, Menu } from "antd";
 import { observer } from "mobx-react";
@@ -10,22 +8,17 @@ import AppHeader from "./header/AppHeader";
 import HomePage from "./home/HomePage";
 import { menuItems, MultiTabs } from "@haulmont/jmix-react-ui";
 import {
-  injectMainStore,
-  MainStoreInjected,
+  useMainStore,
   RouteItem,
   SubMenu,
   tabs,
   Router,
   redirect
 } from "@haulmont/jmix-react-core";
-import { CenteredLoader } from "./CenteredLoader";
-import {
-  FormattedMessage,
-  injectIntl,
-  IntlFormatters,
-  WrappedComponentProps
-} from "react-intl";
+import CenteredLoader from "./CenteredLoader";
+import { FormattedMessage, useIntl, IntlFormatters } from "react-intl";
 import "../routing";
+import "./App.css";
 
 tabs.homePage = <HomePage />;
 
@@ -34,61 +27,59 @@ const routes = {
   "/:entityName/:entityId?": <MultiTabs />
 };
 
-class AppComponent extends React.Component<
-  MainStoreInjected & WrappedComponentProps
-> {
-  render() {
-    const mainStore = this.props.mainStore!;
-    const { initialized, locale, loginRequired } = mainStore;
+const menuIdx = 1;
 
-    if (!initialized || !locale) {
-      return <CenteredLoader />;
-    }
+const App = observer(() => {
+  const intl = useIntl();
 
-    if (loginRequired) {
-      return (
-        <Centered>
-          <Login />
-        </Centered>
-      );
-    }
+  const mainStore = useMainStore();
+  const { initialized, locale, loginRequired } = mainStore;
 
-    const menuIdx = 1;
+  if (!initialized || !locale) {
+    return <CenteredLoader />;
+  }
 
+  if (loginRequired) {
     return (
-      <Layout className="main-layout">
-        <Layout.Header>
-          <AppHeader />
-        </Layout.Header>
-        <Layout className="layout-container">
-          <Layout.Sider
-            width={200}
-            breakpoint="sm"
-            collapsedWidth={0}
-            className="layout-sider"
-          >
-            <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
-              <Menu.Item key={menuIdx} onClick={tabs.closeAll}>
-                <HomeOutlined />
-                <FormattedMessage id="router.home" />
-              </Menu.Item>
-              {menuItems
-                .reverse()
-                .map((item, idx) =>
-                  menuItem(item, "" + (idx + 1 + menuIdx), this.props.intl)
-                )}
-            </Menu>
-          </Layout.Sider>
-          <Layout className="layout-content">
-            <Layout.Content>
-              <Router global routes={routes} />
-            </Layout.Content>
-          </Layout>
-        </Layout>
-      </Layout>
+      <Centered>
+        <Login />
+      </Centered>
     );
   }
-}
+
+  return (
+    <Layout className="main-layout">
+      <Layout.Header>
+        <AppHeader />
+      </Layout.Header>
+      <Layout className="layout-container">
+        <Layout.Sider
+          width={200}
+          breakpoint="sm"
+          collapsedWidth={0}
+          className="layout-sider"
+        >
+          <Menu mode="inline" style={{ height: "100%", borderRight: 0 }}>
+            <Menu.Item key={menuIdx} onClick={tabs.closeAll}>
+              <HomeOutlined />
+              <FormattedMessage id="router.home" />
+            </Menu.Item>
+            {menuItems
+              .reverse()
+              .map((item, idx) =>
+                menuItem(item, "" + (idx + 1 + menuIdx), intl)
+              )}
+          </Menu>
+        </Layout.Sider>
+        <Layout className="layout-content">
+          <Layout.Content>
+            <Router global routes={routes} />
+          </Layout.Content>
+        </Layout>
+      </Layout>
+    </Layout>
+  );
+});
 
 function menuItem(
   item: RouteItem | SubMenu,
@@ -146,7 +137,5 @@ function collectRouteItems(items: Array<RouteItem | SubMenu>): RouteItem[] {
     return acc;
   }, [] as Array<RouteItem>);
 }
-
-const App = injectIntl(injectMainStore(observer(AppComponent)));
 
 export default App;
