@@ -48,7 +48,8 @@ const <%= listComponentClass %> = observer(() => {
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    queryName: '<%= dollarsToUnderscores(entity.name) %>List'
   });
 
   if (error != null) {
@@ -61,8 +62,8 @@ const <%= listComponentClass %> = observer(() => {
     return <Spinner/>;
   }
 
-  const dataSource = data.<%= dollarsToUnderscores(entity.name) %>List;
-  const pagesTotal = data.<%= dollarsToUnderscores(entity.name) %>Count;
+  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
+  const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
     <div className="narrow-layout">

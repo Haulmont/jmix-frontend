@@ -1,54 +1,36 @@
 import {
-  clientSideCollection,
-  ClientSideDataCollectionStore,
   DataCollectionStore,
-  DataInstanceStore,
-  defaultCompare,
-  formFieldsToInstanceItem,
-  generateTemporaryEntityId,
-  getJmixREST,
   getPropertyInfo,
   injectMainStore,
-  instance,
-  instanceItemToFormFields, isByteArray,
+  isByteArray,
   isFileProperty, isOneToManyAssociation,
   MainStoreInjected,
   WithId,
-  loadAllAssociationOptions,
   HasId,
   MayHaveInstanceName,
   useMetadata,
-  injectMetadata,
-  MetadataInjected,
   EnumInfo,
   MetaClassInfo,
   MetaPropertyInfo,
   Cardinality,
 } from '@haulmont/jmix-react-core';
-import { FormItemProps, FormInstance } from 'antd/es/form';
+import { FormItemProps } from 'antd/es/form';
 import {observer} from 'mobx-react';
 import {Msg} from '../Msg';
 import {FieldPermissionContainer} from './FieldPermssionContainer';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import {
-  Alert,
-  Button,
-  Card,
   Checkbox,
   DatePicker,
-  Drawer,
   Input,
-  message,
-  Modal,
   Select,
-  Spin,
   TimePicker,
   Form,
+  FormInstance, message,
 } from 'antd';
 import {
+  CommitMode,
   JmixRestError,
   PropertyType,
-  SerializedEntityProps, View, ViewProperty,
 } from '@haulmont/jmix-rest';
 import {uuidPattern} from '../../util/regex';
 import * as React from 'react';
@@ -66,33 +48,13 @@ import {LongInput} from './LongInput';
 import {BigDecimalInput} from './BigDecimalInput';
 import {UuidInput} from './UuidInput';
 import {CharInput} from "./CharInput";
-import {FormattedMessage, injectIntl, WrappedComponentProps, IntlShape} from 'react-intl';
-import {
-  computed,
-  IReactionDisposer,
-  observable,
-  reaction,
-  toJS,
-  makeObservable,
-  action,
-} from 'mobx';
-import {RefObject} from 'react';
 import './EntityEditor.less';
 import './NestedEntitiesTableField.less';
 import './NestedEntityField.less';
-import {DataTable} from '../table/DataTable';
-// noinspection ES6PreferShortImport Importing from ../../index.ts will cause a circular dependency
-import {
-  clearFieldErrors,
-  constructFieldsWithErrors,
-  extractServerValidationErrors,
-} from '../../util/errorHandling';
-import {mapJmixRestErrorToIntlId, defaultMapJmixRestErrorToIntlId} from '../../util/mapJmixRestErrorToIntlId';
-import {MultilineText} from '../MultilineText';
-import {Spinner} from '../Spinner';
-// noinspection ES6PreferShortImport Importing from ../../index.ts will cause a circular dependency
-import {createAntdFormValidationMessages} from '../../i18n/validation';
-import {CommitMode} from '@haulmont/jmix-rest';
+import {DataInstanceStore} from "@haulmont/jmix-react-core";
+import { IntlShape } from 'react-intl';
+import {clearFieldErrors, constructFieldsWithErrors, extractServerValidationErrors} from "../../util/errorHandling";
+import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../util/mapJmixRestErrorToIntlId";
 
 
 export interface FieldProps {
@@ -181,8 +143,7 @@ function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: 
   return formItemProps;
 }
 
-export type FormFieldComponentProps = SelectProps<SelectValue> | InputProps | InputNumberProps | CheckboxProps | DatePickerProps | TimePickerProps | FileUploadProps
-  | NestedEntityFieldProps | NestedEntitiesTableFieldProps;
+export type FormFieldComponentProps = SelectProps<SelectValue> | InputProps | InputNumberProps | CheckboxProps | DatePickerProps | TimePickerProps | FileUploadProps;
 
 // TODO We should probably make it an interface as it is not convenient to document type declarations with TSDoc.
 // TODO However, that would be a minor breaking change, as interface cannot extend FormFieldComponentProps.
@@ -235,19 +196,11 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
 
         if (nestedEntityName) {
           if (propertyInfo.cardinality === 'ONE_TO_ONE') {
-            return <NestedEntityField nestedEntityName={nestedEntityName}
-                                      nestedEntityView={nestedEntityView}
-                                      {...(rest as Partial<NestedEntityFieldProps>)}
-            />;
+            return null; // TODO
           }
 
           if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-            return <NestedEntitiesTableField nestedEntityName={nestedEntityName}
-                                             nestedEntityView={nestedEntityView}
-                                             parentEntityName={entityName}
-                                             parentEntityInstanceId={parentEntityInstanceId}
-                                             {...(rest as Partial<NestedEntitiesTableFieldProps>)}
-            />;
+            return null; // TODO
           }
         }
       }
@@ -311,767 +264,6 @@ function getAllowClear(propertyInfo: MetaPropertyInfo): boolean {
   return !propertyInfo.mandatory;
 }
 
-export interface NestedEntityFieldProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
-  /**
-   * Сoming from antd Form field decorator
-   */
-  value?: any;
-  /**
-   * Сoming from antd Form field decorator
-   */
-  onChange?: (value: any) => void;
-  /**
-   * Name of the nested entity
-   */
-  nestedEntityName: string;
-  /**
-   * Name of the view that will be used for the nested entity
-   */
-  nestedEntityView: string;
-}
-
-type AssociationOptionsReactionData = [
-  string[],
-  boolean | undefined
-];
-class NestedEntityFieldComponent extends React.Component<NestedEntityFieldProps> {
-  isDrawerOpen = false;
-  fields: string[] = [];
-  dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null = null;
-  associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
-
-  constructor(props: NestedEntityFieldProps) {
-    super(props);
-
-    makeObservable(this, {
-      isDrawerOpen: observable,
-      fields: observable,
-      dataInstance: observable,
-      associationOptions: observable,
-      instanceName: computed,
-      openDrawer: action.bound,
-      closeDrawer: action.bound,
-      setDataInstance: action.bound,
-    });
-  }
-
-  get instanceName(): string | undefined {
-    const {intl} = this.props;
-
-    const instanceName = this.dataInstance?.item?._instanceName;
-    if (instanceName) {
-      return instanceName;
-    }
-
-    // TODO Add the possibility to get the rules for instance name construction via REST API
-    // TODO Update the name based on the obtained rules instead of using placeholder
-    return intl.formatMessage({id: 'common.unsavedEntity'});
-  }
-
-  reactionDisposers: IReactionDisposer[] = [];
-
-  setDataInstance(dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null) {
-    this.dataInstance = dataInstance;
-  }
-
-  componentDidMount(): void {
-    const {nestedEntityName, nestedEntityView, metadata} = this.props;
-
-    this.setDataInstance(instance(nestedEntityName, {view: nestedEntityView}));
-    this.loadViewPropertyNames(nestedEntityName, nestedEntityView)
-      ?.then(action((propertyNames: string[]) => {
-        this.fields = propertyNames;
-      }));
-
-    this.reactionDisposers.push(reaction(
-      () => [
-        this.fields,
-        this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData, action((
-        [fields, isDataLoaded]: AssociationOptionsReactionData,
-        _prevData : AssociationOptionsReactionData,
-        thisReaction
-      ) => {
-        if (fields.length > 0 && isDataLoaded && this.props.mainStore != null) {
-          const {getAttributePermission} = this.props.mainStore.security;
-          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, fields, metadata.entities);
-          // Performs HTTP requests:
-          this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
-          thisReaction.dispose();
-        }
-      }),
-      {fireImmediately: true}
-    ));
-
-    this.reactionDisposers.push(reaction(
-      () => this.props.value,
-      action(() => {
-        if (this.props.value == null) {
-          this.dataInstance?.setItem({});
-        } else {
-          const id = this.dataInstance?.item?.id;
-          this.dataInstance?.setItemToFormFields(this.props.value);
-          if (id != null && this.dataInstance?.item != null) {
-            this.dataInstance.item.id = id;
-          }
-        }
-      }),
-      {fireImmediately: true}
-    ));
-  }
-
-  componentWillUnmount(): void {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-
-  loadViewPropertyNames = (entityName: string, viewName: string) => {
-    return getJmixREST()?.loadEntityView(entityName, viewName)
-      .then((view: View) => {
-        return view.properties.map((viewProperty: ViewProperty) => {
-          return (typeof viewProperty === 'string') ? viewProperty : viewProperty.name;
-        });
-      });
-  };
-
-  get isCreateMode(): boolean {
-    return this.props.value == null;
-  }
-
-  get isEditMode(): boolean {
-    return this.props.value != null;
-  }
-
-  showDeletionDialog = () => {
-    const {intl} = this.props;
-
-    Modal.confirm({
-      title: intl.formatMessage({id: "cubaReact.nestedEntityField.delete.areYouSure"}),
-      okText: intl.formatMessage({id: "common.ok"}),
-      cancelText: intl.formatMessage({id: "common.cancel"}),
-      onOk: this.deleteEntity
-    });
-  };
-
-  deleteEntity = () => {
-    const {onChange} = this.props;
-    if (onChange) {
-      onChange(undefined); // clear value in parent form
-    }
-  };
-
-  openDrawer() {
-    this.isDrawerOpen = true
-  };
-
-  closeDrawer() {
-    this.isDrawerOpen = false;
-  };
-
-  handleSubmit = (fieldValues: {[field: string]: any}) => {
-    const {onChange} = this.props;
-
-    if (onChange) {
-      onChange(fieldValues); // send value to parent form
-    }
-
-    this.closeDrawer();
-  };
-
-  render() {
-    const {mainStore, nestedEntityName} = this.props;
-
-    if (!mainStore?.isEntityDataLoaded() || !this.dataInstance) {
-      return <Spin size='small'/>;
-    }
-
-    return <>
-      {this.isCreateMode && (
-        <Button type='link'
-                onClick={this.openDrawer}
-        >
-          <FormattedMessage id='cubaReact.nestedEntityField.create' />
-        </Button>
-      )}
-      {this.isEditMode && (
-        <span>
-          <span>{this.instanceName}</span>
-          <DeleteOutlined
-            className='cuba-nested-entity-editor-icon'
-            onClick={this.showDeletionDialog} />
-          <EditOutlined className='cuba-nested-entity-editor-icon' onClick={this.openDrawer} />
-        </span>
-      )}
-      <Drawer visible={this.isDrawerOpen}
-              width='90%'
-              onClose={this.closeDrawer}
-      >
-        <EntityEditor entityName={nestedEntityName}
-                      fields={this.fields}
-                      dataInstance={this.dataInstance}
-                      associationOptions={this.associationOptions}
-                      onSubmit={this.handleSubmit}
-                      onCancel={this.closeDrawer}
-                      submitButtonText='common.ok'
-        />
-      </Drawer>
-    </>;
-  }
-}
-
-const NestedEntityField = 
-  injectIntl(
-    injectMainStore(
-      injectMetadata(
-        observer(
-          NestedEntityFieldComponent
-        )
-      )
-    )
-  );
-  
-export {NestedEntityField};
-
-export interface NestedEntitiesTableFieldProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
-  /**
-   * Сoming from antd Form field decorator
-   */
-  value?: any;
-  /**
-   * Сoming from antd Form field decorator
-   */
-  onChange?: (value: any) => void;
-  /**
-   * Name of the nested entity
-   */
-  nestedEntityName: string;
-  /**
-   * Name of the view that will be used for the nested entity
-   */
-  nestedEntityView: string;
-  /**
-   * Name of the parent entity
-   */
-  parentEntityName: string;
-  /**
-   * Instance id of the parent entity. `undefined` means that the parent entity has not been persisted yet.
-   */
-  parentEntityInstanceId?: string;
-}
-
-class NestedEntitiesTableFieldComponent extends React.Component<NestedEntitiesTableFieldProps> {
-  selectedRowKey: string | null = null;
-  isDrawerOpen = false;
-  allFields: string[] | null = null;
-  editorFields: string[] | null = null;
-  tableFields: string[] | null = null;
-  inverseAttributeName: string | null = null;
-  dataCollection: ClientSideDataCollectionStore<Partial<WithId & SerializedEntityProps>> | null = null;
-  editedInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>> | null = null;
-  associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> = new Map();
-
-  disposers: IReactionDisposer[] = [];
-
-  constructor(props: NestedEntitiesTableFieldProps) {
-    super(props);
-
-    makeObservable(this, {
-      selectedRowKey: observable,
-      isDrawerOpen: observable,
-      allFields: observable,
-      editorFields: observable,
-      tableFields: observable,
-      inverseAttributeName: observable,
-      dataCollection: observable,
-      editedInstance: observable,
-      associationOptions: observable,
-
-      openDrawer: action.bound,
-      closeDrawer: action.bound,
-      setDataCollection: action.bound,
-      createEntity: action.bound,
-      editEntity: action.bound,
-      handleSubmitInstance: action.bound,
-      handleRowSelectionChange: action.bound,
-    });
-  }
-
-  setDataCollection(dataCollection: ClientSideDataCollectionStore<Partial<WithId & SerializedEntityProps>> | null) {
-    this.dataCollection = dataCollection;
-  }
-
-  componentDidMount(): void {
-    const {nestedEntityName, nestedEntityView, parentEntityName, metadata} = this.props;
-
-    this.setDataCollection(clientSideCollection(nestedEntityName, {loadImmediately: false}))
-    // HTTP request
-    if (this.allFields == null) {
-      getJmixREST()?.loadEntityView(nestedEntityName, nestedEntityView)
-        .then(action((view: View) => {
-          this.allFields = view.properties.map((viewProp: ViewProperty) => {
-            if (typeof viewProp === 'string') {
-              return viewProp;
-            }
-            return viewProp.name;
-          });
-        }));
-    }
-
-    this.disposers.push(reaction(
-      () => this.props.value,
-      action(() => {
-        if (this.dataCollection) {
-          this.dataCollection.allItems = this.props.value.map((element: any) => {
-            return {
-              id: generateTemporaryEntityId(),
-              ...formFieldsToInstanceItem(element, nestedEntityName, metadata.entities)
-            };
-          });
-          this.dataCollection.adjustItems();
-        }
-      }
-    )));
-
-    // Performs several HTTP requests (one per each one-to-many association).
-    // That should happen only once after the requests to load permissions and entity view and metadata are resolved.
-    this.disposers.push(reaction(
-      () => [
-        this.allFields,
-        this.props.mainStore?.security.isDataLoaded
-      ] as AssociationOptionsReactionData, action((
-        [allFields, isDataLoaded]: AssociationOptionsReactionData,
-        _prevData : AssociationOptionsReactionData,
-        thisReaction
-      ) => {
-        if (allFields != null && isDataLoaded === true && this.props.mainStore != null) {
-          const {getAttributePermission} = this.props.mainStore.security;
-          const entityProperties: MetaPropertyInfo[] = getEntityProperties(nestedEntityName, allFields, metadata.entities);
-          // Performs HTTP requests:
-          this.associationOptions = loadAllAssociationOptions(entityProperties, nestedEntityName, getAttributePermission);
-          thisReaction.dispose();
-        }
-      }),
-      {fireImmediately: true}
-    ));
-
-    this.disposers.push(reaction(
-      () => [this.allFields],
-      action((_data, _prevData, thisReaction) => {
-        if (this.allFields != null
-          && this.allFields.length > 0
-        ) {
-          const entityProperties: MetaPropertyInfo[] =
-            getEntityProperties(nestedEntityName, this.allFields, metadata.entities);
-          this.inverseAttributeName = entityProperties
-            .find(property => property.type === parentEntityName)
-            ?.name ?? null;
-          const propertiesExceptInverseAttr = entityProperties
-            .filter(property => property.type !== parentEntityName);
-          this.editorFields = propertiesExceptInverseAttr
-            .map(property => property.name)
-            .sort();
-          this.tableFields = propertiesExceptInverseAttr
-            .filter(property => {
-              // TODO Currently we cannot display relation fields in a nested table as we don't know instance names at this point
-              // TODO (value coming from antd Form only contains ids)
-              return property.attributeType !== 'ASSOCIATION' && property.attributeType !== 'COMPOSITION';
-            })
-            .map(property => property.name)
-            .sort();
-          thisReaction.dispose();
-        }
-      }
-    )));
-  }
-
-  componentWillUnmount(): void {
-    this.disposers.forEach(dispose => dispose());
-  }
-
-  createEntity() {
-    const {nestedEntityName, intl} = this.props;
-    this.editedInstance = instance(nestedEntityName, {});
-    const newItem: any = {
-      _instanceName: intl.formatMessage({id: 'common.unsavedEntity'}),
-    };
-    this.editedInstance?.setItem(newItem);
-    this.openDrawer();
-  };
-
-  editEntity() {
-    const {nestedEntityName} = this.props;
-    this.editedInstance = instance(nestedEntityName, {});
-    const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey) ?? null;
-    this.editedInstance?.setItem(record);
-    this.openDrawer();
-  };
-
-  openDrawer() {
-    this.isDrawerOpen = true
-  };
-
-  closeDrawer() {
-    this.isDrawerOpen = false;
-  };
-
-  showDeletionDialog = () => {
-    const {intl} = this.props;
-
-    Modal.confirm({
-      title: intl.formatMessage({ id: "cubaReact.nestedEntitiesTableField.delete.areYouSure" }),
-      okText: intl.formatMessage({id: "common.ok"}),
-      cancelText: intl.formatMessage({id: "common.cancel"}),
-      onOk: action(() => {
-        const record = this.dataCollection?.items.find((item: WithId) => item.id === this.selectedRowKey);
-        if (record) {
-          this.dataCollection?.delete(record);
-        }
-        this.selectedRowKey = null;
-        this.updateFormFieldValue();
-      })
-    });
-  };
-
-  /**
-   * Submitting created/edited table item
-   *
-   * @param updatedValues
-   */
-  handleSubmitInstance(updatedValues: {[field: string]: any}) {
-    const {parentEntityInstanceId} = this.props;
-
-    if (this.editedInstance?.item?.id != null) {
-      // We are editing existing nested entity (loaded from server or created client-side)
-      // Update this.editedInstance.item - this includes data transformation from Form fields to REST API format
-      const instanceId = this.editedInstance?.item?.id;
-
-      const patch: any = {id: instanceId, ...updatedValues};
-      if (this.inverseAttributeName != null && parentEntityInstanceId != null) {
-        // parentEntityInstanceId indicates that the parent entity has been persisted already
-        patch[this.inverseAttributeName] = parentEntityInstanceId;
-      }
-
-      this.editedInstance?.setItemToFormFields(patch);
-      // Put updated item into dataCollection
-      const index = this.dataCollection?.allItems.findIndex((item: WithId) => {
-        return item.id === instanceId;
-      });
-      if (index != null && index > -1 && this.dataCollection != null) {
-        this.dataCollection.allItems[index] = this.editedInstance?.item;
-      }
-    } else {
-      // We are creating a new nested entity
-      const patch: any = {id: generateTemporaryEntityId(), ...updatedValues};
-      if (this.inverseAttributeName != null && parentEntityInstanceId != null) {
-        // parentEntityInstanceId indicates that the parent entity has been persisted already
-        patch[this.inverseAttributeName] = parentEntityInstanceId;
-      }
-      // Update this.editedInstance.item - this includes data transformation from Form fields to REST API format
-      this.editedInstance?.setItemToFormFields(patch);
-      // Put updated item into dataCollection
-      this.dataCollection?.allItems.push(this.editedInstance?.item || {});
-    }
-
-    this.dataCollection?.adjustItems();
-    this.updateFormFieldValue();
-    this.closeDrawer();
-  };
-
-  updateFormFieldValue = () => {
-    const {onChange, nestedEntityName, metadata} = this.props;
-
-    if (onChange) {
-      const newValue = this.dataCollection?.allItems.map(item => {
-        const id = item.id;
-        const formFields = instanceItemToFormFields(item, nestedEntityName, metadata.entities, this.allFields || []);
-        if (id != null) {
-          formFields.id = id;
-        } else {
-          formFields.id = generateTemporaryEntityId();
-        }
-        return formFields;
-      });
-
-      onChange(newValue);
-    }
-  };
-
-  handleRowSelectionChange(selectedRowKeys: string[]) {
-    this.selectedRowKey = toJS(selectedRowKeys)[0];
-  };
-
-  render() {
-    const {nestedEntityName, mainStore} = this.props;
-
-    if (!mainStore?.isEntityDataLoaded() || this.dataCollection == null || this.editorFields == null) {
-      return <Spin size='small'/>;
-    }
-
-    return (
-      <>
-        <div className='cuba-nested-entity-editor-buttons'>
-          <Button
-            htmlType="button"
-            className='button'
-            type="primary"
-            icon={<PlusOutlined />}
-            key='create'
-            onClick={this.createEntity}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-          <Button
-            htmlType="button"
-            className='button'
-            disabled={!this.selectedRowKey}
-            type="default"
-            key='edit'
-            onClick={this.editEntity}
-          >
-            <FormattedMessage id="common.edit" />
-          </Button>
-          <Button
-            htmlType="button"
-            className='button'
-            disabled={!this.selectedRowKey}
-            onClick={this.showDeletionDialog}
-            key="remove"
-            type="default"
-          >
-            <FormattedMessage id="common.remove" />
-          </Button>
-        </div>
-        <DataTable dataCollection={this.dataCollection}
-                   columnDefinitions={this.tableFields ?? undefined}
-                   hideSelectionColumn={true}
-                   onRowSelectionChange={this.handleRowSelectionChange}
-                   enableFiltersOnColumns={[]} // TODO Remove once client-side filtering is implemented
-        />
-        <Drawer visible={this.isDrawerOpen}
-                width='90%'
-                onClose={this.closeDrawer}
-        >
-          {this.editedInstance &&
-          <EntityEditor entityName={nestedEntityName}
-                        fields={this.editorFields}
-                        dataInstance={this.editedInstance}
-                        associationOptions={this.associationOptions}
-                        onSubmit={this.handleSubmitInstance}
-                        onCancel={this.closeDrawer}
-                        submitButtonText='common.ok'
-          />}
-        </Drawer>
-      </>
-    );
-  }
-}
-
-const NestedEntitiesTableField = injectIntl(
-  injectMainStore(
-    injectMetadata(
-      observer(
-        NestedEntitiesTableFieldComponent
-      )
-    )
-  )
-);
-
-export {NestedEntitiesTableField};
-
-export interface EntityEditorProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
-  /**
-   * Name of the entity being edited
-   */
-  entityName: string;
-  /**
-   * A list of entity properties for which the form fields should be rendered.
-   * Certain fields might not be editable if the user lacks edit permissions.
-   */
-  fields: string[];
-  /**
-   * A data instance representing the entity instance being edited
-   */
-  dataInstance: DataInstanceStore<Partial<WithId & SerializedEntityProps>>;
-  /**
-   * A map where keys are names of entity properties with relation type Association
-   * and values are data collections containing entity instances that can be assigned
-   * to the corresponding property (i.e. possible options that can be selected in a form field)
-   */
-  associationOptions: Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined>;
-  /**
-   * A callback that is executed when the form is submitted.
-   * Execution happens only after a successful client-side validation.
-   * This prop can be used to override the default behavior which is to send
-   * a request to REST API to update the entity.
-   *
-   * @param fieldValues - the values of antd {@link https://ant.design/components/form/ Form} fields.
-   * It can be obtained via antd Form's `getFieldsValue(fields)` method.
-   * `fields` parameter of this method is a list of entity properties for which
-   * the form field values should be collected.
-   */
-  onSubmit?: (fieldValues: {[field: string]: any}) => void;
-  /**
-   * A callback that is executed when Cancel button is clicked.
-   * Examples of behavior initiated by this callback may include
-   * navigating back to the entity browser screen or,
-   * if the `EntityEditor` was opened in a modal, closing that modal.
-   */
-  onCancel: () => void;
-  /**
-   * Used in a context of Composition relationship. When `EntityEditor` is used to edit a nested entity,
-   * parent entity name shall be supplied via this prop.
-   */
-  parentEntityName?: string;
-  /**
-   * This prop can be used to override the default caption on Submit button
-   */
-  submitButtonText?: string;
-}
-
-class EntityEditorComponent extends React.Component<EntityEditorProps> {
-  globalErrors: string[] = [];
-  formRef: RefObject<FormInstance> = React.createRef<FormInstance>();
-
-  reactionDisposers: IReactionDisposer[] = [];
-
-  constructor(props: EntityEditorProps) {
-    super(props);
-
-    makeObservable(this, {
-      globalErrors: observable,
-      formRef: observable,
-      entityProperties: computed
-    });
-  }
-
-  componentDidMount(): void {
-    this.reactionDisposers.push(reaction(
-      () => [this.props.dataInstance, this.formRef.current],
-      () => {
-        if (this.formRef.current != null) {
-          this.formRef.current.resetFields();
-          this.formRef.current.setFieldsValue(
-            this.props.dataInstance.getFieldValues(this.props.fields)
-          );
-        }
-      },
-      {fireImmediately: true}
-    ));
-  }
-
-  componentWillUnmount(): void {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-
-  get entityProperties(): MetaPropertyInfo[] {
-    const {entityName, fields, metadata} = this.props;
-    return getEntityProperties(entityName, fields, metadata.entities)
-    .sort((a, b) => defaultCompare(a.name, b.name))
-  }
-
-  handleFinish = (values: {[field: string]: any}) => {
-    const {onSubmit, dataInstance, intl} = this.props;
-    if (onSubmit) {
-      onSubmit(values);
-    } else {
-      if (this.formRef.current != null) {
-        defaultHandleFinish(values, dataInstance, intl, this.formRef.current).then(({globalErrors}) => {
-          this.globalErrors = globalErrors;
-        });
-      }
-    }
-  };
-
-  handleFinishFailed = () => {
-    const {intl} = this.props;
-    message.error(intl.formatMessage({id: "management.editor.validationError"}));
-  };
-
-  getOptionsContainer = (entityName: string): DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined => {
-    const {associationOptions} = this.props;
-    return associationOptions.get(entityName);
-  };
-
-  getFormItemProps = (property: MetaPropertyInfo): FormItemProps => {
-    const formItemProps: FormItemProps = {
-      style: { marginBottom: "12px" }
-    };
-
-    if (property.mandatory) {
-      formItemProps.rules = [{required: true}];
-    }
-    if (property.type === 'boolean') {
-      formItemProps.valuePropName = 'checked';
-    }
-
-    return formItemProps;
-  };
-
-  render() {
-    const {mainStore, dataInstance, onCancel, submitButtonText, intl} = this.props;
-
-    if (!mainStore?.isEntityDataLoaded()) { return <Spinner/> }
-
-    const {status} = dataInstance;
-
-    return (
-      <Card className="narrow-layout">
-        <Form onFinish={this.handleFinish}
-              onFinishFailed={this.handleFinishFailed}
-              layout="vertical"
-              className={'cuba-entity-editor'}
-              ref={this.formRef}
-              validateMessages={createAntdFormValidationMessages(intl)}
-        >
-          {this.renderFields()}
-          {this.globalErrors.length > 0 && (
-            <Alert
-              message={<MultilineText lines={toJS(this.globalErrors)} />}
-              type="error"
-              className={'errormessage'}
-            />
-          )}
-          <Form.Item className={'actions'}>
-            <Button htmlType="button"
-                    onClick={onCancel}
-            >
-              <FormattedMessage id="common.cancel" />
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={status !== "DONE" && status !== "ERROR"}
-              loading={status === "LOADING"}
-              className='submitbutton'
-            >
-              <FormattedMessage id={submitButtonText || 'common.submit'} />
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    );
-  }
-
-  renderFields() {
-    const {entityName} = this.props;
-
-    return this.entityProperties.map(property => {
-      return (
-        <Field
-          entityName={entityName}
-          propertyName={property.name}
-          key={property.name}
-          formItemProps={this.getFormItemProps(property)}
-          optionsContainer={this.getOptionsContainer(property.type)}
-          disabled={property.readOnly}
-        />
-      );
-    });
-  }
-
-}
-
 export function selectFormSuccessMessageId(commitMode?: CommitMode): string {
   switch (commitMode) {
     case 'create': return "management.editor.created";
@@ -1110,7 +302,7 @@ export const defaultHandleFinish = <E extends unknown>(
           if (fieldErrors.size > 0) {
             formInstance.setFields(constructFieldsWithErrors(fieldErrors, formInstance));
           }
-          
+
           const errorMessageId = mapJmixRestErrorToIntlId(
             () => selectFormErrorMessageId(globalErrors, fieldErrors),
             serverError,
@@ -1128,20 +320,8 @@ export const defaultHandleFinish = <E extends unknown>(
     });
 };
 
-const EntityEditor = 
-  injectMetadata(
-    injectIntl<'intl', EntityEditorProps>(
-      injectMainStore(
-        observer(
-          EntityEditorComponent
-        )
-      )
-    )
-  );
-
-
-export function getEntityProperties(entityName: string, fields: string[], entitiesMetadata: MetaClassInfo[]): MetaPropertyInfo[] {
-  const allProperties = entitiesMetadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)
+export function getEntityProperties(entityName: string, fields: string[], metadata: MetaClassInfo[]): MetaPropertyInfo[] {
+  const allProperties = metadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)
     ?.properties || [];
 
   return allProperties.filter((property: MetaPropertyInfo) => {
@@ -1153,5 +333,3 @@ function isDisplayedProperty(property: MetaPropertyInfo): boolean {
   return !isOneToManyAssociation(property)
     && !isByteArray(property);
 }
-
-export {EntityEditor};

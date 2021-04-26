@@ -1,232 +1,156 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { IReactionDisposer, reaction, observable, action } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Modal, Button, List, message } from "antd";
-
+import { Button, List } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
+  EntityInstance,
+  getFields,
   EntityPermAccessControl,
-  ScreensContext,
-  Screens,
-  redirect
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
-  setPagination,
   Spinner,
-  referencesListByEntityName,
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig
+  RetryDialog,
+  useEntityList
 } from "@haulmont/jmix-react-ui";
-
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import { PaginationConfig } from "antd/es/pagination";
-
-interface IWeirdStringIdMgtListBrowseComponentProps {
-  screens: Screens;
-}
-
-type Props = MainStoreInjected &
-  WrappedComponentProps &
-  IWeirdStringIdMgtListBrowseComponentProps;
+import { FormattedMessage } from "react-intl";
+import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtListManagement";
 
-class WeirdStringIdMgtListBrowseComponent extends React.Component<Props> {
-  dataCollection = collection<WeirdStringIdTestEntity>(
-    WeirdStringIdTestEntity.NAME,
-    {
-      view: "_local",
-      loadImmediately: true
+const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
+  query scr_WeirdStringIdTestEntityList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
+    $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
+  ) {
+    scr_WeirdStringIdTestEntityCount
+    scr_WeirdStringIdTestEntityList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      identifier
+      description
     }
-  );
+  }
+`;
 
-  reactionDisposers: IReactionDisposer[] = [];
-  fields = [
-    "description",
-    "id",
-    "createTs",
-    "createdBy",
-    "updateTs",
-    "updatedBy",
-    "deleteTs",
-    "deletedBy",
-    "version"
-  ];
+const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
+  mutation Delete_scr_WeirdStringIdTestEntity($id: String!) {
+    delete_scr_WeirdStringIdTestEntity(id: $id)
+  }
+`;
 
-  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+const WeirdStringIdMgtListBrowse = observer(() => {
+  const screens = useContext(ScreensContext);
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataCollection.status,
-        status => {
-          const { intl } = this.props;
-          if (status === "ERROR") {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick
+  } = useEntityList<WeirdStringIdTestEntity>({
+    listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_WeirdStringIdTestEntityList"
+  });
 
-    // to disable paging config pass 'true' as disabled param in function below
-    //this.paginationConfig = createPagingConfig(window.location.search);
-    /*
-    this.reactionDisposers.push(
-      reaction(
-        () => this.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.paginationConfig, this.dataCollection, true);
-    */
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
   }
 
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
+  if (loading || data == null) {
+    return <Spinner />;
   }
 
-  onPagingChange = (current: number, pageSize: number) => {
-    // If we on root screen
-    /*
-    if (this.props.screens.currentScreenIndex === 0) {
-      routerData.history.push(
-        addPagingParams("weirdStringIdMgtListManagement", current, pageSize)
-      );
-      this.paginationConfig = {...this.paginationConfig, current, pageSize};
-    }*/
-  };
+  const dataSource = data?.scr_WeirdStringIdTestEntityList ?? [];
+  const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
 
-  showDeletionDialog = (e: SerializedEntity<WeirdStringIdTestEntity>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
+  return (
+    <div className="narrow-layout">
+      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+        <div style={{ marginBottom: "12px" }}>
+          <Button
+            htmlType="button"
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleCreateBtnClick}
+          >
+            <span>
+              <FormattedMessage id="common.create" />
+            </span>
+          </Button>
+        </div>
+      </EntityPermAccessControl>
 
-  onCrateBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
-  };
-
-  onEditBtnClick = (itemId: string) => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    // If we on root screen
-    if (this.props.screens.currentScreenIndex === 0) {
-      redirect(ROUTING_PATH + "/" + itemId);
-    }
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId: itemId
-      }
-    });
-  };
-
-  render() {
-    const { status, items, count } = this.dataCollection;
-    const { mainStore } = this.props;
-
-    if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
-      return <Spinner />;
-    }
-
-    return (
-      <div className="narrow-layout">
-        <EntityPermAccessControl
-          entityName={WeirdStringIdTestEntity.NAME}
-          operation="create"
-        >
-          <div style={{ marginBottom: "12px" }}>
-            <Button
-              htmlType="button"
-              type="primary"
-              onClick={this.onCrateBtnClick}
-              icon={<PlusOutlined />}
-            >
-              <span>
-                <FormattedMessage id="common.create" />
-              </span>
-            </Button>
-          </div>
-        </EntityPermAccessControl>
-
-        <List
-          itemLayout="horizontal"
-          bordered
-          dataSource={items}
-          renderItem={item => (
-            <List.Item
-              actions={[
+      <List
+        itemLayout="horizontal"
+        bordered
+        dataSource={dataSource}
+        renderItem={(item: EntityInstance<WeirdStringIdTestEntity>) => (
+          <List.Item
+            actions={[
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="delete"
+              >
                 <DeleteOutlined
                   key="delete"
-                  onClick={() => this.showDeletionDialog(item)}
-                />,
-                <EditOutlined onClick={() => this.onEditBtnClick(item.id!)} />
-              ]}
-            >
-              <div style={{ flexGrow: 1 }}>
-                {this.fields.map(p => (
-                  <EntityProperty
-                    entityName={WeirdStringIdTestEntity.NAME}
-                    propertyName={p}
-                    value={item[p]}
-                    key={p}
-                  />
-                ))}
-              </div>
-            </List.Item>
-          )}
-        />
-        {/*
-        <div style={{margin: "12px 0 12px 0", float: "right"}}>
+                  onClick={showDeletionDialog.bind(null, item)}
+                />
+              </EntityPermAccessControl>,
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="update"
+              >
+                <EditOutlined
+                  key="edit"
+                  onClick={handleEditBtnClick.bind(null, item.id)}
+                />
+              </EntityPermAccessControl>
+            ]}
+          >
+            <div style={{ flexGrow: 1 }}>
+              {getFields(item).map(p => (
+                <EntityProperty
+                  entityName={ENTITY_NAME}
+                  propertyName={p}
+                  value={item[p]}
+                  key={p}
+                />
+              ))}
+            </div>
+          </List.Item>
+        )}
+      />
+
+      {/* TODO pagination
+      {!paginationConfig.disabled && (
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            paginationConfig={this.paginationConfig}
-            onPagingChange={this.onPagingChange}
-            total={count}
+            paginationConfig={paginationConfig}
+            onPagingChange={onPagingChange}
+            total={pagesTotal}
           />
         </div>
-        */}
-      </div>
-    );
-  }
-}
-
-const WeirdStringIdMgtListBrowse = injectIntl(
-  injectMainStore(observer(WeirdStringIdMgtListBrowseComponent))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <WeirdStringIdMgtListBrowse screens={screens} />;
+      )}
+      */}
+    </div>
+  );
 });
+
+export default WeirdStringIdMgtListBrowse;

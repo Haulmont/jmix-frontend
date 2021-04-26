@@ -1,17 +1,11 @@
 {
-    "editView": {
-      "name": "_local",
-      "entityName": "scr_IntIdentityIdTestEntity"
-    },
-    "editComponentName": "IntIdentityIdMgtTableEdit",
-    "listView": {
-      "name": "_local",
-      "entityName": "scr_IntIdentityIdTestEntity"
-    },
-    "listComponentName": "IntIdentityIdMgtTableBrowse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_IntIdentityIdTestEntity"
-    },
-    "managementComponentName": "int-identity-id-mgt-table-management"
+  "editAttributes": "description",
+  "listAttributes": "description",
+  "editComponentName": "IntIdentityIdMgtTableEdit",
+  "listComponentName": "IntIdentityIdMgtTableBrowse",
+  "listType": "table",
+  "entity": {
+    "name": "scr_IntIdentityIdTestEntity"
+  },
+  "managementComponentName": "int-identity-id-mgt-table-management"
 }

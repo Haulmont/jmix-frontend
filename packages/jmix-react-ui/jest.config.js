@@ -13,10 +13,10 @@ module.exports = {
       "lines": 4
     },
     "./src/ui/paging": {
-      "statements": 90,
-      "branches": 90,
+      "statements": 82,
+      "branches": 82,
       "functions": 90,
-      "lines": 90
+      "lines": 85
     }
   },
   "collectCoverageFrom": [

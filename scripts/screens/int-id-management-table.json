@@ -1,13 +1,7 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_IntegerIdTestEntity"
-  },
+  "editAttributes": "description",
+  "listAttributes": "description",
   "editComponentName": "IntIdMgtTableEdit",
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_IntegerIdTestEntity"
-  },
   "listComponentName": "IntIdMgtTableBrowse",
   "listType": "table",
   "entity": {

@@ -1,13 +1,7 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_IntegerIdTestEntity"
-  },
+  "editAttributes": "description",
+  "listAttributes": "description",
   "editComponentName": "IntIdMgtCardsEdit",
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_IntegerIdTestEntity"
-  },
   "listComponentName": "IntIdMgtCardsBrowse",
   "listType": "cards",
   "entity": {
