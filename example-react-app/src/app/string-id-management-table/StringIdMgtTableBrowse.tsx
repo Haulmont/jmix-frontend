@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -64,7 +64,7 @@ const StringIdMgtTableBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<StringIdTestEntity>({
+  } = useEntityList<StringIdTestEntity>({
     listQuery: SCR_STRINGIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
     screens,

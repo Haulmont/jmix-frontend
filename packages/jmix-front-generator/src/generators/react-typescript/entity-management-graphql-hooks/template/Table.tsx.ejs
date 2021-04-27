@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {PlusOutlined} from '@ant-design/icons';
 import {Button} from "antd";
 import {EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
-import {DataTable, Spinner, RetryDialog, useEntityTable} from "@haulmont/jmix-react-ui";
+import {DataTable, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -54,7 +54,7 @@ const <%= listComponentClass %> = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store,
-  } = useEntityTable<<%= entity.className %>>({
+  } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,

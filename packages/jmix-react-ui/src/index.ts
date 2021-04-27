@@ -5,7 +5,6 @@ export * from './formatters/graphqlToAntForm';
 
 export * from './crud/useEntityEditor';
 export * from './crud/useEntityList';
-export * from './crud/useEntityTable';
 export * from './crud/filter';
 export * from './crud/pagination';
 export * from './crud/sort';

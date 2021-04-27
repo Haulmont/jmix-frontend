@@ -6,14 +6,22 @@ import {
   MutationHookOptions, MutationResult, Reference,
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
-import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId, Screens, redirect} from "@haulmont/jmix-react-core";
+import {
+  EntityInstance,
+  GraphQLMutationFn,
+  GraphQLQueryFn,
+  HasId,
+  Screens,
+  redirect,
+  toIdString
+} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
-import {getLimitAndOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
-import { JmixEntityFilter } from "./filter";
-import { JmixSortOrder } from "./sort";
+import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
+import {FilterChangeCallback, JmixEntityFilter} from "./filter";
+import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPagingConfig} from "../ui/paging/Paging";
@@ -39,10 +47,18 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   handleCreateBtnClick: () => void;
   handleEditBtnClick: (id: string) => void;
   handlePaginationChange: PaginationChangeCallback;
+  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
+  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
+  handleRowSelectionChange: (selectedRowKeys: string[]) => void;
+  handleFilterChange: FilterChangeCallback;
+  handleSortOrderChange: SortOrderChangeCallback;
   store: EntityListLocalStore;
 }
 
 export interface EntityListLocalStore {
+  selectedRowKey?: string;
+  filter?: JmixEntityFilter[];
+  sortOrder?: JmixSortOrder;
   pagination?: JmixPagination;
 }
 
@@ -73,22 +89,29 @@ export function useEntityList<
   } = options;
 
   const store: EntityListLocalStore = useLocalStore(() => ({
+    selectedRowKey: undefined,
+    filter: undefined,
+    sortOrder: undefined,
     pagination: {
       current: defaultPagingConfig.current,
       pageSize: defaultPagingConfig.pageSize,
     }
   }));
-
-  const optsWithPagination = useMemo(() => ({
+  
+  // TODO We probably don't need useMemo here
+  const optsWithVars = useMemo(() => ({
     variables: {
-      ...(store.pagination != null ? getLimitAndOffset(store.pagination) : undefined)
+      filter: store.filter,
+      orderBy: store.sortOrder,
+      limit: store.pagination?.pageSize,
+      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize)
     } as TQueryVars,
     ...listQueryOptions
-  }), [store.pagination]);
+  }), [store.pagination, store.filter, store.sortOrder, listQueryOptions]);
 
   const intl = useIntl();
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithPagination);
+  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithVars);
   const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   // Load items
@@ -96,9 +119,12 @@ export function useEntityList<
     loadItems(listQueryOptions);
   }, [listQueryOptions, loadItems]);
 
+  const items = listQueryResult.data?.[queryName];
+
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
   const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
+
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
       store.pagination = {
@@ -110,9 +136,58 @@ export function useEntityList<
     [store.pagination, routingPath]
   );
 
+  const getRecordById = useCallback(
+    (id: string): EntityInstance<TEntity> => {
+
+      const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
+
+      if (!record) {
+        throw new Error("Cannot find entity with id " + id);
+      }
+
+      return record;
+    },
+    [items]
+  );
+
+  const deleteSelectedRow = useCallback(
+    () => {
+      if (store.selectedRowKey != null) {
+        showDeletionDialog(getRecordById(store.selectedRowKey));
+      }
+    },
+    [getRecordById, showDeletionDialog, store.selectedRowKey]
+  );
+
+  const handleRowSelectionChange = useCallback(
+    action((selectedRowKeys: string[]) => {
+      store.selectedRowKey = selectedRowKeys[0];
+    }),
+    [store.selectedRowKey]
+  );
+
+  const handleFilterChange = useCallback(
+    action((filter?: JmixEntityFilter[]) => {
+      store.filter = filter;
+    }),
+    [store.filter]
+  );
+
+  const handleSortOrderChange = useCallback(
+    action((sortOrder?: JmixSortOrder) => {
+      store.sortOrder = sortOrder;
+    }),
+    [store.sortOrder]
+  );
+
   return {
     loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store
+    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store,
+    getRecordById,
+    deleteSelectedRow,
+    handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
   };
 }
 

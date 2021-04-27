@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -62,7 +62,7 @@ const AssociationM2OBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<AssociationM2OTestEntity>({
+  } = useEntityList<AssociationM2OTestEntity>({
     listQuery: SCR_ASSOCIATIONM2OTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_ASSOCIATIONM2OTESTENTITY,
     screens,

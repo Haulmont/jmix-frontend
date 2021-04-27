@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -62,7 +62,7 @@ const BoringStringIdMgtTableBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<BoringStringIdTestEntity>({
+  } = useEntityList<BoringStringIdTestEntity>({
     listQuery: SCR_BORINGSTRINGIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_BORINGSTRINGIDTESTENTITY,
     screens,
