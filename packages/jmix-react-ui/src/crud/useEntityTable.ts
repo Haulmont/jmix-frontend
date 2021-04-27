@@ -10,7 +10,8 @@ import {EntityInstance, HasId, toIdString} from "@haulmont/jmix-react-core";
 import {action} from "mobx";
 import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
-import {LimitAndOffset, PaginationChangeCallback, saveHistory} from "./pagination";
+import {calcOffset, JmixPagination} from "./pagination";
+import {defaultPagingConfig} from "../ui/paging/Paging";
 
 export interface EntityTableHookOptions<TData, TQueryVars, TMutationVars> extends EntityListHookOptions<TData, TQueryVars, TMutationVars> {};
 
@@ -22,7 +23,6 @@ export interface EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
-  handlePaginationChange: PaginationChangeCallback;
   store: EntityTableLocalStore;
   total?: number;
 }
@@ -31,7 +31,7 @@ export interface EntityTableLocalStore {
   selectedRowKey?: string;
   filter?: JmixEntityFilter[];
   sortOrder?: JmixSortOrder;
-  pagination?: LimitAndOffset;
+  pagination?: JmixPagination;
 }
 
 export function useEntityTable<
@@ -44,37 +44,37 @@ export function useEntityTable<
 ): EntityTableHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
     listQueryOptions,
-    queryName,
-    routingPath
+    queryName
   } = options;
 
-  const store: EntityTableLocalStore = useLocalStore(() => ({
+  const tableStore: EntityTableLocalStore = useLocalStore(() => ({
     selectedRowKey: undefined,
     filter: undefined,
     sortOrder: undefined,
     pagination: {
-      limit: 10,
-      offset: 0
+      current: defaultPagingConfig.current,
+      pageSize: defaultPagingConfig.pageSize,
     }
   }));
 
   const tableQueryOptions = useMemo(() => ({
     variables: {
-      filter: store.filter,
-      orderBy: store.sortOrder,
-      limit: store.pagination?.limit,
-      offset: store.pagination?.offset
+      filter: tableStore.filter,
+      orderBy: tableStore.sortOrder,
+      limit: tableStore.pagination?.pageSize,
+      offset: calcOffset(tableStore.pagination?.current, tableStore.pagination?.pageSize)
     } as TQueryVars,
     ...listQueryOptions
-  }), [store, store.filter, store.sortOrder, store.pagination, listQueryOptions]);
+  }), [tableStore, tableStore.filter, tableStore.sortOrder, tableStore.pagination, listQueryOptions]);
 
   const entityListHookResult = useEntityList<TEntity, TData, TQueryVars, TMutationVars>({
     ...options,
     listQueryOptions: tableQueryOptions
   });
 
-  const {listQueryResult: {data}, showDeletionDialog} = entityListHookResult;
+  const {listQueryResult: {data}, showDeletionDialog, store} = entityListHookResult;
 
+  tableStore.pagination = store.pagination;
   const items = data?.[queryName];
 
   // TODO probably we should pass all parameters explicitly rather than via closure and simply import these functions rather than obtain them from the hook
@@ -94,40 +94,32 @@ export function useEntityTable<
 
   const deleteSelectedRow = useCallback(
     () => {
-      if (store.selectedRowKey != null) {
-        showDeletionDialog(getRecordById(store.selectedRowKey));
+      if (tableStore.selectedRowKey != null) {
+        showDeletionDialog(getRecordById(tableStore.selectedRowKey));
       }
     },
-    [getRecordById, showDeletionDialog, store.selectedRowKey]
+    [getRecordById, showDeletionDialog, tableStore.selectedRowKey]
   );
 
   const handleRowSelectionChange = useCallback(
     action((selectedRowKeys: string[]) => {
-      store.selectedRowKey = selectedRowKeys[0];
+      tableStore.selectedRowKey = selectedRowKeys[0];
     }),
-    [store.selectedRowKey]
+    [tableStore.selectedRowKey]
   );
 
   const handleFilterChange = useCallback(
     action((filter?: JmixEntityFilter[]) => {
-      store.filter = filter;
+      tableStore.filter = filter;
     }),
-    [store.filter]
+    [tableStore.filter]
   );
 
   const handleSortOrderChange = useCallback(
     action((sortOrder?: JmixSortOrder) => {
-      store.sortOrder = sortOrder;
+      tableStore.sortOrder = sortOrder;
     }),
-    [store.sortOrder]
-  );
-
-  const handlePaginationChange = useCallback(
-    action((pagination?: LimitAndOffset) => {
-      store.pagination = pagination;
-      saveHistory(routingPath, pagination);
-    }),
-    [store.pagination, routingPath]
+    [tableStore.sortOrder]
   );
 
   return {
@@ -137,7 +129,6 @@ export function useEntityTable<
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
-    handlePaginationChange,
-    store,
+    store: tableStore,
   };
 }

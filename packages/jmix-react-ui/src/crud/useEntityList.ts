@@ -6,22 +6,23 @@ import {
   MutationHookOptions, MutationResult, Reference,
   TypedDocumentNode, useLazyQuery, useMutation
 } from "@apollo/client";
-import {PaginationConfig} from "antd/es/pagination";
 import {EntityInstance, GraphQLMutationFn, GraphQLQueryFn, HasId, Screens, redirect} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
-import { getLimitAndOffset } from "./pagination";
+import {getLimitAndOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
 import { JmixEntityFilter } from "./filter";
 import { JmixSortOrder } from "./sort";
+import {action} from "mobx";
+import { useLocalStore } from "mobx-react";
+import {defaultPagingConfig} from "../ui/paging/Paging";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
-  paginationConfig?: PaginationConfig,
   screens: Screens;
   entityName: string;
   routingPath: string;
@@ -37,6 +38,12 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
   handleCreateBtnClick: () => void;
   handleEditBtnClick: (id: string) => void;
+  handlePaginationChange: PaginationChangeCallback;
+  store: EntityListLocalStore;
+}
+
+export interface EntityListLocalStore {
+  pagination?: JmixPagination;
 }
 
 export interface ListQueryVars {
@@ -59,19 +66,25 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    paginationConfig,
     screens,
     entityName,
     routingPath,
     queryName
   } = options;
 
+  const store: EntityListLocalStore = useLocalStore(() => ({
+    pagination: {
+      current: defaultPagingConfig.current,
+      pageSize: defaultPagingConfig.pageSize,
+    }
+  }));
+
   const optsWithPagination = useMemo(() => ({
     variables: {
-      ...(paginationConfig != null ? getLimitAndOffset(paginationConfig) : undefined)
+      ...(store.pagination != null ? getLimitAndOffset(store.pagination) : undefined)
     } as TQueryVars,
     ...listQueryOptions
-  }), [paginationConfig]);
+  }), [store.pagination]);
 
   const intl = useIntl();
 
@@ -86,10 +99,20 @@ export function useEntityList<
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
   const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
+  const handlePaginationChange = useCallback(
+    action((current?: number, pageSize?: number) => {
+      store.pagination = {
+        current,
+        pageSize
+      };
+      saveHistory(routingPath, store.pagination);
+    }),
+    [store.pagination, routingPath]
+  );
 
   return {
     loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick
+    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store
   };
 }
 

@@ -133,8 +133,8 @@ const Datatypes2Browse = observer(() => {
     <DataTable
       items={items}
       total={total}
-      offset={store.pagination?.offset}
-      limit={store.pagination?.limit}
+      current={store.pagination?.current}
+      pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}

@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Card} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, toIdString, ScreensContext} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
+import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, defaultPagingConfig} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -42,7 +42,9 @@ const <%= listComponentClass %> = observer(() => {
     listQueryResult: {loading, error, data},
     showDeletionDialog,
     handleCreateBtnClick,
-    handleEditBtnClick
+    handleEditBtnClick,
+    handlePaginationChange,
+    store
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
@@ -109,17 +111,14 @@ const <%= listComponentClass %> = observer(() => {
         </Card>
       )}
 
-      {/* TODO pagination
-      {!paginationConfig.disabled && (
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={paginationConfig}
-            onPagingChange={onPagingChange}
-            total={pagesTotal}
-          />
-        </div>
-      )}
-      */}
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+      <Paging
+              paginationConfig={store.pagination ?? {}}
+              onPagingChange={handlePaginationChange}
+              total={pagesTotal}
+      />
+      </div>
+
     </div>
   );
 });

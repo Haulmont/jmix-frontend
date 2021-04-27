@@ -13,7 +13,8 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityList,
+  defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -57,7 +58,9 @@ const IntIdMgtListBrowse = observer(() => {
     listQueryResult: { loading, error, data },
     showDeletionDialog,
     handleCreateBtnClick,
-    handleEditBtnClick
+    handleEditBtnClick,
+    handlePaginationChange,
+    store
   } = useEntityList<IntegerIdTestEntity>({
     listQuery: SCR_INTEGERIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
@@ -137,17 +140,13 @@ const IntIdMgtListBrowse = observer(() => {
         )}
       />
 
-      {/* TODO pagination
-      {!paginationConfig.disabled && (
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={paginationConfig}
-            onPagingChange={onPagingChange}
-            total={pagesTotal}
-          />
-        </div>
-      )}
-      */}
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+        <Paging
+          paginationConfig={store.pagination ?? {}}
+          onPagingChange={handlePaginationChange}
+          total={pagesTotal}
+        />
+      </div>
     </div>
   );
 });
