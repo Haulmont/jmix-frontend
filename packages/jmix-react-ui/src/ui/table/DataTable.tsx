@@ -49,8 +49,8 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
 
   items: TEntity[];
   total?: number;
-  offset?: number; // TODO perhaps we should pass current and pageSize instead
-  limit?: number;
+  current?: number;
+  pageSize?: number;
   loading: boolean;
   error?: ApolloError;
   /**
@@ -290,17 +290,12 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
   }
 
   get paginationConfig(): TablePaginationConfig {
-    const {total, offset, limit} = this.props;
-
-    let current;
-    if (offset != null && limit != null) {
-      current = offset / limit + 1;
-    }
+    const {total, current, pageSize} = this.props;
 
     return {
       showSizeChanger: true,
       total,
-      pageSize: limit,
+      pageSize,
       current
     };
   }

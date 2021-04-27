@@ -21,7 +21,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
-import { getLimitAndOffset, PaginationChangeCallback } from '../../crud/pagination';
+import { PaginationChangeCallback } from '../../crud/pagination';
 import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from "../../crud/filter";
 import {JmixSortOrder, SortOrderChangeCallback } from '../../crud/sort';
 
@@ -443,7 +443,7 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
 
   setFilters(tableFilters, onFilterChange, entityName, fields, metadata, apiFilters);
   setSorter(sorter, onSortOrderChange, defaultSortOrder);
-  onPaginationChange(getLimitAndOffset(pagination));
+  onPaginationChange(pagination.current, pagination.pageSize);
 }
 
 // TODO docs
