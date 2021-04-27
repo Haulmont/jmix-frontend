@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -62,7 +62,7 @@ const CompositionO2MBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<CompositionO2MTestEntity>({
+  } = useEntityList<CompositionO2MTestEntity>({
     listQuery: SCR_COMPOSITIONO2MTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_COMPOSITIONO2MTESTENTITY,
     screens,

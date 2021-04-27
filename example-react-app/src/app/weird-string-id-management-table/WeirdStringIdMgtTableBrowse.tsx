@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -63,7 +63,7 @@ const WeirdStringIdMgtTableBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<WeirdStringIdTestEntity>({
+  } = useEntityList<WeirdStringIdTestEntity>({
     listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
     screens,

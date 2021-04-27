@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -98,7 +98,7 @@ const DatatypesBrowse3 = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<DatatypesTestEntity>({
+  } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     screens,

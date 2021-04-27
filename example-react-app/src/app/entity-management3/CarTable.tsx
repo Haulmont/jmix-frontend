@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
@@ -88,7 +88,7 @@ const CarTable = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<Car>({
+  } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
     screens,

@@ -10,7 +10,7 @@ import {
   DataTable,
   Spinner,
   RetryDialog,
-  useEntityTable
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -62,7 +62,7 @@ const IntIdentityIdMgtTableBrowse = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityTable<IntIdentityIdTestEntity>({
+  } = useEntityList<IntIdentityIdTestEntity>({
     listQuery: SCR_INTIDENTITYIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_INTIDENTITYIDTESTENTITY,
     screens,
