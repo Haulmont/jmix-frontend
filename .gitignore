@@ -4,3 +4,4 @@ react-native-client-scr/**
 docs-build*/**
 _testgen/**
 scr-jmix/
+example-react-app/package-lock.json

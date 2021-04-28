@@ -1,6 +1,10 @@
 const updateClientLibs = require('./update-client-libs');
+const rimraf = require("rimraf");
+const path = require("path");
 
+const clientDir = 'example-react-app';
+rimraf.sync(path.join(clientDir,'package-lock.json'));
 updateClientLibs(
-    'example-react-app',
+    clientDir,
     ['rest', 'react-core', 'react-ui', 'react-ide-toolbox']
 );
