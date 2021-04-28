@@ -1,232 +1,156 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { IReactionDisposer, reaction, action, observable } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Modal, Button, Card, message } from "antd";
-
+import { Button, Card } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
+  EntityInstance,
+  getFields,
   EntityPermAccessControl,
-  ScreensContext,
-  Screens,
-  redirect
+  toIdString,
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
-  setPagination,
   Spinner,
-  referencesListByEntityName,
-  addPagingParams,
-  createPagingConfig,
+  RetryDialog,
+  useEntityList,
   defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
-
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import { PaginationConfig } from "antd/es/pagination";
-
-interface IIntIdentityIdMgtCardsBrowseComponentProps {
-  screens: Screens;
-}
-
-type Props = MainStoreInjected &
-  WrappedComponentProps &
-  IIntIdentityIdMgtCardsBrowseComponentProps;
+import { FormattedMessage } from "react-intl";
+import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
 const ROUTING_PATH = "/intIdentityIdMgtCardsManagement";
 
-class IntIdentityIdMgtCardsBrowseComponent extends React.Component<Props> {
-  dataCollection = collection<IntIdentityIdTestEntity>(
-    IntIdentityIdTestEntity.NAME,
-    {
-      view: "_local",
-      loadImmediately: true
+const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
+  query scr_IntIdentityIdTestEntityList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_IntIdentityIdTestEntityOrderBy
+    $filter: [inp_scr_IntIdentityIdTestEntityFilterCondition]
+  ) {
+    scr_IntIdentityIdTestEntityCount
+    scr_IntIdentityIdTestEntityList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      description
     }
-  );
+  }
+`;
 
-  reactionDisposers: IReactionDisposer[] = [];
-  fields = [
-    "description",
-    "updateTs",
-    "updatedBy",
-    "deleteTs",
-    "deletedBy",
-    "createTs",
-    "createdBy",
-    "version"
-  ];
+const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
+  mutation Delete_scr_IntIdentityIdTestEntity($id: String!) {
+    delete_scr_IntIdentityIdTestEntity(id: $id)
+  }
+`;
 
-  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
+const IntIdentityIdMgtCardsBrowse = observer(() => {
+  const screens = useContext(ScreensContext);
 
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataCollection.status,
-        status => {
-          const { intl } = this.props;
-          if (status === "ERROR") {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    handlePaginationChange,
+    store
+  } = useEntityList<IntIdentityIdTestEntity>({
+    listQuery: SCR_INTIDENTITYIDTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_INTIDENTITYIDTESTENTITY,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_IntIdentityIdTestEntityList"
+  });
 
-    // to disable paging config pass 'true' as disabled param in function below
-    //this.paginationConfig = createPagingConfig(window.location.search);
-    /*
-    this.reactionDisposers.push(
-      reaction(
-        () => this.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.paginationConfig, this.dataCollection, true);
-    */
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
   }
 
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
+  if (loading || data == null) {
+    return <Spinner />;
   }
 
-  @action onPagingChange = (current: number, pageSize: number) => {
-    // If we on root screen
-    /*
-    if (this.props.screens.currentScreenIndex === 0) {
-      routerData.history.push(
-        addPagingParams("intIdentityIdMgtCardsManagement", current, pageSize)
-      );
-      this.paginationConfig = {...this.paginationConfig, current, pageSize};
-    }*/
-  };
+  const dataSource = data?.scr_IntIdentityIdTestEntityList ?? [];
+  const pagesTotal = data?.scr_IntIdentityIdTestEntityCount ?? 0;
 
-  showDeletionDialog = (e: SerializedEntity<IntIdentityIdTestEntity>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
+  return (
+    <div className="narrow-layout">
+      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+        <div style={{ marginBottom: "12px" }}>
+          <Button
+            htmlType="button"
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleCreateBtnClick}
+          >
+            <span>
+              <FormattedMessage id="common.create" />
+            </span>
+          </Button>
+        </div>
+      </EntityPermAccessControl>
 
-  onCrateBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
-  };
-
-  onEditBtnClick = (itemId: string) => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    // If we on root screen
-    if (this.props.screens.currentScreenIndex === 0) {
-      redirect(ROUTING_PATH + "/" + itemId);
-    }
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId: itemId
-      }
-    });
-  };
-
-  render() {
-    const { status, items, count } = this.dataCollection;
-    const { mainStore } = this.props;
-
-    if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
-      return <Spinner />;
-    }
-
-    return (
-      <div className="narrow-layout">
-        <EntityPermAccessControl
-          entityName={IntIdentityIdTestEntity.NAME}
-          operation="create"
-        >
-          <div style={{ marginBottom: "12px" }}>
-            <Button
-              htmlType="button"
-              type="primary"
-              onClick={this.onCrateBtnClick}
-              icon={<PlusOutlined />}
+      {dataSource == null || dataSource.length === 0 ? (
+        <p>
+          <FormattedMessage id="management.browser.noItems" />
+        </p>
+      ) : null}
+      {dataSource.map((e: EntityInstance<IntIdentityIdTestEntity>) => (
+        <Card
+          title={e._instanceName}
+          key={e.id ? toIdString(e.id) : undefined}
+          style={{ marginBottom: "12px" }}
+          actions={[
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="delete"
             >
-              <span>
-                <FormattedMessage id="common.create" />
-              </span>
-            </Button>
-          </div>
-        </EntityPermAccessControl>
-
-        {items == null || items.length === 0 ? (
-          <p>
-            <FormattedMessage id="management.browser.noItems" />
-          </p>
-        ) : null}
-        {items.map(e => (
-          <Card
-            title={e._instanceName}
-            key={e.id ? getStringId(e.id) : undefined}
-            style={{ marginBottom: "12px" }}
-            actions={[
               <DeleteOutlined
                 key="delete"
-                onClick={() => this.showDeletionDialog(e)}
-              />,
-              <EditOutlined onClick={() => this.onEditBtnClick(e.id!)} />
-            ]}
-          >
-            {this.fields.map(p => (
-              <EntityProperty
-                entityName={IntIdentityIdTestEntity.NAME}
-                propertyName={p}
-                value={e[p]}
-                key={p}
+                onClick={showDeletionDialog.bind(null, e)}
               />
-            ))}
-          </Card>
-        ))}
-        {/*
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={this.paginationConfig}
-            onPagingChange={this.onPagingChange}
-            total={count}
-          />
-        </div>
-          */}
+            </EntityPermAccessControl>,
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="update"
+            >
+              <EditOutlined
+                key="edit"
+                onClick={handleEditBtnClick.bind(null, e.id)}
+              />
+            </EntityPermAccessControl>
+          ]}
+        >
+          {getFields(e).map(p => (
+            <EntityProperty
+              entityName={ENTITY_NAME}
+              propertyName={p}
+              value={e[p]}
+              key={p}
+            />
+          ))}
+        </Card>
+      ))}
+
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+        <Paging
+          paginationConfig={store.pagination ?? {}}
+          onPagingChange={handlePaginationChange}
+          total={pagesTotal}
+        />
       </div>
-    );
-  }
-}
-
-const IntIdentityIdMgtCardsBrowse = injectIntl(
-  injectMainStore(observer(IntIdentityIdMgtCardsBrowseComponent))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <IntIdentityIdMgtCardsBrowse screens={screens} />;
+    </div>
+  );
 });
+
+export default IntIdentityIdMgtCardsBrowse;

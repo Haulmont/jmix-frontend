@@ -1,4 +1,4 @@
-import React, {RefObject, useCallback, useEffect} from "react";
+import {useCallback, useEffect} from "react";
 import {FormInstance, message} from "antd";
 import {useLocalStore} from "mobx-react";
 import {
@@ -27,16 +27,12 @@ import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
 
 export type EntityEditorStore = {
-  updated: boolean;
   globalErrors: string[];
-  formRef: RefObject<FormInstance<any>>;
 };
 
 export const useEntityEditorStore = () => {
   return useLocalStore(() => ({
-    updated: false,
     globalErrors: [],
-    formRef: React.createRef<FormInstance<any>>()
   }));
 };
 
@@ -109,17 +105,25 @@ export function useEntityEditor<
   // Fill the form based on retrieved data
   useEffect(() => {
     if (
-      store.formRef.current != null &&
       !queryLoading &&
       queryError == null &&
       data != null &&
       metadata != null
     ) {
-      store.formRef.current.setFieldsValue(
+      form.setFieldsValue(
         graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
       );
     }
-  }, [store.formRef.current, queryLoading, queryError, data, metadata, queryName, entityName]);
+  }, [form, queryLoading, queryError, data, metadata, queryName, entityName]);
+
+  const goBackToBrowserScreen = useCallback(() => {
+    if (screens.currentScreenIndex === 1) {
+      redirect(routingPath);
+    }
+    screens.setActiveScreen(multiScreen.parent!, true);
+  }, [screens, routingPath, multiScreen]);
+
+  const handleCancelBtnClick = goBackToBrowserScreen;
 
   const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
     intl,
@@ -127,15 +131,9 @@ export function useEntityEditor<
     metadata,
     upsertItem,
     entityId,
-    store
+    store,
+    goBackToBrowserScreen
   });
-
-  const handleCancelBtnClick = useCallback(() => {
-    if (screens.currentScreenIndex === 1) {
-      redirect(routingPath);
-    }
-    screens.setActiveScreen(multiScreen.parent!, true);
-  }, [screens, routingPath, multiScreen]);
 
   return {
     loadItem,
@@ -158,6 +156,7 @@ export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   upsertItem: GraphQLMutationFn<TData, TVariables>;
   entityId?: string;
   store: EntityEditorStore;
+  goBackToBrowserScreen: () => void;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -174,7 +173,8 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
     metadata,
     upsertItem,
     entityId,
-    store
+    store,
+    goBackToBrowserScreen
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -201,7 +201,7 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
                 isNewEntity ? "create" : "edit"
               );
               message.success(intl.formatMessage({ id: successMessageId }));
-              store.updated = true;
+              goBackToBrowserScreen();
             } else {
               console.error(errors);
               message.error(intl.formatMessage({ id: "common.requestFailed" }));
@@ -213,7 +213,7 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
           });
       }
     },
-    [entityId, isNewEntity, store, form, metadata, store.updated, upsertItem, intl]
+    [entityId, isNewEntity, store, form, metadata, upsertItem, intl]
   );
 
   return {handleFinish, handleFinishFailed};

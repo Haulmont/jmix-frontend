@@ -13,11 +13,11 @@ import {PaginationConfig} from "antd/es/pagination";
 describe('Paging component', () => {
 
   it('Paging is rendered', async () => {
-    let props = {
+    const props = {
       paginationConfig: {...defaultPagingConfig},
       pageSize: 10,
       total: 50,
-      onPagingChange: () => {}
+      onPagingChange: () => ({})
     };
 
     const items = renderer.create(<Paging {...props}/>).root
@@ -85,25 +85,6 @@ describe('setPagination', () => {
     ds = {offset: 0, limit: 0, load: jest.fn()} as any;
     setPagination({}, ds);
     expect(ds).toMatchObject({offset: 0, limit: 0});
-    expect(ds.load).not.toBeCalled();
-  });
-
-  it('should set pagination to dataCollection and reload', () => {
-    const ds = {offset: 0, limit: 0} as any;
-    ds.load = jest.fn();
-    setPagination(pagingConfig, ds, true);
-    expect(ds).toMatchObject({offset: 40, limit: 10});
-    expect(ds.load).toBeCalled();
-
-    ds.load = jest.fn();
-    const config = {...pagingConfig, disabled: true};
-    setPagination(config, ds, true);
-    expect(ds).toMatchObject({offset: null, limit: null});
-    expect(ds.load).toBeCalled();
-
-    ds.load = jest.fn();
-    setPagination(config, ds);
-    expect(ds).toMatchObject({offset: null, limit: null});
     expect(ds.load).not.toBeCalled();
   });
 

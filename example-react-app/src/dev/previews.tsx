@@ -45,12 +45,6 @@ import AssociationO2MBrowse from "../app/associationO2M/AssociationO2MBrowse";
 import AssociationO2MEdit from "../app/associationO2M/AssociationO2MEdit";
 import AssociationO2OBrowse from "../app/associationO2O/AssociationO2OBrowse";
 import AssociationO2OEdit from "../app/associationO2O/AssociationO2OEdit";
-import GraphQLCardsBrowser from "../app/graphql-cards/GraphQLCardsBrowser";
-import GraphQLCardsEdit from "../app/graphql-cards/GraphQLCardsEdit";
-import GraphQLList from "../app/graphql/GraphQLList";
-import GraphQLEdit from "../app/graphql/GraphQLEdit";
-import HooksPOCList from "../app/hooks-poc/HooksPOCList";
-import HooksPOCEdit from "../app/hooks-poc/HooksPOCEdit";
 import DatatypesBrowse3 from "../app/datatypes-test3/DatatypesBrowse3";
 import DatatypesEdit3 from "../app/datatypes-test3/DatatypesEdit3";
 import DatatypesBrowse2 from "../app/datatypes-test2/DatatypesBrowse2";
@@ -68,7 +62,7 @@ import { TestBlankComponent } from "../app/blank-components/TestBlankComponent";
 import React from "react";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
-export const ComponentPreviews: React.FC = () => {
+export const ComponentPreviews = () => {
   return (
     <Previews>
       <ComponentPreview path="/testBlankComponent">
@@ -125,30 +119,6 @@ export const ComponentPreviews: React.FC = () => {
 
       <ComponentPreview path="/DatatypesBrowse3">
         <DatatypesBrowse3 />
-      </ComponentPreview>
-
-      <ComponentPreview path="/HooksPOCEdit">
-        <HooksPOCEdit entityId={"new"} />
-      </ComponentPreview>
-
-      <ComponentPreview path="/HooksPOCList">
-        <HooksPOCList />
-      </ComponentPreview>
-
-      <ComponentPreview path="/GraphQLEdit">
-        <GraphQLEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/GraphQLList">
-        <GraphQLList />
-      </ComponentPreview>
-
-      <ComponentPreview path="/GraphQLCardsEdit">
-        <GraphQLCardsEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/GraphQLCardsBrowser">
-        <GraphQLCardsBrowser />
       </ComponentPreview>
 
       <ComponentPreview path="/AssociationO2OEdit">

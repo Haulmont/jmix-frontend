@@ -14,7 +14,7 @@ export function getFields<T>(
 }
 
 export function addIdIfExistingEntity(entityId?: string) {
-  return entityId != null
+  return entityId == null
     ? undefined
     : { id: entityId };
 }

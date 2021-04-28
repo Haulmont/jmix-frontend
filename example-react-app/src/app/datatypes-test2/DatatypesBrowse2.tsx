@@ -1,244 +1,171 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { IReactionDisposer, reaction, observable, action } from "mobx";
 import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Modal, Button, List, message } from "antd";
-
+import { Button, List } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
+  EntityInstance,
+  getFields,
   EntityPermAccessControl,
-  ScreensContext,
-  Screens,
-  redirect
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
-  setPagination,
   Spinner,
-  referencesListByEntityName,
-  addPagingParams,
-  createPagingConfig,
+  RetryDialog,
+  useEntityList,
   defaultPagingConfig
 } from "@haulmont/jmix-react-ui";
-
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import { SerializedEntity } from "@haulmont/jmix-rest";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import { PaginationConfig } from "antd/es/pagination";
-
-interface IDatatypesBrowse2ComponentProps {
-  screens: Screens;
-}
-
-type Props = MainStoreInjected &
-  WrappedComponentProps &
-  IDatatypesBrowse2ComponentProps;
+import { FormattedMessage } from "react-intl";
+import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";
 const ROUTING_PATH = "/datatypesManagement2";
 
-class DatatypesBrowse2Component extends React.Component<Props> {
-  dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
-    view: "datatypesTestEntity-view",
-    loadImmediately: true
+const SCR_DATATYPESTESTENTITY_LIST = gql`
+  query scr_DatatypesTestEntityList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_DatatypesTestEntityOrderBy
+    $filter: [inp_scr_DatatypesTestEntityFilterCondition]
+  ) {
+    scr_DatatypesTestEntityCount
+    scr_DatatypesTestEntityList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      bigDecimalAttr
+      booleanAttr
+      dateAttr
+      dateTimeAttr
+      doubleAttr
+      integerAttr
+      longAttr
+      stringAttr
+      timeAttr
+      uuidAttr
+      localDateTimeAttr
+      offsetDateTimeAttr
+      localDateAttr
+      localTimeAttr
+      offsetTimeAttr
+      enumAttr
+      name
+      readOnlyStringAttr
+    }
+  }
+`;
+
+const DELETE_SCR_DATATYPESTESTENTITY = gql`
+  mutation Delete_scr_DatatypesTestEntity($id: String!) {
+    delete_scr_DatatypesTestEntity(id: $id)
+  }
+`;
+
+const DatatypesBrowse2 = observer(() => {
+  const screens = useContext(ScreensContext);
+
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    handlePaginationChange,
+    store
+  } = useEntityList<DatatypesTestEntity>({
+    listQuery: SCR_DATATYPESTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_DatatypesTestEntityList"
   });
 
-  reactionDisposers: IReactionDisposer[] = [];
-  fields = [
-    "bigDecimalAttr",
-    "booleanAttr",
-    "dateAttr",
-    "dateTimeAttr",
-    "doubleAttr",
-    "integerAttr",
-    "longAttr",
-    "stringAttr",
-    "timeAttr",
-    "uuidAttr",
-    "localDateTimeAttr",
-    "offsetDateTimeAttr",
-    "localDateAttr",
-    "localTimeAttr",
-    "offsetTimeAttr",
-    "enumAttr",
-    "name",
-    "readOnlyStringAttr",
-    "associationO2Oattr",
-    "associationM2Oattr",
-    "compositionO2Oattr",
-    "intIdentityIdTestEntityAssociationO2OAttr",
-    "stringIdTestEntityAssociationO2O",
-    "stringIdTestEntityAssociationM2O"
-  ];
-
-  //@observable paginationConfig: PaginationConfig = { ...defaultPagingConfig };
-
-  componentDidMount(): void {
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataCollection.status,
-        status => {
-          const { intl } = this.props;
-          if (status === "ERROR") {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
-
-    // to disable paging config pass 'true' as disabled param in function below
-    //this.paginationConfig = createPagingConfig(window.location.search);
-    /*
-    this.reactionDisposers.push(
-      reaction(
-        () => this.paginationConfig,
-        paginationConfig =>
-          setPagination(paginationConfig, this.dataCollection, true)
-      )
-    );
-    setPagination(this.paginationConfig, this.dataCollection, true);
-    */
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
   }
 
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
+  if (loading || data == null) {
+    return <Spinner />;
   }
 
-  onPagingChange = (current: number, pageSize: number) => {
-    // If we on root screen
-    /*
-    if (this.props.screens.currentScreenIndex === 0) {
-      routerData.history.push(
-        addPagingParams("datatypesManagement2", current, pageSize)
-      );
-      this.paginationConfig = {...this.paginationConfig, current, pageSize};
-    }*/
-  };
+  const dataSource = data?.scr_DatatypesTestEntityList ?? [];
+  const pagesTotal = data?.scr_DatatypesTestEntityCount ?? 0;
 
-  showDeletionDialog = (e: SerializedEntity<DatatypesTestEntity>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
+  return (
+    <div className="narrow-layout">
+      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+        <div style={{ marginBottom: "12px" }}>
+          <Button
+            htmlType="button"
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleCreateBtnClick}
+          >
+            <span>
+              <FormattedMessage id="common.create" />
+            </span>
+          </Button>
+        </div>
+      </EntityPermAccessControl>
 
-  onCrateBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
-  };
-
-  onEditBtnClick = (itemId: string) => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    // If we on root screen
-    if (this.props.screens.currentScreenIndex === 0) {
-      redirect(ROUTING_PATH + "/" + itemId);
-    }
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId: itemId
-      }
-    });
-  };
-
-  render() {
-    const { status, items, count } = this.dataCollection;
-    const { mainStore } = this.props;
-
-    if (status === "LOADING" || mainStore?.isEntityDataLoaded() !== true) {
-      return <Spinner />;
-    }
-
-    return (
-      <div className="narrow-layout">
-        <EntityPermAccessControl
-          entityName={DatatypesTestEntity.NAME}
-          operation="create"
-        >
-          <div style={{ marginBottom: "12px" }}>
-            <Button
-              htmlType="button"
-              type="primary"
-              onClick={this.onCrateBtnClick}
-              icon={<PlusOutlined />}
-            >
-              <span>
-                <FormattedMessage id="common.create" />
-              </span>
-            </Button>
-          </div>
-        </EntityPermAccessControl>
-
-        <List
-          itemLayout="horizontal"
-          bordered
-          dataSource={items}
-          renderItem={item => (
-            <List.Item
-              actions={[
+      <List
+        itemLayout="horizontal"
+        bordered
+        dataSource={dataSource}
+        renderItem={(item: EntityInstance<DatatypesTestEntity>) => (
+          <List.Item
+            actions={[
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="delete"
+              >
                 <DeleteOutlined
                   key="delete"
-                  onClick={() => this.showDeletionDialog(item)}
-                />,
-                <EditOutlined onClick={() => this.onEditBtnClick(item.id!)} />
-              ]}
-            >
-              <div style={{ flexGrow: 1 }}>
-                {this.fields.map(p => (
-                  <EntityProperty
-                    entityName={DatatypesTestEntity.NAME}
-                    propertyName={p}
-                    value={item[p]}
-                    key={p}
-                  />
-                ))}
-              </div>
-            </List.Item>
-          )}
+                  onClick={showDeletionDialog.bind(null, item)}
+                />
+              </EntityPermAccessControl>,
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="update"
+              >
+                <EditOutlined
+                  key="edit"
+                  onClick={handleEditBtnClick.bind(null, item.id)}
+                />
+              </EntityPermAccessControl>
+            ]}
+          >
+            <div style={{ flexGrow: 1 }}>
+              {getFields(item).map(p => (
+                <EntityProperty
+                  entityName={ENTITY_NAME}
+                  propertyName={p}
+                  value={item[p]}
+                  key={p}
+                />
+              ))}
+            </div>
+          </List.Item>
+        )}
+      />
+
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+        <Paging
+          paginationConfig={store.pagination ?? {}}
+          onPagingChange={handlePaginationChange}
+          total={pagesTotal}
         />
-        {/*
-        <div style={{margin: "12px 0 12px 0", float: "right"}}>
-          <Paging
-            paginationConfig={this.paginationConfig}
-            onPagingChange={this.onPagingChange}
-            total={count}
-          />
-        </div>
-        */}
       </div>
-    );
-  }
-}
-
-const DatatypesBrowse2 = injectIntl(
-  injectMainStore(observer(DatatypesBrowse2Component))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <DatatypesBrowse2 screens={screens} />;
+    </div>
+  );
 });
+
+export default DatatypesBrowse2;

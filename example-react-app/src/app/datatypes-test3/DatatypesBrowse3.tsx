@@ -1,218 +1,189 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { observable, makeObservable } from "mobx";
-import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-
+import { Button } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
   EntityPermAccessControl,
-  ScreensContext,
-  Screens,
-  redirect
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  referencesListByEntityName
+  RetryDialog,
+  useEntityList
 } from "@haulmont/jmix-react-ui";
-
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
+import { FormattedMessage } from "react-intl";
+import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";
 const ROUTING_PATH = "/datatypesManagement3";
 
-interface IDatatypesBrowse3ComponentProps {
-  screens: Screens;
-}
+const FIELDS = [
+  "bigDecimalAttr",
+  "booleanAttr",
+  "dateAttr",
+  "dateTimeAttr",
+  "doubleAttr",
+  "integerAttr",
+  "longAttr",
+  "stringAttr",
+  "timeAttr",
+  "uuidAttr",
+  "localDateTimeAttr",
+  "offsetDateTimeAttr",
+  "localDateAttr",
+  "localTimeAttr",
+  "offsetTimeAttr",
+  "enumAttr",
+  "name",
+  "readOnlyStringAttr"
+];
 
-class DatatypesBrowse3Component extends React.Component<
-  MainStoreInjected & WrappedComponentProps & IDatatypesBrowse3ComponentProps
-> {
-  dataCollection = collection<DatatypesTestEntity>(DatatypesTestEntity.NAME, {
-    view: "datatypesTestEntity-view"
+const SCR_DATATYPESTESTENTITY_LIST = gql`
+  query scr_DatatypesTestEntityList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_DatatypesTestEntityOrderBy
+    $filter: [inp_scr_DatatypesTestEntityFilterCondition]
+  ) {
+    scr_DatatypesTestEntityCount
+    scr_DatatypesTestEntityList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      bigDecimalAttr
+      booleanAttr
+      dateAttr
+      dateTimeAttr
+      doubleAttr
+      integerAttr
+      longAttr
+      stringAttr
+      timeAttr
+      uuidAttr
+      localDateTimeAttr
+      offsetDateTimeAttr
+      localDateAttr
+      localTimeAttr
+      offsetTimeAttr
+      enumAttr
+      name
+      readOnlyStringAttr
+    }
+  }
+`;
+
+const DELETE_SCR_DATATYPESTESTENTITY = gql`
+  mutation Delete_scr_DatatypesTestEntity($id: String!) {
+    delete_scr_DatatypesTestEntity(id: $id)
+  }
+`;
+
+const DatatypesBrowse3 = observer(() => {
+  const screens = useContext(ScreensContext);
+
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
+    deleteSelectedRow,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    store
+  } = useEntityList<DatatypesTestEntity>({
+    listQuery: SCR_DATATYPESTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_DatatypesTestEntityList"
   });
-  selectedRowKey: string | null = null;
 
-  fields = [
-    "bigDecimalAttr",
-    "booleanAttr",
-    "dateAttr",
-    "dateTimeAttr",
-    "doubleAttr",
-    "integerAttr",
-    "longAttr",
-    "stringAttr",
-    "timeAttr",
-    "uuidAttr",
-    "localDateTimeAttr",
-    "offsetDateTimeAttr",
-    "localDateAttr",
-    "localTimeAttr",
-    "offsetTimeAttr",
-    "enumAttr",
-    "name",
-    "readOnlyStringAttr",
-    "associationO2Oattr",
-    "associationM2Oattr",
-    "compositionO2Oattr",
-    "intIdentityIdTestEntityAssociationO2OAttr",
-    "stringIdTestEntityAssociationO2O",
-    "stringIdTestEntityAssociationM2O"
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
+
+  const items = data?.scr_DatatypesTestEntityList;
+  const total = data?.scr_DatatypesTestEntityCount;
+
+  const buttons = [
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="create"
+      key="create"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={handleCreateBtnClick}
+      >
+        <span>
+          <FormattedMessage id="common.create" />
+        </span>
+      </Button>
+    </EntityPermAccessControl>,
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="update"
+      key="update"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        disabled={store.selectedRowKey == null}
+        type="default"
+        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+      >
+        <FormattedMessage id="common.edit" />
+      </Button>
+    </EntityPermAccessControl>,
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="delete"
+      key="delete"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        disabled={store.selectedRowKey == null}
+        onClick={deleteSelectedRow.bind(null, items)}
+        key="remove"
+        type="default"
+      >
+        <FormattedMessage id="common.remove" />
+      </Button>
+    </EntityPermAccessControl>
   ];
 
-  showDeletionDialog = (e: SerializedEntity<DatatypesTestEntity>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        this.selectedRowKey = null;
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
-
-  onCrateBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
-  };
-
-  onEditBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    // If we on root screen
-    if (this.props.screens.currentScreenIndex === 0) {
-      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
-    }
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId: this.selectedRowKey!
-      }
-    });
-  };
-
-  constructor(props) {
-    super(props);
-
-    makeObservable(this, {
-      selectedRowKey: observable
-    });
-  }
-
-  render() {
-    if (this.props.mainStore?.isEntityDataLoaded() !== true) return <Spinner />;
-
-    const buttons = [
-      <EntityPermAccessControl
-        entityName={DatatypesTestEntity.NAME}
-        operation="create"
-        key="create"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          onClick={this.onCrateBtnClick}
-          type="primary"
-          icon={<PlusOutlined />}
-        >
-          <span>
-            <FormattedMessage id="common.create" />
-          </span>
-        </Button>
-      </EntityPermAccessControl>,
-      <EntityPermAccessControl
-        entityName={DatatypesTestEntity.NAME}
-        operation="update"
-        key="update"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          disabled={!this.selectedRowKey}
-          onClick={this.onEditBtnClick}
-          type="default"
-        >
-          <FormattedMessage id="common.edit" />
-        </Button>
-      </EntityPermAccessControl>,
-      <EntityPermAccessControl
-        entityName={DatatypesTestEntity.NAME}
-        operation="delete"
-        key="delete"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          disabled={!this.selectedRowKey}
-          onClick={this.deleteSelectedRow}
-          type="default"
-        >
-          <FormattedMessage id="common.remove" />
-        </Button>
-      </EntityPermAccessControl>
-    ];
-
-    return (
-      <DataTable
-        dataCollection={this.dataCollection}
-        fields={this.fields}
-        onRowSelectionChange={this.handleRowSelectionChange}
-        hideSelectionColumn={true}
-        buttons={buttons}
-      />
-    );
-  }
-
-  getRecordById(id: string): SerializedEntity<DatatypesTestEntity> {
-    const record:
-      | SerializedEntity<DatatypesTestEntity>
-      | undefined = this.dataCollection.items.find(
-      record => getStringId(record.id!) === id
-    );
-
-    if (!record) {
-      throw new Error("Cannot find entity with id " + id);
-    }
-
-    return record;
-  }
-
-  handleRowSelectionChange = (selectedRowKeys: string[]) => {
-    this.selectedRowKey = selectedRowKeys[0];
-  };
-
-  deleteSelectedRow = () => {
-    this.showDeletionDialog(this.getRecordById(this.selectedRowKey!));
-  };
-}
-
-const DatatypesBrowse3 = injectIntl(
-  injectMainStore(observer(DatatypesBrowse3Component))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <DatatypesBrowse3 screens={screens} />;
+  return (
+    <DataTable
+      items={items}
+      total={total}
+      current={store.pagination?.current}
+      pageSize={store.pagination?.pageSize}
+      entityName={ENTITY_NAME}
+      loading={loading}
+      error={error}
+      columnDefinitions={FIELDS}
+      onRowSelectionChange={handleRowSelectionChange}
+      onFilterChange={handleFilterChange}
+      onSortOrderChange={handleSortOrderChange}
+      onPaginationChange={handlePaginationChange}
+      hideSelectionColumn={true}
+      buttons={buttons}
+    />
+  );
 });
+
+export default DatatypesBrowse3;

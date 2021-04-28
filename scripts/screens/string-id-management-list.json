@@ -1,14 +1,8 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_StringIdTestEntity"
-  },
+  "editAttributes": "identifier,description,productCode",
+  "listAttributes": "identifier,description,productCode",
   "editComponentName": "StringIdMgtListEdit",
   "editIdAttrPos": 1,
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_StringIdTestEntity"
-  },
   "listComponentName": "StringIdMgtListBrowse",
   "listType": "list",
   "listShowIdAttr": true,

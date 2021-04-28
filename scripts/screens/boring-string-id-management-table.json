@@ -1,14 +1,8 @@
 {
-  "editView": {
-    "name": "_local",
-    "entityName": "scr_BoringStringIdTestEntity"
-  },
+  "editAttributes": "description",
+  "listAttributes": "description",
   "editComponentName": "BoringStringIdMgtTableEdit",
   "editIdAttrPos": 1,
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_BoringStringIdTestEntity"
-  },
   "listComponentName": "BoringStringIdMgtTableBrowse",
   "listType": "table",
   "listShowIdAttr": true,

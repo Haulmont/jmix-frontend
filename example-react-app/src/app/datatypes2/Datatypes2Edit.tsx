@@ -1,294 +1,112 @@
-import * as React from "react";
-import { Form, Alert, Button, Card, message } from "antd";
-import { FormInstance } from "antd/es/form";
+import React, { useContext } from "react";
+import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
+import { toJS } from "mobx";
+import { FormattedMessage } from "react-intl";
+import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
-  IReactionDisposer,
-  observable,
-  reaction,
-  toJS,
-  makeObservable
-} from "mobx";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import {
-  defaultHandleFinish,
   createAntdFormValidationMessages,
+  RetryDialog,
+  MultilineText,
+  Spinner,
+  useEntityEditor,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
-import {
-  Screens,
-  ScreensContext,
-  IMultiScreenItem,
-  redirect
-} from "@haulmont/jmix-react-core";
-
-import {
-  instance,
-  MainStoreInjected,
-  injectMainStore
-} from "@haulmont/jmix-react-core";
-
-import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
-
+import { gql } from "@apollo/client";
 import "../../app/App.css";
 
-import { DatatypesTestEntity2 } from "../../jmix/entities/scr_DatatypesTestEntity2";
-
-interface IDatatypes2EditComponentProps {
-  screens: Screens;
-}
-
-type Props = MainStoreInjected;
-
-// const ENTITY_NAME = 'scr_DatatypesTestEntity2';
+const ENTITY_NAME = "scr_DatatypesTestEntity2";
 const ROUTING_PATH = "/datatypes2Management";
 
-class Datatypes2EditComponent extends React.Component<
-  Props & WrappedComponentProps & IDatatypes2EditComponentProps
-> {
-  static contextType = MultiScreenContext;
-  context: IMultiScreenItem = null!;
+const LOAD_SCR_DATATYPESTESTENTITY2 = gql`
+  query scr_DatatypesTestEntity2ById($id: String!) {
+    scr_DatatypesTestEntity2ById(id: $id) {
+      _instanceName
+      id
+    }
+  }
+`;
 
-  dataInstance = instance<DatatypesTestEntity2>(DatatypesTestEntity2.NAME, {
-    view: "datatypesTestEntity2-view",
-    loadImmediately: true
+const UPSERT_SCR_DATATYPESTESTENTITY2 = gql`
+  mutation Upsert_scr_DatatypesTestEntity2(
+    $datatypesTestEntity2: inp_scr_DatatypesTestEntity2!
+  ) {
+    upsert_scr_DatatypesTestEntity2(
+      datatypesTestEntity2: $datatypesTestEntity2
+    ) {
+      id
+    }
+  }
+`;
+
+const Datatypes2Edit = observer(() => {
+  const multiScreen = useContext(MultiScreenContext);
+  const screens = useContext(ScreensContext);
+  const metadata = useMetadata();
+
+  const {
+    loadItem,
+    loadQueryResult: { loading: queryLoading, error: queryError },
+    upsertMutationResult: { loading: upsertLoading },
+    store,
+    form,
+    intl,
+    handleFinish,
+    handleFinishFailed,
+    handleCancelBtnClick
+  } = useEntityEditor({
+    loadQuery: LOAD_SCR_DATATYPESTESTENTITY2,
+    upsertMutation: UPSERT_SCR_DATATYPESTESTENTITY2,
+    entityId: multiScreen?.params?.entityId,
+    queryName: "scr_DatatypesTestEntity2ById",
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    screens,
+    multiScreen
   });
 
-  updated = false;
-  formRef: React.RefObject<FormInstance> = React.createRef();
-  reactionDisposers: IReactionDisposer[] = [];
-
-  fields = [
-    "datatypesTestEntityAttr",
-    "intIdentityIdTestEntityAttr",
-    "integerIdTestEntityAttr",
-    "stringIdTestEntityAttr",
-    "weirdStringIdTestEntityAttr"
-  ];
-
-  globalErrors: string[] = [];
-
-  handleFinishFailed = () => {
-    const { intl } = this.props;
-    message.error(
-      intl.formatMessage({ id: "management.editor.validationError" })
-    );
-  };
-
-  handleFinish = (values: { [field: string]: any }) => {
-    const { intl } = this.props;
-
-    if (this.formRef.current != null) {
-      defaultHandleFinish(
-        values,
-        this.dataInstance,
-        intl,
-        this.formRef.current,
-        this.isNewEntity() ? "create" : "edit"
-      ).then(({ success, globalErrors }) => {
-        if (success) {
-          this.updated = true;
-        } else {
-          this.globalErrors = globalErrors;
-        }
-      });
-    }
-  };
-
-  isNewEntity = () => {
-    return this.context?.params?.entityId === undefined;
-  };
-
-  onCancelBtnClick = () => {
-    if (this.props.screens.currentScreenIndex === 1) {
-      redirect(ROUTING_PATH);
-    }
-    this.props.screens.setActiveScreen(this.context.parent!, true);
-  };
-
-  constructor(props) {
-    super(props);
-
-    makeObservable(this, {
-      updated: observable,
-      formRef: observable,
-      globalErrors: observable
-    });
+  if (queryLoading || metadata == null) {
+    return <Spinner />;
   }
 
-  render() {
-    const { status, lastError, load } = this.dataInstance;
-    const { mainStore, intl } = this.props;
-    if (mainStore == null || !mainStore.isEntityDataLoaded()) {
-      return <Spinner />;
-    }
+  if (queryError != null) {
+    console.error(queryError);
+    return <RetryDialog onRetry={loadItem} />;
+  }
 
-    // do not stop on "COMMIT_ERROR" - it could be bean validation, so we should show fields with errors
-    if (status === "ERROR" && lastError === "LOAD_ERROR") {
-      return (
-        <>
-          <FormattedMessage id="common.requestFailed" />.
-          <br />
-          <br />
-          <Button
-            htmlType="button"
-            onClick={() => load(this.context?.params?.entityId!)}
-          >
-            <FormattedMessage id="common.retry" />
+  return (
+    <Card className="narrow-layout">
+      <Form
+        onFinish={handleFinish}
+        onFinishFailed={handleFinishFailed}
+        layout="vertical"
+        form={form}
+        validateMessages={createAntdFormValidationMessages(intl)}
+      >
+        {store.globalErrors.length > 0 && (
+          <Alert
+            message={<MultilineText lines={toJS(store.globalErrors)} />}
+            type="error"
+            style={{ marginBottom: "24px" }}
+          />
+        )}
+
+        <Form.Item style={{ textAlign: "center" }}>
+          <Button htmlType="button" onClick={handleCancelBtnClick}>
+            <FormattedMessage id="common.cancel" />
           </Button>
-        </>
-      );
-    }
-
-    return (
-      <Card className="narrow-layout">
-        <Form
-          onFinish={this.handleFinish}
-          onFinishFailed={this.handleFinishFailed}
-          layout="vertical"
-          ref={this.formRef}
-          validateMessages={createAntdFormValidationMessages(intl)}
-        >
-          <Field
-            entityName={DatatypesTestEntity2.NAME}
-            propertyName="datatypesTestEntityAttr"
-            nestedEntityView="datatypesTestEntity-view"
-            parentEntityInstanceId={this.context?.params?.entityId}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity2.NAME}
-            propertyName="intIdentityIdTestEntityAttr"
-            nestedEntityView="_local"
-            parentEntityInstanceId={this.context?.params?.entityId}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity2.NAME}
-            propertyName="integerIdTestEntityAttr"
-            nestedEntityView="_local"
-            parentEntityInstanceId={this.context?.params?.entityId}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity2.NAME}
-            propertyName="stringIdTestEntityAttr"
-            nestedEntityView="_local"
-            parentEntityInstanceId={this.context?.params?.entityId}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={DatatypesTestEntity2.NAME}
-            propertyName="weirdStringIdTestEntityAttr"
-            nestedEntityView="_local"
-            parentEntityInstanceId={this.context?.params?.entityId}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          {this.globalErrors.length > 0 && (
-            <Alert
-              message={<MultilineText lines={toJS(this.globalErrors)} />}
-              type="error"
-              style={{ marginBottom: "24px" }}
-            />
-          )}
-
-          <Form.Item style={{ textAlign: "center" }}>
-            <Button htmlType="button" onClick={this.onCancelBtnClick}>
-              <FormattedMessage id="common.cancel" />
-            </Button>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={status !== "DONE" && status !== "ERROR"}
-              loading={status === "LOADING"}
-              style={{ marginLeft: "8px" }}
-            >
-              <FormattedMessage id="common.submit" />
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    );
-  }
-
-  componentDidMount() {
-    if (this.isNewEntity()) {
-      this.dataInstance.setItem(new DatatypesTestEntity2());
-    } else {
-      this.dataInstance.load(this.context?.params?.entityId!);
-    }
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataInstance.status,
-        () => {
-          const { intl } = this.props;
-          if (
-            this.dataInstance.lastError != null &&
-            this.dataInstance.lastError !== "COMMIT_ERROR"
-          ) {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.formRef.current,
-        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
-          if (formRefCurrent != null) {
-            // The Form has been successfully created.
-            // It is now safe to set values on Form fields.
-            this.reactionDisposers.push(
-              reaction(
-                () => this.dataInstance.item,
-                () => {
-                  formRefCurrent.setFieldsValue(
-                    this.dataInstance.getFieldValues(this.fields)
-                  );
-                },
-                { fireImmediately: true }
-              )
-            );
-            formRefReaction.dispose();
-          }
-        },
-        { fireImmediately: true }
-      )
-    );
-  }
-
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-}
-
-const Datatypes2Edit = injectIntl(
-  injectMainStore(observer(Datatypes2EditComponent))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <Datatypes2Edit screens={screens} />;
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={upsertLoading}
+            style={{ marginLeft: "8px" }}
+          >
+            <FormattedMessage id="common.submit" />
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
+  );
 });
+
+export default Datatypes2Edit;

@@ -1,208 +1,153 @@
-import * as React from "react";
+import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { observable, makeObservable } from "mobx";
-import { Modal, Button } from "antd";
 import { PlusOutlined } from "@ant-design/icons";
-
+import { Button } from "antd";
 import {
-  collection,
-  injectMainStore,
-  MainStoreInjected,
   EntityPermAccessControl,
-  ScreensContext,
-  Screens,
-  redirect
+  ScreensContext
 } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   Spinner,
-  referencesListByEntityName
+  RetryDialog,
+  useEntityList
 } from "@haulmont/jmix-react-ui";
-
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
-import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
+import { FormattedMessage } from "react-intl";
+import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_BoringStringIdTestEntity";
 const ROUTING_PATH = "/boringStringIdManagementTable";
 
-interface IBoringStringIdMgtTableBrowseComponentProps {
-  screens: Screens;
-}
+const FIELDS = ["description"];
 
-class BoringStringIdMgtTableBrowseComponent extends React.Component<
-  MainStoreInjected &
-    WrappedComponentProps &
-    IBoringStringIdMgtTableBrowseComponentProps
-> {
-  dataCollection = collection<BoringStringIdTestEntity>(
-    BoringStringIdTestEntity.NAME,
-    {
-      view: "_local"
+const SCR_BORINGSTRINGIDTESTENTITY_LIST = gql`
+  query scr_BoringStringIdTestEntityList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_BoringStringIdTestEntityOrderBy
+    $filter: [inp_scr_BoringStringIdTestEntityFilterCondition]
+  ) {
+    scr_BoringStringIdTestEntityCount
+    scr_BoringStringIdTestEntityList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      description
     }
-  );
-  selectedRowKey: string | null = null;
+  }
+`;
 
-  fields = [
-    "description",
-    "createTs",
-    "createdBy",
-    "deleteTs",
-    "deletedBy",
-    "updateTs",
-    "updatedBy",
-    "version",
-    "uuid"
+const DELETE_SCR_BORINGSTRINGIDTESTENTITY = gql`
+  mutation Delete_scr_BoringStringIdTestEntity($id: String!) {
+    delete_scr_BoringStringIdTestEntity(id: $id)
+  }
+`;
+
+const BoringStringIdMgtTableBrowse = observer(() => {
+  const screens = useContext(ScreensContext);
+
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    handleRowSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
+    deleteSelectedRow,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    store
+  } = useEntityList<BoringStringIdTestEntity>({
+    listQuery: SCR_BORINGSTRINGIDTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_BORINGSTRINGIDTESTENTITY,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_BoringStringIdTestEntityList"
+  });
+
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
+
+  const items = data?.scr_BoringStringIdTestEntityList;
+  const total = data?.scr_BoringStringIdTestEntityCount;
+
+  const buttons = [
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="create"
+      key="create"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        type="primary"
+        icon={<PlusOutlined />}
+        onClick={handleCreateBtnClick}
+      >
+        <span>
+          <FormattedMessage id="common.create" />
+        </span>
+      </Button>
+    </EntityPermAccessControl>,
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="update"
+      key="update"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        disabled={store.selectedRowKey == null}
+        type="default"
+        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+      >
+        <FormattedMessage id="common.edit" />
+      </Button>
+    </EntityPermAccessControl>,
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation="delete"
+      key="delete"
+    >
+      <Button
+        htmlType="button"
+        style={{ margin: "0 12px 12px 0" }}
+        disabled={store.selectedRowKey == null}
+        onClick={deleteSelectedRow.bind(null, items)}
+        key="remove"
+        type="default"
+      >
+        <FormattedMessage id="common.remove" />
+      </Button>
+    </EntityPermAccessControl>
   ];
 
-  showDeletionDialog = (e: SerializedEntity<BoringStringIdTestEntity>) => {
-    Modal.confirm({
-      title: this.props.intl.formatMessage(
-        { id: "management.browser.delete.areYouSure" },
-        { instanceName: e._instanceName }
-      ),
-      okText: this.props.intl.formatMessage({
-        id: "management.browser.delete.ok"
-      }),
-      cancelText: this.props.intl.formatMessage({ id: "common.cancel" }),
-      onOk: () => {
-        this.selectedRowKey = null;
-        return this.dataCollection.delete(e);
-      }
-    });
-  };
-
-  onCrateBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
-  };
-
-  onEditBtnClick = () => {
-    const registeredReferral = referencesListByEntityName[ENTITY_NAME];
-
-    // If we on root screen
-    if (this.props.screens.currentScreenIndex === 0) {
-      redirect(ROUTING_PATH + "/" + this.selectedRowKey);
-    }
-
-    this.props.screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId: this.selectedRowKey!
-      }
-    });
-  };
-
-  constructor(props) {
-    super(props);
-
-    makeObservable(this, {
-      selectedRowKey: observable
-    });
-  }
-
-  render() {
-    if (this.props.mainStore?.isEntityDataLoaded() !== true) return <Spinner />;
-
-    const buttons = [
-      <EntityPermAccessControl
-        entityName={BoringStringIdTestEntity.NAME}
-        operation="create"
-        key="create"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          onClick={this.onCrateBtnClick}
-          type="primary"
-          icon={<PlusOutlined />}
-        >
-          <span>
-            <FormattedMessage id="common.create" />
-          </span>
-        </Button>
-      </EntityPermAccessControl>,
-      <EntityPermAccessControl
-        entityName={BoringStringIdTestEntity.NAME}
-        operation="update"
-        key="update"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          disabled={!this.selectedRowKey}
-          onClick={this.onEditBtnClick}
-          type="default"
-        >
-          <FormattedMessage id="common.edit" />
-        </Button>
-      </EntityPermAccessControl>,
-      <EntityPermAccessControl
-        entityName={BoringStringIdTestEntity.NAME}
-        operation="delete"
-        key="delete"
-      >
-        <Button
-          htmlType="button"
-          style={{ margin: "0 12px 12px 0" }}
-          disabled={!this.selectedRowKey}
-          onClick={this.deleteSelectedRow}
-          type="default"
-        >
-          <FormattedMessage id="common.remove" />
-        </Button>
-      </EntityPermAccessControl>
-    ];
-
-    return (
-      <DataTable
-        dataCollection={this.dataCollection}
-        fields={this.fields}
-        onRowSelectionChange={this.handleRowSelectionChange}
-        hideSelectionColumn={true}
-        buttons={buttons}
-      />
-    );
-  }
-
-  getRecordById(id: string): SerializedEntity<BoringStringIdTestEntity> {
-    const record:
-      | SerializedEntity<BoringStringIdTestEntity>
-      | undefined = this.dataCollection.items.find(
-      record => getStringId(record.id!) === id
-    );
-
-    if (!record) {
-      throw new Error("Cannot find entity with id " + id);
-    }
-
-    return record;
-  }
-
-  handleRowSelectionChange = (selectedRowKeys: string[]) => {
-    this.selectedRowKey = selectedRowKeys[0];
-  };
-
-  deleteSelectedRow = () => {
-    this.showDeletionDialog(this.getRecordById(this.selectedRowKey!));
-  };
-}
-
-const BoringStringIdMgtTableBrowse = injectIntl(
-  injectMainStore(observer(BoringStringIdMgtTableBrowseComponent))
-);
-
-export default observer(() => {
-  const screens = React.useContext(ScreensContext);
-
-  return <BoringStringIdMgtTableBrowse screens={screens} />;
+  return (
+    <DataTable
+      items={items}
+      total={total}
+      current={store.pagination?.current}
+      pageSize={store.pagination?.pageSize}
+      entityName={ENTITY_NAME}
+      loading={loading}
+      error={error}
+      columnDefinitions={FIELDS}
+      onRowSelectionChange={handleRowSelectionChange}
+      onFilterChange={handleFilterChange}
+      onSortOrderChange={handleSortOrderChange}
+      onPaginationChange={handlePaginationChange}
+      hideSelectionColumn={true}
+      buttons={buttons}
+    />
+  );
 });
+
+export default BoringStringIdMgtTableBrowse;
