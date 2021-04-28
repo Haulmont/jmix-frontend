@@ -1,11 +1,14 @@
 import { makeObservable, observable } from 'mobx';
 import React from 'react';
+import { Screens } from './Screens';
+import { redirect } from './Router';
 
 
 export interface IMultiTabItem {
   title: string;
   content: React.ReactNode;
   key: string;
+  screensInTab?: Screens;
 }
 
 /**
@@ -64,9 +67,10 @@ export class Tabs {
    */
   close = (tabToRemove: IMultiTabItem) => {
     const switchTab = this.currentTab === tabToRemove && this.tabs.length > 1;
+    const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      this.currentTab = this.tabs[this.tabs.length - 1];
+      this.currentTab = this.tabs[removedTabIndex];
     }
   };
 
@@ -76,6 +80,18 @@ export class Tabs {
    */
   setActiveTab = (activeTab: IMultiTabItem) => {
     this.currentTab = activeTab;
+
+    if (activeTab.screensInTab) {
+      let url = activeTab.screensInTab.currentRootPageData.menuPath;
+      if (activeTab.screensInTab.screens.length > 1) {
+        const secondScreen = activeTab.screensInTab.screens[1];
+        if (secondScreen.params?.entityId) {
+          url += '/' + secondScreen.params?.entityId;
+        }
+      }
+
+      redirect(url);
+    }
   };
 }
 

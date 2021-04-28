@@ -21,6 +21,7 @@ export class Screens {
   props: IMultiScreenProps = null!;
   currentRootPageData = {
     title: '',
+    menuPath: '',
   };
   @observable.ref screens: IMultiScreenItem[] = [];
   @observable.ref currentScreen: IMultiScreenItem = null!;
