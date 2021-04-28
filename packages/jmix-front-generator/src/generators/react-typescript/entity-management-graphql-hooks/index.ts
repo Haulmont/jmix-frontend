@@ -2,7 +2,7 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {componentOptionsConfig} from "../../../common/cli-options";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {getAnswersFromPrompt, allQuestions, EntityManagementAnswers } from "./answers";
-import * as path from "path";
+import path from "path";
 import {EntityManagementTemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";

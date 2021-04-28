@@ -21,8 +21,8 @@ const ROUTING_PATH = "/datatypes2Management";
 const LOAD_SCR_DATATYPESTESTENTITY2 = gql`
   query scr_DatatypesTestEntity2ById($id: String!) {
     scr_DatatypesTestEntity2ById(id: $id) {
-      _instanceName
       id
+      _instanceName
     }
   }
 `;

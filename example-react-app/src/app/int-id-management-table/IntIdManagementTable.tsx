@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import IntIdMgtTableEdit from "./IntIdMgtTableEdit";
 import IntIdMgtTableBrowse from "./IntIdMgtTableBrowse";
 import {

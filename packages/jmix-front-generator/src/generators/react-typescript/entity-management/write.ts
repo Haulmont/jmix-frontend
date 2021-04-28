@@ -8,9 +8,9 @@ import {
   writeManagementComponent
 } from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management";
 import {writeComponentI18nMessages} from "../../../building-blocks/stages/writing/pieces/i18n";
-import * as entityManagementEn from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-en.json";
-import * as entityManagementFr from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-fr.json";
-import * as entityManagementRu from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-ru.json";
+import entityManagementEn from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-en.json";
+import entityManagementFr from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-fr.json";
+import entityManagementRu from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-ru.json";
 import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
 
 

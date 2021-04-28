@@ -1,8 +1,8 @@
-import * as path from "path";
+import path from "path";
 import {exportProjectModel, getOpenedCubaProjects, normalizeSecret} from "../common/studio/studio-integration";
 import {expect} from "chai";
 import nock = require('nock');
-import * as fs from 'fs';
+import fs from 'fs';
 
 
 describe('studio-integration', function () {

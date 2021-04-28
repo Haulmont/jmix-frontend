@@ -19,7 +19,7 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
-const FIELDS = ["identifier", "description"];
+const FIELDS = ["id", "description"];
 
 const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
   query scr_WeirdStringIdTestEntityList(

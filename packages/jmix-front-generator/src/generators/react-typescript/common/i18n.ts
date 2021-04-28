@@ -1,4 +1,4 @@
-import * as path from 'path';
+import path from 'path';
 import {MemFsEditor} from "yeoman-generator";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../common/utils";
 import {Locale} from '../../../common/model/cuba-model';

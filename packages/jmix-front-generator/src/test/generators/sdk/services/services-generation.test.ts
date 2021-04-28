@@ -2,7 +2,7 @@ import {createService, generateServices} from "../../../../building-blocks/stage
 import {renderTSNodes} from "../../../../common/ts-helpers";
 import {collectMethods} from "../../../../building-blocks/stages/writing/pieces/sdk/services/method-params-type";
 import {RestService} from "../../../../common/model/cuba-model";
-import * as assert from "assert";
+import assert from "assert";
 import {assertContent, modelCtx} from "../../../test-commons";
 
 const servicesModel: RestService[] = require('../../../fixtures/service-model.json');

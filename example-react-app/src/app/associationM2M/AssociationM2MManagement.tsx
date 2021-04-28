@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import AssociationM2MEdit from "./AssociationM2MEdit";
 import AssociationM2MBrowse from "./AssociationM2MBrowse";
 import {

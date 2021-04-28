@@ -22,8 +22,8 @@ const ROUTING_PATH = "/intIdManagementCards";
 const LOAD_SCR_INTEGERIDTESTENTITY = gql`
   query scr_IntegerIdTestEntityById($id: String!) {
     scr_IntegerIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       description
     }
   }

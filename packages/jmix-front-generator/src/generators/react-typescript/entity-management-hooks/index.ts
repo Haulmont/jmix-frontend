@@ -1,5 +1,5 @@
 import {ComponentOptions, componentOptionsConfig} from "../../../common/cli-options";
-import * as path from "path";
+import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {allQuestions, Answers, getAnswersFromPrompt} from "../entity-management/answers";
 import { Options } from "../entity-management/options";

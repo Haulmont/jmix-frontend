@@ -1,5 +1,5 @@
-import * as Base from "yeoman-generator";
-import * as path from "path";
+import Base from "yeoman-generator";
+import path from "path";
 import {CommonGenerationOptions, commonGenerationOptionsConfig, OptionsConfig} from "./cli-options";
 import {
   EntityInfo,
@@ -10,7 +10,7 @@ import {
   ViewInfo
 } from "./studio/studio-model";
 import {fromStudioProperties} from "./questions";
-import * as fs from "fs";
+import fs from "fs";
 import {ProjectModel} from "./model/cuba-model";
 import {findEntity, findQuery, findServiceMethod, findView} from "./model/cuba-model-utils";
 import {
@@ -19,7 +19,7 @@ import {
   ERR_STUDIO_NOT_CONNECTED,
   StudioProjectInfo
 } from './studio/studio-integration';
-import * as AutocompletePrompt from 'inquirer-autocomplete-prompt';
+import AutocompletePrompt from 'inquirer-autocomplete-prompt';
 import through2 = require('through2');
 import prettier = require('prettier');
 

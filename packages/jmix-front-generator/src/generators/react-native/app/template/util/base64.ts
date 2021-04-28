@@ -1,4 +1,4 @@
-import * as base64 from 'base-64';
+import base64 from 'base-64';
 
 declare const global;
 export function registerBase64() {

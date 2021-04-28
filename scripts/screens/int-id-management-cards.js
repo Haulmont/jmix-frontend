@@ -1,6 +1,7 @@
-{
-  "editAttributes": "description",
-  "listAttributes": "description",
+const queries = require('../model/graphql/intIdEntity');
+
+module.exports = {
+  ...queries,
   "editComponentName": "IntIdMgtCardsEdit",
   "listComponentName": "IntIdMgtCardsBrowse",
   "listType": "cards",
@@ -8,4 +9,4 @@
     "name": "scr_IntegerIdTestEntity"
   },
   "managementComponentName": "int-id-management-cards"
-}
+};

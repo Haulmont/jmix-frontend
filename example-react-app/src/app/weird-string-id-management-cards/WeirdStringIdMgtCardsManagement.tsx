@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import WeirdStringIdMgtCardsEdit from "./WeirdStringIdMgtCardsEdit";
 import WeirdStringIdMgtCardsBrowse from "./WeirdStringIdMgtCardsBrowse";
 import {

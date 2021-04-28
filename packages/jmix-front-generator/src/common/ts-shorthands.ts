@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 import {ParameterDeclaration, StringLiteral} from "typescript";
 
 export function param(name: string, typeName: string): ParameterDeclaration {

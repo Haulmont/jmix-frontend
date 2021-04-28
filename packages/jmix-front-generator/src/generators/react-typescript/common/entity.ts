@@ -45,14 +45,14 @@ export function getDisplayedAttributes(
 ): EntityAttribute[] {
   return viewProperties.reduce((attrArr: EntityAttribute[], prop) => {
     const attr = collectAttributesFromHierarchy(entity, projectModel).find(ea => ea.name === prop.name);
-    if (attr && isDisplayedAttribute(attr, screenType)) {
+    if (attr && isDisplayedAttribute(attr, screenType, entity)) {
       attrArr.push(attr);
     }
     return attrArr;
   }, []);
 }
 
-function isDisplayedAttribute(attr: EntityAttribute, screenType: ScreenType) {
+function isDisplayedAttribute(attr: EntityAttribute, screenType: ScreenType, entity: EntityTemplateModel) {
   if (screenType === ScreenType.BROWSER) {
     // Do not display many to many associations in browser
     if (attr.mappingType === 'ASSOCIATION' && attr.cardinality === "MANY_TO_MANY") {
@@ -71,8 +71,14 @@ function isDisplayedAttribute(attr: EntityAttribute, screenType: ScreenType) {
   }
 
   // Do not display byte arrays
-  // noinspection RedundantIfStatementJS
   if (attr.mappingType === 'DATATYPE' && attr.type?.fqn === 'byte[]') {
+    return false;
+  }
+
+  // Do not display id attribute unless it is a String ID entity
+  // TODO currently doesn't check for String ID entity
+  // noinspection RedundantIfStatementJS
+  if (attr.name === entity.idAttributeName) {
     return false;
   }
 

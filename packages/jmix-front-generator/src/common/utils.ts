@@ -1,5 +1,5 @@
-import * as Base from "yeoman-generator";
-import * as path from "path";
+import Base from "yeoman-generator";
+import path from "path";
 import {Entity} from "./model/cuba-model";
 
 /**

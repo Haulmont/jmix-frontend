@@ -22,8 +22,8 @@ const ROUTING_PATH = "/carManagement2";
 const LOAD_SCR_CAR = gql`
   query scr_CarById($id: String!) {
     scr_CarById(id: $id) {
-      _instanceName
       id
+      _instanceName
       manufacturer
       model
       regNumber
@@ -178,22 +178,6 @@ const CarEdit2 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="mileage"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="garage"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="technicalCertificate"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

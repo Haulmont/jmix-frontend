@@ -51,6 +51,8 @@
     "@types/through2": "^2.0.33",
     "@types/yeoman-generator": "^2.0.3",
     "chai": "^4.2.0",
+    "graphql": "^15.4.0",
+    "graphql-tag": "^2.11.0",
     "mocha": "^6.2.3",
     "nock": "^12.0.3",
     "nyc": "^15.0.0",

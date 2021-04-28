@@ -20,13 +20,10 @@ export interface EntityManagementAnswers extends StringIdAnswers {
   entity: EntityWithPath,
   managementComponentName: string,
   listType: ListTypes,
-  listView: View,
   listComponentName: string,
-  listAttributes: string,
   editComponentName: string,
-  editAttributes: string,
-  editView: View,
-  nestedEntityInfo?: Record<string, string>
+  listQuery: string,
+  editQuery: string,
 }
 
 export const allQuestions: StudioTemplateProperty[] = [

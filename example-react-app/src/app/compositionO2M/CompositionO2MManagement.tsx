@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import CompositionO2MEdit from "./CompositionO2MEdit";
 import CompositionO2MBrowse from "./CompositionO2MBrowse";
 import {

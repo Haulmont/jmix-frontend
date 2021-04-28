@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import StringIdMgtCardsEdit from "./StringIdMgtCardsEdit";
 import StringIdMgtCardsBrowse from "./StringIdMgtCardsBrowse";
 import {

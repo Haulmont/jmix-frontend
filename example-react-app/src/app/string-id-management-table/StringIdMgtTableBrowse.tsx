@@ -19,7 +19,7 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_StringIdTestEntity";
 const ROUTING_PATH = "/stringIdMgtTableManagement";
 
-const FIELDS = ["identifier", "description", "productCode"];
+const FIELDS = ["description", "productCode"];
 
 const SCR_STRINGIDTESTENTITY_LIST = gql`
   query scr_StringIdTestEntityList(

@@ -1,10 +1,10 @@
 import {Entity, Enum} from "../common/model/cuba-model";
 import {ProjectEntityInfo} from "../building-blocks/stages/writing/pieces/sdk/model/entities-generation"
-import * as assert from "assert";
+import assert from "assert";
 import {collectModelContext, ModelContext} from "../building-blocks/stages/writing/pieces/sdk/model/model-utils"
-import * as fs from "fs";
+import fs from "fs";
 import prettier = require('prettier');
-import * as path from "path";
+import path from "path";
 import {deprecate} from "util";
 import {strictEqual} from "assert";
 

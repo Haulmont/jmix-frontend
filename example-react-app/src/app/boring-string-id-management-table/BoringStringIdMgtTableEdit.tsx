@@ -22,8 +22,8 @@ const ROUTING_PATH = "/boringStringIdManagementTable";
 const LOAD_SCR_BORINGSTRINGIDTESTENTITY = gql`
   query scr_BoringStringIdTestEntityById($id: String!) {
     scr_BoringStringIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       description
     }
   }

@@ -1,6 +1,6 @@
 import {RestQuery} from "../../../../../../common/model/cuba-model";
 import {collectMethods, createMethodParamsType, MethodWithOverloads} from "./method-params-type";
-import * as ts from "typescript";
+import ts from "typescript";
 import {ImportDeclaration, PropertyAssignment, TypeAliasDeclaration, TypeNode} from "typescript";
 import {createIncludes, entityImportInfo, importDeclaration, ImportInfo} from "../import-utils";
 import {CreateItemResult, cubaAppCallFunc} from "./services-generation";

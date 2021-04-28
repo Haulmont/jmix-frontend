@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import {promisify} from "util";
 import {generate} from '../../../init';
 import {assertFiles, opts} from '../../test-commons';

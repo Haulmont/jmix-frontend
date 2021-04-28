@@ -1,11 +1,11 @@
 import {CommonGenerationOptions} from "../../../common/cli-options";
-import * as fs from "fs";
+import fs from "fs";
 import {
   ERR_STUDIO_NOT_CONNECTED, exportProjectModel,
   getOpenedCubaProjects,
   StudioProjectInfo
 } from "../../../common/studio/studio-integration";
-import * as path from "path";
+import path from "path";
 import {YeomanGenerator} from "../../YeomanGenerator";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {throwError} from "../../../common/utils";

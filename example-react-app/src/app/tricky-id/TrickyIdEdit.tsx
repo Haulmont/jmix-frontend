@@ -22,8 +22,8 @@ const ROUTING_PATH = "/trickyIdMgr";
 const LOAD_SCR_TRICKYIDTESTENTITY = gql`
   query scr_TrickyIdTestEntityById($id: String!) {
     scr_TrickyIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       otherAttr
     }
   }

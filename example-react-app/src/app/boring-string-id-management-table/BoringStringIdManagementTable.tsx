@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import BoringStringIdMgtTableEdit from "./BoringStringIdMgtTableEdit";
 import BoringStringIdMgtTableBrowse from "./BoringStringIdMgtTableBrowse";
 import {

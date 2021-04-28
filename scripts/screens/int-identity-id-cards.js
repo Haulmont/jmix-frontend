@@ -1,4 +1,4 @@
-{
+module.exports = {
   "entity": {
     "name": "scr_IntIdentityIdTestEntity"
   },
@@ -7,4 +7,4 @@
     "name": "_local",
     "entityName": "scr_IntIdentityIdTestEntity"
   }
-}
+};

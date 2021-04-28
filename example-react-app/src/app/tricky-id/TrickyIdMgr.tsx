@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import TrickyIdEdit from "./TrickyIdEdit";
 import TrickyIdList from "./TrickyIdList";
 import {

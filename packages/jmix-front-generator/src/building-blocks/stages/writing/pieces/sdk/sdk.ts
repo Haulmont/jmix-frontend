@@ -1,4 +1,4 @@
-import * as path from "path";
+import path from "path";
 import {generateEntities} from "./model/entities-generation";
 import {generateServices} from "./services/services-generation";
 import {generateQueries} from "./services/queries-generation";

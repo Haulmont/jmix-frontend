@@ -22,8 +22,8 @@ const ROUTING_PATH = "/weirdStringIdMgtListManagement";
 const LOAD_SCR_WEIRDSTRINGIDTESTENTITY = gql`
   query scr_WeirdStringIdTestEntityById($id: String!) {
     scr_WeirdStringIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       identifier
       description
     }
@@ -88,10 +88,9 @@ const WeirdStringIdMgtListEdit = observer(() => {
       >
         <Field
           entityName={ENTITY_NAME}
-          propertyName="identifier"
+          propertyName="id"
           formItemProps={{
-            style: { marginBottom: "12px" },
-            rules: [{ required: true }]
+            style: { marginBottom: "12px" }
           }}
         />
 

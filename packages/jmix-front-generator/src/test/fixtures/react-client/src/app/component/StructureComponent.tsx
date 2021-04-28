@@ -1,5 +1,5 @@
 import { Row, Col, Card } from "antd";
-import * as React from "react";
+import React from "react";
 
 export class StructureComponent extends React.Component {
   render() {

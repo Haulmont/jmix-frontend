@@ -2,7 +2,7 @@ import {BaseGenerator} from '../../../common/base-generator';
 import {ProjectInfo} from '../../../common/model/cuba-model';
 import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
 import {CommonGenerationOptions, commonGenerationOptionsConfig} from '../../../common/cli-options';
-import * as path from "path";
+import path from "path";
 import {normalizeSecret} from "../../../common/studio/studio-integration";
 
 interface ReactNativeAnswers {
