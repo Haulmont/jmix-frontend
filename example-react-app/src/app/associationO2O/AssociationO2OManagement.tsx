@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import AssociationO2OEdit from "./AssociationO2OEdit";
 import AssociationO2OBrowse from "./AssociationO2OBrowse";
 import {

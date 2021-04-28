@@ -22,8 +22,8 @@ const ROUTING_PATH = "/compositionO2OManagement";
 const LOAD_SCR_COMPOSITIONO2OTESTENTITY = gql`
   query scr_CompositionO2OTestEntityById($id: String!) {
     scr_CompositionO2OTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       name
     }
   }

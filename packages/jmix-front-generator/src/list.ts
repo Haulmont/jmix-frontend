@@ -1,6 +1,6 @@
 import {GeneratedClientInfo} from "./init";
-import * as fs from "fs";
-import * as path from "path";
+import fs from "fs";
+import path from "path";
 
 export function exportList(clients: GeneratedClientInfo[], {save}: { save?: string}) {
   const data = JSON.stringify(clients);

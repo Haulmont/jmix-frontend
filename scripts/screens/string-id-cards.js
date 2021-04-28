@@ -1,4 +1,4 @@
-{
+module.exports = {
   "entity": {
     "name": "scr_StringIdTestEntity"
   },
@@ -9,4 +9,4 @@
   },
   "listShowIdAttr": true,
   "listIdAttrPos": 1
-}
+};

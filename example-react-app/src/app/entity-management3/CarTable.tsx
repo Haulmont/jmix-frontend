@@ -31,8 +31,6 @@ const FIELDS = [
   "maxPassengers",
   "price",
   "mileage",
-  "garage",
-  "technicalCertificate",
   "photo"
 ];
 

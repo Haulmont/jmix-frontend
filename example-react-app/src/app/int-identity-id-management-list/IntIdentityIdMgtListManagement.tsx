@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import IntIdentityIdMgtListEdit from "./IntIdentityIdMgtListEdit";
 import IntIdentityIdMgtListBrowse from "./IntIdentityIdMgtListBrowse";
 import {

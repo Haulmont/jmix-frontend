@@ -1,8 +1,8 @@
-import * as assert from "assert";
+import assert from "assert";
 import {generate} from "../../../init";
-import * as path from "path";
+import path from "path";
 import {promisify} from "util";
-import * as fs from "fs";
+import fs from "fs";
 import {assertFilesPlain, opts} from '../../test-commons';
 
 const rimraf = promisify(require('rimraf'));

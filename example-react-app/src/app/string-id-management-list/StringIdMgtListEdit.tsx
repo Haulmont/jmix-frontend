@@ -22,8 +22,8 @@ const ROUTING_PATH = "/stringIdMgtListManagement";
 const LOAD_SCR_STRINGIDTESTENTITY = gql`
   query scr_StringIdTestEntityById($id: String!) {
     scr_StringIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       identifier
       description
       productCode
@@ -85,15 +85,6 @@ const StringIdMgtListEdit = observer(() => {
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="identifier"
-          formItemProps={{
-            style: { marginBottom: "12px" },
-            rules: [{ required: true }]
-          }}
-        />
-
         <Field
           entityName={ENTITY_NAME}
           propertyName="description"

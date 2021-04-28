@@ -4,7 +4,7 @@ import {assertContent, createTestProjectEntityInfo, modelCtx} from "../../../tes
 import {createQuery, generateQueries} from "../../../../building-blocks/stages/writing/pieces/sdk/services/queries-generation";
 import {cubaAppCallFunc} from "../../../../building-blocks/stages/writing/pieces/sdk/services/services-generation";
 import {TypeNode} from "typescript";
-import * as ts from "typescript";
+import ts from "typescript";
 
 const queriesModelCar: RestQuery[] = require('../../../fixtures/query-model-car.json');
 const queriesModelFull: RestQuery[] = require('../../../fixtures/query-model-full.json');

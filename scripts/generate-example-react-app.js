@@ -1,28 +1,25 @@
 const gen = require('./generate-client-scr');
 
 const clientDir = 'example-react-app';
-const answers = require('./model/example-react-app-answers.json');
-const intIdentityIdCardsConfig = require('./screens/int-identity-id-cards.json');
-const intIdentityIdManagementTableConfig = require('./screens/int-identity-id-management-table.json');
-const intIdentityIdManagementCardsConfig = require('./screens/int-identity-id-management-cards.json');
-const intIdentityIdManagementListConfig = require('./screens/int-identity-id-management-list.json');
-const intIdManagementTableConfig = require('./screens/int-id-management-table.json');
-const intIdManagementCardsConfig = require('./screens/int-id-management-cards.json');
-const intIdManagementListConfig = require('./screens/int-id-management-list.json');
-const stringIdCardsConfig = require('./screens/string-id-cards.json');
-const stringIdManagementTableConfig = require('./screens/string-id-management-table.json');
-const stringIdManagementCardsConfig = require('./screens/string-id-management-cards.json');
-const stringIdManagementListConfig = require('./screens/string-id-management-list.json');
-const weirdStringIdManagementTableConfig = require('./screens/weird-string-id-management-table.json');
-const weirdStringIdManagementCardsConfig = require('./screens/weird-string-id-management-cards.json');
-const weirdStringIdManagementListConfig = require('./screens/weird-string-id-management-list.json');
-const boringStringIdManagementTableConfig = require('./screens/boring-string-id-management-table.json');
-const trickyIdConfig = require('./screens/tricky-id-list.json');
-const carCardsGridConfig = require('./screens/car-cards-grid.json');
-const structureConfig = require('./screens/structure.json');
-const graphQLListConfig = require('./screens/graphql-list.json');
-const graphQLCardsConfig = require('./screens/graphql-cards.json');
-// const graphQLTableConfig = require('./screens/graphql-table.json');
+const answers = require('./model/example-react-app-answers.js');
+const intIdentityIdCardsConfig = require('./screens/int-identity-id-cards.js');
+const intIdentityIdManagementTableConfig = require('./screens/int-identity-id-management-table.js');
+const intIdentityIdManagementCardsConfig = require('./screens/int-identity-id-management-cards.js');
+const intIdentityIdManagementListConfig = require('./screens/int-identity-id-management-list.js');
+const intIdManagementTableConfig = require('./screens/int-id-management-table.js');
+const intIdManagementCardsConfig = require('./screens/int-id-management-cards.js');
+const intIdManagementListConfig = require('./screens/int-id-management-list.js');
+const stringIdCardsConfig = require('./screens/string-id-cards.js');
+const stringIdManagementTableConfig = require('./screens/string-id-management-table.js');
+const stringIdManagementCardsConfig = require('./screens/string-id-management-cards.js');
+const stringIdManagementListConfig = require('./screens/string-id-management-list.js');
+const weirdStringIdManagementTableConfig = require('./screens/weird-string-id-management-table.js');
+const weirdStringIdManagementCardsConfig = require('./screens/weird-string-id-management-cards.js');
+const weirdStringIdManagementListConfig = require('./screens/weird-string-id-management-list.js');
+const boringStringIdManagementTableConfig = require('./screens/boring-string-id-management-table.js');
+const trickyIdConfig = require('./screens/tricky-id-list.js');
+const carCardsGridConfig = require('./screens/car-cards-grid.js');
+const structureConfig = require('./screens/structure.js');
 const dirShift = '../../';
 
 gen(
@@ -92,19 +89,6 @@ gen(
         dirShift,
         dest: 'src/app/datatypes-test3',
         answers: answers.datatypesTest3
-      },
-      // GraphQL template
-      {
-        command: 'react-typescript:entity-management-graphql-hooks-graphql-hooks',
-        dirShift,
-        dest: 'src/app/graphql',
-        answers: graphQLListConfig
-      },
-      {
-        command: 'react-typescript:entity-management-graphql-hooks-graphql-hooks',
-        dirShift,
-        dest: 'src/app/graphql-cards',
-        answers: graphQLCardsConfig
       },
       // Relations
       {

@@ -1,7 +1,7 @@
 import {exportList} from "../list";
 import {promisify} from "util";
 import {GeneratedClientInfo} from "../init";
-import * as fs from "fs";
+import fs from "fs";
 import {expect} from "chai";
 
 const rimraf = promisify(require('rimraf'));

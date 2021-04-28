@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import CarEdit from "./CarEdit";
 import CarCards from "./CarCards";
 import {

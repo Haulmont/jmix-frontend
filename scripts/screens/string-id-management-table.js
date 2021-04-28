@@ -1,6 +1,7 @@
-{
-  "editAttributes": "identifier,description,productCode",
-  "listAttributes": "identifier,description,productCode",
+const queries = require('../model/graphql/stringIdEntity');
+
+module.exports = {
+  ...queries,
   "editComponentName": "StringIdMgtTableEdit",
   "editIdAttrPos": 1,
   "listComponentName": "StringIdMgtTableBrowse",
@@ -11,4 +12,4 @@
     "name": "scr_StringIdTestEntity"
   },
   "managementComponentName": "string-id-mgt-table-management"
-}
+};

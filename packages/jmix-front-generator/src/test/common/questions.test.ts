@@ -1,5 +1,5 @@
 import {fromStudioProperty, ObjectChoice} from "../../common/questions";
-import * as projectModel from '../fixtures/mpg-projectModel.json';
+import projectModel from '../fixtures/mpg-projectModel.json';
 import {StudioTemplatePropertyType} from '../../common/studio/studio-model';
 import { expect } from "chai";
 

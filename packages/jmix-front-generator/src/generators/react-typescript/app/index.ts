@@ -1,5 +1,5 @@
 import {ComponentOptions, commonGenerationOptionsConfig} from "../../../common/cli-options";
-import * as path from "path";
+import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Answers, getAnswersFromPrompt, allQuestions} from "./answers";
 import {Options} from "./options";

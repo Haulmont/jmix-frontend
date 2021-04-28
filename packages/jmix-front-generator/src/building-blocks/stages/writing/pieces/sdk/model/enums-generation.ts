@@ -1,5 +1,5 @@
 import {Enum, EnumValue} from "../../../../../../common/model/cuba-model";
-import * as ts from "typescript";
+import ts from "typescript";
 import {EnumDeclaration, EnumMember} from "typescript";
 import {fqnToName} from "../../../../../../common/utils";
 

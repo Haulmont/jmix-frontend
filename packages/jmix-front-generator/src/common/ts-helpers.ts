@@ -1,4 +1,4 @@
-import * as ts from "typescript";
+import ts from "typescript";
 
 export function renderTSNodes(nodes: ts.Node[], separator: string = '\n'): string {
   const resultFile = ts.createSourceFile(

@@ -1,4 +1,4 @@
-import * as React from "react";
+import React from "react";
 import Datatypes2Edit from "./Datatypes2Edit";
 import Datatypes2Browse from "./Datatypes2Browse";
 import {

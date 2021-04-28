@@ -1,7 +1,7 @@
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {YeomanGenerator} from "../../YeomanGenerator";
-import * as path from "path";
-import * as AutocompletePrompt from "inquirer-autocomplete-prompt";
+import path from "path";
+import AutocompletePrompt from "inquirer-autocomplete-prompt";
 import through2 = require('through2');
 import prettier = require('prettier');
 

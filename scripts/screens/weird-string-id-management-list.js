@@ -1,6 +1,7 @@
-{
-  "editAttributes": "identifier,description",
-  "listAttributes": "identifier,description",
+const queries = require('../model/graphql/weirdStringIdEntity');
+
+module.exports = {
+  ...queries,
   "editComponentName": "WeirdStringIdMgtListEdit",
   "editIdAttrPos": 1,
   "listComponentName": "WeirdStringIdMgtListBrowse",
@@ -11,4 +12,4 @@
     "name": "scr_WeirdStringIdTestEntity"
   },
   "managementComponentName": "weird-string-id-mgt-list-management"
-}
+};

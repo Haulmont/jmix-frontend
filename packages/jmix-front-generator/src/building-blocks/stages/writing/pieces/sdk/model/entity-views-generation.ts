@@ -1,5 +1,5 @@
 import {Entity, EntityAttribute, ProjectModel, View} from "../../../../../../common/model/cuba-model";
-import * as ts from "typescript";
+import ts from "typescript";
 import {LiteralTypeNode} from "typescript";
 import {collectAttributesFromHierarchy} from '../../../../../../common/model/cuba-model-utils';
 

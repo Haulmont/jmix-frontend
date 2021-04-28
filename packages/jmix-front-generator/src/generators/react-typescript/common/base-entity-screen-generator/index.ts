@@ -1,4 +1,4 @@
-import * as Base from "yeoman-generator";
+import Base from "yeoman-generator";
 import {BaseEntityScreenAnswers} from './params';
 import {Entity, EntityAttribute, ProjectModel} from '../../../../common/model/cuba-model';
 import {collectAttributesFromHierarchy, findEntity} from '../../../../common/model/cuba-model-utils';

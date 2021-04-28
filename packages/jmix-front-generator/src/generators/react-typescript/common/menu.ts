@@ -1,5 +1,5 @@
-import * as path from "path";
-import * as Generator from "yeoman-generator";
+import path from "path";
+import Generator from "yeoman-generator";
 import {convertToUnixPath} from "../../../common/utils";
 
 interface AddToMenuOpts {

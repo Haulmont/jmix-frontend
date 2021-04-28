@@ -4,7 +4,7 @@ import {ERR_STUDIO_NOT_CONNECTED, StudioProjectInfo} from "../../common/studio/s
 import {expect} from "chai";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../common/studio/studio-model";
 import {Entity, ProjectModel} from "../../common/model/cuba-model";
-import * as Generator from "yeoman-generator";
+import Generator from "yeoman-generator";
 import YeomanEnvironment = require("yeoman-environment");
 
 interface Answers {

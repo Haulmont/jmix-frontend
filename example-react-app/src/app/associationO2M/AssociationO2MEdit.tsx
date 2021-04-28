@@ -22,8 +22,8 @@ const ROUTING_PATH = "/associationO2MManagement";
 const LOAD_SCR_ASSOCIATIONO2MTESTENTITY = gql`
   query scr_AssociationO2MTestEntityById($id: String!) {
     scr_AssociationO2MTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       name
     }
   }

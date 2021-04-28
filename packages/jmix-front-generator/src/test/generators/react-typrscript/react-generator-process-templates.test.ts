@@ -1,10 +1,10 @@
-import * as path from "path";
-import * as Base from "yeoman-generator";
-import * as YeomanEnvironment from "yeoman-environment";
-import * as fs from 'fs';
+import path from "path";
+import Base from "yeoman-generator";
+import YeomanEnvironment from "yeoman-environment";
+import fs from 'fs';
 import {promisify} from "util";
 import {format} from '../../test-commons';
-import * as assert from 'assert';
+import assert from 'assert';
 
 const rimraf = promisify(require('rimraf'));
 

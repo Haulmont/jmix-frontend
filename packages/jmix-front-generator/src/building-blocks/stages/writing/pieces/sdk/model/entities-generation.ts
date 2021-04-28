@@ -1,7 +1,7 @@
 import {Entity, EntityAttribute, ProjectModel} from "../../../../../../common/model/cuba-model";
-import * as Generator from "yeoman-generator";
-import * as path from "path";
-import * as ts from "typescript";
+import Generator from "yeoman-generator";
+import path from "path";
+import ts from "typescript";
 import {EnumDeclaration} from "typescript";
 import {renderTSNodes} from "../../../../../../common/ts-helpers";
 import {createEntityViewTypes} from "./entity-views-generation";

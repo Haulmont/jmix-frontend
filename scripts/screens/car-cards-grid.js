@@ -1,4 +1,4 @@
-{
+module.exports = {
     "componentName": "CarCardsGrid",
     "entity": {
         "name": "scr$Car"
@@ -8,4 +8,4 @@
         "entityName": "scr$Car"
       },
     "cardsInRow": "3 columns"
-}
+};

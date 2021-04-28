@@ -1,5 +1,5 @@
 import {RestService} from "../../../../../../common/model/cuba-model";
-import * as ts from "typescript";
+import ts from "typescript";
 import {
   ArrowFunction,
   ConciseBody,

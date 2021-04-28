@@ -22,8 +22,8 @@ const ROUTING_PATH = "/intIdentityIdMgtTableManagement";
 const LOAD_SCR_INTIDENTITYIDTESTENTITY = gql`
   query scr_IntIdentityIdTestEntityById($id: String!) {
     scr_IntIdentityIdTestEntityById(id: $id) {
-      _instanceName
       id
+      _instanceName
       description
     }
   }

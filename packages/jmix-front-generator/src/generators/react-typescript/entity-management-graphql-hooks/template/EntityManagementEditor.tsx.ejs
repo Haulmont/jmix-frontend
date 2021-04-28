@@ -28,26 +28,7 @@ const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   query <%= dollarsToUnderscores(entity.name) %>ById($id: String!) {
-    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) {
-      _instanceName
-      id
-      <% editAttributes.forEach(p => { -%>
-        <% if (p.mappingType === 'ASSOCIATION' || p.mappingType === 'COMPOSITION') { -%>
-        <% } else { -%>
-          <%= p.name -%>
-        <% } -%>
-      <% }) %>
-    }
-
-    <%# TODO support relation types -%>
-    <% /* %>
-    <% editAssociatedEntityClassNames.forEach(nestedEntityClassName => { -%>
-      <%= unCapitalizeFirst(nestedEntityClassName) %>List {
-        id
-        instanceName
-      }
-    <% }) %>
-    <% */ %>
+    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) <%= editQuery -%>
   }
 `;
 

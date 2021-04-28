@@ -7,11 +7,11 @@ import {
   EntityManagementCommonTemplateModel
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/common";
 import {
-  deriveEditAttributesFromStringAnswer,
+  deriveEditAttributesFromQuery,
   EditAttributesTemplateModel
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/edit-attributes";
 import {
-  deriveListAttributesFromStringAnswer,
+  deriveListAttributesFromQuery,
   ListAttributesTemplateModel
 } from "../../../building-blocks/stages/template-model/pieces/entity-browser/browser";
 import {
@@ -27,7 +27,16 @@ import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/sta
 import {EntityManagementAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
-export type EntityManagementTemplateModel = CommonTemplateModel & UtilTemplateModel & {
+export type EntityManagementQueryTemplateModel = {
+  listQuery: string;
+  editQuery: string;
+};
+
+export type EntityManagementTemplateModel =
+  CommonTemplateModel
+  & UtilTemplateModel
+  & EntityManagementQueryTemplateModel
+  & {
   listComponentClass: string;
   editComponentClass: string;
   listType: ListTypes;
@@ -40,7 +49,6 @@ export type EntityManagementTemplateModel = CommonTemplateModel & UtilTemplateMo
   editCompositions: EditRelations;
   editAssociations: EditRelations;
   editAssociatedEntityClassNames: string[];
-  nestedEntityInfo?: Record<string, string>;
   relationImports: RelationImport[];
 };
 
@@ -51,14 +59,16 @@ export const deriveTemplateModel = async (
   type PartialModel =
     & EntityTemplateModel
     & EntityManagementCommonTemplateModel<ListTypes>
+    & EntityManagementQueryTemplateModel
     & ListAttributesTemplateModel
     & EditAttributesTemplateModel;
 
   const partialModel: PartialModel = {
     ...deriveEntity(answers, projectModel),
     ...deriveEntityManagementCommon(options, answers),
-    ...deriveListAttributesFromStringAnswer(answers, projectModel),
-    ...deriveEditAttributesFromStringAnswer(answers, projectModel)
+    ...deriveQueries(answers),
+    ...deriveListAttributesFromQuery(answers, projectModel),
+    ...deriveEditAttributesFromQuery(answers, projectModel)
   };
 
   const {listAttributes, editAttributes, entity: entityWithPath} = partialModel;
@@ -81,6 +91,14 @@ export const deriveTemplateModel = async (
     ...templateUtilities
   }
 };
+
+function deriveQueries(answers: EntityManagementAnswers): {listQuery: string, editQuery: string} {
+  const {listQuery, editQuery} = answers;
+  return {
+    listQuery,
+    editQuery
+  };
+}
 
 function deriveEditAssociatedEntityClassNames(editAssociations: EditRelations): {editAssociatedEntityClassNames: string[]} {
   const editAssociatedEntityClassNames =

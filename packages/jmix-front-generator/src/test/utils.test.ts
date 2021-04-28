@@ -5,7 +5,7 @@ import {
   normalizeRelativePath,
   splitByCapitalLetter
 } from "../common/utils";
-import * as assert from "assert";
+import assert from "assert";
 import { expect } from "chai";
 
 

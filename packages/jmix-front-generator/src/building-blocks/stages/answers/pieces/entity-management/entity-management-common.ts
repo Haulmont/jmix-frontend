@@ -41,15 +41,17 @@ export const commonEntityManagementQuestions: StudioTemplateProperty[] = [
 // GraphQL
 export const displayAttributesQuestions = [
   {
-    code: 'listAttributes',
-    caption: 'Entity attributes to be displayed in the list component (comma-separated)',
+    code: 'listQuery',
+    // Subject to change, in future we might want to get the full query from Studio
+    caption: 'Part of GraphQL query representing the requested attributes graph for entity browser component',
     propertyType: StudioTemplatePropertyType.STRING,
     relatedProperty: "entity",
     required: true
   },
   {
-    code: 'editAttributes',
-    caption: 'Entity attributes to be displayed in the edit component (comma-separated)',
+    code: 'editQuery',
+    // Subject to change, in future we might want to get the full query from Studio
+    caption: 'Part of GraphQL query representing the requested attributes graph for entity editor component',
     propertyType: StudioTemplatePropertyType.STRING,
     relatedProperty: "entity",
     required: true

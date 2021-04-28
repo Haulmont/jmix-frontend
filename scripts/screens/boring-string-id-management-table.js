@@ -1,6 +1,7 @@
-{
-  "editAttributes": "description",
-  "listAttributes": "description",
+const boringStringIdEntityQueries = require('../model/graphql/boringStringIdEntity');
+
+module.exports = {
+  ...boringStringIdEntityQueries,
   "editComponentName": "BoringStringIdMgtTableEdit",
   "editIdAttrPos": 1,
   "listComponentName": "BoringStringIdMgtTableBrowse",
@@ -11,4 +12,4 @@
     "name": "scr_BoringStringIdTestEntity"
   },
   "managementComponentName": "boring-string-id-management-table"
-}
+};

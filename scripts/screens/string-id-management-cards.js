@@ -1,12 +1,9 @@
-{
-  "editAttributes": "identifier,description,productCode",
-  "listAttributes": "identifier,description,productCode",
+const queries = require('../model/graphql/stringIdEntity');
+
+module.exports = {
+  ...queries,
   "editComponentName": "StringIdMgtCardsEdit",
   "editIdAttrPos": 1,
-  "listView": {
-    "name": "_local",
-    "entityName": "scr_StringIdTestEntity"
-  },
   "listComponentName": "StringIdMgtCardsBrowse",
   "listType": "cards",
   "listShowIdAttr": true,
@@ -15,4 +12,4 @@
     "name": "scr_StringIdTestEntity"
   },
   "managementComponentName": "string-id-mgt-cards-management"
-}
+};

@@ -1,7 +1,7 @@
 import {writeComponentI18nMessages, SUPPORTED_CLIENT_LOCALES} from '../../../../generators/react-typescript/common/i18n';
 import {expect, use} from 'chai';
-import * as sinon from 'sinon';
-import * as sinonChai from 'sinon-chai';
+import sinon from 'sinon';
+import sinonChai from 'sinon-chai';
 import {Locale} from '../../../../common/model/cuba-model';
 
 use(sinonChai);

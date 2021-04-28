@@ -1,10 +1,10 @@
-import * as assert from "assert";
+import assert from "assert";
 import {generate} from "../../../init";
-import * as fs from "fs";
+import fs from "fs";
 import {promisify} from "util";
-import * as path from "path";
+import path from "path";
 import {SdkAllGenerator} from "../../../generators/sdk/all"
-import * as YeomanEnvironment from "yeoman-environment";
+import YeomanEnvironment from "yeoman-environment";
 import {expect} from "chai";
 import {ERR_STUDIO_NOT_CONNECTED} from "../../../common/studio/studio-integration";
 

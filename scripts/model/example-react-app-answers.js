@@ -1,10 +1,20 @@
-{
+const carQueries = require('./graphql/car');
+const datatypesQueries = require('./graphql/datatypesTestEntity');
+const datatypes2Queries = require('./graphql/datatypesTestEntity2');
+const datatypes3Queries = require('./graphql/datatypesTestEntity3');
+const associationM2MQueries = require('./graphql/associationM2M');
+const associationM2OQueries = require('./graphql/associationM2O');
+const associationO2MQueries = require('./graphql/associationO2M');
+const associationO2OQueries = require('./graphql/associationO2O');
+const compositionO2MQueries = require('./graphql/compositionO2M');
+const compositionO2OQueries = require('./graphql/compositionO2O');
+
+module.exports = {
   "blankComponent": {
     "componentName": "test-blank-component"
   },
   "entityManagement": {
-    "editAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
-    "listAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
+    ...carQueries,
     "editComponentName": "CarEdit",
     "listComponentName": "CarCards",
     "listType": "cards",
@@ -14,8 +24,7 @@
     "managementComponentName": "CarManagement"
   },
   "entityManagement2": {
-    "editAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
-    "listAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
+    ...carQueries,
     "editComponentName": "CarEdit2",
     "listComponentName": "CarList",
     "listType": "list",
@@ -25,8 +34,7 @@
     "managementComponentName": "CarManagement2"
   },
   "entityManagement3": {
-    "editAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
-    "listAttributes": "manufacturer,model,regNumber,purchaseDate,manufactureDate,wheelOnRight,carType,ecoRank,maxPassengers,price,mileage,garage,technicalCertificate,photo",
+    ...carQueries,
     "editComponentName": "CarEdit3",
     "listComponentName": "CarTable",
     "listType": "table",
@@ -36,8 +44,7 @@
     "managementComponentName": "car-management-3"
   },
   "datatypesTest1": {
-    "editAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
-    "listAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
+    ...datatypesQueries,
     "editComponentName": "DatatypesEdit1",
     "listComponentName": "DatatypesBrowse1",
     "listType": "cards",
@@ -51,8 +58,7 @@
     }
   },
   "datatypesTest2": {
-    "editAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
-    "listAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
+    ...datatypesQueries,
     "editComponentName": "DatatypesEdit2",
     "listComponentName": "DatatypesBrowse2",
     "listType": "list",
@@ -66,8 +72,7 @@
     }
   },
   "datatypesTest3": {
-    "editAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
-    "listAttributes": "bigDecimalAttr,booleanAttr,dateAttr,dateTimeAttr,doubleAttr,integerAttr,longAttr,stringAttr,timeAttr,uuidAttr,localDateTimeAttr,offsetDateTimeAttr,localDateAttr,localTimeAttr,offsetTimeAttr,enumAttr,name,readOnlyStringAttr",
+    ...datatypesQueries,
     "editComponentName": "DatatypesEdit3",
     "listComponentName": "DatatypesBrowse3",
     "listType": "table",
@@ -81,8 +86,7 @@
     }
   },
   "datatypes2Test": {
-    "editAttributes": "",
-    "listAttributes": "",
+    ...datatypes2Queries,
     "editComponentName": "Datatypes2Edit",
     "listComponentName": "Datatypes2Browse",
     "listType": "table",
@@ -99,8 +103,7 @@
     }
   },
   "datatypes3Test": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...datatypes3Queries,
     "editComponentName": "Datatypes3Edit",
     "listComponentName": "Datatypes3Browse",
     "listType": "table",
@@ -118,8 +121,7 @@
   },
 
   "associationO2O": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...associationO2OQueries,
     "editComponentName": "AssociationO2OEdit",
     "listComponentName": "AssociationO2OBrowse",
     "listType": "table",
@@ -129,8 +131,7 @@
     "managementComponentName": "AssociationO2OManagement"
   },
   "associationO2M": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...associationO2MQueries,
     "editComponentName": "AssociationO2MEdit",
     "listComponentName": "AssociationO2MBrowse",
     "listType": "table",
@@ -140,8 +141,7 @@
     "managementComponentName": "AssociationO2MManagement"
   },
   "associationM2O": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...associationM2OQueries,
     "editComponentName": "AssociationM2OEdit",
     "listComponentName": "AssociationM2OBrowse",
     "listType": "table",
@@ -151,8 +151,7 @@
     "managementComponentName": "AssociationM2OManagement"
   },
   "associationM2M": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...associationM2MQueries,
     "editComponentName": "AssociationM2MEdit",
     "listComponentName": "AssociationM2MBrowse",
     "listType": "table",
@@ -163,8 +162,7 @@
   },
 
   "compositionO2O": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...compositionO2OQueries,
     "editComponentName": "CompositionO2OEdit",
     "listComponentName": "CompositionO2OBrowse",
     "listType": "table",
@@ -177,8 +175,7 @@
     }
   },
   "compositionO2M": {
-    "editAttributes": "name",
-    "listAttributes": "name",
+    ...compositionO2MQueries,
     "editComponentName": "CompositionO2MEdit",
     "listComponentName": "CompositionO2MBrowse",
     "listType": "table",
@@ -250,4 +247,4 @@
       "methodName": "addFavorite"
     }
   }
-}
+};

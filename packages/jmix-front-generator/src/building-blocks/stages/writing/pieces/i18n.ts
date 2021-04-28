@@ -1,6 +1,6 @@
 import {MemFsEditor} from "yeoman-generator";
 import {Locale} from "../../../../common/model/cuba-model";
-import * as path from "path";
+import path from "path";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../../common/utils";
 
 // TODO Switch to a single i18n pack
