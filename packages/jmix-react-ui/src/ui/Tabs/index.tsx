@@ -15,13 +15,24 @@ function onTabChange(key: string) {
   }
 }
 
+function onTabEdit(key: string, action: 'remove' | 'add') {
+  if (action === 'remove') {
+    for (const tab of tabs.tabs) {
+      if (tab.key === key) {
+        tabs.close(tab);
+        break;
+      }
+    }
+  }
+}
+
 export const MultiTabs = observer(() => {
   if (!tabs.tabs.length) {
     return tabs.homePage as JSX.Element;
   }
 
   return (
-    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
+    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange} type="editable-card" hideAdd={true} onEdit={onTabEdit as any}>
       {tabs.tabs.map((item) => (
         <TabPane tab={item.title} key={item.key}>
           <Content item={item} />

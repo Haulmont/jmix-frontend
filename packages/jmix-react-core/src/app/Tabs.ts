@@ -67,9 +67,10 @@ export class Tabs {
    */
   close = (tabToRemove: IMultiTabItem) => {
     const switchTab = this.currentTab === tabToRemove && this.tabs.length > 1;
+    const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      this.currentTab = this.tabs[this.tabs.length - 1];
+      this.currentTab = this.tabs[removedTabIndex];
     }
   };
 

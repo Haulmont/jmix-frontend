@@ -1,7 +1,6 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
-import { Link, Redirect } from "react-router-dom";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
