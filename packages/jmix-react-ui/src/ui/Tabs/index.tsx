@@ -3,8 +3,11 @@ import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from
 import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
 import { menuItems } from '../../util/componentsRegistration';
+import { CloseOutlined } from '@ant-design/icons';
 
-const { TabPane } = Tabs;
+import './styles.less';
+
+const {TabPane} = Tabs;
 
 function onTabChange(key: string) {
   for (const tab of tabs.tabs) {
@@ -15,15 +18,9 @@ function onTabChange(key: string) {
   }
 }
 
-function onTabEdit(key: string, action: 'remove' | 'add') {
-  if (action === 'remove') {
-    for (const tab of tabs.tabs) {
-      if (tab.key === key) {
-        tabs.close(tab);
-        break;
-      }
-    }
-  }
+function handleCloseClick(e: any, tabItem: IMultiTabItem) {
+  e.stopPropagation();
+  tabs.close(tabItem);
 }
 
 export const MultiTabs = observer(() => {
@@ -32,14 +29,22 @@ export const MultiTabs = observer(() => {
   }
 
   return (
-    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange} type="editable-card" hideAdd={true} onEdit={onTabEdit as any}>
+    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
       {tabs.tabs.map((item) => (
-        <TabPane tab={item.title} key={item.key}>
+        <TabPane
+          tab={
+            <>
+              {item.title}
+              <CloseOutlined className="jmix-tab-icon" onClick={(e) => handleCloseClick(e, item)} />
+            </>
+          }
+          key={item.key}
+        >
           <Content item={item} />
         </TabPane>
       ))}
     </Tabs>
-  )
+  );
 });
 
 interface IContentProps {
@@ -57,7 +62,7 @@ const Content = observer((props: IContentProps) => {
         {item.content}
       </ScreensContext.Provider>
     </div>
-  )
+  );
 });
 
 function checkRoute(item: RouteItem) {
@@ -65,7 +70,7 @@ function checkRoute(item: RouteItem) {
     tabs.push({
       title: item.caption,
       content: item.component,
-      key: item.menuLink
+      key: item.menuLink,
     });
   }
 }
