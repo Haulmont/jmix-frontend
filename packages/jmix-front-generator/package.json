@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-front-generator",
-  "version": "1.0.0-next.6",
+  "version": "1.0.0-next.7",
   "description": "Jmix front-end clients generator",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",
@@ -30,9 +30,9 @@
   "dependencies": {
     "@types/prettier": "~1.19.0",
     "commander": "~2.13.0",
-    "inquirer-autocomplete-prompt": "^1.0.1",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
+    "inquirer-autocomplete-prompt": "^1.0.1",
     "node-fetch": "^2.6.1",
     "prettier": "~1.19.1",
     "through2": "^2.0.5",
