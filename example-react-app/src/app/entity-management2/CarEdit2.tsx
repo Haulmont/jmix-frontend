@@ -45,6 +45,12 @@ const LOAD_SCR_CAR = gql`
         _instanceName
       }
       photo
+
+      version
+      createdBy
+      createdDate
+      lastModifiedBy
+      lastModifiedDate
     }
 
     scr_GarageList {

@@ -373,9 +373,9 @@
         {
           "name": "fromTime",
           "type": {
-            "packageName": "java.sql",
-            "className": "Time",
-            "fqn": "java.sql.Time",
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
             "label": "Time"
           },
           "mappingType": "DATATYPE",
@@ -601,6 +601,65 @@
       ]
     },
     {
+      "name": "ScrUserInfo",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "firstName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "lastName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "favouriteCars",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
       "name": "scr$SparePart",
       "attributes": [
         {
@@ -806,6 +865,258 @@
             "className": "String",
             "fqn": "java.lang.String",
             "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "authorities",
+          "type": {
+            "packageName": "java.util.Collection<? extends org.springframework.security.core",
+            "className": "GrantedAuthority>",
+            "fqn": "java.util.Collection<? extends org.springframework.security.core.GrantedAuthority>",
+            "label": "GrantedAuthority>"
+          },
+          "mappingType": "DATATYPE",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": true
+        }
+      ]
+    },
+    {
+      "name": "scr_Customer",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "email",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Order",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "date",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalDateTime",
+            "fqn": "java.time.LocalDateTime",
+            "label": "LocalDateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "lines",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "OrderLine",
+            "fqn": "com.company.scr.entity.sales.OrderLine",
+            "label": "OrderLine",
+            "entityName": "scr_OrderLine"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "amount",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "customer",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Customer",
+            "fqn": "com.company.scr.entity.sales.Customer",
+            "label": "Customer",
+            "entityName": "scr_Customer"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_OrderLine",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "product",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Product",
+            "fqn": "com.company.scr.entity.sales.Product",
+            "label": "Product",
+            "entityName": "scr_Product"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "order",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Order",
+            "fqn": "com.company.scr.entity.sales.Order",
+            "label": "Order",
+            "entityName": "scr_Order"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Product",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "car",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "price",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "special",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
           },
           "mappingType": "DATATYPE",
           "readOnly": false,
@@ -1374,9 +1685,9 @@
         {
           "name": "timeAttr",
           "type": {
-            "packageName": "java.sql",
-            "className": "Time",
-            "fqn": "java.sql.Time",
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
             "label": "Time"
           },
           "mappingType": "DATATYPE",

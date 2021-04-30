@@ -28,11 +28,6 @@ const FIELDS = [
   "maxPassengers",
   "price",
   "mileage",
-  "version",
-  "createdBy",
-  "createdDate",
-  "lastModifiedBy",
-  "lastModifiedDate",
   "photo",
   "garage",
   "technicalCertificate"
