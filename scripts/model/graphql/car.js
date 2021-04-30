@@ -22,6 +22,12 @@ const carQuery = `
     _instanceName
   }
   photo
+
+  version
+  createdBy
+  createdDate
+  lastModifiedBy
+  lastModifiedDate
 }
 `;
 // TODO add once Associations are supported:

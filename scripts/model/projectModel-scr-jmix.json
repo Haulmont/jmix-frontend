@@ -44,7 +44,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "manufacturer",
@@ -275,7 +276,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "createdBy",
@@ -291,7 +293,8 @@
           "mandatory": false,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "createdBy"
         },
         {
           "name": "createdDate",
@@ -308,7 +311,8 @@
           "unique": false,
           "length": "255",
           "transient": false,
-          "temporalType": "DATE"
+          "temporalType": "DATE",
+          "traitAttribute": "createdDate"
         },
         {
           "name": "lastModifiedBy",
@@ -324,7 +328,8 @@
           "mandatory": false,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "lastModifiedBy"
         },
         {
           "name": "lastModifiedDate",
@@ -341,7 +346,8 @@
           "unique": false,
           "length": "255",
           "transient": false,
-          "temporalType": "DATE"
+          "temporalType": "DATE",
+          "traitAttribute": "lastModifiedDate"
         },
         {
           "name": "photo",
@@ -388,7 +394,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "manufacturer",
@@ -446,11 +453,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_CAR_RENT",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -473,7 +475,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "car",
@@ -513,9 +516,9 @@
         {
           "name": "fromTime",
           "type": {
-            "packageName": "java.sql",
-            "className": "Time",
-            "fqn": "java.sql.Time",
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
             "label": "Time"
           },
           "mappingType": "DATATYPE",
@@ -552,11 +555,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_FAVORITE_CAR",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -579,7 +577,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "car",
@@ -641,11 +640,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_GARAGE",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -668,7 +662,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "cars",
@@ -819,16 +814,92 @@
       ]
     },
     {
+      "name": "ScrUserInfo",
+      "className": "ScrUserInfo",
+      "packageName": "com.company.scr.entity",
+      "dataStore": "main",
+      "embeddable": false,
+      "persistentEntity": false,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.ScrUserInfo",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "firstName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "firstName",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "lastName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "lastName",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "favouriteCars",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
       "name": "scr$SparePart",
       "className": "SparePart",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_SPARE_PART",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -851,7 +922,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -895,11 +967,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_TECHNICAL_CERTIFICATE",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -922,7 +989,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "certNumber",
@@ -965,11 +1033,6 @@
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
       "table": "SCR_USER",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -992,7 +1055,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "version",
@@ -1008,7 +1072,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "username",
@@ -1121,6 +1186,354 @@
           "unique": false,
           "length": "255",
           "transient": false
+        },
+        {
+          "name": "authorities",
+          "type": {
+            "packageName": "java.util.Collection<? extends org.springframework.security.core",
+            "className": "GrantedAuthority>",
+            "fqn": "java.util.Collection<? extends org.springframework.security.core.GrantedAuthority>",
+            "label": "GrantedAuthority>"
+          },
+          "mappingType": "DATATYPE",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "unique": false,
+          "transient": true
+        }
+      ]
+    },
+    {
+      "name": "scr_Customer",
+      "className": "Customer",
+      "packageName": "com.company.scr.entity.sales",
+      "dataStore": "main",
+      "table": "SCR_CUSTOMER",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.sales.Customer",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "NAME",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "email",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "EMAIL",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Order",
+      "className": "Order",
+      "packageName": "com.company.scr.entity.sales",
+      "dataStore": "main",
+      "table": "SCR_ORDER",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.sales.Order",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "date",
+          "type": {
+            "packageName": "java.time",
+            "className": "LocalDateTime",
+            "fqn": "java.time.LocalDateTime",
+            "label": "LocalDateTime"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "DATE_",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "lines",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "OrderLine",
+            "fqn": "com.company.scr.entity.sales.OrderLine",
+            "label": "OrderLine",
+            "entityName": "scr_OrderLine"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "unique": false,
+          "mappedBy": "order",
+          "transient": false
+        },
+        {
+          "name": "amount",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "AMOUNT",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "customer",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Customer",
+            "fqn": "com.company.scr.entity.sales.Customer",
+            "label": "Customer",
+            "entityName": "scr_Customer"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "column": "CUSTOMER_ID",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_OrderLine",
+      "className": "OrderLine",
+      "packageName": "com.company.scr.entity.sales",
+      "dataStore": "main",
+      "table": "SCR_ORDER_LINE",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.sales.OrderLine",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "product",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Product",
+            "fqn": "com.company.scr.entity.sales.Product",
+            "label": "Product",
+            "entityName": "scr_Product"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "column": "PRODUCT_ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "quantity",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "QUANTITY",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "order",
+          "type": {
+            "packageName": "com.company.scr.entity.sales",
+            "className": "Order",
+            "fqn": "com.company.scr.entity.sales.Order",
+            "label": "Order",
+            "entityName": "scr_Order"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "column": "ORDER_ID",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Product",
+      "className": "Product",
+      "packageName": "com.company.scr.entity.sales",
+      "dataStore": "main",
+      "table": "SCR_PRODUCT",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.sales.Product",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "car",
+          "type": {
+            "packageName": "com.company.scr.entity",
+            "className": "Car",
+            "fqn": "com.company.scr.entity.Car",
+            "label": "Car",
+            "entityName": "scr$Car"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "column": "CAR_ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "price",
+          "type": {
+            "packageName": "java.math",
+            "className": "BigDecimal",
+            "fqn": "java.math.BigDecimal",
+            "label": "BigDecimal"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "PRICE",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "special",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "SPECIAL",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
         }
       ]
     },
@@ -1130,11 +1543,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_ASSOCIATION_M2M_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1157,7 +1565,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntities",
@@ -1200,11 +1609,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_ASSOCIATION_M2O_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1227,7 +1631,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -1253,11 +1658,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_ASSOCIATION_O2M_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1280,7 +1680,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1324,11 +1725,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_ASSOCIATION_O2O_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1351,7 +1747,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1411,11 +1808,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_BORING_STRING_ID_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1566,7 +1958,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "uuid",
@@ -1592,11 +1985,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_COMPOSITION_O2M_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1619,7 +2007,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1679,11 +2068,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_COMPOSITION_O2O_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1706,7 +2090,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -1767,11 +2152,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_DATATYPES_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -1794,7 +2174,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "bigDecimalAttr",
@@ -1929,9 +2310,9 @@
         {
           "name": "timeAttr",
           "type": {
-            "packageName": "java.sql",
-            "className": "Time",
-            "fqn": "java.sql.Time",
+            "packageName": "java.util",
+            "className": "Date",
+            "fqn": "java.util.Date",
             "label": "Time"
           },
           "mappingType": "DATATYPE",
@@ -2293,11 +2674,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_DATATYPES_TEST_ENTITY2",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -2320,7 +2696,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntityAttr",
@@ -2425,11 +2802,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_DATATYPES_TEST_ENTITY3",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -2452,7 +2824,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntityAttr",
@@ -2563,11 +2936,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_DEEPLY_NESTED_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -2590,7 +2958,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -2635,11 +3004,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_INT_IDENTITY_ID_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -2790,7 +3154,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -2835,11 +3200,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_INTEGER_ID_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -2990,7 +3350,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -3035,11 +3396,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_STRING_ID_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -3206,7 +3562,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity",
@@ -3251,11 +3608,6 @@
       "packageName": "com.company.scr.entity.test",
       "dataStore": "main",
       "table": "SCR_WEIRD_STRING_ID_TEST_ENTITY",
-      "updatable": false,
-      "creatable": false,
-      "hasUuid": false,
-      "softDelete": false,
-      "versioned": false,
       "embeddable": false,
       "persistentEntity": true,
       "replaceParent": false,
@@ -3422,7 +3774,8 @@
           "mandatory": true,
           "unique": false,
           "length": "255",
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -4394,6 +4747,33 @@
     },
     {
       "name": "_base",
+      "entity": "ScrUserInfo",
+      "classFqn": "com.company.scr.entity.ScrUserInfo",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_instance_name",
+      "entity": "ScrUserInfo",
+      "classFqn": "com.company.scr.entity.ScrUserInfo",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "ScrUserInfo",
+      "classFqn": "com.company.scr.entity.ScrUserInfo",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_base",
       "entity": "scr$SparePart",
       "classFqn": "com.company.scr.entity.SparePart",
       "overwrite": false,
@@ -4713,6 +5093,252 @@
         },
         {
           "name": "phone",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_Customer",
+      "classFqn": "com.company.scr.entity.sales.Customer",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_Customer",
+      "classFqn": "com.company.scr.entity.sales.Customer",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_local",
+      "entity": "scr_Customer",
+      "classFqn": "com.company.scr.entity.sales.Customer",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_Order",
+      "classFqn": "com.company.scr.entity.sales.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "date",
+          "lazy": false
+        },
+        {
+          "name": "amount",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "date",
+          "lazy": false
+        },
+        {
+          "name": "amount",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_Order",
+      "classFqn": "com.company.scr.entity.sales.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_Order",
+      "classFqn": "com.company.scr.entity.sales.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "date",
+          "lazy": false
+        },
+        {
+          "name": "amount",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "date",
+          "lazy": false
+        },
+        {
+          "name": "amount",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_OrderLine",
+      "classFqn": "com.company.scr.entity.sales.OrderLine",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "quantity",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "quantity",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_OrderLine",
+      "classFqn": "com.company.scr.entity.sales.OrderLine",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_OrderLine",
+      "classFqn": "com.company.scr.entity.sales.OrderLine",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "quantity",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "quantity",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_Product",
+      "classFqn": "com.company.scr.entity.sales.Product",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "price",
+          "lazy": false
+        },
+        {
+          "name": "special",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "price",
+          "lazy": false
+        },
+        {
+          "name": "special",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_Product",
+      "classFqn": "com.company.scr.entity.sales.Product",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_Product",
+      "classFqn": "com.company.scr.entity.sales.Product",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "price",
+          "lazy": false
+        },
+        {
+          "name": "special",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "price",
+          "lazy": false
+        },
+        {
+          "name": "special",
           "lazy": false
         }
       ]

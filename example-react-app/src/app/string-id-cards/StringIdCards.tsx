@@ -23,8 +23,7 @@ const FIELDS = [
   "updateTs",
   "updatedBy",
   "deleteTs",
-  "deletedBy",
-  "version"
+  "deletedBy"
 ];
 
 export const StringIdCards = observer(() => {

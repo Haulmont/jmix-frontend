@@ -75,6 +75,11 @@ function isDisplayedAttribute(attr: EntityAttribute, screenType: ScreenType, ent
     return false;
   }
 
+  // Do not display trait attributes
+  if (attr.traitAttribute !== undefined) {
+    return false;
+  }
+
   // Do not display id attribute unless it is a String ID entity
   // TODO currently doesn't check for String ID entity
   // noinspection RedundantIfStatementJS

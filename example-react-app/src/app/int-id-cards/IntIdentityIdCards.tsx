@@ -22,8 +22,7 @@ const FIELDS = [
   "deleteTs",
   "deletedBy",
   "createTs",
-  "createdBy",
-  "version"
+  "createdBy"
 ];
 
 export const IntIdentityIdCards = observer(() => {
