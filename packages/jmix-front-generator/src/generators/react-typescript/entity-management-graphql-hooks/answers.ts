@@ -28,8 +28,7 @@ export interface EntityManagementAnswers extends StringIdAnswers {
 
 export const allQuestions: StudioTemplateProperty[] = [
   ...commonEntityManagementQuestions,
-  ...displayAttributesQuestions, // TODO merge with commonEntityManagementQuestions once REST API is removed
-  ...stringIdQuestions
+  ...displayAttributesQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
 ];
 
 export const getAnswersFromPrompt = async (
