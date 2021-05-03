@@ -12,7 +12,8 @@ export const enum StudioTemplatePropertyType {
   REST_QUERY = 'REST_QUERY',
   REST_SERVICE_METHOD = 'REST_SERVICE_METHOD',
   POLYMER_COMPONENT_NAME = 'POLYMER_COMPONENT_NAME',
-  PASSWORD = 'PASSWORD'
+  PASSWORD = 'PASSWORD',
+  GRAPHQL_QUERY = 'GRAPHQL_QUERY'
 }
 
 export interface StudioTemplateProperty {
