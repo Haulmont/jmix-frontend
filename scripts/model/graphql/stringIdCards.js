@@ -1,4 +1,4 @@
-const query = `
+const stringIdCardsQuery = `
 {
   identifier
   _instanceName
@@ -25,6 +25,5 @@ const query = `
 `;
 
 module.exports = {
-  listQuery: query,
-  editQuery: query,
+  query: stringIdCardsQuery
 };

@@ -2,7 +2,7 @@ import React from 'react';
 import {
   addPagingParams,
   createPagingConfig,
-  defaultPagingConfig,
+  defaultPaginationConfig,
   Paging,
   parsePagingParams,
   setPagination
@@ -14,7 +14,7 @@ describe('Paging component', () => {
 
   it('Paging is rendered', async () => {
     const props = {
-      paginationConfig: {...defaultPagingConfig},
+      paginationConfig: {...defaultPaginationConfig},
       pageSize: 10,
       total: 50,
       onPagingChange: () => ({})
@@ -98,17 +98,17 @@ describe('createPagingConfig', () => {
 
   it('should create enabled paging config', () => {
     expect(createPagingConfig(''))
-      .toMatchObject(defaultPagingConfig);
+      .toMatchObject(defaultPaginationConfig);
   });
 
   it('should check that page size is used only if it\'s value in pageSizeOptions', () => {
     expect(createPagingConfig('?page=4&pageSize=7'))
-      .toMatchObject(defaultPagingConfig);
+      .toMatchObject(defaultPaginationConfig);
 
     expect(createPagingConfig('?page=4&pageSize=10'))
-      .toMatchObject({...defaultPagingConfig, current: 4, pageSize: 10});
+      .toMatchObject({...defaultPaginationConfig, current: 4, pageSize: 10});
 
-    const config = {...defaultPagingConfig, pageSizeOptions: ['7']};
+    const config = {...defaultPaginationConfig, pageSizeOptions: ['7']};
     expect(createPagingConfig('?page=4&pageSize=7', false, config))
       .toMatchObject({...config, current: 4, pageSize: 7});
   });

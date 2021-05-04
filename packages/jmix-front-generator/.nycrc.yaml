@@ -12,5 +12,5 @@ exclude: [
 
 statements: 79
 branches: 64
-functions: 75
+functions: 73
 lines: 79

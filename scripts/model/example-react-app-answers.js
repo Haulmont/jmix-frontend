@@ -1,4 +1,6 @@
 const carQueries = require('./graphql/car');
+const favoriteCarsCardsQueries = require('./graphql/favoriteCarsCards');
+const datatypesTestCardsQueries = require('./graphql/datatypesTestCards');
 const datatypesQueries = require('./graphql/datatypesTestEntity');
 const datatypes2Queries = require('./graphql/datatypesTestEntity2');
 const datatypes3Queries = require('./graphql/datatypesTestEntity3');
@@ -184,23 +186,15 @@ module.exports = {
     },
     "managementComponentName": "CompositionO2MManagement"
   },
-
   "datatypesTestCards": {
-    "entityView": {
-      "name": "datatypesTestEntity-view",
-      "entityName": "scr_DatatypesTestEntity"
-    },
+    ...datatypesTestCardsQueries,
     "componentName": "DatatypesCards",
     "entity": {
       "name": "scr_DatatypesTestEntity"
     }
   },
-
-  "entityCards": {
-    "entityView": {
-      "name": "favoriteCar-view",
-      "entityName": "scr$FavoriteCar"
-    },
+  "favoriteCarsCards": {
+    ...favoriteCarsCardsQueries,
     "componentName": "FavoriteCars",
     "entity": {
       "name": "scr$FavoriteCar"

@@ -14,8 +14,7 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList,
-  defaultPagingConfig
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";

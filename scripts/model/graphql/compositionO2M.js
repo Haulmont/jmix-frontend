@@ -9,7 +9,6 @@ const query = `
   }
 }
 `;
-// TODO Add relation attributes
 
 module.exports = {
   listQuery: query,

@@ -1,20 +1,23 @@
-import {Entity, ProjectModel, View, EntityAttribute} from "../../../common/model/cuba-model";
+import {Entity, EntityAttribute, ProjectModel} from "../../../common/model/cuba-model";
 import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
 import {Answers, CardsInRowOption} from "./answers";
 import {Options} from "./options";
 import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../common/utils";
 import {stringIdAnswersToModel} from '../common/base-entity-screen-generator';
-import {getDisplayedAttributes, ScreenType} from "../common/entity";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
+import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
+import { ScreenType } from "../common/entity";
 
-
-export type TemplateModel = CommonTemplateModel & {
+export interface TemplateModel extends
+CommonTemplateModel,
+UtilTemplateModel {
   nameLiteral: string;
-  entity: Entity,
-  view: View,
-  cardsInRow: number,
-  attributes: EntityAttribute[],
-  stringIdName?: string
+  entity: Entity;
+  cardsInRow: number;
+  stringIdName?: string;
+  query: string;
+  attributes: EntityAttribute[];
 }
 
 const mapperCardsInRowOptionToNumber: Record<CardsInRowOption, number> = {
@@ -31,12 +34,11 @@ export async function deriveTemplateModel(
   const relDirShift = normalizeRelativePath(options.dirShift);
   const nameLiteral = unCapitalizeFirst(className);
 
-  const displayedAttributes = getDisplayedAttributes(
-    answers.entityView.allProperties, 
-    answers.entity, 
-    projectModel, 
-    ScreenType.BROWSER
-  ); 
+  const displayedAttributes = getDisplayedAttributesFromQuery({
+    entity: answers.entity,
+    query: answers.query,
+    screenType: ScreenType.BROWSER,
+  }, projectModel);
 
   const { stringIdName, listAttributes: attributes } = stringIdAnswersToModel(
     answers,
@@ -46,12 +48,13 @@ export async function deriveTemplateModel(
   );
 
   return {
+    ...templateUtilities,
     componentName: answers.componentName,
     className,
     nameLiteral,
     relDirShift,
+    query: answers.query,
     entity: answers.entity,
-    view: answers.entityView,
     cardsInRow: mapperCardsInRowOptionToNumber[answers.cardsInRow],
     attributes,
     stringIdName

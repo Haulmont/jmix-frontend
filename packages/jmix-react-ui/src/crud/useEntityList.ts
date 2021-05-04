@@ -26,13 +26,15 @@ import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
-import {defaultPagingConfig} from "../ui/paging/Paging";
+import {defaultPaginationConfig} from "../ui/paging/Paging";
+import { PaginationConfig } from "antd/es/pagination";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  paginationConfig?: PaginationConfig;
   screens: Screens;
   entityName: string;
   routingPath: string;
@@ -90,7 +92,8 @@ export function useEntityList<
     entityName,
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
-    associations
+    associations,
+    paginationConfig = defaultPaginationConfig,
   } = options;
 
   const store: EntityListLocalStore = useLocalStore(() => ({
@@ -98,8 +101,8 @@ export function useEntityList<
     filter: undefined,
     sortOrder: undefined,
     pagination: {
-      current: defaultPagingConfig.current,
-      pageSize: defaultPagingConfig.pageSize,
+      current: paginationConfig.current,
+      pageSize: paginationConfig.pageSize,
     }
   }));
   

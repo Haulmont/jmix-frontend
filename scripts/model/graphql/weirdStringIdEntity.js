@@ -6,7 +6,6 @@ const query = `
   description
 }
 `;
-// TODO Add relation attributes
 
 module.exports = {
   listQuery: query,

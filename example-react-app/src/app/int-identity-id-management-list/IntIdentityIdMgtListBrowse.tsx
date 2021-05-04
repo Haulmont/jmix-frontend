@@ -13,8 +13,7 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList,
-  defaultPagingConfig
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -40,6 +39,23 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
       id
       _instanceName
       description
+
+      updateTs
+      updatedBy
+      deleteTs
+      deletedBy
+      createTs
+      createdBy
+      version
+
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
     }
   }
 `;

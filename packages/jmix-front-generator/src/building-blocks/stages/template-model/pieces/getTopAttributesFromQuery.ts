@@ -24,6 +24,5 @@ export function getTopAttributesFromQuery(query: string): string[] {
       }
       // Should be unreachable due to .filter, this code is to avoid compilation error
       throw new Error(`Cannot find name in SelectionNode. DocumentNode: ${JSON.stringify(documentNode)}`);
-      throw new Error(`Cannot find name in SelectionNode. DocumentNode: ${JSON.stringify(documentNode)}`);
     });
 }

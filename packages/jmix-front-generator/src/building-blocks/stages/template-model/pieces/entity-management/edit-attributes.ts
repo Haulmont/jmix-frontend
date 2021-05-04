@@ -1,7 +1,7 @@
 import {EntityAttribute, ProjectModel, View} from "../../../../../common/model/cuba-model";
 import {getDisplayedAttributes, ScreenType} from "../../../../../generators/react-typescript/common/entity";
 import {EntityWithPath} from "../entity";
-import {getTopAttributesFromQuery} from "../getTopAttributesFromQuery";
+import { getDisplayedAttributesFromQuery } from "../getDisplayedAttributesFromQuery";
 
 export type EditAttributesTemplateModel = {
   editAttributes: EntityAttribute[];
@@ -46,16 +46,11 @@ export function deriveEditAttributesFromView(answers: EditViewAnswers, projectMo
  * @param projectModel
  */
 export function deriveEditAttributesFromQuery(answers: EditQueryAnswers, projectModel: ProjectModel) {
-  const attributes = getTopAttributesFromQuery(answers.editQuery);
-
-  const viewProps = attributes.map(name => ({name}));
-
   return {
-    editAttributes: getDisplayedAttributes(
-      viewProps,
-      answers.entity,
-      projectModel,
-      ScreenType.EDITOR
-    )
+    editAttributes: getDisplayedAttributesFromQuery({
+      entity: answers.entity,
+      query: answers.editQuery,
+      screenType: ScreenType.EDITOR,
+    }, projectModel)
   }
 }

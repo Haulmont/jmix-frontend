@@ -1,72 +1,74 @@
-import React, {useEffect} from "react";
-import {observer, useLocalObservable} from "mobx-react";
+import React, { useContext } from "react";
+import { observer } from "mobx-react";
+import { Card } from "antd";
 import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entity.name %>";
-import {Card} from "antd";
-import {useCollection} from "@haulmont/jmix-react-core";
+import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
-addPagingParams, createPagingConfig,
-defaultPagingConfig,
-EntityProperty,
-Paging,
-setPagination,
-Spinner
+  EntityProperty,
+  Paging,
+  RetryDialog,
+  Spinner,
+  useEntityList,
+  registerRoute,
 } from "@haulmont/jmix-react-ui";
-import {getStringId} from "@haulmont/jmix-rest";
-import {useLocation, useHistory} from "react-router";
+import { getStringId } from "@haulmont/jmix-rest";
+import { gql } from "@apollo/client";
 
-const FIELDS = [
-  <% attributes.forEach(p => { -%>
-    '<%= p.name %>',
-  <% }) %>
-];
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
+    <%= dollarsToUnderscores(entity.name) %>Count
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query -%>
+  }
+`;
+
+const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
+  mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
+    delete_<%= dollarsToUnderscores(entity.name) %>(id: $id)
+  }
+`;
 
 export const <%= className %> = observer(() => {
-  const location = useLocation()
-  const history = useHistory()
+  const screens = useContext(ScreensContext);
 
-  const pagination = useLocalObservable(() => ({
-    // to disable paging config pass 'true' as disabled param in function below
-    config: createPagingConfig(
-      location.search,
-      false,
-      defaultPagingConfig
-    ),
-    onChange(current: number, pageSize: number) {
-      history.push(addPagingParams('<%= nameLiteral %>', current, pageSize));
-      this.config = { ...this.config, current, pageSize };
-    }
-  }));
-
-  const {current: dataCollection} = useCollection<<%= entity.className %>>(<%= entity.className %>.NAME, {
-    view: '<%=view.name%>',
-    <% if (entity.updatable == true) { -%>
-      sort: '-updateTs',
-    <% } -%>
-    loadImmediately: true,
-    <% if (locals.stringIdName != null) { -%>
-      stringIdName: '<%= stringIdName %>'
-    <% } -%>
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    handlePaginationChange,
+    store
+  } = useEntityList<<%= entity.className %>>({
+    listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
+    deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: '<%= dollarsToUnderscores(entity.name) %>List'
   });
 
-  const { status, items, count } = dataCollection;
-  
-  useEffect(
-    () => setPagination(pagination.config, dataCollection, true),
-    [dataCollection, pagination.config]
-  );
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
 
-  if (status === "LOADING") return <Spinner />;
+  if (loading || data == null) {
+    return <Spinner />;
+  }
+
+  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
+  const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
     <div className='narrow-layout'>
-      {items.map(e =>
+      {dataSource.map(e => (
         <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
         <Card
           title={e._instanceName}
           key={e.id ? getStringId(e.id) : undefined}
           style={{marginBottom: '12px'}}
         >
-          {FIELDS.map(p =>
+          {getFields(e).map(p =>
             <EntityProperty
               entityName={<%= entity.className %>.NAME}
               propertyName={p}
@@ -75,17 +77,24 @@ export const <%= className %> = observer(() => {
             />
           )}
         </Card>
-      )}
+      ))}
 
-      {!pagination.config.disabled && (
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={pagination.config}
-            onPagingChange={pagination.onChange}
-            total={count ?? undefined}
-          />
-        </div>
-      )}
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+        <Paging
+          paginationConfig={store.pagination ?? {}}
+          onPagingChange={handlePaginationChange}
+          total={pagesTotal}
+        />
+      </div>
     </div>
   )
 });
+
+registerRoute(
+  ROUTING_PATH,
+  ROUTING_PATH,
+  "<%= className %>",
+  <<%= className %> />,
+  ENTITY_NAME,
+  "<%= className %>"
+);
