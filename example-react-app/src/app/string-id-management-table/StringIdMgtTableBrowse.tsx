@@ -28,11 +28,37 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
       orderBy: $orderBy
       filter: $filter
     ) {
-      id
-      _instanceName
       identifier
+      _instanceName
       description
       productCode
+
+      createTs
+      createdBy
+      updateTs
+      updatedBy
+      deleteTs
+      deletedBy
+      version
+
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
+    }
+
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_DatatypesTestEntity3List {
+      id
+      _instanceName
     }
   }
 `;
@@ -129,7 +155,18 @@ const StringIdMgtTableBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={["description", "productCode"]}
+      columnDefinitions={[
+        "description",
+        "productCode",
+        "createTs",
+        "createdBy",
+        "updateTs",
+        "updatedBy",
+        "deleteTs",
+        "deletedBy",
+        "datatypesTestEntity",
+        "datatypesTestEntity3"
+      ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

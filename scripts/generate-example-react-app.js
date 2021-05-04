@@ -45,7 +45,7 @@ gen(
         command: 'react-typescript:entity-cards',
         dirShift,
         dest: 'src/app/entity-cards',
-        answers: answers.entityCards
+        answers: answers.favoriteCarsCards
       },
       {
         command: 'react-typescript:entity-management',

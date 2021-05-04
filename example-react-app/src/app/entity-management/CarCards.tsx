@@ -14,8 +14,7 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList,
-  defaultPagingConfig
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";

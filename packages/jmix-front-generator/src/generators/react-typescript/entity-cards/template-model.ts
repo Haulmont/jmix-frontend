@@ -1,19 +1,22 @@
-import {Entity, ProjectModel, View, EntityAttribute} from "../../../common/model/cuba-model";
+import {Entity, ProjectModel, EntityAttribute} from "../../../common/model/cuba-model";
 import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
 import {Answers} from "./answers";
 import {Options} from "./options";
 import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../common/utils";
 import {stringIdAnswersToModel} from '../common/base-entity-screen-generator';
-import {getDisplayedAttributes, ScreenType} from "../common/entity";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
+import { ScreenType } from "../../../generators/react-typescript/common/entity";
+import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
 
-
-export type TemplateModel = CommonTemplateModel & {
+export interface TemplateModel extends
+CommonTemplateModel,
+UtilTemplateModel {
   nameLiteral: string;
-  entity: Entity,
-  view: View,
-  attributes: EntityAttribute[],
-  stringIdName?: string
+  entity: Entity;
+  stringIdName?: string;
+  query: string;
+  attributes: EntityAttribute[];
 }
 
 export async function deriveTemplateModel(
@@ -24,12 +27,11 @@ export async function deriveTemplateModel(
   const relDirShift = normalizeRelativePath(options.dirShift);
   const nameLiteral = unCapitalizeFirst(className);
 
-  const displayedAttributes = getDisplayedAttributes(
-    answers.entityView.allProperties, 
-    answers.entity, 
-    projectModel, 
-    ScreenType.BROWSER
-  ); 
+  const displayedAttributes = getDisplayedAttributesFromQuery({
+    entity: answers.entity,
+    query: answers.query,
+    screenType: ScreenType.BROWSER,
+  }, projectModel);
 
   const { stringIdName, listAttributes: attributes } = stringIdAnswersToModel(
     answers,
@@ -39,12 +41,13 @@ export async function deriveTemplateModel(
   );
 
   return {
+    ...templateUtilities,
     componentName: answers.componentName,
     className,
     nameLiteral,
     relDirShift,
     entity: answers.entity,
-    view: answers.entityView,
+    query: answers.query,
     attributes,
     stringIdName
   }

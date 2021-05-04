@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, List} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, defaultPagingConfig} from "@haulmont/jmix-react-ui";
+import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';

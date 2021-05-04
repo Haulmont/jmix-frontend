@@ -1,16 +1,15 @@
-const query = `
+const intIdentityIdCardsQuery = `
 {
-  identifier
+  id
   _instanceName
   description
-  productCode
 
-  createTs
-  createdBy
   updateTs
   updatedBy
   deleteTs
   deletedBy
+  createTs
+  createdBy
   version
 
   datatypesTestEntity {
@@ -25,6 +24,5 @@ const query = `
 `;
 
 module.exports = {
-  listQuery: query,
-  editQuery: query,
+  query: intIdentityIdCardsQuery
 };

@@ -13,8 +13,7 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList,
-  defaultPagingConfig
+  useEntityList
 } from "@haulmont/jmix-react-ui";
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { FormattedMessage } from "react-intl";

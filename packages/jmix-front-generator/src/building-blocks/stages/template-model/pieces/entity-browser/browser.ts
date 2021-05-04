@@ -1,7 +1,7 @@
 import {EntityAttribute, ProjectModel, View} from "../../../../../common/model/cuba-model";
 import {getDisplayedAttributes, ScreenType} from "../../../../../generators/react-typescript/common/entity";
 import {EntityWithPath} from "../entity";
-import {getTopAttributesFromQuery} from "../getTopAttributesFromQuery";
+import { getDisplayedAttributesFromQuery } from "../getDisplayedAttributesFromQuery";
 
 export type ListAttributesTemplateModel = {
   listAttributes: EntityAttribute[];
@@ -50,16 +50,11 @@ export const deriveViewBasedBrowserTemplateModel = (
 export const deriveListAttributesFromQuery = (
   answers: ListQueryAnswers, projectModel: ProjectModel
 ): ListAttributesTemplateModel => {
-  const attributes = getTopAttributesFromQuery(answers.listQuery);
-
-  const viewProps = attributes.map(name => ({name}));
-
   return {
-    listAttributes: getDisplayedAttributes(
-      viewProps,
-      answers.entity,
-      projectModel,
-      ScreenType.BROWSER
-    )
+    listAttributes: getDisplayedAttributesFromQuery({
+      entity: answers.entity,
+      query: answers.listQuery,
+      screenType: ScreenType.BROWSER
+    }, projectModel)
   };
 }

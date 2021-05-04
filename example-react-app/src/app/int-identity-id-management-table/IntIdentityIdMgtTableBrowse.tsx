@@ -31,6 +31,33 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
       id
       _instanceName
       description
+
+      updateTs
+      updatedBy
+      deleteTs
+      deletedBy
+      createTs
+      createdBy
+      version
+
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
+    }
+
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_DatatypesTestEntity3List {
+      id
+      _instanceName
     }
   }
 `;
@@ -130,7 +157,17 @@ const IntIdentityIdMgtTableBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={["description"]}
+      columnDefinitions={[
+        "description",
+        "updateTs",
+        "updatedBy",
+        "deleteTs",
+        "deletedBy",
+        "createTs",
+        "createdBy",
+        "datatypesTestEntity",
+        "datatypesTestEntity3"
+      ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

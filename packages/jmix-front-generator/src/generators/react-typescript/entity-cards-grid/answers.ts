@@ -1,5 +1,5 @@
 import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
-import {ProjectModel, View} from "../../../common/model/cuba-model";
+import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import {CommonGenerationOptions} from "../../../common/cli-options";
@@ -16,9 +16,9 @@ const cardsInRowOptions: CardsInRowOption[] = ["2 columns", "3 columns", "4 colu
 
 export interface Answers extends StringIdAnswers {
   componentName: string;
-  entityView: View;
   entity: EntityWithPath;
   cardsInRow: CardsInRowOption;
+  query: string;
 }
 
 const entityCardsGridQuestions: StudioTemplateProperty[] = [
@@ -43,9 +43,9 @@ const entityCardsGridQuestions: StudioTemplateProperty[] = [
     options: cardsInRowOptions
   },
   {
-    caption: "Entity view",
-    code: "entityView",
-    propertyType: StudioTemplatePropertyType.VIEW,
+    code: 'query',
+    caption: 'GraphQL query',
+    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
   }
@@ -62,13 +62,19 @@ export const allQuestions: StudioTemplateProperty[] = [
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
 ): Promise<Answers> => {  
-  let answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
-  let stringIdAnswers: StringIdAnswers = isStringIdEntity(projectModel, answers.entity) 
-    ? await askStringIdQuestions(
-        answers.entity,
-        projectModel,
-        gen
-      )
-    : {}
-  return {...answers, ...stringIdAnswers};
+  const answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
+  
+  if (isStringIdEntity(projectModel, answers.entity)) {
+    const stringIdAnswers = await askStringIdQuestions(
+      answers.entity,
+      projectModel,
+      gen
+    );
+    return {
+      ...answers,
+      ...stringIdAnswers
+    }
+  }
+
+  return answers;
 }

@@ -1,61 +1,96 @@
-import React, { useEffect } from "react";
-import { observer, useLocalObservable } from "mobx-react";
-import { FavoriteCar } from "../../jmix/entities/scr$FavoriteCar";
+import React, { useContext } from "react";
+import { observer } from "mobx-react";
 import { Card } from "antd";
-import { useCollection } from "@haulmont/jmix-react-core";
+import { FavoriteCar } from "../../jmix/entities/scr$FavoriteCar";
+import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
-  addPagingParams,
-  createPagingConfig,
-  defaultPagingConfig,
   EntityProperty,
   Paging,
-  setPagination,
-  Spinner
+  RetryDialog,
+  Spinner,
+  useEntityList,
+  registerRoute
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
-import { useLocation, useHistory } from "react-router";
+import { gql } from "@apollo/client";
 
-const FIELDS = ["notes", "car", "user"];
+const ENTITY_NAME = "scr$FavoriteCar";
+const ROUTING_PATH = "/favoriteCars";
+
+const SCR_FAVORITECAR_LIST = gql`
+  query scr_FavoriteCarList(
+    $limit: Int
+    $offset: Int
+    $orderBy: inp_scr_FavoriteCarOrderBy
+    $filter: [inp_scr_FavoriteCarFilterCondition]
+  ) {
+    scr_FavoriteCarCount
+    scr_FavoriteCarList(
+      limit: $limit
+      offset: $offset
+      orderBy: $orderBy
+      filter: $filter
+    ) {
+      id
+      _instanceName
+      notes
+
+      user {
+        id
+        _instanceName
+      }
+      car {
+        id
+        _instanceName
+      }
+    }
+  }
+`;
+
+const DELETE_SCR_FAVORITECAR = gql`
+  mutation Delete_scr_FavoriteCar($id: String!) {
+    delete_scr_FavoriteCar(id: $id)
+  }
+`;
 
 export const FavoriteCars = observer(() => {
-  const location = useLocation();
-  const history = useHistory();
+  const screens = useContext(ScreensContext);
 
-  const pagination = useLocalObservable(() => ({
-    // to disable paging config pass 'true' as disabled param in function below
-    config: createPagingConfig(location.search, false, defaultPagingConfig),
-    onChange(current: number, pageSize: number) {
-      history.push(addPagingParams("favoriteCars", current, pageSize));
-      this.config = { ...this.config, current, pageSize };
-    }
-  }));
+  const {
+    loadItems,
+    listQueryResult: { loading, error, data },
+    handlePaginationChange,
+    store
+  } = useEntityList<FavoriteCar>({
+    listQuery: SCR_FAVORITECAR_LIST,
+    deleteMutation: DELETE_SCR_FAVORITECAR,
+    screens,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    queryName: "scr_FavoriteCarList"
+  });
 
-  const { current: dataCollection } = useCollection<FavoriteCar>(
-    FavoriteCar.NAME,
-    {
-      view: "favoriteCar-view",
-      loadImmediately: true
-    }
-  );
+  if (error != null) {
+    console.error(error);
+    return <RetryDialog onRetry={loadItems} />;
+  }
 
-  const { status, items, count } = dataCollection;
+  if (loading || data == null) {
+    return <Spinner />;
+  }
 
-  useEffect(() => setPagination(pagination.config, dataCollection, true), [
-    dataCollection,
-    pagination.config
-  ]);
-
-  if (status === "LOADING") return <Spinner />;
+  const dataSource = data?.scr_FavoriteCarList ?? [];
+  const pagesTotal = data?.scr_FavoriteCarCount ?? 0;
 
   return (
     <div className="narrow-layout">
-      {items.map(e => (
+      {dataSource.map(e => (
         <Card
           title={e._instanceName}
           key={e.id ? getStringId(e.id) : undefined}
           style={{ marginBottom: "12px" }}
         >
-          {FIELDS.map(p => (
+          {getFields(e).map(p => (
             <EntityProperty
               entityName={FavoriteCar.NAME}
               propertyName={p}
@@ -66,15 +101,22 @@ export const FavoriteCars = observer(() => {
         </Card>
       ))}
 
-      {!pagination.config.disabled && (
-        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-          <Paging
-            paginationConfig={pagination.config}
-            onPagingChange={pagination.onChange}
-            total={count ?? undefined}
-          />
-        </div>
-      )}
+      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+        <Paging
+          paginationConfig={store.pagination ?? {}}
+          onPagingChange={handlePaginationChange}
+          total={pagesTotal}
+        />
+      </div>
     </div>
   );
 });
+
+registerRoute(
+  ROUTING_PATH,
+  ROUTING_PATH,
+  "FavoriteCars",
+  <FavoriteCars />,
+  ENTITY_NAME,
+  "FavoriteCars"
+);

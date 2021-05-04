@@ -15,7 +15,7 @@ type Props = {
 /**
  * Paging defaults
  */
-export const defaultPagingConfig: PaginationConfig = {
+export const defaultPaginationConfig: PaginationConfig = {
   current: 1,
   pageSize: 10,
   defaultPageSize: 10,
@@ -23,7 +23,7 @@ export const defaultPagingConfig: PaginationConfig = {
   pageSizeOptions: ['10', '20', '50', '100', '500', '1000', '5000']
 };
 
-export const defaultGridPagingConfig: PaginationConfig = {
+export const defaultGridPaginationConfig: PaginationConfig = {
   current: 1,
   pageSize: 12,
   defaultPageSize: 12,
@@ -131,7 +131,7 @@ export function setPagination<E>(pagination: PaginationConfig | TablePaginationC
  */
 export function createPagingConfig(urlParams: string,
                                    disabled: boolean = false,
-                                   prevConfig: PaginationConfig = defaultPagingConfig) {
+                                   prevConfig: PaginationConfig = defaultPaginationConfig) {
 
   const config = {...prevConfig};
   if (disabled) {

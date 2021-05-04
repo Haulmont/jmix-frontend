@@ -26,6 +26,33 @@ const LOAD_SCR_INTIDENTITYIDTESTENTITY = gql`
       id
       _instanceName
       description
+
+      updateTs
+      updatedBy
+      deleteTs
+      deletedBy
+      createTs
+      createdBy
+      version
+
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
+    }
+
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_DatatypesTestEntity3List {
+      id
+      _instanceName
     }
   }
 `;
@@ -49,7 +76,7 @@ const IntIdentityIdMgtCardsEdit = observer(() => {
 
   const {
     load,
-    loadQueryResult: { loading: queryLoading, error: queryError },
+    loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
     form,
@@ -64,6 +91,7 @@ const IntIdentityIdMgtCardsEdit = observer(() => {
     entityName: ENTITY_NAME,
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
+    hasAssociations: true,
     screens,
     multiScreen
   });
@@ -89,6 +117,72 @@ const IntIdentityIdMgtCardsEdit = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="description"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="updateTs"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="updatedBy"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="deleteTs"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="deletedBy"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="createTs"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="createdBy"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="datatypesTestEntity"
+          associationOptions={data?.scr_DatatypesTestEntityList}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="datatypesTestEntity3"
+          associationOptions={data?.scr_DatatypesTestEntity3List}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

@@ -4,7 +4,6 @@ const datatypes2Query = `
   _instanceName
 }
 `;
-// TODO Add relation attributes
 
 module.exports = {
   listQuery: datatypes2Query,
