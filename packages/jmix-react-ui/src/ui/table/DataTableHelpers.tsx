@@ -18,6 +18,7 @@ import {
   EnumInfo,
   EnumValueInfo,
   MetaPropertyInfo,
+  isAssociation
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
@@ -273,7 +274,7 @@ export function generateCustomFilterDropdown(
   value: any,
   onValueChange: (value: any, propertyName: string) => void,
   customFilterRefCallback?: (instance: FormInstance) => void,
-  associationOptions?: any,
+  associationOptions?: Array<HasId & MayHaveInstanceName>,
 ): (props: FilterDropdownProps) => React.ReactNode {
 
   return (props: FilterDropdownProps) => (
@@ -332,18 +333,37 @@ export function setFilters(
           && tableFilters[propertyName]!.length > 0) {
 
         const propertyInfoNN = getPropertyInfoNN(propertyName as string, entityName, metadata.entities);
+
+        // Enum
         if (propertyInfoNN.attributeType === 'ENUM') {
-          addFilter(nextApiFilters, propertyName, '_in',  tableFilters[propertyName]);
-        } else {
-          const {operator, value} = JSON.parse(String(tableFilters[propertyName]![0]));
-          if (operator === '__inInterval') {
-            const {minDate, maxDate} = value;
-            addFilter(nextApiFilters, propertyName, '_gte', minDate);
-            addFilter(nextApiFilters, propertyName, '_lte', maxDate);
-          } else {
-            addFilter(nextApiFilters, propertyName, operator, value);
-          }
+          addFilter(nextApiFilters, propertyName, '_in', tableFilters[propertyName]);
+          return;
         }
+
+        const {operator, value} = JSON.parse(String(tableFilters[propertyName]![0]));
+
+        // Temporal interval
+        if (operator === '__inInterval') {
+          const {minDate, maxDate} = value;
+          addFilter(nextApiFilters, propertyName, '_gte', minDate);
+          addFilter(nextApiFilters, propertyName, '_lte', maxDate);
+          return;
+        }
+
+        // Association
+        if (isAssociation(propertyInfoNN)) {
+          nextApiFilters.push({
+            [propertyName]: {
+              id: {
+                [operator]: value
+              }
+            }
+          });
+          return;
+        }
+
+        // Everything else
+        addFilter(nextApiFilters, propertyName, operator, value);
       }
     });
   }
@@ -373,17 +393,25 @@ export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, o
   if (sorter != null && !Array.isArray(sorter) && sorter.order != null) {
     const sortDirection: 'ASC' | 'DESC' = (sorter.order === 'descend') ? 'DESC' : 'ASC';
 
-    let sortField: string;
-    if (typeof sorter.field === 'string' && sorter.field.endsWith('._instanceName')) {
-      sortField = sorter.field.substring(0, sorter.field.indexOf('.'));
-    } else {
-      sortField = String(sorter.field);
+    if (typeof sorter.field === 'string') {
+      const sortField = String(sorter.field);
+      onSortOrderChange({[sortField]: sortDirection});
+      return;
     }
 
-    onSortOrderChange({[sortField]: sortDirection});
-  } else {
-    onSortOrderChange(defaultSort);
+    // For Association field sorter.field will be ['garage', '_instanceName']
+    if (Array.isArray(sorter.field)) {
+      const sortField = sorter.field[0];
+      onSortOrderChange({
+        [sortField]: {
+          id: sortDirection // TODO String ID support
+        }
+      });
+      return;
+    }
   }
+
+  onSortOrderChange(defaultSort);
 }
 
 /**

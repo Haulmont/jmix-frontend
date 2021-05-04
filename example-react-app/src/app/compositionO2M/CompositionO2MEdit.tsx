@@ -17,14 +17,24 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_CompositionO2MTestEntity";
+const INPUT_NAME = "compositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MManagement";
 
 const LOAD_SCR_COMPOSITIONO2MTESTENTITY = gql`
-  query scr_CompositionO2MTestEntityById($id: String!) {
-    scr_CompositionO2MTestEntityById(id: $id) {
+  query scr_CompositionO2MTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_CompositionO2MTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       name
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+    }
+
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
     }
   }
 `;
@@ -47,10 +57,11 @@ const CompositionO2MEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
+    associationOptions,
     form,
     intl,
     handleFinish,
@@ -62,7 +73,9 @@ const CompositionO2MEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_CompositionO2MTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
+    hasAssociations: true,
     screens,
     multiScreen
   });
@@ -73,7 +86,7 @@ const CompositionO2MEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
@@ -88,6 +101,15 @@ const CompositionO2MEdit = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="name"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="datatypesTestEntity"
+          associationOptions={associationOptions?.scr_DatatypesTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

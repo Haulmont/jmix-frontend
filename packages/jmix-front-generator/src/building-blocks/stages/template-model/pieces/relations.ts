@@ -36,12 +36,12 @@ export function getRelations(projectModel: ProjectModel, attributes: EntityAttri
         path: getEntityPath(entity, projectModel)
       };
       if (attribute.mappingType === 'ASSOCIATION') {
-        relations.editAssociations[attribute.name] = entityWithPath;
+        relations.associations[attribute.name] = entityWithPath;
       }
       if (attribute.mappingType === 'COMPOSITION') {
-        relations.editCompositions[attribute.name] = entityWithPath;
+        relations.compositions[attribute.name] = entityWithPath;
       }
     }
     return relations;
-  }, {editAssociations: {}, editCompositions: {}});
+  }, {associations: {}, compositions: {}});
 }

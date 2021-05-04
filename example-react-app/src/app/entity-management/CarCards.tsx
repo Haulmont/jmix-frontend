@@ -51,6 +51,14 @@ const SCR_CAR_LIST = gql`
       maxPassengers
       price
       mileage
+      garage {
+        id
+        _instanceName
+      }
+      technicalCertificate {
+        id
+        _instanceName
+      }
       photo
     }
   }

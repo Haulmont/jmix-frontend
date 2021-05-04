@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_IntegerIdTestEntity";
+const INPUT_NAME = "integerIdTestEntity";
 const ROUTING_PATH = "/intIdManagementCards";
 
 const LOAD_SCR_INTEGERIDTESTENTITY = gql`
-  query scr_IntegerIdTestEntityById($id: String!) {
-    scr_IntegerIdTestEntityById(id: $id) {
+  query scr_IntegerIdTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_IntegerIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       description
@@ -45,7 +46,7 @@ const IntIdMgtCardsEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -60,6 +61,7 @@ const IntIdMgtCardsEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_IntegerIdTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -71,7 +73,7 @@ const IntIdMgtCardsEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (

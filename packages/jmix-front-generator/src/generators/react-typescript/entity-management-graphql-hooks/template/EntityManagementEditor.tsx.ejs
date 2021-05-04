@@ -24,11 +24,18 @@ import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImp
 <% */ -%>
 
 const ENTITY_NAME = '<%= entity.name %>';
+const INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
-  query <%= dollarsToUnderscores(entity.name) %>ById($id: String!) {
-    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) <%= editQuery -%>
+  query <%= dollarsToUnderscores(entity.name) %>ById($id: String!, $loadItem: Boolean!) {
+    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) @include(if: $loadItem) <%= editQuery -%>
+    <% Object.keys(editAssociations).forEach(attrName => { %>
+      <%= dollarsToUnderscores(editAssociations[attrName].name) %>List {
+        id
+        _instanceName
+      }
+    <% }) %>
   }
 `;
 
@@ -46,10 +53,13 @@ const <%= editComponentClass %> = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: {loading: queryLoading, error: queryError},
     upsertMutationResult: {loading: upsertLoading},
     store,
+    <% if (Object.keys(editAssociations).length > 0) { -%>
+      associationOptions,
+    <% } -%>
     form,
     intl,
     handleFinish,
@@ -61,7 +71,11 @@ const <%= editComponentClass %> = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: '<%= dollarsToUnderscores(entity.name) %>ById',
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
+    <% if (Object.keys(editAssociations).length > 0) { -%>
+      hasAssociations: true,
+    <% } -%>
     screens,
     multiScreen
   });
@@ -72,7 +86,7 @@ const <%= editComponentClass %> = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
@@ -97,11 +111,9 @@ const <%= editComponentClass %> = observer(() => {
             <% /* TODO Compositions %>
             <% */ %>
 
-            <% /* TODO Associations %>
             <% if (Object.keys(editAssociations).includes(attr.name)) { %>
-                 associationOptions={<%= unCapitalizeFirst(entity.className) %>Data.<%= unCapitalizeFirst(editAssociations[attr.name].className) %>List}
+                 associationOptions={associationOptions?.<%= dollarsToUnderscores(editAssociations[attr.name].name) %>List}
             <% } %>
-            <% */ %>
 
                   formItemProps={{
                   style: {marginBottom: "12px"},

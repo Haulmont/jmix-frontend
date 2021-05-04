@@ -13,7 +13,8 @@ import {
   HasId,
   Screens,
   redirect,
-  toIdString
+  toIdString,
+  MayHaveInstanceName,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect, useMemo} from "react";
@@ -35,6 +36,7 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   entityName: string;
   routingPath: string;
   queryName: string;
+  associations?: Record<string, string>;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -53,6 +55,7 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
   store: EntityListLocalStore;
+  associationOptionsMap?: Map<string, Array<HasId & MayHaveInstanceName>>;
 }
 
 export interface EntityListLocalStore {
@@ -85,7 +88,8 @@ export function useEntityList<
     screens,
     entityName,
     routingPath,
-    queryName
+    queryName,
+    associations
   } = options;
 
   const store: EntityListLocalStore = useLocalStore(() => ({
@@ -120,6 +124,8 @@ export function useEntityList<
   }, [listQueryOptions, loadItems]);
 
   const items = listQueryResult.data?.[queryName];
+
+  const associationOptionsMap = getAssociationOptions<TData>(listQueryResult.data, associations);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
@@ -188,7 +194,25 @@ export function useEntityList<
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
+    associationOptionsMap
   };
+}
+
+export function getAssociationOptions<
+  TData extends Record<string, any> = Record<string, any>
+>(data?: TData, associations?: Record<string, string>): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
+  if (data == null || associations == null) {
+    return undefined;
+  }
+
+  const map = new Map();
+
+  Object.keys(associations).forEach(attrName => {
+    const associationsListQuery = associations[attrName];
+    map.set(attrName, data[associationsListQuery] ?? []);
+  });
+
+  return map;
 }
 
 export function useCreateBtnCallback(screens: Screens, entityName: string) {

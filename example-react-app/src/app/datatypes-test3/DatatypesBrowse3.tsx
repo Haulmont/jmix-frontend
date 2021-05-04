@@ -6,12 +6,7 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import {
-  DataTable,
-  Spinner,
-  RetryDialog,
-  useEntityList
-} from "@haulmont/jmix-react-ui";
+import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -36,9 +31,20 @@ const FIELDS = [
   "localTimeAttr",
   "offsetTimeAttr",
   "enumAttr",
+  "associationO2Oattr",
+  "associationM2Oattr",
+  "intIdentityIdTestEntityAssociationO2OAttr",
+  "datatypesTestEntity3",
   "name",
   "readOnlyStringAttr"
 ];
+
+const ASSOCIATIONS = {
+  associationO2Oattr: "scr_AssociationO2OTestEntityList",
+  associationM2Oattr: "scr_AssociationM2OTestEntityList",
+  intIdentityIdTestEntityAssociationO2OAttr: "scr_IntIdentityIdTestEntityList",
+  datatypesTestEntity3: "scr_DatatypesTestEntity3List"
+};
 
 const SCR_DATATYPESTESTENTITY_LIST = gql`
   query scr_DatatypesTestEntityList(
@@ -72,8 +78,56 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       localTimeAttr
       offsetTimeAttr
       enumAttr
+      associationO2Oattr {
+        id
+        _instanceName
+      }
+      associationO2Mattr {
+        id
+        _instanceName
+      }
+      associationM2Oattr {
+        id
+        _instanceName
+      }
+      associationM2Mattr {
+        id
+        _instanceName
+      }
+      intIdentityIdTestEntityAssociationO2OAttr {
+        id
+        _instanceName
+      }
+      integerIdTestEntityAssociationM2MAttr {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
       name
       readOnlyStringAttr
+    }
+
+    scr_AssociationO2OTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_AssociationM2OTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_IntIdentityIdTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_DatatypesTestEntity3List {
+      id
+      _instanceName
     }
   }
 `;
@@ -97,13 +151,15 @@ const DatatypesBrowse3 = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store
+    store,
+    associationOptionsMap
   } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    associations: ASSOCIATIONS,
     queryName: "scr_DatatypesTestEntityList"
   });
 
@@ -173,6 +229,7 @@ const DatatypesBrowse3 = observer(() => {
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
+      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={FIELDS}

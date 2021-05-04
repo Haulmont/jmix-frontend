@@ -25,6 +25,7 @@ import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
 import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
+import {antFormToGraphQL} from "../formatters/antFormToGraphQL";
 
 export type EntityEditorStore = {
   globalErrors: string[];
@@ -44,17 +45,20 @@ export interface EntityEditorHookOptions<TData, TVariables> {
   entityId?: string;
   queryName: string;
   entityName: string;
+  inputName: string;
   routingPath: string;
+  hasAssociations?: boolean;
   screens: Screens;
   multiScreen: IMultiScreenItem;
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TVariables> {
-  loadItem: GraphQLQueryFn<TVariables>;
+  load: GraphQLQueryFn<TVariables>;
   loadQueryResult: LazyQueryResult<TData, TVariables>;
   upsertItem: GraphQLMutationFn<TData, TVariables>;
   upsertMutationResult: MutationResult;
   store: EntityEditorStore;
+  associationOptions?: TData;
   form: FormInstance;
   intl: IntlShape;
   handleFinish: (values: TEntity) => void;
@@ -77,6 +81,8 @@ export function useEntityEditor<
     entityId,
     queryName,
     entityName,
+    inputName,
+    hasAssociations,
     routingPath,
     screens,
     multiScreen
@@ -87,24 +93,29 @@ export function useEntityEditor<
   const [form] = useForm();
   const store: EntityEditorStore = useEntityEditorStore();
 
-  const [loadItem, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  const [load, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
   const {loading: queryLoading, error: queryError, data} = loadQueryResult;
+
   const [upsertItem, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
 
-  // Fetch the entity from backend
+  // Fetch the entity (if editing) and association options from backend
   useEffect(() => {
-    if (entityId != null) {
-      loadItem({
+    if (entityId != null || hasAssociations) {
+      load({
         variables: {
-          id: entityId
+          // TODO we have to pass something even if entityId is undefined because backend expects $id to be a String!
+          // TODO even if we don't @include the query. Should we make $id optional at backend?
+          id: entityId ?? '',
+          loadItem: entityId != null
         } as unknown as TVariables
       });
     }
-  }, [entityId, loadItem]);
+  }, [entityId, load, hasAssociations]);
 
   // Fill the form based on retrieved data
   useEffect(() => {
     if (
+      entityId != null && // Editing an entity
       !queryLoading &&
       queryError == null &&
       data != null &&
@@ -114,7 +125,7 @@ export function useEntityEditor<
         graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
       );
     }
-  }, [form, queryLoading, queryError, data, metadata, queryName, entityName]);
+  }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
 
   const goBackToBrowserScreen = useCallback(() => {
     if (screens.currentScreenIndex === 1) {
@@ -130,13 +141,15 @@ export function useEntityEditor<
     form,
     metadata,
     upsertItem,
+    entityName,
+    inputName,
     entityId,
     store,
     goBackToBrowserScreen
   });
 
   return {
-    loadItem,
+    load,
     loadQueryResult,
     upsertItem,
     upsertMutationResult,
@@ -145,7 +158,8 @@ export function useEntityEditor<
     intl,
     handleFinish,
     handleFinishFailed,
-    handleCancelBtnClick
+    handleCancelBtnClick,
+    associationOptions: data
   };
 }
 
@@ -155,6 +169,8 @@ export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   metadata: Metadata;
   upsertItem: GraphQLMutationFn<TData, TVariables>;
   entityId?: string;
+  entityName: string;
+  inputName: string;
   store: EntityEditorStore;
   goBackToBrowserScreen: () => void;
 }
@@ -172,6 +188,8 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
     form,
     metadata,
     upsertItem,
+    entityName,
+    inputName,
     entityId,
     store,
     goBackToBrowserScreen
@@ -190,8 +208,8 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
       if (form != null && metadata != null) {
         upsertItem({
           variables: {
-            car: {
-              ...values,
+            [inputName]: {
+              ...antFormToGraphQL(values, entityName, metadata),
               ...addIdIfExistingEntity(entityId)
             }
           } as any
@@ -213,7 +231,7 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
           });
       }
     },
-    [entityId, isNewEntity, store, form, metadata, upsertItem, intl]
+    [entityId, entityName, inputName, isNewEntity, store, form, metadata, upsertItem, intl]
   );
 
   return {handleFinish, handleFinishFailed};

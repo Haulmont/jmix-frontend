@@ -32,6 +32,7 @@ export * from './data/DataContext';
 export * from './data/EntityInstance';
 export * from './data/Collection';
 export * from './data/Instance';
+export * from './data/PropertyType';
 export * from './data/Association';
 
 export * from './util/collation';

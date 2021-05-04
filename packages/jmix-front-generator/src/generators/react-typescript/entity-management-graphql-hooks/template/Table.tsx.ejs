@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {PlusOutlined} from '@ant-design/icons';
 import {Button} from "antd";
 import {EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
-import {DataTable, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
+import {DataTable, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -17,10 +17,24 @@ const FIELDS = [
 <% }) %>
 ];
 
+<% if (Object.keys(listAssociations).length > 0) { -%>
+const ASSOCIATIONS = {
+<% Object.keys(listAssociations).forEach(attrName => { -%>
+  <%= attrName %>: '<%= dollarsToUnderscores(listAssociations[attrName].name) %>List',
+<% }) -%>
+};
+<% } -%>
+
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count
     <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= listQuery %>
+    <% Object.keys(listAssociations).forEach(attrName => { %>
+      <%= dollarsToUnderscores(listAssociations[attrName].name) %>List {
+      id
+      _instanceName
+      }
+    <% }) %>
   }
 `;
 
@@ -44,13 +58,19 @@ const <%= listComponentClass %> = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store,
+    <% if (Object.keys(listAssociations).length > 0) { -%>
+      associationOptionsMap,
+    <% } -%>
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    queryName: '<%= dollarsToUnderscores(entity.name) %>List'
+    <% if (Object.keys(listAssociations).length > 0) { -%>
+      associations: ASSOCIATIONS,
+    <% } -%>
+    queryName: '<%= dollarsToUnderscores(entity.name) %>List',
   });
 
   if (error != null) {
@@ -109,6 +129,9 @@ const <%= listComponentClass %> = observer(() => {
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
+      <% if (Object.keys(listAssociations).length > 0) { -%>
+        associationOptionsMap={associationOptionsMap}
+      <% } -%>
       loading={loading}
       error={error}
       columnDefinitions={FIELDS}

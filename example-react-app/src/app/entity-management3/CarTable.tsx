@@ -6,12 +6,7 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import {
-  DataTable,
-  Spinner,
-  RetryDialog,
-  useEntityList
-} from "@haulmont/jmix-react-ui";
+import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -31,8 +26,15 @@ const FIELDS = [
   "maxPassengers",
   "price",
   "mileage",
+  "garage",
+  "technicalCertificate",
   "photo"
 ];
+
+const ASSOCIATIONS = {
+  garage: "scr_GarageList",
+  technicalCertificate: "scr_TechnicalCertificateList"
+};
 
 const SCR_CAR_LIST = gql`
   query scr_CarList(
@@ -61,7 +63,25 @@ const SCR_CAR_LIST = gql`
       maxPassengers
       price
       mileage
+      garage {
+        id
+        _instanceName
+      }
+      technicalCertificate {
+        id
+        _instanceName
+      }
       photo
+    }
+
+    scr_GarageList {
+      id
+      _instanceName
+    }
+
+    scr_TechnicalCertificateList {
+      id
+      _instanceName
     }
   }
 `;
@@ -85,13 +105,15 @@ const CarTable = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store
+    store,
+    associationOptionsMap
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    associations: ASSOCIATIONS,
     queryName: "scr_CarList"
   });
 
@@ -161,6 +183,7 @@ const CarTable = observer(() => {
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
+      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={FIELDS}

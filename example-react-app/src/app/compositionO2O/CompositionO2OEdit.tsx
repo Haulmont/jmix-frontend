@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
+const INPUT_NAME = "compositionO2OTestEntity";
 const ROUTING_PATH = "/compositionO2OManagement";
 
 const LOAD_SCR_COMPOSITIONO2OTESTENTITY = gql`
-  query scr_CompositionO2OTestEntityById($id: String!) {
-    scr_CompositionO2OTestEntityById(id: $id) {
+  query scr_CompositionO2OTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_CompositionO2OTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       name
@@ -47,7 +48,7 @@ const CompositionO2OEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -62,6 +63,7 @@ const CompositionO2OEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_CompositionO2OTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -73,7 +75,7 @@ const CompositionO2OEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
