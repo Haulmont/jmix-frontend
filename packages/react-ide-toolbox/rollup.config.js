@@ -8,38 +8,28 @@ import copy from "rollup-plugin-copy";
 const packageJson = require("./package.json");
 
 export default {
-    input: "src/index.ts",
-    output: [
-        {
-            file: packageJson.main,
-            format: "es",
-            sourcemap: true
-        },
-        {
-            file: packageJson.module,
-            format: "commonjs",
-            sourcemap: true
-        }
-    ],
-    plugins: [
-        peerDepsExternal(),
-        resolve(),
-        commonjs(),
-        typescript({ useTsconfigDeclarationDir: true }),
-        postcss(),
-        copy({
-            targets: [
-                {
-                    src: "src/variables.scss",
-                    dest: "build",
-                    rename: "variables.scss"
-                },
-                {
-                    src: "src/typography.scss",
-                    dest: "build",
-                    rename: "typography.scss"
-                }
-            ]
-        })
-    ]
+  input: "src/index.ts",
+  output: [
+    {
+      file: packageJson.main,
+      format: "es",
+      sourcemap: true
+    },
+    {
+      file: packageJson.module,
+      format: "commonjs",
+      sourcemap: true
+    }
+  ],
+  plugins: [
+    peerDepsExternal(),
+    resolve(),
+    commonjs(),
+    typescript({ useTsconfigDeclarationDir: true }),
+    postcss({
+      extract: false,
+      extensions: ['.scss'],
+      use: ['sass'],
+    })
+  ]
 };
