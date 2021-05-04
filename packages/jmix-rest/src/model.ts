@@ -1,8 +1,17 @@
+/**
+ * @deprecated
+ */
 export type TemporalPropertyType =
   'date' | 'time' | 'dateTime' | 'localDate' | 'localTime' | 'localDateTime' | 'offsetDateTime' | 'offsetTime';
 
+/**
+ * @deprecated
+ */
 export type NumericPropertyType = 'int' | 'long' | 'double' | 'decimal';
 
+/**
+ * @deprecated
+ */
 export type PropertyType = TemporalPropertyType |
   'string' | 'uuid' | 'char'
   | 'byteArray'

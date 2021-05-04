@@ -16,11 +16,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity2";
+const INPUT_NAME = "datatypesTestEntity2";
 const ROUTING_PATH = "/datatypes2Management";
 
 const LOAD_SCR_DATATYPESTESTENTITY2 = gql`
-  query scr_DatatypesTestEntity2ById($id: String!) {
-    scr_DatatypesTestEntity2ById(id: $id) {
+  query scr_DatatypesTestEntity2ById($id: String!, $loadItem: Boolean!) {
+    scr_DatatypesTestEntity2ById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
     }
@@ -45,7 +46,7 @@ const Datatypes2Edit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -60,6 +61,7 @@ const Datatypes2Edit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_DatatypesTestEntity2ById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -71,7 +73,7 @@ const Datatypes2Edit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (

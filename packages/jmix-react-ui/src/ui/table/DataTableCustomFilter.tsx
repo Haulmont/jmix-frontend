@@ -4,7 +4,7 @@ import { Button, Divider, Input, Select } from 'antd';
 import {FilterDropdownProps} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
 import {NumericPropertyType, PropertyType} from '@haulmont/jmix-rest';
-import { action, computed, observable, makeObservable } from 'mobx';
+import { action, computed, makeObservable } from 'mobx';
 import {Dayjs} from 'dayjs';
 import {DataTableListEditor} from './DataTableListEditor';
 import {DataTableIntervalEditor, TemporalInterval} from './DataTableIntervalEditor';
@@ -20,6 +20,9 @@ import {
   injectMetadata,
   MetadataInjected,
   MetaPropertyInfo,
+  HasId,
+  MayHaveInstanceName,
+  toIdString,
 } from '@haulmont/jmix-react-core';
 import {IntegerInput} from "../form/IntegerInput";
 import {BigDecimalInput} from "../form/BigDecimalInput";
@@ -72,7 +75,7 @@ export interface DataTableCustomFilterProps extends MainStoreInjected, MetadataI
   value: CustomFilterInputValue,
   onValueChange: (value: CustomFilterInputValue, propertyName: string) => void,
   customFilterRef?: (formInstance: FormInstance) => void
-  associationOptions?: any; // TODO
+  associationOptions?: Array<HasId & MayHaveInstanceName>;
 }
 
 enum OperatorGroup {
@@ -83,7 +86,14 @@ enum OperatorGroup {
 }
 class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilterProps & WrappedComponentProps> {
 
-  nestedEntityOptions: CaptionValuePair[] = [];
+  get nestedEntityOptions(): CaptionValuePair[] {
+    const {associationOptions = []} = this.props;
+
+    return associationOptions.map(instance => ({
+      caption: instance._instanceName ?? toIdString(instance.id),
+      value: toIdString(instance.id)
+    }));
+  }
 
   formInstance: FormInstance | undefined | null;
 
@@ -109,7 +119,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     super(props);
 
     makeObservable(this, {
-      nestedEntityOptions: observable,
+      nestedEntityOptions: computed,
       propertyCaption: computed,
       propertyInfoNN: computed,
       handleFinish: action,

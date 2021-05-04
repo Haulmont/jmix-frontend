@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr$Car";
+const INPUT_NAME = "car";
 const ROUTING_PATH = "/carManagement2";
 
 const LOAD_SCR_CAR = gql`
-  query scr_CarById($id: String!) {
-    scr_CarById(id: $id) {
+  query scr_CarById($id: String!, $loadItem: Boolean!) {
+    scr_CarById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       manufacturer
@@ -35,7 +36,25 @@ const LOAD_SCR_CAR = gql`
       maxPassengers
       price
       mileage
+      garage {
+        id
+        _instanceName
+      }
+      technicalCertificate {
+        id
+        _instanceName
+      }
       photo
+    }
+
+    scr_GarageList {
+      id
+      _instanceName
+    }
+
+    scr_TechnicalCertificateList {
+      id
+      _instanceName
     }
   }
 `;
@@ -54,10 +73,11 @@ const CarEdit2 = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
+    associationOptions,
     form,
     intl,
     handleFinish,
@@ -69,7 +89,9 @@ const CarEdit2 = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_CarById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
+    hasAssociations: true,
     screens,
     multiScreen
   });
@@ -80,7 +102,7 @@ const CarEdit2 = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
@@ -178,6 +200,24 @@ const CarEdit2 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="mileage"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="garage"
+          associationOptions={associationOptions?.scr_GarageList}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="technicalCertificate"
+          associationOptions={associationOptions?.scr_TechnicalCertificateList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

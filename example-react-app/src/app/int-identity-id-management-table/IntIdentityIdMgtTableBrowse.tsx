@@ -6,12 +6,7 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import {
-  DataTable,
-  Spinner,
-  RetryDialog,
-  useEntityList
-} from "@haulmont/jmix-react-ui";
+import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";

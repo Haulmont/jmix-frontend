@@ -35,8 +35,8 @@ export interface EditRelations {
  * @deprecated
  */
 export interface EditRelationsSplit {
-  editAssociations: EditRelations;
-  editCompositions: EditRelations;
+  associations: EditRelations;
+  compositions: EditRelations;
 }
 
 /**

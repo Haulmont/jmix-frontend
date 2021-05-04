@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_TrickyIdTestEntity";
+const INPUT_NAME = "trickyIdTestEntity";
 const ROUTING_PATH = "/trickyIdMgr";
 
 const LOAD_SCR_TRICKYIDTESTENTITY = gql`
-  query scr_TrickyIdTestEntityById($id: String!) {
-    scr_TrickyIdTestEntityById(id: $id) {
+  query scr_TrickyIdTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_TrickyIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       otherAttr
@@ -45,7 +46,7 @@ const TrickyIdEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -60,6 +61,7 @@ const TrickyIdEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_TrickyIdTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -71,7 +73,7 @@ const TrickyIdEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (

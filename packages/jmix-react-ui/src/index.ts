@@ -8,7 +8,7 @@ import "dayjs/plugin/weekYear";
 
 export * from './crud/pagination';
 
-export * from './formatters/antFormToGraphql';
+export * from './formatters/antFormToGraphQL';
 export * from './formatters/graphqlToAntForm';
 
 export * from './crud/useEntityEditor';

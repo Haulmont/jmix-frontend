@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_AssociationO2MTestEntity";
+const INPUT_NAME = "associationO2MTestEntity";
 const ROUTING_PATH = "/associationO2MManagement";
 
 const LOAD_SCR_ASSOCIATIONO2MTESTENTITY = gql`
-  query scr_AssociationO2MTestEntityById($id: String!) {
-    scr_AssociationO2MTestEntityById(id: $id) {
+  query scr_AssociationO2MTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_AssociationO2MTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       name
@@ -47,7 +48,7 @@ const AssociationO2MEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -62,6 +63,7 @@ const AssociationO2MEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_AssociationO2MTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -73,7 +75,7 @@ const AssociationO2MEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (

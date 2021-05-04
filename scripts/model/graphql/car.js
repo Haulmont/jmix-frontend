@@ -13,6 +13,14 @@ const carQuery = `
   maxPassengers
   price
   mileage
+  garage {
+    id
+    _instanceName
+  }
+  technicalCertificate {
+    id
+    _instanceName
+  }
   photo
 }
 `;

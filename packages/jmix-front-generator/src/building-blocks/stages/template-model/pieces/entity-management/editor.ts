@@ -1,10 +1,7 @@
 import {EntityAttribute, ProjectModel} from "../../../../../common/model/cuba-model";
 import {EntityWithPath} from "../entity";
 import {getRelationImports, getRelations} from "../relations";
-
-export interface EditRelations {
-  [propName: string]: EntityWithPath
-}
+import { RelationalAttributes } from "./common";
 
 export interface RelationImport {
   className: string
@@ -13,8 +10,8 @@ export interface RelationImport {
 
 export type EntityEditorTemplateModel = {
   readOnlyFields: string[];
-  editCompositions: EditRelations;
-  editAssociations: EditRelations;
+  editCompositions: RelationalAttributes;
+  editAssociations: RelationalAttributes;
   nestedEntityInfo?: Record<string, string>;
   relationImports: RelationImport[];
 };
@@ -40,16 +37,16 @@ export function deriveEditorTemplateModel(
     .filter((attr: EntityAttribute) => attr.readOnly)
     .map((attr: EntityAttribute) => attr.name);
 
-  const { editAssociations, editCompositions } = getRelations(projectModel, editAttributes);
+  const { associations, compositions } = getRelations(projectModel, editAttributes);
 
   const nestedEntityInfo = answers.nestedEntityInfo;
 
-  const relationImports = getRelationImports(editAssociations, entityWithPath);
+  const relationImports = getRelationImports(associations, entityWithPath);
 
   return {
     readOnlyFields,
-    editAssociations,
-    editCompositions,
+    editAssociations: associations,
+    editCompositions: compositions,
     nestedEntityInfo,
     relationImports
   };

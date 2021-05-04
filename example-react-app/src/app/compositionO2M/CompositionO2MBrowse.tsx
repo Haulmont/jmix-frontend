@@ -6,12 +6,7 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import {
-  DataTable,
-  Spinner,
-  RetryDialog,
-  useEntityList
-} from "@haulmont/jmix-react-ui";
+import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -19,7 +14,11 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_CompositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MManagement";
 
-const FIELDS = ["name"];
+const FIELDS = ["name", "datatypesTestEntity"];
+
+const ASSOCIATIONS = {
+  datatypesTestEntity: "scr_DatatypesTestEntityList"
+};
 
 const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
   query scr_CompositionO2MTestEntityList(
@@ -38,6 +37,15 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
       id
       _instanceName
       name
+      datatypesTestEntity {
+        id
+        _instanceName
+      }
+    }
+
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
     }
   }
 `;
@@ -61,13 +69,15 @@ const CompositionO2MBrowse = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store
+    store,
+    associationOptionsMap
   } = useEntityList<CompositionO2MTestEntity>({
     listQuery: SCR_COMPOSITIONO2MTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_COMPOSITIONO2MTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    associations: ASSOCIATIONS,
     queryName: "scr_CompositionO2MTestEntityList"
   });
 
@@ -137,6 +147,7 @@ const CompositionO2MBrowse = observer(() => {
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
+      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={FIELDS}

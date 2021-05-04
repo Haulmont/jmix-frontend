@@ -4,7 +4,8 @@ import {ListTypes} from "../../../building-blocks/stages/template-model/pieces/e
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {
   deriveEntityManagementCommon,
-  EntityManagementCommonTemplateModel
+  EntityManagementCommonTemplateModel,
+  RelationalAttributes
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/common";
 import {
   deriveEditAttributesFromQuery,
@@ -16,7 +17,7 @@ import {
 } from "../../../building-blocks/stages/template-model/pieces/entity-browser/browser";
 import {
   deriveEditorTemplateModel,
-  EditRelations, EntityEditorTemplateModel, RelationImport
+  EntityEditorTemplateModel, RelationImport
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/editor";
 import {
   deriveEntity,
@@ -26,6 +27,7 @@ import {
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {EntityManagementAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
+import {getRelations} from "../../../building-blocks/stages/template-model/pieces/relations";
 
 export type EntityManagementQueryTemplateModel = {
   listQuery: string;
@@ -43,11 +45,12 @@ export type EntityManagementTemplateModel =
   nameLiteral: string;
   entity: EntityWithPath;
   listAttributes: EntityAttribute[];
+  listAssociations: RelationalAttributes;
   stringIdName?: string;
   editAttributes: EntityAttribute[];
   readOnlyFields: string[];
-  editCompositions: EditRelations;
-  editAssociations: EditRelations;
+  editCompositions: RelationalAttributes;
+  editAssociations: RelationalAttributes;
   editAssociatedEntityClassNames: string[];
   relationImports: RelationImport[];
 };
@@ -68,19 +71,21 @@ export const deriveTemplateModel = async (
     ...deriveEntityManagementCommon(options, answers),
     ...deriveQueries(answers),
     ...deriveListAttributesFromQuery(answers, projectModel),
-    ...deriveEditAttributesFromQuery(answers, projectModel)
+    ...deriveEditAttributesFromQuery(answers, projectModel),
   };
 
   const {listAttributes, editAttributes, entity: entityWithPath} = partialModel;
 
   type PartialModel2 =
     & PartialModel
-    & EntityEditorTemplateModel;
+    & EntityEditorTemplateModel
+    & {listAssociations: RelationalAttributes};
 
   const partialModel2: PartialModel2 = {
     ...partialModel,
     // ...deriveStringIdAnswers(answers, projectModel, listAttributes, editAttributes), // TODO A different implementation is needed for GraphQL
-    ...deriveEditorTemplateModel(answers, projectModel, editAttributes, entityWithPath)
+    ...deriveListRelations(projectModel, listAttributes),
+    ...deriveEditorTemplateModel(answers, projectModel, editAttributes, entityWithPath),
   };
 
   const {editAssociations} = partialModel2;
@@ -92,6 +97,11 @@ export const deriveTemplateModel = async (
   }
 };
 
+function deriveListRelations(projectModel: ProjectModel, listAttributes: EntityAttribute[]) {
+  const {associations: listAssociations} = getRelations(projectModel, listAttributes);
+  return {listAssociations};
+}
+
 function deriveQueries(answers: EntityManagementAnswers): {listQuery: string, editQuery: string} {
   const {listQuery, editQuery} = answers;
   return {
@@ -100,7 +110,7 @@ function deriveQueries(answers: EntityManagementAnswers): {listQuery: string, ed
   };
 }
 
-function deriveEditAssociatedEntityClassNames(editAssociations: EditRelations): {editAssociatedEntityClassNames: string[]} {
+function deriveEditAssociatedEntityClassNames(editAssociations: RelationalAttributes): {editAssociatedEntityClassNames: string[]} {
   const editAssociatedEntityClassNames =
     Array.from(
       new Set(

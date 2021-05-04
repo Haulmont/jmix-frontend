@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";
+const INPUT_NAME = "datatypesTestEntity";
 const ROUTING_PATH = "/datatypesManagement2";
 
 const LOAD_SCR_DATATYPESTESTENTITY = gql`
-  query scr_DatatypesTestEntityById($id: String!) {
-    scr_DatatypesTestEntityById(id: $id) {
+  query scr_DatatypesTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_DatatypesTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       bigDecimalAttr
@@ -40,8 +41,66 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
       localTimeAttr
       offsetTimeAttr
       enumAttr
+      associationO2Oattr {
+        id
+        _instanceName
+      }
+      associationO2Mattr {
+        id
+        _instanceName
+      }
+      associationM2Oattr {
+        id
+        _instanceName
+      }
+      associationM2Mattr {
+        id
+        _instanceName
+      }
+      intIdentityIdTestEntityAssociationO2OAttr {
+        id
+        _instanceName
+      }
+      integerIdTestEntityAssociationM2MAttr {
+        id
+        _instanceName
+      }
+      datatypesTestEntity3 {
+        id
+        _instanceName
+      }
       name
       readOnlyStringAttr
+    }
+
+    scr_AssociationO2OTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_AssociationM2OTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_AssociationM2MTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_IntIdentityIdTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_IntegerIdTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_DatatypesTestEntity3List {
+      id
+      _instanceName
     }
   }
 `;
@@ -62,10 +121,11 @@ const DatatypesEdit2 = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
+    associationOptions,
     form,
     intl,
     handleFinish,
@@ -77,7 +137,9 @@ const DatatypesEdit2 = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_DatatypesTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
+    hasAssociations: true,
     screens,
     multiScreen
   });
@@ -88,7 +150,7 @@ const DatatypesEdit2 = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
@@ -224,6 +286,68 @@ const DatatypesEdit2 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="enumAttr"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="associationO2Oattr"
+          associationOptions={
+            associationOptions?.scr_AssociationO2OTestEntityList
+          }
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="associationM2Oattr"
+          associationOptions={
+            associationOptions?.scr_AssociationM2OTestEntityList
+          }
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="associationM2Mattr"
+          associationOptions={
+            associationOptions?.scr_AssociationM2MTestEntityList
+          }
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="intIdentityIdTestEntityAssociationO2OAttr"
+          associationOptions={
+            associationOptions?.scr_IntIdentityIdTestEntityList
+          }
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="integerIdTestEntityAssociationM2MAttr"
+          associationOptions={associationOptions?.scr_IntegerIdTestEntityList}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="datatypesTestEntity3"
+          associationOptions={associationOptions?.scr_DatatypesTestEntity3List}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

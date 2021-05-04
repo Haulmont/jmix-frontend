@@ -17,11 +17,12 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
+const INPUT_NAME = "weirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
 const LOAD_SCR_WEIRDSTRINGIDTESTENTITY = gql`
-  query scr_WeirdStringIdTestEntityById($id: String!) {
-    scr_WeirdStringIdTestEntityById(id: $id) {
+  query scr_WeirdStringIdTestEntityById($id: String!, $loadItem: Boolean!) {
+    scr_WeirdStringIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
       identifier
@@ -48,7 +49,7 @@ const WeirdStringIdMgtTableEdit = observer(() => {
   const metadata = useMetadata();
 
   const {
-    loadItem,
+    load,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -63,6 +64,7 @@ const WeirdStringIdMgtTableEdit = observer(() => {
     entityId: multiScreen?.params?.entityId,
     queryName: "scr_WeirdStringIdTestEntityById",
     entityName: ENTITY_NAME,
+    inputName: INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen
@@ -74,7 +76,7 @@ const WeirdStringIdMgtTableEdit = observer(() => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={loadItem} />;
+    return <RetryDialog onRetry={load} />;
   }
 
   return (
