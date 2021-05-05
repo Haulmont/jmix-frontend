@@ -77,8 +77,7 @@ const CompositionO2MBrowse = observer(() => {
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS,
-    queryName: "scr_CompositionO2MTestEntityList"
+    associations: ASSOCIATIONS
   });
 
   if (error != null) {

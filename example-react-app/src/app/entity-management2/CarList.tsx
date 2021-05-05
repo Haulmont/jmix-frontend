@@ -85,8 +85,7 @@ const CarList = observer(() => {
     deleteMutation: DELETE_SCR_CAR,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_CarList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

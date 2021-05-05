@@ -63,8 +63,7 @@ const WeirdStringIdMgtTableBrowse = observer(() => {
     deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_WeirdStringIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

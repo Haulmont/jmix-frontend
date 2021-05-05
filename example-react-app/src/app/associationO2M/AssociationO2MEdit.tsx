@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_AssociationO2MTestEntity";
-const INPUT_NAME = "associationO2MTestEntity";
+const UPSERT_INPUT_NAME = "associationO2MTestEntity";
 const ROUTING_PATH = "/associationO2MManagement";
 
 const LOAD_SCR_ASSOCIATIONO2MTESTENTITY = gql`
@@ -61,9 +61,8 @@ const AssociationO2MEdit = observer(() => {
     loadQuery: LOAD_SCR_ASSOCIATIONO2MTESTENTITY,
     upsertMutation: UPSERT_SCR_ASSOCIATIONO2MTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_AssociationO2MTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

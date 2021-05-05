@@ -62,8 +62,7 @@ const AssociationM2MBrowse = observer(() => {
     deleteMutation: DELETE_SCR_ASSOCIATIONM2MTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_AssociationM2MTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

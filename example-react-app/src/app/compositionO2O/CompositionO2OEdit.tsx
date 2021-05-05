@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
-const INPUT_NAME = "compositionO2OTestEntity";
+const UPSERT_INPUT_NAME = "compositionO2OTestEntity";
 const ROUTING_PATH = "/compositionO2OManagement";
 
 const LOAD_SCR_COMPOSITIONO2OTESTENTITY = gql`
@@ -61,9 +61,8 @@ const CompositionO2OEdit = observer(() => {
     loadQuery: LOAD_SCR_COMPOSITIONO2OTESTENTITY,
     upsertMutation: UPSERT_SCR_COMPOSITIONO2OTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_CompositionO2OTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

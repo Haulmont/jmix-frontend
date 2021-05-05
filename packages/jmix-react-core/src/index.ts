@@ -36,6 +36,7 @@ export * from './data/PropertyType';
 export * from './data/Association';
 
 export * from './util/collation';
+export * from './util/dollars-to-underscores';
 export * from './util/metadata';
 export * from './util/data';
 export * from './util/file';

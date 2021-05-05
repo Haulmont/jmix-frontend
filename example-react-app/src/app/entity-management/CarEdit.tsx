@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr$Car";
-const INPUT_NAME = "car";
+const UPSERT_INPUT_NAME = "car";
 const ROUTING_PATH = "/carManagement";
 
 const LOAD_SCR_CAR = gql`
@@ -87,9 +87,8 @@ const CarEdit = observer(() => {
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_CarById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     hasAssociations: true,
     screens,

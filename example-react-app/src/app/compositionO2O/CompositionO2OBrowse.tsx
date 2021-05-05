@@ -62,8 +62,7 @@ const CompositionO2OBrowse = observer(() => {
     deleteMutation: DELETE_SCR_COMPOSITIONO2OTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_CompositionO2OTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

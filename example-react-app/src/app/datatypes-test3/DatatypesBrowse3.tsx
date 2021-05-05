@@ -159,8 +159,7 @@ const DatatypesBrowse3 = observer(() => {
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS,
-    queryName: "scr_DatatypesTestEntityList"
+    associations: ASSOCIATIONS
   });
 
   if (error != null) {

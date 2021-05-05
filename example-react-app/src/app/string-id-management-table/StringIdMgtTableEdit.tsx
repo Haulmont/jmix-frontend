@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_StringIdTestEntity";
-const INPUT_NAME = "stringIdTestEntity";
+const UPSERT_INPUT_NAME = "stringIdTestEntity";
 const ROUTING_PATH = "/stringIdMgtTableManagement";
 
 const LOAD_SCR_STRINGIDTESTENTITY = gql`
@@ -61,9 +61,8 @@ const StringIdMgtTableEdit = observer(() => {
     loadQuery: LOAD_SCR_STRINGIDTESTENTITY,
     upsertMutation: UPSERT_SCR_STRINGIDTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_StringIdTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

@@ -15,6 +15,7 @@ import {
   redirect,
   toIdString,
   MayHaveInstanceName,
+  dollarsToUnderscores,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback, useEffect, useMemo} from "react";
@@ -35,7 +36,7 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   screens: Screens;
   entityName: string;
   routingPath: string;
-  queryName: string;
+  queryName?: string;
   associations?: Record<string, string>;
 }
 
@@ -88,7 +89,7 @@ export function useEntityList<
     screens,
     entityName,
     routingPath,
-    queryName,
+    queryName = `${dollarsToUnderscores(entityName)}List`,
     associations
   } = options;
 

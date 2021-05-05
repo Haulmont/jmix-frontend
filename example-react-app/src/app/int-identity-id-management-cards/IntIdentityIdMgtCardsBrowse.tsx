@@ -67,8 +67,7 @@ const IntIdentityIdMgtCardsBrowse = observer(() => {
     deleteMutation: DELETE_SCR_INTIDENTITYIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_IntIdentityIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

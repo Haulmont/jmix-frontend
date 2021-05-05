@@ -40,8 +40,7 @@ const <%= listComponentClass %> = observer(() => {
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: '<%= dollarsToUnderscores(entity.name) %>List'
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

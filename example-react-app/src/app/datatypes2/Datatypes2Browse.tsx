@@ -61,8 +61,7 @@ const Datatypes2Browse = observer(() => {
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY2,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_DatatypesTestEntity2List"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
