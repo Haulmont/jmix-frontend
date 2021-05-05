@@ -14,31 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_DatatypesTestEntity";
 const ROUTING_PATH = "/datatypesManagement3";
 
-const FIELDS = [
-  "bigDecimalAttr",
-  "booleanAttr",
-  "dateAttr",
-  "dateTimeAttr",
-  "doubleAttr",
-  "integerAttr",
-  "longAttr",
-  "stringAttr",
-  "timeAttr",
-  "uuidAttr",
-  "localDateTimeAttr",
-  "offsetDateTimeAttr",
-  "localDateAttr",
-  "localTimeAttr",
-  "offsetTimeAttr",
-  "enumAttr",
-  "associationO2Oattr",
-  "associationM2Oattr",
-  "intIdentityIdTestEntityAssociationO2OAttr",
-  "datatypesTestEntity3",
-  "name",
-  "readOnlyStringAttr"
-];
-
 const ASSOCIATIONS = {
   associationO2Oattr: "scr_AssociationO2OTestEntityList",
   associationM2Oattr: "scr_AssociationM2OTestEntityList",
@@ -231,7 +206,30 @@ const DatatypesBrowse3 = observer(() => {
       associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={[
+        "bigDecimalAttr",
+        "booleanAttr",
+        "dateAttr",
+        "dateTimeAttr",
+        "doubleAttr",
+        "integerAttr",
+        "longAttr",
+        "stringAttr",
+        "timeAttr",
+        "uuidAttr",
+        "localDateTimeAttr",
+        "offsetDateTimeAttr",
+        "localDateAttr",
+        "localTimeAttr",
+        "offsetTimeAttr",
+        "enumAttr",
+        "associationO2Oattr",
+        "associationM2Oattr",
+        "intIdentityIdTestEntityAssociationO2OAttr",
+        "datatypesTestEntity3",
+        "name",
+        "readOnlyStringAttr"
+      ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

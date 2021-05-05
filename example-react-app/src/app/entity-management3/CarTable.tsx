@@ -14,23 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr$Car";
 const ROUTING_PATH = "/carManagement3";
 
-const FIELDS = [
-  "manufacturer",
-  "model",
-  "regNumber",
-  "purchaseDate",
-  "manufactureDate",
-  "wheelOnRight",
-  "carType",
-  "ecoRank",
-  "maxPassengers",
-  "price",
-  "mileage",
-  "garage",
-  "technicalCertificate",
-  "photo"
-];
-
 const ASSOCIATIONS = {
   garage: "scr_GarageList",
   technicalCertificate: "scr_TechnicalCertificateList"
@@ -185,7 +168,22 @@ const CarTable = observer(() => {
       associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={[
+        "manufacturer",
+        "model",
+        "regNumber",
+        "purchaseDate",
+        "manufactureDate",
+        "wheelOnRight",
+        "carType",
+        "ecoRank",
+        "maxPassengers",
+        "price",
+        "mileage",
+        "garage",
+        "technicalCertificate",
+        "photo"
+      ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
