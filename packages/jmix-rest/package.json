@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-rest",
-  "version": "1.0.0-next.4",
+  "version": "1.0.0-next.5",
   "description": "JavaScript library for working with Jmix REST API",
   "main": "dist-node/jmix.js",
   "typings": "dist-node/jmix.d.ts",
