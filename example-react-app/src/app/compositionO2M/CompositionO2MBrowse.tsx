@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_CompositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MManagement";
 
-const FIELDS = ["name", "datatypesTestEntity"];
-
 const ASSOCIATIONS = {
   datatypesTestEntity: "scr_DatatypesTestEntityList"
 };
@@ -149,7 +147,7 @@ const CompositionO2MBrowse = observer(() => {
       associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["name", "datatypesTestEntity"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

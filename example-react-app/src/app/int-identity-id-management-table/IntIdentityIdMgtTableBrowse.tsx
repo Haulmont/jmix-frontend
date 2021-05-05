@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
 const ROUTING_PATH = "/intIdentityIdMgtTableManagement";
 
-const FIELDS = ["description"];
-
 const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
   query scr_IntIdentityIdTestEntityList(
     $limit: Int
@@ -133,7 +131,7 @@ const IntIdentityIdMgtTableBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["description"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

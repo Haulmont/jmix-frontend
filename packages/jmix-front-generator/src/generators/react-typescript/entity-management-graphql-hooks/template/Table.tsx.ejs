@@ -11,12 +11,6 @@ import {gql} from '@apollo/client';
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
-const FIELDS = [
-<% listAttributes.forEach(p => { -%>
-  '<%= p.name %>',
-<% }) %>
-];
-
 <% if (Object.keys(listAssociations).length > 0) { -%>
 const ASSOCIATIONS = {
 <% Object.keys(listAssociations).forEach(attrName => { -%>
@@ -133,7 +127,11 @@ const <%= listComponentClass %> = observer(() => {
       <% } -%>
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={[
+        <% listAttributes.forEach(p => { -%>
+          '<%= p.name %>',
+        <% }) %>
+      ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

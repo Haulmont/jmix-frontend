@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_DatatypesTestEntity3";
 const ROUTING_PATH = "/datatypes3Management";
 
-const FIELDS = ["name"];
-
 const SCR_DATATYPESTESTENTITY3_LIST = gql`
   query scr_DatatypesTestEntity3List(
     $limit: Int
@@ -133,7 +131,7 @@ const Datatypes3Browse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["name"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

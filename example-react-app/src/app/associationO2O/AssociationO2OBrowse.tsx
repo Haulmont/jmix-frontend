@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_AssociationO2OTestEntity";
 const ROUTING_PATH = "/associationO2OManagement";
 
-const FIELDS = ["name"];
-
 const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
   query scr_AssociationO2OTestEntityList(
     $limit: Int
@@ -133,7 +131,7 @@ const AssociationO2OBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["name"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

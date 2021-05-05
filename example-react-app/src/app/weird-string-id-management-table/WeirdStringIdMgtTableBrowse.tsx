@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
-const FIELDS = ["id", "description"];
-
 const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
   query scr_WeirdStringIdTestEntityList(
     $limit: Int
@@ -134,7 +132,7 @@ const WeirdStringIdMgtTableBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["id", "description"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

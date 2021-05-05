@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
 const ROUTING_PATH = "/compositionO2OManagement";
 
-const FIELDS = ["name"];
-
 const SCR_COMPOSITIONO2OTESTENTITY_LIST = gql`
   query scr_CompositionO2OTestEntityList(
     $limit: Int
@@ -133,7 +131,7 @@ const CompositionO2OBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["name"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

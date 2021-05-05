@@ -14,8 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_BoringStringIdTestEntity";
 const ROUTING_PATH = "/boringStringIdManagementTable";
 
-const FIELDS = ["description"];
-
 const SCR_BORINGSTRINGIDTESTENTITY_LIST = gql`
   query scr_BoringStringIdTestEntityList(
     $limit: Int
@@ -133,7 +131,7 @@ const BoringStringIdMgtTableBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={FIELDS}
+      columnDefinitions={["description"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
