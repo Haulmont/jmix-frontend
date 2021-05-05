@@ -70,7 +70,6 @@ const <%= listComponentClass %> = observer(() => {
     <% if (Object.keys(listAssociations).length > 0) { -%>
       associations: ASSOCIATIONS,
     <% } -%>
-    queryName: '<%= dollarsToUnderscores(entity.name) %>List',
   });
 
   if (error != null) {

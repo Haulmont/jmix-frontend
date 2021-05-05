@@ -2,7 +2,9 @@ import {useCallback, useEffect} from "react";
 import {FormInstance, message} from "antd";
 import {useLocalStore} from "mobx-react";
 import {
+  ApolloCache,
   DocumentNode, FetchResult,
+  gql,
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions, MutationResult,
@@ -17,7 +19,8 @@ import {
   Metadata,
   Screens,
   IMultiScreenItem,
-  redirect
+  redirect,
+  dollarsToUnderscores
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {action} from "mobx";
@@ -43,9 +46,11 @@ export interface EntityEditorHookOptions<TData, TVariables> {
   upsertMutation: DocumentNode | TypedDocumentNode;
   upsertMutationOptions?: MutationHookOptions<TData, TVariables>;
   entityId?: string;
-  queryName: string;
+  queryName?: string;
   entityName: string;
-  inputName: string;
+  upsertInputName: string;
+  updateResultName?: string;
+  listQueryName?: string;
   routingPath: string;
   hasAssociations?: boolean;
   screens: Screens;
@@ -79,13 +84,15 @@ export function useEntityEditor<
     upsertMutation,
     upsertMutationOptions,
     entityId,
-    queryName,
     entityName,
-    inputName,
+    queryName = `${dollarsToUnderscores(entityName)}ById`,
+    updateResultName = `upsert_${dollarsToUnderscores(entityName)}`,
+    listQueryName = `${dollarsToUnderscores(entityName)}List`,
+    upsertInputName,
     hasAssociations,
     routingPath,
     screens,
-    multiScreen
+    multiScreen,
   } = options;
 
   const intl = useIntl();
@@ -142,10 +149,12 @@ export function useEntityEditor<
     metadata,
     upsertItem,
     entityName,
-    inputName,
+    upsertInputName,
     entityId,
     store,
-    goBackToBrowserScreen
+    goBackToBrowserScreen,
+    updateResultName,
+    listQueryName,
   });
 
   return {
@@ -170,9 +179,11 @@ export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   upsertItem: GraphQLMutationFn<TData, TVariables>;
   entityId?: string;
   entityName: string;
-  inputName: string;
+  upsertInputName: string;
   store: EntityEditorStore;
   goBackToBrowserScreen: () => void;
+  updateResultName: string;
+  listQueryName: string;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -180,7 +191,11 @@ export interface FormSubmitCallbacksHookResult<TEntity> {
   handleFinishFailed: (errorInfo: ValidateErrorEntity<TEntity>) => void;
 }
 
-export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
+export function useFormSubmitCallbacks<
+  TEntity,
+  TData extends Record<string, any> = Record<string, any>,
+  TVariables extends HasId = HasId
+>(
   options: FormSubmitCallbacksHookOptions<TData, TVariables>
 ): FormSubmitCallbacksHookResult<TEntity> {
   const {
@@ -189,10 +204,12 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
     metadata,
     upsertItem,
     entityName,
-    inputName,
+    upsertInputName,
     entityId,
     store,
-    goBackToBrowserScreen
+    goBackToBrowserScreen,
+    updateResultName,
+    listQueryName,
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -206,13 +223,35 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
   const handleFinish = useCallback(
     (values: { [field: string]: any }) => {
       if (form != null && metadata != null) {
+        const updatedEntity = {
+          ...antFormToGraphQL(values, entityName, metadata),
+          ...addIdIfExistingEntity(entityId)
+        };
         upsertItem({
           variables: {
-            [inputName]: {
-              ...antFormToGraphQL(values, entityName, metadata),
-              ...addIdIfExistingEntity(entityId)
-            }
-          } as any
+            [upsertInputName]: updatedEntity
+          } as any,
+          update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
+            const updateResult = result.data?.[updateResultName];
+            // Reflect the update in Apollo cache
+            cache.modify({
+              fields: {
+                [listQueryName](existingRefs = []) {
+                  const updatedItemRef = cache.writeFragment({
+                    id: `${entityName}:${updateResult.id}`,
+                    data: updatedEntity,
+                    fragment: gql(`
+                      fragment New_${dollarsToUnderscores(entityName)} on ${dollarsToUnderscores(entityName)} {
+                        id
+                        type
+                      }
+                    `)
+                  });
+                  return [...existingRefs, updatedItemRef];
+                }
+              }
+            });
+          }
         }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
             if (errors == null || errors.length === 0) {
               const successMessageId = selectFormSuccessMessageId(
@@ -231,7 +270,19 @@ export function useFormSubmitCallbacks<TEntity, TData, TVariables>(
           });
       }
     },
-    [entityId, entityName, inputName, isNewEntity, store, form, metadata, upsertItem, intl]
+    [
+      entityId,
+      entityName,
+      upsertInputName,
+      isNewEntity,
+      store,
+      form,
+      metadata,
+      upsertItem,
+      intl,
+      updateResultName,
+      listQueryName,
+    ]
   );
 
   return {handleFinish, handleFinishFailed};

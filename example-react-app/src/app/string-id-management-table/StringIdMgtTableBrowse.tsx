@@ -64,8 +64,7 @@ const StringIdMgtTableBrowse = observer(() => {
     deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_StringIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

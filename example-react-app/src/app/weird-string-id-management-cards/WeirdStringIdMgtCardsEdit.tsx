@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
-const INPUT_NAME = "weirdStringIdTestEntity";
+const UPSERT_INPUT_NAME = "weirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtCardsManagement";
 
 const LOAD_SCR_WEIRDSTRINGIDTESTENTITY = gql`
@@ -62,9 +62,8 @@ const WeirdStringIdMgtCardsEdit = observer(() => {
     loadQuery: LOAD_SCR_WEIRDSTRINGIDTESTENTITY,
     upsertMutation: UPSERT_SCR_WEIRDSTRINGIDTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_WeirdStringIdTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

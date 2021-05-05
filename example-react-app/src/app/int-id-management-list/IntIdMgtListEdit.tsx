@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_IntegerIdTestEntity";
-const INPUT_NAME = "integerIdTestEntity";
+const UPSERT_INPUT_NAME = "integerIdTestEntity";
 const ROUTING_PATH = "/intIdManagementList";
 
 const LOAD_SCR_INTEGERIDTESTENTITY = gql`
@@ -59,9 +59,8 @@ const IntIdMgtListEdit = observer(() => {
     loadQuery: LOAD_SCR_INTEGERIDTESTENTITY,
     upsertMutation: UPSERT_SCR_INTEGERIDTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_IntegerIdTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

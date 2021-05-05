@@ -17,7 +17,7 @@ import { gql } from "@apollo/client";
 import "../../app/App.css";
 
 const ENTITY_NAME = "scr_BoringStringIdTestEntity";
-const INPUT_NAME = "boringStringIdTestEntity";
+const UPSERT_INPUT_NAME = "boringStringIdTestEntity";
 const ROUTING_PATH = "/boringStringIdManagementTable";
 
 const LOAD_SCR_BORINGSTRINGIDTESTENTITY = gql`
@@ -61,9 +61,8 @@ const BoringStringIdMgtTableEdit = observer(() => {
     loadQuery: LOAD_SCR_BORINGSTRINGIDTESTENTITY,
     upsertMutation: UPSERT_SCR_BORINGSTRINGIDTESTENTITY,
     entityId: multiScreen?.params?.entityId,
-    queryName: "scr_BoringStringIdTestEntityById",
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
     multiScreen

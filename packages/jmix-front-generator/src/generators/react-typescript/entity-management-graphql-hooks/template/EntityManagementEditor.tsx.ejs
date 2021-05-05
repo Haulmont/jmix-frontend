@@ -24,7 +24,7 @@ import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImp
 <% */ -%>
 
 const ENTITY_NAME = '<%= entity.name %>';
-const INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
+const UPSERT_INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
@@ -69,9 +69,8 @@ const <%= editComponentClass %> = observer(() => {
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     entityId: multiScreen?.params?.entityId,
-    queryName: '<%= dollarsToUnderscores(entity.name) %>ById',
     entityName: ENTITY_NAME,
-    inputName: INPUT_NAME,
+    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     <% if (Object.keys(editAssociations).length > 0) { -%>
       hasAssociations: true,

@@ -66,8 +66,7 @@ const IntIdMgtListBrowse = observer(() => {
     deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_IntegerIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {

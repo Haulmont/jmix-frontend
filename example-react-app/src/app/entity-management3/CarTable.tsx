@@ -113,8 +113,7 @@ const CarTable = observer(() => {
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS,
-    queryName: "scr_CarList"
+    associations: ASSOCIATIONS
   });
 
   if (error != null) {

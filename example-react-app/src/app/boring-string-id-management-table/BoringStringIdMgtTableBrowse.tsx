@@ -62,8 +62,7 @@ const BoringStringIdMgtTableBrowse = observer(() => {
     deleteMutation: DELETE_SCR_BORINGSTRINGIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_BoringStringIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
