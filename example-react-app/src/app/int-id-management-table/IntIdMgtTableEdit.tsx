@@ -21,7 +21,7 @@ const UPSERT_INPUT_NAME = "integerIdTestEntity";
 const ROUTING_PATH = "/intIdManagementTable";
 
 const LOAD_SCR_INTEGERIDTESTENTITY = gql`
-  query scr_IntegerIdTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_IntegerIdTestEntityById($id: String = "", $loadItem: Boolean!) {
     scr_IntegerIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

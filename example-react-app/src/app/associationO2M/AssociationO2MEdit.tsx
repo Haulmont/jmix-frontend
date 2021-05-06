@@ -21,7 +21,10 @@ const UPSERT_INPUT_NAME = "associationO2MTestEntity";
 const ROUTING_PATH = "/associationO2MManagement";
 
 const LOAD_SCR_ASSOCIATIONO2MTESTENTITY = gql`
-  query scr_AssociationO2MTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_AssociationO2MTestEntityById(
+    $id: String = ""
+    $loadItem: Boolean!
+  ) {
     scr_AssociationO2MTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

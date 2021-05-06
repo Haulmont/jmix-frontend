@@ -109,9 +109,7 @@ export function useEntityEditor<
     if (entityId != null || hasAssociations) {
       load({
         variables: {
-          // TODO we have to pass something even if entityId is undefined because backend expects $id to be a String!
-          // TODO even if we don't @include the query. Should we make $id optional at backend?
-          id: entityId ?? '',
+          id: entityId,
           loadItem: entityId != null
         } as unknown as TVariables
       });

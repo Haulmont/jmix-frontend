@@ -21,7 +21,10 @@ const UPSERT_INPUT_NAME = "associationM2OTestEntity";
 const ROUTING_PATH = "/associationM2OManagement";
 
 const LOAD_SCR_ASSOCIATIONM2OTESTENTITY = gql`
-  query scr_AssociationM2OTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_AssociationM2OTestEntityById(
+    $id: String = ""
+    $loadItem: Boolean!
+  ) {
     scr_AssociationM2OTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
