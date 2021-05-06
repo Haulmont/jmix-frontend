@@ -14,11 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr$Car";
 const ROUTING_PATH = "/carManagement3";
 
-const ASSOCIATIONS = {
-  garage: "scr_GarageList",
-  technicalCertificate: "scr_TechnicalCertificateList"
-};
-
 const SCR_CAR_LIST = gql`
   query scr_CarList(
     $limit: Int
@@ -94,24 +89,19 @@ const CarTable = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store,
-    associationOptionsMap
+    store
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
-
-  const items = data?.scr_CarList;
-  const total = data?.scr_CarCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -155,7 +145,7 @@ const CarTable = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        onClick={deleteSelectedRow.bind(null, data?.scr_CarList)}
         key="remove"
         type="default"
       >
@@ -166,12 +156,10 @@ const CarTable = observer(() => {
 
   return (
     <DataTable
-      items={items}
-      total={total}
+      data={data}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
-      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={[

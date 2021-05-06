@@ -11,14 +11,6 @@ import {gql} from '@apollo/client';
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
-<% if (Object.keys(listAssociations).length > 0) { -%>
-const ASSOCIATIONS = {
-<% Object.keys(listAssociations).forEach(attrName => { -%>
-  <%= attrName %>: '<%= dollarsToUnderscores(listAssociations[attrName].name) %>List',
-<% }) -%>
-};
-<% } -%>
-
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count
@@ -52,29 +44,18 @@ const <%= listComponentClass %> = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store,
-    <% if (Object.keys(listAssociations).length > 0) { -%>
-      associationOptionsMap,
-    <% } -%>
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    <% if (Object.keys(listAssociations).length > 0) { -%>
-      associations: ASSOCIATIONS,
-    <% } -%>
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
-
-  const items = data?.<%= dollarsToUnderscores(entity.name) %>List;
-  <%# // TODO Currently backend returns the same total number regardless of filters, should return number of filtered items. -%>
-  <%# // TODO Will be fixed as part of https://github.com/Haulmont/jmix-graphql/issues/37 -%>
-  const total = data?.<%= dollarsToUnderscores(entity.name) %>Count;
 
   const buttons = [
     (<EntityPermAccessControl entityName={ENTITY_NAME} operation='create' key='create'>
@@ -106,7 +87,7 @@ const <%= listComponentClass %> = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        onClick={deleteSelectedRow.bind(null, data?.<%= dollarsToUnderscores(entity.name) %>List)}
         key="remove"
         type="default"
       >
@@ -117,14 +98,10 @@ const <%= listComponentClass %> = observer(() => {
 
   return (
     <DataTable
-      items={items}
-      total={total}
+      data={data}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
-      <% if (Object.keys(listAssociations).length > 0) { -%>
-        associationOptionsMap={associationOptionsMap}
-      <% } -%>
       loading={loading}
       error={error}
       columnDefinitions={[

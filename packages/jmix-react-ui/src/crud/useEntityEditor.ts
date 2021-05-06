@@ -63,7 +63,6 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
   upsertItem: GraphQLMutationFn<TData, TVariables>;
   upsertMutationResult: MutationResult;
   store: EntityEditorStore;
-  associationOptions?: TData;
   form: FormInstance;
   intl: IntlShape;
   handleFinish: (values: TEntity) => void;
@@ -168,7 +167,6 @@ export function useEntityEditor<
     handleFinish,
     handleFinishFailed,
     handleCancelBtnClick,
-    associationOptions: data
   };
 }
 

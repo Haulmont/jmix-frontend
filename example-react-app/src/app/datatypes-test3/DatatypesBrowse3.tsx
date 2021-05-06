@@ -14,13 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_DatatypesTestEntity";
 const ROUTING_PATH = "/datatypesManagement3";
 
-const ASSOCIATIONS = {
-  associationO2Oattr: "scr_AssociationO2OTestEntityList",
-  associationM2Oattr: "scr_AssociationM2OTestEntityList",
-  intIdentityIdTestEntityAssociationO2OAttr: "scr_IntIdentityIdTestEntityList",
-  datatypesTestEntity3: "scr_DatatypesTestEntity3List"
-};
-
 const SCR_DATATYPESTESTENTITY_LIST = gql`
   query scr_DatatypesTestEntityList(
     $limit: Int
@@ -126,24 +119,19 @@ const DatatypesBrowse3 = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store,
-    associationOptionsMap
+    store
   } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
-
-  const items = data?.scr_DatatypesTestEntityList;
-  const total = data?.scr_DatatypesTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -187,7 +175,10 @@ const DatatypesBrowse3 = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        onClick={deleteSelectedRow.bind(
+          null,
+          data?.scr_DatatypesTestEntityList
+        )}
         key="remove"
         type="default"
       >
@@ -198,12 +189,10 @@ const DatatypesBrowse3 = observer(() => {
 
   return (
     <DataTable
-      items={items}
-      total={total}
+      data={data}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
-      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={[
