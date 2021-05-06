@@ -94,7 +94,7 @@ module.exports = function (generatorName, logFileSuffix) {
     console.log(`${logCaption} generation complete, start compilation`);
 
     // Do not use the libs from npm as it may lead to compatibility issues.
-    await updateClientLibs(appDir, ['rest', 'react-core', 'react-ui'], false, path.join(process.cwd(), '..'));
+    await updateClientLibs(appDir, ['rest', 'react-core', 'react-ui', 'react-ide-toolbox'], false, path.join(process.cwd(), '..'));
 
     const buildCommand = addEnvVars('npm run build');
     await cmd(`cd ${appDir} && ${buildCommand}`,

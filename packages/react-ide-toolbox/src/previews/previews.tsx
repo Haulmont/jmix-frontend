@@ -5,7 +5,7 @@ import { DEV_MODE } from "../config";
 import "./previews.scss";
 
 interface Props {
-  children: JSX.Element | JSX.Element[];
+  children?: JSX.Element | JSX.Element[];
 }
 
 export const Previews: React.FC<Props> = ({ children }: Props) => {
@@ -13,12 +13,14 @@ export const Previews: React.FC<Props> = ({ children }: Props) => {
   const [toolsPanelEnabled, enableToolsPanel] = useState<boolean>((window as any).__PROPERTIES_EDIT_PANEL_ENABLED__);
 
   const childrenWithSetProps = useMemo(() => {
-    return React.Children.map(
-      children,
-      (child: JSX.Element) => {
-        return React.cloneElement(child, { setToolsPropsToEdit })
-      }
-    )
+    return children 
+    ? React.Children.map(
+        children,
+        (child: JSX.Element) => {
+          return React.cloneElement(child, { setToolsPropsToEdit })
+        }
+      )
+    : null
   }, [children])
 
   useEffect(() => {
