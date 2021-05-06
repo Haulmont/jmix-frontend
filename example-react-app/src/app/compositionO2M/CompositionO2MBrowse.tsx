@@ -14,10 +14,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_CompositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MManagement";
 
-const ASSOCIATIONS = {
-  datatypesTestEntity: "scr_DatatypesTestEntityList"
-};
-
 const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
   query scr_CompositionO2MTestEntityList(
     $limit: Int
@@ -67,24 +63,19 @@ const CompositionO2MBrowse = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
-    store,
-    associationOptionsMap
+    store
   } = useEntityList<CompositionO2MTestEntity>({
     listQuery: SCR_COMPOSITIONO2MTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_COMPOSITIONO2MTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    associations: ASSOCIATIONS
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
-
-  const items = data?.scr_CompositionO2MTestEntityList;
-  const total = data?.scr_CompositionO2MTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -128,7 +119,10 @@ const CompositionO2MBrowse = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        onClick={deleteSelectedRow.bind(
+          null,
+          data?.scr_CompositionO2MTestEntityList
+        )}
         key="remove"
         type="default"
       >
@@ -139,12 +133,10 @@ const CompositionO2MBrowse = observer(() => {
 
   return (
     <DataTable
-      items={items}
-      total={total}
+      data={data}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
-      associationOptionsMap={associationOptionsMap}
       loading={loading}
       error={error}
       columnDefinitions={["name", "datatypesTestEntity"]}

@@ -122,10 +122,9 @@ const DatatypesEdit1 = observer(() => {
 
   const {
     load,
-    loadQueryResult: { loading: queryLoading, error: queryError },
+    loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
-    associationOptions,
     form,
     intl,
     handleFinish,
@@ -293,9 +292,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="associationO2Oattr"
-          associationOptions={
-            associationOptions?.scr_AssociationO2OTestEntityList
-          }
+          associationOptions={data?.scr_AssociationO2OTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -304,9 +301,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="associationM2Oattr"
-          associationOptions={
-            associationOptions?.scr_AssociationM2OTestEntityList
-          }
+          associationOptions={data?.scr_AssociationM2OTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -315,9 +310,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="associationM2Mattr"
-          associationOptions={
-            associationOptions?.scr_AssociationM2MTestEntityList
-          }
+          associationOptions={data?.scr_AssociationM2MTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -326,9 +319,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="intIdentityIdTestEntityAssociationO2OAttr"
-          associationOptions={
-            associationOptions?.scr_IntIdentityIdTestEntityList
-          }
+          associationOptions={data?.scr_IntIdentityIdTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -337,7 +328,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="integerIdTestEntityAssociationM2MAttr"
-          associationOptions={associationOptions?.scr_IntegerIdTestEntityList}
+          associationOptions={data?.scr_IntegerIdTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -346,7 +337,7 @@ const DatatypesEdit1 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="datatypesTestEntity3"
-          associationOptions={associationOptions?.scr_DatatypesTestEntity3List}
+          associationOptions={data?.scr_DatatypesTestEntity3List}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

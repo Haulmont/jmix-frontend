@@ -80,10 +80,9 @@ const CarEdit3 = observer(() => {
 
   const {
     load,
-    loadQueryResult: { loading: queryLoading, error: queryError },
+    loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
-    associationOptions,
     form,
     intl,
     handleFinish,
@@ -213,7 +212,7 @@ const CarEdit3 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="garage"
-          associationOptions={associationOptions?.scr_GarageList}
+          associationOptions={data?.scr_GarageList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -222,7 +221,7 @@ const CarEdit3 = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="technicalCertificate"
-          associationOptions={associationOptions?.scr_TechnicalCertificateList}
+          associationOptions={data?.scr_TechnicalCertificateList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

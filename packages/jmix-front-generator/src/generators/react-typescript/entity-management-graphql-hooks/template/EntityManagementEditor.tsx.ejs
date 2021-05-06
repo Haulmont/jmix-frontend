@@ -54,12 +54,15 @@ const <%= editComponentClass %> = observer(() => {
 
   const {
     load,
-    loadQueryResult: {loading: queryLoading, error: queryError},
+    loadQueryResult: {
+      loading: queryLoading,
+      error: queryError,
+      <% if (Object.keys(editAssociations).length > 0) { -%>
+        data,
+      <% } -%>
+    },
     upsertMutationResult: {loading: upsertLoading},
     store,
-    <% if (Object.keys(editAssociations).length > 0) { -%>
-      associationOptions,
-    <% } -%>
     form,
     intl,
     handleFinish,
@@ -111,7 +114,7 @@ const <%= editComponentClass %> = observer(() => {
             <% */ %>
 
             <% if (Object.keys(editAssociations).includes(attr.name)) { %>
-                 associationOptions={associationOptions?.<%= dollarsToUnderscores(editAssociations[attr.name].name) %>List}
+                 associationOptions={data?.<%= dollarsToUnderscores(editAssociations[attr.name].name) %>List}
             <% } %>
 
                   formItemProps={{

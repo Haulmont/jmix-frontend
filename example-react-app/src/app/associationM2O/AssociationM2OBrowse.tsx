@@ -68,9 +68,6 @@ const AssociationM2OBrowse = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  const items = data?.scr_AssociationM2OTestEntityList;
-  const total = data?.scr_AssociationM2OTestEntityCount;
-
   const buttons = [
     <EntityPermAccessControl
       entityName={ENTITY_NAME}
@@ -113,7 +110,10 @@ const AssociationM2OBrowse = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        onClick={deleteSelectedRow.bind(
+          null,
+          data?.scr_AssociationM2OTestEntityList
+        )}
         key="remove"
         type="default"
       >
@@ -124,8 +124,7 @@ const AssociationM2OBrowse = observer(() => {
 
   return (
     <DataTable
-      items={items}
-      total={total}
+      data={data}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}

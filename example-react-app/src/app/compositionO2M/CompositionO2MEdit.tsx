@@ -58,10 +58,9 @@ const CompositionO2MEdit = observer(() => {
 
   const {
     load,
-    loadQueryResult: { loading: queryLoading, error: queryError },
+    loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
-    associationOptions,
     form,
     intl,
     handleFinish,
@@ -108,7 +107,7 @@ const CompositionO2MEdit = observer(() => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="datatypesTestEntity"
-          associationOptions={associationOptions?.scr_DatatypesTestEntityList}
+          associationOptions={data?.scr_DatatypesTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

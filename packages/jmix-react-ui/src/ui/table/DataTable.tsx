@@ -30,11 +30,13 @@ import {
   getPropertyInfoNN,
   WithId,
   EntityInstance,
-  HasId,
-  MayHaveInstanceName,
+  getListQueryName,
+  getCountQueryName,
   injectMetadata,
   MetadataInjected,
   toIdString,
+  HasId,
+  MayHaveInstanceName,
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
@@ -45,10 +47,9 @@ import { PaginationChangeCallback } from '../../crud/pagination';
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+export interface DataTableProps<TData, TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
-  items: TEntity[];
-  total?: number;
+  data?: TData;
   current?: number;
   pageSize?: number;
   loading: boolean;
@@ -63,7 +64,6 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
   entityName: string;
-  associationOptionsMap?: Map<string, Array<HasId & MayHaveInstanceName>>;
 
   /**
    * Names of columns that should have filters enabled.
@@ -144,7 +144,10 @@ export interface ColumnDefinition<TEntity> {
    */
   columnProps: ColumnProps<TEntity>
 }
-class DataTableComponent<TEntity extends object> extends React.Component<DataTableProps<TEntity>, any> {
+class DataTableComponent<
+  TData extends Record<string, any> = Record<string, any>,
+  TEntity extends object = object
+> extends React.Component<DataTableProps<TData, TEntity>, any> {
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
@@ -156,7 +159,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
 
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
 
-  constructor(props: DataTableProps<TEntity>) {
+  constructor(props: DataTableProps<TData, TEntity>) {
     super(props);
 
     const {initialFilter} = props;
@@ -197,7 +200,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
     // When `data` has changed (e.g. due to sorting, filtering or pagination change) some of the selected rows
     // may not be displayed anymore and shall be removed from selectedRowKeys
     this.disposers.push(reaction(
-      () => [this.props.items, this.props.loading],
+      () => [this.items, this.props.loading],
       ([items, loading]: any) => { // TODO proper typing
         if (this.isRowSelectionEnabled && this.selectedRowKeys.length > 0 && !loading) {
 
@@ -270,6 +273,16 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
     return ['single', 'multi'].indexOf(this.props.rowSelectionMode) > -1;
   }
 
+  get items(): TEntity[] {
+    const {data, entityName} = this.props;
+    return data?.[getListQueryName(entityName)] ?? [];
+  }
+
+  get total(): number {
+    const {data, entityName} = this.props;
+    return data?.[getCountQueryName(entityName)] ?? 0;
+  }
+
   get fields(): string[] {
 
     const {columnDefinitions} = this.props;
@@ -290,14 +303,19 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
   }
 
   get paginationConfig(): TablePaginationConfig {
-    const {total, current, pageSize} = this.props;
+    const {current, pageSize} = this.props;
 
     return {
       showSizeChanger: true,
-      total,
+      total: this.total,
       pageSize,
       current
     };
+  }
+
+  getAssociationOptions(associatedEntityName: string): Array<HasId & MayHaveInstanceName> {
+    const {data} = this.props;
+    return data?.[getListQueryName(associatedEntityName)] ?? [];
   }
 
   handleFilterOperatorChange = (operator: ComparisonType, propertyName: string) => {
@@ -415,7 +433,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
   }
 
   render() {
-    const { items, loading, mainStore } = this.props;
+    const { loading, mainStore } = this.props;
 
     if (mainStore?.isEntityDataLoaded() !== true) {
       return (
@@ -428,7 +446,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
     let defaultTableProps: TableProps<TEntity> = {
       loading,
       columns: this.generateColumnProps,
-      dataSource: toJS(items),
+      dataSource: this.items,
       onChange: this.onChange,
       pagination: this.paginationConfig,
       rowKey: record => this.constructRowKey(record),
@@ -487,7 +505,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
   }
 
   get generateColumnProps(): Array<ColumnProps<TEntity>> {
-    const {columnDefinitions, mainStore, entityName, associationOptionsMap} = this.props;
+    const {columnDefinitions, mainStore, entityName} = this.props;
 
     return (columnDefinitions ?? this.fields)
       .filter((columnDef: string | ColumnDefinition<TEntity>) => {
@@ -518,7 +536,7 @@ class DataTableComponent<TEntity extends object> extends React.Component<DataTab
             enableSorter: true,
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
-            associationOptions: associationOptionsMap?.get(propertyName)
+            associationOptions: this.getAssociationOptions(propertyName)
           });
 
           return {
