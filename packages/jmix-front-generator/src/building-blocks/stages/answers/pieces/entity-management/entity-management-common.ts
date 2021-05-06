@@ -43,7 +43,7 @@ export const displayAttributesQuestions = [
   {
     code: 'listQuery',
     // Subject to change, in future we might want to get the full query from Studio
-    caption: 'Part of GraphQL query representing the requested attributes graph for entity browser component',
+    caption: 'GraphQL query for entity browser',
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
@@ -51,7 +51,7 @@ export const displayAttributesQuestions = [
   {
     code: 'editQuery',
     // Subject to change, in future we might want to get the full query from Studio
-    caption: 'Part of GraphQL query representing the requested attributes graph for entity editor component',
+    caption: 'GraphQL query for entity editor',
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
