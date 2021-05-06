@@ -28,7 +28,7 @@ const UPSERT_INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
-  query <%= dollarsToUnderscores(entity.name) %>ById($id: String!, $loadItem: Boolean!) {
+  query <%= dollarsToUnderscores(entity.name) %>ById($id: String = "", $loadItem: Boolean!) {
     <%= dollarsToUnderscores(entity.name) %>ById(id: $id) @include(if: $loadItem) <%= editQuery -%>
     <% Object.keys(editAssociations).forEach(attrName => { %>
       <%= dollarsToUnderscores(editAssociations[attrName].name) %>List {

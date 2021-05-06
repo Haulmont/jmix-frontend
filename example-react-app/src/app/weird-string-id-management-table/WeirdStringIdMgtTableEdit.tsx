@@ -21,7 +21,7 @@ const UPSERT_INPUT_NAME = "weirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdMgtTableManagement";
 
 const LOAD_SCR_WEIRDSTRINGIDTESTENTITY = gql`
-  query scr_WeirdStringIdTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_WeirdStringIdTestEntityById($id: String = "", $loadItem: Boolean!) {
     scr_WeirdStringIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

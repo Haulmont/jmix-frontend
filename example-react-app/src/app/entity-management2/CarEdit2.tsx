@@ -21,7 +21,7 @@ const UPSERT_INPUT_NAME = "car";
 const ROUTING_PATH = "/carManagement2";
 
 const LOAD_SCR_CAR = gql`
-  query scr_CarById($id: String!, $loadItem: Boolean!) {
+  query scr_CarById($id: String = "", $loadItem: Boolean!) {
     scr_CarById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

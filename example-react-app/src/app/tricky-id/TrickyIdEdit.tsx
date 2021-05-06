@@ -21,7 +21,7 @@ const UPSERT_INPUT_NAME = "trickyIdTestEntity";
 const ROUTING_PATH = "/trickyIdMgr";
 
 const LOAD_SCR_TRICKYIDTESTENTITY = gql`
-  query scr_TrickyIdTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_TrickyIdTestEntityById($id: String = "", $loadItem: Boolean!) {
     scr_TrickyIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

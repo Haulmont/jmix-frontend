@@ -20,7 +20,7 @@ const UPSERT_INPUT_NAME = "datatypesTestEntity2";
 const ROUTING_PATH = "/datatypes2Management";
 
 const LOAD_SCR_DATATYPESTESTENTITY2 = gql`
-  query scr_DatatypesTestEntity2ById($id: String!, $loadItem: Boolean!) {
+  query scr_DatatypesTestEntity2ById($id: String = "", $loadItem: Boolean!) {
     scr_DatatypesTestEntity2ById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

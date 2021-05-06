@@ -21,7 +21,10 @@ const UPSERT_INPUT_NAME = "boringStringIdTestEntity";
 const ROUTING_PATH = "/boringStringIdManagementTable";
 
 const LOAD_SCR_BORINGSTRINGIDTESTENTITY = gql`
-  query scr_BoringStringIdTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_BoringStringIdTestEntityById(
+    $id: String = ""
+    $loadItem: Boolean!
+  ) {
     scr_BoringStringIdTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName

@@ -21,7 +21,10 @@ const UPSERT_INPUT_NAME = "compositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MManagement";
 
 const LOAD_SCR_COMPOSITIONO2MTESTENTITY = gql`
-  query scr_CompositionO2MTestEntityById($id: String!, $loadItem: Boolean!) {
+  query scr_CompositionO2MTestEntityById(
+    $id: String = ""
+    $loadItem: Boolean!
+  ) {
     scr_CompositionO2MTestEntityById(id: $id) @include(if: $loadItem) {
       id
       _instanceName
