@@ -48,19 +48,19 @@ gen(
         answers: answers.entityCards
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/entity-management',
         answers: answers.entityManagement
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/entity-management2',
         answers: answers.entityManagement2
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/entity-management3',
         answers: answers.entityManagement3
@@ -73,68 +73,68 @@ gen(
       },
       // All datatypes
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/datatypes-test1',
         answers: answers.datatypesTest1
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/datatypes-test2',
         answers: answers.datatypesTest2
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/datatypes-test3',
         answers: answers.datatypesTest3
       },
       // Relations
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/associationO2O',
         answers: answers.associationO2O
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/associationO2M',
         answers: answers.associationO2M
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/associationM2O',
         answers: answers.associationM2O
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/associationM2M',
         answers: answers.associationM2M
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/compositionO2O',
         answers: answers.compositionO2O
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/compositionO2M',
         answers: answers.compositionO2M
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/datatypes2',
         answers: answers.datatypes2Test
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/datatypes3',
         answers: answers.datatypes3Test
@@ -153,37 +153,37 @@ gen(
         answers: intIdentityIdCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-id-management-table',
         answers: intIdManagementTableConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-id-management-cards',
         answers: intIdManagementCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-id-management-list',
         answers: intIdManagementListConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-identity-id-management-table',
         answers: intIdentityIdManagementTableConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-identity-id-management-cards',
         answers: intIdentityIdManagementCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/int-identity-id-management-list',
         answers: intIdentityIdManagementListConfig
@@ -196,50 +196,50 @@ gen(
         answers: stringIdCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/string-id-management-cards',
         answers: stringIdManagementCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/string-id-management-list',
         answers: stringIdManagementListConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/string-id-management-table',
         answers: stringIdManagementTableConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/weird-string-id-management-cards',
         answers: weirdStringIdManagementCardsConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/weird-string-id-management-list',
         answers: weirdStringIdManagementListConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/weird-string-id-management-table',
         answers: weirdStringIdManagementTableConfig
       },
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/boring-string-id-management-table',
         answers: boringStringIdManagementTableConfig
       },
       // Custom ID
       {
-        command: 'react-typescript:entity-management-graphql-hooks',
+        command: 'react-typescript:entity-management',
         dirShift,
         dest: 'src/app/tricky-id',
         answers: trickyIdConfig
