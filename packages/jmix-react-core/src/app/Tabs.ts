@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import React from 'react';
 import { Screens } from './Screens';
 import { redirect } from './Router';
@@ -65,14 +65,14 @@ export class Tabs {
    * Close tab
    * @param tabToRemove
    */
-  close = (tabToRemove: IMultiTabItem) => {
+  close = action((tabToRemove: IMultiTabItem) => {
     const switchTab = this.currentTab === tabToRemove && this.tabs.length > 1;
     const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      this.currentTab = this.tabs[removedTabIndex];
+      this.currentTab = this.tabs[removedTabIndex - 1];
     }
-  };
+  });
 
   /**
    * Set active tab

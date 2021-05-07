@@ -25,6 +25,7 @@
   },
   "scripts": {
     "lerna": "lerna",
+    "lerna-bootstrap": "lerna bootstrap --no-audit",
     "antora": "antora",
     "antora:gen": "antora --fetch",
     "commit": "node node_modules/commitizen/bin/git-cz",
