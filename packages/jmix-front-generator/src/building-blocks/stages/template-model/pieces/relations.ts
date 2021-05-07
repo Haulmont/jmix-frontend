@@ -1,16 +1,23 @@
-import {
-  EditRelations,
-  EditRelationsSplit,
-  RelationImport
-} from "../../../../generators/react-typescript/entity-management/template-model";
 import {getEntityPath} from "../../../../generators/react-typescript/common/template-model";
 import { EntityWithPath } from "./entity";
 import {EntityAttribute, ProjectModel} from "../../../../common/model/cuba-model";
 import {findEntity} from "../../../../common/model/cuba-model-utils";
 
-// Moved (almost) unchanged from src/common
+export interface RelationImport {
+  className: string
+  path: string
+}
 
-export function getRelationImports(relations: EditRelations, entity: EntityWithPath): RelationImport[] {
+export interface RelationalAttributes {
+  [attributeName: string]: EntityWithPath
+}
+
+export interface RelationsSplit {
+  associations: RelationalAttributes;
+  compositions: RelationalAttributes;
+}
+
+export function getRelationImports(relations: RelationalAttributes, entity: EntityWithPath): RelationImport[] {
   const entities: EntityWithPath[] = Object.values(relations);
   entities.unshift(entity);
   return entities
@@ -24,8 +31,8 @@ export function getRelationImports(relations: EditRelations, entity: EntityWithP
       } , [] as RelationImport[])
 }
 
-export function getRelations(projectModel: ProjectModel, attributes: EntityAttribute[]): EditRelationsSplit {
-  return attributes.reduce<EditRelationsSplit>((relations, attribute) => {
+export function getRelations(projectModel: ProjectModel, attributes: EntityAttribute[]): RelationsSplit {
+  return attributes.reduce<RelationsSplit>((relations, attribute) => {
     if (attribute.type == null || (attribute.mappingType !== 'ASSOCIATION' && attribute.mappingType !== 'COMPOSITION')) {
       return relations;
     }

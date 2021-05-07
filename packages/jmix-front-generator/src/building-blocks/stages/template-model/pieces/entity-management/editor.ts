@@ -1,12 +1,6 @@
 import {EntityAttribute, ProjectModel} from "../../../../../common/model/cuba-model";
 import {EntityWithPath} from "../entity";
-import {getRelationImports, getRelations} from "../relations";
-import { RelationalAttributes } from "./common";
-
-export interface RelationImport {
-  className: string
-  path: string
-}
+import {getRelationImports, getRelations, RelationalAttributes, RelationImport} from "../relations";
 
 export type EntityEditorTemplateModel = {
   readOnlyFields: string[];

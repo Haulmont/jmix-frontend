@@ -1,11 +1,6 @@
 import {CommonTemplateModel} from "../common";
 import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../../../common/utils";
 import {DirShiftOption} from "../../../options/pieces/dir-shift";
-import {EntityWithPath} from "../entity";
-
-export interface RelationalAttributes {
-  [attributeName: string]: EntityWithPath
-}
 
 export type EntityManagementCommonTemplateModel<L extends string> = CommonTemplateModel & {
   listComponentClass: string;
