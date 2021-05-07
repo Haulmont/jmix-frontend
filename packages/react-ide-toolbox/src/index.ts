@@ -3,4 +3,4 @@ export * from "./previews/previews";
 export * from "./previews/component-preview";
 export * from "./previews/previews.types";
 
-export * from "./palette/Palette"
+export * from "./palette/palette"
