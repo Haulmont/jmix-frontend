@@ -5,7 +5,6 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {
   deriveEntityManagementCommon,
   EntityManagementCommonTemplateModel,
-  RelationalAttributes
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/common";
 import {
   deriveEditAttributesFromQuery,
@@ -17,7 +16,7 @@ import {
 } from "../../../building-blocks/stages/template-model/pieces/entity-browser/browser";
 import {
   deriveEditorTemplateModel,
-  EntityEditorTemplateModel, RelationImport
+  EntityEditorTemplateModel,
 } from "../../../building-blocks/stages/template-model/pieces/entity-management/editor";
 import {
   deriveEntity,
@@ -27,7 +26,7 @@ import {
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {EntityManagementAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import {getRelations} from "../../../building-blocks/stages/template-model/pieces/relations";
+import {getRelations, RelationalAttributes, RelationImport} from "../../../building-blocks/stages/template-model/pieces/relations";
 
 export type EntityManagementQueryTemplateModel = {
   listQuery: string;
