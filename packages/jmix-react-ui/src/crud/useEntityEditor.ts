@@ -2,18 +2,15 @@ import {useCallback, useEffect} from "react";
 import {FormInstance, message} from "antd";
 import {useLocalStore} from "mobx-react";
 import {
-  ApolloCache,
   DocumentNode, FetchResult,
-  gql,
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions, MutationResult,
-  TypedDocumentNode, useLazyQuery, useMutation
+  TypedDocumentNode
 } from "@apollo/client";
 import {
   GraphQLMutationFn,
   GraphQLQueryFn,
-  addIdIfExistingEntity,
   HasId,
   useMetadata,
   Metadata,
@@ -28,7 +25,8 @@ import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
 import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
-import {antFormToGraphQL} from "../formatters/antFormToGraphQL";
+import { useLoadEntityQuery } from "./useLoadEntityQuery";
+import { useMutationEntity } from "./useMutationEntity";
 
 export type EntityEditorStore = {
   globalErrors: string[];
@@ -99,22 +97,13 @@ export function useEntityEditor<
   const [form] = useForm();
   const store: EntityEditorStore = useEntityEditorStore();
 
-  const [load, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  const [load, loadQueryResult] = useLoadEntityQuery<TData, TVariables>({
+    entityId,
+    loadQuery,
+    loadQueryOptions,
+    hasAssociations,
+  })
   const {loading: queryLoading, error: queryError, data} = loadQueryResult;
-
-  const [upsertItem, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
-
-  // Fetch the entity (if editing) and association options from backend
-  useEffect(() => {
-    if (entityId != null || hasAssociations) {
-      load({
-        variables: {
-          id: entityId,
-          loadItem: entityId != null
-        } as unknown as TVariables
-      });
-    }
-  }, [entityId, load, hasAssociations]);
 
   // Fill the form based on retrieved data
   useEffect(() => {
@@ -140,18 +129,23 @@ export function useEntityEditor<
 
   const handleCancelBtnClick = goBackToBrowserScreen;
 
-  const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
+  const [upsertItem, upsertMutationResult, handleUpsertMutationEntity] = useMutationEntity<TEntity, TData, TVariables>({
+    upsertMutation,
+    upsertMutationOptions,
+    entityName,
+    upsertInputName,
+    updateResultName,
+    listQueryName,
+    entityId
+  });
+
+  const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData>({
     intl,
     form,
     metadata,
-    upsertItem,
-    entityName,
-    upsertInputName,
+    handleUpsertMutationEntity,
     entityId,
-    store,
     goBackToBrowserScreen,
-    updateResultName,
-    listQueryName,
   });
 
   return {
@@ -168,18 +162,13 @@ export function useEntityEditor<
   };
 }
 
-export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
+export interface FormSubmitCallbacksHookOptions<TEntity, TData> {
   intl: IntlShape;
   form: FormInstance;
   metadata: Metadata;
-  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  handleUpsertMutationEntity: (values: TEntity) => Promise<FetchResult<TData>>;
   entityId?: string;
-  entityName: string;
-  upsertInputName: string;
-  store: EntityEditorStore;
   goBackToBrowserScreen: () => void;
-  updateResultName: string;
-  listQueryName: string;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -188,24 +177,18 @@ export interface FormSubmitCallbacksHookResult<TEntity> {
 }
 
 export function useFormSubmitCallbacks<
-  TEntity,
-  TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId
+  TEntity extends Record<string, any> = Record<string, any>,
+  TData extends Record<string, any> = Record<string, any>
 >(
-  options: FormSubmitCallbacksHookOptions<TData, TVariables>
+  options: FormSubmitCallbacksHookOptions<TEntity, TData>
 ): FormSubmitCallbacksHookResult<TEntity> {
   const {
     intl,
     form,
     metadata,
-    upsertItem,
-    entityName,
-    upsertInputName,
+    handleUpsertMutationEntity,
     entityId,
-    store,
     goBackToBrowserScreen,
-    updateResultName,
-    listQueryName,
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -217,38 +200,10 @@ export function useFormSubmitCallbacks<
   }, [intl]);
 
   const handleFinish = useCallback(
-    (values: { [field: string]: any }) => {
+    (values: TEntity) => {
       if (form != null && metadata != null) {
-        const updatedEntity = {
-          ...antFormToGraphQL(values, entityName, metadata),
-          ...addIdIfExistingEntity(entityId)
-        };
-        upsertItem({
-          variables: {
-            [upsertInputName]: updatedEntity
-          } as any,
-          update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
-            const updateResult = result.data?.[updateResultName];
-            // Reflect the update in Apollo cache
-            cache.modify({
-              fields: {
-                [listQueryName](existingRefs = []) {
-                  const updatedItemRef = cache.writeFragment({
-                    id: `${entityName}:${updateResult.id}`,
-                    data: updatedEntity,
-                    fragment: gql(`
-                      fragment New_${dollarsToUnderscores(entityName)} on ${dollarsToUnderscores(entityName)} {
-                        id
-                        type
-                      }
-                    `)
-                  });
-                  return [...existingRefs, updatedItemRef];
-                }
-              }
-            });
-          }
-        }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
+        handleUpsertMutationEntity(values)
+          .then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
             if (errors == null || errors.length === 0) {
               const successMessageId = selectFormSuccessMessageId(
                 isNewEntity ? "create" : "edit"
@@ -266,19 +221,7 @@ export function useFormSubmitCallbacks<
           });
       }
     },
-    [
-      entityId,
-      entityName,
-      upsertInputName,
-      isNewEntity,
-      store,
-      form,
-      metadata,
-      upsertItem,
-      intl,
-      updateResultName,
-      listQueryName,
-    ]
+    [form, metadata, handleUpsertMutationEntity, isNewEntity, intl, goBackToBrowserScreen]
   );
 
   return {handleFinish, handleFinishFailed};
