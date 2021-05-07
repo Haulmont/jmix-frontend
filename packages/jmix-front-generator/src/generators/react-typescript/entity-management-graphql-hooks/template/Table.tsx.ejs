@@ -31,8 +31,6 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 `;
 
 const <%= listComponentClass %> = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     loadItems,
     listQueryResult: {loading, error, data},

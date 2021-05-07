@@ -16,50 +16,67 @@ import {
   toIdString,
   MayHaveInstanceName,
   dollarsToUnderscores,
+  ScreensContext,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect, useMemo} from "react";
+import {useCallback, useContext, useEffect, useMemo} from "react";
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
 import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
 import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
 import {action} from "mobx";
-import { useLocalStore } from "mobx-react";
+import {useLocalObservable, useLocalStore } from "mobx-react";
 import {defaultPagingConfig} from "../ui/paging/Paging";
 
-export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
+export interface EntityListHookOptions<
+  TListQueryData,
+  TListQueryVars,
+  TDeleteMutationData,
+  TDeleteMutationVars
+> {
+  // Options for Apollo hooks
   listQuery: DocumentNode | TypedDocumentNode;
-  listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
-  deleteMutation: DocumentNode | TypedDocumentNode;
-  deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
-  screens: Screens;
+  listQueryOptions?: LazyQueryHookOptions<TListQueryData, TListQueryVars>;
+  deleteMutation?: DocumentNode | TypedDocumentNode;
+  deleteMutationOptions?: MutationHookOptions<TDeleteMutationData, TDeleteMutationVars>;
+
+  // Other options
   entityName: string;
   routingPath: string;
-  queryName?: string;
-  associations?: Record<string, string>;
 }
 
-export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
-  loadItems: GraphQLQueryFn<TQueryVars>,
-  listQueryResult: LazyQueryResult<TData, TQueryVars>,
-  deleteItem: GraphQLMutationFn<TData, TMutationVars>,
+export interface EntityListHookResult<
+  TEntity,
+  TListQueryData,
+  TListQueryVars,
+  TDeleteMutationData,
+  TDeleteMutationVars
+> {
+  // Options for Apollo hooks
+  executeListQuery: GraphQLQueryFn<TListQueryVars>,
+  listQueryResult: LazyQueryResult<TListQueryData, TListQueryVars>,
+  executeDeleteMutation: GraphQLMutationFn<TDeleteMutationData, TDeleteMutationVars>,
   deleteMutationResult: MutationResult,
-  intl: IntlShape;
-  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
-  handleCreateBtnClick: () => void;
-  handleEditBtnClick: (id: string) => void;
+
+  // State
+  entityListState: EntityListState;
+
+  // List component callbacks
+  handleCreateEntity: () => void;
+  handleEditEntity: () => void; // (id: string) => void;
+  handleDeleteEntity: () => void;
+  // deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
+  // showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+  // getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
   handlePaginationChange: PaginationChangeCallback;
-  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
-  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
-  handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
-  store: EntityListLocalStore;
-  associationOptionsMap?: Map<string, Array<HasId & MayHaveInstanceName>>;
+
+  handleRowSelectionChange: (selectedRowKeys: string[]) => void;
 }
 
-export interface EntityListLocalStore {
+export interface EntityListState {
   selectedRowKey?: string;
   filter?: JmixEntityFilter[];
   sortOrder?: JmixSortOrder;
@@ -86,14 +103,16 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    screens,
     entityName,
     routingPath,
-    queryName = `${dollarsToUnderscores(entityName)}List`,
-    associations
+    // queryName = `${dollarsToUnderscores(entityName)}List`,
   } = options;
 
-  const store: EntityListLocalStore = useLocalStore(() => ({
+  // const screens = useContext(ScreensContext);
+  // const intl = useIntl();
+
+
+  const entityListState: EntityListState = useLocalObservable(() => ({
     selectedRowKey: undefined,
     filter: undefined,
     sortOrder: undefined,
@@ -102,27 +121,18 @@ export function useEntityList<
       pageSize: defaultPagingConfig.pageSize,
     }
   }));
-  
-  // TODO We probably don't need useMemo here
-  const optsWithVars = useMemo(() => ({
-    variables: {
-      filter: store.filter,
-      orderBy: store.sortOrder,
-      limit: store.pagination?.pageSize,
-      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize)
-    } as TQueryVars,
-    ...listQueryOptions
-  }), [store.pagination, store.filter, store.sortOrder, listQueryOptions]);
 
-  const intl = useIntl();
+  useEntityListQuery
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithVars);
+
+
+
+
   const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  // Load items
-  useEffect(() => {
-    loadItems(listQueryOptions);
-  }, [listQueryOptions, loadItems]);
+
+
+
 
   const items = listQueryResult.data?.[queryName];
 
@@ -134,13 +144,13 @@ export function useEntityList<
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
-      store.pagination = {
+      entityListState.pagination = {
         current,
         pageSize
       };
-      saveHistory(routingPath, store.pagination);
+      saveHistory(routingPath, entityListState.pagination);
     }),
-    [store.pagination, routingPath]
+    [entityListState.pagination, routingPath]
   );
 
   const getRecordById = useCallback(
@@ -159,37 +169,37 @@ export function useEntityList<
 
   const deleteSelectedRow = useCallback(
     () => {
-      if (store.selectedRowKey != null) {
-        showDeletionDialog(getRecordById(store.selectedRowKey));
+      if (entityListState.selectedRowKey != null) {
+        showDeletionDialog(getRecordById(entityListState.selectedRowKey));
       }
     },
-    [getRecordById, showDeletionDialog, store.selectedRowKey]
+    [getRecordById, showDeletionDialog, entityListState.selectedRowKey]
   );
 
   const handleRowSelectionChange = useCallback(
     action((selectedRowKeys: string[]) => {
-      store.selectedRowKey = selectedRowKeys[0];
+      entityListState.selectedRowKey = selectedRowKeys[0];
     }),
-    [store.selectedRowKey]
+    [entityListState.selectedRowKey]
   );
 
   const handleFilterChange = useCallback(
     action((filter?: JmixEntityFilter[]) => {
-      store.filter = filter;
+      entityListState.filter = filter;
     }),
-    [store.filter]
+    [entityListState.filter]
   );
 
   const handleSortOrderChange = useCallback(
     action((sortOrder?: JmixSortOrder) => {
-      store.sortOrder = sortOrder;
+      entityListState.sortOrder = sortOrder;
     }),
-    [store.sortOrder]
+    [entityListState.sortOrder]
   );
 
   return {
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store,
+    executeListQuery: loadItems, listQueryResult, executeDeleteMutation: deleteItem, deleteMutationResult, intl, showDeletionDialog,
+    handleCreateEntity: handleCreateBtnClick, handleEditEntity: handleEditBtnClick, handlePaginationChange, entityListState: entityListState,
     getRecordById,
     deleteSelectedRow,
     handleRowSelectionChange,
@@ -197,6 +207,25 @@ export function useEntityList<
     handleSortOrderChange,
     associationOptionsMap
   };
+}
+
+export function useEntityListQuery<TData, TQueryVars>(
+  entityListState: EntityListState
+) {
+  const optsWithVars = {
+    variables: {
+      filter: entityListState.filter,
+      orderBy: entityListState.sortOrder,
+      limit: entityListState.pagination?.pageSize,
+      offset: calcOffset(entityListState.pagination?.current, entityListState.pagination?.pageSize)
+    } as TQueryVars,
+    ...listQueryOptions
+  };
+  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithVars);
+  // Load items
+  useEffect(() => {
+    loadItems(listQueryOptions);
+  }, [listQueryOptions, loadItems]);
 }
 
 export function getAssociationOptions<
