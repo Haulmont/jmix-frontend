@@ -125,6 +125,11 @@ export function registerRoute(routePath: string, menuPath: string, title: string
     useState(() => {
       screens.closeAll();
 
+      screens.push({
+        title,
+        content: component
+      });
+
       const entityId = currentRoute.routeParams.entityId;
       if (entityId && tabs.tabs.length === 1) {
         (async () => {
@@ -142,7 +147,7 @@ export function registerRoute(routePath: string, menuPath: string, title: string
       }
     });
 
-    return <MultiScreen>{component}</MultiScreen>;
+    return <MultiScreen />;
   });
 
   menuItems.push({

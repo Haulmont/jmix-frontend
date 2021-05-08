@@ -45,21 +45,21 @@ export class Tabs {
   /**
    * Close all tabs
    */
-  closeAll = () => {
+  closeAll = action(() => {
     this.tabs = [];
     this.currentTab = null!;
-  };
+  });
 
   /**
    * Push tab
    * @param tab
    */
-  push = (tab: IMultiTabItem) => {
+  push = action((tab: IMultiTabItem) => {
     tab.key += '__' + this.tabsIndex++;
     this.currentTab = tab;
 
     this.tabs = [...this.tabs, tab];
-  };
+  });
 
   /**
    * Close tab
@@ -78,7 +78,7 @@ export class Tabs {
    * Set active tab
    * @param activeTab
    */
-  setActiveTab = (activeTab: IMultiTabItem) => {
+  setActiveTab = action((activeTab: IMultiTabItem) => {
     this.currentTab = activeTab;
 
     if (activeTab.screensInTab) {
@@ -92,7 +92,7 @@ export class Tabs {
 
       redirect(url);
     }
-  };
+  });
 }
 
 /**

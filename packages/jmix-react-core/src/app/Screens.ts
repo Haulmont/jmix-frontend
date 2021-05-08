@@ -1,4 +1,4 @@
-import { makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable } from 'mobx';
 import React from 'react';
 
 export interface IMultiScreenProps {
@@ -69,29 +69,21 @@ export class Screens {
   /**
    * Close all screens
    */
-  closeAll = () => {
+  closeAll = action(() => {
     this.screens = [];
     this.currentScreen = null!;
-  };
+  });
 
   /**
    * Push screen
    * @param screenToPush
    */
-  push = (screenToPush: IMultiScreenItem) => {
+  push = action((screenToPush: IMultiScreenItem) => {
     const lastScreen = this.screens[this.screens.length - 1] ?? null;
     let newScreens = [...this.screens];
     let parentScreen = null;
 
-    if (newScreens.length === 0) {
-      const firstScreen = {
-        title: this.currentRootPageData.title,
-        content: this.props.children,
-      };
-      parentScreen = firstScreen;
-
-      newScreens.push(firstScreen);
-    } else {
+    if (newScreens.length > 0) {
       parentScreen = this.currentScreen;
 
       if (lastScreen !== this.currentScreen) {
@@ -106,20 +98,20 @@ export class Screens {
       }
     }
 
-    screenToPush.parent = parentScreen;
+    screenToPush.parent = parentScreen!;
 
     this.currentScreen = screenToPush;
     newScreens.push(screenToPush);
 
-    this.screens = [...newScreens];
-  };
+    this.screens = newScreens;
+  });
 
   /**
    * Set active screen
    * @param activeScreen
    * @param removeScreensToRight remove screens after active screen
    */
-  setActiveScreen = (
+  setActiveScreen = action((
     activeScreen: IMultiScreenItem,
     removeScreensToRight = false,
   ) => {
@@ -137,7 +129,7 @@ export class Screens {
 
       this.screens = newScreens;
     }
-  };
+  });
 }
 
 export const ScreensContext = React.createContext<Screens>(null!);
