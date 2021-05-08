@@ -15,7 +15,7 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
   const screens = useContext(ScreensContext);
   screens.props = props;
 
-  let content = props.children;
+  let content = null;
   if (screens.screens.length) {
     content = screens.screens.map((item, index) => {
       const params = {} as { key?: string };
