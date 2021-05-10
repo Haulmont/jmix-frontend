@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.7...@haulmont/react-ide-toolbox@1.0.0-next.8) (2021-05-10)
+
+
+### Features
+
+* basic components palette in react app template [#270](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/issues/270) ([8246137](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/8246137857ed98410166c46e2922c22f994fb8f6))
+* filter trait attributes ([b00d30f](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/b00d30fb28c86111bdc22d31626a248d3c57ec5c))
+
+
+
+
+
 # [1.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.3...@haulmont/react-ide-toolbox@1.0.0-next.4) (2021-04-28)
 
 **Note:** Version bump only for package @haulmont/react-ide-toolbox
