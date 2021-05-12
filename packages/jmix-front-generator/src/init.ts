@@ -30,6 +30,7 @@ export interface GeneratorInfo {
   description?: string;
   options?: OptionsConfig;
   params?: StudioTemplateProperty[]
+  iconPath?: string
 }
 
 export function collectClients(generatorFileName?: string): GeneratedClientInfo[] {
@@ -80,7 +81,12 @@ function collectGenerators(generatorsDir: string, genFileName?: string): Generat
       const options = generatorExports.options;
       const params = generatorExports.params;
       const description = generatorExports.description;
-      generators.push({name, options, params, description});
+
+      const iconPath = generatorExports.icon
+        ? path.relative(process.cwd(),path.join(generatorPath, generatorExports.icon))
+        : undefined;
+
+      generators.push({name, options, params, description, iconPath});
       return generators;
     } else {
       return generators;
