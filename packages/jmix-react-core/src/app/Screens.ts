@@ -138,8 +138,6 @@ export class Screens {
     const pagination = activeScreen.params?.pagination;
     const entityId = activeScreen.params?.entityId;
 
-    console.log('activeScreen', activeScreen);
-
     if (pagination) {
       window.history.pushState({}, '', this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
     } else if (entityId) {
@@ -149,7 +147,5 @@ export class Screens {
     }
   });
 }
-
-console.log('SSSSSSSSS');
 
 export const ScreensContext = React.createContext<Screens>(null!);
