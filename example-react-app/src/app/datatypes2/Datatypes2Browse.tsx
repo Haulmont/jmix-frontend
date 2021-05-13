@@ -58,6 +58,7 @@ const Datatypes2Browse = observer(() => {
     listQuery: SCR_DATATYPESTESTENTITY2_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY2,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });

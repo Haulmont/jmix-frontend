@@ -59,6 +59,7 @@ const IntIdMgtTableBrowse = observer(() => {
     listQuery: SCR_INTEGERIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });
