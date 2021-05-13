@@ -1,5 +1,5 @@
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
-import {ProjectModel, View} from "../../../common/model/cuba-model";
+import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";

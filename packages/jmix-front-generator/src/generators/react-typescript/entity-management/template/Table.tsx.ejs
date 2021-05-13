@@ -15,8 +15,8 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count
     <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= listQuery %>
-    <% Object.keys(listAssociations).forEach(attrName => { %>
-      <%= dollarsToUnderscores(listAssociations[attrName].name) %>List {
+    <% Object.keys(listRelations).forEach(attrName => { %>
+      <%= dollarsToUnderscores(listRelations[attrName].name) %>List {
       id
       _instanceName
       }

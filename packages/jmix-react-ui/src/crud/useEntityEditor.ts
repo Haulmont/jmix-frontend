@@ -20,7 +20,8 @@ import {
   Screens,
   IMultiScreenItem,
   redirect,
-  dollarsToUnderscores
+  dollarsToUnderscores,
+  MayHaveId
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {action} from "mobx";
@@ -40,7 +41,7 @@ export const useEntityEditorStore = () => {
   }));
 };
 
-export interface EntityEditorHookOptions<TData, TVariables> {
+export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
   loadQuery: DocumentNode | TypedDocumentNode;
   loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
   upsertMutation: DocumentNode | TypedDocumentNode;
@@ -55,6 +56,8 @@ export interface EntityEditorHookOptions<TData, TVariables> {
   hasAssociations?: boolean;
   screens: Screens;
   multiScreen: IMultiScreenItem;
+  onCommit?: (value: TEntity) => void;
+  entityInstance?: TEntity
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TVariables> {
@@ -71,11 +74,11 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
 }
 
 export function useEntityEditor<
-  TEntity,
+  TEntity extends MayHaveId = MayHaveId,
   TData extends Record<string, any> = Record<string, any>,
   TVariables extends HasId = HasId
 >(
-  options: EntityEditorHookOptions<TData, TVariables>
+  options: EntityEditorHookOptions<TEntity, TData, TVariables>
 ): EntityEditorHookResult<TEntity, TData, TVariables> {
   const {
     loadQuery,
@@ -92,6 +95,8 @@ export function useEntityEditor<
     routingPath,
     screens,
     multiScreen,
+    onCommit,
+    entityInstance
   } = options;
 
   const intl = useIntl();
@@ -110,11 +115,11 @@ export function useEntityEditor<
       load({
         variables: {
           id: entityId,
-          loadItem: entityId != null
+          loadItem: entityInstance == null && entityId != null
         } as unknown as TVariables
       });
     }
-  }, [entityId, load, hasAssociations]);
+  }, [entityId, load, hasAssociations, entityInstance]);
 
   // Fill the form based on retrieved data
   useEffect(() => {
@@ -123,22 +128,29 @@ export function useEntityEditor<
       !queryLoading &&
       queryError == null &&
       data != null &&
-      metadata != null
+      metadata != null &&
+      entityInstance == null
     ) {
       form.setFieldsValue(
         graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
       );
     }
+
+    if (entityInstance != null && metadata != null) {
+      form.setFieldsValue(
+        graphqlToAntForm<TEntity>(entityInstance, entityName, metadata)
+      );
+    }
   }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
 
-  const goBackToBrowserScreen = useCallback(() => {
+  const goToParentScreen = useCallback(() => {
     if (screens.currentScreenIndex === 1) {
       redirect(routingPath);
     }
     screens.setActiveScreen(multiScreen.parent!, true);
   }, [screens, routingPath, multiScreen]);
 
-  const handleCancelBtnClick = goBackToBrowserScreen;
+  const handleCancelBtnClick = goToParentScreen;
 
   const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
     intl,
@@ -149,9 +161,10 @@ export function useEntityEditor<
     upsertInputName,
     entityId,
     store,
-    goBackToBrowserScreen,
+    goToParentScreen,
     updateResultName,
     listQueryName,
+    onCommit
   });
 
   return {
@@ -168,7 +181,7 @@ export function useEntityEditor<
   };
 }
 
-export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
+export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
   intl: IntlShape;
   form: FormInstance;
   metadata: Metadata;
@@ -177,9 +190,10 @@ export interface FormSubmitCallbacksHookOptions<TData, TVariables> {
   entityName: string;
   upsertInputName: string;
   store: EntityEditorStore;
-  goBackToBrowserScreen: () => void;
+  goToParentScreen: () => void;
   updateResultName: string;
   listQueryName: string;
+  onCommit?: (value: TEntity) => void;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -188,11 +202,11 @@ export interface FormSubmitCallbacksHookResult<TEntity> {
 }
 
 export function useFormSubmitCallbacks<
-  TEntity,
+  TEntity extends MayHaveId = MayHaveId,
   TData extends Record<string, any> = Record<string, any>,
   TVariables extends HasId = HasId
 >(
-  options: FormSubmitCallbacksHookOptions<TData, TVariables>
+  options: FormSubmitCallbacksHookOptions<TEntity, TData, TVariables>
 ): FormSubmitCallbacksHookResult<TEntity> {
   const {
     intl,
@@ -203,9 +217,10 @@ export function useFormSubmitCallbacks<
     upsertInputName,
     entityId,
     store,
-    goBackToBrowserScreen,
+    goToParentScreen,
     updateResultName,
     listQueryName,
+    onCommit
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -223,47 +238,25 @@ export function useFormSubmitCallbacks<
           ...antFormToGraphQL(values, entityName, metadata),
           ...addIdIfExistingEntity(entityId)
         };
-        upsertItem({
-          variables: {
-            [upsertInputName]: updatedEntity
-          } as any,
-          update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
-            const updateResult = result.data?.[updateResultName];
-            // Reflect the update in Apollo cache
-            cache.modify({
-              fields: {
-                [listQueryName](existingRefs = []) {
-                  const updatedItemRef = cache.writeFragment({
-                    id: `${entityName}:${updateResult.id}`,
-                    data: updatedEntity,
-                    fragment: gql(`
-                      fragment New_${dollarsToUnderscores(entityName)} on ${dollarsToUnderscores(entityName)} {
-                        id
-                        type
-                      }
-                    `)
-                  });
-                  return [...existingRefs, updatedItemRef];
-                }
-              }
-            });
-          }
-        }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
-            if (errors == null || errors.length === 0) {
-              const successMessageId = selectFormSuccessMessageId(
-                isNewEntity ? "create" : "edit"
-              );
-              message.success(intl.formatMessage({ id: successMessageId }));
-              goBackToBrowserScreen();
-            } else {
-              console.error(errors);
-              message.error(intl.formatMessage({ id: "common.requestFailed" }));
-            }
-          }))
-          .catch((e: Error) => {
-            console.error(e);
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          });
+
+        // TODO perform client-side validation
+
+        if (onCommit != null) {
+          onCommit(updatedEntity as TEntity);
+          goToParentScreen();
+        } else {
+          persistEntity(
+            upsertItem,
+            upsertInputName,
+            updatedEntity,
+            updateResultName,
+            listQueryName,
+            entityName,
+            isNewEntity,
+            goToParentScreen,
+            intl
+          );
+        }
       }
     },
     [
@@ -278,8 +271,68 @@ export function useFormSubmitCallbacks<
       intl,
       updateResultName,
       listQueryName,
+      onCommit,
+      goToParentScreen
     ]
   );
 
   return {handleFinish, handleFinishFailed};
+}
+
+export function persistEntity<
+  TEntity extends MayHaveId = MayHaveId,
+  TData extends Record<string, any> = Record<string, any>,
+  TVariables extends HasId = HasId
+>(
+  upsertItem: GraphQLMutationFn<TData, TVariables>,
+  upsertInputName: string,
+  updatedEntity: TEntity,
+  updateResultName: string,
+  listQueryName: string,
+  entityName: string,
+  isNewEntity: boolean,
+  goToParentScreen: () => void,
+  intl: IntlShape
+) {
+  upsertItem({
+    variables: {
+      [upsertInputName]: updatedEntity
+    } as any,
+    update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
+      const updateResult = result.data?.[updateResultName];
+      // Reflect the update in Apollo cache
+      cache.modify({
+        fields: {
+          [listQueryName](existingRefs = []) {
+            const updatedItemRef = cache.writeFragment({
+              id: `${entityName}:${updateResult.id}`,
+              data: updatedEntity,
+              fragment: gql(`
+                      fragment New_${dollarsToUnderscores(entityName)} on ${dollarsToUnderscores(entityName)} {
+                        id
+                        type
+                      }
+                    `)
+            });
+            return [...existingRefs, updatedItemRef];
+          }
+        }
+      });
+    }
+  }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
+    if (errors == null || errors.length === 0) {
+      const successMessageId = selectFormSuccessMessageId(
+        isNewEntity ? "create" : "edit"
+      );
+      message.success(intl.formatMessage({ id: successMessageId }));
+      goToParentScreen();
+    } else {
+      console.error(errors);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+    }
+  }))
+    .catch((e: Error) => {
+      console.error(e);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+    });
 }

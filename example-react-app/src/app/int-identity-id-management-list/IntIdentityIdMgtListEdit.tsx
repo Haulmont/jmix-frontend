@@ -11,6 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
+  GenericEntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -69,7 +70,12 @@ const UPSERT_SCR_INTIDENTITYIDTESTENTITY = gql`
   }
 `;
 
-const IntIdentityIdMgtListEdit = observer(() => {
+const IntIdentityIdMgtListEdit = observer((props: GenericEntityEditorProps) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = "common.submit"
+  } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
@@ -93,7 +99,9 @@ const IntIdentityIdMgtListEdit = observer(() => {
     routingPath: ROUTING_PATH,
     hasAssociations: true,
     screens,
-    multiScreen
+    multiScreen,
+    onCommit,
+    entityInstance
   });
 
   if (queryLoading || metadata == null) {
@@ -206,7 +214,7 @@ const IntIdentityIdMgtListEdit = observer(() => {
             loading={upsertLoading}
             style={{ marginLeft: "8px" }}
           >
-            <FormattedMessage id="common.submit" />
+            <FormattedMessage id={submitBtnCaption} />
           </Button>
         </Form.Item>
       </Form>

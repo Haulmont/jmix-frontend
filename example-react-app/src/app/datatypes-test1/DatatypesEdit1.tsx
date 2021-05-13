@@ -11,6 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
+  GenericEntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -57,6 +58,12 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
         id
         _instanceName
       }
+      compositionO2Oattr {
+        id
+        _instanceName
+        name
+        quantity
+      }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
         _instanceName
@@ -70,7 +77,6 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
         _instanceName
       }
       name
-      readOnlyStringAttr
     }
 
     scr_AssociationO2OTestEntityList {
@@ -115,7 +121,12 @@ const UPSERT_SCR_DATATYPESTESTENTITY = gql`
   }
 `;
 
-const DatatypesEdit1 = observer(() => {
+const DatatypesEdit1 = observer((props: GenericEntityEditorProps) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = "common.submit"
+  } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
@@ -139,7 +150,9 @@ const DatatypesEdit1 = observer(() => {
     routingPath: ROUTING_PATH,
     hasAssociations: true,
     screens,
-    multiScreen
+    multiScreen,
+    onCommit,
+    entityInstance
   });
 
   if (queryLoading || metadata == null) {
@@ -318,6 +331,14 @@ const DatatypesEdit1 = observer(() => {
 
         <Field
           entityName={ENTITY_NAME}
+          propertyName="compositionO2Oattr"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
           propertyName="intIdentityIdTestEntityAssociationO2OAttr"
           associationOptions={data?.scr_IntIdentityIdTestEntityList}
           formItemProps={{
@@ -351,15 +372,6 @@ const DatatypesEdit1 = observer(() => {
           }}
         />
 
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="readOnlyStringAttr"
-          disabled={true}
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
         {store.globalErrors.length > 0 && (
           <Alert
             message={<MultilineText lines={toJS(store.globalErrors)} />}
@@ -378,7 +390,7 @@ const DatatypesEdit1 = observer(() => {
             loading={upsertLoading}
             style={{ marginLeft: "8px" }}
           >
-            <FormattedMessage id="common.submit" />
+            <FormattedMessage id={submitBtnCaption} />
           </Button>
         </Form.Item>
       </Form>

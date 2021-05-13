@@ -44,15 +44,13 @@ import {LongInput} from './LongInput';
 import {BigDecimalInput} from './BigDecimalInput';
 import {UuidInput} from './UuidInput';
 import {CharInput} from "./CharInput";
-import './EntityEditor.less';
-import './NestedEntitiesTableField.less';
-import './NestedEntityField.less';
 import {DataInstanceStore} from "@haulmont/jmix-react-core";
 import { IntlShape } from 'react-intl';
 import {clearFieldErrors, constructFieldsWithErrors, extractServerValidationErrors} from "../../util/errorHandling";
 import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../util/mapJmixRestErrorToIntlId";
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { TimePicker, TimePickerProps } from '../TimePicker';
+import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
 
 export interface FieldProps {
   entityName: string;
@@ -68,11 +66,6 @@ export interface FieldProps {
    * Contains the possible options that can be selected in a form field.
    */
   associationOptions?: Array<HasId & MayHaveInstanceName>;
-  /**
-   * This prop shall be supplied if the entity property has Composition relation type.
-   * It is a view that will be used to limit the entity graph of a nested entity.
-   */
-  nestedEntityView?: string;
   /**
    * This prop shall be supplied if the entity property has Composition relation type.
    * It is an id of the enclosing entity instance.
@@ -98,7 +91,7 @@ export const Field = observer((props: FieldProps) => {
 
   const {
     entityName, propertyName, optionsContainer, associationOptions, componentProps,
-    nestedEntityView, parentEntityInstanceId, disabled, formItemProps
+    parentEntityInstanceId, disabled, formItemProps
   } = props;
 
   const metadata = useMetadata();
@@ -112,7 +105,6 @@ export const Field = observer((props: FieldProps) => {
                    disabled={isReadOnly || disabled}
                    optionsContainer={optionsContainer}
                    associationOptions={associationOptions}
-                   nestedEntityView={nestedEntityView}
                    parentEntityInstanceId={parentEntityInstanceId}
                    {...componentProps}
         />
@@ -187,20 +179,21 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       const mode = getSelectMode(propertyInfo.cardinality);
       return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
     case 'COMPOSITION':
-      if (nestedEntityView) {
-        const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
-          .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
+      const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
+        .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
 
-        if (nestedEntityName) {
-          if (propertyInfo.cardinality === 'ONE_TO_ONE') {
-            return null; // TODO
-          }
+      if (nestedEntityName) {
+        if (propertyInfo.cardinality === 'ONE_TO_ONE') {
+          return <CompositionO2OField entityName={nestedEntityName}
+                                      {...rest as Partial<CompositionO2OFieldProps>}
+                 />;
+        }
 
-          if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-            return null; // TODO
-          }
+        if (propertyInfo.cardinality === 'ONE_TO_MANY') {
+          return null; // TODO
         }
       }
+
       return null;
   }
   switch (propertyInfo.type as PropertyType) {
