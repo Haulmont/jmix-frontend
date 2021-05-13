@@ -15,10 +15,10 @@ import {
   redirect,
   toIdString,
   MayHaveInstanceName,
-  dollarsToUnderscores,
-} from "@haulmont/jmix-react-core";
+  dollarsToUnderscores, IMultiScreenItem,
+} from '@haulmont/jmix-react-core';
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect, useMemo} from "react";
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {Modal} from "antd";
 import {referencesListByEntityName} from "../util/componentsRegistration";
 import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
@@ -36,6 +36,7 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
   paginationConfig?: PaginationConfig;
   screens: Screens;
+  currentScreen: IMultiScreenItem;
   entityName: string;
   routingPath: string;
   queryName?: string;
@@ -89,6 +90,7 @@ export function useEntityList<
     deleteMutation,
     deleteMutationOptions,
     screens,
+    currentScreen,
     entityName,
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
@@ -96,13 +98,21 @@ export function useEntityList<
     paginationConfig = defaultPaginationConfig,
   } = options;
 
+  const [pagingDataFromUrl] = useState(() => {
+    const query = new URLSearchParams(window.location.search);
+    return {
+      page: Number(query.get('page')) || paginationConfig.current,
+      pageSize: Number(query.get('pageSize')) || paginationConfig.pageSize,
+    }
+  });
+
   const store: EntityListLocalStore = useLocalStore(() => ({
     selectedRowKey: undefined,
     filter: undefined,
     sortOrder: undefined,
     pagination: {
-      current: paginationConfig.current,
-      pageSize: paginationConfig.pageSize,
+      current: pagingDataFromUrl.page,
+      pageSize: pagingDataFromUrl.pageSize,
     }
   }));
   
@@ -142,6 +152,20 @@ export function useEntityList<
         pageSize
       };
       saveHistory(routingPath, store.pagination);
+
+      if (currentScreen.params === undefined) {
+        currentScreen.params = {}
+      }
+
+      if (current && pageSize) {
+        currentScreen.params.pagination = {
+          pageSize,
+          page: current,
+        }
+      } else  {
+        currentScreen.params = undefined;
+      }
+
     }),
     [store.pagination, routingPath]
   );

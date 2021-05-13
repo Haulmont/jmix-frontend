@@ -66,6 +66,7 @@ const WeirdStringIdMgtCardsBrowse = observer(() => {
     listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });

@@ -101,6 +101,7 @@ export const DatatypesCards = observer(() => {
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     queryName: "scr_DatatypesTestEntityList"

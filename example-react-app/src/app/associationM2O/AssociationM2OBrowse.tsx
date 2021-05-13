@@ -59,6 +59,7 @@ const AssociationM2OBrowse = observer(() => {
     listQuery: SCR_ASSOCIATIONM2OTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_ASSOCIATIONM2OTESTENTITY,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });

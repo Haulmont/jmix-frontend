@@ -64,6 +64,7 @@ const TrickyIdList = observer(() => {
     listQuery: SCR_TRICKYIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_TRICKYIDTESTENTITY,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });
