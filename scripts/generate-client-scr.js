@@ -8,7 +8,7 @@ const encodeAnswers = (answers) => {
     return Buffer.from(JSON.stringify(answers)).toString('base64')
 };
 
-const generateClientScr = async (clientName, clientDir, modelPath, generators) => {
+const generateClientScr = async (clientName, clientDir, modelPath, generators, clean = true) => {
     const SCR_APP_DIR = path.join(process.cwd(), clientDir);
 
     console.log(`*** Generating ${clientName} ***`);
@@ -16,7 +16,7 @@ const generateClientScr = async (clientName, clientDir, modelPath, generators) =
     runCmdSync(`lerna run --scope @haulmont/jmix-front-generator prepublishOnly`);
 
     !fs.existsSync(SCR_APP_DIR) && fs.mkdirSync(SCR_APP_DIR);
-    await rimraf(`${SCR_APP_DIR}/*`);
+    clean && await rimraf(`${SCR_APP_DIR}/*`);
 
     console.log(`starting generating ${clientName} into`, SCR_APP_DIR);
 

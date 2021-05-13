@@ -62,6 +62,12 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
       }
+      compositionO2Oattr {
+        id
+        _instanceName
+        name
+        quantity
+      }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
         _instanceName
@@ -75,7 +81,6 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         _instanceName
       }
       name
-      readOnlyStringAttr
     }
 
     scr_AssociationO2OTestEntityList {
@@ -94,6 +99,11 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     }
 
     scr_DatatypesTestEntity3List {
+      id
+      _instanceName
+    }
+
+    scr_CompositionO2OTestEntityList {
       id
       _instanceName
     }
@@ -214,10 +224,10 @@ const DatatypesBrowse3 = observer(() => {
         "enumAttr",
         "associationO2Oattr",
         "associationM2Oattr",
+        "compositionO2Oattr",
         "intIdentityIdTestEntityAssociationO2OAttr",
         "datatypesTestEntity3",
-        "name",
-        "readOnlyStringAttr"
+        "name"
       ]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
