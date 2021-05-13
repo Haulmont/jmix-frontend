@@ -37,6 +37,7 @@ import {
   toIdString,
   HasId,
   MayHaveInstanceName,
+  getPropertyInfo,
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
@@ -313,9 +314,16 @@ class DataTableComponent<
     };
   }
 
-  getAssociationOptions(associatedEntityName: string): Array<HasId & MayHaveInstanceName> {
-    const {data} = this.props;
-    return data?.[getListQueryName(associatedEntityName)] ?? [];
+  getRelationOptions(attrName: string): Array<HasId & MayHaveInstanceName> {
+    const {data, entityName, metadata} = this.props;
+
+    const nestedEntityName = getPropertyInfo(metadata.entities, entityName, attrName)?.type;
+
+    if (nestedEntityName == null) {
+      return [];
+    }
+
+    return data?.[getListQueryName(nestedEntityName)] ?? [];
   }
 
   handleFilterOperatorChange = (operator: ComparisonType, propertyName: string) => {
@@ -536,7 +544,7 @@ class DataTableComponent<
             enableSorter: true,
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
-            associationOptions: this.getAssociationOptions(propertyName)
+            relationOptions: this.getRelationOptions(propertyName)
           });
 
           return {

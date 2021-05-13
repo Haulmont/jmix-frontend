@@ -75,7 +75,7 @@ export interface DataTableCustomFilterProps extends MainStoreInjected, MetadataI
   value: CustomFilterInputValue,
   onValueChange: (value: CustomFilterInputValue, propertyName: string) => void,
   customFilterRef?: (formInstance: FormInstance) => void
-  associationOptions?: Array<HasId & MayHaveInstanceName>;
+  relationOptions?: Array<HasId & MayHaveInstanceName>;
 }
 
 enum OperatorGroup {
@@ -87,9 +87,9 @@ enum OperatorGroup {
 class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilterProps & WrappedComponentProps> {
 
   get nestedEntityOptions(): CaptionValuePair[] {
-    const {associationOptions = []} = this.props;
+    const {relationOptions = []} = this.props;
 
-    return associationOptions.map(instance => ({
+    return relationOptions.map(instance => ({
       caption: instance._instanceName ?? toIdString(instance.id),
       value: toIdString(instance.id)
     }));

@@ -11,7 +11,7 @@
   "common.edit": "Изменить",
   "common.remove": "Удалить",
   "common.submit": "ОК",
-  "common.unsavedEntity": "(несохранённая сущность или сущность без имени)",
+  "common.unsavedEntity": "(несохранённая сущность)",
   "common.requestFailed": "Не удалось выполнить операцию",
   "common.retry": "Повторить",
   "home.welcome": "Добро пожаловать в",
