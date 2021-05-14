@@ -12,7 +12,7 @@ import {
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {FormattedMessage, useIntl} from "react-intl";
 import {openEntityEditorScreen} from "../../util/screen";
-import './CompositionO2OField.less';
+import './CompositionFields.less';
 import {antFormToGraphQL} from "../../formatters/antFormToGraphQL";
 import {showDeleteEntityDialog} from "../../crud/showDeleteEntityDialog";
 
@@ -102,6 +102,7 @@ const UpsertBtnTitle = ({value, dirty}: UpsertBtnTitleProps) => {
     );
   }
 
+  // TODO get rid of `dirty` flag and put the client-side constructed name into _instanceName
   if (dirty) {
     // When the nested entity has been created/edited but parent entity hasn't been saved yet,
     // the button will read "(unsaved entity)".

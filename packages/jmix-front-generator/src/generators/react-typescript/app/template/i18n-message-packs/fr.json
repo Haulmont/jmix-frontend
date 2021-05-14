@@ -73,6 +73,8 @@
     "cubaReact.imagePreview.download": "Télécharger",
   
     "cubaReact.nestedEntityField.create": "Créer un entité",
+    "cubaReact.nestedEntityField.addEntities": "[TRANSLATION NOT AVAILABLE]",
+    "cubaReact.nestedEntityField.andXMore": "[TRANSLATION NOT AVAILABLE]",
     "cubaReact.nestedEntityField.delete.areYouSure": "Êtes-vous sûr de vouloir effacer l'entité imbriqué?",
   
     "cubaReact.nestedEntitiesTableField.delete.areYouSure": "Êtes-vous sûr de vouloir effacer l'entité imbriqué?",

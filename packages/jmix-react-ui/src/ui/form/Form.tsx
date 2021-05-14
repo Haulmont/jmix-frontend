@@ -190,7 +190,9 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
         }
 
         if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-          return null; // TODO
+          return <CompositionO2MField entityName={}
+                                      {...rest as Partial<CompositionO2MFieldProps>}
+                 />;
         }
       }
 

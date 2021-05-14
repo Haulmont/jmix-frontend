@@ -78,6 +78,8 @@
   "cubaReact.imagePreview.download": "下载",
 
   "cubaReact.nestedEntityField.create": "创建实体",
+  "cubaReact.nestedEntityField.addEntities": "[TRANSLATION NOT AVAILABLE]",
+  "cubaReact.nestedEntityField.andXMore": "[TRANSLATION NOT AVAILABLE]",
   "cubaReact.nestedEntityField.delete.areYouSure": "确定要删除子实体？",
 
   "cubaReact.nestedEntitiesTableField.delete.areYouSure": "确定要删除子实体？",
