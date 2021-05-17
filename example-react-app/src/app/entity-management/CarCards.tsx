@@ -79,6 +79,7 @@ const CarCards = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -99,11 +100,10 @@ const CarCards = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_CarList ?? [];
   const pagesTotal = data?.scr_CarCount ?? 0;
 
   return (
@@ -123,12 +123,12 @@ const CarCards = observer(() => {
         </div>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ? (
+      {items == null || items.length === 0 ? (
         <p>
           <FormattedMessage id="management.browser.noItems" />
         </p>
       ) : null}
-      {dataSource.map((e: EntityInstance<Car>) => (
+      {items.map((e: EntityInstance<Car>) => (
         <Card
           title={e._instanceName}
           key={e.id ? toIdString(e.id) : undefined}

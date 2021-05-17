@@ -104,6 +104,7 @@ const DatatypesBrowse1 = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -124,11 +125,10 @@ const DatatypesBrowse1 = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_DatatypesTestEntityList ?? [];
   const pagesTotal = data?.scr_DatatypesTestEntityCount ?? 0;
 
   return (
@@ -148,12 +148,12 @@ const DatatypesBrowse1 = observer(() => {
         </div>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ? (
+      {items == null || items.length === 0 ? (
         <p>
           <FormattedMessage id="management.browser.noItems" />
         </p>
       ) : null}
-      {dataSource.map((e: EntityInstance<DatatypesTestEntity>) => (
+      {items.map((e: EntityInstance<DatatypesTestEntity>) => (
         <Card
           title={e._instanceName}
           key={e.id ? toIdString(e.id) : undefined}

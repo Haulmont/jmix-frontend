@@ -4,7 +4,7 @@ import {
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions, MutationResult, Reference,
-  TypedDocumentNode, useLazyQuery, useMutation
+  TypedDocumentNode, useMutation
 } from "@apollo/client";
 import {
   EntityInstance,
@@ -16,20 +16,24 @@ import {
   MayHaveInstanceName,
   dollarsToUnderscores,
   MayHaveId,
-  getListQueryName,
-  extractEntityName
+  PaginationChangeCallback,
+  FilterChangeCallback,
+  SortOrderChangeCallback,
+  JmixEntityFilter,
+  JmixPagination,
+  JmixSortOrder,
+  ListQueryVars,
+  useEntityListData,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect} from "react";
-import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
-import {FilterChangeCallback, JmixEntityFilter} from "./filter";
-import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
+import {useCallback} from "react";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPaginationConfig} from "../ui/paging/Paging";
 import { PaginationConfig } from "antd/es/pagination";
 import {openEntityEditorScreen} from "../util/screen";
 import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
+import { saveHistory } from "./history";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
@@ -44,20 +48,21 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   entityList?: MayHaveId[];
 }
 
-export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
-  items: TEntity[];
+export interface EntityListHookResult<TData, TQueryVars, TMutationVars> {
+  items?: MayHaveId[];
+  count?: number;
   relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
-  loadItems: GraphQLQueryFn<TQueryVars>;
+  executeListQuery: GraphQLQueryFn<TQueryVars>;
   listQueryResult: LazyQueryResult<TData, TQueryVars>;
-  deleteItem: GraphQLMutationFn<TData, TMutationVars>;
+  executeDeleteMutation: GraphQLMutationFn<TData, TMutationVars>;
   deleteMutationResult: MutationResult;
   intl: IntlShape;
-  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+  showDeletionDialog: (e: EntityInstance<MayHaveId>) => void;
   handleCreateBtnClick: () => void;
   handleEditBtnClick: (id: string) => void;
   handlePaginationChange: PaginationChangeCallback;
-  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
-  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
+  getRecordById: (id: string, items: Array<EntityInstance<MayHaveId>>) => EntityInstance<TEntity>;
+  deleteSelectedRow: (items: Array<EntityInstance<MayHaveId>>) => void;
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
@@ -71,22 +76,13 @@ export interface EntityListLocalStore {
   pagination?: JmixPagination;
 }
 
-export interface ListQueryVars {
-  filter?: JmixEntityFilter;
-  orderBy?: JmixSortOrder;
-  limit?: number;
-  offset?: number;
-  loadItems?: boolean;
-}
-
 export function useEntityList<
-  TEntity,
   TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends ListQueryVars = ListQueryVars,
+  TListQueryVars extends ListQueryVars = ListQueryVars,
   TMutationVars extends HasId = HasId
 >(
-  options: EntityListHookOptions<TData, TQueryVars, TMutationVars>
-): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
+  options: EntityListHookOptions<TData, TListQueryVars, TMutationVars>
+): EntityListHookResult<TData, TListQueryVars, TMutationVars> {
   const {
     listQuery,
     listQueryOptions,
@@ -109,33 +105,26 @@ export function useEntityList<
       pageSize: paginationConfig.pageSize,
     }
   }));
-  
-  const optsWithVars = {
-    variables: {
-      filter: store.filter,
-      orderBy: store.sortOrder,
-      limit: store.pagination?.pageSize,
-      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize),
-      loadItems: entityList == null
-    } as TQueryVars,
-    ...listQueryOptions
-  };
 
   const intl = useIntl();
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithVars);
-  const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
+  const {
+    items,
+    count,
+    relationOptions,
+    executeListQuery,
+    listQueryResult
+  } = useEntityListData<TEntity, TData, TListQueryVars>({
+    entityList,
+    listQuery,
+    listQueryOptions,
+    filter: store.filter,
+    sortOrder: store.sortOrder,
+    pagination: store.pagination,
+    entityName
+  });
 
-  // Load items
-  useEffect(() => {
-    loadItems(listQueryOptions);
-  }, [listQueryOptions, loadItems]);
-
-  const items = entityList != null
-    ? entityList
-    : listQueryResult.data?.[queryName];
-
-  const relationOptions = getRelationOptions<TData>(entityName, listQueryResult.data);
+  const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
@@ -155,7 +144,7 @@ export function useEntityList<
   const getRecordById = useCallback(
     (id: string): EntityInstance<TEntity> => {
 
-      const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
+      const record: EntityInstance<TEntity> | undefined = (items ?? []).find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
 
       if (!record) {
         throw new Error("Cannot find entity with id " + id);
@@ -198,37 +187,24 @@ export function useEntityList<
 
   return {
     items,
+    count,
     relationOptions,
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store,
+    executeListQuery,
+    listQueryResult,
+    executeDeleteMutation,
+    deleteMutationResult,
+    intl,
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    handlePaginationChange,
+    store,
     getRecordById,
     deleteSelectedRow,
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange
   };
-}
-
-export function getRelationOptions<
-  TData extends Record<string, any> = Record<string, any>
->(entityName: string, data?: TData): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
-  if (data == null) {
-    return undefined;
-  }
-
-  const map = new Map();
-
-  Object.keys(data)
-    .filter(queryName => {
-      // Filter out query result related to the entity being listed so that only relation options are left
-      return queryName !== getListQueryName(entityName)
-    })
-    .map(queryName => {
-      const relatedEntityName = extractEntityName(queryName, 'List');
-      map.set(relatedEntityName, data[queryName] ?? []);
-    });
-
-  return map;
 }
 
 export function useCreateBtnCallback(screens: Screens, entityName: string) {

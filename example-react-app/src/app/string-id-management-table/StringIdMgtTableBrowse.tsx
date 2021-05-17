@@ -6,7 +6,12 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  RetryDialog,
+  useEntityList,
+  GenericEntityListProps
+} from "@haulmont/jmix-react-ui";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -20,6 +25,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_StringIdTestEntityOrderBy
     $filter: [inp_scr_StringIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_StringIdTestEntityCount
     scr_StringIdTestEntityList(
@@ -27,7 +33,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItem) {
       identifier
       _instanceName
       description
@@ -69,12 +75,15 @@ const DELETE_SCR_STRINGIDTESTENTITY = gql`
   }
 `;
 
-const StringIdMgtTableBrowse = observer(() => {
+const StringIdMgtTableBrowse = observer((props: GenericEntityListProps) => {
+  const { entityList, onEntityListChange, count } = props;
   const screens = useContext(ScreensContext);
 
   const {
+    items,
+    relationOptions,
     loadItems,
-    listQueryResult: { loading, error, data },
+    listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -88,13 +97,17 @@ const StringIdMgtTableBrowse = observer(() => {
     deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
+
+  const itemsCount = count ?? data?.scr_StringIdTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -149,7 +162,9 @@ const StringIdMgtTableBrowse = observer(() => {
 
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={itemsCount}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}

@@ -55,6 +55,7 @@ const WeirdStringIdMgtCardsBrowse = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -75,11 +76,10 @@ const WeirdStringIdMgtCardsBrowse = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_WeirdStringIdTestEntityList ?? [];
   const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
 
   return (
@@ -99,12 +99,12 @@ const WeirdStringIdMgtCardsBrowse = observer(() => {
         </div>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ? (
+      {items == null || items.length === 0 ? (
         <p>
           <FormattedMessage id="management.browser.noItems" />
         </p>
       ) : null}
-      {dataSource.map((e: EntityInstance<WeirdStringIdTestEntity>) => (
+      {items.map((e: EntityInstance<WeirdStringIdTestEntity>) => (
         <Card
           title={e._instanceName}
           key={e.id ? toIdString(e.id) : undefined}

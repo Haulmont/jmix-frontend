@@ -6,7 +6,12 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  RetryDialog,
+  useEntityList,
+  GenericEntityListProps
+} from "@haulmont/jmix-react-ui";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -20,6 +25,7 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CompositionO2MTestEntityOrderBy
     $filter: [inp_scr_CompositionO2MTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_CompositionO2MTestEntityCount
     scr_CompositionO2MTestEntityList(
@@ -27,7 +33,7 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItem) {
       id
       _instanceName
       name
@@ -50,12 +56,15 @@ const DELETE_SCR_COMPOSITIONO2MTESTENTITY = gql`
   }
 `;
 
-const CompositionO2MBrowse = observer(() => {
+const CompositionO2MBrowse = observer((props: GenericEntityListProps) => {
+  const { entityList, onEntityListChange, count } = props;
   const screens = useContext(ScreensContext);
 
   const {
+    items,
+    relationOptions,
     loadItems,
-    listQueryResult: { loading, error, data },
+    listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -69,13 +78,17 @@ const CompositionO2MBrowse = observer(() => {
     deleteMutation: DELETE_SCR_COMPOSITIONO2MTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
+
+  const itemsCount = count ?? data?.scr_CompositionO2MTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -133,7 +146,9 @@ const CompositionO2MBrowse = observer(() => {
 
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={itemsCount}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}

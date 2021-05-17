@@ -40,7 +40,7 @@ import {
   TemporalComparisonType,
   TextComparisonType,
   UuidComparisonType
-} from '../../crud/filter';
+} from '@haulmont/jmix-react-core/dist-transpiled/src/crud/filter';
 import {DatePicker} from '../DatePicker';
 import {TimePicker} from '../TimePicker';
 

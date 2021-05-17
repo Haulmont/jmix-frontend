@@ -1,10 +1,6 @@
-export interface EntityInstanceProps {
-  __typename: string;
-  _instanceName: string;
-  id: string; // TODO perhaps we should have id as _id
-}
+import {MayHaveId, MayHaveInstanceName} from "../util/metadata";
 
-export declare type EntityInstance<T> = EntityInstanceProps & T;
+export declare type EntityInstance<T = any> = MayHaveId & MayHaveInstanceName & T;
 
 export function getFields<T>(
   item: EntityInstance<T>,

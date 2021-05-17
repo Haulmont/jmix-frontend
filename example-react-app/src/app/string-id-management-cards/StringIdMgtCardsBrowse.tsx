@@ -72,6 +72,7 @@ const StringIdMgtCardsBrowse = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -92,11 +93,10 @@ const StringIdMgtCardsBrowse = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_StringIdTestEntityList ?? [];
   const pagesTotal = data?.scr_StringIdTestEntityCount ?? 0;
 
   return (
@@ -116,12 +116,12 @@ const StringIdMgtCardsBrowse = observer(() => {
         </div>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ? (
+      {items == null || items.length === 0 ? (
         <p>
           <FormattedMessage id="management.browser.noItems" />
         </p>
       ) : null}
-      {dataSource.map((e: EntityInstance<StringIdTestEntity>) => (
+      {items.map((e: EntityInstance<StringIdTestEntity>) => (
         <Card
           title={e._instanceName}
           key={e.id ? toIdString(e.id) : undefined}

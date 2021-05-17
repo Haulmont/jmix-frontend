@@ -40,9 +40,9 @@ import {
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
-import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from '../../crud/filter';
-import {JmixSortOrder, SortOrderChangeCallback } from '../../crud/sort';
-import { PaginationChangeCallback } from '../../crud/pagination';
+import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from '@haulmont/jmix-react-core/dist-transpiled/src/crud/filter';
+import {JmixSortOrder, SortOrderChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/sort';
+import { PaginationChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/pagination';
 
 /**
  * @typeparam TEntity - entity type.

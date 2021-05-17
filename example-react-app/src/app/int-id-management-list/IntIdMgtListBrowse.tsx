@@ -53,6 +53,7 @@ const IntIdMgtListBrowse = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -73,11 +74,10 @@ const IntIdMgtListBrowse = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_IntegerIdTestEntityList ?? [];
   const pagesTotal = data?.scr_IntegerIdTestEntityCount ?? 0;
 
   return (
@@ -100,7 +100,7 @@ const IntIdMgtListBrowse = observer(() => {
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<IntegerIdTestEntity>) => (
           <List.Item
             actions={[

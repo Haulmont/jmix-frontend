@@ -103,6 +103,8 @@
   "cubaReact.imagePreview.close": "Close",
   "cubaReact.imagePreview.download": "Download",
   "cubaReact.nestedEntityField.create": "Create an entity",
+  "cubaReact.nestedEntityField.addEntities": "Add entities",
+  "cubaReact.nestedEntityField.andXMore": "and ${quantity} more",
   "cubaReact.nestedEntityField.delete.areYouSure": "Are you sure you want to delete the nested entity?",
   "cubaReact.nestedEntitiesTableField.delete.areYouSure": "Are you sure you want to delete the nested entity?",
   "cubaRest.error.serverNotResponded": "Server not responded",

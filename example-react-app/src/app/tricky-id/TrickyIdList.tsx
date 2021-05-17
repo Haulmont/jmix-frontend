@@ -53,6 +53,7 @@ const TrickyIdList = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -73,11 +74,10 @@ const TrickyIdList = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_TrickyIdTestEntityList ?? [];
   const pagesTotal = data?.scr_TrickyIdTestEntityCount ?? 0;
 
   return (
@@ -100,7 +100,7 @@ const TrickyIdList = observer(() => {
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<TrickyIdTestEntity>) => (
           <List.Item
             actions={[

@@ -78,6 +78,7 @@ const CarList = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -98,11 +99,10 @@ const CarList = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_CarList ?? [];
   const pagesTotal = data?.scr_CarCount ?? 0;
 
   return (
@@ -125,7 +125,7 @@ const CarList = observer(() => {
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<Car>) => (
           <List.Item
             actions={[

@@ -6,7 +6,12 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  RetryDialog,
+  useEntityList,
+  GenericEntityListProps
+} from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -20,6 +25,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_DatatypesTestEntityOrderBy
     $filter: [inp_scr_DatatypesTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_DatatypesTestEntityCount
     scr_DatatypesTestEntityList(
@@ -27,7 +33,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItem) {
       id
       _instanceName
       bigDecimalAttr
@@ -116,12 +122,15 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
   }
 `;
 
-const DatatypesBrowse3 = observer(() => {
+const DatatypesBrowse3 = observer((props: GenericEntityListProps) => {
+  const { entityList, onEntityListChange, count } = props;
   const screens = useContext(ScreensContext);
 
   const {
+    items,
+    relationOptions,
     loadItems,
-    listQueryResult: { loading, error, data },
+    listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -135,13 +144,17 @@ const DatatypesBrowse3 = observer(() => {
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
+
+  const itemsCount = count ?? data?.scr_DatatypesTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -199,7 +212,9 @@ const DatatypesBrowse3 = observer(() => {
 
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={itemsCount}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}

@@ -54,6 +54,7 @@ const WeirdStringIdMgtListBrowse = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: { loading, error, data },
     showDeletionDialog,
@@ -74,11 +75,10 @@ const WeirdStringIdMgtListBrowse = observer(() => {
     return <RetryDialog onRetry={loadItems} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_WeirdStringIdTestEntityList ?? [];
   const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
 
   return (
@@ -101,7 +101,7 @@ const WeirdStringIdMgtListBrowse = observer(() => {
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<WeirdStringIdTestEntity>) => (
           <List.Item
             actions={[

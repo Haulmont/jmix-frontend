@@ -6,7 +6,12 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
+import {
+  DataTable,
+  RetryDialog,
+  useEntityList,
+  GenericEntityListProps
+} from "@haulmont/jmix-react-ui";
 import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -20,6 +25,7 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_AssociationM2MTestEntityOrderBy
     $filter: [inp_scr_AssociationM2MTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_AssociationM2MTestEntityCount
     scr_AssociationM2MTestEntityList(
@@ -27,7 +33,7 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItem) {
       id
       _instanceName
       name
@@ -41,12 +47,15 @@ const DELETE_SCR_ASSOCIATIONM2MTESTENTITY = gql`
   }
 `;
 
-const AssociationM2MBrowse = observer(() => {
+const AssociationM2MBrowse = observer((props: GenericEntityListProps) => {
+  const { entityList, onEntityListChange, count } = props;
   const screens = useContext(ScreensContext);
 
   const {
+    items,
+    relationOptions,
     loadItems,
-    listQueryResult: { loading, error, data },
+    listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -60,13 +69,17 @@ const AssociationM2MBrowse = observer(() => {
     deleteMutation: DELETE_SCR_ASSOCIATIONM2MTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={loadItems} />;
   }
+
+  const itemsCount = count ?? data?.scr_AssociationM2MTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -124,7 +137,9 @@ const AssociationM2MBrowse = observer(() => {
 
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={itemsCount}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
