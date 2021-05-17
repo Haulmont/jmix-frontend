@@ -10,12 +10,9 @@ import {
   EntityInstance,
   GraphQLMutationFn,
   GraphQLQueryFn,
-  HasId,
   Screens,
   toIdString,
-  MayHaveInstanceName,
   dollarsToUnderscores,
-  MayHaveId,
   PaginationChangeCallback,
   FilterChangeCallback,
   SortOrderChangeCallback,
@@ -24,6 +21,7 @@ import {
   JmixSortOrder,
   ListQueryVars,
   useEntityListData,
+  HasId,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback} from "react";
@@ -35,7 +33,7 @@ import {openEntityEditorScreen} from "../util/screen";
 import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
 import { saveHistory } from "./history";
 
-export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
+export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   deleteMutation: DocumentNode | TypedDocumentNode;
@@ -45,24 +43,24 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   entityName: string;
   routingPath: string;
   queryName?: string;
-  entityList?: MayHaveId[];
+  entityList?: Array<EntityInstance<TEntity>>;
 }
 
-export interface EntityListHookResult<TData, TQueryVars, TMutationVars> {
-  items?: MayHaveId[];
+export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
+  items?: Array<EntityInstance<TEntity>>;
   count?: number;
-  relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
+  relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
   executeListQuery: GraphQLQueryFn<TQueryVars>;
   listQueryResult: LazyQueryResult<TData, TQueryVars>;
   executeDeleteMutation: GraphQLMutationFn<TData, TMutationVars>;
   deleteMutationResult: MutationResult;
   intl: IntlShape;
-  showDeletionDialog: (e: EntityInstance<MayHaveId>) => void;
+  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
   handleCreateBtnClick: () => void;
   handleEditBtnClick: (id: string) => void;
   handlePaginationChange: PaginationChangeCallback;
-  getRecordById: (id: string, items: Array<EntityInstance<MayHaveId>>) => EntityInstance<TEntity>;
-  deleteSelectedRow: (items: Array<EntityInstance<MayHaveId>>) => void;
+  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
+  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
@@ -77,12 +75,13 @@ export interface EntityListLocalStore {
 }
 
 export function useEntityList<
+  TEntity = any,
   TData extends Record<string, any> = Record<string, any>,
   TListQueryVars extends ListQueryVars = ListQueryVars,
   TMutationVars extends HasId = HasId
 >(
-  options: EntityListHookOptions<TData, TListQueryVars, TMutationVars>
-): EntityListHookResult<TData, TListQueryVars, TMutationVars> {
+  options: EntityListHookOptions<TEntity, TData, TListQueryVars, TMutationVars>
+): EntityListHookResult<TEntity, TData, TListQueryVars, TMutationVars> {
   const {
     listQuery,
     listQueryOptions,

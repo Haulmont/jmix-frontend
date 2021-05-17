@@ -27,7 +27,6 @@
     "interface-over-type-literal": false,
     "no-unnecessary-initializer": false,
     "curly": [true, "ignore-same-line"],
-    "array-type": false,
     "no-console": [ // Inherited config forbids all methods, but we want to use e.g. .warn() and .error()
       true,
       "assert",

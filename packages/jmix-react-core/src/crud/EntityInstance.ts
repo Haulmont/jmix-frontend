@@ -1,9 +1,13 @@
-import {MayHaveId, MayHaveInstanceName} from "../util/metadata";
+import {HasId, HasInstanceName, MayHaveId, MayHaveInstanceName} from "../util/metadata";
 
-export declare type EntityInstance<T = any> = MayHaveId & MayHaveInstanceName & T;
+export declare type EntityInstance<
+  TEntity = {},
+  TId extends HasId | MayHaveId = MayHaveId,
+  TInstanceName extends HasInstanceName | MayHaveInstanceName = MayHaveInstanceName
+> = TId & TInstanceName & TEntity;
 
-export function getFields<T>(
-  item: EntityInstance<T>,
+export function getFields<TEntity>(
+  item: EntityInstance<TEntity>,
 ): string[] {
   const ignoredProperties = ["__typename", "_instanceName", "id"];
   return Object.keys(item).filter(key => !ignoredProperties.includes(key));

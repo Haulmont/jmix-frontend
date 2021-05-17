@@ -4,13 +4,14 @@ import {JmixEntityFilter} from "./filter";
 import {JmixSortOrder} from "./sort";
 import {useEffect} from "react";
 import {getDisplayedItems} from "./getDisplayedItems";
-import { HasId, MayHaveInstanceName } from "../util/metadata";
 import { getRelationOptions } from "./getRelationOptions";
 import {getCountQueryName, getListQueryName} from "../util/graphql";
 import {GraphQLQueryFn} from "../data/aliases";
+import { EntityInstance } from "./EntityInstance";
+import { HasId } from "../util/metadata";
 
 export interface EntityListDataHookOptions<TEntity, TData, TQueryVars> {
-  entityList?: TEntity[];
+  entityList?: Array<EntityInstance<TEntity>>;
   entityName: string;
   listQuery: DocumentNode | TypedDocumentNode;
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
@@ -20,9 +21,9 @@ export interface EntityListDataHookOptions<TEntity, TData, TQueryVars> {
 }
 
 export interface EntityListDataHookResult<TEntity, TData, TQueryVars> {
-  items?: TEntity[];
+  items?: Array<EntityInstance<TEntity>>;
   count?: number;
-  relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
+  relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
   executeListQuery: GraphQLQueryFn<TQueryVars>;
   listQueryResult: LazyQueryResult<TData, TQueryVars>;
 }
