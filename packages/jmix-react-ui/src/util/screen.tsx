@@ -80,7 +80,21 @@ export function openEntityEditorScreen({
   });
 }
 
-// export function openEntityBrowserScreen()
+export interface EntityBrowserScreenOptions {
+  screens: Screens;
+  entityName: string;
+  entityList?: MayHaveId[];
+  onEntityListChange?: (entityList: this['entityList']) => void;
+}
+
+export function openEntityBrowserScreen({entityName, entityList, onEntityListChange, screens}: EntityBrowserScreenOptions) {
+  const registeredReferral = referencesListByEntityName[entityName];
+
+  screens.push({
+    title: registeredReferral.entityList.title,
+    content: injectProps(registeredReferral.entityList.content, {entityList, onEntityListChange}),
+  });
+}
 
 function injectProps<TProps = any>(component: ReactNode, props?: TProps) {
   if (props == null) {

@@ -1,10 +1,11 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useContext } from "react";
 import { observer } from "mobx-react";
-import {MayHaveId, MayHaveInstanceName, toIdString} from "@haulmont/jmix-react-core";
+import {MayHaveId, MayHaveInstanceName, ScreensContext, toIdString} from "@haulmont/jmix-react-core";
 import {Button} from "antd";
 import './CompositionFields.less';
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import {PlusOutlined} from "@ant-design/icons";
+import {openEntityBrowserScreen} from "../../util/screen";
 
 export interface CompositionO2MFieldProps {
   value?: MayHaveId[];
@@ -13,11 +14,18 @@ export interface CompositionO2MFieldProps {
 }
 
 export const CompositionO2MField = observer((props: CompositionO2MFieldProps) => {
-  const {value} = props;
+  const {value, entityName, onChange} = props;
+
+  const screens = useContext(ScreensContext);
 
   const handleClick = useCallback(() => {
-
-  }, []);
+    openEntityBrowserScreen({
+      entityName,
+      entityList: value ?? [],
+      screens,
+      onEntityListChange: onChange // TODO decouple from ant
+    });
+  }, [entityName, value, screens, onChange]);
 
   return (
     <Button type='link'

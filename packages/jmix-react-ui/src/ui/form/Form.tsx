@@ -51,6 +51,7 @@ import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../u
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { TimePicker, TimePickerProps } from '../TimePicker';
 import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
+import { CompositionO2MFieldProps } from './CompositionO2MField';
 
 export interface FieldProps {
   entityName: string;
@@ -190,7 +191,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
         }
 
         if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-          return <CompositionO2MField entityName={}
+          return <CompositionO2MField entityName={nestedEntityName}
                                       {...rest as Partial<CompositionO2MFieldProps>}
                  />;
         }

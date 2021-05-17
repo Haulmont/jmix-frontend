@@ -28,6 +28,7 @@ const <%= listComponentClass %> = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: {loading, error, data},
     showDeletionDialog,
@@ -49,11 +50,10 @@ const <%= listComponentClass %> = observer(() => {
   }
 
   <%# TODO Spinner is not properly centered -%>
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner/>;
   }
 
-  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
   const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
@@ -75,7 +75,7 @@ const <%= listComponentClass %> = observer(() => {
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<<%= entity.className %>>) => (
           <List.Item
             actions={[

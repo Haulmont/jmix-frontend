@@ -28,6 +28,7 @@ const <%= listComponentClass %> = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
+    items,
     loadItems,
     listQueryResult: {loading, error, data},
     showDeletionDialog,
@@ -49,11 +50,10 @@ const <%= listComponentClass %> = observer(() => {
   }
 
   <%# TODO Spinner is not properly centered -%>
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner/>;
   }
 
-  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
   const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
@@ -70,9 +70,9 @@ const <%= listComponentClass %> = observer(() => {
         </div>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ?
+      {items == null || items.length === 0 ?
         <p><FormattedMessage id='management.browser.noItems'/></p> : null}
-      {dataSource.map((e: EntityInstance<<%= entity.className %>>) =>
+      {items.map((e: EntityInstance<<%= entity.className %>>) =>
         <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
         <Card title={e._instanceName}
               key={e.id ? toIdString(e.id) : undefined}

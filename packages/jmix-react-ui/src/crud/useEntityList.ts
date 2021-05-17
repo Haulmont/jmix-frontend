@@ -15,9 +15,12 @@ import {
   toIdString,
   MayHaveInstanceName,
   dollarsToUnderscores,
+  MayHaveId,
+  getListQueryName,
+  extractEntityName
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect, useMemo} from "react";
+import {useCallback, useEffect} from "react";
 import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
 import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
@@ -38,14 +41,16 @@ export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   entityName: string;
   routingPath: string;
   queryName?: string;
-  associations?: Record<string, string>;
+  entityList?: MayHaveId[];
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
-  loadItems: GraphQLQueryFn<TQueryVars>,
-  listQueryResult: LazyQueryResult<TData, TQueryVars>,
-  deleteItem: GraphQLMutationFn<TData, TMutationVars>,
-  deleteMutationResult: MutationResult,
+  items: TEntity[];
+  relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
+  loadItems: GraphQLQueryFn<TQueryVars>;
+  listQueryResult: LazyQueryResult<TData, TQueryVars>;
+  deleteItem: GraphQLMutationFn<TData, TMutationVars>;
+  deleteMutationResult: MutationResult;
   intl: IntlShape;
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
   handleCreateBtnClick: () => void;
@@ -57,7 +62,6 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
   store: EntityListLocalStore;
-  associationOptionsMap?: Map<string, Array<HasId & MayHaveInstanceName>>;
 }
 
 export interface EntityListLocalStore {
@@ -72,6 +76,7 @@ export interface ListQueryVars {
   orderBy?: JmixSortOrder;
   limit?: number;
   offset?: number;
+  loadItems?: boolean;
 }
 
 export function useEntityList<
@@ -91,8 +96,8 @@ export function useEntityList<
     entityName,
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
-    associations,
     paginationConfig = defaultPaginationConfig,
+    entityList
   } = options;
 
   const store: EntityListLocalStore = useLocalStore(() => ({
@@ -105,16 +110,16 @@ export function useEntityList<
     }
   }));
   
-  // TODO We probably don't need useMemo here
-  const optsWithVars = useMemo(() => ({
+  const optsWithVars = {
     variables: {
       filter: store.filter,
       orderBy: store.sortOrder,
       limit: store.pagination?.pageSize,
-      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize)
+      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize),
+      loadItems: entityList == null
     } as TQueryVars,
     ...listQueryOptions
-  }), [store.pagination, store.filter, store.sortOrder, listQueryOptions]);
+  };
 
   const intl = useIntl();
 
@@ -126,9 +131,11 @@ export function useEntityList<
     loadItems(listQueryOptions);
   }, [listQueryOptions, loadItems]);
 
-  const items = listQueryResult.data?.[queryName];
+  const items = entityList != null
+    ? entityList
+    : listQueryResult.data?.[queryName];
 
-  const associationOptionsMap = getAssociationOptions<TData>(listQueryResult.data, associations);
+  const relationOptions = getRelationOptions<TData>(entityName, listQueryResult.data);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
   const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
@@ -190,30 +197,36 @@ export function useEntityList<
   );
 
   return {
+    items,
+    relationOptions,
     loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
     handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store,
     getRecordById,
     deleteSelectedRow,
     handleRowSelectionChange,
     handleFilterChange,
-    handleSortOrderChange,
-    associationOptionsMap
+    handleSortOrderChange
   };
 }
 
-export function getAssociationOptions<
+export function getRelationOptions<
   TData extends Record<string, any> = Record<string, any>
->(data?: TData, associations?: Record<string, string>): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
-  if (data == null || associations == null) {
+>(entityName: string, data?: TData): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
+  if (data == null) {
     return undefined;
   }
 
   const map = new Map();
 
-  Object.keys(associations).forEach(attrName => {
-    const associationsListQuery = associations[attrName];
-    map.set(attrName, data[associationsListQuery] ?? []);
-  });
+  Object.keys(data)
+    .filter(queryName => {
+      // Filter out query result related to the entity being listed so that only relation options are left
+      return queryName !== getListQueryName(entityName)
+    })
+    .map(queryName => {
+      const relatedEntityName = extractEntityName(queryName, 'List');
+      map.set(relatedEntityName, data[queryName] ?? []);
+    });
 
   return map;
 }
@@ -269,3 +282,4 @@ export function useDeletionDialogCallback<
     [intl, deleteMutation]
   );
 }
+
