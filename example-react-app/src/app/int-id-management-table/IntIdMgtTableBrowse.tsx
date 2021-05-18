@@ -48,13 +48,14 @@ const DELETE_SCR_INTEGERIDTESTENTITY = gql`
 `;
 
 const IntIdMgtTableBrowse = observer((props: GenericEntityListProps) => {
-  const { entityList, onEntityListChange, count } = props;
+  const { entityList, onEntityListChange } = props;
   const screens = useContext(ScreensContext);
 
   const {
     items,
+    count,
     relationOptions,
-    loadItems,
+    executeListQuery,
     listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
@@ -76,10 +77,8 @@ const IntIdMgtTableBrowse = observer((props: GenericEntityListProps) => {
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
-
-  const itemsCount = count ?? data?.scr_IntegerIdTestEntityCount;
 
   const buttons = [
     <EntityPermAccessControl
@@ -138,13 +137,14 @@ const IntIdMgtTableBrowse = observer((props: GenericEntityListProps) => {
   return (
     <DataTable
       items={items}
-      count={itemsCount}
+      count={count}
       relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
+      enableFiltersOnColumns={entityList != null ? [] : undefined}
       columnDefinitions={["description"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}

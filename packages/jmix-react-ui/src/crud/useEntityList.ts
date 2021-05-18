@@ -24,7 +24,7 @@ import {
   HasId,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback} from "react";
+import {useCallback, useEffect, useState} from "react";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPaginationConfig} from "../ui/paging/Paging";
@@ -92,8 +92,16 @@ export function useEntityList<
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
     paginationConfig = defaultPaginationConfig,
-    entityList
+    entityList: receivedEntityList
   } = options;
+
+  const [entityList, setEntityList] = useState<Array<EntityInstance<TEntity>>>();
+
+  useEffect(() => {
+    if (receivedEntityList != null) {
+      setEntityList(receivedEntityList);
+    }
+  }, [receivedEntityList]);
 
   const store: EntityListLocalStore = useLocalStore(() => ({
     selectedRowKey: undefined,
@@ -125,9 +133,9 @@ export function useEntityList<
 
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
+  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, entityList, setEntityList);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, entityList, setEntityList);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, entityList, setEntityList);
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
@@ -206,18 +214,34 @@ export function useEntityList<
   };
 }
 
-export function useCreateBtnCallback(screens: Screens, entityName: string) {
+export function useCreateBtnCallback<TEntity>(
+  screens: Screens,
+  entityName: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void
+) {
+  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, setEntityList);
+
   return useCallback(() => {
-    openEntityEditorScreen({screens, entityName});
-  }, [screens, entityName]);
+    openEntityEditorScreen({screens, entityName, onCommit, submitBtnCaption});
+  }, [screens, entityName, entityList]);
 }
 
-export function useEditBtnCallbck(screens: Screens, entityName: string, routingPath: string) {
+export function useEditBtnCallbck<TEntity>(
+  screens: Screens,
+  entityName: string,
+  routingPath: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  entityInstance?: EntityInstance<TEntity>
+) {
+  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, setEntityList);
+
   return useCallback((entityIdToLoad: string) => {
     openEntityEditorScreen({
-      screens, entityName, entityIdToLoad, routingPath
+      screens, entityName, entityIdToLoad, routingPath, entityInstance, onCommit, submitBtnCaption
     });
-  }, [screens, routingPath, entityName]);
+  }, [screens, routingPath, entityName, entityList]);
 }
 
 export function useDeletionDialogCallback<
@@ -227,34 +251,82 @@ export function useDeletionDialogCallback<
   >(
   intl: IntlShape,
   deleteMutation: GraphQLMutationFn<TData, TVariables>,
-  queryName: string
+  queryName: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void
 ) {
   return useCallback(
     (e: EntityInstance<TEntity>) => {
-      const onConfirm = () => {
-          if (e.id != null) {
-            // noinspection JSIgnoredPromiseFromCall
-            deleteMutation({
-              variables: { id: e.id } as TVariables,
-              update(cache: ApolloCache<TData>) {
-                // Remove deleted item from cache
-                cache.modify({
-                  fields: {
-                    [queryName](existingRefs, { readField }) {
-                      return existingRefs.filter(
-                        (ref: Reference) => e.id !== readField("id", ref)
-                      );
-                    }
-                  }
-                });
-              }
-            });
-          }
+      let onConfirm;
+
+      if (entityList != null && setEntityList != null) {
+        onConfirm = () => {
+          setEntityList(
+            entityList.filter(entity => entity !== e)
+          );
         };
+      } else {
+        onConfirm = getDefaultOnConfirm(e as EntityInstance<TEntity, HasId>, deleteMutation, queryName);
+      }
 
       showDeleteEntityDialog(onConfirm, intl, e);
     },
-    [intl, deleteMutation]
+    [intl, deleteMutation, entityList]
   );
 }
 
+function getEditorOptions<TEntity>(
+  entityList?: Array<EntityInstance<TEntity>>,
+  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void,
+): {
+  onCommit?: (entityInstance?: EntityInstance<TEntity>) => void,
+  submitBtnCaption?: string
+} {
+  let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined;
+  let submitBtnCaption: string | undefined;
+
+  if (entityList != null && setEntityList != null) {
+    submitBtnCaption = 'common.ok';
+    onCommit = (entityInstance?: EntityInstance<TEntity>) => {
+      if (entityInstance != null) {
+        setEntityList([
+          entityInstance,
+          ...entityList
+        ]);
+      }
+    };
+  }
+
+  return {onCommit, submitBtnCaption};
+}
+
+function getDefaultOnConfirm<
+  TEntity,
+  TData,
+  TVariables extends HasId = HasId
+>(
+  e: EntityInstance<TEntity, HasId>,
+  deleteMutation: GraphQLMutationFn<TData, TVariables>,
+  queryName: string
+) {
+  return () => {
+    if (e.id != null) {
+      // noinspection JSIgnoredPromiseFromCall
+      deleteMutation({
+        variables: { id: e.id } as TVariables,
+        update(cache: ApolloCache<TData>) {
+          // Remove deleted item from cache
+          cache.modify({
+            fields: {
+              [queryName](existingRefs, { readField }) {
+                return existingRefs.filter(
+                  (ref: Reference) => e.id !== readField("id", ref)
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+  };
+}

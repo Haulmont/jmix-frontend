@@ -1,6 +1,6 @@
-import { MayHaveId } from "@haulmont/jmix-react-core";
+import { EntityInstance } from "@haulmont/jmix-react-core";
 
-export interface GenericEntityListProps {
+export interface GenericEntityListProps<TEntity> {
   onEntityListChange?: (entityList?: this['entityList']) => void;
-  entityList?: MayHaveId[];
+  entityList?: Array<EntityInstance<TEntity>>;
 }

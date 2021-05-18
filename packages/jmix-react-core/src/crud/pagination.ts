@@ -1,3 +1,5 @@
+import {EntityInstance} from "./EntityInstance";
+
 export interface LimitAndOffset {
   limit?: number;
   offset?: number;
@@ -26,3 +28,22 @@ export function calcOffset(current?: number, pageSize?: number): number | undefi
 }
 
 export type PaginationChangeCallback = (current?: number, pageSize?: number) => void;
+
+/**
+ * Performs client-side pagination. Useful in O2M Composition scenario.
+ *
+ * @param entityList
+ * @param pagination
+ */
+export function paginate(entityList: EntityInstance[], pagination?: JmixPagination) {
+  const {current, pageSize} = pagination ?? {};
+
+  const offset = calcOffset(current, pageSize);
+  const limit = pageSize;
+
+  if (offset != null && limit != null) {
+    return entityList.slice(offset, offset + limit);
+  }
+
+  return entityList;
+}

@@ -13,7 +13,8 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityList,
+  GenericEntityListProps
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -50,13 +51,15 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
   }
 `;
 
-const WeirdStringIdMgtListBrowse = observer(() => {
+const WeirdStringIdMgtListBrowse = observer((props: GenericEntityListProps) => {
+  const { entityList, onEntityListChange } = props;
   const screens = useContext(ScreensContext);
 
   const {
     items,
-    loadItems,
-    listQueryResult: { loading, error, data },
+    count,
+    executeListQuery,
+    listQueryResult: { loading, error },
     showDeletionDialog,
     handleCreateBtnClick,
     handleEditBtnClick,
@@ -67,19 +70,19 @@ const WeirdStringIdMgtListBrowse = observer(() => {
     deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
     screens,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   if (loading || items == null) {
     return <Spinner />;
   }
-
-  const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
 
   return (
     <div className="narrow-layout">
@@ -143,7 +146,7 @@ const WeirdStringIdMgtListBrowse = observer(() => {
         <Paging
           paginationConfig={store.pagination ?? {}}
           onPagingChange={handlePaginationChange}
-          total={pagesTotal}
+          total={count}
         />
       </div>
     </div>

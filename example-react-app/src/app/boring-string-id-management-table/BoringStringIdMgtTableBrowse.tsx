@@ -49,13 +49,14 @@ const DELETE_SCR_BORINGSTRINGIDTESTENTITY = gql`
 
 const BoringStringIdMgtTableBrowse = observer(
   (props: GenericEntityListProps) => {
-    const { entityList, onEntityListChange, count } = props;
+    const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
     const {
       items,
+      count,
       relationOptions,
-      loadItems,
+      executeListQuery,
       listQueryResult: { loading, error },
       handleRowSelectionChange,
       handleFilterChange,
@@ -77,10 +78,8 @@ const BoringStringIdMgtTableBrowse = observer(
 
     if (error != null) {
       console.error(error);
-      return <RetryDialog onRetry={loadItems} />;
+      return <RetryDialog onRetry={executeListQuery} />;
     }
-
-    const itemsCount = count ?? data?.scr_BoringStringIdTestEntityCount;
 
     const buttons = [
       <EntityPermAccessControl
@@ -139,13 +138,14 @@ const BoringStringIdMgtTableBrowse = observer(
     return (
       <DataTable
         items={items}
-        count={itemsCount}
+        count={count}
         relationOptions={relationOptions}
         current={store.pagination?.current}
         pageSize={store.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
         columnDefinitions={["description"]}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}

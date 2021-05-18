@@ -14,7 +14,8 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList
+  useEntityList,
+  GenericEntityListProps
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -51,105 +52,109 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
   }
 `;
 
-const WeirdStringIdMgtCardsBrowse = observer(() => {
-  const screens = useContext(ScreensContext);
+const WeirdStringIdMgtCardsBrowse = observer(
+  (props: GenericEntityListProps) => {
+    const { entityList, onEntityListChange } = props;
+    const screens = useContext(ScreensContext);
 
-  const {
-    items,
-    loadItems,
-    listQueryResult: { loading, error, data },
-    showDeletionDialog,
-    handleCreateBtnClick,
-    handleEditBtnClick,
-    handlePaginationChange,
-    store
-  } = useEntityList<WeirdStringIdTestEntity>({
-    listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
-    screens,
-    entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
-  });
+    const {
+      items,
+      count,
+      executeListQuery,
+      listQueryResult: { loading, error },
+      showDeletionDialog,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      handlePaginationChange,
+      store
+    } = useEntityList<WeirdStringIdTestEntity>({
+      listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
+      screens,
+      entityName: ENTITY_NAME,
+      routingPath: ROUTING_PATH,
+      entityList,
+      onEntityListChange
+    });
 
-  if (error != null) {
-    console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
-  }
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={executeListQuery} />;
+    }
 
-  if (loading || items == null) {
-    return <Spinner />;
-  }
+    if (loading || items == null) {
+      return <Spinner />;
+    }
 
-  const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
+    return (
+      <div className="narrow-layout">
+        <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+          <div style={{ marginBottom: "12px" }}>
+            <Button
+              htmlType="button"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreateBtnClick}
+            >
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
+          </div>
+        </EntityPermAccessControl>
 
-  return (
-    <div className="narrow-layout">
-      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <div style={{ marginBottom: "12px" }}>
-          <Button
-            htmlType="button"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateBtnClick}
+        {items == null || items.length === 0 ? (
+          <p>
+            <FormattedMessage id="management.browser.noItems" />
+          </p>
+        ) : null}
+        {items.map((e: EntityInstance<WeirdStringIdTestEntity>) => (
+          <Card
+            title={e._instanceName}
+            key={e.id ? toIdString(e.id) : undefined}
+            style={{ marginBottom: "12px" }}
+            actions={[
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="delete"
+              >
+                <DeleteOutlined
+                  key="delete"
+                  onClick={showDeletionDialog.bind(null, e)}
+                />
+              </EntityPermAccessControl>,
+              <EntityPermAccessControl
+                entityName={ENTITY_NAME}
+                operation="update"
+              >
+                <EditOutlined
+                  key="edit"
+                  onClick={handleEditBtnClick.bind(null, e.id)}
+                />
+              </EntityPermAccessControl>
+            ]}
           >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
+            {getFields(e).map(p => (
+              <EntityProperty
+                entityName={ENTITY_NAME}
+                propertyName={p}
+                value={e[p]}
+                key={p}
+              />
+            ))}
+          </Card>
+        ))}
+
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={store.pagination ?? {}}
+            onPagingChange={handlePaginationChange}
+            total={count}
+          />
         </div>
-      </EntityPermAccessControl>
-
-      {items == null || items.length === 0 ? (
-        <p>
-          <FormattedMessage id="management.browser.noItems" />
-        </p>
-      ) : null}
-      {items.map((e: EntityInstance<WeirdStringIdTestEntity>) => (
-        <Card
-          title={e._instanceName}
-          key={e.id ? toIdString(e.id) : undefined}
-          style={{ marginBottom: "12px" }}
-          actions={[
-            <EntityPermAccessControl
-              entityName={ENTITY_NAME}
-              operation="delete"
-            >
-              <DeleteOutlined
-                key="delete"
-                onClick={showDeletionDialog.bind(null, e)}
-              />
-            </EntityPermAccessControl>,
-            <EntityPermAccessControl
-              entityName={ENTITY_NAME}
-              operation="update"
-            >
-              <EditOutlined
-                key="edit"
-                onClick={handleEditBtnClick.bind(null, e.id)}
-              />
-            </EntityPermAccessControl>
-          ]}
-        >
-          {getFields(e).map(p => (
-            <EntityProperty
-              entityName={ENTITY_NAME}
-              propertyName={p}
-              value={e[p]}
-              key={p}
-            />
-          ))}
-        </Card>
-      ))}
-
-      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-        <Paging
-          paginationConfig={store.pagination ?? {}}
-          onPagingChange={handlePaginationChange}
-          total={pagesTotal}
-        />
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default WeirdStringIdMgtCardsBrowse;

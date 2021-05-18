@@ -51,7 +51,7 @@ import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../u
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { TimePicker, TimePickerProps } from '../TimePicker';
 import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
-import { CompositionO2MFieldProps } from './CompositionO2MField';
+import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
 
 export interface FieldProps {
   entityName: string;

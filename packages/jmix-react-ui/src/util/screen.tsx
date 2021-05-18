@@ -1,8 +1,8 @@
-import {redirect, Screens, MayHaveId} from "@haulmont/jmix-react-core";
+import {redirect, Screens, MayHaveId, EntityInstance} from "@haulmont/jmix-react-core";
 import {referencesListByEntityName} from "./componentsRegistration";
 import React, {ReactNode} from "react";
 
-export interface EntityEditorScreenOptions {
+export interface EntityEditorScreenOptions<TEntity> {
   screens: Screens;
   entityName: string;
   /**
@@ -17,18 +17,18 @@ export interface EntityEditorScreenOptions {
    *
    * @param entityInstance
    */
-  onCommit?: (entityInstance?: MayHaveId) => void;
+  onCommit?: (entityInstance?: this['entityInstance']) => void;
   /**
    * Editor component will use provided entity instance.
    */
-  entityInstance?: MayHaveId;
+  entityInstance?: EntityInstance<TEntity>;
   /**
    * i18n key for submit button caption. Defaults to `common.submit`.
    */
   submitBtnCaption?: string;
 }
 
-export function openEntityEditorScreen({
+export function openEntityEditorScreen<TEntity>({
   screens,
   entityName,
   entityIdToLoad,
@@ -36,7 +36,7 @@ export function openEntityEditorScreen({
   onCommit,
   entityInstance,
   submitBtnCaption
-}: EntityEditorScreenOptions) {
+}: EntityEditorScreenOptions<TEntity>) {
   const registeredReferral = referencesListByEntityName[entityName];
 
   if (entityIdToLoad != null && entityInstance != null) {

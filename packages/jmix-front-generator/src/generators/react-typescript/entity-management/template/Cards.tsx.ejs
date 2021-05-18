@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, Card} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, toIdString, ScreensContext} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList} from "@haulmont/jmix-react-ui";
+import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, GenericEntityListProps} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -24,13 +24,15 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= listComponentClass %> = observer(() => {
+const <%= listComponentClass %> = observer((props: GenericEntityListProps) => {
+  const {entityList, onEntityListChange} = props;
   const screens = useContext(ScreensContext);
 
   const {
     items,
-    loadItems,
-    listQueryResult: {loading, error, data},
+    count,
+    executeListQuery,
+    listQueryResult: {loading, error},
     showDeletionDialog,
     handleCreateBtnClick,
     handleEditBtnClick,
@@ -42,19 +44,19 @@ const <%= listComponentClass %> = observer(() => {
     screens,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   <%# TODO Spinner is not properly centered -%>
   if (loading || items == null) {
     return <Spinner/>;
   }
-
-  const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
     <div className='narrow-layout'>
@@ -104,7 +106,7 @@ const <%= listComponentClass %> = observer(() => {
       <Paging
               paginationConfig={store.pagination ?? {}}
               onPagingChange={handlePaginationChange}
-              total={pagesTotal}
+              total={count}
       />
       </div>
 

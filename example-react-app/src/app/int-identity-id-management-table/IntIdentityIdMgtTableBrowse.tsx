@@ -76,13 +76,14 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
 
 const IntIdentityIdMgtTableBrowse = observer(
   (props: GenericEntityListProps) => {
-    const { entityList, onEntityListChange, count } = props;
+    const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
     const {
       items,
+      count,
       relationOptions,
-      loadItems,
+      executeListQuery,
       listQueryResult: { loading, error },
       handleRowSelectionChange,
       handleFilterChange,
@@ -104,10 +105,8 @@ const IntIdentityIdMgtTableBrowse = observer(
 
     if (error != null) {
       console.error(error);
-      return <RetryDialog onRetry={loadItems} />;
+      return <RetryDialog onRetry={executeListQuery} />;
     }
-
-    const itemsCount = count ?? data?.scr_IntIdentityIdTestEntityCount;
 
     const buttons = [
       <EntityPermAccessControl
@@ -166,13 +165,14 @@ const IntIdentityIdMgtTableBrowse = observer(
     return (
       <DataTable
         items={items}
-        count={itemsCount}
+        count={count}
         relationOptions={relationOptions}
         current={store.pagination?.current}
         pageSize={store.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
         columnDefinitions={[
           "description",
           "updateTs",

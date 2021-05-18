@@ -1,10 +1,10 @@
-import {calcOffset, JmixPagination} from "./pagination";
+import {JmixPagination, paginate} from "./pagination";
 import {JmixSortOrder} from "./sort";
 import {JmixEntityFilter} from "./filter";
-import { MayHaveId } from "../util/metadata";
+import {EntityInstance} from "./EntityInstance";
 
 export function getDisplayedItems(
-  entityList: MayHaveId[],
+  entityList: EntityInstance[],
   pagination?: JmixPagination,
   /**
    * TODO Not implemented yet
@@ -14,15 +14,9 @@ export function getDisplayedItems(
    * TODO Not implemented yet
    */
   _filter?: JmixEntityFilter
-): MayHaveId[] {
-  const {current, pageSize} = pagination ?? {};
-
-  const offset = calcOffset(current, pageSize);
-  const limit = pageSize;
-
-  if (offset != null && limit != null) {
-    return entityList.slice(offset, offset + limit);
-  }
-
-  return entityList;
+): EntityInstance[] {
+  // TODO Client-side filtering https://github.com/Haulmont/jmix-frontend/issues/306
+  // TODO Client-side sorting https://github.com/Haulmont/jmix-frontend/issues/307
+  return paginate(entityList, pagination);
 }
+

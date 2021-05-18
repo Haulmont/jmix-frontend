@@ -19,5 +19,6 @@ module.exports = {
   "coveragePathIgnorePatterns": [
     "src/index.ts", // This file only contains exports
     "src/test-doubles/*"
-  ]
+  ],
+  "setupFilesAfterEnv": ["jest-expect-message"]
 };

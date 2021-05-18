@@ -37,12 +37,15 @@ import {
   MayHaveInstanceName,
   getPropertyInfo,
   dollarsToUnderscores,
+  PaginationChangeCallback,
+  JmixSortOrder,
+  SortOrderChangeCallback,
+  ComparisonType,
+  FilterChangeCallback,
+  JmixEntityFilter
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
-import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from '@haulmont/jmix-react-core/dist-transpiled/src/crud/filter';
-import {JmixSortOrder, SortOrderChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/sort';
-import { PaginationChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/pagination';
 
 /**
  * @typeparam TEntity - entity type.
@@ -72,6 +75,7 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
    * Default: filters will be enabled on all columns. Pass empty array to disable all filters.
    */
   enableFiltersOnColumns?: string[],
+  enableSortingOnColumns?: string[],
   /**
    * By default, when any number of filters is active, a `Clear filters` control will be displayed above the
    * table. When clicked, this control disables all filters at once.
@@ -544,7 +548,7 @@ class DataTableComponent<
             onOperatorChange: this.handleFilterOperatorChange,
             value: this.valuesByProperty.get(propertyName),
             onValueChange: this.handleFilterValueChange,
-            enableSorter: true,
+            enableSorter: this.isSortingForColumnEnabled(propertyName),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
             relationOptions: this.getRelationOptions(propertyName)
@@ -570,6 +574,13 @@ class DataTableComponent<
   isFilterForColumnEnabled(propertyName: string): boolean {
     return this.props.enableFiltersOnColumns
       ? this.props.enableFiltersOnColumns.indexOf(propertyName) > -1
+      : true;
+  }
+
+  isSortingForColumnEnabled(propertyName: string): boolean {
+    const {enableSortingOnColumns} = this.props;
+    return enableSortingOnColumns
+      ? enableSortingOnColumns.indexOf(propertyName) > -1
       : true;
   }
 

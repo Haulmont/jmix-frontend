@@ -50,13 +50,14 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 
 const WeirdStringIdMgtTableBrowse = observer(
   (props: GenericEntityListProps) => {
-    const { entityList, onEntityListChange, count } = props;
+    const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
     const {
       items,
+      count,
       relationOptions,
-      loadItems,
+      executeListQuery,
       listQueryResult: { loading, error },
       handleRowSelectionChange,
       handleFilterChange,
@@ -78,10 +79,8 @@ const WeirdStringIdMgtTableBrowse = observer(
 
     if (error != null) {
       console.error(error);
-      return <RetryDialog onRetry={loadItems} />;
+      return <RetryDialog onRetry={executeListQuery} />;
     }
-
-    const itemsCount = count ?? data?.scr_WeirdStringIdTestEntityCount;
 
     const buttons = [
       <EntityPermAccessControl
@@ -140,13 +139,14 @@ const WeirdStringIdMgtTableBrowse = observer(
     return (
       <DataTable
         items={items}
-        count={itemsCount}
+        count={count}
         relationOptions={relationOptions}
         current={store.pagination?.current}
         pageSize={store.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
         columnDefinitions={["id", "description"]}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}

@@ -18,13 +18,16 @@ import {
   EnumInfo,
   EnumValueInfo,
   MetaPropertyInfo,
-  isRelationProperty
+  isRelationProperty,
+  PaginationChangeCallback,
+  ComparisonType,
+  FilterChangeCallback,
+  JmixEntityFilter,
+  JmixSortOrder,
+  SortOrderChangeCallback
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
-import { PaginationChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/pagination';
-import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from "@haulmont/jmix-react-core/dist-transpiled/src/crud/filter";
-import {JmixSortOrder, SortOrderChangeCallback } from '@haulmont/jmix-react-core/dist-transpiled/src/crud/sort';
 
 // todo we should not use '*Helpers' in class name in case of lack semantic. This class need to be split
 //  to different files like 'DataColumn', 'Conditions', 'Filters', 'Paging' ot something like this
