@@ -59,6 +59,8 @@ export class Tabs {
     this.currentTab = tab;
 
     this.tabs = [...this.tabs, tab];
+
+    window.scrollTo(0, 0);
   });
 
   /**
@@ -92,6 +94,8 @@ export class Tabs {
 
       redirect(url);
     }
+
+    window.scrollTo(0, 0);
   });
 }
 
