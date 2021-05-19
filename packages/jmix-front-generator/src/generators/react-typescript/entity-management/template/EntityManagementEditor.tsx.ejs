@@ -118,7 +118,8 @@ const <%= editComponentClass %> = observer((props: EntityEditorProps) => {
                  disabled={!isNewEntity(entityId)}
             <% } %>
 
-            <% /* TODO Compositions %>
+            <% if (Object.keys(editCompositions).includes(attr.name)) { %>
+                 parentEntityInstanceId={}
             <% */ %>
 
             <% if (Object.keys(editAssociations).includes(attr.name)) { %>

@@ -68,7 +68,7 @@ export interface FieldProps {
    */
   associationOptions?: Array<HasId & MayHaveInstanceName>;
   /**
-   * This prop shall be supplied if the entity property has Composition relation type.
+   * This prop shall be supplied if the entity property has One-to-Many Composition relation type.
    * It is an id of the enclosing entity instance.
    */
   parentEntityInstanceId?: string;
@@ -190,8 +190,10 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
                  />;
         }
 
-        if (propertyInfo.cardinality === 'ONE_TO_MANY') {
+        if (propertyInfo.cardinality === 'ONE_TO_MANY' && parentEntityInstanceId != null) {
           return <CompositionO2MField entityName={nestedEntityName}
+                                      parentEntityAttrName={propertyInfo.name}
+                                      parentEntityId={parentEntityInstanceId}
                                       {...rest as Partial<CompositionO2MFieldProps>}
                  />;
         }

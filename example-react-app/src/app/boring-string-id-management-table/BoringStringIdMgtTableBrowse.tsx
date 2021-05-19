@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 import {
   EntityPermAccessControl,
   ScreensContext
@@ -10,7 +10,8 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  EntityListProps
+  EntityListProps,
+  useParentScreen
 } from "@haulmont/jmix-react-ui";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -81,6 +82,8 @@ const BoringStringIdMgtTableBrowse = observer(
       return <RetryDialog onRetry={executeListQuery} />;
     }
 
+    const goToParentScreen = useParentScreen(ROUTING_PATH);
+
     const buttons = [
       <EntityPermAccessControl
         entityName={ENTITY_NAME}
@@ -131,6 +134,22 @@ const BoringStringIdMgtTableBrowse = observer(
         </Button>
       </EntityPermAccessControl>
     ];
+
+    if (entityList != null) {
+      buttons.unshift(
+        <Tooltip title={<FormattedMessage id="common.back" />}>
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            icon={<LeftOutlined />}
+            onClick={goToParentScreen}
+            key="back"
+            type="default"
+            shape="circle"
+          />
+        </Tooltip>
+      );
+    }
 
     return (
       <DataTable

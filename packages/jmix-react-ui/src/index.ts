@@ -33,6 +33,7 @@ export * from './ui/TimePicker';
 
 export * from './util/errorHandling';
 export * from './util/mapJmixRestErrorToIntlId';
+export * from './util/screen';
 
 export * from './i18n/I18nProvider';
 export * from './i18n/validation';

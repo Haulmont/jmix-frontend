@@ -1,6 +1,7 @@
-import {redirect, Screens, MayHaveId, EntityInstance} from "@haulmont/jmix-react-core";
+import {EntityInstance, MayHaveId, redirect, Screens, ScreensContext} from "@haulmont/jmix-react-core";
 import {referencesListByEntityName} from "./componentsRegistration";
-import React, {ReactNode} from "react";
+import React, {ReactNode, useCallback, useContext} from "react";
+import {MultiScreenContext} from "../ui/MultiScreen";
 
 export interface EntityEditorScreenOptions<TEntity> {
   screens: Screens;
@@ -80,21 +81,42 @@ export function openEntityEditorScreen<TEntity>({
   });
 }
 
-export interface EntityBrowserScreenOptions {
+export interface EntityListScreenOptions {
   screens: Screens;
   entityName: string;
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
+  parentEntityAttrName?: string;
+  parentEntityId?: string | object;
 }
 
-export function openEntityBrowserScreen({entityName, entityList, onEntityListChange, screens}: EntityBrowserScreenOptions) {
+export function openEntityListScreen(
+  {entityName, entityList, onEntityListChange, screens, parentEntityAttrName, parentEntityId}: EntityListScreenOptions
+) {
   const registeredReferral = referencesListByEntityName[entityName];
 
   screens.push({
     title: registeredReferral.entityList.title,
-    content: injectProps(registeredReferral.entityList.content, {entityList, onEntityListChange}),
+    content: injectProps(registeredReferral.entityList.content, {
+      entityList,
+      onEntityListChange,
+      parentEntityAttrName,
+      parentEntityId
+    }),
   });
 }
+
+export const useParentScreen = (routingPath: string): (() => void) => {
+  const screens = useContext(ScreensContext);
+  const multiScreen = useContext(MultiScreenContext);
+
+  return useCallback(() => {
+    if (screens.currentScreenIndex === 1) {
+      redirect(routingPath);
+    }
+    screens.setActiveScreen(multiScreen.parent!, true);
+  }, [screens, routingPath, multiScreen]);
+};
 
 function injectProps<TProps = any>(component: ReactNode, props?: TProps) {
   if (props == null) {

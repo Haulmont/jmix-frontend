@@ -8,7 +8,7 @@
   "common.unsavedEntity": "(unsaved entity)",
   "common.requestFailed": "Failed to perform the requested operation",
   "common.retry": "Retry",
-
+  "common.back": "Back",
 
   "home.welcome": "Welcome to",
   "router.home": "Home",

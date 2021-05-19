@@ -14,6 +14,7 @@
   "common.unsavedEntity": "（未保存或未命名实体）",
   "common.requestFailed": "请求的操作执行失败",
   "common.retry": "重试",
+  "common.back": "[TRANSLATION NOT AVAILABLE]",
 
   "home.welcome": "欢迎使用",
   "router.home": "主界面",

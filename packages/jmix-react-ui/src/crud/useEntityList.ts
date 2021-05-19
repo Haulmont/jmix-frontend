@@ -36,11 +36,11 @@ import { saveHistory } from "./history";
 export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
    * GraphQL query that retrieves the list of entities.
-   * Will be passed to Apollo Client `useLazyQuery` hook along with {@link listQueryOptions}.
+   * Will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link listQueryOptions}.
    */
   listQuery: DocumentNode | TypedDocumentNode;
   /**
-   * Options that will be passed to Apollo Client `useLazyQuery` hook along with {@link listQuery}.
+   * Options that will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link listQuery}.
    */
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   /**
@@ -62,7 +62,7 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
   queryName?: string; // TODO remove
   /**
    * Use to provide the entity list directly instead of obtaining it from backend.
-   * Note that backend will still be queried for relation options if applicable.
+   * Note that backend will still be queried for {@link EntityListHookResult.relationOptions} if applicable.
    */
   entityList?: Array<EntityInstance<TEntity>>;
   /**
@@ -71,24 +71,60 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * @param entityList {@link entityList}
    */
   onEntityListChange?: (entityList?: Array<EntityInstance<TEntity>>) => void;
+  /**
+   * The name of One-to-Many Composition attribute in the parent entity.
+   * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
+   */
+  parentEntityAttrName?: string;
+  /**
+   * The `id` of the parent entity.
+   * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
+   */
+  parentEntityId?: string | object;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   /**
    * Entity instances that will be displayed by the list component.
    *
-   * When {@link EntityListHookOptions.entityList} is not used, `items` will contain
+   * When {@link EntityListHookOptions.entityList} is not used, {@link items} will contain
    * the entity instances retrived from backend upon execution of {@link EntityListHookOptions.listQuery}
    * (it is also obtainable as {@link listQueryResult}`.data.${entityName}List`).
    *
-   * When {@link EntityListHookOptions.entityList} is used, `items` will contain a relevant
+   * When {@link EntityListHookOptions.entityList} is used, {@link items} will contain a relevant
    * portion of {@link EntityListHookOptions.entityList} depending on pagination / sorting / filtering.
    */
   items?: Array<EntityInstance<TEntity>>;
+  /**
+   * Total number of entity instances.
+   *
+   * When {@link EntityListHookOptions.entityList} is not used, {@link count} will contain
+   * the value retrived from backend upon execution of {@link EntityListHookOptions.listQuery}
+   * (it is also obtainable as {@link listQueryResult}`.data.${entityName}Count`).
+   *
+   * When {@link EntityListHookOptions.entityList} is used, {@link count} will contain the total
+   * number of elements in {@link EntityListHookOptions.entityList}.
+   */
   count?: number;
+  /**
+   * Used when the entity has relation (Association and/or Composition) attributes.
+   * A map between nested entity names and arrays of possible values.
+   */
   relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
+  /**
+   * Execute function returned from Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook.
+   * A function that executes the {@link EntityListHookOptions.listQuery}.
+   */
   executeListQuery: GraphQLQueryFn<TQueryVars>;
+  /**
+   * Result object returned from Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook.
+   * Contains query result, loading and error status and more, see {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery}
+   * documentation for details.
+   */
   listQueryResult: LazyQueryResult<TData, TQueryVars>;
+  /**
+   * Execute function returned from
+   */
   executeDeleteMutation: GraphQLMutationFn<TData, TMutationVars>;
   deleteMutationResult: MutationResult;
   intl: IntlShape;
@@ -101,10 +137,11 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
-  store: EntityListLocalStore;
+  store: EntityListLocalStore<TEntity>;
 }
 
-export interface EntityListLocalStore {
+export interface EntityListLocalStore<TEntity> {
+  entityList?: Array<EntityInstance<TEntity>>;
   selectedRowKey?: string;
   filter?: JmixEntityFilter[];
   sortOrder?: JmixSortOrder;
@@ -130,10 +167,13 @@ export function useEntityList<
     queryName = `${dollarsToUnderscores(entityName)}List`,
     paginationConfig = defaultPaginationConfig,
     entityList,
-    onEntityListChange
+    onEntityListChange,
+    parentEntityAttrName,
+    parentEntityId
   } = options;
 
-  const store: EntityListLocalStore = useLocalStore(() => ({
+  const store: EntityListLocalStore<TEntity> = useLocalStore(() => ({
+    entityList,
     selectedRowKey: undefined,
     filter: undefined,
     sortOrder: undefined,
@@ -142,6 +182,14 @@ export function useEntityList<
       pageSize: paginationConfig.pageSize,
     }
   }));
+
+  // Used e.g. when entity browser represents the content of a One-to-Many Composition field
+  const handleEntityListChange = (newEntityList: Array<EntityInstance<TEntity>>) => {
+    store.entityList = newEntityList; // Update local state (what is shown in the entity browser)
+    if (onEntityListChange != null) { // Update external state (e.g. parent entity value)
+      onEntityListChange(newEntityList);
+    }
+  };
 
   const intl = useIntl();
 
@@ -152,7 +200,7 @@ export function useEntityList<
     executeListQuery,
     listQueryResult
   } = useEntityListData<TEntity, TData, TListQueryVars>({
-    entityList,
+    entityList: store.entityList,
     listQuery,
     listQueryOptions,
     filter: store.filter,
@@ -163,9 +211,9 @@ export function useEntityList<
 
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, entityList, onEntityListChange);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, entityList, onEntityListChange);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, entityList, onEntityListChange);
+  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, store.entityList, handleEntityListChange);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, store.entityList, handleEntityListChange, parentEntityAttrName, parentEntityId);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, store.entityList, handleEntityListChange);
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
@@ -248,12 +296,22 @@ export function useCreateBtnCallback<TEntity>(
   screens: Screens,
   entityName: string,
   entityList?: Array<EntityInstance<TEntity>>,
-  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  parentEntityAttrName?: string,
+  parentEntityId?: string | object
 ) {
   const {onCommit, submitBtnCaption} = getEditorOptions(entityList, onEntityListChange);
 
+  // If we are editing a O2M Composition field, we need to put parent entity id in the created entity instance.
+  let entityInstance: EntityInstance<TEntity> | undefined;
+  if (parentEntityAttrName != null && parentEntityId != null) {
+    entityInstance = {
+      [parentEntityAttrName]: {id: parentEntityId}
+    } as unknown as TEntity;
+  }
+
   return useCallback(() => {
-    openEntityEditorScreen({screens, entityName, onCommit, submitBtnCaption});
+    openEntityEditorScreen({screens, entityName, onCommit, submitBtnCaption, entityInstance});
   }, [screens, entityName, entityList]);
 }
 

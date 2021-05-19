@@ -19,7 +19,6 @@ import {
   Metadata,
   Screens,
   IMultiScreenItem,
-  redirect,
   dollarsToUnderscores,
   MayHaveId
 } from "@haulmont/jmix-react-core";
@@ -30,6 +29,7 @@ import {useForm} from "antd/es/form/Form";
 import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
 import {antFormToGraphQL} from "../formatters/antFormToGraphQL";
+import { useParentScreen } from "../util/screen";
 
 export type EntityEditorStore = {
   globalErrors: string[];
@@ -54,8 +54,8 @@ export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
   listQueryName?: string;
   routingPath: string;
   hasAssociations?: boolean;
-  screens: Screens;
-  multiScreen: IMultiScreenItem;
+  screens: Screens; // TODO remove
+  multiScreen: IMultiScreenItem; // TODO remove
   onCommit?: (value: TEntity) => void;
   entityInstance?: TEntity
 }
@@ -93,8 +93,6 @@ export function useEntityEditor<
     upsertInputName,
     hasAssociations,
     routingPath,
-    screens,
-    multiScreen,
     onCommit,
     entityInstance
   } = options;
@@ -143,12 +141,7 @@ export function useEntityEditor<
     }
   }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
 
-  const goToParentScreen = useCallback(() => {
-    if (screens.currentScreenIndex === 1) {
-      redirect(routingPath);
-    }
-    screens.setActiveScreen(multiScreen.parent!, true);
-  }, [screens, routingPath, multiScreen]);
+  const goToParentScreen = useParentScreen(routingPath);
 
   const handleCancelBtnClick = goToParentScreen;
 

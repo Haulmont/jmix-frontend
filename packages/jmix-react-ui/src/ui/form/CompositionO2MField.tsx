@@ -5,25 +5,29 @@ import {Button} from "antd";
 import './CompositionFields.less';
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import {PlusOutlined} from "@ant-design/icons";
-import {openEntityBrowserScreen} from "../../util/screen";
+import {openEntityListScreen} from "../../util/screen";
 
 export interface CompositionO2MFieldProps {
   value?: MayHaveId[];
   onChange?: (value?: this['value']) => void;
   entityName: string;
+  parentEntityAttrName: string;
+  parentEntityId: string | object;
 }
 
 export const CompositionO2MField = observer((props: CompositionO2MFieldProps) => {
-  const {value, entityName, onChange} = props;
+  const {value, entityName, onChange, parentEntityAttrName, parentEntityId} = props;
 
   const screens = useContext(ScreensContext);
 
   const handleClick = useCallback(() => {
-    openEntityBrowserScreen({
+    openEntityListScreen({
       entityName,
       entityList: value ?? [],
       screens,
-      onEntityListChange: onChange // TODO decouple from ant
+      onEntityListChange: onChange, // TODO decouple from ant
+      parentEntityAttrName,
+      parentEntityId
     });
   }, [entityName, value, screens, onChange]);
 
