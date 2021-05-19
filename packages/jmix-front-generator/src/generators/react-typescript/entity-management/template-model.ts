@@ -44,7 +44,7 @@ export type EntityManagementTemplateModel =
   nameLiteral: string;
   entity: EntityWithPath;
   listAttributes: EntityAttribute[];
-  listAssociations: RelationalAttributes;
+  listRelations: RelationalAttributes;
   stringIdName?: string;
   editAttributes: EntityAttribute[];
   readOnlyFields: string[];
@@ -78,7 +78,7 @@ export const deriveTemplateModel = async (
   type PartialModel2 =
     & PartialModel
     & EntityEditorTemplateModel
-    & {listAssociations: RelationalAttributes};
+    & {listRelations: RelationalAttributes};
 
   const partialModel2: PartialModel2 = {
     ...partialModel,
@@ -97,8 +97,12 @@ export const deriveTemplateModel = async (
 };
 
 function deriveListRelations(projectModel: ProjectModel, listAttributes: EntityAttribute[]) {
-  const {associations: listAssociations} = getRelations(projectModel, listAttributes);
-  return {listAssociations};
+  const {associations, compositions} = getRelations(projectModel, listAttributes);
+  const listRelations = {
+    ...associations,
+    ...compositions
+  };
+  return {listRelations};
 }
 
 function deriveQueries(answers: EntityManagementAnswers): {listQuery: string, editQuery: string} {

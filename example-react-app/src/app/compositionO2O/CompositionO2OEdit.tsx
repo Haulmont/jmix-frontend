@@ -11,6 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -29,6 +30,7 @@ const LOAD_SCR_COMPOSITIONO2OTESTENTITY = gql`
       id
       _instanceName
       name
+      quantity
     }
   }
 `;
@@ -45,7 +47,12 @@ const UPSERT_SCR_COMPOSITIONO2OTESTENTITY = gql`
   }
 `;
 
-const CompositionO2OEdit = observer(() => {
+const CompositionO2OEdit = observer((props: EntityEditorProps) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = "common.submit"
+  } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
@@ -68,7 +75,9 @@ const CompositionO2OEdit = observer(() => {
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     screens,
-    multiScreen
+    multiScreen,
+    onCommit,
+    entityInstance
   });
 
   if (queryLoading || metadata == null) {
@@ -97,6 +106,14 @@ const CompositionO2OEdit = observer(() => {
           }}
         />
 
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="quantity"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
         {store.globalErrors.length > 0 && (
           <Alert
             message={<MultilineText lines={toJS(store.globalErrors)} />}
@@ -115,7 +132,7 @@ const CompositionO2OEdit = observer(() => {
             loading={upsertLoading}
             style={{ marginLeft: "8px" }}
           >
-            <FormattedMessage id="common.submit" />
+            <FormattedMessage id={submitBtnCaption} />
           </Button>
         </Form.Item>
       </Form>

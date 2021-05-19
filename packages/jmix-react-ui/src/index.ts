@@ -13,6 +13,8 @@ export * from './formatters/graphqlToAntForm';
 
 export * from './crud/useEntityEditor';
 export * from './crud/useEntityList';
+export * from './crud/EntityEditorProps';
+export * from './crud/showDeleteEntityDialog';
 export * from './crud/filter';
 export * from './crud/pagination';
 export * from './crud/sort';

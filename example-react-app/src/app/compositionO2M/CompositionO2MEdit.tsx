@@ -11,6 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -54,7 +55,12 @@ const UPSERT_SCR_COMPOSITIONO2MTESTENTITY = gql`
   }
 `;
 
-const CompositionO2MEdit = observer(() => {
+const CompositionO2MEdit = observer((props: EntityEditorProps) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = "common.submit"
+  } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
@@ -78,7 +84,9 @@ const CompositionO2MEdit = observer(() => {
     routingPath: ROUTING_PATH,
     hasAssociations: true,
     screens,
-    multiScreen
+    multiScreen,
+    onCommit,
+    entityInstance
   });
 
   if (queryLoading || metadata == null) {
@@ -134,7 +142,7 @@ const CompositionO2MEdit = observer(() => {
             loading={upsertLoading}
             style={{ marginLeft: "8px" }}
           >
-            <FormattedMessage id="common.submit" />
+            <FormattedMessage id={submitBtnCaption} />
           </Button>
         </Form.Item>
       </Form>

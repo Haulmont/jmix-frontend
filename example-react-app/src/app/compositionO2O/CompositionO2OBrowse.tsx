@@ -31,6 +31,7 @@ const SCR_COMPOSITIONO2OTESTENTITY_LIST = gql`
       id
       _instanceName
       name
+      quantity
     }
   }
 `;
@@ -131,7 +132,7 @@ const CompositionO2OBrowse = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={["name"]}
+      columnDefinitions={["name", "quantity"]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

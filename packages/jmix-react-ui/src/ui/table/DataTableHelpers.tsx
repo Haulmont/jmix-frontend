@@ -18,7 +18,7 @@ import {
   EnumInfo,
   EnumValueInfo,
   MetaPropertyInfo,
-  isAssociation
+  isRelationProperty
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
@@ -62,7 +62,7 @@ export interface DataColumnConfig {
    * See {@link DataTableCustomFilterProps.customFilterRef}
    */
   customFilterRef?: (instance: FormInstance) => void;
-  associationOptions?: Array<HasId & MayHaveInstanceName>;
+  relationOptions?: Array<HasId & MayHaveInstanceName>;
 }
 
 /**
@@ -173,7 +173,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     enableSorter,
     mainStore,
     customFilterRef,
-    associationOptions
+    relationOptions
   } = config;
 
   let dataIndex: string | string[];
@@ -234,7 +234,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
           value,
           onValueChange,
           customFilterRef,
-          associationOptions
+          relationOptions
         ),
         ...defaultColumnProps
       };
@@ -274,7 +274,7 @@ export function generateCustomFilterDropdown(
   value: any,
   onValueChange: (value: any, propertyName: string) => void,
   customFilterRefCallback?: (instance: FormInstance) => void,
-  associationOptions?: Array<HasId & MayHaveInstanceName>,
+  relationOptions?: Array<HasId & MayHaveInstanceName>,
 ): (props: FilterDropdownProps) => React.ReactNode {
 
   return (props: FilterDropdownProps) => (
@@ -286,7 +286,7 @@ export function generateCustomFilterDropdown(
                   value={value}
                   onValueChange={onValueChange}
                   customFilterRef={customFilterRefCallback}
-                  associationOptions={associationOptions}
+                  relationOptions={relationOptions}
     />
   )
 
@@ -351,7 +351,7 @@ export function setFilters(
         }
 
         // Association
-        if (isAssociation(propertyInfoNN)) {
+        if (isRelationProperty(propertyInfoNN)) {
           nextApiFilters.push({
             [propertyName]: {
               id: {
@@ -404,7 +404,7 @@ export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, o
       const sortField = sorter.field[0];
       onSortOrderChange({
         [sortField]: {
-          id: sortDirection // TODO String ID support
+          id: sortDirection // TODO disable sorting by relation fields
         }
       });
       return;

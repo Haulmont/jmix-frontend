@@ -12,15 +12,12 @@ import {
   GraphQLQueryFn,
   HasId,
   Screens,
-  redirect,
   toIdString,
   MayHaveInstanceName,
   dollarsToUnderscores, IMultiScreenItem,
 } from '@haulmont/jmix-react-core';
 import {IntlShape, useIntl} from "react-intl";
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import {Modal} from "antd";
-import {referencesListByEntityName} from "../util/componentsRegistration";
 import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
 import {FilterChangeCallback, JmixEntityFilter} from "./filter";
 import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
@@ -28,6 +25,8 @@ import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPaginationConfig} from "../ui/paging/Paging";
 import { PaginationConfig } from "antd/es/pagination";
+import {openEntityEditorScreen} from "../util/screen";
+import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
 
 export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
   listQuery: DocumentNode | TypedDocumentNode;
@@ -245,30 +244,14 @@ export function getAssociationOptions<
 
 export function useCreateBtnCallback(screens: Screens, entityName: string) {
   return useCallback(() => {
-    const registeredReferral = referencesListByEntityName[entityName];
-
-    screens.push({
-      title: registeredReferral.entityItemNew.title,
-      content: registeredReferral.entityItemNew.content
-    });
+    openEntityEditorScreen({screens, entityName});
   }, [screens, entityName]);
 }
 
 export function useEditBtnCallbck(screens: Screens, entityName: string, routingPath: string) {
-  return useCallback((entityId: string) => {
-    const registeredReferral = referencesListByEntityName[entityName];
-
-    // If we are on root screen
-    if (screens.currentScreenIndex === 0) {
-      redirect(`${routingPath}/${entityId}`);
-    }
-
-    screens.push({
-      title: registeredReferral.entityItemEdit.title,
-      content: registeredReferral.entityItemEdit.content,
-      params: {
-        entityId
-      }
+  return useCallback((entityIdToLoad: string) => {
+    openEntityEditorScreen({
+      screens, entityName, entityIdToLoad, routingPath
     });
   }, [screens, routingPath, entityName]);
 }
@@ -284,16 +267,7 @@ export function useDeletionDialogCallback<
 ) {
   return useCallback(
     (e: EntityInstance<TEntity>) => {
-      Modal.confirm({
-        title: intl.formatMessage(
-          { id: "management.browser.delete.areYouSure" },
-          { instanceName: (e as any)._instanceName }
-        ),
-        okText: intl.formatMessage({
-          id: "management.browser.delete.ok"
-        }),
-        cancelText: intl.formatMessage({ id: "common.cancel" }),
-        onOk: () => {
+      const onConfirm = () => {
           if (e.id != null) {
             // noinspection JSIgnoredPromiseFromCall
             deleteMutation({
@@ -312,8 +286,9 @@ export function useDeletionDialogCallback<
               }
             });
           }
-        }
-      });
+        };
+
+      showDeleteEntityDialog(onConfirm, intl, e);
     },
     [intl, deleteMutation]
   );

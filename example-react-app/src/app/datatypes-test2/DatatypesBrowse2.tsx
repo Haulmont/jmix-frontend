@@ -70,6 +70,12 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
       }
+      compositionO2Oattr {
+        id
+        _instanceName
+        name
+        quantity
+      }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
         _instanceName
@@ -83,7 +89,6 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         _instanceName
       }
       name
-      readOnlyStringAttr
     }
   }
 `;

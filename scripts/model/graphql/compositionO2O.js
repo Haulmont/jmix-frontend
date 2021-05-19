@@ -3,6 +3,7 @@ const query = `
   id
   _instanceName
   name
+  quantity
 }
 `;
 
