@@ -42,6 +42,8 @@ export default {
       }
     }),
     json(),
-    eslint()
+    eslint({
+      fix: true,
+    })
   ]
 };
