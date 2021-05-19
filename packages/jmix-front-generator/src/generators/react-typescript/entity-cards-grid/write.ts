@@ -1,6 +1,6 @@
 import {writeComponentI18nMessages} from "../../../building-blocks/stages/writing/pieces/i18n";
 import {WriteStage} from "../../../building-blocks/pipelines/defaultPipeline";
-import {addMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
+import {addMenuItem, addAppMenu} from "../../../building-blocks/stages/writing/pieces/menu";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {Options} from "./options";
 import {TemplateModel} from "./template-model";
@@ -22,6 +22,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     projectModel.project?.locales
   );
 
+  addAppMenu(gen, dirShift, className, nameLiteral);
   addMenuItem(gen, dirShift, className, nameLiteral);
 }
 

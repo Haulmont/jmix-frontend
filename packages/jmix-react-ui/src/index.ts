@@ -43,3 +43,5 @@ export * from './i18n/validation';
 export * from './ui/MultiScreen';
 export * from './ui/Tabs';
 export * from './util/componentsRegistration';
+
+export * from './ui/menu'

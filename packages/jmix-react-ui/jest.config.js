@@ -29,6 +29,7 @@ module.exports = {
   // apparently because the test transitively imports MainStore, which declares a custom hook.
   "moduleNameMapper": {
     "^react$": "<rootDir>/../jmix-react-core/node_modules/react",
-    "^mobx-react$": "<rootDir>/../jmix-react-core/node_modules/mobx-react"
+    "^mobx-react$": "<rootDir>/../jmix-react-core/node_modules/mobx-react",
+    "\\.(css|less)$":  "<rootDir>/src/mocks/test-mocks/styleMock.ts"
   }
 };
