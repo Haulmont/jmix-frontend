@@ -14,7 +14,7 @@ import {
   injectIntl,
   WrappedComponentProps
 } from "react-intl";
-import SberIcon from "../icons/SberIcon";
+import SberDarkIcon from "../icons/SberDarkIcon";
 import { loginMapJmixRestErrorToIntlId } from "@haulmont/jmix-react-ui";
 
 class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
@@ -67,7 +67,7 @@ class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
   render() {
     return (
       <div className="login-form">
-        <SberIcon className="logo" />
+        <SberDarkIcon className="logo" />
 
         <div className="title">scr-jmix</div>
 

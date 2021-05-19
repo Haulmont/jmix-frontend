@@ -10,7 +10,7 @@ import {injectMainStore, MainStoreInjected} from "@haulmont/jmix-react-core";
 import './Login.css';
 import {LanguageSwitcher} from '../../i18n/LanguageSwitcher';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import SberIcon from '../icons/SberIcon';
+import SberDarkIcon from '../icons/SberDarkIcon';
 import {loginMapJmixRestErrorToIntlId} from "@haulmont/jmix-react-ui";
 
 class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
@@ -56,7 +56,7 @@ class Login extends React.Component<MainStoreInjected & WrappedComponentProps> {
   render() {
     return(
       <div className='login-form'>
-        <SberIcon className='logo' />
+        <SberDarkIcon className='logo' />
 
         <div className='title'>
           <%= title %>

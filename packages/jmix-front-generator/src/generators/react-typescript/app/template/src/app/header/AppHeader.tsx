@@ -6,7 +6,7 @@ import './AppHeader.css';
 import {injectMainStore, MainStoreInjected} from "@haulmont/jmix-react-core";
 import {LanguageSwitcher} from '../../i18n/LanguageSwitcher';
 import {injectIntl, WrappedComponentProps} from 'react-intl';
-import SberIcon from '../icons/SberIcon';
+import SberLightIcon from '../icons/SberLightIcon';
 
 class AppHeader extends React.Component<MainStoreInjected & WrappedComponentProps> {
 
@@ -15,7 +15,7 @@ class AppHeader extends React.Component<MainStoreInjected & WrappedComponentProp
 
     return (
       <div className="app-header">
-        <SberIcon className="app-header__icon" />
+        <SberLightIcon className="app-header__icon" />
 
         <div className="user-panel">
           <LanguageSwitcher className='panelelement language-switcher -header'/>
