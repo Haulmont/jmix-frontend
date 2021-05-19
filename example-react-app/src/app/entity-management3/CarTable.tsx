@@ -10,7 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
@@ -33,7 +33,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItem) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       manufacturer
@@ -82,7 +82,7 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarTable = observer((props: GenericEntityListProps) => {
+const CarTable = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
   const screens = useContext(ScreensContext);
 
@@ -157,7 +157,7 @@ const CarTable = observer((props: GenericEntityListProps) => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, data?.scr_CarList)}
+        onClick={deleteSelectedRow.bind(null, items)}
         key="remove"
         type="default"
       >

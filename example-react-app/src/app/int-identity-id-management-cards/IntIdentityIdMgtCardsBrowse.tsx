@@ -15,7 +15,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -30,6 +30,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_IntIdentityIdTestEntityOrderBy
     $filter: [inp_scr_IntIdentityIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_IntIdentityIdTestEntityCount
     scr_IntIdentityIdTestEntityList(
@@ -37,7 +38,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       description
@@ -69,7 +70,7 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
 `;
 
 const IntIdentityIdMgtCardsBrowse = observer(
-  (props: GenericEntityListProps) => {
+  (props: EntityListProps<IntIdentityIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 

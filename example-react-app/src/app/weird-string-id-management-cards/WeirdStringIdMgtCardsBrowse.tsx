@@ -15,7 +15,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -30,6 +30,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_WeirdStringIdTestEntityCount
     scr_WeirdStringIdTestEntityList(
@@ -37,7 +38,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       identifier
@@ -53,7 +54,7 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 `;
 
 const WeirdStringIdMgtCardsBrowse = observer(
-  (props: GenericEntityListProps) => {
+  (props: EntityListProps<WeirdStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 

@@ -61,6 +61,8 @@ export function useEntityListData<
     ...listQueryOptions
   };
 
+  console.log('optsWithVars.variables.loadItems', optsWithVars.variables.loadItems);
+
   const [executeListQuery, listQueryResult] = useLazyQuery<TData, TListQueryVars>(listQuery, optsWithVars);
 
   // Load items

@@ -14,7 +14,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -29,6 +29,7 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_TrickyIdTestEntityOrderBy
     $filter: [inp_scr_TrickyIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_TrickyIdTestEntityCount
     scr_TrickyIdTestEntityList(
@@ -36,7 +37,7 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       otherAttr
@@ -50,7 +51,7 @@ const DELETE_SCR_TRICKYIDTESTENTITY = gql`
   }
 `;
 
-const TrickyIdList = observer((props: GenericEntityListProps) => {
+const TrickyIdList = observer((props: EntityListProps<TrickyIdTestEntity>) => {
   const { entityList, onEntityListChange } = props;
   const screens = useContext(ScreensContext);
 

@@ -11,7 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
-  GenericEntityEditorProps,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -55,7 +55,7 @@ const UPSERT_SCR_COMPOSITIONO2MTESTENTITY = gql`
   }
 `;
 
-const CompositionO2MEdit = observer((props: GenericEntityEditorProps) => {
+const CompositionO2MEdit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,

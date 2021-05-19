@@ -93,7 +93,7 @@ export const DatatypesCards = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
+    executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
     store
@@ -108,7 +108,7 @@ export const DatatypesCards = observer(() => {
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   if (loading || data == null) {

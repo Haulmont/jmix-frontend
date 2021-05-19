@@ -10,7 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { AssociationO2OTestEntity } from "../../jmix/entities/scr_AssociationO2OTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -33,7 +33,7 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItem) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       name
@@ -47,113 +47,112 @@ const DELETE_SCR_ASSOCIATIONO2OTESTENTITY = gql`
   }
 `;
 
-const AssociationO2OBrowse = observer((props: GenericEntityListProps) => {
-  const { entityList, onEntityListChange } = props;
-  const screens = useContext(ScreensContext);
+const AssociationO2OBrowse = observer(
+  (props: EntityListProps<AssociationO2OTestEntity>) => {
+    const { entityList, onEntityListChange } = props;
+    const screens = useContext(ScreensContext);
 
-  const {
-    items,
-    count,
-    relationOptions,
-    executeListQuery,
-    listQueryResult: { loading, error },
-    handleRowSelectionChange,
-    handleFilterChange,
-    handleSortOrderChange,
-    handlePaginationChange,
-    deleteSelectedRow,
-    handleCreateBtnClick,
-    handleEditBtnClick,
-    store
-  } = useEntityList<AssociationO2OTestEntity>({
-    listQuery: SCR_ASSOCIATIONO2OTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_ASSOCIATIONO2OTESTENTITY,
-    screens,
-    entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    entityList,
-    onEntityListChange
-  });
+    const {
+      items,
+      count,
+      relationOptions,
+      executeListQuery,
+      listQueryResult: { loading, error },
+      handleRowSelectionChange,
+      handleFilterChange,
+      handleSortOrderChange,
+      handlePaginationChange,
+      deleteSelectedRow,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      store
+    } = useEntityList<AssociationO2OTestEntity>({
+      listQuery: SCR_ASSOCIATIONO2OTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_ASSOCIATIONO2OTESTENTITY,
+      screens,
+      entityName: ENTITY_NAME,
+      routingPath: ROUTING_PATH,
+      entityList,
+      onEntityListChange
+    });
 
-  if (error != null) {
-    console.error(error);
-    return <RetryDialog onRetry={executeListQuery} />;
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={executeListQuery} />;
+    }
+
+    const buttons = [
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="create"
+        key="create"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={handleCreateBtnClick}
+        >
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
+      </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="update"
+        key="update"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={store.selectedRowKey == null}
+          type="default"
+          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+        >
+          <FormattedMessage id="common.edit" />
+        </Button>
+      </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="delete"
+        key="delete"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={store.selectedRowKey == null}
+          onClick={deleteSelectedRow.bind(null, items)}
+          key="remove"
+          type="default"
+        >
+          <FormattedMessage id="common.remove" />
+        </Button>
+      </EntityPermAccessControl>
+    ];
+
+    return (
+      <DataTable
+        items={items}
+        count={count}
+        relationOptions={relationOptions}
+        current={store.pagination?.current}
+        pageSize={store.pagination?.pageSize}
+        entityName={ENTITY_NAME}
+        loading={loading}
+        error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
+        columnDefinitions={["name"]}
+        onRowSelectionChange={handleRowSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
+        hideSelectionColumn={true}
+        buttons={buttons}
+      />
+    );
   }
-
-  const buttons = [
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="create"
-      key="create"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateBtnClick}
-      >
-        <span>
-          <FormattedMessage id="common.create" />
-        </span>
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="update"
-      key="update"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        type="default"
-        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
-      >
-        <FormattedMessage id="common.edit" />
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="delete"
-      key="delete"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(
-          null,
-          data?.scr_AssociationO2OTestEntityList
-        )}
-        key="remove"
-        type="default"
-      >
-        <FormattedMessage id="common.remove" />
-      </Button>
-    </EntityPermAccessControl>
-  ];
-
-  return (
-    <DataTable
-      items={items}
-      count={count}
-      relationOptions={relationOptions}
-      current={store.pagination?.current}
-      pageSize={store.pagination?.pageSize}
-      entityName={ENTITY_NAME}
-      loading={loading}
-      error={error}
-      enableFiltersOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={["name"]}
-      onRowSelectionChange={handleRowSelectionChange}
-      onFilterChange={handleFilterChange}
-      onSortOrderChange={handleSortOrderChange}
-      onPaginationChange={handlePaginationChange}
-      hideSelectionColumn={true}
-      buttons={buttons}
-    />
-  );
-});
+);
 
 export default AssociationO2OBrowse;

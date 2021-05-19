@@ -24,7 +24,7 @@ import {
   HasId,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useEffect, useState} from "react";
+import {useCallback} from "react";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPaginationConfig} from "../ui/paging/Paging";
@@ -34,19 +34,56 @@ import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
 import { saveHistory } from "./history";
 
 export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
+  /**
+   * GraphQL query that retrieves the list of entities.
+   * Will be passed to Apollo Client `useLazyQuery` hook along with {@link listQueryOptions}.
+   */
   listQuery: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client `useLazyQuery` hook along with {@link listQuery}.
+   */
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
+  /**
+   * GraphQL mutation that deletes a given entity instance.
+   * Will be passed to Apollo Client `useMutation` hook along with {@link deleteMutationOptions}.
+   */
   deleteMutation: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client `useMutation` hook along with {@link deleteMutation}.
+   */
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  /**
+   * Determines the initial pagination state.
+   */
   paginationConfig?: PaginationConfig;
-  screens: Screens;
+  screens: Screens; // TODO remove, obtain via context
   entityName: string;
   routingPath: string;
-  queryName?: string;
+  queryName?: string; // TODO remove
+  /**
+   * Use to provide the entity list directly instead of obtaining it from backend.
+   * Note that backend will still be queried for relation options if applicable.
+   */
   entityList?: Array<EntityInstance<TEntity>>;
+  /**
+   * A callback that will be executed when {@link entityList} is changed
+   * (e.g. entities are added, removed or modified).
+   * @param entityList {@link entityList}
+   */
+  onEntityListChange?: (entityList?: Array<EntityInstance<TEntity>>) => void;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
+  /**
+   * Entity instances that will be displayed by the list component.
+   *
+   * When {@link EntityListHookOptions.entityList} is not used, `items` will contain
+   * the entity instances retrived from backend upon execution of {@link EntityListHookOptions.listQuery}
+   * (it is also obtainable as {@link listQueryResult}`.data.${entityName}List`).
+   *
+   * When {@link EntityListHookOptions.entityList} is used, `items` will contain a relevant
+   * portion of {@link EntityListHookOptions.entityList} depending on pagination / sorting / filtering.
+   */
   items?: Array<EntityInstance<TEntity>>;
   count?: number;
   relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
@@ -92,16 +129,9 @@ export function useEntityList<
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
     paginationConfig = defaultPaginationConfig,
-    entityList: receivedEntityList
+    entityList,
+    onEntityListChange
   } = options;
-
-  const [entityList, setEntityList] = useState<Array<EntityInstance<TEntity>>>();
-
-  useEffect(() => {
-    if (receivedEntityList != null) {
-      setEntityList(receivedEntityList);
-    }
-  }, [receivedEntityList]);
 
   const store: EntityListLocalStore = useLocalStore(() => ({
     selectedRowKey: undefined,
@@ -133,9 +163,9 @@ export function useEntityList<
 
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, entityList, setEntityList);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, entityList, setEntityList);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, entityList, setEntityList);
+  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, entityList, onEntityListChange);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, entityList, onEntityListChange);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, entityList, onEntityListChange);
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
@@ -218,9 +248,9 @@ export function useCreateBtnCallback<TEntity>(
   screens: Screens,
   entityName: string,
   entityList?: Array<EntityInstance<TEntity>>,
-  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
 ) {
-  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, setEntityList);
+  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, onEntityListChange);
 
   return useCallback(() => {
     openEntityEditorScreen({screens, entityName, onCommit, submitBtnCaption});
@@ -232,10 +262,10 @@ export function useEditBtnCallbck<TEntity>(
   entityName: string,
   routingPath: string,
   entityList?: Array<EntityInstance<TEntity>>,
-  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
   entityInstance?: EntityInstance<TEntity>
 ) {
-  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, setEntityList);
+  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, onEntityListChange);
 
   return useCallback((entityIdToLoad: string) => {
     openEntityEditorScreen({
@@ -253,15 +283,15 @@ export function useDeletionDialogCallback<
   deleteMutation: GraphQLMutationFn<TData, TVariables>,
   queryName: string,
   entityList?: Array<EntityInstance<TEntity>>,
-  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
 ) {
   return useCallback(
     (e: EntityInstance<TEntity>) => {
       let onConfirm;
 
-      if (entityList != null && setEntityList != null) {
+      if (entityList != null && onEntityListChange != null) {
         onConfirm = () => {
-          setEntityList(
+          onEntityListChange(
             entityList.filter(entity => entity !== e)
           );
         };
@@ -277,7 +307,7 @@ export function useDeletionDialogCallback<
 
 function getEditorOptions<TEntity>(
   entityList?: Array<EntityInstance<TEntity>>,
-  setEntityList?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
 ): {
   onCommit?: (entityInstance?: EntityInstance<TEntity>) => void,
   submitBtnCaption?: string
@@ -285,11 +315,11 @@ function getEditorOptions<TEntity>(
   let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined;
   let submitBtnCaption: string | undefined;
 
-  if (entityList != null && setEntityList != null) {
+  if (entityList != null && onEntityListChange != null) {
     submitBtnCaption = 'common.ok';
     onCommit = (entityInstance?: EntityInstance<TEntity>) => {
       if (entityInstance != null) {
-        setEntityList([
+        onEntityListChange([
           entityInstance,
           ...entityList
         ]);

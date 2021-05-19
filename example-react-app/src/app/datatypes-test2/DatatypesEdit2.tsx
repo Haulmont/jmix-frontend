@@ -11,7 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
-  GenericEntityEditorProps,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -63,6 +63,11 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
         _instanceName
         name
         quantity
+      }
+      compositionO2Mattr {
+        id
+        _instanceName
+        name
       }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
@@ -121,7 +126,7 @@ const UPSERT_SCR_DATATYPESTESTENTITY = gql`
   }
 `;
 
-const DatatypesEdit2 = observer((props: GenericEntityEditorProps) => {
+const DatatypesEdit2 = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
@@ -332,6 +337,14 @@ const DatatypesEdit2 = observer((props: GenericEntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="compositionO2Oattr"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="compositionO2Mattr"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

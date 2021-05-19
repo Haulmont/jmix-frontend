@@ -10,7 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -33,7 +33,7 @@ const SCR_BORINGSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItem) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       description
@@ -48,7 +48,7 @@ const DELETE_SCR_BORINGSTRINGIDTESTENTITY = gql`
 `;
 
 const BoringStringIdMgtTableBrowse = observer(
-  (props: GenericEntityListProps) => {
+  (props: EntityListProps<BoringStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
@@ -123,10 +123,7 @@ const BoringStringIdMgtTableBrowse = observer(
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(
-            null,
-            data?.scr_BoringStringIdTestEntityList
-          )}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >

@@ -3,7 +3,7 @@ import {observer} from "mobx-react";
 import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
 import {Button, List} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
-import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, GenericEntityListProps} from "@haulmont/jmix-react-ui";
+import {EntityProperty, Paging, Spinner, RetryDialog, useEntityList, EntityListProps} from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -12,9 +12,9 @@ const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
-  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition], $loadItems: Boolean!) {
     <%= dollarsToUnderscores(entity.name) %>Count
-    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= listQuery -%>
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) @include(if: $loadItems) <%= listQuery -%>
   }
 `;
 
@@ -24,7 +24,7 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= listComponentClass %> = observer((props: GenericEntityListProps) => {
+const <%= listComponentClass %> = observer((props: EntityListProps<<%= entity.className %>>) => {
   const {entityList, onEntityListChange} = props;
   const screens = useContext(ScreensContext);
 

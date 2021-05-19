@@ -10,7 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -33,7 +33,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItem) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       description
@@ -75,7 +75,7 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
 `;
 
 const IntIdentityIdMgtTableBrowse = observer(
-  (props: GenericEntityListProps) => {
+  (props: EntityListProps<IntIdentityIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
@@ -150,10 +150,7 @@ const IntIdentityIdMgtTableBrowse = observer(
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(
-            null,
-            data?.scr_IntIdentityIdTestEntityList
-          )}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >

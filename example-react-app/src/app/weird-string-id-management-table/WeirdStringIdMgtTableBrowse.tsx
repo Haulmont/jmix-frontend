@@ -10,7 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -33,7 +33,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItem) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       identifier
@@ -49,7 +49,7 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 `;
 
 const WeirdStringIdMgtTableBrowse = observer(
-  (props: GenericEntityListProps) => {
+  (props: EntityListProps<WeirdStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
     const screens = useContext(ScreensContext);
 
@@ -124,10 +124,7 @@ const WeirdStringIdMgtTableBrowse = observer(
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
           disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(
-            null,
-            data?.scr_WeirdStringIdTestEntityList
-          )}
+          onClick={deleteSelectedRow.bind(null, items)}
           key="remove"
           type="default"
         >

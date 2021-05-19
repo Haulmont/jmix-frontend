@@ -10,7 +10,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
-  GenericEntityEditorProps,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -41,7 +41,7 @@ const UPSERT_SCR_DATATYPESTESTENTITY2 = gql`
   }
 `;
 
-const Datatypes2Edit = observer((props: GenericEntityEditorProps) => {
+const Datatypes2Edit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,

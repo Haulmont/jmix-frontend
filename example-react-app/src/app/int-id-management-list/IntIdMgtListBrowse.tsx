@@ -14,7 +14,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -29,6 +29,7 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_IntegerIdTestEntityOrderBy
     $filter: [inp_scr_IntegerIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_IntegerIdTestEntityCount
     scr_IntegerIdTestEntityList(
@@ -36,7 +37,7 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       description
@@ -50,106 +51,108 @@ const DELETE_SCR_INTEGERIDTESTENTITY = gql`
   }
 `;
 
-const IntIdMgtListBrowse = observer((props: GenericEntityListProps) => {
-  const { entityList, onEntityListChange } = props;
-  const screens = useContext(ScreensContext);
+const IntIdMgtListBrowse = observer(
+  (props: EntityListProps<IntegerIdTestEntity>) => {
+    const { entityList, onEntityListChange } = props;
+    const screens = useContext(ScreensContext);
 
-  const {
-    items,
-    count,
-    executeListQuery,
-    listQueryResult: { loading, error },
-    showDeletionDialog,
-    handleCreateBtnClick,
-    handleEditBtnClick,
-    handlePaginationChange,
-    store
-  } = useEntityList<IntegerIdTestEntity>({
-    listQuery: SCR_INTEGERIDTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
-    screens,
-    entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    entityList,
-    onEntityListChange
-  });
+    const {
+      items,
+      count,
+      executeListQuery,
+      listQueryResult: { loading, error },
+      showDeletionDialog,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      handlePaginationChange,
+      store
+    } = useEntityList<IntegerIdTestEntity>({
+      listQuery: SCR_INTEGERIDTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
+      screens,
+      entityName: ENTITY_NAME,
+      routingPath: ROUTING_PATH,
+      entityList,
+      onEntityListChange
+    });
 
-  if (error != null) {
-    console.error(error);
-    return <RetryDialog onRetry={executeListQuery} />;
-  }
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={executeListQuery} />;
+    }
 
-  if (loading || items == null) {
-    return <Spinner />;
-  }
+    if (loading || items == null) {
+      return <Spinner />;
+    }
 
-  return (
-    <div className="narrow-layout">
-      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <div style={{ marginBottom: "12px" }}>
-          <Button
-            htmlType="button"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateBtnClick}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </div>
-      </EntityPermAccessControl>
+    return (
+      <div className="narrow-layout">
+        <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+          <div style={{ marginBottom: "12px" }}>
+            <Button
+              htmlType="button"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreateBtnClick}
+            >
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
+          </div>
+        </EntityPermAccessControl>
 
-      <List
-        itemLayout="horizontal"
-        bordered
-        dataSource={items}
-        renderItem={(item: EntityInstance<IntegerIdTestEntity>) => (
-          <List.Item
-            actions={[
-              <EntityPermAccessControl
-                entityName={ENTITY_NAME}
-                operation="delete"
-              >
-                <DeleteOutlined
-                  key="delete"
-                  onClick={showDeletionDialog.bind(null, item)}
-                />
-              </EntityPermAccessControl>,
-              <EntityPermAccessControl
-                entityName={ENTITY_NAME}
-                operation="update"
-              >
-                <EditOutlined
-                  key="edit"
-                  onClick={handleEditBtnClick.bind(null, item.id)}
-                />
-              </EntityPermAccessControl>
-            ]}
-          >
-            <div style={{ flexGrow: 1 }}>
-              {getFields(item).map(p => (
-                <EntityProperty
+        <List
+          itemLayout="horizontal"
+          bordered
+          dataSource={items}
+          renderItem={(item: EntityInstance<IntegerIdTestEntity>) => (
+            <List.Item
+              actions={[
+                <EntityPermAccessControl
                   entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={item[p]}
-                  key={p}
-                />
-              ))}
-            </div>
-          </List.Item>
-        )}
-      />
-
-      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-        <Paging
-          paginationConfig={store.pagination ?? {}}
-          onPagingChange={handlePaginationChange}
-          total={count}
+                  operation="delete"
+                >
+                  <DeleteOutlined
+                    key="delete"
+                    onClick={showDeletionDialog.bind(null, item)}
+                  />
+                </EntityPermAccessControl>,
+                <EntityPermAccessControl
+                  entityName={ENTITY_NAME}
+                  operation="update"
+                >
+                  <EditOutlined
+                    key="edit"
+                    onClick={handleEditBtnClick.bind(null, item.id)}
+                  />
+                </EntityPermAccessControl>
+              ]}
+            >
+              <div style={{ flexGrow: 1 }}>
+                {getFields(item).map(p => (
+                  <EntityProperty
+                    entityName={ENTITY_NAME}
+                    propertyName={p}
+                    value={item[p]}
+                    key={p}
+                  />
+                ))}
+              </div>
+            </List.Item>
+          )}
         />
+
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={store.pagination ?? {}}
+            onPagingChange={handlePaginationChange}
+            total={count}
+          />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 export default IntIdMgtListBrowse;

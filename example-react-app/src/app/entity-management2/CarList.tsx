@@ -14,7 +14,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
-  GenericEntityListProps
+  EntityListProps
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
@@ -29,6 +29,7 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -36,7 +37,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       manufacturer
@@ -75,7 +76,7 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarList = observer((props: GenericEntityListProps) => {
+const CarList = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
   const screens = useContext(ScreensContext);
 

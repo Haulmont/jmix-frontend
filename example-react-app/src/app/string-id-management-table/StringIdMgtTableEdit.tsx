@@ -11,7 +11,7 @@ import {
   MultilineText,
   Spinner,
   useEntityEditor,
-  GenericEntityEditorProps,
+  EntityEditorProps,
   MultiScreenContext
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -69,7 +69,7 @@ const UPSERT_SCR_STRINGIDTESTENTITY = gql`
   }
 `;
 
-const StringIdMgtTableEdit = observer((props: GenericEntityEditorProps) => {
+const StringIdMgtTableEdit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
