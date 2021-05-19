@@ -1,6 +1,7 @@
 import resolve from 'rollup-plugin-node-resolve';
 import commonjs from 'rollup-plugin-commonjs';
 import json from 'rollup-plugin-json';
+import eslint from '@rollup/plugin-eslint';
 
 export default {
   input: 'dist-transpiled/index.js',
@@ -40,6 +41,7 @@ export default {
         'invariant': ['default'],
       }
     }),
-    json()
+    json(),
+    eslint()
   ]
 };

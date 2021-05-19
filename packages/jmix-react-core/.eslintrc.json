@@ -1,21 +1,18 @@
 {
   "extends": [
-    "tslint:recommended",
-    "tslint-react",
-    "tslint-config-prettier"
+    "eslint:recommended",
+    "plugin:react/recommended",
+    "prettier"
   ],
-  "linterOptions": {
-    "exclude": [
-      "config/**/*.js",
-      "node_modules/**/*.ts",
-      "coverage/lcov-report/*.js"
-    ]
-  },
   "plugins": [
     "react-hooks"
   ],
   "rules": {
-    "indent": [ true, "spaces", 2 ],
+    "indent": [
+      true,
+      "spaces",
+      2
+    ],
     "ordered-imports": false,
     "interface-name": false,
     "member-access": false,
@@ -26,7 +23,10 @@
     "variable-name": false,
     "interface-over-type-literal": false,
     "no-unnecessary-initializer": false,
-    "curly": [true, "ignore-same-line"],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
     "no-console": [ // Inherited config forbids all methods, but we want to use e.g. .warn() and .error()
       true,
       "assert",
