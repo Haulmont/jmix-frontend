@@ -13,7 +13,7 @@ import entityManagementFr
   from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-fr.json";
 import entityManagementRu
   from "../../../building-blocks/stages/writing/pieces/entity-management/entity-management-ru.json";
-import {addEntityMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
+import {addEntityMenuItem, addAppMenu} from "../../../building-blocks/stages/writing/pieces/menu";
 import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
 
 export const write: WriteStage<ComponentOptions, EntityManagementTemplateModel> = async (
@@ -45,6 +45,7 @@ export const write: WriteStage<ComponentOptions, EntityManagementTemplateModel> 
     }
   );
 
+  addAppMenu(gen, dirShift, className, nameLiteral);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, editComponentClass, editComponentClass, true, {entityId: 'new'});
   addComponentPreviews(gen, dirShift, listComponentClass, listComponentClass, true, generateMockProps(listType));
