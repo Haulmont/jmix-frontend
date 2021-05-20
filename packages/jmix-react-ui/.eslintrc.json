@@ -68,6 +68,15 @@
       {
         "argsIgnorePattern": "^_"
       }
-    ]
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "react/display-name": "off",
+    "no-prototype-builtins": "warn",
+    "no-fallthrough": "off",
+    "no-case-declarations": "off",
+    "@typescript-eslint/ban-types": "off",
+    "no-constant-condition": "off",
+    "@typescript-eslint/no-empty-function": "off"
   }
 }

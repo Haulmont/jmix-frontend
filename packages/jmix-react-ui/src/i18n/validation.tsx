@@ -1,7 +1,5 @@
 import {IntlShape} from 'react-intl';
 
-console.log('no-console test');
-
 export function createAntdFormValidationMessages(intl: IntlShape) {
   return {
     default: intl.formatMessage({id: 'antd.form.validation.default'}),
