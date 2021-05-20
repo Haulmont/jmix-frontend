@@ -106,14 +106,14 @@ export function useEntityEditor<
 
   // Fetch the entity (if editing) and association options from backend
   useEffect(() => {
-    if (entityId != null || hasAssociations) {
+    if (entityId != null || hasAssociations) 
       load({
         variables: {
           id: entityId,
           loadItem: entityId != null
         } as unknown as TVariables
       });
-    }
+    
   }, [entityId, load, hasAssociations]);
 
   // Fill the form based on retrieved data
@@ -124,17 +124,17 @@ export function useEntityEditor<
       queryError == null &&
       data != null &&
       metadata != null
-    ) {
+    ) 
       form.setFieldsValue(
         graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
       );
-    }
+    
   }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
 
   const goBackToBrowserScreen = useCallback(() => {
-    if (screens.currentScreenIndex === 1) {
+    if (screens.currentScreenIndex === 1) 
       redirect(routingPath);
-    }
+    
     screens.setActiveScreen(multiScreen.parent!, true);
   }, [screens, routingPath, multiScreen]);
 
@@ -249,17 +249,17 @@ export function useFormSubmitCallbacks<
             });
           }
         }).then(action(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
-            if (errors == null || errors.length === 0) {
-              const successMessageId = selectFormSuccessMessageId(
-                isNewEntity ? "create" : "edit"
-              );
-              message.success(intl.formatMessage({ id: successMessageId }));
-              goBackToBrowserScreen();
-            } else {
-              console.error(errors);
-              message.error(intl.formatMessage({ id: "common.requestFailed" }));
-            }
-          }))
+          if (errors == null || errors.length === 0) {
+            const successMessageId = selectFormSuccessMessageId(
+              isNewEntity ? "create" : "edit"
+            );
+            message.success(intl.formatMessage({ id: successMessageId }));
+            goBackToBrowserScreen();
+          } else {
+            console.error(errors);
+            message.error(intl.formatMessage({ id: "common.requestFailed" }));
+          }
+        }))
           .catch((e: Error) => {
             console.error(e);
             message.error(intl.formatMessage({ id: "common.requestFailed" }));

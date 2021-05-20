@@ -14,9 +14,9 @@ type I18nProviderProps = {
 export const I18nProvider = observer(({messagesMapping, antdLocaleMapping, children}: I18nProviderProps) => {
   const mainStore = getMainStore();
 
-  if (!mainStore || !mainStore.locale) {
+  if (!mainStore || !mainStore.locale) 
     return null;
-  }
+  
 
   return (
     <IntlProvider locale={mainStore.locale} messages={messagesMapping[mainStore.locale]}>

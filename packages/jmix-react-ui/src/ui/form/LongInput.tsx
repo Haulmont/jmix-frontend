@@ -9,9 +9,9 @@ import {InputNumberProps} from 'antd/es/input-number';
 export const LongInput = forwardRef((props: InputNumberProps, ref: Ref<typeof InputNumber>) => {
   return (
     <InputNumber className='inputnumber-field'
-                 precision={0}
-                 ref={ref}
-                 {...props}
+      precision={0}
+      ref={ref}
+      {...props}
     />
   );
 });

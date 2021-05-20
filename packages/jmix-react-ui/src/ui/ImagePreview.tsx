@@ -42,9 +42,9 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
 
   saveFile = () => {
     const {objectUrl, fileName} = this.props;
-    if (objectUrl != null && fileName != null) {
+    if (objectUrl != null && fileName != null) 
       saveFile(objectUrl, fileName);
-    }
+    
   };
 
   render() {
@@ -52,15 +52,15 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
 
     return (
       <Modal title={intl.formatMessage({id: 'cubaReact.imagePreview.title'})}
-             visible={isVisible}
-             afterClose={onClose}
-             onCancel={onClose}
-             onOk={this.saveFile}
-             cancelText={intl.formatMessage({id: 'cubaReact.imagePreview.close'})}
-             okText={intl.formatMessage({id: 'cubaReact.imagePreview.download'})}
-             okButtonProps={this.okButtonProps}
-             destroyOnClose={true}
-             width='80vw'
+        visible={isVisible}
+        afterClose={onClose}
+        onCancel={onClose}
+        onOk={this.saveFile}
+        cancelText={intl.formatMessage({id: 'cubaReact.imagePreview.close'})}
+        okText={intl.formatMessage({id: 'cubaReact.imagePreview.download'})}
+        okButtonProps={this.okButtonProps}
+        destroyOnClose={true}
+        width='80vw'
       >
         {isLoading && (
           <div className='cuba-image-preview-spinner'>
@@ -73,8 +73,8 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
               {fileName}
             </div>
             <img src={objectUrl}
-                 alt={intl.formatMessage({id: 'cubaReact.imagePreview.alt'})}
-                 className='image'
+              alt={intl.formatMessage({id: 'cubaReact.imagePreview.alt'})}
+              className='image'
             />
           </div>
         )}

@@ -164,9 +164,9 @@ class DataTableComponent<
 
     const {initialFilter} = props;
 
-    if (initialFilter) {
+    if (initialFilter) 
       this.tableFilters = graphqlFilterToTableFilters(initialFilter, this.fields);
-    }
+    
 
     makeObservable(this, {
       selectedRowKeys: observable,
@@ -209,9 +209,9 @@ class DataTableComponent<
           const displayedSelectedKeys: string[] = [];
 
           this.selectedRowKeys.forEach((selectedKey: string) => {
-            if (displayedRowKeys.indexOf(selectedKey) > -1) {
+            if (displayedRowKeys.indexOf(selectedKey) > -1) 
               displayedSelectedKeys.push(selectedKey);
-            }
+            
           });
 
           this.selectedRowKeys = displayedSelectedKeys;
@@ -224,9 +224,9 @@ class DataTableComponent<
       () => this.props.error,
       (error) => {
         const {intl} = this.props;
-        if (error != null) {
+        if (error != null) 
           message.error(intl.formatMessage({id: 'common.requestFailed'}));
-        }
+        
       }
     ));
 
@@ -251,25 +251,25 @@ class DataTableComponent<
 
   onRowSelectionChange = () => {
     switch (this.props.rowSelectionMode) {
-      case undefined:
-        throw new Error(`rowSelectionMode is not expected to be ${this.props.rowSelectionMode} at this point`);
-      case 'none':
-        return;
-      case 'multi':
-      case 'single':
-        if (this.props.onRowSelectionChange) {
-          this.props.onRowSelectionChange(this.selectedRowKeys);
-        }
-        break;
-      default:
-        assertNever('rowSelectionMode', this.props.rowSelectionMode);
+    case undefined:
+      throw new Error(`rowSelectionMode is not expected to be ${this.props.rowSelectionMode} at this point`);
+    case 'none':
+      return;
+    case 'multi':
+    case 'single':
+      if (this.props.onRowSelectionChange) 
+        this.props.onRowSelectionChange(this.selectedRowKeys);
+        
+      break;
+    default:
+      assertNever('rowSelectionMode', this.props.rowSelectionMode);
     }
   };
 
   get isRowSelectionEnabled(): boolean {
-    if (this.props.rowSelectionMode == null) {
+    if (this.props.rowSelectionMode == null) 
       throw new Error(`rowSelectionMode is expected to be defined at this point`);
-    }
+    
     return ['single', 'multi'].indexOf(this.props.rowSelectionMode) > -1;
   }
 
@@ -287,16 +287,16 @@ class DataTableComponent<
 
     const {columnDefinitions} = this.props;
 
-    if (columnDefinitions != null) {
+    if (columnDefinitions != null) 
       return columnDefinitions.reduce((accumulatedFields: string[], columnDefinition: string | ColumnDefinition<TEntity>) => {
-        if (typeof columnDefinition === 'string') {
+        if (typeof columnDefinition === 'string') 
           accumulatedFields.push(columnDefinition);
-        } else if (typeof (columnDefinition.field === 'string')) {
+        else if (typeof (columnDefinition.field === 'string')) 
           accumulatedFields.push(columnDefinition.field!);
-        }
+        
         return accumulatedFields;
       }, []);
-    }
+    
 
     // TODO here we probably want to return all fields in the entity
     throw new Error('not implemented');
@@ -358,25 +358,25 @@ class DataTableComponent<
       let newSelectedRowKeys = this.selectedRowKeys.slice();
 
       switch (this.props.rowSelectionMode) {
-        case 'multi':
-          const clickedRowKeyIndex = this.selectedRowKeys.indexOf(clickedRowKey);
-          if (clickedRowKeyIndex > -1) {
-            // Deselect row in 'multi' mode
-            newSelectedRowKeys.splice(clickedRowKeyIndex, 1);
-          } else {
-            // Select row in 'multi' mode
-            newSelectedRowKeys.push(clickedRowKey);
-          }
-          break;
-        case 'single':
-          if (this.selectedRowKeys.length > 0 && this.selectedRowKeys[0] === clickedRowKey) {
-            // Deselect row in 'single' mode
-            newSelectedRowKeys = [];
-          } else {
-            // Select row in 'single' mode
-            newSelectedRowKeys[0] = clickedRowKey;
-          }
-          break;
+      case 'multi':
+        const clickedRowKeyIndex = this.selectedRowKeys.indexOf(clickedRowKey);
+        if (clickedRowKeyIndex > -1) 
+        // Deselect row in 'multi' mode
+          newSelectedRowKeys.splice(clickedRowKeyIndex, 1);
+        else 
+        // Select row in 'multi' mode
+          newSelectedRowKeys.push(clickedRowKey);
+          
+        break;
+      case 'single':
+        if (this.selectedRowKeys.length > 0 && this.selectedRowKeys[0] === clickedRowKey) 
+        // Deselect row in 'single' mode
+          newSelectedRowKeys = [];
+        else 
+        // Select row in 'single' mode
+          newSelectedRowKeys[0] = clickedRowKey;
+          
+        break;
       }
 
       this.selectedRowKeys = newSelectedRowKeys;
@@ -384,9 +384,9 @@ class DataTableComponent<
   };
 
   onRowSelectionColumnClicked = (selectedRowKeys: ReactText[]): void => {
-    if (this.isRowSelectionEnabled) {
+    if (this.isRowSelectionEnabled) 
       this.selectedRowKeys = selectedRowKeys as string[];
-    }
+    
   };
 
   onRow = (record: TEntity): React.HTMLAttributes<HTMLElement> => {
@@ -404,9 +404,9 @@ class DataTableComponent<
 
     this.fields.forEach((field: string) => {
       const propertyInfo = getPropertyInfoNN(field, entityName, this.props.metadata.entities);
-      if (propertyInfo.type === 'boolean') {
+      if (propertyInfo.type === 'boolean') 
         this.valuesByProperty.set(field, 'true');
-      }
+      
     });
 
     this.customFilterForms.forEach((form: FormInstance) => {
@@ -423,25 +423,25 @@ class DataTableComponent<
 
   get rowSelectionType(): RowSelectionType {
     switch (this.props.rowSelectionMode) {
-      case 'multi':
-        return 'checkbox';
-      case 'single':
-        return 'radio';
-      default:
-        throw new Error(`rowSelectionMode is not expected to be ${this.props.rowSelectionMode} at this point`);
+    case 'multi':
+      return 'checkbox';
+    case 'single':
+      return 'radio';
+    default:
+      throw new Error(`rowSelectionMode is not expected to be ${this.props.rowSelectionMode} at this point`);
     }
   }
 
   render() {
     const { loading, mainStore } = this.props;
 
-    if (mainStore?.isEntityDataLoaded() !== true) {
+    if (mainStore?.isEntityDataLoaded() !== true) 
       return (
         <div className='cuba-data-table-loader'>
           <Spin size='large'/>
         </div>
       );
-    }
+    
 
     let defaultTableProps: TableProps<TEntity> = {
       loading,
@@ -463,12 +463,12 @@ class DataTableComponent<
         },
       };
 
-      if (this.props.canSelectRowByClick) {
+      if (this.props.canSelectRowByClick) 
         defaultTableProps = {
           ...defaultTableProps,
           onRow: this.onRow,
         };
-      }
+      
     }
 
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
@@ -485,19 +485,19 @@ class DataTableComponent<
   }
 
   get clearFiltersButton(): ReactNode {
-    if (this.isClearFiltersShown) {
+    if (this.isClearFiltersShown) 
       return (
         <Button htmlType='button'
-                className='cuba-data-table-clear-filters'
-                onClick={this.clearFilters}
-                type='link'>
+          className='cuba-data-table-clear-filters'
+          onClick={this.clearFilters}
+          type='link'>
           <FilterOutlined />
           <span><FormattedMessage id='cubaReact.dataTable.clearAllFilters'/></span>
         </Button>
       );
-    } else {
+    else 
       return null;
-    }
+    
   }
 
   get isClearFiltersShown(): boolean {
@@ -546,15 +546,15 @@ class DataTableComponent<
           };
         }
 
-        if (columnSettings != null) {
+        if (columnSettings != null) 
           // Column is not be bound to an entity property. It is a column fully constructed by client.
           // E.g. it can be a calculated column or an action column.
           return columnSettings;
-        }
+        
 
         throw new Error(`Neither field name nor columnProps were provided`);
-    });
-  };
+      });
+  }
 
   isFilterForColumnEnabled(propertyName: string): boolean {
     return this.props.enableFiltersOnColumns

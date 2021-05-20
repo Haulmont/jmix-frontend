@@ -30,8 +30,8 @@ export const FieldPermissionContainer = injectMainStore(observer((props: Props) 
 
   return (
     <AccessControl displayReqs={displayReqs}
-                   modifyReqs={modifyReqs}
-                   render={renderField}
+      modifyReqs={modifyReqs}
+      render={renderField}
     />
   );
 

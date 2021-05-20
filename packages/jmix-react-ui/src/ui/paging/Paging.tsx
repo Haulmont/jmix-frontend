@@ -61,8 +61,8 @@ export class Paging extends React.Component<Props> {
  * @param pageSizePrev - previous value, will be returned in result if new value not found in locationSearch
  */
 export function parsePagingParams(locationSearch: string,
-                                  currentPrev: number | undefined,
-                                  pageSizePrev: number | undefined): PaginationConfig {
+  currentPrev: number | undefined,
+  pageSizePrev: number | undefined): PaginationConfig {
 
   const parsedUrlQuery = queryString.parse(locationSearch);
   return {
@@ -98,7 +98,7 @@ export function addPagingParams(url: string, current: number | undefined, pageSi
  * @param dataCollection -page size and current page will be set to this collection data store
  * @param reload - reload collection data store, if needsr
  */
-export function setPagination<E>(pagination: PaginationConfig | TablePaginationConfig, dataCollection: DataCollectionStore<E>, reload: boolean = false) {
+export function setPagination<E>(pagination: PaginationConfig | TablePaginationConfig, dataCollection: DataCollectionStore<E>, reload = false) {
 
   const {disabled, pageSize, current} = pagination;
 
@@ -111,9 +111,9 @@ export function setPagination<E>(pagination: PaginationConfig | TablePaginationC
   }
 
   // need to sync enabled pagination config and dataCollection - reset limit and offset
-  if (dataCollection.skipCount) {
+  if (dataCollection.skipCount) 
     dataCollection.skipCount = false;
-  }
+  
 
   if (pageSize && current) {
     dataCollection.limit = pageSize;
@@ -130,21 +130,21 @@ export function setPagination<E>(pagination: PaginationConfig | TablePaginationC
  * @param prevConfig previous paging configuration, by default used Paging#defaultPagingConfig
  */
 export function createPagingConfig(urlParams: string,
-                                   disabled: boolean = false,
-                                   prevConfig: PaginationConfig = defaultPaginationConfig) {
+  disabled = false,
+  prevConfig: PaginationConfig = defaultPaginationConfig) {
 
   const config = {...prevConfig};
-  if (disabled) {
+  if (disabled) 
     return {config, disabled: true};
-  }
+  
 
   const {current, pageSize, pageSizeOptions} = config;
   const parsedParams = parsePagingParams(urlParams, current, pageSize);
 
   // return prev config if pageSize param not match to options
-  if (!pageSizeOptions || !parsedParams.pageSize || pageSizeOptions?.indexOf('' + parsedParams.pageSize) < 0) {
+  if (!pageSizeOptions || !parsedParams.pageSize || pageSizeOptions?.indexOf('' + parsedParams.pageSize) < 0) 
     return config;
-  }
+  
 
   return {...config, ...parsedParams};
 }

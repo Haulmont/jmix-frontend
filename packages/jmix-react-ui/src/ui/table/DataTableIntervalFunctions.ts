@@ -9,26 +9,26 @@ const selectMinDateForInterval = (
   timeUnit: TimeUnit,
   includeCurrent: boolean,
 ): Dayjs => {
-  if (mode === 'last' && includeCurrent) {
+  if (mode === 'last' && includeCurrent) 
     return dayjs()
       .subtract(numberOfUnits - 1, timeUnit)
       .startOf(timeUnit);
-  }
-  if (mode === 'last' && !includeCurrent) {
+  
+  if (mode === 'last' && !includeCurrent) 
     return dayjs()
       .subtract(numberOfUnits, timeUnit)
       .startOf(timeUnit);
-  }
-  if (mode === 'next' && includeCurrent) {
+  
+  if (mode === 'next' && includeCurrent) 
     return dayjs()
       .add(0, timeUnit)
       .startOf(timeUnit);
-  }
-  if (mode === 'next' && !includeCurrent) {
+  
+  if (mode === 'next' && !includeCurrent) 
     return dayjs()
       .add(1, timeUnit)
       .startOf(timeUnit);
-  }
+  
 
   throw new Error(`Expected 'last' or 'next' mode, encountered '${mode}' mode`);
 }
@@ -39,26 +39,26 @@ const selectMaxDateForInterval = (
   timeUnit: TimeUnit,
   includeCurrent: boolean,
 ): Dayjs => {
-  if (mode === 'last' && includeCurrent) {
+  if (mode === 'last' && includeCurrent) 
     return dayjs()
       .subtract(0, timeUnit)
       .endOf(timeUnit);
-  }
-  if (mode === 'last' && !includeCurrent) {
+  
+  if (mode === 'last' && !includeCurrent) 
     return dayjs()
       .subtract(1, timeUnit)
       .endOf(timeUnit);
-  }
-  if (mode === 'next' && includeCurrent) {
+  
+  if (mode === 'next' && includeCurrent) 
     return dayjs()
       .add(numberOfUnits - 1, timeUnit)
       .endOf(timeUnit);
-  }
-  if (mode === 'next' && !includeCurrent) {
+  
+  if (mode === 'next' && !includeCurrent) 
     return dayjs()
       .add(numberOfUnits, timeUnit)
       .endOf(timeUnit);
-  }
+  
 
   throw new Error(`Expected 'last' or 'next' mode, encountered '${mode}' mode`);
 }
@@ -103,32 +103,32 @@ export function determinePredefinedInterval(option: PredefinedIntervalOption, pr
   let maxDate: Dayjs;
 
   switch (option) {
-    case 'today':
-      minDate = dayjs().startOf('day');
-      maxDate = dayjs().endOf('day');
-      break;
-    case 'yesterday':
-      minDate = dayjs().subtract(1, 'days').startOf('day');
-      maxDate = dayjs().subtract(1, 'days').endOf('day');
-      break;
-    case 'tomorrow':
-      minDate = dayjs().add(1, 'days').startOf('day');
-      maxDate = dayjs().add(1, 'days').endOf('day');
-      break;
-    case 'lastMonth':
-      minDate = dayjs().subtract(1, 'months').startOf('month');
-      maxDate = dayjs().subtract(1, 'months').endOf('month');
-      break;
-    case 'thisMonth':
-      minDate = dayjs().startOf('month');
-      maxDate = dayjs().endOf('month');
-      break;
-    case 'nextMonth':
-      minDate = dayjs().add(1, 'months').startOf('month');
-      maxDate = dayjs().add(1, 'months').endOf('month');
-      break;
-    default:
-      throw new Error('Unexpected PredefinedIntervalOption' + option);
+  case 'today':
+    minDate = dayjs().startOf('day');
+    maxDate = dayjs().endOf('day');
+    break;
+  case 'yesterday':
+    minDate = dayjs().subtract(1, 'days').startOf('day');
+    maxDate = dayjs().subtract(1, 'days').endOf('day');
+    break;
+  case 'tomorrow':
+    minDate = dayjs().add(1, 'days').startOf('day');
+    maxDate = dayjs().add(1, 'days').endOf('day');
+    break;
+  case 'lastMonth':
+    minDate = dayjs().subtract(1, 'months').startOf('month');
+    maxDate = dayjs().subtract(1, 'months').endOf('month');
+    break;
+  case 'thisMonth':
+    minDate = dayjs().startOf('month');
+    maxDate = dayjs().endOf('month');
+    break;
+  case 'nextMonth':
+    minDate = dayjs().add(1, 'months').startOf('month');
+    maxDate = dayjs().add(1, 'months').endOf('month');
+    break;
+  default:
+    throw new Error('Unexpected PredefinedIntervalOption' + option);
   }
 
   return {

@@ -7,8 +7,8 @@ import {InputNumberProps} from 'antd/es/input-number';
 export const DoubleInput = forwardRef((props: InputNumberProps, ref: Ref<typeof InputNumber>) => {
   return (
     <InputNumber className='inputnumber-field'
-                 ref={ref}
-                 {...props}
+      ref={ref}
+      {...props}
     />
   );
 });

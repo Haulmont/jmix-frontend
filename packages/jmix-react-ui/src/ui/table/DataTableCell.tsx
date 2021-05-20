@@ -15,20 +15,20 @@ export const DataTableCell = <EntityType extends unknown>(props: DataTableCellPr
 
   const {type, attributeType, cardinality, name} = props.propertyInfo;
 
-  if (type === 'boolean') {
+  if (type === 'boolean') 
     return (
       <Checkbox
         checked={props.text as boolean}
         disabled={true}
       />
     );
-  }
+  
 
-  if (attributeType === 'ENUM') {
+  if (attributeType === 'ENUM') 
     return (
       <EnumCell text={props.text} propertyInfo={props.propertyInfo} mainStore={props.mainStore!}/>
     );
-  }
+  
 
   if (attributeType === 'ASSOCIATION' && cardinality === 'MANY_TO_MANY') {
     const associatedEntities = props.record?.[name as keyof EntityType] as unknown as SerializedEntityProps[];

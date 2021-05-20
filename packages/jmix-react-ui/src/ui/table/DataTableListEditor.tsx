@@ -77,38 +77,38 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   }
 
   get type(): DataTableListEditorType {
-    if (this.props.propertyInfo.attributeType === 'ASSOCIATION' || this.props.propertyInfo.attributeType === 'COMPOSITION') {
+    if (this.props.propertyInfo.attributeType === 'ASSOCIATION' || this.props.propertyInfo.attributeType === 'COMPOSITION') 
       return DataTableListEditorType.SELECT;
-    } else {
+    else 
       switch(this.props.propertyInfo.type as PropertyType) {
-        case 'string':
-        case 'uuid':
-          return DataTableListEditorType.TEXT;
-        case 'char':
-          return DataTableListEditorType.CHAR;
-        case 'int':
-          return DataTableListEditorType.INTEGER;
-        case 'double':
-          return DataTableListEditorType.DOUBLE;
-        case 'long':
-          return DataTableListEditorType.LONG;
-        case 'decimal':
-          return DataTableListEditorType.BIG_DECIMAL;
-        case 'date':
-        case 'localDate':
-          return DataTableListEditorType.DATE;
-        case 'time':
-        case 'localTime':
-        case 'offsetTime':
-          return DataTableListEditorType.TIME;
-        case 'dateTime':
-        case 'localDateTime':
-        case 'offsetDateTime':
-          return DataTableListEditorType.DATETIME;
-        default:
-          throw new Error(`Unexpected property type ${this.props.propertyInfo.type}`);
+      case 'string':
+      case 'uuid':
+        return DataTableListEditorType.TEXT;
+      case 'char':
+        return DataTableListEditorType.CHAR;
+      case 'int':
+        return DataTableListEditorType.INTEGER;
+      case 'double':
+        return DataTableListEditorType.DOUBLE;
+      case 'long':
+        return DataTableListEditorType.LONG;
+      case 'decimal':
+        return DataTableListEditorType.BIG_DECIMAL;
+      case 'date':
+      case 'localDate':
+        return DataTableListEditorType.DATE;
+      case 'time':
+      case 'localTime':
+      case 'offsetTime':
+        return DataTableListEditorType.TIME;
+      case 'dateTime':
+      case 'localDateTime':
+      case 'offsetDateTime':
+        return DataTableListEditorType.DATETIME;
+      default:
+        throw new Error(`Unexpected property type ${this.props.propertyInfo.type}`);
       }
-    }
+    
   }
 
   componentDidMount(): void {
@@ -117,9 +117,9 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
 
   handleClose = (item: CaptionValuePair): void => {
     this.items = this.items.filter(savedItem => savedItem !== item);
-    if (this.type === DataTableListEditorType.SELECT) {
+    if (this.type === DataTableListEditorType.SELECT) 
       this.availableOptions = [ ...this.availableOptions, item ];
-    }
+    
     this.props.onChange(this.items.map((savedItem) => savedItem.value) as string[] | number[]);
   };
 
@@ -162,9 +162,9 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   };
 
   onTimePickerOpenChange = (open: boolean): void => {
-    if (!open && this.inputModel) {
+    if (!open && this.inputModel) 
       this.handleInputConfirm();
-    }
+    
   };
 
   onSelect = (value: string | number | LabeledValue): void => {
@@ -223,8 +223,8 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
         )}
         {!this.inputVisible && (
           <Tag onClick={this.showInput}
-             color='blue'
-             className='cuba-table-filter-list-new'
+            color='blue'
+            className='cuba-table-filter-list-new'
           >
             <PlusOutlined />
             &nbsp;
@@ -236,101 +236,101 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   }
 
   trapFocus = (input: any): void => {
-    if (input) {
+    if (input) 
       input.focus();
-    }
+    
   };
 
   get input(): ReactNode {
     switch (this.type) {
-      case DataTableListEditorType.TEXT:
-        return (
-          <div>
-            <Input
-              ref={this.trapFocus}
-              type='text'
-              size='small'
-              v-model={this.inputModel.value}
-              onChange={this.onTextInputChange}
-              onBlur={this.onInputBlurOrEnter}
-              onPressEnter={this.onInputBlurOrEnter}
-            />
-          </div>
-        );
-      case DataTableListEditorType.CHAR:
-        return (
-          <div>
-            <CharInput
-              ref={this.trapFocus}
-              type='text'
-              size='small'
-              v-model={this.inputModel.value}
-              onChange={this.onTextInputChange}
-              onBlur={this.onInputBlurOrEnter}
-              onPressEnter={this.onInputBlurOrEnter}
-            />
-            </div>
-          );
-      case DataTableListEditorType.INTEGER:
-        return (
-          <div>
-            <IntegerInput {...this.getInputNumberProps()} />
-          </div>
-        );
-      case DataTableListEditorType.DOUBLE:
-        return (
-          <div>
-            <DoubleInput {...this.getInputNumberProps()} />
-          </div>
-        );
-      case DataTableListEditorType.LONG:
-        return (
-          <div>
-            <LongInput {...this.getInputNumberProps()} />
-          </div>
-        );
-      case DataTableListEditorType.BIG_DECIMAL:
-        return (
-          <div>
-            <BigDecimalInput {...this.getInputNumberProps()} />
-          </div>
-        );
-      case DataTableListEditorType.DATE:
-        return (
-          <div>
-            <DatePicker onChange={this.onDatePickerChange}/>
-          </div>
-        );
-      case DataTableListEditorType.TIME:
-        return (
-          <div>
-            <TimePicker
-                  onChange={this.onTimePickerChange}
-                  onOpenChange={this.onTimePickerOpenChange}
-            />
-          </div>
-        );
-      case DataTableListEditorType.DATETIME:
-        return (
-          <div>
-            <DatePicker showTime={true}
-                        onChange={this.onDateTimePickerChange}
-            />
-          </div>
-        );
-      case DataTableListEditorType.SELECT:
-        return (
-          <div>
-            <Select dropdownMatchSelectWidth={false}
-                    dropdownClassName={`cuba-value-dropdown-${this.props.id}`}
-                    className='cuba-filter-select'
-                    onSelect={this.onSelect}>
-              {this.selectFieldOptions}
-            </Select>
-          </div>
-        );
-      default:
-        return assertNever('ListEditorType', this.type);
+    case DataTableListEditorType.TEXT:
+      return (
+        <div>
+          <Input
+            ref={this.trapFocus}
+            type='text'
+            size='small'
+            v-model={this.inputModel.value}
+            onChange={this.onTextInputChange}
+            onBlur={this.onInputBlurOrEnter}
+            onPressEnter={this.onInputBlurOrEnter}
+          />
+        </div>
+      );
+    case DataTableListEditorType.CHAR:
+      return (
+        <div>
+          <CharInput
+            ref={this.trapFocus}
+            type='text'
+            size='small'
+            v-model={this.inputModel.value}
+            onChange={this.onTextInputChange}
+            onBlur={this.onInputBlurOrEnter}
+            onPressEnter={this.onInputBlurOrEnter}
+          />
+        </div>
+      );
+    case DataTableListEditorType.INTEGER:
+      return (
+        <div>
+          <IntegerInput {...this.getInputNumberProps()} />
+        </div>
+      );
+    case DataTableListEditorType.DOUBLE:
+      return (
+        <div>
+          <DoubleInput {...this.getInputNumberProps()} />
+        </div>
+      );
+    case DataTableListEditorType.LONG:
+      return (
+        <div>
+          <LongInput {...this.getInputNumberProps()} />
+        </div>
+      );
+    case DataTableListEditorType.BIG_DECIMAL:
+      return (
+        <div>
+          <BigDecimalInput {...this.getInputNumberProps()} />
+        </div>
+      );
+    case DataTableListEditorType.DATE:
+      return (
+        <div>
+          <DatePicker onChange={this.onDatePickerChange}/>
+        </div>
+      );
+    case DataTableListEditorType.TIME:
+      return (
+        <div>
+          <TimePicker
+            onChange={this.onTimePickerChange}
+            onOpenChange={this.onTimePickerOpenChange}
+          />
+        </div>
+      );
+    case DataTableListEditorType.DATETIME:
+      return (
+        <div>
+          <DatePicker showTime={true}
+            onChange={this.onDateTimePickerChange}
+          />
+        </div>
+      );
+    case DataTableListEditorType.SELECT:
+      return (
+        <div>
+          <Select dropdownMatchSelectWidth={false}
+            dropdownClassName={`cuba-value-dropdown-${this.props.id}`}
+            className='cuba-filter-select'
+            onSelect={this.onSelect}>
+            {this.selectFieldOptions}
+          </Select>
+        </div>
+      );
+    default:
+      return assertNever('ListEditorType', this.type);
     }
   }
 
@@ -350,16 +350,16 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
     return this.availableOptions
       .filter(option => option.value != null)
       .map((option) => {
-      return (
-        <Select.Option title={option.caption}
-                       value={option.value!}
-                       key={option.value}
-                       className={`cuba-filter-value-${option.value}`}
-        >
-          {option.caption}
-        </Select.Option>
-      );
-    })
+        return (
+          <Select.Option title={option.caption}
+            value={option.value!}
+            key={option.value}
+            className={`cuba-filter-value-${option.value}`}
+          >
+            {option.caption}
+          </Select.Option>
+        );
+      })
   }
 }
 
@@ -373,7 +373,7 @@ function ListItemTag(props: ListItemTagProps) {
   const isLong = item.caption.length > 20;
   const tag = (
     <Tag closable={true}
-         onClose={() => onClose(item)}>
+      onClose={() => onClose(item)}>
       {isLong ? `${item.caption.substr(0, 20)}...` : item.caption}
     </Tag>
   );

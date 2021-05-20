@@ -39,23 +39,23 @@ export function extractServerValidationErrors(response: any): ServerValidationEr
   const fieldErrors: Map<string, string[]> = new Map<string, string[]>();
   const globalErrors: string[] = [];
 
-  if (response instanceof Array) {
+  if (response instanceof Array) 
     response.forEach((error: any) => {
       if (error.message) {
         const fieldName: string = error.path;
 
-        if (fieldName && fieldName.length > 0) {
-          if (fieldErrors.has(fieldName)) {
+        if (fieldName && fieldName.length > 0) 
+          if (fieldErrors.has(fieldName)) 
             fieldErrors.get(fieldName)!.push(error.message);
-          } else {
+          else 
             fieldErrors.set(fieldName, [error.message]);
-          }
-        } else {
+          
+        else 
           globalErrors.push(error.message);
-        }
+        
       }
     });
-  }
+  
 
   return { globalErrors, fieldErrors };
 }

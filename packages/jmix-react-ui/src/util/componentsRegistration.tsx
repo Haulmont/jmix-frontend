@@ -35,7 +35,7 @@ export const referencesListByEntityName: IReferenceList = {};
 
 
 function getRefItem(entityName: string) {
-  if (!referencesListByEntityName[entityName]) {
+  if (!referencesListByEntityName[entityName]) 
     referencesListByEntityName[entityName] = {
       entityItemEdit: {
         title: '',
@@ -50,7 +50,7 @@ function getRefItem(entityName: string) {
         content: null,
       },
     };
-  }
+  
 
   return referencesListByEntityName[entityName];
 }
@@ -131,7 +131,7 @@ export function registerRoute(routePath: string, menuPath: string, title: string
       });
 
       const entityId = currentRoute.routeParams.entityId;
-      if (entityId && tabs.tabs.length === 1) {
+      if (entityId && tabs.tabs.length === 1) 
         (async () => {
           await sleep();
           const registeredReferral = referencesListByEntityName[entityName];
@@ -144,7 +144,7 @@ export function registerRoute(routePath: string, menuPath: string, title: string
             },
           });
         })();
-      }
+      
     });
 
     return <MultiScreen />;

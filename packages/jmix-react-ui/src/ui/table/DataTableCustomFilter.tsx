@@ -164,9 +164,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       this.props.entityName,
       this.props.entityProperty);
 
-    if (!propertyInfo) {
+    if (!propertyInfo) 
       throw new Error(`${this.errorContext} Cannot find MetaPropertyInfo`);
-    }
+    
 
     return propertyInfo;
   }
@@ -189,39 +189,39 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   setFormRef = (formInstance: FormInstance | null) => {
     const {customFilterRef} = this.props;
-    if ((customFilterRef != null) && (formInstance != null)) {
+    if ((customFilterRef != null) && (formInstance != null)) 
       customFilterRef(formInstance);
-    }
+    
     this.formInstance = formInstance;
   };
 
   resetFormFields = (newOperator: ComparisonType) => {
     if (this.formInstance != null) {
       const fieldsToReset: string[] = [];
-      if (!isComplexOperator(newOperator)) {
+      if (!isComplexOperator(newOperator)) 
         fieldsToReset.push(`${this.props.entityProperty}_input`);
-      } else if (newOperator === '__inInterval') {
+      else if (newOperator === '__inInterval') 
         fieldsToReset.push(
           `${this.props.entityProperty}_predefined`,
           `${this.props.entityProperty}_number`,
         );
-      }
-      if (fieldsToReset.length > 0) {
+      
+      if (fieldsToReset.length > 0) 
         this.formInstance.resetFields(fieldsToReset);
-      }
+      
     }
   };
 
   initValue = (operator: ComparisonType = this.operator): void => {
-    if (operator === '_isNull') {
+    if (operator === '_isNull') 
       this.value = false;
-    } else if (this.propertyInfoNN.type === 'boolean') {
+    else if (this.propertyInfoNN.type === 'boolean') 
       this.value = true;
-    } else if (operator === '_in' || operator === '_notIn') {
+    else if (operator === '_in' || operator === '_notIn') 
       this.value = [];
-    } else {
+    else 
       this.value = undefined;
-    }
+    
   };
 
   resetFilter = (): void => {
@@ -256,9 +256,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
   };
 
   onTemporalPickerChange = (value: Dayjs | null) => {
-    if (value != null) {
+    if (value != null) 
       this.value = applyDataTransferFormat(value.millisecond(0), this.propertyInfoNN.type as PropertyType);
-    }
+    
   }
 
   onYesNoSelectChange = (value: string | number | LabeledValue): void => {
@@ -279,15 +279,15 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
                 {this.propertyCaption}
               </Form.Item>
               <Form.Item className='filtercontrol'
-                         initialValue={this.getDefaultOperator()}
-                         name={`${this.props.entityProperty}_operatorsDropdown`}
+                initialValue={this.getDefaultOperator()}
+                name={`${this.props.entityProperty}_operatorsDropdown`}
               >
                 <Select
                   dropdownClassName={`cuba-operator-dropdown-${this.props.entityProperty}`}
                   dropdownMatchSelectWidth={false}
                   onChange={(operator: ComparisonType) => this.changeOperator(operator)}
                 >
-                    {this.operatorTypeOptions}
+                  {this.operatorTypeOptions}
                 </Select>
               </Form.Item>
               {this.simpleFilterEditor}
@@ -297,7 +297,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
           <Divider className='divider' />
           <div className='footer'>
             <Button htmlType='submit'
-                    type='link'>
+              type='link'>
               <FormattedMessage id='cubaReact.dataTable.ok'/>
             </Button>
             <Button
@@ -316,36 +316,36 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     const propertyInfo: MetaPropertyInfo = this.propertyInfoNN;
 
     switch (propertyInfo.attributeType) {
-      case 'ENUM':
-      case 'ASSOCIATION':
-      case 'COMPOSITION':
-        return '_eq';
+    case 'ENUM':
+    case 'ASSOCIATION':
+    case 'COMPOSITION':
+      return '_eq';
     }
 
     switch (propertyInfo.type as PropertyType) {
-      case 'boolean':
-        return '_eq';
-      case 'date':
-      case 'time':
-      case 'dateTime':
-      case 'localDate':
-      case 'localTime':
-      case 'localDateTime':
-      case 'offsetDateTime':
-      case 'offsetTime':
-        return '_eq';
-      case 'int':
-      case 'double':
-      case 'decimal':
-      case 'long':
-      case 'char':
-        return '_eq';
-      case 'string':
-        return '_contains';
-      case 'uuid':
-        return '_eq';
-      default:
-        throw new Error(`${this.errorContext} Unexpected property type ${propertyInfo.type} when trying to get the default condition operator`)
+    case 'boolean':
+      return '_eq';
+    case 'date':
+    case 'time':
+    case 'dateTime':
+    case 'localDate':
+    case 'localTime':
+    case 'localDateTime':
+    case 'offsetDateTime':
+    case 'offsetTime':
+      return '_eq';
+    case 'int':
+    case 'double':
+    case 'decimal':
+    case 'long':
+    case 'char':
+      return '_eq';
+    case 'string':
+      return '_contains';
+    case 'uuid':
+      return '_eq';
+    default:
+      throw new Error(`${this.errorContext} Unexpected property type ${propertyInfo.type} when trying to get the default condition operator`)
     }
   }
 
@@ -356,8 +356,8 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
     return availableOperators.map((operator: ComparisonType) => {
       return <Select.Option key={`${this.props.entityProperty}.${operator}`}
-                            className={operatorToOptionClassName(operator)}
-                            value={operator}>
+        className={operatorToOptionClassName(operator)}
+        value={operator}>
         {this.getOperatorCaption(operator)}
       </Select.Option>;
     });
@@ -365,29 +365,29 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   getOperatorCaption = (operator: ComparisonType): string => {
     switch (operator) {
-      case '_eq':
-        return '=';
-      case '_gt':
-        return '>';
-      case '_gte':
-        return '>=';
-      case '_lt':
-        return '<';
-      case '_lte':
-        return '<=';
-      case '_neq':
-        return '<>';
-      case '_startsWith':
-      case '_endsWith':
-      case '_contains':
+    case '_eq':
+      return '=';
+    case '_gt':
+      return '>';
+    case '_gte':
+      return '>=';
+    case '_lt':
+      return '<';
+    case '_lte':
+      return '<=';
+    case '_neq':
+      return '<>';
+    case '_startsWith':
+    case '_endsWith':
+    case '_contains':
       // case '_doesNotContain':
-      case '_in':
-      case '_notIn':
-      case '_isNull':
-      case '__inInterval':
-        return this.props.intl.formatMessage({ id: 'cubaReact.dataTable.operator.' + operator });
-      default:
-        throw new Error(`${this.errorContext} Unexpected condition operator ${operator} when trying to get operator caption`);
+    case '_in':
+    case '_notIn':
+    case '_isNull':
+    case '__inInterval':
+      return this.props.intl.formatMessage({ id: 'cubaReact.dataTable.operator.' + operator });
+    default:
+      throw new Error(`${this.errorContext} Unexpected condition operator ${operator} when trying to get operator caption`);
     }
   };
 
@@ -407,150 +407,150 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     const propertyInfo: MetaPropertyInfo = this.propertyInfoNN;
 
     switch (propertyInfo.attributeType) {
-      // In case of enum generic filter will not be rendered, enum filter will be rendered instead
-      case 'ASSOCIATION':
-      case 'COMPOSITION':
-        switch (this.operator) {
-          case '_eq':
-          case '_neq':
-            return this.selectField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
+    // In case of enum generic filter will not be rendered, enum filter will be rendered instead
+    case 'ASSOCIATION':
+    case 'COMPOSITION':
+      switch (this.operator) {
+      case '_eq':
+      case '_neq':
+        return this.selectField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
     }
 
     switch (propertyInfo.type as PropertyType) {
-      case 'boolean':
+    case 'boolean':
+      return this.yesNoSelectField;
+
+    case 'dateTime':
+    case 'localDateTime':
+    case 'offsetDateTime':
+      switch (this.operator as TemporalComparisonType) {
+      case '_eq':
+      case '_neq':
+      case '_gt':
+      case '_gte':
+      case '_lt':
+      case '_lte':
+        return this.dateTimePickerField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
         return this.yesNoSelectField;
+      case '__inInterval':
+        return this.intervalEditor;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'dateTime':
-      case 'localDateTime':
-      case 'offsetDateTime':
-        switch (this.operator as TemporalComparisonType) {
-          case '_eq':
-          case '_neq':
-          case '_gt':
-          case '_gte':
-          case '_lt':
-          case '_lte':
-            return this.dateTimePickerField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-          case '__inInterval':
-            return this.intervalEditor;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'date':
+    case 'localDate':
+      switch (this.operator as TemporalComparisonType) {
+      case '_eq':
+      case '_neq':
+      case '_gt':
+      case '_gte':
+      case '_lt':
+      case '_lte':
+        return this.datePickerField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      case '__inInterval':
+        return this.intervalEditor;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'date':
-      case 'localDate':
-        switch (this.operator as TemporalComparisonType) {
-          case '_eq':
-          case '_neq':
-          case '_gt':
-          case '_gte':
-          case '_lt':
-          case '_lte':
-            return this.datePickerField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-          case '__inInterval':
-            return this.intervalEditor;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'time':
+    case 'localTime':
+    case 'offsetTime':
+      switch (this.operator as TemporalComparisonType) {
+      case '_eq':
+      case '_neq':
+      case '_gt':
+      case '_gte':
+      case '_lt':
+      case '_lte':
+        return this.timePickerField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'time':
-      case 'localTime':
-      case 'offsetTime':
-        switch (this.operator as TemporalComparisonType) {
-          case '_eq':
-          case '_neq':
-          case '_gt':
-          case '_gte':
-          case '_lt':
-          case '_lte':
-            return this.timePickerField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'int':
+    case 'double':
+    case 'decimal':
+    case 'long':
+      switch (this.operator as NumberComparisonType) {
+      case '_eq':
+      case '_neq':
+      case '_gt':
+      case '_gte':
+      case '_lt':
+      case '_lte':
+        return this.numberInputField(propertyInfo.type as NumericPropertyType);
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'int':
-      case 'double':
-      case 'decimal':
-      case 'long':
-        switch (this.operator as NumberComparisonType) {
-          case '_eq':
-          case '_neq':
-          case '_gt':
-          case '_gte':
-          case '_lt':
-          case '_lte':
-            return this.numberInputField(propertyInfo.type as NumericPropertyType);
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'string':
+      switch (this.operator as TextComparisonType) {
+      case '_contains':
+        // case '_doesNotContain':
+      case '_eq':
+      case '_neq':
+      case '_startsWith':
+      case '_endsWith':
+        return this.textInputField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'string':
-        switch (this.operator as TextComparisonType) {
-          case '_contains':
-          // case '_doesNotContain':
-          case '_eq':
-          case '_neq':
-          case '_startsWith':
-          case '_endsWith':
-            return this.textInputField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'uuid':
+      switch (this.operator as UuidComparisonType) {
+      case '_eq':
+      case '_neq':
+        return this.uuidInputField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'uuid':
-        switch (this.operator as UuidComparisonType) {
-          case '_eq':
-          case '_neq':
-            return this.uuidInputField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    case 'char':
+      switch (this.operator) {
+      case '_eq':
+      case '_neq':
+        return this.charInputField;
+      case '_in':
+      case '_notIn':
+        return this.listEditor;
+      case '_isNull':
+        return this.yesNoSelectField;
+      }
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'char':
-        switch (this.operator) {
-          case '_eq':
-          case '_neq':
-            return this.charInputField;
-          case '_in':
-          case '_notIn':
-            return this.listEditor;
-          case '_isNull':
-            return this.yesNoSelectField;
-        }
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
-
-      default:
-        throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
+    default:
+      throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
     }
   }
 
@@ -567,9 +567,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
     const options = getDefaultFilterFormItemProps(this.props.intl, entityProperty);
 
-    if (!options.rules) {
+    if (!options.rules) 
       options.rules = [];
-    }
+    
 
     options.rules.push({
       pattern: uuidPattern,
@@ -581,25 +581,25 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   numberInputField(propertyType: NumericPropertyType): ReactNode {
     switch (propertyType) {
-      case 'int':
-        return this.createFilterInput(<IntegerInput onChange={this.onNumberInputChange}/>, true);
-      case 'double':
-        return this.createFilterInput(<DoubleInput onChange={this.onNumberInputChange}/>, true);
-      case 'long':
-        return this.createFilterInput(<LongInput onChange={this.onNumberInputChange}/>, true);
-      case 'decimal':
-        return this.createFilterInput(<BigDecimalInput onChange={this.onNumberInputChange}/>, true);
-      default:
-        return assertNever('property type', propertyType);
+    case 'int':
+      return this.createFilterInput(<IntegerInput onChange={this.onNumberInputChange}/>, true);
+    case 'double':
+      return this.createFilterInput(<DoubleInput onChange={this.onNumberInputChange}/>, true);
+    case 'long':
+      return this.createFilterInput(<LongInput onChange={this.onNumberInputChange}/>, true);
+    case 'decimal':
+      return this.createFilterInput(<BigDecimalInput onChange={this.onNumberInputChange}/>, true);
+    default:
+      return assertNever('property type', propertyType);
     }
   }
 
   get selectField(): ReactNode {
     return this.createFilterInput(
       <Select dropdownMatchSelectWidth={false}
-              dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
-              className='cuba-filter-select'
-              onSelect={this.onSelectChange}>
+        dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
+        className='cuba-filter-select'
+        onSelect={this.onSelectChange}>
         {this.selectFieldOptions}
       </Select>
     );
@@ -611,9 +611,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       .map((option) => {
         return (
           <Select.Option title={option.caption}
-                         value={option.value!} // Nullish values are expected to be filtered out by now
-                         key={option.value}
-                         className={`cuba-filter-value-${option.value}`}
+            value={option.value!} // Nullish values are expected to be filtered out by now
+            key={option.value}
+            className={`cuba-filter-value-${option.value}`}
           >
             {option.caption}
           </Select.Option>
@@ -626,16 +626,16 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
     const component = (
       <Select dropdownMatchSelectWidth={false}
-              dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
-              className='cuba-filter-select'
-              onSelect={this.onYesNoSelectChange}>
+        dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
+        className='cuba-filter-select'
+        onSelect={this.onYesNoSelectChange}>
         <Select.Option value='true'
-                       className='cuba-filter-value-true'
+          className='cuba-filter-value-true'
         >
           <FormattedMessage id='cubaReact.dataTable.yes'/>
         </Select.Option>
         <Select.Option value='false'
-                       className='cuba-filter-value-false'
+          className='cuba-filter-value-false'
         >
           <FormattedMessage id='cubaReact.dataTable.no'/>
         </Select.Option>
@@ -653,9 +653,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     return (
       <Form.Item className='filtercontrol -complex-editor'>
         <DataTableListEditor onChange={(value: string[] | number[]) => this.value = value}
-                               id={this.props.entityProperty}
-                               propertyInfo={this.propertyInfoNN}
-                               nestedEntityOptions={this.nestedEntityOptions}
+          id={this.props.entityProperty}
+          propertyInfo={this.propertyInfoNN}
+          nestedEntityOptions={this.nestedEntityOptions}
         />
       </Form.Item>
     );
@@ -665,12 +665,12 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     return (
       <Form.Item className='filtercontrol -complex-editor'>
         <DataTableIntervalEditor onChange={(value: TemporalInterval) => this.value = value}
-                                   id={this.props.entityProperty}
-                                   propertyType={this.propertyInfoNN.type as PropertyType}
+          id={this.props.entityProperty}
+          propertyType={this.propertyInfoNN.type as PropertyType}
         />
       </Form.Item>
     );
-  };
+  }
 
   get datePickerField(): ReactNode {
     const component = (
@@ -689,24 +689,24 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
   get dateTimePickerField(): ReactNode {
     const component = (
       <DatePicker showTime={true}
-                  onChange={this.onTemporalPickerChange}
+        onChange={this.onTemporalPickerChange}
       />
     );
     return this.createFilterInput(component, true);
   }
 
   createFilterInput(
-    component: ReactNode, hasFeedback: boolean = false, formItemProps?: FormItemProps, additionalClassName?: string
+    component: ReactNode, hasFeedback = false, formItemProps?: FormItemProps, additionalClassName?: string
   ): ReactNode {
     const {intl, entityProperty} = this.props;
 
     const name = `${entityProperty}_input`;
 
-    if (formItemProps == null) {
+    if (formItemProps == null) 
       formItemProps = getDefaultFilterFormItemProps(intl, name);
-    } else if (formItemProps.name == null) {
+    else if (formItemProps.name == null) 
       formItemProps.name = name;
-    }
+    
 
     return wrapInFormItem(component, hasFeedback, formItemProps, additionalClassName);
   }
@@ -715,62 +715,62 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
 function determineOperatorGroup(operator: ComparisonType): OperatorGroup {
   switch (operator) {
-    case '_eq':
-    case '_gt':
-    case '_gte':
-    case '_lt':
-    case '_lte':
-    case '_neq':
-    case '_startsWith':
-    case '_endsWith':
-    case '_contains':
+  case '_eq':
+  case '_gt':
+  case '_gte':
+  case '_lt':
+  case '_lte':
+  case '_neq':
+  case '_startsWith':
+  case '_endsWith':
+  case '_contains':
     // case 'doesNotContain':
-      return OperatorGroup.SINGLE_VALUE;
-    case '_in':
-    case '_notIn':
-      return OperatorGroup.LIST_VALUE;
-    case '_isNull':
-      return OperatorGroup.LOGICAL_VALUE;
-    case '__inInterval':
-      return OperatorGroup.INTERVAL_VALUE;
-    default:
-      throw new Error(`Could not determine condition operator group: unexpected operator ${operator}`);
+    return OperatorGroup.SINGLE_VALUE;
+  case '_in':
+  case '_notIn':
+    return OperatorGroup.LIST_VALUE;
+  case '_isNull':
+    return OperatorGroup.LOGICAL_VALUE;
+  case '__inInterval':
+    return OperatorGroup.INTERVAL_VALUE;
+  default:
+    throw new Error(`Could not determine condition operator group: unexpected operator ${operator}`);
   }
 }
 
 function getAvailableOperators(propertyInfo: MetaPropertyInfo): ComparisonType[] {
   switch (propertyInfo.attributeType) {
-    case 'ENUM':
-    case 'ASSOCIATION':
-    case 'COMPOSITION':
-      return ['_eq', '_neq', '_in', '_notIn', '_isNull'];
+  case 'ENUM':
+  case 'ASSOCIATION':
+  case 'COMPOSITION':
+    return ['_eq', '_neq', '_in', '_notIn', '_isNull'];
   }
 
   switch (propertyInfo.type as PropertyType) {
-    case 'boolean':
-      return ['_eq', '_neq', '_isNull'];
-    case 'date':
-    case 'localDate':
-    case 'dateTime':
-    case 'localDateTime':
-    case 'offsetDateTime':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull', '__inInterval'];
-    case 'time':
-    case 'localTime':
-    case 'offsetTime':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
-    case 'int':
-    case 'double':
-    case 'long':
-    case 'decimal':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
-    case 'string':
-      return ['_contains', '_eq', '_in', '_notIn', '_neq', /* TODO 'doesNotContain', */ '_isNull', '_startsWith', '_endsWith'];
-    case 'uuid':
-    case 'char':
-      return ['_eq', '_in', '_notIn', '_neq', '_isNull'];
-    default:
-      throw new Error(`Could not determine available condition operators for property ${propertyInfo.name} with attribute type ${propertyInfo.attributeType} and type ${propertyInfo.type}`);
+  case 'boolean':
+    return ['_eq', '_neq', '_isNull'];
+  case 'date':
+  case 'localDate':
+  case 'dateTime':
+  case 'localDateTime':
+  case 'offsetDateTime':
+    return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull', '__inInterval'];
+  case 'time':
+  case 'localTime':
+  case 'offsetTime':
+    return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
+  case 'int':
+  case 'double':
+  case 'long':
+  case 'decimal':
+    return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
+  case 'string':
+    return ['_contains', '_eq', '_in', '_notIn', '_neq', /* TODO 'doesNotContain', */ '_isNull', '_startsWith', '_endsWith'];
+  case 'uuid':
+  case 'char':
+    return ['_eq', '_in', '_notIn', '_neq', '_isNull'];
+  default:
+    throw new Error(`Could not determine available condition operators for property ${propertyInfo.name} with attribute type ${propertyInfo.attributeType} and type ${propertyInfo.type}`);
   }
 }
 
@@ -782,26 +782,26 @@ function isComplexOperator(operator: ComparisonType): boolean {
 export function operatorToOptionClassName(operator: ComparisonType): string {
   let className = 'cuba-operator-';
   switch (operator) {
-    case '_eq':
-      className += 'equals';
-      break;
-    case '_lt':
-      className += 'less';
-      break;
-    case '_lte':
-      className += 'lessOrEqual';
-      break;
-    case '_gt':
-      className += 'greater';
-      break;
-    case '_gte':
-      className += 'greaterOrEqual';
-      break;
-    case '_neq':
-      className += 'notEqual';
-      break;
-    default:
-      className += operator;
+  case '_eq':
+    className += 'equals';
+    break;
+  case '_lt':
+    className += 'less';
+    break;
+  case '_lte':
+    className += 'lessOrEqual';
+    break;
+  case '_gt':
+    className += 'greater';
+    break;
+  case '_gte':
+    className += 'greaterOrEqual';
+    break;
+  case '_neq':
+    className += 'notEqual';
+    break;
+  default:
+    className += operator;
   }
   return className;
 }

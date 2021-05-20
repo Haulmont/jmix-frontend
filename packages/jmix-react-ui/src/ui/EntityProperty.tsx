@@ -40,17 +40,17 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
 
   const metadata = useMetadata()
 
-  if (hideIfEmpty && value == null) {
+  if (hideIfEmpty && value == null) 
     return null;
-  }
-  if (!showLabel) {
+  
+  if (!showLabel) 
     return <div>{formatValue(toJS(value))}</div>;
-  }
+  
 
   // store not ready yet
-  if (!mainStore || !mainStore.messages) {
+  if (!mainStore || !mainStore.messages) 
     return null;
-  }
+  
 
   const propertyFullName = entityName + '.' + propertyName;
   const label: string = mainStore.messages[propertyFullName];
@@ -60,9 +60,9 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
     entityName,
     propertyName);
 
-  if (!propertyInfo) {
+  if (!propertyInfo) 
     throw new Error('Cannot find MetaPropertyInfo for property ' + propertyFullName);
-  }
+  
 
   const displayValue = propertyInfo.attributeType === 'ENUM'
     ? getEnumCaption(value, propertyInfo, metadata.enums)
@@ -78,13 +78,13 @@ export const EntityProperty = injectMainStore(observer((props: EntityPropertyPro
 
 function formatValue(value: any): string {
   const valType = typeof value;
-  if (valType === "string") {
+  if (valType === "string") 
     return value;
-  }
+  
   if (valType === "object") {
-    if (Object.prototype.hasOwnProperty.call(value, '_instanceName')) {
+    if (Object.prototype.hasOwnProperty.call(value, '_instanceName')) 
       return value._instanceName ?? value.id;
-    }
+    
     if (Array.isArray(value)) {
       const items = value.map(formatValue);
       return items.join(", ");

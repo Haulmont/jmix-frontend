@@ -18,11 +18,11 @@ import {InputProps} from 'antd/es/input';
 export const UuidInput = forwardRef((props: InputProps, ref: Ref<Input>) => {
   return (
     <InputWithMask mask='xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx'
-                   formatChars={{
-                     'x': '[0-9a-fA-F]'
-                   }}
-                   ref={ref}
-                   {...props}
+      formatChars={{
+        'x': '[0-9a-fA-F]'
+      }}
+      ref={ref}
+      {...props}
     />
   );
 });

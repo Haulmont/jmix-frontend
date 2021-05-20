@@ -16,17 +16,17 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
   screens.props = props;
 
   let content = null;
-  if (screens.screens.length) {
+  if (screens.screens.length) 
     content = screens.screens.map((item, index) => {
       const params = {} as { key?: string };
       // If we render last screen than force "create" it because {item} link can be same, but other params can be changes (example edit screen with another entityId param)
-      if (index > 0 && index === screens.screens.length - 1) {
+      if (index > 0 && index === screens.screens.length - 1) 
         params.key = Math.random() + "";
-      }
+      
 
       return <MultiScreenItem item={item} {...params} />;
     });
-  }
+  
 
   return (
     <div>
@@ -48,9 +48,9 @@ const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
   if (
     screens.currentScreen !== null &&
     screens.currentScreen !== item
-  ) {
+  ) 
     style.display = "none";
-  }
+  
 
   return (
     <span style={style}>

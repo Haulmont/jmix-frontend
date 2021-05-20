@@ -15,9 +15,9 @@ export interface JmixPagination {
 export function getLimitAndOffset(pagination: PaginationConfig | TablePaginationConfig): LimitAndOffset {
   const {disabled, pageSize, current} = pagination;
 
-  if (disabled) {
+  if (disabled) 
     return {};
-  }
+  
 
   return {
     limit: pageSize,
@@ -26,9 +26,9 @@ export function getLimitAndOffset(pagination: PaginationConfig | TablePagination
 }
 
 export function calcOffset(current?: number, pageSize?: number): number | undefined {
-  if (current == null || pageSize == null) {
+  if (current == null || pageSize == null) 
     return undefined;
-  }
+  
 
   return pageSize * (current - 1);
 }

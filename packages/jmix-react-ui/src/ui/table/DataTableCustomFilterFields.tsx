@@ -18,7 +18,7 @@ export function getDefaultFilterFormItemProps(intl: IntlShape, name: string): Fo
 
 export function wrapInFormItem(
   children: ReactNode,
-  hasFeedback: boolean = false,
+  hasFeedback = false,
   formItemProps: FormItemProps,
   additionalClassName?: string,
 ): ReactNode {

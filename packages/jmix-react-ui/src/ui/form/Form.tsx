@@ -108,13 +108,13 @@ export const Field = observer((props: FieldProps) => {
 
       return <Form.Item {...{...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps}}>
         <FormField entityName={entityName}
-                   propertyName={propertyName}
-                   disabled={isReadOnly || disabled}
-                   optionsContainer={optionsContainer}
-                   associationOptions={associationOptions}
-                   nestedEntityView={nestedEntityView}
-                   parentEntityInstanceId={parentEntityInstanceId}
-                   {...componentProps}
+          propertyName={propertyName}
+          disabled={isReadOnly || disabled}
+          optionsContainer={optionsContainer}
+          associationOptions={associationOptions}
+          nestedEntityView={nestedEntityView}
+          parentEntityInstanceId={parentEntityInstanceId}
+          {...componentProps}
         />
       </Form.Item>
 
@@ -132,8 +132,8 @@ function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: 
 
   if (propertyInfo?.type === 'uuid') {
     formItemProps.rules = [
-        { pattern: uuidPattern }
-      ];
+      { pattern: uuidPattern }
+    ];
     formItemProps.validateTrigger = 'onSubmit';
   }
 
@@ -168,74 +168,74 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
 
   const metadata = useMetadata();
 
-  if (mainStore == null) {
+  if (mainStore == null) 
     return <Input {...(rest as InputProps)}/>;
-  }
+  
   const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
-  if (propertyInfo == null) {
+  if (propertyInfo == null) 
     return <Input {...(rest as InputProps)}/>
-  }
+  
 
-  if (isFileProperty(propertyInfo)) {
+  if (isFileProperty(propertyInfo)) 
     return <FileUpload {...(rest as FileUploadProps)}/>;
-  }
+  
 
   switch (propertyInfo.attributeType) {
-    case 'ENUM':
-      return <EnumField enumClass={propertyInfo.type} allowClear={getAllowClear(propertyInfo)} {...rest as SelectProps<SelectValue> & MainStoreInjected}/>;
-    case 'ASSOCIATION':
-      const mode = getSelectMode(propertyInfo.cardinality);
-      return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
-    case 'COMPOSITION':
-      if (nestedEntityView) {
-        const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
-          .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
+  case 'ENUM':
+    return <EnumField enumClass={propertyInfo.type} allowClear={getAllowClear(propertyInfo)} {...rest as SelectProps<SelectValue> & MainStoreInjected}/>;
+  case 'ASSOCIATION':
+    const mode = getSelectMode(propertyInfo.cardinality);
+    return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
+  case 'COMPOSITION':
+    if (nestedEntityView) {
+      const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
+        .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
 
-        if (nestedEntityName) {
-          if (propertyInfo.cardinality === 'ONE_TO_ONE') {
-            return null; // TODO
-          }
+      if (nestedEntityName) {
+        if (propertyInfo.cardinality === 'ONE_TO_ONE') 
+          return null; // TODO
+          
 
-          if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-            return null; // TODO
-          }
-        }
+        if (propertyInfo.cardinality === 'ONE_TO_MANY') 
+          return null; // TODO
+          
       }
-      return null;
+    }
+    return null;
   }
   switch (propertyInfo.type as PropertyType) {
-    case 'boolean':
-      return <Checkbox {...(rest as CheckboxProps)}/>;
-    case 'date':
-    case 'localDate':
-      return <DatePicker {...(rest as DatePickerProps)}/>;
-    case 'dateTime':
-    case 'localDateTime':
-    case 'offsetDateTime':
-      return <DatePicker showTime={true} {...(rest as DatePickerProps & {showTime?: boolean | object})}/>;
-    case 'time':
-    case 'localTime':
-    case 'offsetTime':
-      return <TimePicker {...(rest as TimePickerProps)}/>;
-    case 'int':
-      return <IntegerInput {...(rest as InputNumberProps)}/>;
-    case 'double':
-      return <DoubleInput {...(rest as InputNumberProps)}/>;
-    case 'long':
-      return <LongInput {...(rest as InputNumberProps)}/>;
-    case 'decimal':
-      return <BigDecimalInput {...(rest as InputNumberProps)}/>;
-    case 'uuid':
-      return <UuidInput {...(rest as InputProps)}/>
-    case 'char':
-      return <CharInput {...(rest as InputProps)}/>
+  case 'boolean':
+    return <Checkbox {...(rest as CheckboxProps)}/>;
+  case 'date':
+  case 'localDate':
+    return <DatePicker {...(rest as DatePickerProps)}/>;
+  case 'dateTime':
+  case 'localDateTime':
+  case 'offsetDateTime':
+    return <DatePicker showTime={true} {...(rest as DatePickerProps & {showTime?: boolean | object})}/>;
+  case 'time':
+  case 'localTime':
+  case 'offsetTime':
+    return <TimePicker {...(rest as TimePickerProps)}/>;
+  case 'int':
+    return <IntegerInput {...(rest as InputNumberProps)}/>;
+  case 'double':
+    return <DoubleInput {...(rest as InputNumberProps)}/>;
+  case 'long':
+    return <LongInput {...(rest as InputNumberProps)}/>;
+  case 'decimal':
+    return <BigDecimalInput {...(rest as InputNumberProps)}/>;
+  case 'uuid':
+    return <UuidInput {...(rest as InputProps)}/>
+  case 'char':
+    return <CharInput {...(rest as InputProps)}/>
   }
   return <Input {...(rest as InputProps)}/>;
 })));
 
 interface EnumFieldProps extends SelectProps<SelectValue> {
   enumClass: string;
-};
+}
 
 export const EnumField = observer(({enumClass, ...rest}: EnumFieldProps) => {
   const metadata = useMetadata();
@@ -251,9 +251,9 @@ export const EnumField = observer(({enumClass, ...rest}: EnumFieldProps) => {
 });
 
 function getSelectMode(cardinality: Cardinality): "default" | "multiple" {
-  if (cardinality === "ONE_TO_MANY" || cardinality === "MANY_TO_MANY") {
+  if (cardinality === "ONE_TO_MANY" || cardinality === "MANY_TO_MANY") 
     return "multiple"
-  }
+  
   return "default";
 }
 
@@ -263,16 +263,16 @@ function getAllowClear(propertyInfo: MetaPropertyInfo): boolean {
 
 export function selectFormSuccessMessageId(commitMode?: CommitMode): string {
   switch (commitMode) {
-    case 'create': return "management.editor.created";
-    case 'edit': return "management.editor.updated";
-    default: return "management.editor.updated";
+  case 'create': return "management.editor.created";
+  case 'edit': return "management.editor.updated";
+  default: return "management.editor.updated";
   }
 }
 
 function selectFormErrorMessageId(globalErrors: string[], fieldErrors: Map<string, string[]>): string | void {
-  if (fieldErrors.size > 0 || globalErrors.length > 0) {
+  if (fieldErrors.size > 0 || globalErrors.length > 0) 
     return "management.editor.validationError";
-  }
+  
 }
 
 export const defaultHandleFinish = <E extends unknown>(
@@ -293,12 +293,12 @@ export const defaultHandleFinish = <E extends unknown>(
       return {success: true, globalErrors: []};
     })
     .catch((serverError: JmixRestError) => {
-      if (serverError.response && typeof serverError.response.json === "function") {
+      if (serverError.response && typeof serverError.response.json === "function") 
         return serverError.response.json().then((response: any) => {
           const {globalErrors, fieldErrors} = extractServerValidationErrors(response);
-          if (fieldErrors.size > 0) {
+          if (fieldErrors.size > 0) 
             formInstance.setFields(constructFieldsWithErrors(fieldErrors, formInstance));
-          }
+          
 
           const errorMessageId = mapJmixRestErrorToIntlId(
             () => selectFormErrorMessageId(globalErrors, fieldErrors),
@@ -308,7 +308,7 @@ export const defaultHandleFinish = <E extends unknown>(
 
           return {success: false, globalErrors};
         });
-      } else {
+      else {
         message.error(
           intl.formatMessage({ id: defaultMapJmixRestErrorToIntlId(serverError) })
         );

@@ -10,12 +10,12 @@ import './styles.less';
 const {TabPane} = Tabs;
 
 function onTabChange(key: string) {
-  for (const tab of tabs.tabs) {
+  for (const tab of tabs.tabs) 
     if (tab.key === key) {
       tabs.setActiveTab(tab);
       break;
     }
-  }
+  
 }
 
 function handleCloseClick(e: any, tabItem: IMultiTabItem) {
@@ -24,9 +24,9 @@ function handleCloseClick(e: any, tabItem: IMultiTabItem) {
 }
 
 export const MultiTabs = observer(() => {
-  if (!tabs.tabs.length) {
+  if (!tabs.tabs.length) 
     return tabs.homePage as JSX.Element;
-  }
+  
 
   return (
     <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
@@ -66,23 +66,23 @@ const Content = observer((props: IContentProps) => {
 });
 
 function checkRoute(item: RouteItem) {
-  if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
+  if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) 
     tabs.push({
       title: item.caption,
       content: item.component,
       key: item.menuLink,
     });
-  }
+  
 }
 
 function checkItems(mItems: Array<RouteItem | SubMenu>) {
   for (const item of mItems) {
     const subMenuItem = item as SubMenu;
-    if (subMenuItem.items != null) {
+    if (subMenuItem.items != null) 
       checkItems(subMenuItem.items);
-    } else {
+    else 
       checkRoute(item as RouteItem);
-    }
+    
   }
 }
 

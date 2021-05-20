@@ -184,12 +184,12 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
 
 
   switch(propertyInfo.attributeType) {
-    case 'COMPOSITION':
-    case 'ASSOCIATION':
-      dataIndex = [propertyName, '_instanceName'];
-      break;
-    default:
-      dataIndex = propertyName as string;
+  case 'COMPOSITION':
+  case 'ASSOCIATION':
+    dataIndex = [propertyName, '_instanceName'];
+    break;
+  default:
+    dataIndex = propertyName as string;
   }
 
   const localizedPropertyCaption = getPropertyCaption(propertyName as string, entityName, mainStore!.messages!);
@@ -198,9 +198,9 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     title: (
       <div
         title={localizedPropertyCaption}>
-          {localizedPropertyCaption}
-        </div>
-      ),
+        {localizedPropertyCaption}
+      </div>
+    ),
     dataIndex,
     sorter: enableSorter,
     key: propertyName as string,
@@ -219,12 +219,12 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
         : null,
     };
 
-    if (propertyInfo.attributeType === 'ENUM') {
+    if (propertyInfo.attributeType === 'ENUM') 
       defaultColumnProps = {
         filters: generateEnumFilter(propertyInfo, metadata),
         ...defaultColumnProps
       };
-    } else {
+    else 
       defaultColumnProps = {
         filterDropdown: generateCustomFilterDropdown(
           propertyName as string,
@@ -238,7 +238,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
         ),
         ...defaultColumnProps
       };
-    }
+    
   }
 
   return defaultColumnProps;
@@ -253,9 +253,9 @@ export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Met
   const propertyEnumInfo: EnumInfo | undefined = metadata.enums
     .find((enumInfo: EnumInfo) => enumInfo.name === propertyInfo.type);
 
-  if (!propertyEnumInfo) {
+  if (!propertyEnumInfo) 
     return [];
-  }
+  
 
   return propertyEnumInfo.values.map((enumValueInfo: EnumValueInfo) => {
     return {
@@ -279,14 +279,14 @@ export function generateCustomFilterDropdown(
 
   return (props: FilterDropdownProps) => (
     <CustomFilter entityName={entityName}
-                  entityProperty={propertyName}
-                  filterProps={props}
-                  operator={operator}
-                  onOperatorChange={onOperatorChange}
-                  value={value}
-                  onValueChange={onValueChange}
-                  customFilterRef={customFilterRefCallback}
-                  associationOptions={associationOptions}
+      entityProperty={propertyName}
+      filterProps={props}
+      operator={operator}
+      onOperatorChange={onOperatorChange}
+      value={value}
+      onValueChange={onValueChange}
+      customFilterRef={customFilterRefCallback}
+      associationOptions={associationOptions}
     />
   )
 
@@ -317,16 +317,16 @@ export function setFilters(
     // Particularly we preserve filters on columns that are not displayed.
     const preservedConditions: JmixEntityFilter[] = getPreservedConditions(apiFilters, fields);
 
-    if (preservedConditions.length > 0) {
+    if (preservedConditions.length > 0) 
       nextApiFilters = [
         ...nextApiFilters,
         ...preservedConditions
       ];
-    }
+    
   }
 
   // Now we modify API filters based on the state of table filters
-  if (tableFilters) {
+  if (tableFilters) 
     fields.forEach((propertyName: string) => {
       if (tableFilters.hasOwnProperty(propertyName)
           && tableFilters[propertyName] != null
@@ -366,7 +366,7 @@ export function setFilters(
         addFilter(nextApiFilters, propertyName, operator, value);
       }
     });
-  }
+  
 
   onFilterChange(nextApiFilters);
 }
@@ -479,12 +479,12 @@ export function graphqlFilterToTableFilters(initialFilter: JmixEntityFilter, fie
   const tableFilters: Record<string, any> = {};
 
   Object.entries(initialFilter).forEach(([propertyName, condition]) => {
-    if (!fields || fields.indexOf(propertyName)) {
+    if (!fields || fields.indexOf(propertyName)) 
       tableFilters[propertyName] = [JSON.stringify({
         operator: Object.keys(condition)[0],
         value: Object.values(condition)[0]
       })];
-    }
+    
   });
 
   return tableFilters;

@@ -8,9 +8,9 @@ type Props = MainStoreInjected & {
 }
 
 export const Msg = injectMainStore(observer(({entityName, propertyName, mainStore}: Props) => {
-  if (mainStore == null || mainStore.messages == null) {
+  if (mainStore == null || mainStore.messages == null) 
     return <>propertyName</>;
-  }
+  
   const {messages} = mainStore;
   const message: string = messages[entityName + '.' + propertyName];
   return message != null

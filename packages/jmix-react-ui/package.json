@@ -70,12 +70,13 @@
   "scripts": {
     "copyless": "copyfiles -u 1 \"./src/**/*.less\" \"./dist\"",
     "copyless-transpiled": "copyfiles -u 1 \"./src/**/*.less\" \"./dist-transpiled\"",
-    "compile": "npm run clean && eslint '*/**/*.{js,ts,tsx}' && tsc && npm run copyless-transpiled && rollup -c && npm run copyless",
+    "compile": "npm run clean && npm run lint && tsc && npm run copyless-transpiled && rollup -c && npm run copyless",
     "clean": "rimraf dist && rimraf dist-transpiled",
     "test": "jest",
     "coverage": "npm test -- --coverage",
     "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-react-ui src",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
   },
   "repository": {
     "type": "git",

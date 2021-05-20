@@ -73,7 +73,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     this.reactionDisposers.push(reaction(
       () => this.props.value,
       () => {
-        if (this.props.value) {
+        if (this.props.value) 
           this.fileList = [{
             uid: this.props.value,
             name: extractName(this.props.value),
@@ -81,7 +81,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
             type: '',
             url: '#',
           }];
-        }
+        
       }
     ));
   }
@@ -90,9 +90,9 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     this.reactionDisposers.forEach(disposer => disposer());
 
     runInAction(() => {
-      if (this.previewImageObjectUrl != null) {
+      if (this.previewImageObjectUrl != null) 
         URL.revokeObjectURL(this.previewImageObjectUrl);
-      }
+      
     });
   }
 
@@ -101,17 +101,17 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
 
     fileList = fileList.slice(-1); // Limit to a single file
 
-    if (info.file.status === 'error') {
+    if (info.file.status === 'error') 
       message.error(this.props.intl.formatMessage({id: 'cubaReact.fileUpload.uploadFailed'}));
-    }
+    
 
     if (info.file.status === 'done') {
       fileList[0].uid = info.file.response.fileRef;
       fileList[0].name = extractName(info.file.response.fileRef);
       fileList[0].url = '#';
-      if (this.props.onChange) {
+      if (this.props.onChange) 
         this.props.onChange(info.file.response.fileRef);
-      }
+      
     }
 
     this.fileList = [ ...fileList ];
@@ -134,14 +134,14 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
       this.isPreviewLoading = true;
       this.previewFileName = fileName;
       getJmixREST()!.getFile(this.fileList[0].uid)
-      .then(action((blob: Blob) => {
-        this.previewImageObjectUrl = URL.createObjectURL(blob);
-      })).catch(action(() => {
-        message.error(intl.formatMessage({id: 'cubaReact.file.downloadFailed'}));
-        this.isPreviewVisible = false;
-      })).finally(action(() => {
-        this.isPreviewLoading = false;
-      }));
+        .then(action((blob: Blob) => {
+          this.previewImageObjectUrl = URL.createObjectURL(blob);
+        })).catch(action(() => {
+          message.error(intl.formatMessage({id: 'cubaReact.file.downloadFailed'}));
+          this.isPreviewVisible = false;
+        })).finally(action(() => {
+          this.isPreviewLoading = false;
+        }));
     } else {
       // Download file with correct filename
       const hideDownloadMessage = message.loading(intl.formatMessage({id: 'cubaReact.file.downloading'}));
@@ -159,16 +159,16 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
 
   handleRemove = action((_file: UploadFile) => {
     this.fileList = [];
-    if (this.props.onChange) {
+    if (this.props.onChange) 
       this.props.onChange(null);
-    }
+    
   });
 
   handleClosePreview = action(() => {
     this.isPreviewVisible = false;
-    if (this.previewImageObjectUrl) {
+    if (this.previewImageObjectUrl) 
       URL.revokeObjectURL(this.previewImageObjectUrl);
-    }
+    
     this.previewImageObjectUrl = null;
     this.previewFileName = null;
   });
@@ -176,13 +176,13 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
   dropArea = (mainStore: MainStore) => {
     const {disabled, render, value} = this.props;
 
-    if (disabled || !mainStore.security.canUploadFiles()) {
+    if (disabled || !mainStore.security.canUploadFiles()) 
       return null;
-    }
+    
 
-    if (render != null) {
+    if (render != null) 
       return render(value);
-    }
+    
 
     return <FileUploadDropArea fileRef={value}/>;
   };
@@ -190,18 +190,18 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
   render() {
     const {mainStore, disabled, enableFullWidth, uploadProps: passedUploadProps} = this.props;
 
-    if (mainStore == null || !mainStore.security.isDataLoaded) {
+    if (mainStore == null || !mainStore.security.isDataLoaded) 
       return <Spin size="small"/>;
-    }
+    
 
-    if (!mainStore.security.canUploadFiles() && this.fileList.length === 0) {
+    if (!mainStore.security.canUploadFiles() && this.fileList.length === 0) 
       // To avoid empty field
       return (
         <div className="no-file-message">
           <FormattedMessage id="file.noFile"/>
         </div>
       );
-    }
+    
 
     const defaultUploadProps: UploadProps = {
       action: getJmixREST()!.getFileUploadURL(),
@@ -229,14 +229,14 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
           { this.dropArea(mainStore) }
         </Upload>
         <ImagePreview isVisible={this.isPreviewVisible}
-                      isLoading={this.isPreviewLoading}
-                      objectUrl={this.previewImageObjectUrl ?? undefined}
-                      fileName={this.previewFileName ?? undefined}
-                      onClose={this.handleClosePreview}
+          isLoading={this.isPreviewLoading}
+          objectUrl={this.previewImageObjectUrl ?? undefined}
+          fileName={this.previewFileName ?? undefined}
+          onClose={this.handleClosePreview}
         />
       </>
     );
-  };
+  }
 
 }
 

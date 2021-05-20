@@ -19,9 +19,9 @@ export const RetryDialog = (props: RetryDialogProps) => {
     <>
       <FormattedMessage id={messageId} />.
       <Button htmlType="button"
-              className='retry-dialog-btn'
-              icon={ <RedoOutlined/> }
-              onClick={onRetry}>
+        className='retry-dialog-btn'
+        icon={ <RedoOutlined/> }
+        onClick={onRetry}>
         <span>
           <FormattedMessage id="common.retry" />
         </span>

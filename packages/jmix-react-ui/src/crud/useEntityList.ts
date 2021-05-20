@@ -151,9 +151,9 @@ export function useEntityList<
 
       const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
 
-      if (!record) {
+      if (!record) 
         throw new Error("Cannot find entity with id " + id);
-      }
+      
 
       return record;
     },
@@ -162,9 +162,9 @@ export function useEntityList<
 
   const deleteSelectedRow = useCallback(
     () => {
-      if (store.selectedRowKey != null) {
+      if (store.selectedRowKey != null) 
         showDeletionDialog(getRecordById(store.selectedRowKey));
-      }
+      
     },
     [getRecordById, showDeletionDialog, store.selectedRowKey]
   );
@@ -205,9 +205,9 @@ export function useEntityList<
 export function getAssociationOptions<
   TData extends Record<string, any> = Record<string, any>
 >(data?: TData, associations?: Record<string, string>): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
-  if (data == null || associations == null) {
+  if (data == null || associations == null) 
     return undefined;
-  }
+  
 
   const map = new Map();
 
@@ -235,9 +235,9 @@ export function useEditBtnCallbck(screens: Screens, entityName: string, routingP
     const registeredReferral = referencesListByEntityName[entityName];
 
     // If we are on root screen
-    if (screens.currentScreenIndex === 0) {
+    if (screens.currentScreenIndex === 0) 
       redirect(`${routingPath}/${entityId}`);
-    }
+    
 
     screens.push({
       title: registeredReferral.entityItemEdit.title,
@@ -270,7 +270,7 @@ export function useDeletionDialogCallback<
         }),
         cancelText: intl.formatMessage({ id: "common.cancel" }),
         onOk: () => {
-          if (e.id != null) {
+          if (e.id != null) 
             // noinspection JSIgnoredPromiseFromCall
             deleteMutation({
               variables: { id: e.id } as TVariables,
@@ -287,7 +287,7 @@ export function useDeletionDialogCallback<
                 });
               }
             });
-          }
+          
         }
       });
     },

@@ -15,14 +15,14 @@ export const EntitySelectField = observer((props: EntitySelectFieldProps) => {
 
   let options: Array<HasId & MayHaveInstanceName> | undefined;
 
-  if (associationOptions != null) {
+  if (associationOptions != null) 
     options = associationOptions;
-  } else if (optionsContainer != null) {
+  else if (optionsContainer != null) 
     options = optionsContainer
       .items
       .filter((e: MayHaveId & MayHaveInstanceName) => e.id != null)
       .map((e: MayHaveId & MayHaveInstanceName) => ({id: e.id!, instanceName: e._instanceName}));
-  }
+  
 
   return (
     <Select {...rest} loading={optionsContainer && optionsContainer.status === "LOADING"}>
