@@ -32,11 +32,11 @@ export const PrimaryButton: FunctionComponent<PrimaryButtonProps> = ({ onPress, 
   return (
     <View style={style}>
       <TouchableOpacity style={[
-                          styles.button,
-                          disabled && {opacity: 0.5}
-                        ]}
-                        onPress={onPress}
-                        disabled={disabled}
+        styles.button,
+        disabled && {opacity: 0.5}
+      ]}
+      onPress={onPress}
+      disabled={disabled}
       >
         {loading ? (
           <ActivityIndicator color={colors.textInverted}/>

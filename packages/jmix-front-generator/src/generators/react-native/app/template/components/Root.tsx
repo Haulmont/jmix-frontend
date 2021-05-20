@@ -18,24 +18,24 @@ export class Root extends Component<MainStoreInjected> {
 
     const {initialized, authenticated} = this.props.mainStore;
 
-    if (!initialized) {
+    if (!initialized) 
       return (
         <View style={styles.loader}>
           <ActivityIndicator size='large' color={colors.textPrimary} />
         </View>
       );
-    }
+    
 
-    if (!authenticated) {
+    if (!authenticated) 
       return <Login onLoginSubmit={(l, p) => this.props.mainStore.login(l, p)}/>
-    }
+    
 
     return (
       <View style={styles.container}>
         <Example/>
         <PrimaryButton onPress={this.logout}
-                       loading={this.loggingOut}
-                       style={styles.logoutButton}
+          loading={this.loggingOut}
+          style={styles.logoutButton}
         >
           Log out
         </PrimaryButton>
