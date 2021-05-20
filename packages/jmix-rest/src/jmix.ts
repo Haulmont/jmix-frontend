@@ -30,9 +30,9 @@ const apps: JmixRestConnection[] = [];
  * @returns {JmixRestConnection}
  */
 export function initializeApp(config: AppConfig = {}): JmixRestConnection {
-  if (getApp(config.name) != null) {
+  if (getApp(config.name) != null) 
     throw new Error("Cuba app is already initialized");
-  }
+  
   const cubaApp = new JmixRestConnection(config.name, config.apiUrl, config.restClientId, config.restClientSecret,
     config.defaultLocale, config.storage, config.apiVersion);
   apps.push(cubaApp);
@@ -46,19 +46,19 @@ export function initializeApp(config: AppConfig = {}): JmixRestConnection {
  */
 export function getApp(appName?: string): JmixRestConnection | null {
   const nameToSearch = appName == null ? "" : appName;
-  for (const app of apps) {
-    if (app.name === nameToSearch) {
+  for (const app of apps) 
+    if (app.name === nameToSearch) 
       return app;
-    }
-  }
+    
+  
   return null;
 }
 
 export function removeApp(appName?: string): void {
   const app = getApp(appName);
-  if (!app) {
+  if (!app) 
     throw new Error('App is not found');
-  }
+  
   app.cleanup();
   apps.splice(apps.indexOf(app), 1);
 }
@@ -154,12 +154,12 @@ export class JmixRestConnection {
    * @returns {Promise<{access_token: string}>}
    */
   public login(login: string, password: string, options?: TokenOptions): Promise<{ access_token: string }> {
-    if (login == null) {
+    if (login == null) 
       login = "";
-    }
-    if (password == null) {
+    
+    if (password == null) 
       password = "";
-    }
+    
     const fetchOptions = {
       method: "POST",
       headers: this._getBasicAuthHeaders(),
@@ -237,14 +237,14 @@ export class JmixRestConnection {
     let count;
     const optionsWithCount = {...options, filter: entityFilter, returnCount: true};
     return this.fetch(
-        'GET',
-        'entities/' + entityName + '/search',
-        optionsWithCount,
-        { handleAs: 'raw', ...fetchOptions }
-      ).then((response: Response) => {
-        count = parseInt(response.headers.get('X-Total-Count'), 10);
-        return response.json();
-      }).then((result: Array<SerializedEntity<T>>) => ({result, count}));
+      'GET',
+      'entities/' + entityName + '/search',
+      optionsWithCount,
+      { handleAs: 'raw', ...fetchOptions }
+    ).then((response: Response) => {
+      count = parseInt(response.headers.get('X-Total-Count'), 10);
+      return response.json();
+    }).then((result: Array<SerializedEntity<T>>) => ({result, count}));
   }
 
   public loadEntity<T>(
@@ -266,16 +266,16 @@ export class JmixRestConnection {
     fetchOptions?: FetchOptions
   ): Promise<Partial<T>> {
     const {commitMode} = fetchOptions ?? {};
-    if (commitMode === 'edit' || (commitMode == null && entity.id != null)) {
+    if (commitMode === 'edit' || (commitMode == null && entity.id != null)) 
       return this.fetch('PUT', 'entities/' + entityName + '/' + getStringId(entity.id), JSON.stringify(entity),
         {handleAs: 'json', ...fetchOptions});
-    } else {
+    else 
       return this.fetch<Partial<T>>(
         'POST',
         'entities/' + entityName, JSON.stringify(entity),
         {handleAs: 'json', ...fetchOptions},
       );
-    }
+    
   }
 
   public invokeService<T>(
@@ -298,7 +298,7 @@ export class JmixRestConnection {
   }
 
   public queryWithCount<T>(entityName: string, queryName: string, params?: any,
-                           fetchOptions?: FetchOptions): Promise<EntitiesWithCount<T>> {
+    fetchOptions?: FetchOptions): Promise<EntitiesWithCount<T>> {
     let count;
     const paramsWithCount = {...params, returnCount: true};
     return this.fetch('GET', `queries/${entityName}/${queryName}`, paramsWithCount,
@@ -375,54 +375,54 @@ export class JmixRestConnection {
       },
       ...fetchOptions,
     };
-    if (this.restApiToken) {
+    if (this.restApiToken) 
       settings.headers["Authorization"] = "Bearer " + this.restApiToken;
-    }
+    
     if (method === 'POST' || method === 'PUT') {
       settings.body = data;
       settings.headers["Content-Type"] = "application/json; charset=UTF-8";
     }
-    if (method === 'GET' && data && Object.keys(data).length > 0) {
+    if (method === 'GET' && data && Object.keys(data).length > 0) 
       url += '?' + encodeGetParams(data);
-    }
+    
     const handleAs: ContentType = fetchOptions ? fetchOptions.handleAs : undefined;
     switch (handleAs) {
-      case "text":
-        settings.headers["Accept"] = "text/html";
-        break;
-      case "json":
-        settings.headers["Accept"] = "application/json";
-        break;
+    case "text":
+      settings.headers["Accept"] = "text/html";
+      break;
+    case "json":
+      settings.headers["Accept"] = "application/json";
+      break;
     }
 
     const fetchRes = fetch(url, settings).then(this.checkStatus);
 
     fetchRes.catch((error: ICubaRestCheckStatusError) => {
-          restEventEmitter.emit('fetch_fail', error);
+      restEventEmitter.emit('fetch_fail', error);
 
-          if (this.isTokenExpiredResponse(error.response)) {
-            this.clearAuthData();
-            this.tokenExpiryListeners.forEach((l) => l());
-          }
-      });
+      if (this.isTokenExpiredResponse(error.response)) {
+        this.clearAuthData();
+        this.tokenExpiryListeners.forEach((l) => l());
+      }
+    });
 
     return fetchRes.then((resp) => {
 
-      if (resp.status === 204) {
+      if (resp.status === 204) 
         return resp.text();
-      }
+      
 
       switch (handleAs) {
-        case "text":
-          return resp.text();
-        case "blob":
-          return resp.blob();
-        case "json":
-          return resp.json();
-        case "raw":
-          return resp;
-        default:
-          return resp.text();
+      case "text":
+        return resp.text();
+      case "blob":
+        return resp.blob();
+      case "json":
+        return resp.json();
+      case "raw":
+        return resp;
+      default:
+        return resp.text();
       }
     }).catch(throwNormolizedJmixRestError);
   }
@@ -485,9 +485,9 @@ export class JmixRestConnection {
         // in actual version being less than required version.
         this.apiVersion = '0';
         return this.apiVersion;
-      } else {
+      } else 
         throw err;
-      }
+      
     });
   }
 
@@ -498,9 +498,9 @@ export class JmixRestConnection {
    * @private
    */
   private async requestIfSupported<T>(minVersion: string, requestCallback: () => Promise<unknown>): Promise<any> {
-    if (await this.isFeatureSupported(minVersion)) {
+    if (await this.isFeatureSupported(minVersion)) 
       return requestCallback();
-    } else {
+    else {
       const error = new JmixRestError({
         message: JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION,
       });
@@ -510,9 +510,9 @@ export class JmixRestConnection {
   }
 
   private async isFeatureSupported(minVersion: string): Promise<boolean> {
-    if (!this.apiVersion) {
+    if (!this.apiVersion) 
       await this.refreshApiVersion();
-    }
+    
     return matchesVersion(this.apiVersion, minVersion);
   }
 
@@ -527,9 +527,9 @@ export class JmixRestConnection {
   }
 
   private checkStatus(response: Response): any {
-    if (response.status >= 200 && response.status < 300) {
+    if (response.status >= 200 && response.status < 300) 
       return response;
-    } else {
+    else {
       const error = new JmixRestError({
         message: response.statusText,
         response,

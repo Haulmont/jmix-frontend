@@ -53,12 +53,12 @@ describe('JmixRestConnection', () => {
 
     it('Logout dosent work with wrong endpoint from options', done => {
       app.logout({revokeEndpoint: "wrongEndpoint"})
-      .then(() => {
-        done('works with wrong endpoint from options');
-      })
-      .catch(() => {
-        done();
-      });
+        .then(() => {
+          done('works with wrong endpoint from options');
+        })
+        .catch(() => {
+          done();
+        });
     });
 
     it('Logout works with right endpoint', () => {

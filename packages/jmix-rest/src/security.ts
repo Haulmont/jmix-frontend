@@ -19,8 +19,8 @@ import {
  * or allowed in read only mode (VIEW).
  */
 export function getAttributePermission(entityName: string,
-                                       attributeName: string,
-                                       perms?: EffectivePermsInfo): EntityAttrPermissionValue {
+  attributeName: string,
+  perms?: EffectivePermsInfo): EntityAttrPermissionValue {
 
   if (!perms) return 'DENY';
   const {entityAttributes} = perms;
@@ -42,8 +42,8 @@ export function getAttributePermission(entityName: string,
  * @param perms - user effective permissions
  */
 export function isOperationAllowed(entityName: string,
-                                   operation: EntityOperationType,
-                                   perms?: EffectivePermsInfo): boolean {
+  operation: EntityOperationType,
+  perms?: EffectivePermsInfo): boolean {
 
   if (!perms) return false;
   const {entities} = perms;
@@ -57,9 +57,9 @@ export function isOperationAllowed(entityName: string,
 }
 
 export function isSpecificPermissionGranted(target: string, perms?: EffectivePermsInfo): boolean {
-  if (perms == null) {
+  if (perms == null) 
     return false;
-  }
+  
 
   return perms
     .specifics
@@ -69,8 +69,8 @@ export function isSpecificPermissionGranted(target: string, perms?: EffectivePer
 
 function convertAttributePermValue(val: AttributePermissionValue): EntityAttrPermissionValue {
   switch (val) {
-    case 2: return 'MODIFY';
-    case 1: return 'VIEW';
-    default: return 'DENY';
+  case 2: return 'MODIFY';
+  case 1: return 'VIEW';
+  default: return 'DENY';
   }
 }

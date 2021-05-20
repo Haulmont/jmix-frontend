@@ -3,13 +3,13 @@ declare const global;
 
 export function base64encode(str: string): string {
   /* tslint:disable:no-string-literal */
-  if (typeof btoa === 'function') {
+  if (typeof btoa === 'function') 
     return btoa(str);
-  } else if (global['Buffer']) { // prevent Buffer from being injected by browserify
+  else if (global['Buffer'])  // prevent Buffer from being injected by browserify
     return new global['Buffer'](str).toString('base64');
-  } else {
+  else 
     throw new Error('Unable to encode to base64');
-  }
+  
   /* tslint:enable:no-string-literal */
 }
 
@@ -26,13 +26,13 @@ export function base64encode(str: string): string {
  * @returns true if testVersion is greater or equal than minimumVersion
  */
 export function matchesVersion(testVersion: string, minimumVersion: string): boolean {
-  if (!testVersion) {
+  if (!testVersion) 
     return false;
-  }
+  
 
-  if (!minimumVersion) {
+  if (!minimumVersion) 
     throw new Error('Cannot determine required REST API version: the minimum version is not valid');
-  }
+  
 
   const testVersionComponents = testVersion.split('.');
   const requiredVersionComponents = minimumVersion.split('.');
@@ -41,20 +41,20 @@ export function matchesVersion(testVersion: string, minimumVersion: string): boo
     const match = parseInt(requiredVersionComponents[i], 10);
     const test = parseInt(testVersionComponents[i], 10);
 
-    if (isNaN(match) || match < 0) {
+    if (isNaN(match) || match < 0) 
       throw new Error('Cannot determine required REST API version: the minimum version is not valid');
-    }
+    
 
-    if ((test === undefined || test === null || isNaN(test)) && match > 0) {
+    if ((test === undefined || test === null || isNaN(test)) && match > 0) 
       // Required version has more components than test version, and current required version component is > 0
       return false;
-    }
+    
 
-    if (test > match) {
+    if (test > match) 
       return true;
-    } else if (test < match) {
+    else if (test < match) 
       return false;
-    }
+    
   }
 
   // Versions are equal
@@ -71,12 +71,12 @@ export function encodeGetParams(data): string {
 }
 
 function serialize(rawParam): string {
-  if (rawParam == null) {
+  if (rawParam == null) 
     return '';
-  }
-  if (typeof rawParam === 'object') {
+  
+  if (typeof rawParam === 'object') 
     return JSON.stringify(rawParam);
-  }
+  
   return rawParam;
 }
 

@@ -6,9 +6,9 @@ export class JmixRestError extends Error {
         message: string,
         response?: Response
     }) {
-        super(message);
-        if (response !== undefined) {
-            this.response = response;
-        }
+      super(message);
+      if (response !== undefined) 
+        this.response = response;
+        
     }
 }

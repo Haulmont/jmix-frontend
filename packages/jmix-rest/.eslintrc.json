@@ -1,0 +1,63 @@
+{
+  "extends": [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+  ],
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "env": {
+    "browser": true,
+    "node": true,
+    "es6": true,
+    "jest": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "parserOptions": {
+    "ecmaVersion": 9,
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "modules": true
+    }
+  },
+  "rules": {
+    "indent": [
+      "warn",
+      2
+    ],
+    "ordered-imports": 0,
+    "interface-name": 0,
+    "member-access": 0,
+    "object-literal-sort-keys": 0,
+    "jsx-no-lambda": 0,
+    "max-classes-per-file": 0,
+    "member-ordering": 0,
+    "variable-name": 0,
+    "interface-over-type-literal": 0,
+    "no-unnecessary-initializer": 0,
+    "curly": [
+      1,
+      "multi"
+    ],
+    "forin": 0,
+    "@typescript-eslint/explicit-module-boundary-types": "off",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ],
+    "@typescript-eslint/no-non-null-assertion": "off",
+    "@typescript-eslint/ban-ts-comment": "off",
+    "no-prototype-builtins": "warn",
+    "no-fallthrough": "off",
+    "no-case-declarations": "off",
+    "@typescript-eslint/ban-types": "off",
+    "no-constant-condition": "off",
+    "@typescript-eslint/no-empty-function": "off",
+    "@typescript-eslint/no-var-requires": "off",
+    "prefer-spread": "off"
+  }
+}
