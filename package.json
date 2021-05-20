@@ -11,6 +11,7 @@
     "@commitlint/cli": "^12.1.1",
     "@commitlint/config-conventional": "^12.1.1",
     "@commitlint/travis-cli": "^12.1.1",
+    "@typescript-eslint/eslint-plugin": "^4.24.0",
     "commitizen": "^4.2.3",
     "cz-lerna-changelog": "^2.0.3",
     "fs-extra": "^8.1.0",
@@ -76,6 +77,5 @@
     }
   },
   "license": "Apache-2.0",
-  "author": "Haulmont <info@haulmont.com>",
-  "dependencies": {}
+  "author": "Haulmont <info@haulmont.com>"
 }

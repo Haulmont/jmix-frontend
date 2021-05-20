@@ -3,7 +3,6 @@
     "eslint:recommended",
     "plugin:react/recommended",
     "prettier",
-    "plugin:@typescript-eslint/eslint-recommended",
     "plugin:@typescript-eslint/recommended"
   ],
   "plugins": [
@@ -22,6 +21,11 @@
     "ecmaFeatures": {
       "jsx": true,
       "modules": true
+    }
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
     }
   },
   "rules": {
@@ -54,6 +58,8 @@
     ],
     "react-hooks/rules-of-hooks": "error",
     "react-hooks/exhaustive-deps": "warn",
-    "forin": 0
+    "react/prop-types": "off",
+    "forin": 0,
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   }
 }

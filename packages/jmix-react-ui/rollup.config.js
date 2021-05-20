@@ -53,7 +53,7 @@ export default {
       extract: 'dist/index.min.css',
       minimize: true,
       use: [
-        ['less', {javascriptEnabled: true}],
+        ['less', { javascriptEnabled: true }],
         'resolveNodeImportsInLess',
       ],
       loaders: [

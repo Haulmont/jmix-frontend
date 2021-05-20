@@ -1,3 +1,5 @@
-"config/**/*.js",
-"node_modules/**/*.ts",
-"coverage/lcov-report/*.js"
+config/**/*.js,
+node_modules/**/*.ts,
+coverage/lcov-report/*.js
+dist
+dist-transpiled/**/*.js

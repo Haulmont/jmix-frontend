@@ -5,4 +5,4 @@ import 'antd/es/date-picker/style/index';
 
 export type DatePickerProps = PickerProps<Dayjs>
 
-export const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
+ export const DatePicker = generatePicker<Dayjs>(dayjsGenerateConfig);
