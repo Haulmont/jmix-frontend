@@ -51,7 +51,7 @@ const DELETE_SCR_COMPOSITIONO2OTESTENTITY = gql`
 
 const CompositionO2OBrowse = observer(
   (props: EntityListProps<CompositionO2OTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -75,7 +75,8 @@ const CompositionO2OBrowse = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -163,7 +164,9 @@ const CompositionO2OBrowse = observer(
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name", "quantity"]}
+        columnDefinitions={["name", "quantity"].filter(
+          columnDef => columnDef !== reverseAttrName
+        )}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

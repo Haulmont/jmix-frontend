@@ -50,7 +50,7 @@ const DELETE_SCR_BORINGSTRINGIDTESTENTITY = gql`
 
 const BoringStringIdMgtTableBrowse = observer(
   (props: EntityListProps<BoringStringIdTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -74,7 +74,8 @@ const BoringStringIdMgtTableBrowse = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -162,7 +163,9 @@ const BoringStringIdMgtTableBrowse = observer(
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["description"]}
+        columnDefinitions={["description"].filter(
+          columnDef => columnDef !== reverseAttrName
+        )}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

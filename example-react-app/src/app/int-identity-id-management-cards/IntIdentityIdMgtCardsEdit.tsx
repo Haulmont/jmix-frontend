@@ -74,14 +74,15 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -110,7 +111,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -125,6 +126,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="description"
+          hide={hiddenAttributes?.includes("description")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -133,6 +135,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="updateTs"
+          hide={hiddenAttributes?.includes("updateTs")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -141,6 +144,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="updatedBy"
+          hide={hiddenAttributes?.includes("updatedBy")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -149,6 +153,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="deleteTs"
+          hide={hiddenAttributes?.includes("deleteTs")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -157,6 +162,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="deletedBy"
+          hide={hiddenAttributes?.includes("deletedBy")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -165,6 +171,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="createTs"
+          hide={hiddenAttributes?.includes("createTs")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -173,6 +180,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="createdBy"
+          hide={hiddenAttributes?.includes("createdBy")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -181,6 +189,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="datatypesTestEntity"
+          hide={hiddenAttributes?.includes("datatypesTestEntity")}
           associationOptions={data?.scr_DatatypesTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }
@@ -190,6 +199,7 @@ const IntIdentityIdMgtCardsEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="datatypesTestEntity3"
+          hide={hiddenAttributes?.includes("datatypesTestEntity3")}
           associationOptions={data?.scr_DatatypesTestEntity3List}
           formItemProps={{
             style: { marginBottom: "12px" }

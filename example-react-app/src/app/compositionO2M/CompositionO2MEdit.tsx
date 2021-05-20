@@ -59,14 +59,15 @@ const CompositionO2MEdit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -95,7 +96,7 @@ const CompositionO2MEdit = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -110,6 +111,7 @@ const CompositionO2MEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="name"
+          hide={hiddenAttributes?.includes("name")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -118,6 +120,7 @@ const CompositionO2MEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="datatypesTestEntity"
+          hide={hiddenAttributes?.includes("datatypesTestEntity")}
           associationOptions={data?.scr_DatatypesTestEntityList}
           formItemProps={{
             style: { marginBottom: "12px" }

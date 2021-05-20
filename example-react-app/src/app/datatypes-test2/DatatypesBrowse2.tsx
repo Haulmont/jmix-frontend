@@ -82,6 +82,10 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
         name
+        datatypesTestEntity {
+          id
+          _instanceName
+        }
       }
       intIdentityIdTestEntityAssociationO2OAttr {
         id

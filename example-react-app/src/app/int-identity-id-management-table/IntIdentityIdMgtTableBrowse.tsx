@@ -77,7 +77,7 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
 
 const IntIdentityIdMgtTableBrowse = observer(
   (props: EntityListProps<IntIdentityIdTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -101,7 +101,8 @@ const IntIdentityIdMgtTableBrowse = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -199,7 +200,7 @@ const IntIdentityIdMgtTableBrowse = observer(
           "createdBy",
           "datatypesTestEntity",
           "datatypesTestEntity3"
-        ]}
+        ].filter(columnDef => columnDef !== reverseAttrName)}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

@@ -49,7 +49,7 @@ const DELETE_SCR_DATATYPESTESTENTITY2 = gql`
 
 const Datatypes2Browse = observer(
   (props: EntityListProps<DatatypesTestEntity2>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -73,7 +73,8 @@ const Datatypes2Browse = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -161,7 +162,9 @@ const Datatypes2Browse = observer(
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={[]}
+        columnDefinitions={[].filter(
+          columnDef => columnDef !== reverseAttrName
+        )}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

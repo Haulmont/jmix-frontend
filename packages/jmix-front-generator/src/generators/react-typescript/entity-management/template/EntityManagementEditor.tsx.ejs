@@ -52,14 +52,15 @@ const <%= editComponentClass %> = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = 'common.submit'
+    submitBtnCaption = 'common.submit',
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: {
       loading: queryLoading,
       error: queryError,
@@ -96,7 +97,7 @@ const <%= editComponentClass %> = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -111,16 +112,13 @@ const <%= editComponentClass %> = observer((props: EntityEditorProps) => {
         <% editAttributes.forEach(attr => { %>
           <Field entityName={ENTITY_NAME}
                  propertyName="<%= attr.name %>"
+                 hide={hiddenAttributes?.includes('<%= attr.name %>')}
 
             <% if (readOnlyFields.includes(attr.name)) { %>
                  disabled={true}
             <% } else if (attr.name === locals.stringIdName) { %>
                  disabled={!isNewEntity(entityId)}
             <% } %>
-
-            <% if (Object.keys(editCompositions).includes(attr.name)) { %>
-                 parentEntityInstanceId={}
-            <% */ %>
 
             <% if (Object.keys(editAssociations).includes(attr.name)) { %>
                  associationOptions={data?.<%= dollarsToUnderscores(editAssociations[attr.name].name) %>List}

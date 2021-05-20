@@ -11,6 +11,7 @@ import {
 } from "@haulmont/jmix-react-core";
 import dayjs from "dayjs";
 
+// TODO rename to ant2jmix
 export function antFormToGraphQL(
   item: Record<string, any>,
   entityName: string,

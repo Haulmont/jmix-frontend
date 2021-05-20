@@ -50,14 +50,15 @@ const AssociationO2OEdit = observer((props: EntityEditorProps) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -85,7 +86,7 @@ const AssociationO2OEdit = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -100,6 +101,7 @@ const AssociationO2OEdit = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="name"
+          hide={hiddenAttributes?.includes("name")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}

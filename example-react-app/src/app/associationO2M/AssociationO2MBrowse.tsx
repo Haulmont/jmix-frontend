@@ -50,7 +50,7 @@ const DELETE_SCR_ASSOCIATIONO2MTESTENTITY = gql`
 
 const AssociationO2MBrowse = observer(
   (props: EntityListProps<AssociationO2MTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -74,7 +74,8 @@ const AssociationO2MBrowse = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -162,7 +163,9 @@ const AssociationO2MBrowse = observer(
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name"]}
+        columnDefinitions={["name"].filter(
+          columnDef => columnDef !== reverseAttrName
+        )}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

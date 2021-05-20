@@ -31,7 +31,7 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 `;
 
 const <%= listComponentClass %> = observer((props: EntityListProps<<%= entity.className %>>) => {
-  const {entityList, onEntityListChange} = props;
+  const {entityList, onEntityListChange, reverseAttrName} = props;
   const screens = useContext(ScreensContext);
 
   const {
@@ -55,7 +55,8 @@ const <%= listComponentClass %> = observer((props: EntityListProps<<%= entity.cl
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange
+    onEntityListChange,
+    reverseAttrName,
   });
 
   if (error != null) {
@@ -135,7 +136,7 @@ const <%= listComponentClass %> = observer((props: EntityListProps<<%= entity.cl
         <% listAttributes.forEach(p => { -%>
           '<%= p.name %>',
         <% }) %>
-      ]}
+      ].filter(columnDef => columnDef !== reverseAttrName)}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

@@ -27,6 +27,7 @@ export interface EntityEditorScreenOptions<TEntity> {
    * i18n key for submit button caption. Defaults to `common.submit`.
    */
   submitBtnCaption?: string;
+  hiddenAttributes?: string[];
 }
 
 export function openEntityEditorScreen<TEntity>({
@@ -36,7 +37,8 @@ export function openEntityEditorScreen<TEntity>({
   routingPath,
   onCommit,
   entityInstance,
-  submitBtnCaption
+  submitBtnCaption,
+  hiddenAttributes
 }: EntityEditorScreenOptions<TEntity>) {
   const registeredReferral = referencesListByEntityName[entityName];
 
@@ -49,7 +51,12 @@ export function openEntityEditorScreen<TEntity>({
 
     screens.push({
       title: registeredReferral.entityItemEdit.title,
-      content: injectProps(registeredReferral.entityItemEdit.content, {onCommit, submitBtnCaption, entityInstance}),
+      content: injectProps(registeredReferral.entityItemEdit.content, {
+        onCommit,
+        submitBtnCaption,
+        entityInstance,
+        hiddenAttributes
+      }),
     });
 
     return;
@@ -77,7 +84,11 @@ export function openEntityEditorScreen<TEntity>({
   // Creating new entity - open empty editor.
   screens.push({
     title: registeredReferral.entityItemNew.title,
-    content: injectProps(registeredReferral.entityItemNew.content, {onCommit, submitBtnCaption})
+    content: injectProps(registeredReferral.entityItemNew.content, {
+      onCommit,
+      submitBtnCaption,
+      hiddenAttributes
+    })
   });
 }
 
@@ -86,12 +97,12 @@ export interface EntityListScreenOptions {
   entityName: string;
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
-  parentEntityAttrName?: string;
+  reverseAttrName?: string;
   parentEntityId?: string | object;
 }
 
 export function openEntityListScreen(
-  {entityName, entityList, onEntityListChange, screens, parentEntityAttrName, parentEntityId}: EntityListScreenOptions
+  {entityName, entityList, onEntityListChange, screens, reverseAttrName}: EntityListScreenOptions
 ) {
   const registeredReferral = referencesListByEntityName[entityName];
 
@@ -100,8 +111,7 @@ export function openEntityListScreen(
     content: injectProps(registeredReferral.entityList.content, {
       entityList,
       onEntityListChange,
-      parentEntityAttrName,
-      parentEntityId
+      reverseAttrName,
     }),
   });
 }

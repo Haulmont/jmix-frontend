@@ -79,6 +79,10 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
         name
+        datatypesTestEntity {
+          id
+          _instanceName
+        }
       }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
@@ -130,7 +134,7 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 
 const DatatypesBrowse3 = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, reverseAttrName } = props;
     const screens = useContext(ScreensContext);
 
     const {
@@ -154,7 +158,8 @@ const DatatypesBrowse3 = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      reverseAttrName
     });
 
     if (error != null) {
@@ -265,7 +270,7 @@ const DatatypesBrowse3 = observer(
           "intIdentityIdTestEntityAssociationO2OAttr",
           "datatypesTestEntity3",
           "name"
-        ]}
+        ].filter(columnDef => columnDef !== reverseAttrName)}
         onRowSelectionChange={handleRowSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

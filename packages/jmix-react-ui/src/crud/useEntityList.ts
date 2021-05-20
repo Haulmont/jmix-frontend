@@ -75,12 +75,7 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * The name of One-to-Many Composition attribute in the parent entity.
    * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
    */
-  parentEntityAttrName?: string;
-  /**
-   * The `id` of the parent entity.
-   * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
-   */
-  parentEntityId?: string | object;
+  reverseAttrName?: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -123,17 +118,44 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
    */
   listQueryResult: LazyQueryResult<TData, TQueryVars>;
   /**
-   * Execute function returned from
+   * Execute function returned from Apollo Client {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation} hook.
+   * A function that executes the {@link EntityListHookOptions.deleteMutation}.
    */
   executeDeleteMutation: GraphQLMutationFn<TData, TMutationVars>;
+  /**
+   * Result object returned  from Apollo Client {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation} hook.
+   * Contains mutation result, loading and error status and more, see {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation}
+   * documentation for details.
+   */
   deleteMutationResult: MutationResult;
+  /**
+   * `react-intl` {@link https://formatjs.io/docs/react-intl/api/#the-intl-object | intl object}.
+   */
   intl: IntlShape;
+  // TODO remove
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+  /**
+   * A callback that will be executed when user clicks the Create button.
+   */
   handleCreateBtnClick: () => void;
+  /**
+   * A callback that will be executed when user clicks the Edit button.
+   * @param id id of the selected entity instance
+   */
   handleEditBtnClick: (id: string) => void;
+  /**
+   * A callback that will be executed when user changes the pagination.
+   */
   handlePaginationChange: PaginationChangeCallback;
+  // TODO probably remove
   getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
+  // TODO rename to handleDeleteBtnClick, pass items via closure
   deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
+  /**
+   * A callback that will be executed when entity instances are selected or deselected.
+   * @param selectedRowKeys
+   */
+  // TODO rename to handleSelectionChange
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
   handleFilterChange: FilterChangeCallback;
   handleSortOrderChange: SortOrderChangeCallback;
@@ -168,8 +190,7 @@ export function useEntityList<
     paginationConfig = defaultPaginationConfig,
     entityList,
     onEntityListChange,
-    parentEntityAttrName,
-    parentEntityId
+    reverseAttrName,
   } = options;
 
   const store: EntityListLocalStore<TEntity> = useLocalStore(() => ({
@@ -212,8 +233,8 @@ export function useEntityList<
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, store.entityList, handleEntityListChange);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, store.entityList, handleEntityListChange, parentEntityAttrName, parentEntityId);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, store.entityList, handleEntityListChange);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, store.entityList, handleEntityListChange, reverseAttrName);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, store.entityList, handleEntityListChange, reverseAttrName);
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
@@ -297,21 +318,30 @@ export function useCreateBtnCallback<TEntity>(
   entityName: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  parentEntityAttrName?: string,
-  parentEntityId?: string | object
+  reverseAttrName?: string
 ) {
-  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, onEntityListChange);
+  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
 
-  // If we are editing a O2M Composition field, we need to put parent entity id in the created entity instance.
-  let entityInstance: EntityInstance<TEntity> | undefined;
-  if (parentEntityAttrName != null && parentEntityId != null) {
-    entityInstance = {
-      [parentEntityAttrName]: {id: parentEntityId}
-    } as unknown as TEntity;
+  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+  if (entityList != null && onEntityListChange != null) {
+    onCommit = (entityInstance?: EntityInstance<TEntity>) => {
+      if (entityInstance != null) {
+        onEntityListChange([
+          entityInstance,
+          ...entityList
+        ]);
+      }
+    };
   }
 
   return useCallback(() => {
-    openEntityEditorScreen({screens, entityName, onCommit, submitBtnCaption, entityInstance});
+    openEntityEditorScreen({
+      screens,
+      entityName,
+      onCommit,
+      submitBtnCaption,
+      hiddenAttributes
+    });
   }, [screens, entityName, entityList]);
 }
 
@@ -321,13 +351,31 @@ export function useEditBtnCallbck<TEntity>(
   routingPath: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  entityInstance?: EntityInstance<TEntity>
+  reverseAttrName?: string,
 ) {
-  const {onCommit, submitBtnCaption} = getEditorOptions(entityList, onEntityListChange);
+  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+
+  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+  if (entityList != null && onEntityListChange != null) {
+    onCommit = (updatedEntityInstance?: EntityInstance<TEntity>) => {
+      if (updatedEntityInstance != null) {
+        const newList = entityList.map(oldEntityInstance => {
+          if (oldEntityInstance.id === updatedEntityInstance.id) {
+            return updatedEntityInstance
+          }
+          return oldEntityInstance;
+        });
+        onEntityListChange(newList);
+      }
+    };
+  }
 
   return useCallback((entityIdToLoad: string) => {
+    const entityInstance = entityList != null
+      ? entityList.find(e => e.id === entityIdToLoad)
+      : undefined;
     openEntityEditorScreen({
-      screens, entityName, entityIdToLoad, routingPath, entityInstance, onCommit, submitBtnCaption
+      screens, entityName, entityIdToLoad, routingPath, entityInstance, onCommit, submitBtnCaption, hiddenAttributes
     });
   }, [screens, routingPath, entityName, entityList]);
 }
@@ -350,7 +398,7 @@ export function useDeletionDialogCallback<
       if (entityList != null && onEntityListChange != null) {
         onConfirm = () => {
           onEntityListChange(
-            entityList.filter(entity => entity !== e)
+            entityList.filter(entity => entity.id !== e.id)
           );
         };
       } else {
@@ -366,26 +414,22 @@ export function useDeletionDialogCallback<
 function getEditorOptions<TEntity>(
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  reverseAttrName?: string
 ): {
-  onCommit?: (entityInstance?: EntityInstance<TEntity>) => void,
-  submitBtnCaption?: string
+  submitBtnCaption?: string,
+  hiddenAttributes?: string[]
 } {
-  let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined;
   let submitBtnCaption: string | undefined;
+
+  const hiddenAttributes = reverseAttrName != null
+    ? [reverseAttrName]
+    : undefined;
 
   if (entityList != null && onEntityListChange != null) {
     submitBtnCaption = 'common.ok';
-    onCommit = (entityInstance?: EntityInstance<TEntity>) => {
-      if (entityInstance != null) {
-        onEntityListChange([
-          entityInstance,
-          ...entityList
-        ]);
-      }
-    };
   }
 
-  return {onCommit, submitBtnCaption};
+  return {submitBtnCaption, hiddenAttributes};
 }
 
 function getDefaultOnConfirm<

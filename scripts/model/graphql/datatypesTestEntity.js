@@ -44,6 +44,10 @@ const datatypesQuery = `
     id
     _instanceName
     name
+    datatypesTestEntity {
+      id
+      _instanceName
+    }
   }
   intIdentityIdTestEntityAssociationO2OAttr {
     id

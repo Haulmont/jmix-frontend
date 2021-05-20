@@ -84,7 +84,7 @@ const DELETE_SCR_CAR = gql`
 `;
 
 const CarTable = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange } = props;
+  const { entityList, onEntityListChange, reverseAttrName } = props;
   const screens = useContext(ScreensContext);
 
   const {
@@ -108,7 +108,8 @@ const CarTable = observer((props: EntityListProps<Car>) => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange
+    onEntityListChange,
+    reverseAttrName
   });
 
   if (error != null) {
@@ -211,7 +212,7 @@ const CarTable = observer((props: EntityListProps<Car>) => {
         "garage",
         "technicalCertificate",
         "photo"
-      ]}
+      ].filter(columnDef => columnDef !== reverseAttrName)}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

@@ -20,7 +20,8 @@ import {
   Screens,
   IMultiScreenItem,
   dollarsToUnderscores,
-  MayHaveId
+  MayHaveId,
+  EntityInstance
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {action} from "mobx";
@@ -61,9 +62,10 @@ export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TVariables> {
-  load: GraphQLQueryFn<TVariables>;
+  item: EntityInstance<TEntity>;
+  executeLoadQuery: GraphQLQueryFn<TVariables>;
   loadQueryResult: LazyQueryResult<TData, TVariables>;
-  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
   upsertMutationResult: MutationResult;
   store: EntityEditorStore;
   form: FormInstance;
@@ -102,44 +104,38 @@ export function useEntityEditor<
   const [form] = useForm();
   const store: EntityEditorStore = useEntityEditorStore();
 
-  const [load, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
-  const {loading: queryLoading, error: queryError, data} = loadQueryResult;
+  const [executeLoadQuery, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  const {data} = loadQueryResult;
 
-  const [upsertItem, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
+  const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
 
   // Fetch the entity (if editing) and association options from backend
   useEffect(() => {
     if (entityId != null || hasAssociations) {
-      load({
+      executeLoadQuery({
         variables: {
           id: entityId,
           loadItem: entityInstance == null && entityId != null
         } as unknown as TVariables
       });
     }
-  }, [entityId, load, hasAssociations, entityInstance]);
+  }, [entityId, executeLoadQuery, hasAssociations, entityInstance]);
+
+  const item = entityInstance != null
+    ? entityInstance
+    : data?.[queryName];
 
   // Fill the form based on retrieved data
   useEffect(() => {
-    if (
-      entityId != null && // Editing an entity
-      !queryLoading &&
-      queryError == null &&
-      data != null &&
-      metadata != null &&
-      entityInstance == null
-    ) {
-      form.setFieldsValue(
-        graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
-      );
-    }
+    if (item != null && metadata != null) {
+      console.log('-- IN form', item);
+      console.log('-- IN form after ant-formatting', graphqlToAntForm<TEntity>(item, entityName, metadata));
 
-    if (entityInstance != null && metadata != null) {
       form.setFieldsValue(
-        graphqlToAntForm<TEntity>(entityInstance, entityName, metadata)
+        graphqlToAntForm<TEntity>(item, entityName, metadata)
       );
     }
-  }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
+  }, [form, item, metadata, entityName]);
 
   const goToParentScreen = useParentScreen(routingPath);
 
@@ -149,7 +145,7 @@ export function useEntityEditor<
     intl,
     form,
     metadata,
-    upsertItem,
+    executeUpsertMutation,
     entityName,
     upsertInputName,
     entityId,
@@ -161,9 +157,10 @@ export function useEntityEditor<
   });
 
   return {
-    load,
+    item,
+    executeLoadQuery,
     loadQueryResult,
-    upsertItem,
+    executeUpsertMutation,
     upsertMutationResult,
     store,
     form,
@@ -178,7 +175,7 @@ export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
   intl: IntlShape;
   form: FormInstance;
   metadata: Metadata;
-  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
   entityId?: string;
   entityName: string;
   upsertInputName: string;
@@ -205,7 +202,7 @@ export function useFormSubmitCallbacks<
     intl,
     form,
     metadata,
-    upsertItem,
+    executeUpsertMutation,
     entityName,
     upsertInputName,
     entityId,
@@ -226,6 +223,8 @@ export function useFormSubmitCallbacks<
 
   const handleFinish = useCallback(
     (values: { [field: string]: any }) => {
+      // console.log('-- FROM form', values);
+
       if (form != null && metadata != null) {
         const updatedEntity = {
           ...antFormToGraphQL(values, entityName, metadata),
@@ -239,7 +238,7 @@ export function useFormSubmitCallbacks<
           goToParentScreen();
         } else {
           persistEntity(
-            upsertItem,
+            executeUpsertMutation,
             upsertInputName,
             updatedEntity,
             updateResultName,
@@ -260,7 +259,7 @@ export function useFormSubmitCallbacks<
       store,
       form,
       metadata,
-      upsertItem,
+      executeUpsertMutation,
       intl,
       updateResultName,
       listQueryName,
