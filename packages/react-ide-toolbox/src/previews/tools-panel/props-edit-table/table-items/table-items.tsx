@@ -110,19 +110,19 @@ export const TableItems: React.FC<Props> = ({ toolsPropsToEdit }) => {
 
   const getChangeHendler = useCallback((controlType?: PropsControlTypes) => {
     switch (controlType) {
-      case PropsControlTypes.Input:
-        return onInputChange;
-      case PropsControlTypes.Checkbox:
-        return onCheckboxChange;
-      case PropsControlTypes.Select:
-        return onSelectChange;
-      case PropsControlTypes.Radio:
-        return onRadioChange;
-      case PropsControlTypes.Textarea:
-        return onTextAreaChange;
-      case PropsControlTypes.JsonEditor:
-        return onJsonChange;
-      default: return onInputChange;
+    case PropsControlTypes.Input:
+      return onInputChange;
+    case PropsControlTypes.Checkbox:
+      return onCheckboxChange;
+    case PropsControlTypes.Select:
+      return onSelectChange;
+    case PropsControlTypes.Radio:
+      return onRadioChange;
+    case PropsControlTypes.Textarea:
+      return onTextAreaChange;
+    case PropsControlTypes.JsonEditor:
+      return onJsonChange;
+    default: return onInputChange;
     }
   }, [props])
 

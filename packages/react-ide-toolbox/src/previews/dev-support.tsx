@@ -20,13 +20,13 @@ const withInitialHook: (useInitialHook: () => InitialHookStatus) => React.FC<Dev
   const DevBootstrapWrapped: React.FC<DevBootstrapProps> = ({children}) => {
     const status: InitialHookStatus = useInitialHook();
 
-    if (status.loading) {
+    if (status.loading) 
       return <div> loading... </div>;
-    }
+    
 
-    if(status.error) {
+    if(status.error) 
       return <div> Error! </div>;
-    }
+    
 
     return <DevBootstrap>{children}</DevBootstrap> ;
   }
@@ -34,19 +34,19 @@ const withInitialHook: (useInitialHook: () => InitialHookStatus) => React.FC<Dev
 }
 
 const DevBootstrap: React.FC<DevBootstrapProps> = ({children}) => {
-    return <>{children}</>;
+  return <>{children}</>;
 };
 
 export const DevSupport: React.FC<DevSupportProps> = ({ children, ComponentPreviews, useInitialHook }) => {
-  if (DEV_MODE) {
+  if (DEV_MODE) 
     return useInitialHook
-    ? withInitialHook(useInitialHook)({children: ComponentPreviews})
-    : (
-      <DevBootstrap>
-        {ComponentPreviews}
-      </DevBootstrap>
-    )
-  } else {
+      ? withInitialHook(useInitialHook)({children: ComponentPreviews})
+      : (
+        <DevBootstrap>
+          {ComponentPreviews}
+        </DevBootstrap>
+      )
+  else 
     return <>{children}</>;
-  }
+  
 };

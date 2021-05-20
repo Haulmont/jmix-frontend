@@ -6,10 +6,10 @@ export const TableHeader: React.FC = () => {
     <div className={"table-header"}>
       <div className={"table-header-item"}>
         Property name
-            </div>
+      </div>
       <div className={"table-header-item-control"}>
         Edit
-            </div>
+      </div>
     </div>
   );
 };

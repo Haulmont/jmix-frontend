@@ -26,73 +26,73 @@ interface Props {
 
 export const TableItemControl: React.FC<Props> = ({ controlType, data, propName, propValue, onPropChange }) => {
   switch (controlType) {
-    case PropsControlTypes.Input:
-      return (
-        <Input
-          className={"table-item-control"}
-          id={propName}
-          value={propValue}
-          onChange={onPropChange as ControlInputHandler}
-        />
-      )
+  case PropsControlTypes.Input:
+    return (
+      <Input
+        className={"table-item-control"}
+        id={propName}
+        value={propValue}
+        onChange={onPropChange as ControlInputHandler}
+      />
+    )
 
-    case PropsControlTypes.Textarea:
-      return (
-        <Textarea
-          className={"table-item-control"}
-          id={propName}
-          value={propValue}
-          onChange={onPropChange as ControlTextareaHandler}
-        />
-      )
-    case PropsControlTypes.Select:
-      return (
-        <Select
-          className={"table-item-control"}
-          id={propName}
-          onChange={onPropChange as ControlSelectHandler}
-          oprionsData={data as (string[] | number[])}
-        />
-      )
+  case PropsControlTypes.Textarea:
+    return (
+      <Textarea
+        className={"table-item-control"}
+        id={propName}
+        value={propValue}
+        onChange={onPropChange as ControlTextareaHandler}
+      />
+    )
+  case PropsControlTypes.Select:
+    return (
+      <Select
+        className={"table-item-control"}
+        id={propName}
+        onChange={onPropChange as ControlSelectHandler}
+        oprionsData={data as (string[] | number[])}
+      />
+    )
 
-    case PropsControlTypes.Checkbox:
-      return (
-        <Checkbox
-          checked={propValue}
-          id={propName}
-          onChange={onPropChange as ControlInputHandler}
-        />
-      )
+  case PropsControlTypes.Checkbox:
+    return (
+      <Checkbox
+        checked={propValue}
+        id={propName}
+        onChange={onPropChange as ControlInputHandler}
+      />
+    )
 
-    case PropsControlTypes.Radio:
-      return (
-        <Radio
-          className={"table-item-control"}
-          extValue = {propValue}
-          name={propName}
-          onChange={onPropChange as ControlInputHandler}
-          radioData={data as (string[] | number[])}
-        />
-      )
+  case PropsControlTypes.Radio:
+    return (
+      <Radio
+        className={"table-item-control"}
+        extValue = {propValue}
+        name={propName}
+        onChange={onPropChange as ControlInputHandler}
+        radioData={data as (string[] | number[])}
+      />
+    )
 
-    case PropsControlTypes.JsonEditor:
-      return (
-        <JsonEditor
-          className={"table-item-control"}
-          propValue = {propValue}
-          propName={propName}
-          propUpdate={onPropChange as ControlJsonHandler}
-        />
-      )
+  case PropsControlTypes.JsonEditor:
+    return (
+      <JsonEditor
+        className={"table-item-control"}
+        propValue = {propValue}
+        propName={propName}
+        propUpdate={onPropChange as ControlJsonHandler}
+      />
+    )
 
-    default:
-      return (
-        <Input
-          className={"table-item-control"}
-          id={propName}
-          value={propValue}
-          onChange={onPropChange as ControlInputHandler}
-        />
-      )
+  default:
+    return (
+      <Input
+        className={"table-item-control"}
+        id={propName}
+        value={propValue}
+        onChange={onPropChange as ControlInputHandler}
+      />
+    )
   }
 };

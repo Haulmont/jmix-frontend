@@ -14,13 +14,13 @@ export const Previews: React.FC<Props> = ({ children }: Props) => {
 
   const childrenWithSetProps = useMemo(() => {
     return children 
-    ? React.Children.map(
+      ? React.Children.map(
         children,
         (child: JSX.Element) => {
           return React.cloneElement(child, { setToolsPropsToEdit })
         }
       )
-    : null
+      : null
   }, [children])
 
   useEffect(() => {

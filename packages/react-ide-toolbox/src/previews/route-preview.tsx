@@ -47,7 +47,7 @@ export const RoutePreview: React.FC<RouteProps> = ({ children, path, exact, setP
   return isMatchPath(path, exact) ? <>{childrenWithUpdatedProps}</> : null;
 }
 
-export function isMatchPath(path: string, exact: boolean = false): boolean {
+export function isMatchPath(path: string, exact = false): boolean {
   const currentPath = getCurrentPath();
   const match = new RegExp(`^${path}`).exec(currentPath);
 
