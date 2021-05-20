@@ -55,12 +55,13 @@
     "typescript": "~4.2.4"
   },
   "scripts": {
-    "compile": "npm run clean && tsc && rollup -c",
+    "compile": "npm run clean && npm run lint && tsc && rollup -c",
     "clean": "rimraf dist && rimraf dist-transpiled",
     "test": "jest",
     "coverage": "npm test -- --coverage",
     "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-react-core src",
-    "prepublishOnly": "npm run compile"
+    "prepublishOnly": "npm run compile",
+    "lint": "eslint '*/**/*.{js,ts,tsx}' --fix"
   },
   "repository": {
     "type": "git",

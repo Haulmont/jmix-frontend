@@ -42,18 +42,18 @@ export interface Metadata {
 let globalMetadata: Metadata | undefined;
 
 export const MetadataContext = createContext<Metadata>({
-    entities: [],
-    enums: [],
+  entities: [],
+  enums: [],
 });
 
 export function getMetadata(): Metadata {
-    if (!globalMetadata) throw new Error('JmixAppProvider isn\'t initalized!')
-    return globalMetadata;
+  if (!globalMetadata) throw new Error('JmixAppProvider isn\'t initalized!')
+  return globalMetadata;
 }
 
 export const useMetadata = (): Metadata => {
-    const metadata = useContext(MetadataContext);
-    return metadata;
+  const metadata = useContext(MetadataContext);
+  return metadata;
 }
 
 export interface MetadataProviderProps {
@@ -62,20 +62,20 @@ export interface MetadataProviderProps {
 }
 
 export const MetadataProvider = ({
-    metadata,
-    children
+  metadata,
+  children
 }: MetadataProviderProps) => (
-    <MetadataContext.Consumer>
-        {() => {
-            globalMetadata = metadata
+  <MetadataContext.Consumer>
+    {() => {
+      globalMetadata = metadata
 
-            return (
-                <MetadataContext.Provider value={metadata}>
-                    {children}
-                </MetadataContext.Provider>
-            )
-        }}
-    </MetadataContext.Consumer>
+      return (
+        <MetadataContext.Provider value={metadata}>
+          {children}
+        </MetadataContext.Provider>
+      )
+    }}
+  </MetadataContext.Consumer>
 );
 
 export interface MetadataInjected {
@@ -83,9 +83,9 @@ export interface MetadataInjected {
 }
 
 export const injectMetadata = <P extends MetadataInjected>(
-    Component: React.ComponentType<P>
+  Component: React.ComponentType<P>
 ): React.ComponentType<Omit<P, "metadata">> => (props) => (
     <MetadataContext.Consumer>
-        {metadata => <Component metadata={metadata} {...props as any} />}
+      {metadata => <Component metadata={metadata} {...props as any} />}
     </MetadataContext.Consumer> 
-)
+  )

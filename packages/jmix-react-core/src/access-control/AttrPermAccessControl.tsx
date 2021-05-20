@@ -54,10 +54,10 @@ export const AttrPermAccessControl = (props: React.PropsWithChildren<AttrPermAcc
 
   return (
     <AccessControl displayReqs={displayReqs}
-                   modifyReqs={modifyReqs}
-                   disabledPropName={disabledPropName}
-                   disabledPropValue={disabledPropValue}
-                   render={render}>
+      modifyReqs={modifyReqs}
+      disabledPropName={disabledPropName}
+      disabledPropValue={disabledPropValue}
+      render={render}>
       {children}
     </AccessControl>
   );

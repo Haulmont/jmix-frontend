@@ -66,9 +66,9 @@ export const loadAllAssociationOptions = (
 ): Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined> => {
   const associationOptions = new Map<string, DataCollectionStore<Partial<WithId & SerializedEntityProps>> | undefined>();
   entityProperties.forEach(property => {
-    if (property.attributeType !== 'ASSOCIATION' || property.cardinality === 'ONE_TO_MANY') {
+    if (property.attributeType !== 'ASSOCIATION' || property.cardinality === 'ONE_TO_MANY') 
       return;
-    }
+    
     const nestedEntityName = property.type;
     const optionsContainer = loadAssociationOptions<Partial<WithId & SerializedEntityProps>>(
       entityName,

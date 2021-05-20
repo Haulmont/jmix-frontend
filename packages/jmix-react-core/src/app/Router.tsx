@@ -40,11 +40,11 @@ export function redirect(to: string, replace = false, title = '') {
 
   if (currentRoute.hashMode) to = '#' + to;
 
-  if (replace) {
+  if (replace) 
     history.replaceState({}, title, to);
-  } else {
+  else 
     history.pushState({}, title, to);
-  }
+  
 
   currentRoute.setCurrentRoute();
 }
@@ -178,19 +178,19 @@ class RouterState {
         isRouteFound = true;
         result = component;
 
-        for (const key in res) {
-          if (res[key] !== undefined) {
+        for (const key in res) 
+          if (res[key] !== undefined) 
             res[key] = decodeURI(res[key]);
-          }
-        }
+          
+        
 
         // Set global route params only from global router, not from local
         if (global) {
           currentRoute.routeParams = res;
           currentRoute.currentRegExp = regexp;
-        } else {
+        } else 
           currentRoute.routeParams = {};
-        }
+        
 
         break;
       }
@@ -329,15 +329,15 @@ export const Link = observer(
       const { currentRegExp, currentLocation } = currentRoute;
 
       let active = false;
-      if (exact) {
-        if (dontIgnoreHash && !currentRoute.hashMode) {
+      if (exact) 
+        if (dontIgnoreHash && !currentRoute.hashMode) 
           active = to === currentLocation.fullPath + currentLocation.location.hash;
-        } else {
+        else 
           active = to === currentLocation.fullPath;
-        }
-      } else if (currentRegExp && currentRegExp.exec(to)) {
+        
+      else if (currentRegExp && currentRegExp.exec(to)) 
         active = true;
-      }
+      
 
       if (active !== state.active) {
         state.active = active;
@@ -353,8 +353,8 @@ export const Link = observer(
 
     return (
       <a {...restProps} {...htmlAttrs} className={classNames.join(' ')} href={to} data-active={state.active} onClick={handleClick}>
-      {children}
+        {children}
       </a>
-  );
+    );
   },
 );

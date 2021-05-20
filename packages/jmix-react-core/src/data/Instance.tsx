@@ -61,8 +61,8 @@ export class DataInstanceStore<T> implements DataContainer {
   changedItems = observable([]);
 
   constructor(public readonly entityName: string,
-              viewName: string = PredefinedView.MINIMAL,
-              stringIdName: string | null = null) {
+    viewName: string = PredefinedView.MINIMAL,
+    stringIdName: string | null = null) {
 
     this.viewName = viewName;
     this.stringIdName = stringIdName;
@@ -93,9 +93,9 @@ export class DataInstanceStore<T> implements DataContainer {
    */
   load = (id: string) => {
     this.item = null;
-    if (!id) {
+    if (!id) 
       return;
-    }
+    
     this.status = "LOADING";
     getJmixREST()!.loadEntity<T>(this.entityName, id, {view: this.viewName})
       .then(action((loadedEntity) => {
@@ -168,9 +168,9 @@ export class DataInstanceStore<T> implements DataContainer {
    * @returns a promise that resolves to the update result returned by the REST API.
    */
   commit = (commitMode?: CommitMode): Promise<Partial<T>> => {
-    if (this.item == null) {
+    if (this.item == null) 
       return Promise.reject();
-    }
+    
     this.status = 'LOADING';
 
     const commitItem = prepareForCommit(this.item, this.entityName, getMetadata().entities);
@@ -282,12 +282,12 @@ class InstanceComponent<E> extends React.Component<DataInstanceProps<E>> {
 
     const {entityName, view, stringIdName} = this.props;
     this.store = new DataInstanceStore<E>(entityName);
-    if (view != null) {
+    if (view != null) 
       this.store.viewName = view;
-    }
-    if (stringIdName != null) {
+    
+    if (stringIdName != null) 
       this.store.stringIdName = stringIdName;
-    }
+    
 
     makeObservable(this, {
       store: observable,
@@ -315,10 +315,10 @@ export const Instance = observer(InstanceComponent);
  */
 export function stripTemporaryIds(item: Record<string, any>): Record<string, any> {
   if (item != null && typeof item === 'object') {
-    if ('id' in item && typeof item.id === 'string' && item.id.startsWith(TEMPORARY_ENTITY_ID_PREFIX)) {
+    if ('id' in item && typeof item.id === 'string' && item.id.startsWith(TEMPORARY_ENTITY_ID_PREFIX)) 
       // Remove temporary id
       delete item.id;
-    }
+    
 
     // Repeat for nested entities
     Object.keys(item).forEach(key => {
@@ -407,9 +407,9 @@ export function instanceItemToFormFields<T>(
   displayedProperties?: string[],
   stringIdName?: string
 ): Record<string, any> {
-  if (item == null || metadata == null) {
+  if (item == null || metadata == null) 
     return {};
-  }
+  
 
   const fields: Record<string, any> = {};
 
@@ -423,9 +423,9 @@ export function instanceItemToFormFields<T>(
       return;
     }
 
-    if (displayedProperties != null && displayedProperties.indexOf(key) === -1) {
+    if (displayedProperties != null && displayedProperties.indexOf(key) === -1) 
       return;
-    }
+    
 
     if (propInfo == null) {
       fields[key] = value;
@@ -433,9 +433,9 @@ export function instanceItemToFormFields<T>(
     }
 
     if(isOneToOneComposition(propInfo)) {
-      if (value != null) {
+      if (value != null) 
         fields[key] = instanceItemToFormFields(value, propInfo.type, metadata);
-      }
+      
       return;
     }
 
@@ -476,11 +476,11 @@ export function instanceItemToFormFields<T>(
     }
 
     if (isTemporalProperty(propInfo)) {
-      if (value != null) {
+      if (value != null) 
         fields[key] = dayjs(value, getDataTransferFormat(propInfo.type as TemporalPropertyType));
-      } else {
+      else 
         fields[key] = null;
-      }
+      
       return;
     }
 

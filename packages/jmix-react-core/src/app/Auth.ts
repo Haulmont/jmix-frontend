@@ -80,11 +80,11 @@ export function getBasicAuthHeaders(client: string, secret: string, locale = 'en
 }
 
 export function checkResponseStatus(response: Response): Promise<Response | JmixServerError> {
-  if (response.status >= 200 && response.status < 300) {
+  if (response.status >= 200 && response.status < 300) 
     return Promise.resolve(response);
-  } else {
+  else 
     return Promise.reject(
       createJmixServerError(response)
     );
-  }
+  
 }

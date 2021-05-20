@@ -127,17 +127,17 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
             locale
           });
           retrieveRestApiToken().then((restApiToken) => {
-            if (restApiToken != null) {
+            if (restApiToken != null) 
               jmixREST.restApiToken = restApiToken;
-            }
+            
             mainStore.initialize();
           });
           context = Object.assign({}, context, {jmixREST});
         }
 
-        if (!context.jmixREST) {
+        if (!context.jmixREST) 
           throw new Error("jmixREST instance is not passed")
-        }
+        
         return (
           <JmixRestConnectionContext.Provider value={context}>
             <MetadataProvider metadata={normalizeMetadata(metadata)}>
@@ -153,8 +153,8 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
 };
 
 function getContext() {
-  if (!jmixAppContext) {
+  if (!jmixAppContext) 
     jmixAppContext = React.createContext<JmixAppContextValue>({});
-  }
+  
   return jmixAppContext;
 }

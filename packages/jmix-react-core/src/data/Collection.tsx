@@ -173,14 +173,14 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
       properties: computed
     });
 
-    if (this.trackChanges) {
+    if (this.trackChanges) 
       reaction(
         () => [this.items, this.items.length],
         () => {
           this.changedItems.push(this.items)
         }
       )
-    }
+    
 
     reaction(() => this.status,
       status => this.lastError = status !== "ERROR" ? null : this.lastError)
@@ -192,13 +192,13 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
 
     let loadingPromise;
 
-    if (this.filter) {
+    if (this.filter) 
       loadingPromise = this.handleLoadingWithCount(getJmixREST()!.searchEntitiesWithCount<T>(this.entityName, this.filter, this.entitiesLoadOptions));
-    } else if (this.skipCount === true) {
+    else if (this.skipCount === true) 
       loadingPromise = this.handleLoadingNoCount(getJmixREST()!.loadEntities<T>(this.entityName, this.entitiesLoadOptions));
-    } else {
+    else 
       loadingPromise = this.handleLoadingWithCount(getJmixREST()!.loadEntitiesWithCount<T>(this.entityName, this.entitiesLoadOptions));
-    }
+    
 
     loadingPromise.catch(() => runInAction(() => {
       this.status = 'ERROR';
@@ -215,9 +215,9 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
   });
 
   delete = action((e: T & WithId): Promise<any> => {
-    if (e == null || e.id == null) {
+    if (e == null || e.id == null) 
       throw new Error('Unable to delete entity without ID');
-    }
+    
     this.status = 'LOADING';
     return getJmixREST()!.deleteEntity(this.entityName, e.id)
       .then(action(() => {
@@ -243,15 +243,15 @@ class DataCollectionStoreImpl<T> implements DataCollectionStore<T> {
     const loadOptions: EntitiesLoadOptions = {
       view: this.view ?? undefined,
     };
-    if (this.sort) {
+    if (this.sort) 
       loadOptions.sort = this.sort;
-    }
-    if (this.limit !== null && this.limit !== undefined) {
+    
+    if (this.limit !== null && this.limit !== undefined) 
       loadOptions.limit = this.limit;
-    }
-    if (this.offset !== null && this.offset !== undefined) {
+    
+    if (this.offset !== null && this.offset !== undefined) 
       loadOptions.offset = this.offset;
-    }
+    
     return loadOptions;
   }
 
@@ -355,17 +355,17 @@ export const defaultOpts: DataCollectionOptions = {
 };
 
 export function fromRestModel<T>(items: Array<SerializedEntity<T>>, stringIdName?: string): Array<SerializedEntity<T>> {
-  if (stringIdName == null || stringIdName === 'id') {
-  return items;
-} else {
-  return items.map(i => {
-    const item = i as any;
-    if (stringIdName != null) {
-      item[stringIdName] = item.id;
-    }
-    return item;
-  });
-}
+  if (stringIdName == null || stringIdName === 'id') 
+    return items;
+  else 
+    return items.map(i => {
+      const item = i as any;
+      if (stringIdName != null) 
+        item[stringIdName] = item.id;
+    
+      return item;
+    });
+
 }
 
 function createStore<E>(entityName: string, opts: DataCollectionOptions): DataCollectionStore<E> {
@@ -376,35 +376,35 @@ function createStore<E>(entityName: string, opts: DataCollectionOptions): DataCo
 
 function createClientSideStore<E>(entityName: string, opts: ClientSideDataCollectionOptions): ClientSideDataCollectionStore<E> {
   const dataCollection = new ClientSideDataCollectionStoreImpl<E>(entityName, !!opts.trackChanges);
-  if (opts.allItems != null) {
+  if (opts.allItems != null) 
     dataCollection.allItems = opts.allItems;
-  }
+  
   setOptionsAndLoad(dataCollection, opts);
   return dataCollection;
 }
 
 function setOptionsAndLoad<E>(dataCollection: DataCollectionStore<E>, opts: DataCollectionOptions) {
-  if (opts.view != null) {
+  if (opts.view != null) 
     dataCollection.view = opts.view;
-  }
-  if (opts.filter != null) {
+  
+  if (opts.filter != null) 
     dataCollection.filter = opts.filter;
-  }
-  if (opts.sort != null) {
+  
+  if (opts.sort != null) 
     dataCollection.sort = opts.sort;
-  }
-  if (opts.limit != null) {
+  
+  if (opts.limit != null) 
     dataCollection.limit = opts.limit;
-  }
-  if (opts.offset != null) {
+  
+  if (opts.offset != null) 
     dataCollection.offset = opts.offset;
-  }
-  if (opts.stringIdName != null) {
+  
+  if (opts.stringIdName != null) 
     dataCollection.stringIdName = opts.stringIdName;
-  }
-  if (typeof opts.loadImmediately === 'undefined' || opts.loadImmediately) {
+  
+  if (typeof opts.loadImmediately === 'undefined' || opts.loadImmediately) 
     dataCollection.load();
-  }
+  
 }
 
 export const withDataCollection = (entityName: string, opts: DataCollectionOptions = defaultOpts) => <T extends IReactComponent>(target: T) => {

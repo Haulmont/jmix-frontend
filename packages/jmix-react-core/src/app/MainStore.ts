@@ -129,9 +129,9 @@ export class MainStore {
     const requestId = ++this.messagesRequestCount;
     this.jmixREST.loadEntitiesMessages()
       .then(action((res: EntityMessages) => {
-        if (requestId === this.messagesRequestCount) {
+        if (requestId === this.messagesRequestCount) 
           this.messages = res;
-        }
+        
       }))
   }
 
@@ -218,13 +218,13 @@ export class MainStore {
         endpoint: this.revokeTokenEndpoint,
         locale: this.locale ?? undefined
       }).then(action(() => {
-          this.authenticated = false;
-          this.userName = null;
-          if (this.disposeTokenExpiryListener != null) {
-            this.disposeTokenExpiryListener();
-            this.disposeTokenExpiryListener = undefined;
-          }
-        }));
+        this.authenticated = false;
+        this.userName = null;
+        if (this.disposeTokenExpiryListener != null) {
+          this.disposeTokenExpiryListener();
+          this.disposeTokenExpiryListener = undefined;
+        }
+      }));
     }
 
     return Promise.resolve();
@@ -265,11 +265,11 @@ export class MainStore {
     this.locale = this.jmixREST.locale;
     return this.jmixREST.getUserInfo()
       .then(action((userInfo: UserInfo) => {
-        if (this.jmixREST.restApiToken == null) {
+        if (this.jmixREST.restApiToken == null) 
           this.usingAnonymously = true;
-        } else {
+        else 
           this.authenticated = true;
-        }
+        
         this.userName = userInfo.name;
         this.initialized = true;
       }))
@@ -281,25 +281,25 @@ export class MainStore {
   private handleLocaleChange = (locale: string) => {
     this.locale = locale;
 
-    if (this.initialized && (this.authenticated || this.usingAnonymously)) {
+    if (this.initialized && (this.authenticated || this.usingAnonymously)) 
       this.loadMessages();
-    }
+    
 
-    if (this.initialized && this.authenticated) {
+    if (this.initialized && this.authenticated) 
       this.setSessionLocale();
-    }
+    
   };
 
   private setSessionLocale = () => {
     this.jmixREST
       .setSessionLocale()
       .catch((error: JmixRestError) => {
-        if (error.message === JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION) {
+        if (error.message === JmixRestConnection.NOT_SUPPORTED_BY_API_VERSION) 
           console.warn('Relogin is required in order for bean validation messages to use correct locale. ' +
             'Upgrade to REST API 7.2.0 or higher to be able to change locale without relogin.');
-        } else {
+        else 
           throw new Error('Failed to set session locale');
-        }
+        
       });
   };
 }

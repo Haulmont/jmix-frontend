@@ -42,46 +42,46 @@ export interface ProjectModelMetadata {
 const firstLetterToLower = ([head, ...tail]: string): string => head.toLocaleLowerCase() + tail.join("")
 
 const transformType = (type: any, mappingType: AttributeType): string => {
-    switch (mappingType) {
-        case 'DATATYPE': return firstLetterToLower(type.label)
-        case 'ENUM': return type.fqn
-        case 'ASSOCIATION': return type.entityName
-        case 'COMPOSITION': return type.entityName
-        default: throw new Error(`Unknown mappingType: ${mappingType}`)
-    }
+  switch (mappingType) {
+  case 'DATATYPE': return firstLetterToLower(type.label)
+  case 'ENUM': return type.fqn
+  case 'ASSOCIATION': return type.entityName
+  case 'COMPOSITION': return type.entityName
+  default: throw new Error(`Unknown mappingType: ${mappingType}`)
+  }
 }
 const transformEnumsToEnumInfos = (enums: ProjectModelEnum[]): EnumInfo[] => {
-    return enums.map(enumElem => ({
-        name: enumElem.fqn,
-        values: enumElem.values.map((value) => ({...value, caption: value.name}))
-    }))
+  return enums.map(enumElem => ({
+    name: enumElem.fqn,
+    values: enumElem.values.map((value) => ({...value, caption: value.name}))
+  }))
 }
 
 const transformAttrToProperty = (attr: ProjectModelEntityAttr): MetaPropertyInfo => {
-    return {
-        // Same with the MetaPropertyInfo
-        name: attr.name,
-        mandatory: attr.mandatory,
-        readOnly: attr.readOnly,
+  return {
+    // Same with the MetaPropertyInfo
+    name: attr.name,
+    mandatory: attr.mandatory,
+    readOnly: attr.readOnly,
 
-        // Little differences with the MetaPropertyInfo
-        attributeType: attr.mappingType as AttributeType,
-        isTransient: attr.transient,
-        cardinality: attr.cardinality as Cardinality || "NONE",
+    // Little differences with the MetaPropertyInfo
+    attributeType: attr.mappingType as AttributeType,
+    isTransient: attr.transient,
+    cardinality: attr.cardinality as Cardinality || "NONE",
 
-        // Differences with the MetaPropertyInfo
-        type: transformType(attr.type, attr.mappingType as AttributeType),
-    }
+    // Differences with the MetaPropertyInfo
+    type: transformType(attr.type, attr.mappingType as AttributeType),
+  }
 }
 
 const transformEntitiesToMetaClasseses = (entities: ProjectModelEntity[]): MetaClassInfo[] => {
-    return entities.map(entity => ({
-        entityName: entity.name || 'UnknownEntityName',
-        properties: entity.attributes.map(transformAttrToProperty)
-    }))
+  return entities.map(entity => ({
+    entityName: entity.name || 'UnknownEntityName',
+    properties: entity.attributes.map(transformAttrToProperty)
+  }))
 }
 
 export const normalizeMetadata = (projectModelMetadata: ProjectModelMetadata): Metadata => ({
-    entities: transformEntitiesToMetaClasseses(projectModelMetadata.entities),
-    enums: transformEnumsToEnumInfos(projectModelMetadata.enums),
+  entities: transformEntitiesToMetaClasseses(projectModelMetadata.entities),
+  enums: transformEnumsToEnumInfos(projectModelMetadata.enums),
 })

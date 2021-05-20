@@ -210,8 +210,8 @@ describe('instanceItemToFormFields', () => {
     };
     const fields = instanceItemToFormFields(item, 'test', MOCK_METADATA, ['associationO2Mattr']);
     expect(fields).toEqual({
-        associationO2Mattr: ['9b4188bf-c382-4b89-aedf-b6bcee6f2f76', '86722b66-379b-4abf-9a1f-e984637827b3']
-      }
+      associationO2Mattr: ['9b4188bf-c382-4b89-aedf-b6bcee6f2f76', '86722b66-379b-4abf-9a1f-e984637827b3']
+    }
     );
   });
 

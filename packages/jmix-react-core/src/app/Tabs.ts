@@ -32,9 +32,9 @@ export class Tabs {
     let index = 0;
 
     for (const screen of tabsList) {
-      if (screen === currentTab) {
+      if (screen === currentTab) 
         return index;
-      }
+      
 
       index++;
     }
@@ -69,9 +69,9 @@ export class Tabs {
     const switchTab = this.currentTab === tabToRemove && this.tabs.length > 1;
     const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
-    if (switchTab) {
+    if (switchTab) 
       this.currentTab = this.tabs[removedTabIndex - 1];
-    }
+    
   });
 
   /**
@@ -85,9 +85,9 @@ export class Tabs {
       let url = activeTab.screensInTab.currentRootPageData.menuPath;
       if (activeTab.screensInTab.screens.length > 1) {
         const secondScreen = activeTab.screensInTab.screens[1];
-        if (secondScreen.params?.entityId) {
+        if (secondScreen.params?.entityId) 
           url += '/' + secondScreen.params?.entityId;
-        }
+        
       }
 
       redirect(url);

@@ -33,7 +33,7 @@ export class Security {
    */
   get isDataLoaded(): boolean {
     return this.effectivePermissions != null;
-  };
+  }
 
   /**
    * Returns current user permissions.
@@ -78,7 +78,7 @@ export class Security {
    * @param operation
    */
   isOperationPermissionGranted = (entityName: string, operation: EntityOperationType): boolean => {
-    if (!this.isDataLoaded) { return false; }
+    if (!this.isDataLoaded)  return false; 
 
     return isOperationAllowed(entityName, operation, this.effectivePermissions ?? undefined);
   };
@@ -96,21 +96,21 @@ export class Security {
     attrName: string,
     requiredAttrPerm: Exclude<EntityAttrPermissionValue, 'DENY'>
   ): boolean => {
-    if (!this.isDataLoaded) { return false; }
+    if (!this.isDataLoaded)  return false; 
 
     const attrPerm = this.getAttributePermission(entityName, attrName);
 
-    if (attrPerm === 'DENY') {
+    if (attrPerm === 'DENY') 
       return false;
-    }
-    if (attrPerm === 'MODIFY') {
+    
+    if (attrPerm === 'MODIFY') 
       return true;
-    }
+    
     return requiredAttrPerm === 'VIEW';
   }
 
   isSpecificPermissionGranted = (target: string): boolean => {
-    if (!this.isDataLoaded) { return false; }
+    if (!this.isDataLoaded)  return false; 
 
     return isSpecificPermissionGranted(target, this.effectivePermissions ?? undefined);
   }
@@ -122,9 +122,9 @@ export class Security {
 
     return this.jmixREST.getEffectivePermissions()
       .then(action((effectivePermsInfo: EffectivePermsInfo) => {
-        if (requestId === this.permissionsRequestCount) {
+        if (requestId === this.permissionsRequestCount) 
           this.effectivePermissions = effectivePermsInfo;
-        }
+        
       }))
   }
 

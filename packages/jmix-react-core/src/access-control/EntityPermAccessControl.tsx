@@ -55,10 +55,10 @@ export const EntityPermAccessControl = (props: React.PropsWithChildren<EntityPer
 
   return (
     <AccessControl displayReqs={displayReqs}
-                   modifyReqs={modifyReqs}
-                   disabledPropName={disabledPropName}
-                   disabledPropValue={disabledPropValue}
-                   render={render}>
+      modifyReqs={modifyReqs}
+      disabledPropName={disabledPropName}
+      disabledPropValue={disabledPropValue}
+      render={render}>
       {children}
     </AccessControl>
   );

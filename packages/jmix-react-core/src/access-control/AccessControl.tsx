@@ -83,24 +83,24 @@ export const AccessControl = (props: React.PropsWithChildren<AccessControlProps>
   const mainStore = useMainStore();
 
   return useObserver(() => {
-    if (!mainStore.security.isDataLoaded) {
+    if (!mainStore.security.isDataLoaded) 
       return null;
-    }
+    
 
     const shouldDisplay = areAllRequirementsSatisfied(mainStore, displayReqs);
     const shouldAllowModification = areAllRequirementsSatisfied(mainStore, modifyReqs);
 
-    if (!shouldDisplay) {
+    if (!shouldDisplay) 
       return null;
-    }
+    
 
-    if (render != null) {
+    if (render != null) 
       return <>{render(!shouldAllowModification)}</>;
-    }
+    
 
-    if (shouldAllowModification) {
+    if (shouldAllowModification) 
       return <>{children}</>;
-    }
+    
 
     return <>{injectDisabledProp(children, disabledPropName, disabledPropValue)}</>;
   });
@@ -110,17 +110,17 @@ function injectDisabledProp(
   children: React.ReactNode, disabledPropName: string, disabledPropValue: any
 ): React.ReactNode {
   return React.Children.map(children, child => {
-    if (React.isValidElement(child)) {
+    if (React.isValidElement(child)) 
       return React.cloneElement(child, {[disabledPropName]: disabledPropValue});
-    }
+    
     return child;
   });
 }
 
 function areAllRequirementsSatisfied(mainStore: MainStore, requirements?: AccessControlRequirements): boolean {
-  if (requirements == null) {
+  if (requirements == null) 
     return true;
-  }
+  
 
   const {entityReqs, attrReqs, customReqs} = requirements;
 
@@ -133,9 +133,9 @@ function areEntityRequirementsSatisfied(
   mainStore: MainStore,
   entityReqs?: EntityPermissionRequirement[]
 ): boolean {
-  if (entityReqs == null || entityReqs.length === 0) {
+  if (entityReqs == null || entityReqs.length === 0) 
     return true;
-  }
+  
 
   return entityReqs.every(req => {
     const {entityName, operation = 'read'} = req;
@@ -147,9 +147,9 @@ function areAttributeRequirementsSatisfied(
   mainStore: MainStore,
   attrReqs?: AttributePermissionRequirement[]
 ): boolean {
-  if (attrReqs == null || attrReqs.length === 0) {
+  if (attrReqs == null || attrReqs.length === 0) 
     return true;
-  }
+  
 
   return attrReqs.every(req => {
     const {entityName, attrName, requiredAttrPerm} = req;
@@ -158,9 +158,9 @@ function areAttributeRequirementsSatisfied(
 }
 
 function areCustomRequirementsSatisfied(customReqs?: () => boolean): boolean {
-  if (customReqs == null) {
+  if (customReqs == null) 
     return true;
-  }
+  
 
   return customReqs();
 }

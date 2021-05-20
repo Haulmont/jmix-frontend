@@ -3,23 +3,23 @@ interface IKeyFuncVal {
 }
 
 export class EventEmitter<Events extends IKeyFuncVal, Key extends keyof Events = keyof Events> {
-  logEmits: boolean = false;
+  logEmits = false;
   private listeners: Map<Key, Set<Events[Key]>> = new Map();
 
   emit<K extends Key>(eventName: K, ...restParams: Parameters<Events[K]>) {    const events = this.listeners.get(eventName);
 
 
-    if (events) {
+    if (events) 
       events.forEach((fn) => {
         fn.call(null, ...restParams);
       });
-    }
+    
   }
 
   on<K extends Key>(eventName: K, fn: Events[K]): () => void {
-    if (!this.listeners.get(eventName)) {
+    if (!this.listeners.get(eventName)) 
       this.listeners.set(eventName, new Set());
-    }
+    
 
     const events = this.listeners.get(eventName)!;
 

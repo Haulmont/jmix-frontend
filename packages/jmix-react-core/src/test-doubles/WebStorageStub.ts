@@ -1,6 +1,6 @@
 export class WebStorageStub implements Storage {
   storage: Record<string, string> = {};
-  length: number = 0;
+  length = 0;
 
   clear(): void {
     this.storage = {};

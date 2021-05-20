@@ -12,15 +12,15 @@ import {SerializedEntity} from '@haulmont/jmix-rest';
  * @param sort - REST API parameter representing sort field and order
  */
 export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: string | undefined): Array<SerializedEntity<T>> {
-  if (sort == null) {
+  if (sort == null) 
     return items;
-  }
+  
 
   let fieldName: string = sort;
-  let isAscending: boolean = true;
-  if (sort.startsWith('+')) {
+  let isAscending = true;
+  if (sort.startsWith('+')) 
     fieldName = sort.slice(1);
-  } else if (sort.startsWith('-')) {
+  else if (sort.startsWith('-')) {
     fieldName = sort.slice(1);
     isAscending = false;
   }
@@ -31,20 +31,20 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
     let valA = a[fieldName];
     let valB = b[fieldName];
 
-    if (valA === valB) {
+    if (valA === valB) 
       return 0;
-    }
+    
 
     // null and undefined go to bottom in ascending sort (i.e. are "greater" than any values)
-    if (valA == null && valB != null) {
+    if (valA == null && valB != null) 
       // valA is null or undefined, but not valB -> valA is "greater" than valB
       return 1 * sortOrderModifier;
-    }
+    
     if (valB == null) {
-      if (valA != null) {
+      if (valA != null) 
         // valB is null or undefined, but not valA -> valB is "greater" than valA
         return -1 * sortOrderModifier;
-      }
+      
       // One is null and the other is undefined
       return 0;
     }
@@ -58,52 +58,52 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
     }
 
     switch (typeof valA) {
-      case 'number':
-        if (!isFinite(valA) || !isFinite(valB)) {
-          // tslint:disable-next-line:no-console
-          console.warn('Unexpected value encountered when performing client-side sorting of entity instances.' +
+    case 'number':
+      if (!isFinite(valA) || !isFinite(valB)) {
+        // tslint:disable-next-line:no-console
+        console.warn('Unexpected value encountered when performing client-side sorting of entity instances.' +
             ' A numeric field contains a value that is NaN, positive or negative Infinity.' +
             ' This might indicate a bug in the application.');
-          // Still attempt to sort the values
-          // NaN is treated the same as null or undefined
-          if (isNaN(valA) && !isNaN(valB)) {
-            // valA is NaN, but not valB -> valA is "greater" than valB
-            return 1 * sortOrderModifier;
-          }
-          if (isNaN(valB)) {
-            if (!isNaN(valA)) {
-              // valB is NaN, but not valA -> valB is "greater" than valA
-              return -1 * sortOrderModifier;
-            }
-            // Both are NaN
-            return 0;
-          }
-          // defaultCompare but one or both values are negative or positive Infinity
-          return defaultCompare(valA, valB, sortOrderModifier);
+        // Still attempt to sort the values
+        // NaN is treated the same as null or undefined
+        if (isNaN(valA) && !isNaN(valB)) 
+        // valA is NaN, but not valB -> valA is "greater" than valB
+          return 1 * sortOrderModifier;
+          
+        if (isNaN(valB)) {
+          if (!isNaN(valA)) 
+          // valB is NaN, but not valA -> valB is "greater" than valA
+            return -1 * sortOrderModifier;
+            
+          // Both are NaN
+          return 0;
         }
+        // defaultCompare but one or both values are negative or positive Infinity
         return defaultCompare(valA, valB, sortOrderModifier);
-      case 'object':
-        const nameA = valA._instanceName != null ? valA._instanceName : '';
-        const nameB = valB._instanceName != null ? valB._instanceName : '';
+      }
+      return defaultCompare(valA, valB, sortOrderModifier);
+    case 'object':
+      const nameA = valA._instanceName != null ? valA._instanceName : '';
+      const nameB = valB._instanceName != null ? valB._instanceName : '';
 
-        return defaultCompare(nameA, nameB, sortOrderModifier);
-      case 'string':
-        // Imitate REST API behavior for consistency
-        const nonAlphaNumericRegex = /[^0-9a-zA-Z]/g;
-        const nonAlphaNumericCharsA = valA.match(nonAlphaNumericRegex)?.join('') || '';
-        const nonAlphaNumericCharsB = valB.match(nonAlphaNumericRegex)?.join('') || '';
+      return defaultCompare(nameA, nameB, sortOrderModifier);
+    case 'string':
+      // Imitate REST API behavior for consistency
+      const nonAlphaNumericRegex = /[^0-9a-zA-Z]/g;
+      const nonAlphaNumericCharsA = valA.match(nonAlphaNumericRegex)?.join('') || '';
+      const nonAlphaNumericCharsB = valB.match(nonAlphaNumericRegex)?.join('') || '';
 
-        valA = valA.replace(nonAlphaNumericRegex, '').toLowerCase();
-        valB = valB.replace(nonAlphaNumericRegex, '').toLowerCase();
+      valA = valA.replace(nonAlphaNumericRegex, '').toLowerCase();
+      valB = valB.replace(nonAlphaNumericRegex, '').toLowerCase();
 
-        const result = defaultCompare(valA, valB, sortOrderModifier);
+      const result = defaultCompare(valA, valB, sortOrderModifier);
 
-        if (result !== 0) {
-          return result
-        }
-        return defaultCompare(nonAlphaNumericCharsA, nonAlphaNumericCharsB, sortOrderModifier);
-      case 'boolean':
-        return defaultCompare(valA, valB, sortOrderModifier);
+      if (result !== 0) 
+        return result
+        
+      return defaultCompare(nonAlphaNumericCharsA, nonAlphaNumericCharsB, sortOrderModifier);
+    case 'boolean':
+      return defaultCompare(valA, valB, sortOrderModifier);
     }
 
     // tslint:disable-next-line:no-console
@@ -115,11 +115,11 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
 }
 
 export function defaultCompare(valA: any, valB: any, sortOrderModifier: -1 | 1 = 1): number {
-  if (valA < valB) {
+  if (valA < valB) 
     return -1 * sortOrderModifier;
-  } else if (valA > valB) {
+  else if (valA > valB) 
     return 1 * sortOrderModifier;
-  } else {
+  else 
     return 0;
-  }
+  
 }

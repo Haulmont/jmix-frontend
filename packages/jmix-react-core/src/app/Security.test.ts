@@ -93,4 +93,4 @@ function createPerms(
     entityAttributes: entityAttributes ?? [],
     specifics: specific ?? [{target: 'rest.fileUpload.enabled', value: 1}],
   });
-};
+}

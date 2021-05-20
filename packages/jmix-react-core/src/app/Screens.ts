@@ -35,15 +35,15 @@ export class Screens {
    */
   get content() {
     const {screens: screensList, currentScreen, props} = this;
-    if (screensList.length === 0) {
+    if (screensList.length === 0) 
       return props.children;
-    }
+    
 
-    for (const screen of screensList) {
-      if (screen === currentScreen) {
+    for (const screen of screensList) 
+      if (screen === currentScreen) 
         return screen.content;
-      }
-    }
+      
+    
 
     return props.children;
   }
@@ -56,9 +56,9 @@ export class Screens {
     let index = 0;
 
     for (const screen of screensList) {
-      if (screen === currentScreen) {
+      if (screen === currentScreen) 
         return index;
-      }
+      
 
       index++;
     }
@@ -91,9 +91,9 @@ export class Screens {
         for (const screen of this.screens) {
           newScreens.push(screen);
 
-          if (screen === this.currentScreen) {
+          if (screen === this.currentScreen) 
             break;
-          }
+          
         }
       }
     }
@@ -122,9 +122,9 @@ export class Screens {
       for (const screen of this.screens) {
         newScreens.push(screen);
 
-        if (screen === this.currentScreen) {
+        if (screen === this.currentScreen) 
           break;
-        }
+        
       }
 
       this.screens = newScreens;

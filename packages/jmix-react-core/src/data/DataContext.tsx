@@ -31,9 +31,9 @@ class DataContext<T extends Containers> {
 
   save = () => {
     for (const containerName in this.containers) {
-      if (!this.containers.hasOwnProperty(containerName)) {
+      if (!this.containers.hasOwnProperty(containerName)) 
         continue;
-      }
+      
       const container = this.containers[containerName];
       container.changedItems.forEach((entity) => {
         getJmixREST()!.commitEntity(container.entityName, entity);
@@ -42,16 +42,16 @@ class DataContext<T extends Containers> {
   };
 
   get hasChanges(): boolean {
-    if (!this.containers || Object.getOwnPropertyNames(this.containers).length < 1) {
+    if (!this.containers || Object.getOwnPropertyNames(this.containers).length < 1) 
       return false;
-    }
+    
     for (const containerName in this.containers) {
-      if (!this.containers.hasOwnProperty(containerName)) {
+      if (!this.containers.hasOwnProperty(containerName)) 
         continue;
-      }
-      if (this.containers[containerName].changedItems != null && this.containers[containerName].changedItems.length > 0) {
+      
+      if (this.containers[containerName].changedItems != null && this.containers[containerName].changedItems.length > 0) 
         return true;
-      }
+      
     }
     return false;
   }

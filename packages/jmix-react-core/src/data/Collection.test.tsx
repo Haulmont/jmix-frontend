@@ -8,9 +8,9 @@ describe('Collection component', function () {
   it('Collection is rendered as null if there is no children', async () => {
 
     jest.spyOn(JmixAppProvider, 'getJmixREST').mockReturnValue({
-        searchEntitiesWithCount: () => Promise.resolve({}),
-        loadEntitiesWithCount: () => Promise.resolve({}),
-      } as any);
+      searchEntitiesWithCount: () => Promise.resolve({}),
+      loadEntitiesWithCount: () => Promise.resolve({}),
+    } as any);
 
     const c = renderer.create(<Collection entityName="scr$Car" trackChanges={false} loadImmediately={false}/>);
     expect(c.toJSON()).toBeNull();

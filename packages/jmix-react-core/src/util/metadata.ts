@@ -2,12 +2,12 @@ import {EntityMessages} from "@haulmont/jmix-rest";
 import {AttributeType, EnumInfo, MetaClassInfo, MetaPropertyInfo} from '../app/MetadataProvider'
 
 export function getPropertyInfo(metadata: MetaClassInfo[], entityName: string, propertyName: string): MetaPropertyInfo | null {
-    const metaClass = metadata.find(mci => mci.entityName === entityName);
-    if (metaClass == null) {
-        return null;
-    }
-    const propInfo = metaClass.properties.find(prop => prop.name === propertyName);
-    return propInfo || null
+  const metaClass = metadata.find(mci => mci.entityName === entityName);
+  if (metaClass == null) 
+    return null;
+    
+  const propInfo = metaClass.properties.find(prop => prop.name === propertyName);
+  return propInfo || null
 }
 
 /**
@@ -25,9 +25,9 @@ export function getPropertyInfoNN(propertyName: string, entityName: string, meta
     entityName,
     propertyName);
 
-  if (!propertyInfo) {
+  if (!propertyInfo) 
     throw new Error('Cannot find MetaPropertyInfo for property ' + propertyName);
-  }
+  
 
   return propertyInfo;
 }
@@ -35,16 +35,16 @@ export function getPropertyInfoNN(propertyName: string, entityName: string, meta
 export function getEnumCaption(enumValueName: string, propertyInfo: MetaPropertyInfo, enums: EnumInfo[]): string | undefined {
   const enumInfo = enums.find(enumInfo => enumInfo.name === propertyInfo.type);
 
-  if (!enumInfo) {
+  if (!enumInfo) 
     return undefined;
-  }
+  
 
   const enumValue = enumInfo.values
     .find(enumValue => enumValue.name === enumValueName);
 
-  if (!enumValue) {
+  if (!enumValue) 
     return undefined;
-  }
+  
 
   return enumValue.caption;
 }
