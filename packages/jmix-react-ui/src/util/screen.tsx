@@ -98,7 +98,6 @@ export interface EntityListScreenOptions {
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
   reverseAttrName?: string;
-  parentEntityId?: string | object;
 }
 
 export function openEntityListScreen(

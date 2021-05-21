@@ -75,7 +75,7 @@
 
   "cubaReact.nestedEntityField.create": "Создать сущность",
   "cubaReact.nestedEntityField.addEntities": "Добавить сущности",
-  "cubaReact.nestedEntityField.andXMore": "и ещё ${quantity}",
+  "cubaReact.nestedEntityField.andXMore": " и ещё {quantity}",
   "cubaReact.nestedEntityField.delete.areYouSure": "Удалить вложенную сущность?",
 
   "cubaReact.nestedEntitiesTableField.delete.areYouSure": "Удалить вложенную сущность?",

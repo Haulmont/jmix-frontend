@@ -211,8 +211,6 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
                                         {...rest as Partial<CompositionO2MFieldProps>}
             />;
           }
-
-          console.log('reverseAttrName', reverseAttrName);
         }
       }
 

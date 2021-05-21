@@ -44,6 +44,7 @@ const datatypesQuery = `
     id
     _instanceName
     name
+    quantity
     datatypesTestEntity {
       id
       _instanceName

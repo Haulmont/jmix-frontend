@@ -38,6 +38,7 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
       id
       _instanceName
       name
+      quantity
       datatypesTestEntity {
         id
         _instanceName
@@ -172,7 +173,7 @@ const CompositionO2MBrowse = observer(
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name", "datatypesTestEntity"].filter(
+        columnDefinitions={["name", "quantity", "datatypesTestEntity"].filter(
           columnDef => columnDef !== reverseAttrName
         )}
         onRowSelectionChange={handleRowSelectionChange}

@@ -24,8 +24,6 @@ export interface CompositionO2MFieldProps {
 export const CompositionO2MField = observer((props: CompositionO2MFieldProps) => {
   const {value, entityName, onChange, reverseAttrName} = props;
 
-  console.log('-- VALUE', value);
-
   const metadata = useMetadata();
   const screens = useContext(ScreensContext);
 
@@ -75,21 +73,25 @@ const BtnTitle = ({value}: BtnTitleProps) => {
 };
 
 function constructTitle(entityList: MayHaveId[], intl: IntlShape): string {
-  return entityList.reduce((title: string, entity: MayHaveId, index: number, array: MayHaveId[]) => {
-    if (index === 0) {
-      return getDisplayedName(entity, intl);
-    }
-    if (index === 1) {
-      return title + ', ' + getDisplayedName(entity, intl);
-    }
-    return title + ' ' + intl.formatMessage(
+  let title = '';
+
+  if (entityList.length > 0) {
+    title += getDisplayedName(entityList[0], intl);
+  }
+  if (entityList.length > 1) {
+    title += ', ';
+    title += getDisplayedName(entityList[1], intl);
+  }
+  if (entityList.length > 2) {
+    title += intl.formatMessage(
       {id: 'cubaReact.nestedEntityField.andXMore'},
-      {quantity: array.length}
+      {quantity: entityList.length - 2}
     );
-  }, '') as string;
+  }
+
+  return title;
 }
 
-// TODO put (unsaved entity) to _instanceName when entity is edited client-side, otherwise it might be outdated
 function getDisplayedName(entity: MayHaveId & MayHaveInstanceName, intl: IntlShape): string {
   if (entity._instanceName != null) {
     return entity._instanceName;

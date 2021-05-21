@@ -22,6 +22,7 @@ import {
   ListQueryVars,
   useEntityListData,
   HasId,
+  generateTempId
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useCallback} from "react";
@@ -157,8 +158,18 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
    */
   // TODO rename to handleSelectionChange
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
+  /**
+   * A callback that will be executed when filters are changed.
+   */
   handleFilterChange: FilterChangeCallback;
+  /**
+   * A callback that will be executed when sorting is changed.
+   */
   handleSortOrderChange: SortOrderChangeCallback;
+  /**
+   * Observable state
+   */
+  // TODO rename to entityListState
   store: EntityListLocalStore<TEntity>;
 }
 
@@ -321,13 +332,19 @@ export function useCreateBtnCallback<TEntity>(
   reverseAttrName?: string
 ) {
   const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const intl = useIntl();
 
   let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
   if (entityList != null && onEntityListChange != null) {
     onCommit = (entityInstance?: EntityInstance<TEntity>) => {
       if (entityInstance != null) {
+        const newEntityInstance = {
+          ...entityInstance,
+          id: generateTempId(),
+          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
+        };
         onEntityListChange([
-          entityInstance,
+          newEntityInstance,
           ...entityList
         ]);
       }
@@ -354,16 +371,22 @@ export function useEditBtnCallbck<TEntity>(
   reverseAttrName?: string,
 ) {
   const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const intl = useIntl();
 
   let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
   if (entityList != null && onEntityListChange != null) {
-    onCommit = (updatedEntityInstance?: EntityInstance<TEntity>) => {
-      if (updatedEntityInstance != null) {
-        const newList = entityList.map(oldEntityInstance => {
-          if (oldEntityInstance.id === updatedEntityInstance.id) {
-            return updatedEntityInstance
+    onCommit = (updatedEntity?: EntityInstance<TEntity>) => {
+      if (updatedEntity != null) {
+        const updatedEntityRenamed = {
+          ...updatedEntity,
+          // Changes made to the entity might have invalidated the instance name
+          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
+        };
+        const newList = entityList.map(originalEntity => {
+          if (originalEntity.id === updatedEntityRenamed.id) {
+            return updatedEntityRenamed;
           }
-          return oldEntityInstance;
+          return originalEntity;
         });
         onEntityListChange(newList);
       }

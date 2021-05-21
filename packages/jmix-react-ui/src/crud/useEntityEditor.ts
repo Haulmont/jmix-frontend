@@ -21,16 +21,18 @@ import {
   IMultiScreenItem,
   dollarsToUnderscores,
   MayHaveId,
-  EntityInstance
+  EntityInstance,
+  toIdString
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {action} from "mobx";
+import {action, toJS} from "mobx";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
 import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
 import {antFormToGraphQL} from "../formatters/antFormToGraphQL";
 import { useParentScreen } from "../util/screen";
+import { toGraphQL } from "../formatters/toGraphQL";
 
 export type EntityEditorStore = {
   globalErrors: string[];
@@ -99,6 +101,8 @@ export function useEntityEditor<
     entityInstance
   } = options;
 
+  console.log('entityInstance -> editor', toJS(entityInstance));
+
   const intl = useIntl();
   const metadata = useMetadata();
   const [form] = useForm();
@@ -128,9 +132,6 @@ export function useEntityEditor<
   // Fill the form based on retrieved data
   useEffect(() => {
     if (item != null && metadata != null) {
-      console.log('-- IN form', item);
-      console.log('-- IN form after ant-formatting', graphqlToAntForm<TEntity>(item, entityName, metadata));
-
       form.setFieldsValue(
         graphqlToAntForm<TEntity>(item, entityName, metadata)
       );
@@ -153,7 +154,8 @@ export function useEntityEditor<
     goToParentScreen,
     updateResultName,
     listQueryName,
-    onCommit
+    onCommit,
+    entityInstance
   });
 
   return {
@@ -183,7 +185,8 @@ export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
   goToParentScreen: () => void;
   updateResultName: string;
   listQueryName: string;
-  onCommit?: (value: TEntity) => void;
+  onCommit?: (value: EntityInstance<TEntity>) => void;
+  entityInstance?: EntityInstance<TEntity>;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -210,7 +213,8 @@ export function useFormSubmitCallbacks<
     goToParentScreen,
     updateResultName,
     listQueryName,
-    onCommit
+    onCommit,
+    entityInstance
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -223,20 +227,23 @@ export function useFormSubmitCallbacks<
 
   const handleFinish = useCallback(
     (values: { [field: string]: any }) => {
-      // console.log('-- FROM form', values);
-
       if (form != null && metadata != null) {
-        const updatedEntity = {
-          ...antFormToGraphQL(values, entityName, metadata),
-          ...addIdIfExistingEntity(entityId)
-        };
-
         // TODO perform client-side validation
 
         if (onCommit != null) {
+          console.log('------ entityInstance', entityInstance, 'values', values);
+
+          const updatedEntity = {
+            ...antFormToGraphQL(values, entityName, metadata),
+            ...addIdIfExistingEntity(entityInstance?.id != null ? toIdString(entityInstance.id) : undefined)
+          };
           onCommit(updatedEntity as TEntity);
           goToParentScreen();
         } else {
+          const updatedEntity = {
+            ...antFormToGraphQL(values, entityName, metadata),
+            ...addIdIfExistingEntity(entityId)
+          };
           persistEntity(
             executeUpsertMutation,
             upsertInputName,
@@ -246,7 +253,8 @@ export function useFormSubmitCallbacks<
             entityName,
             isNewEntity,
             goToParentScreen,
-            intl
+            intl,
+            metadata
           );
         }
       }
@@ -264,6 +272,7 @@ export function useFormSubmitCallbacks<
       updateResultName,
       listQueryName,
       onCommit,
+      entityInstance,
       goToParentScreen
     ]
   );
@@ -284,11 +293,12 @@ export function persistEntity<
   entityName: string,
   isNewEntity: boolean,
   goToParentScreen: () => void,
-  intl: IntlShape
+  intl: IntlShape,
+  metadata: Metadata
 ) {
   upsertItem({
     variables: {
-      [upsertInputName]: updatedEntity
+      [upsertInputName]: toGraphQL(updatedEntity, entityName, metadata)
     } as any,
     update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
       const updateResult = result.data?.[updateResultName];

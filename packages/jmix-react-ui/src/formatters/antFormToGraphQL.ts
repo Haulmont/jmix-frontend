@@ -7,7 +7,7 @@ import {
   isToOneAssociation,
   Metadata,
   TemporalPropertyType,
-  applyDataTransferFormat
+  applyDataTransferFormat,
 } from "@haulmont/jmix-react-core";
 import dayjs from "dayjs";
 
@@ -23,12 +23,8 @@ export function antFormToGraphQL(
   Object.entries(item).forEach(([attributeName, value]) => {
     const propInfo = getPropertyInfo(metadata.entities, entityName, attributeName);
 
-    if (attributeName === '_instanceName') {
-      // _instanceName in One-to-One Compositions should not be sent back to server as it will cause validation error
-      return;
-    }
-
-    if (attributeName === stringIdName && stringIdName !== 'id') {
+    // String ID
+    if (attributeName === stringIdName) {
       result.id = value;
       return;
     }

@@ -83,6 +83,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
         name
+        quantity
         datatypesTestEntity {
           id
           _instanceName

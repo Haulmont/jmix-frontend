@@ -30,6 +30,7 @@ const LOAD_SCR_COMPOSITIONO2MTESTENTITY = gql`
       id
       _instanceName
       name
+      quantity
       datatypesTestEntity {
         id
         _instanceName
@@ -112,6 +113,15 @@ const CompositionO2MEdit = observer((props: EntityEditorProps) => {
           entityName={ENTITY_NAME}
           propertyName="name"
           hide={hiddenAttributes?.includes("name")}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="quantity"
+          hide={hiddenAttributes?.includes("quantity")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
