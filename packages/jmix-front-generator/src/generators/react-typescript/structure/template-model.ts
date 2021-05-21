@@ -1,9 +1,8 @@
 import {ProjectModel} from "../../../common/model/cuba-model";
-import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
+import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 import {Answers, ColumnLayoutTypes} from "./answers";
 import {Options} from "./options";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../common/utils";
 
 interface ColumnOption {
   name: string,
@@ -31,26 +30,18 @@ const mapperStructureTypeToColumnOptions: Record<ColumnLayoutTypes, ColumnOption
   ],
 }
 
-export type TemplateModel = CommonTemplateModel & {
-    nameLiteral: string;
-    columnOptions: ColumnOption[];
+export interface TemplateModel extends CommonTemplateModel {
+  nameLiteral: string;
+  columnOptions: ColumnOption[];
 }
 
 export async function deriveTemplateModel(
-    answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
-  ): Promise<TemplateModel> {
+  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
+): Promise<TemplateModel> {
+  const columnOptions = mapperStructureTypeToColumnOptions[answers.structureType];
 
-    const className = elementNameToClass(answers.componentName);
-    const relDirShift = normalizeRelativePath(options.dirShift);
-    const nameLiteral = unCapitalizeFirst(className);
-    const {componentName, structureType} = answers; 
-    const columnOptions = mapperStructureTypeToColumnOptions[structureType];
-
-    return {
-        className,
-        columnOptions,
-        componentName,
-        relDirShift,
-        nameLiteral,
-    }
+  return {
+    columnOptions,
+      ...deriveEntityCommon(options, answers),
+  }
 }

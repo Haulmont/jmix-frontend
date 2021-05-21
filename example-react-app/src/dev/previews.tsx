@@ -1,63 +1,46 @@
-import TrickyIdList from "../app/tricky-id/TrickyIdList";
-import TrickyIdEdit from "../app/tricky-id/TrickyIdEdit";
-import BoringStringIdMgtTableBrowse from "../app/boring-string-id-management-table/BoringStringIdMgtTableBrowse";
-import BoringStringIdMgtTableEdit from "../app/boring-string-id-management-table/BoringStringIdMgtTableEdit";
-import WeirdStringIdMgtTableBrowse from "../app/weird-string-id-management-table/WeirdStringIdMgtTableBrowse";
-import WeirdStringIdMgtTableEdit from "../app/weird-string-id-management-table/WeirdStringIdMgtTableEdit";
-import WeirdStringIdMgtListBrowse from "../app/weird-string-id-management-list/WeirdStringIdMgtListBrowse";
-import WeirdStringIdMgtListEdit from "../app/weird-string-id-management-list/WeirdStringIdMgtListEdit";
-import WeirdStringIdMgtCardsBrowse from "../app/weird-string-id-management-cards/WeirdStringIdMgtCardsBrowse";
-import WeirdStringIdMgtCardsEdit from "../app/weird-string-id-management-cards/WeirdStringIdMgtCardsEdit";
-import StringIdMgtTableBrowse from "../app/string-id-management-table/StringIdMgtTableBrowse";
-import StringIdMgtTableEdit from "../app/string-id-management-table/StringIdMgtTableEdit";
-import StringIdMgtListBrowse from "../app/string-id-management-list/StringIdMgtListBrowse";
-import StringIdMgtListEdit from "../app/string-id-management-list/StringIdMgtListEdit";
-import StringIdMgtCardsBrowse from "../app/string-id-management-cards/StringIdMgtCardsBrowse";
-import StringIdMgtCardsEdit from "../app/string-id-management-cards/StringIdMgtCardsEdit";
+import TrickyIdBrowserTable from "../app/tricky-id-browser-table/TrickyIdBrowserTable";
+import TrickyIdEditor from "../app/tricky-id-editor/TrickyIdEditor";
+import BoringStringIdBrowserTable from "../app/boring-string-id-browser-table/BoringStringIdBrowserTable";
+import BoringStringIdEditor from "../app/boring-string-id-editor/BoringStringIdEditor";
+import WeirdStringIdBrowserTable from "../app/weird-string-id-browser-table/WeirdStringIdBrowserTable";
+import WeirdStringIdBrowserList from "../app/weird-string-id-browser-list/WeirdStringIdBrowserList";
+import WeirdStringIdBrowserCards from "../app/weird-string-id-browser-cards/WeirdStringIdBrowserCards";
+import WeirdStringIdEditor from "../app/weird-string-id-editor/WeirdStringIdEditor";
+import StringIdBrowserTable from "../app/string-id-browser-table/StringIdBrowserTable";
+import StringIdBrowserList from "../app/string-id-browser-list/StringIdBrowserList";
+import StringIdBrowserCards from "../app/string-id-browser-cards/StringIdBrowserCards";
+import StringIdMgtCardsEdit from "../app/string-id-editor/StringIdMgtCardsEdit";
 import { StringIdCards } from "../app/string-id-cards/StringIdCards";
-import IntIdentityIdMgtListBrowse from "../app/int-identity-id-management-list/IntIdentityIdMgtListBrowse";
-import IntIdentityIdMgtListEdit from "../app/int-identity-id-management-list/IntIdentityIdMgtListEdit";
-import IntIdentityIdMgtCardsBrowse from "../app/int-identity-id-management-cards/IntIdentityIdMgtCardsBrowse";
-import IntIdentityIdMgtCardsEdit from "../app/int-identity-id-management-cards/IntIdentityIdMgtCardsEdit";
-import IntIdentityIdMgtTableBrowse from "../app/int-identity-id-management-table/IntIdentityIdMgtTableBrowse";
-import IntIdentityIdMgtTableEdit from "../app/int-identity-id-management-table/IntIdentityIdMgtTableEdit";
-import IntIdMgtListBrowse from "../app/int-id-management-list/IntIdMgtListBrowse";
-import IntIdMgtListEdit from "../app/int-id-management-list/IntIdMgtListEdit";
-import IntIdMgtCardsBrowse from "../app/int-id-management-cards/IntIdMgtCardsBrowse";
-import IntIdMgtCardsEdit from "../app/int-id-management-cards/IntIdMgtCardsEdit";
-import IntIdMgtTableBrowse from "../app/int-id-management-table/IntIdMgtTableBrowse";
-import IntIdMgtTableEdit from "../app/int-id-management-table/IntIdMgtTableEdit";
-import { IntIdentityIdCards } from "../app/int-id-cards/IntIdentityIdCards";
-import { DatatypesCards } from "../app/datatypes-test-cards/DatatypesCards";
-import Datatypes3Browse from "../app/datatypes3/Datatypes3Browse";
-import Datatypes3Edit from "../app/datatypes3/Datatypes3Edit";
-import Datatypes2Browse from "../app/datatypes2/Datatypes2Browse";
-import Datatypes2Edit from "../app/datatypes2/Datatypes2Edit";
-import CompositionO2MBrowse from "../app/compositionO2M/CompositionO2MBrowse";
-import CompositionO2MEdit from "../app/compositionO2M/CompositionO2MEdit";
-import CompositionO2OBrowse from "../app/compositionO2O/CompositionO2OBrowse";
-import CompositionO2OEdit from "../app/compositionO2O/CompositionO2OEdit";
-import AssociationM2MBrowse from "../app/associationM2M/AssociationM2MBrowse";
-import AssociationM2MEdit from "../app/associationM2M/AssociationM2MEdit";
-import AssociationM2OBrowse from "../app/associationM2O/AssociationM2OBrowse";
-import AssociationM2OEdit from "../app/associationM2O/AssociationM2OEdit";
-import AssociationO2MBrowse from "../app/associationO2M/AssociationO2MBrowse";
-import AssociationO2MEdit from "../app/associationO2M/AssociationO2MEdit";
-import AssociationO2OBrowse from "../app/associationO2O/AssociationO2OBrowse";
-import AssociationO2OEdit from "../app/associationO2O/AssociationO2OEdit";
-import DatatypesBrowse3 from "../app/datatypes-test3/DatatypesBrowse3";
-import DatatypesEdit3 from "../app/datatypes-test3/DatatypesEdit3";
-import DatatypesBrowse2 from "../app/datatypes-test2/DatatypesBrowse2";
-import DatatypesEdit2 from "../app/datatypes-test2/DatatypesEdit2";
-import DatatypesBrowse1 from "../app/datatypes-test1/DatatypesBrowse1";
-import DatatypesEdit1 from "../app/datatypes-test1/DatatypesEdit1";
-import CarTable from "../app/entity-management3/CarTable";
-import CarEdit3 from "../app/entity-management3/CarEdit3";
-import CarList from "../app/entity-management2/CarList";
-import CarEdit2 from "../app/entity-management2/CarEdit2";
-import CarCards from "../app/entity-management/CarCards";
-import CarEdit from "../app/entity-management/CarEdit";
+import IntIdentityIdBrowserList from "../app/int-identity-id-browser-list/IntIdentityIdBrowserList";
+import IntIdentityIdBrowserCards from "../app/int-identity-id-browser-cards/IntIdentityIdBrowserCards";
+import IntIdentityIdBrowserTable from "../app/int-identity-id-browser-table/IntIdentityIdBrowserTable";
+import IntIdentityIdEditor from "../app/int-identity-id-editer/IntIdentityIdEditor";
+import IntIdBrowserList from "../app/int-id-browser-list/IntIdBrowserList";
+import IntIdBrowserCards from "../app/int-id-browser-cards/IntIdBrowserCards";
+import IntIdBrowserTable from "../app/int-id-browser-table/IntIdBrowserTable";
+import IntIdEditor from "../app/int-id-editor/IntIdEditor";
+import CompositionO2MBrowserTable from "../app/compositionO2M-management/CompositionO2MBrowserTable";
+import CompositionO2MEditor from "../app/compositionO2M-management/CompositionO2MEditor";
+import CompositionO2OBrowserTable from "../app/compositionO2O-management/CompositionO2OBrowserTable";
+import CompositionO2OEditor from "../app/compositionO2O-management/CompositionO2OEditor";
+import AssociationM2MBrowserTable from "../app/associationM2M-management/AssociationM2MBrowserTable";
+import AssociationM2MEditor from "../app/associationM2M-management/AssociationM2MEditor";
+import AssociationM2OBrowserTable from "../app/associationM2O-management/AssociationM2OBrowserTable";
+import AssociationM2OEditor from "../app/associationM2O-management/AssociationM2OEditor";
+import AssociationO2MBrowserTable from "../app/associationO2M-management/AssociationO2MBrowserTable";
+import AssociationO2MEditor from "../app/associationO2M-management/AssociationO2MEditor";
+import AssociationO2OBrowserTable from "../app/associationO2O-management/AssociationO2OBrowserTable";
+import AssociationO2OEditor from "../app/associationO2O-management/AssociationO2OEditor";
+import { DatatypesTestCards } from "../app/datatypes-test-cards/DatatypesTestCards";
+import DatatypesTestBrowserTable from "../app/datatypes-test-browser-table/DatatypesTestBrowserTable";
+import DatatypesTestBrowserList from "../app/datatypes-test-browser-list/DatatypesTestBrowserList";
+import DatatypesTestBrowserCards from "../app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
+import DatatypesTestEditor from "../app/datatypes-test-editor/DatatypesTestEditor";
 import { FavoriteCars } from "../app/entity-cards/FavoriteCars";
+import CarBrowserTable from "../app/car-browser-table/CarBrowserTable";
+import CarBrowserList from "../app/car-browser-list/CarBrowserList";
+import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
+import CarEditor from "../app/car-editor/CarEditor";
 import { TestBlankComponent } from "../app/blank-components/TestBlankComponent";
 import React from "react";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
@@ -69,176 +52,124 @@ export const ComponentPreviews = () => {
         <TestBlankComponent />
       </ComponentPreview>
 
+      <ComponentPreview path="/CarEditor">
+        <CarEditor />
+      </ComponentPreview>
+
+      <ComponentPreview path="/CarBrowserCards">
+        <CarBrowserCards />
+      </ComponentPreview>
+
+      <ComponentPreview path="/CarBrowserList">
+        <CarBrowserList />
+      </ComponentPreview>
+
+      <ComponentPreview path="/CarBrowserTable">
+        <CarBrowserTable />
+      </ComponentPreview>
+
       <ComponentPreview path="/favoriteCars">
         <FavoriteCars />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarEdit">
-        <CarEdit />
+      <ComponentPreview path="/DatatypesTestEditor">
+        <DatatypesTestEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarCards">
-        <CarCards />
+      <ComponentPreview path="/DatatypesTestBrowserCards">
+        <DatatypesTestBrowserCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarEdit2">
-        <CarEdit2 />
+      <ComponentPreview path="/DatatypesTestBrowserList">
+        <DatatypesTestBrowserList />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarList">
-        <CarList />
+      <ComponentPreview path="/DatatypesTestBrowserTable">
+        <DatatypesTestBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarEdit3">
-        <CarEdit3 />
+      <ComponentPreview path="/datatypesTestCards">
+        <DatatypesTestCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/CarTable">
-        <CarTable />
+      <ComponentPreview path="/AssociationO2OEditor">
+        <AssociationO2OEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesEdit1">
-        <DatatypesEdit1 />
+      <ComponentPreview path="/AssociationO2OBrowserTable">
+        <AssociationO2OBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesBrowse1">
-        <DatatypesBrowse1 />
+      <ComponentPreview path="/AssociationO2MEditor">
+        <AssociationO2MEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesEdit2">
-        <DatatypesEdit2 />
+      <ComponentPreview path="/AssociationO2MBrowserTable">
+        <AssociationO2MBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesBrowse2">
-        <DatatypesBrowse2 />
+      <ComponentPreview path="/AssociationM2OEditor">
+        <AssociationM2OEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesEdit3">
-        <DatatypesEdit3 />
+      <ComponentPreview path="/AssociationM2OBrowserTable">
+        <AssociationM2OBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/DatatypesBrowse3">
-        <DatatypesBrowse3 />
+      <ComponentPreview path="/AssociationM2MEditor">
+        <AssociationM2MEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationO2OEdit">
-        <AssociationO2OEdit />
+      <ComponentPreview path="/AssociationM2MBrowserTable">
+        <AssociationM2MBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationO2OBrowse">
-        <AssociationO2OBrowse />
+      <ComponentPreview path="/CompositionO2OEditor">
+        <CompositionO2OEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationO2MEdit">
-        <AssociationO2MEdit />
+      <ComponentPreview path="/CompositionO2OBrowserTable">
+        <CompositionO2OBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationO2MBrowse">
-        <AssociationO2MBrowse />
+      <ComponentPreview path="/CompositionO2MEditor">
+        <CompositionO2MEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationM2OEdit">
-        <AssociationM2OEdit />
+      <ComponentPreview path="/CompositionO2MBrowserTable">
+        <CompositionO2MBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationM2OBrowse">
-        <AssociationM2OBrowse />
+      <ComponentPreview path="/IntIdEditor">
+        <IntIdEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationM2MEdit">
-        <AssociationM2MEdit />
+      <ComponentPreview path="/IntIdBrowserTable">
+        <IntIdBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/AssociationM2MBrowse">
-        <AssociationM2MBrowse />
+      <ComponentPreview path="/IntIdBrowserCards">
+        <IntIdBrowserCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/CompositionO2OEdit">
-        <CompositionO2OEdit />
+      <ComponentPreview path="/IntIdBrowserList">
+        <IntIdBrowserList />
       </ComponentPreview>
 
-      <ComponentPreview path="/CompositionO2OBrowse">
-        <CompositionO2OBrowse />
+      <ComponentPreview path="/IntIdentityIdEditor">
+        <IntIdentityIdEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/CompositionO2MEdit">
-        <CompositionO2MEdit />
+      <ComponentPreview path="/IntIdentityIdBrowserTable">
+        <IntIdentityIdBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/CompositionO2MBrowse">
-        <CompositionO2MBrowse />
+      <ComponentPreview path="/IntIdentityIdBrowserCards">
+        <IntIdentityIdBrowserCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/Datatypes2Edit">
-        <Datatypes2Edit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/Datatypes2Browse">
-        <Datatypes2Browse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/Datatypes3Edit">
-        <Datatypes3Edit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/Datatypes3Browse">
-        <Datatypes3Browse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/datatypesCards">
-        <DatatypesCards />
-      </ComponentPreview>
-
-      <ComponentPreview path="/intIdentityIdCards">
-        <IntIdentityIdCards />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtTableEdit">
-        <IntIdMgtTableEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtTableBrowse">
-        <IntIdMgtTableBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtCardsEdit">
-        <IntIdMgtCardsEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtCardsBrowse">
-        <IntIdMgtCardsBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtListEdit">
-        <IntIdMgtListEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdMgtListBrowse">
-        <IntIdMgtListBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtTableEdit">
-        <IntIdentityIdMgtTableEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtTableBrowse">
-        <IntIdentityIdMgtTableBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtCardsEdit">
-        <IntIdentityIdMgtCardsEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtCardsBrowse">
-        <IntIdentityIdMgtCardsBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtListEdit">
-        <IntIdentityIdMgtListEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/IntIdentityIdMgtListBrowse">
-        <IntIdentityIdMgtListBrowse />
+      <ComponentPreview path="/IntIdentityIdBrowserList">
+        <IntIdentityIdBrowserList />
       </ComponentPreview>
 
       <ComponentPreview path="/stringIdCards">
@@ -249,64 +180,48 @@ export const ComponentPreviews = () => {
         <StringIdMgtCardsEdit />
       </ComponentPreview>
 
-      <ComponentPreview path="/StringIdMgtCardsBrowse">
-        <StringIdMgtCardsBrowse />
+      <ComponentPreview path="/StringIdBrowserCards">
+        <StringIdBrowserCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/StringIdMgtListEdit">
-        <StringIdMgtListEdit />
+      <ComponentPreview path="/StringIdBrowserList">
+        <StringIdBrowserList />
       </ComponentPreview>
 
-      <ComponentPreview path="/StringIdMgtListBrowse">
-        <StringIdMgtListBrowse />
+      <ComponentPreview path="/StringIdBrowserTable">
+        <StringIdBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/StringIdMgtTableEdit">
-        <StringIdMgtTableEdit />
+      <ComponentPreview path="/WeirdStringIdEditor">
+        <WeirdStringIdEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/StringIdMgtTableBrowse">
-        <StringIdMgtTableBrowse />
+      <ComponentPreview path="/WeirdStringIdBrowserCards">
+        <WeirdStringIdBrowserCards />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtCardsEdit">
-        <WeirdStringIdMgtCardsEdit />
+      <ComponentPreview path="/WeirdStringIdBrowserList">
+        <WeirdStringIdBrowserList />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtCardsBrowse">
-        <WeirdStringIdMgtCardsBrowse />
+      <ComponentPreview path="/WeirdStringIdBrowserTable">
+        <WeirdStringIdBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtListEdit">
-        <WeirdStringIdMgtListEdit />
+      <ComponentPreview path="/BoringStringIdEditor">
+        <BoringStringIdEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtListBrowse">
-        <WeirdStringIdMgtListBrowse />
+      <ComponentPreview path="/BoringStringIdBrowserTable">
+        <BoringStringIdBrowserTable />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtTableEdit">
-        <WeirdStringIdMgtTableEdit />
+      <ComponentPreview path="/TrickyIdEditor">
+        <TrickyIdEditor />
       </ComponentPreview>
 
-      <ComponentPreview path="/WeirdStringIdMgtTableBrowse">
-        <WeirdStringIdMgtTableBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/BoringStringIdMgtTableEdit">
-        <BoringStringIdMgtTableEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/BoringStringIdMgtTableBrowse">
-        <BoringStringIdMgtTableBrowse />
-      </ComponentPreview>
-
-      <ComponentPreview path="/TrickyIdEdit">
-        <TrickyIdEdit />
-      </ComponentPreview>
-
-      <ComponentPreview path="/TrickyIdList">
-        <TrickyIdList />
+      <ComponentPreview path="/TrickyIdBrowserTable">
+        <TrickyIdBrowserTable />
       </ComponentPreview>
     </Previews>
   );

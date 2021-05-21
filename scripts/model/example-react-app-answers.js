@@ -1,225 +1,241 @@
-const carQueries = require('./graphql/car');
-const favoriteCarsCardsQueries = require('./graphql/favoriteCarsCards');
-const datatypesTestCardsQueries = require('./graphql/datatypesTestCards');
-const datatypesQueries = require('./graphql/datatypesTestEntity');
+const carEntityQuery = require('./graphql/carEntity');
+const favoriteCarsCardsQuery = require('./graphql/favoriteCarsCards');;
+const datatypesQuery = require('./graphql/datatypesTestEntity');
 const datatypes2Queries = require('./graphql/datatypesTestEntity2');
 const datatypes3Queries = require('./graphql/datatypesTestEntity3');
-const associationM2MQueries = require('./graphql/associationM2M');
-const associationM2OQueries = require('./graphql/associationM2O');
-const associationO2MQueries = require('./graphql/associationO2M');
-const associationO2OQueries = require('./graphql/associationO2O');
-const compositionO2MQueries = require('./graphql/compositionO2M');
-const compositionO2OQueries = require('./graphql/compositionO2O');
+const associationM2MQuery = require('./graphql/associationM2M');
+const associationM2OQuery = require('./graphql/associationM2O');
+const associationO2MQuery = require('./graphql/associationO2M');
+const associationO2OQuery = require('./graphql/associationO2O');
+const compositionO2MQuery = require('./graphql/compositionO2M');
+const compositionO2OQuery = require('./graphql/compositionO2O');
 
 module.exports = {
   "blankComponent": {
     "componentName": "test-blank-component"
   },
-  "entityManagement": {
-    ...carQueries,
-    "editComponentName": "CarEdit",
-    "listComponentName": "CarCards",
-    "listType": "cards",
-    "entity": {
-      "name": "scr$Car"
-    },
-    "managementComponentName": "CarManagement"
-  },
-  "entityManagement2": {
-    ...carQueries,
-    "editComponentName": "CarEdit2",
-    "listComponentName": "CarList",
-    "listType": "list",
-    "entity": {
-      "name": "scr$Car"
-    },
-    "managementComponentName": "CarManagement2"
-  },
-  "entityManagement3": {
-    ...carQueries,
-    "editComponentName": "CarEdit3",
-    "listComponentName": "CarTable",
-    "listType": "table",
-    "entity": {
-      "name": "scr$Car"
-    },
-    "managementComponentName": "car-management-3"
-  },
-  "datatypesTest1": {
-    ...datatypesQueries,
-    "editComponentName": "DatatypesEdit1",
-    "listComponentName": "DatatypesBrowse1",
-    "listType": "cards",
-    "entity": {
-      "name": "scr_DatatypesTestEntity"
-    },
-    "managementComponentName": "DatatypesManagement1",
-    "nestedEntityInfo": {
-      "compositionO2Oattr": "compositionO2OTestEntity-view",
-      "compositionO2Mattr": "compositionO2MTestEntity-view"
-    }
-  },
-  "datatypesTest2": {
-    ...datatypesQueries,
-    "editComponentName": "DatatypesEdit2",
-    "listComponentName": "DatatypesBrowse2",
-    "listType": "list",
-    "entity": {
-      "name": "scr_DatatypesTestEntity"
-    },
-    "managementComponentName": "DatatypesManagement2",
-    "nestedEntityInfo": {
-      "compositionO2Oattr": "compositionO2OTestEntity-view",
-      "compositionO2Mattr": "compositionO2MTestEntity-view"
-    }
-  },
-  "datatypesTest3": {
-    ...datatypesQueries,
-    "editComponentName": "DatatypesEdit3",
-    "listComponentName": "DatatypesBrowse3",
-    "listType": "table",
-    "entity": {
-      "name": "scr_DatatypesTestEntity"
-    },
-    "managementComponentName": "DatatypesManagement3",
-    "nestedEntityInfo": {
-      "compositionO2Oattr": "compositionO2OTestEntity-view",
-      "compositionO2Mattr": "compositionO2MTestEntity-view"
-    }
-  },
-  "datatypes2Test": {
-    ...datatypes2Queries,
-    "editComponentName": "Datatypes2Edit",
-    "listComponentName": "Datatypes2Browse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_DatatypesTestEntity2"
-    },
-    "managementComponentName": "Datatypes2Management",
-    "nestedEntityInfo": {
-      "datatypesTestEntityAttr": "datatypesTestEntity-view",
-      "integerIdTestEntityAttr": "_local",
-      "intIdentityIdTestEntityAttr": "_local",
-      "stringIdTestEntityAttr": "_local",
-      "weirdStringIdTestEntityAttr": "_local"
-    }
-  },
-  "datatypes3Test": {
-    ...datatypes3Queries,
-    "editComponentName": "Datatypes3Edit",
-    "listComponentName": "Datatypes3Browse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_DatatypesTestEntity3"
-    },
-    "managementComponentName": "Datatypes3Management",
-    "nestedEntityInfo": {
-      "datatypesTestEntityAttr": "datatypesTestEntity-view",
-      "integerIdTestEntityAttr": "_local",
-      "intIdentityIdTestEntityAttr": "_local",
-      "stringIdTestEntityAttr": "_local",
-      "weirdStringIdTestEntityAttr": "_local"
-    }
+  "structure": {
+    "componentName": "StructureComponent",
+    "structureType": "Two columns"
   },
 
-  "associationO2O": {
-    ...associationO2OQueries,
-    "editComponentName": "AssociationO2OEdit",
-    "listComponentName": "AssociationO2OBrowse",
-    "listType": "table",
+  // Car Service Center domain entities
+  "carEditor": {
+    "query": carEntityQuery,
+    "componentName": "CarEditor",
     "entity": {
-      "name": "scr_AssociationO2OTestEntity"
-    },
-    "managementComponentName": "AssociationO2OManagement"
-  },
-  "associationO2M": {
-    ...associationO2MQueries,
-    "editComponentName": "AssociationO2MEdit",
-    "listComponentName": "AssociationO2MBrowse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_AssociationO2MTestEntity"
-    },
-    "managementComponentName": "AssociationO2MManagement"
-  },
-  "associationM2O": {
-    ...associationM2OQueries,
-    "editComponentName": "AssociationM2OEdit",
-    "listComponentName": "AssociationM2OBrowse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_AssociationM2OTestEntity"
-    },
-    "managementComponentName": "AssociationM2OManagement"
-  },
-  "associationM2M": {
-    ...associationM2MQueries,
-    "editComponentName": "AssociationM2MEdit",
-    "listComponentName": "AssociationM2MBrowse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_AssociationM2MTestEntity"
-    },
-    "managementComponentName": "AssociationM2MManagement"
-  },
-
-  "compositionO2O": {
-    ...compositionO2OQueries,
-    "editComponentName": "CompositionO2OEdit",
-    "listComponentName": "CompositionO2OBrowse",
-    "listType": "table",
-    "entity": {
-      "name": "scr_CompositionO2OTestEntity"
-    },
-    "managementComponentName": "CompositionO2OManagement",
-    "nestedEntityInfo": {
-      "nestedComposition": "deeplyNestedTestEntity-view"
+      "name": "scr$Car"
     }
   },
-  "compositionO2M": {
-    ...compositionO2MQueries,
-    "editComponentName": "CompositionO2MEdit",
-    "listComponentName": "CompositionO2MBrowse",
-    "listType": "table",
+  "carBrowserCards": {
+    "query": carEntityQuery,
+    "componentName": "CarBrowserCards",
+    "browserType": "cards",
     "entity": {
-      "name": "scr_CompositionO2MTestEntity"
-    },
-    "managementComponentName": "CompositionO2MManagement"
-  },
-  "datatypesTestCards": {
-    ...datatypesTestCardsQueries,
-    "componentName": "DatatypesCards",
-    "entity": {
-      "name": "scr_DatatypesTestEntity"
+      "name": "scr$Car"
     }
+  },
+  "carBrowserList": {
+    "query": carEntityQuery,
+    "componentName": "CarBrowserList",
+    "browserType": "list",
+    "entity": {
+      "name": "scr$Car"
+    }
+  },
+  "carBrowserTable": {
+    "query": carEntityQuery,
+    "componentName": "CarBrowserTable",
+    "browserType": "table",
+    "entity": {
+      "name": "scr$Car"
+    }
+  },
+  "carCardsGrid": {
+    "query": carEntityQuery,
+    "componentName": "CarCardsGrid",
+    "entity": {
+        "name": "scr$Car"
+    },
+    "cardsInRow": "3 columns"
   },
   "favoriteCarsCards": {
-    ...favoriteCarsCardsQueries,
+    "query": favoriteCarsCardsQuery,
     "componentName": "FavoriteCars",
     "entity": {
       "name": "scr$FavoriteCar"
     }
   },
-  "entityList": {
-    "entityView": {
-      "name": "_local",
-      "entityName": "scr$Garage"
-    },
-    "componentName": "scr-garage-list",
+  // "entityList": {
+  //   "entityView": {
+  //     "name": "_local",
+  //     "entityName": "scr$Garage"
+  //   },
+  //   "componentName": "scr-garage-list",
+  //   "entity": {
+  //     "name": "scr$Garage"
+  //   }
+  // },
+
+  // All datatypes
+  "datatypesTestEditor": {
+    "query": datatypesQuery,
+    "componentName": "DatatypesTestEditor",
     "entity": {
-      "name": "scr$Garage"
+      "name": "scr_DatatypesTestEntity"
+    },
+  },
+  "datatypesTestBrowserCards": {
+    "query": datatypesQuery,
+    "componentName": "DatatypesTestBrowserCards",
+    "browserType": "cards",
+    "entity": {
+      "name": "scr_DatatypesTestEntity"
+    },
+    "nestedEntityInfo": {
+      "compositionO2Oattr": "compositionO2OTestEntity-view",
+      "compositionO2Mattr": "compositionO2MTestEntity-view"
     }
   },
-  "entityEdit": {
-    "editView": {
-      "name": "car-edit",
-      "entityName": "scr$Car"
-    },
-    "editComponentName": "scr-car-edit",
+  "datatypesTestBrowserList": {
+    "query": datatypesQuery,
+    "componentName": "DatatypesTestBrowserList",
+    "browserType": "list",
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_DatatypesTestEntity"
+    },
+  },
+  "datatypesTestBrowserTable": {
+    "query": datatypesQuery,
+    "componentName": "DatatypesTestBrowserTable",
+    "browserType": "table",
+    "entity": {
+      "name": "scr_DatatypesTestEntity"
+    },
+  },
+  "datatypesTestCards": {
+    "query": datatypesQuery,
+    "componentName": "DatatypesTestCards",
+    "entity": {
+      "name": "scr_DatatypesTestEntity"
     }
   },
+  // TODO old version of answers for entity-management with nestedEntityInfo
+  // "datatypes2Test": {
+  //   ...datatypes2Queries,
+  //   "editComponentName": "Datatypes2Edit",
+  //   "listComponentName": "Datatypes2Browse",
+  //   "listType": "table",
+  //   "entity": {
+  //     "name": "scr_DatatypesTestEntity2"
+  //   },
+  //   "managementComponentName": "Datatypes2Management",
+  //   "nestedEntityInfo": {
+  //     "datatypesTestEntityAttr": "datatypesTestEntity-view",
+  //     "integerIdTestEntityAttr": "_local",
+  //     "intIdentityIdTestEntityAttr": "_local",
+  //     "stringIdTestEntityAttr": "_local",
+  //     "weirdStringIdTestEntityAttr": "_local"
+  //   }
+  // },
+  // "datatypes3Test": {
+  //   ...datatypes3Queries,
+  //   "editComponentName": "Datatypes3Edit",
+  //   "listComponentName": "Datatypes3Browse",
+  //   "listType": "table",
+  //   "entity": {
+  //     "name": "scr_DatatypesTestEntity3"
+  //   },
+  //   "managementComponentName": "Datatypes3Management",
+  //   "nestedEntityInfo": {
+  //     "datatypesTestEntityAttr": "datatypesTestEntity-view",
+  //     "integerIdTestEntityAttr": "_local",
+  //     "intIdentityIdTestEntityAttr": "_local",
+  //     "stringIdTestEntityAttr": "_local",
+  //     "weirdStringIdTestEntityAttr": "_local"
+  //   }
+  // },
+
+  // Relations
+  "associationO2OManagement": {
+    "entity": {
+      "name": "scr_AssociationO2OTestEntity"
+    },
+
+    "editorComponentName": "AssociationO2OEditor",
+    "editorQuery": associationO2OQuery,
+  
+    "browserComponentName": "AssociationO2OBrowserTable",
+    "browserType": "table",
+    "browserQuery": associationO2OQuery,
+  },
+  "associationO2MManagement": {
+    "entity": {
+      "name": "scr_AssociationO2MTestEntity"
+    },
+
+    "editorComponentName": "AssociationO2MEditor",
+    "editorQuery": associationO2MQuery,
+    
+    "browserComponentName": "AssociationO2MBrowserTable",
+    "browserType": "table",
+    "browserQuery": associationO2MQuery,
+  },
+  "associationM2OManagement": {
+    "entity": {
+      "name": "scr_AssociationM2OTestEntity"
+    },
+  
+    "editorComponentName": "AssociationM2OEditor",
+    "editorQuery": associationM2OQuery,
+  
+    "browserComponentName": "AssociationM2OBrowserTable",
+    "browserType": "table",
+    "browserQuery": associationM2OQuery,
+  },
+  "associationM2MManagement": {
+    "entity": {
+      "name": "scr_AssociationM2MTestEntity"
+    },
+    
+    "editorComponentName": "AssociationM2MEditor",
+    "editorQuery": associationM2MQuery,
+    
+    "browserComponentName": "AssociationM2MBrowserTable",
+    "browserType": "table",
+    "browserQuery": associationM2MQuery,
+  },
+
+  "compositionO2OManagement": {
+    "entity": {
+      "name": "scr_CompositionO2OTestEntity"
+    },
+    
+    "editorComponentName": "CompositionO2OEditor",
+    "editorQuery": compositionO2OQuery,
+    
+    "browserComponentName": "CompositionO2OBrowserTable",
+    "browserType": "table",
+    "browserQuery": compositionO2OQuery,
+    
+    "nestedEntityInfo": {
+      "nestedComposition": "deeplyNestedTestEntity-view"
+    }
+  },
+  "compositionO2MManagement": {
+    "entity": {
+      "name": "scr_CompositionO2MTestEntity"
+    },
+    
+    "editorComponentName": "CompositionO2MEditor",
+    "editorQuery": compositionO2MQuery,
+    
+    "browserComponentName": "CompositionO2MBrowserTable",
+    "browserType": "table",
+    "browserQuery": compositionO2MQuery,
+  },
+
+  // old
   "queryResults": {
     "query": {
       "name": "carsByType",

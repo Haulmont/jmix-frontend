@@ -67,7 +67,4 @@ const datatypesQuery = `
 //   _instanceName
 // }
 
-module.exports = {
-  listQuery: datatypesQuery,
-  editQuery: datatypesQuery,
-};
+module.exports = datatypesQuery;

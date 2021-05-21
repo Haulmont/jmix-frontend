@@ -3,25 +3,12 @@ import {CommonTemplateModel} from "../../../building-blocks/stages/template-mode
 import {Answers} from "./answers";
 import {Options} from "./options";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {elementNameToClass, normalizeRelativePath, unCapitalizeFirst} from "../../../common/utils";
+import {deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 
-export type TemplateModel = CommonTemplateModel & {
-    nameLiteral: string;
-}
+export interface TemplateModel extends CommonTemplateModel {}
 
 export async function deriveTemplateModel(
     answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
   ): Promise<TemplateModel> {
-
-    const className = elementNameToClass(answers.componentName);
-    const relDirShift = normalizeRelativePath(options.dirShift);
-    const nameLiteral = unCapitalizeFirst(className);
-    const {componentName} = answers; 
-
-    return {
-        className,
-        componentName,
-        relDirShift,
-        nameLiteral,
-    }
+    return {...deriveEntityCommon(options, answers)}
 }

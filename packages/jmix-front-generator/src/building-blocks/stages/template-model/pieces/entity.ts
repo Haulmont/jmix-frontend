@@ -2,7 +2,7 @@ import {Entity, ProjectModel} from "../../../../common/model/cuba-model";
 import {getEntityPath} from "../../../../generators/react-typescript/common/template-model";
 
 export interface EntityWithPath extends Entity {
-  path: string // path relative to SDK placement
+  path: string; // path relative to SDK placement
 }
 
 export interface EntityTemplateModel {

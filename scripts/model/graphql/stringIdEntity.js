@@ -1,4 +1,4 @@
-const query = `
+const stringIdEntityQuery = `
 {
   identifier
   _instanceName
@@ -24,7 +24,4 @@ const query = `
 }
 `;
 
-module.exports = {
-  listQuery: query,
-  editQuery: query,
-};
+module.exports = stringIdEntityQuery;
