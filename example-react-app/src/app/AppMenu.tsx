@@ -22,24 +22,19 @@ export const AppMenu = () => {
         <FormattedMessage id={"router.StructureComponent"} />
       </MenuItem>
 
-      <MenuItem screenId={"FavoriteCars"}>
+      <MenuItem screenId={"CarBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.FavoriteCars"} />
+        <FormattedMessage id={"router.CarBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"CarManagement"}>
+      <MenuItem screenId={"CarBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.CarManagement"} />
+        <FormattedMessage id={"router.CarBrowserList"} />
       </MenuItem>
 
-      <MenuItem screenId={"CarManagement2"}>
+      <MenuItem screenId={"CarBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.CarManagement2"} />
-      </MenuItem>
-
-      <MenuItem screenId={"CarManagement3"}>
-        <BarsOutlined />
-        <FormattedMessage id={"router.CarManagement3"} />
+        <FormattedMessage id={"router.CarBrowserTable"} />
       </MenuItem>
 
       <MenuItem screenId={"CarCardsGrid"}>
@@ -47,99 +42,89 @@ export const AppMenu = () => {
         <FormattedMessage id={"router.CarCardsGrid"} />
       </MenuItem>
 
-      <MenuItem screenId={"DatatypesManagement1"}>
+      <MenuItem screenId={"FavoriteCars"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.DatatypesManagement1"} />
+        <FormattedMessage id={"router.FavoriteCars"} />
       </MenuItem>
 
-      <MenuItem screenId={"DatatypesManagement2"}>
+      <MenuItem screenId={"DatatypesTestBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.DatatypesManagement2"} />
+        <FormattedMessage id={"router.DatatypesTestBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"DatatypesManagement3"}>
+      <MenuItem screenId={"DatatypesTestBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.DatatypesManagement3"} />
+        <FormattedMessage id={"router.DatatypesTestBrowserList"} />
       </MenuItem>
 
-      <MenuItem screenId={"AssociationO2OManagement"}>
+      <MenuItem screenId={"DatatypesTestBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.AssociationO2OManagement"} />
+        <FormattedMessage id={"router.DatatypesTestBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"AssociationO2MManagement"}>
+      <MenuItem screenId={"DatatypesTestCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.AssociationO2MManagement"} />
+        <FormattedMessage id={"router.DatatypesTestCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"AssociationM2OManagement"}>
+      <MenuItem screenId={"AssociationO2OBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.AssociationM2OManagement"} />
+        <FormattedMessage id={"router.AssociationO2OBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"AssociationM2MManagement"}>
+      <MenuItem screenId={"AssociationO2MBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.AssociationM2MManagement"} />
+        <FormattedMessage id={"router.AssociationO2MBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"CompositionO2OManagement"}>
+      <MenuItem screenId={"AssociationM2OBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.CompositionO2OManagement"} />
+        <FormattedMessage id={"router.AssociationM2OBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"CompositionO2MManagement"}>
+      <MenuItem screenId={"AssociationM2MBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.CompositionO2MManagement"} />
+        <FormattedMessage id={"router.AssociationM2MBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"Datatypes2Management"}>
+      <MenuItem screenId={"CompositionO2OBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.Datatypes2Management"} />
+        <FormattedMessage id={"router.CompositionO2OBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"Datatypes3Management"}>
+      <MenuItem screenId={"CompositionO2MBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.Datatypes3Management"} />
+        <FormattedMessage id={"router.CompositionO2MBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"DatatypesCards"}>
+      <MenuItem screenId={"IntIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.DatatypesCards"} />
+        <FormattedMessage id={"router.IntIdBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"IntIdentityIdCards"}>
+      <MenuItem screenId={"IntIdBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.IntIdentityIdCards"} />
+        <FormattedMessage id={"router.IntIdBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"IntIdManagementTable"}>
+      <MenuItem screenId={"IntIdBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.IntIdManagementTable"} />
+        <FormattedMessage id={"router.IntIdBrowserList"} />
       </MenuItem>
 
-      <MenuItem screenId={"IntIdManagementCards"}>
+      <MenuItem screenId={"IntIdentityIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.IntIdManagementCards"} />
+        <FormattedMessage id={"router.IntIdentityIdBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"IntIdManagementList"}>
+      <MenuItem screenId={"IntIdentityIdBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.IntIdManagementList"} />
+        <FormattedMessage id={"router.IntIdentityIdBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"IntIdentityIdMgtTableManagement"}>
+      <MenuItem screenId={"IntIdentityIdBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.IntIdentityIdMgtTableManagement"} />
-      </MenuItem>
-
-      <MenuItem screenId={"IntIdentityIdMgtCardsManagement"}>
-        <BarsOutlined />
-        <FormattedMessage id={"router.IntIdentityIdMgtCardsManagement"} />
-      </MenuItem>
-
-      <MenuItem screenId={"IntIdentityIdMgtListManagement"}>
-        <BarsOutlined />
-        <FormattedMessage id={"router.IntIdentityIdMgtListManagement"} />
+        <FormattedMessage id={"router.IntIdentityIdBrowserList"} />
       </MenuItem>
 
       <MenuItem screenId={"StringIdCards"}>
@@ -147,44 +132,44 @@ export const AppMenu = () => {
         <FormattedMessage id={"router.StringIdCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"StringIdMgtCardsManagement"}>
+      <MenuItem screenId={"StringIdBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.StringIdMgtCardsManagement"} />
+        <FormattedMessage id={"router.StringIdBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"StringIdMgtListManagement"}>
+      <MenuItem screenId={"StringIdBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.StringIdMgtListManagement"} />
+        <FormattedMessage id={"router.StringIdBrowserList"} />
       </MenuItem>
 
-      <MenuItem screenId={"StringIdMgtTableManagement"}>
+      <MenuItem screenId={"StringIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.StringIdMgtTableManagement"} />
+        <FormattedMessage id={"router.StringIdBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"WeirdStringIdMgtCardsManagement"}>
+      <MenuItem screenId={"WeirdStringIdBrowserCards"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.WeirdStringIdMgtCardsManagement"} />
+        <FormattedMessage id={"router.WeirdStringIdBrowserCards"} />
       </MenuItem>
 
-      <MenuItem screenId={"WeirdStringIdMgtListManagement"}>
+      <MenuItem screenId={"WeirdStringIdBrowserList"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.WeirdStringIdMgtListManagement"} />
+        <FormattedMessage id={"router.WeirdStringIdBrowserList"} />
       </MenuItem>
 
-      <MenuItem screenId={"WeirdStringIdMgtTableManagement"}>
+      <MenuItem screenId={"WeirdStringIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.WeirdStringIdMgtTableManagement"} />
+        <FormattedMessage id={"router.WeirdStringIdBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"BoringStringIdManagementTable"}>
+      <MenuItem screenId={"BoringStringIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.BoringStringIdManagementTable"} />
+        <FormattedMessage id={"router.BoringStringIdBrowserTable"} />
       </MenuItem>
 
-      <MenuItem screenId={"TrickyIdMgr"}>
+      <MenuItem screenId={"TrickyIdBrowserTable"}>
         <BarsOutlined />
-        <FormattedMessage id={"router.TrickyIdMgr"} />
+        <FormattedMessage id={"router.TrickyIdBrowserTable"} />
       </MenuItem>
     </VerticalMenu>
   );

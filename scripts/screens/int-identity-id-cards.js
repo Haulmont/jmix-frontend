@@ -1,9 +1,9 @@
-const query = require('../model/graphql/intIdentityIdCards');
+const intIdentityIdEntityQuery = require('../model/graphql/intIdentityIdEntity');
 
 module.exports = {
-  ...query,
+  "query": intIdentityIdEntityQuery,
+  "componentName": "IntIdentityIdCards",
   "entity": {
     "name": "scr_IntIdentityIdTestEntity"
-  },
-  "componentName": "IntIdentityIdCards",
+  }
 }

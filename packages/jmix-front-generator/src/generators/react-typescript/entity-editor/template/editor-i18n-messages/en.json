@@ -1,0 +1,5 @@
+{
+  "management.editor.validationError": "Validation Error. Please check the data you entered.",
+  "management.editor.created": "Entity has been created",
+  "management.editor.updated": "Entity has been updated"
+}

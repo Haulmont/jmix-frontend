@@ -1,4 +1,4 @@
-const query = `
+const compositionO2OQuery = `
 {
   id
   _instanceName
@@ -7,7 +7,4 @@ const query = `
 }
 `;
 
-module.exports = {
-  listQuery: query,
-  editQuery: query,
-};
+module.exports = compositionO2OQuery;
