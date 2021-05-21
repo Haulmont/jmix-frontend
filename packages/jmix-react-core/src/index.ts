@@ -48,3 +48,5 @@ export * from './util/misc';
 export * from './app/Screens';
 export * from './app/Tabs';
 export * from './util/normalizeMetadata';
+
+export * from "./timer";
