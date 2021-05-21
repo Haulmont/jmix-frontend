@@ -3,8 +3,8 @@ import {componentOptionsConfig} from "../../../common/cli-options";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {getAnswersFromPrompt, allQuestions, EntityManagementAnswers } from "./answers";
 import path from "path";
-import {EntityManagementTemplateModel, deriveTemplateModel} from "./template-model";
-import {write} from "./write";
+import {EntityManagementTemplateModel, deriveManagementTemplateModel} from "./template-model";
+import {writeManagement} from "./write";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
 export class ReactEntityManagementGenerator extends YeomanGenerator {
@@ -19,8 +19,8 @@ export class ReactEntityManagementGenerator extends YeomanGenerator {
         questions: allQuestions,
         stages: {
           getAnswersFromPrompt,
-          deriveTemplateModel,
-          write
+          deriveTemplateModel: deriveManagementTemplateModel,
+          write: writeManagement,
         }
       },
       this

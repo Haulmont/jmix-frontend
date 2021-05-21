@@ -1,42 +1,78 @@
-import {StudioTemplateProperty} from "../../../common/studio/studio-model";
-import {ProjectModel} from "../../../common/model/cuba-model";
+import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {ProjectModel, View} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
-import {ListTypes} from "../../../building-blocks/stages/template-model/pieces/entity-management/list-types";
 import {
   askStringIdQuestions,
   StringIdAnswers,
   stringIdQuestions
 } from "../../../building-blocks/stages/answers/pieces/stringId";
-import {
-  commonEntityManagementQuestions,
-  displayAttributesQuestions
-} from "../../../building-blocks/stages/answers/pieces/entity-management/entity-management-common";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../common/entity";
+import { BrowserTypes, browserTypeQuestion } from "../entity-browser/answers";
 
 export interface EntityManagementAnswers extends StringIdAnswers {
-  entity: EntityWithPath,
-  managementComponentName: string,
-  listType: ListTypes,
-  listComponentName: string,
-  editComponentName: string,
-  listQuery: string,
-  editQuery: string,
+  entity: EntityWithPath;
+
+  editorComponentName: string;
+  editorQuery: string;
+
+  browserComponentName: string;
+  browserType: BrowserTypes;
+  browserQuery: string,
 }
 
+export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
+  {
+    code: 'entity',
+    caption: 'Entity',
+    propertyType: StudioTemplatePropertyType.ENTITY,
+    required: true
+  },
+  {
+    code: 'editorComponentName',
+    caption: 'Editor component name',
+    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
+    defaultValue: 'Editor',
+    required: true
+  },
+  {
+    code: 'editorQuery',
+    // Subject to change, in future we might want to get the full query from Studio
+    caption: 'GraphQL query for entity editor',
+    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
+    relatedProperty: "entity",
+    required: true
+  },
+  {
+    code: 'browserComponentName',
+    caption: 'Browser component name',
+    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
+    defaultValue: "List",
+    required: true
+  },
+  browserTypeQuestion,
+  {
+    code: 'browserQuery',
+    // Subject to change, in future we might want to get the full query from Studio
+    caption: 'GraphQL query for entity browser',
+    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
+    relatedProperty: "entity",
+    required: true
+  }
+];
+
+
 export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityManagementQuestions,
-  ...displayAttributesQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
+  ...commonEntityEditorQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
 ];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<EntityManagementAnswers> => {
   const initialQuestions = [
-    ...commonEntityManagementQuestions,
-    ...displayAttributesQuestions
+    ...commonEntityEditorQuestions
   ];
 
   const answers: EntityManagementAnswers = await askQuestions<EntityManagementAnswers>(initialQuestions, projectModel, gen);

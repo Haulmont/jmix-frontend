@@ -1,4 +1,5 @@
 .idea
+.npmrc
 node_modules
 example-react-app/package-lock.json
 react-native-client-scr/**

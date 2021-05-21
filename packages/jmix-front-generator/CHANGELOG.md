@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.12...@haulmont/jmix-front-generator@1.0.0-next.13) (2021-05-21)
+
+
+### Features
+
+* menu components and declarative approach [#22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/22) ([3b1dfc7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3b1dfc7355350e336f82c2932801cb168f1d8640))
+* support One-to-One Compositions in entity editor [#43](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/43) ([9dd2d7f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/9dd2d7f4807636e1630f7c7f1ff10c34326d5e56))
+
+
+
+
+
 # [1.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.11...@haulmont/jmix-front-generator@1.0.0-next.12) (2021-05-10)
 
 

@@ -1,127 +1,45 @@
-import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
-import {EntityAttribute, ProjectModel} from "../../../common/model/cuba-model";
-import {ListTypes} from "../../../building-blocks/stages/template-model/pieces/entity-management/list-types";
+import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {
-  deriveEntityManagementCommon,
-  EntityManagementCommonTemplateModel,
-} from "../../../building-blocks/stages/template-model/pieces/entity-management/common";
-import {
-  deriveEditAttributesFromQuery,
-  EditAttributesTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/entity-management/edit-attributes";
-import {
-  deriveListAttributesFromQuery,
-  ListAttributesTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/entity-browser/browser";
-import {
-  deriveEditorTemplateModel,
-  EntityEditorTemplateModel,
-} from "../../../building-blocks/stages/template-model/pieces/entity-management/editor";
-import {
-  deriveEntity,
-  EntityTemplateModel,
-  EntityWithPath
-} from "../../../building-blocks/stages/template-model/pieces/entity";
-import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
+import {EntityBrowserTemplateModel, deriveBrowserTemplateModel} from "../entity-browser/template-model";
+import {EntityEditorTemplateModel, deriveEditorTemplateModel} from "../entity-editor/template-model";
 import {EntityManagementAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import {getRelations, RelationalAttributes, RelationImport} from "../../../building-blocks/stages/template-model/pieces/relations";
 
-export type EntityManagementQueryTemplateModel = {
-  listQuery: string;
-  editQuery: string;
+export interface EntityManagementTemplateModel {
+  browserTemplateModel: EntityBrowserTemplateModel;
+  editorTemplateModel: EntityEditorTemplateModel;
 };
 
-export type EntityManagementTemplateModel =
-  CommonTemplateModel
-  & UtilTemplateModel
-  & EntityManagementQueryTemplateModel
-  & {
-  listComponentClass: string;
-  editComponentClass: string;
-  listType: ListTypes;
-  nameLiteral: string;
-  entity: EntityWithPath;
-  listAttributes: EntityAttribute[];
-  listRelations: RelationalAttributes;
-  stringIdName?: string;
-  editAttributes: EntityAttribute[];
-  readOnlyFields: string[];
-  editCompositions: RelationalAttributes;
-  editAssociations: RelationalAttributes;
-  editAssociatedEntityClassNames: string[];
-  relationImports: RelationImport[];
-};
-
-export const deriveTemplateModel = async (
+export const deriveManagementTemplateModel = async (
   answers: EntityManagementAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions
 ): Promise<EntityManagementTemplateModel> => {
+  const {
+    entity,
+    browserComponentName,
+    browserQuery,
+    browserType,
+    editorComponentName,
+    editorQuery,
+    ...stringIdAnswers
+  } = answers;
 
-  type PartialModel =
-    & EntityTemplateModel
-    & EntityManagementCommonTemplateModel<ListTypes>
-    & EntityManagementQueryTemplateModel
-    & ListAttributesTemplateModel
-    & EditAttributesTemplateModel;
+  const browserTemplateModel = await deriveBrowserTemplateModel({
+    entity,
+    componentName: browserComponentName,
+    query: browserQuery,
+    browserType: browserType,
+    ...stringIdAnswers
+  }, projectModel, gen, options);
 
-  const partialModel: PartialModel = {
-    ...deriveEntity(answers, projectModel),
-    ...deriveEntityManagementCommon(options, answers),
-    ...deriveQueries(answers),
-    ...deriveListAttributesFromQuery(answers, projectModel),
-    ...deriveEditAttributesFromQuery(answers, projectModel),
-  };
-
-  const {listAttributes, editAttributes, entity: entityWithPath} = partialModel;
-
-  type PartialModel2 =
-    & PartialModel
-    & EntityEditorTemplateModel
-    & {listRelations: RelationalAttributes};
-
-  const partialModel2: PartialModel2 = {
-    ...partialModel,
-    // ...deriveStringIdAnswers(answers, projectModel, listAttributes, editAttributes), // TODO A different implementation is needed for GraphQL
-    ...deriveListRelations(projectModel, listAttributes),
-    ...deriveEditorTemplateModel(answers, projectModel, editAttributes, entityWithPath),
-  };
-
-  const {editAssociations} = partialModel2;
+  const editorTemplateModel = await deriveEditorTemplateModel({
+    entity,
+    componentName: editorComponentName,
+    query: editorQuery,
+    ...stringIdAnswers
+  }, projectModel, gen, options)
 
   return {
-    ...partialModel2,
-    ...deriveEditAssociatedEntityClassNames(editAssociations),
-    ...templateUtilities
+    browserTemplateModel,
+    editorTemplateModel,
   }
 };
-
-function deriveListRelations(projectModel: ProjectModel, listAttributes: EntityAttribute[]) {
-  const {associations, compositions} = getRelations(projectModel, listAttributes);
-  const listRelations = {
-    ...associations,
-    ...compositions
-  };
-  return {listRelations};
-}
-
-function deriveQueries(answers: EntityManagementAnswers): {listQuery: string, editQuery: string} {
-  const {listQuery, editQuery} = answers;
-  return {
-    listQuery,
-    editQuery
-  };
-}
-
-function deriveEditAssociatedEntityClassNames(editAssociations: RelationalAttributes): {editAssociatedEntityClassNames: string[]} {
-  const editAssociatedEntityClassNames =
-    Array.from(
-      new Set(
-        Object.values(editAssociations)
-          .map(entity => entity.className)
-      )
-    );
-  return {
-    editAssociatedEntityClassNames
-  };
-}

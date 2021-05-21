@@ -1,4 +1,4 @@
-const query = `
+const associationM2MQuery = `
 {
   id
   _instanceName
@@ -6,7 +6,4 @@ const query = `
 }
 `;
 
-module.exports = {
-  listQuery: query,
-  editQuery: query,
-};
+module.exports = associationM2MQuery;

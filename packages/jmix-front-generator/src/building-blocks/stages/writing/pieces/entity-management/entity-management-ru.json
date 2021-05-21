@@ -1,8 +1,0 @@
-{
-  "management.browser.delete.areYouSure":  "Вы уверены, что хотите удалить {instanceName}?",
-  "management.browser.delete.ok": "Удалить",
-  "management.browser.noItems":  "Нет данных",
-  "management.editor.validationError": "Ошибка валидации. Пожалуйста, проверьте введенные данные.",
-  "management.editor.created": "Сущность успешно создана",
-  "management.editor.updated": "Сущность успешно обновлена"
-}

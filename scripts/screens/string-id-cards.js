@@ -1,7 +1,7 @@
-const query = require('../model/graphql/stringIdCards');
+const stringIdEntityQuery = require('../model/graphql/stringIdEntity');
 
 module.exports = {
-  ...query,
+  "query": stringIdEntityQuery,
   "entity": {
     "name": "scr_StringIdTestEntity"
   },

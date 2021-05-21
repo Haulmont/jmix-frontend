@@ -13,7 +13,7 @@ const blankComponentQuestions: StudioTemplateProperty[] = [
   }
 ];
 export interface Answers {
-    componentName: string
+  componentName: string
 }
 
   
@@ -22,13 +22,13 @@ const questionsToBeAskedInCLI = [
 ];
 
 export const allQuestions: StudioTemplateProperty[] = [
-    ...questionsToBeAskedInCLI
-  ];
+  ...questionsToBeAskedInCLI
+];
 
-  export const getAnswersFromPrompt = async (
-    projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
-  ): Promise<Answers> => {    
-    const answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
+export const getAnswersFromPrompt = async (
+  projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
+): Promise<Answers> => {    
+  const answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
 
-    return answers;
-  }
+  return answers;
+}
