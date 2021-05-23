@@ -29,10 +29,12 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
 }
 
 const description = 'list screens for specified entity';
+const icon = 'entity-browser.svg'
 
 export {
   ReactEntityBrowserGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
-  description
+  description,
+  icon
 }
