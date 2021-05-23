@@ -11,6 +11,10 @@ export interface IMultiScreenItem {
   parent?: IMultiScreenItem;
   params?: {
     entityId?: string;
+    pagination?: {
+      page: number;
+      pageSize: number;
+    }
   };
 }
 
@@ -128,6 +132,18 @@ export class Screens {
       }
 
       this.screens = newScreens;
+    }
+
+
+    const pagination = activeScreen.params?.pagination;
+    const entityId = activeScreen.params?.entityId;
+
+    if (pagination) {
+      window.history.pushState({}, '', this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
+    } else if (entityId) {
+      window.history.pushState({}, '', this.currentRootPageData.menuPath + `/${entityId}`);
+    } else {
+      window.history.pushState({}, '', this.currentRootPageData.menuPath);
     }
   });
 }

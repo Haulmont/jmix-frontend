@@ -6,29 +6,23 @@ import {
   EntityPermAccessControl,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import {
-  DataTable,
-  RetryDialog,
-  useEntityList,
-  registerEntityBrowserScreen,
-  registerRoute
-} from "@haulmont/jmix-react-ui";
-import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
+import { DataTable, RetryDialog, useEntityList } from "@haulmont/jmix-react-ui";
+import { DatatypesTestEntity2 } from "../../jmix/entities/scr_DatatypesTestEntity2";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
-const ROUTING_PATH = "/weirdStringIdBrowserTable";
+const ENTITY_NAME = "scr_DatatypesTestEntity2";
+const ROUTING_PATH = "/datatypes2Management";
 
-const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
-  query scr_WeirdStringIdTestEntityList(
+const SCR_DATATYPESTESTENTITY2_LIST = gql`
+  query scr_DatatypesTestEntity2List(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
-    $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
+    $orderBy: inp_scr_DatatypesTestEntity2OrderBy
+    $filter: [inp_scr_DatatypesTestEntity2FilterCondition]
   ) {
-    scr_WeirdStringIdTestEntityCount
-    scr_WeirdStringIdTestEntityList(
+    scr_DatatypesTestEntity2Count
+    scr_DatatypesTestEntity2List(
       limit: $limit
       offset: $offset
       orderBy: $orderBy
@@ -36,19 +30,17 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     ) {
       id
       _instanceName
-      identifier
-      description
     }
   }
 `;
 
-const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
-  mutation Delete_scr_WeirdStringIdTestEntity($id: String!) {
-    delete_scr_WeirdStringIdTestEntity(id: $id)
+const DELETE_SCR_DATATYPESTESTENTITY2 = gql`
+  mutation Delete_scr_DatatypesTestEntity2($id: String!) {
+    delete_scr_DatatypesTestEntity2(id: $id)
   }
 `;
 
-const WeirdStringIdBrowserTable = observer(() => {
+const Datatypes2Browse = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
@@ -62,9 +54,9 @@ const WeirdStringIdBrowserTable = observer(() => {
     handleCreateBtnClick,
     handleEditBtnClick,
     store
-  } = useEntityList<WeirdStringIdTestEntity>({
-    listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
+  } = useEntityList<DatatypesTestEntity2>({
+    listQuery: SCR_DATATYPESTESTENTITY2_LIST,
+    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY2,
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
@@ -120,7 +112,7 @@ const WeirdStringIdBrowserTable = observer(() => {
         disabled={store.selectedRowKey == null}
         onClick={deleteSelectedRow.bind(
           null,
-          data?.scr_WeirdStringIdTestEntityList
+          data?.scr_DatatypesTestEntity2List
         )}
         key="remove"
         type="default"
@@ -138,7 +130,7 @@ const WeirdStringIdBrowserTable = observer(() => {
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
-      columnDefinitions={["id", "description"]}
+      columnDefinitions={[]}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
@@ -149,18 +141,4 @@ const WeirdStringIdBrowserTable = observer(() => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "weirdStringIdBrowserTable",
-  <WeirdStringIdBrowserTable />,
-  ENTITY_NAME,
-  "WeirdStringIdBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "weirdStringIdBrowserTable",
-  <WeirdStringIdBrowserTable />
-);
-
-export default WeirdStringIdBrowserTable;
+export default Datatypes2Browse;

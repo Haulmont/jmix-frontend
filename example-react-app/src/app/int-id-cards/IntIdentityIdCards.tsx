@@ -1,29 +1,21 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card } from "antd";
-import {
-  EntityInstance,
-  getFields,
-  EntityPermAccessControl,
-  toIdString,
-  ScreensContext
-} from "@haulmont/jmix-react-core";
+import { Card } from "antd";
+import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
+import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   Paging,
-  Spinner,
   RetryDialog,
+  Spinner,
   useEntityList,
-  registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
-import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
-import { FormattedMessage } from "react-intl";
+import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_IntIdentityIdTestEntity";
-const ROUTING_PATH = "/intIdentityIdBrowserCards";
+const ROUTING_PATH = "/intIdentityIdCards";
 
 const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
   query scr_IntIdentityIdTestEntityList(
@@ -69,15 +61,12 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
   }
 `;
 
-const IntIdentityIdBrowserCards = observer(() => {
+export const IntIdentityIdCards = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
     loadItems,
     listQueryResult: { loading, error, data },
-    showDeletionDialog,
-    handleCreateBtnClick,
-    handleEditBtnClick,
     handlePaginationChange,
     store
   } = useEntityList<IntIdentityIdTestEntity>({
@@ -86,7 +75,8 @@ const IntIdentityIdBrowserCards = observer(() => {
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    queryName: "scr_IntIdentityIdTestEntityList"
   });
 
   if (error != null) {
@@ -103,55 +93,15 @@ const IntIdentityIdBrowserCards = observer(() => {
 
   return (
     <div className="narrow-layout">
-      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <div style={{ marginBottom: "12px" }}>
-          <Button
-            htmlType="button"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateBtnClick}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </div>
-      </EntityPermAccessControl>
-
-      {dataSource == null || dataSource.length === 0 ? (
-        <p>
-          <FormattedMessage id="management.browser.noItems" />
-        </p>
-      ) : null}
-      {dataSource.map((e: EntityInstance<IntIdentityIdTestEntity>) => (
+      {dataSource.map(e => (
         <Card
           title={e._instanceName}
-          key={e.id ? toIdString(e.id) : undefined}
+          key={e.id ? getStringId(e.id) : undefined}
           style={{ marginBottom: "12px" }}
-          actions={[
-            <EntityPermAccessControl
-              entityName={ENTITY_NAME}
-              operation="delete"
-            >
-              <DeleteOutlined
-                key="delete"
-                onClick={showDeletionDialog.bind(null, e)}
-              />
-            </EntityPermAccessControl>,
-            <EntityPermAccessControl
-              entityName={ENTITY_NAME}
-              operation="update"
-            >
-              <EditOutlined
-                key="edit"
-                onClick={handleEditBtnClick.bind(null, e.id)}
-              />
-            </EntityPermAccessControl>
-          ]}
         >
           {getFields(e).map(p => (
             <EntityProperty
-              entityName={ENTITY_NAME}
+              entityName={IntIdentityIdTestEntity.NAME}
               propertyName={p}
               value={e[p]}
               key={p}
@@ -172,17 +122,10 @@ const IntIdentityIdBrowserCards = observer(() => {
 });
 
 registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
   ROUTING_PATH,
-  "intIdentityIdBrowserCards",
-  <IntIdentityIdBrowserCards />,
+  ROUTING_PATH,
+  "IntIdentityIdCards",
+  <IntIdentityIdCards />,
   ENTITY_NAME,
-  "IntIdentityIdBrowserCards"
+  "IntIdentityIdCards"
 );
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "intIdentityIdBrowserCards",
-  <IntIdentityIdBrowserCards />
-);
-
-export default IntIdentityIdBrowserCards;

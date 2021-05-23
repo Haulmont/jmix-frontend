@@ -92,6 +92,7 @@ const CarBrowserCards = observer(() => {
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });

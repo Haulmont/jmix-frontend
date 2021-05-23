@@ -65,6 +65,7 @@ export const FavoriteCars = observer(() => {
     listQuery: SCR_FAVORITECAR_LIST,
     deleteMutation: DELETE_SCR_FAVORITECAR,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     queryName: "scr_FavoriteCarList"

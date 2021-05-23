@@ -13,26 +13,24 @@ import {
   Paging,
   Spinner,
   RetryDialog,
-  useEntityList,
-  registerEntityBrowserScreen,
-  registerRoute
+  useEntityList
 } from "@haulmont/jmix-react-ui";
-import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
+import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
-const ROUTING_PATH = "/weirdStringIdBrowserList";
+const ENTITY_NAME = "scr_TrickyIdTestEntity";
+const ROUTING_PATH = "/trickyIdMgr";
 
-const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
-  query scr_WeirdStringIdTestEntityList(
+const SCR_TRICKYIDTESTENTITY_LIST = gql`
+  query scr_TrickyIdTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
-    $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
+    $orderBy: inp_scr_TrickyIdTestEntityOrderBy
+    $filter: [inp_scr_TrickyIdTestEntityFilterCondition]
   ) {
-    scr_WeirdStringIdTestEntityCount
-    scr_WeirdStringIdTestEntityList(
+    scr_TrickyIdTestEntityCount
+    scr_TrickyIdTestEntityList(
       limit: $limit
       offset: $offset
       orderBy: $orderBy
@@ -40,19 +38,18 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     ) {
       id
       _instanceName
-      identifier
-      description
+      otherAttr
     }
   }
 `;
 
-const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
-  mutation Delete_scr_WeirdStringIdTestEntity($id: String!) {
-    delete_scr_WeirdStringIdTestEntity(id: $id)
+const DELETE_SCR_TRICKYIDTESTENTITY = gql`
+  mutation Delete_scr_TrickyIdTestEntity($id: String!) {
+    delete_scr_TrickyIdTestEntity(id: $id)
   }
 `;
 
-const WeirdStringIdBrowserList = observer(() => {
+const TrickyIdList = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
@@ -63,9 +60,9 @@ const WeirdStringIdBrowserList = observer(() => {
     handleEditBtnClick,
     handlePaginationChange,
     store
-  } = useEntityList<WeirdStringIdTestEntity>({
-    listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
+  } = useEntityList<TrickyIdTestEntity>({
+    listQuery: SCR_TRICKYIDTESTENTITY_LIST,
+    deleteMutation: DELETE_SCR_TRICKYIDTESTENTITY,
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
@@ -81,8 +78,8 @@ const WeirdStringIdBrowserList = observer(() => {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_WeirdStringIdTestEntityList ?? [];
-  const pagesTotal = data?.scr_WeirdStringIdTestEntityCount ?? 0;
+  const dataSource = data?.scr_TrickyIdTestEntityList ?? [];
+  const pagesTotal = data?.scr_TrickyIdTestEntityCount ?? 0;
 
   return (
     <div className="narrow-layout">
@@ -105,7 +102,7 @@ const WeirdStringIdBrowserList = observer(() => {
         itemLayout="horizontal"
         bordered
         dataSource={dataSource}
-        renderItem={(item: EntityInstance<WeirdStringIdTestEntity>) => (
+        renderItem={(item: EntityInstance<TrickyIdTestEntity>) => (
           <List.Item
             actions={[
               <EntityPermAccessControl
@@ -153,18 +150,4 @@ const WeirdStringIdBrowserList = observer(() => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "weirdStringIdBrowserList",
-  <WeirdStringIdBrowserList />,
-  ENTITY_NAME,
-  "WeirdStringIdBrowserList"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "weirdStringIdBrowserList",
-  <WeirdStringIdBrowserList />
-);
-
-export default WeirdStringIdBrowserList;
+export default TrickyIdList;

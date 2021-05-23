@@ -42,6 +42,7 @@ export const <%= className %> = observer(() => {
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     screens,
+    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     queryName: '<%= dollarsToUnderscores(entity.name) %>List'
