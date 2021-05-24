@@ -14,26 +14,26 @@ type TimerHook = (
   repeating?: boolean
 ) => TimerHookControls;
 
-// This hook is used for creaiting and manipulating custom 
-// timers (setTimeout, setInterval) in functional react components.
-// useTimer hook returns object with start and stop method (to run and stop timer).
-// Example:
-//
-//  const CustomComponent: React.FC = () => {
-//    const {start, stop} = useTimer(1000, () => console.log('custom callback'));
-//    return (
-//      <>
-//        <button onClick={start}>
-//          Start timer
-//        </button>
-//        <button onClick={stop}>
-//          Stop timer
-//        </button>
-//      </>
-//    )
-//  }
- 
-/** 
+/**
+ * This hook is used for creaiting and manipulating custom 
+ * timers (setTimeout, setInterval) in functional React components.
+ * useTimer hook returns object with start and stop method (to run and stop timer).
+ * 
+ * @example
+ *  const CustomComponent: React.FC = () => {
+ *    const {start, stop} = useTimer(1000, () => console.log('custom callback'));
+ *    return (
+ *      <>
+ *        <button onClick={start}>
+ *          Start timer
+ *        </button>
+ *        <button onClick={stop}>
+ *          Stop timer
+ *        </button>
+ *      </>
+ *    )
+ *  }
+ * 
  * @param {number} delay delay time to run callback in setTimeout/setInterval.
  * @param {function} callback to be passed to setTimeout/setInterval as callback.
  * @param {boolean} autostart When it true, timer will be ran without start() call.
