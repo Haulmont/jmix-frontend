@@ -39,7 +39,6 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
   const {entityList, onEntityListChange, reverseAttrName} = props;
-  const screens = useContext(ScreensContext);
 
   const {
     items,
@@ -59,8 +58,6 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
@@ -91,7 +88,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedRowKey == null}
+        disabled={entityListState.selectedEntityId == null}
         type="default"
         onClick={handleEditBtnClick}
       >
@@ -102,7 +99,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedRowKey == null}
+        disabled={entityListState.selectedEntityId == null}
         onClick={handleDeleteBtnClick}
         key="remove"
         type="default"

@@ -31,6 +31,6 @@ export function usePaginationChangeCallback<TEntity>(
       }
 
     }),
-    [entityListState.pagination, routingPath]
+    [entityListState.pagination, routingPath, currentScreen]
   );
 }

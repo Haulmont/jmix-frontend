@@ -28,7 +28,7 @@ export function useDeleteBtnCallback<
         if (entityList != null && onEntityListChange != null) {
           onConfirm = () => {
             onEntityListChange(
-              entityList.filter(entity => entity.id !== entityInstance.id)
+              entityList.filter(entity => entity.id !== selectedEntityId)
             );
           };
         } else {
@@ -38,7 +38,15 @@ export function useDeleteBtnCallback<
         showDeleteEntityDialog(onConfirm, intl, entityInstance);
       }
     },
-    [getEntityInstanceById,  selectedEntityId]
+    [
+      selectedEntityId,
+      items,
+      entityList,
+      onEntityListChange,
+      executeDeleteMutation,
+      queryName,
+      intl,
+    ]
   );
 }
 

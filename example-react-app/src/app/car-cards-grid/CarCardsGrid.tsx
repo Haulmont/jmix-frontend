@@ -71,21 +71,16 @@ const DELETE_SCR_CAR = gql`
 `;
 
 export const CarCardsGrid = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
-    store
+    entityListState
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    queryName: "scr_CarList",
     paginationConfig: defaultGridPaginationConfig
   });
 
@@ -122,7 +117,7 @@ export const CarCardsGrid = observer(() => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={pagesTotal}
         />

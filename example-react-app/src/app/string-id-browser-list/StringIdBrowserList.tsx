@@ -79,24 +79,21 @@ const DELETE_SCR_STRINGIDTESTENTITY = gql`
 const StringIdBrowserList = observer(
   (props: EntityListProps<StringIdTestEntity>) => {
     const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
 
     const {
       items,
       count,
       executeListQuery,
       listQueryResult: { loading, error },
-      showDeletionDialog,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       handlePaginationChange,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<StringIdTestEntity>({
       listQuery: SCR_STRINGIDTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
@@ -155,19 +152,13 @@ const StringIdBrowserList = observer(
                   entityName={ENTITY_NAME}
                   operation="delete"
                 >
-                  <DeleteOutlined
-                    key="delete"
-                    onClick={showDeletionDialog.bind(null, item)}
-                  />
+                  <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
                 </EntityPermAccessControl>,
                 <EntityPermAccessControl
                   entityName={ENTITY_NAME}
                   operation="update"
                 >
-                  <EditOutlined
-                    key="edit"
-                    onClick={handleEditBtnClick.bind(null, item.id)}
-                  />
+                  <EditOutlined key="edit" onClick={handleEditBtnClick} />
                 </EntityPermAccessControl>
               ]}
             >
@@ -189,7 +180,7 @@ const StringIdBrowserList = observer(
 
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            paginationConfig={store.pagination ?? {}}
+            paginationConfig={entityListState.pagination ?? {}}
             onPagingChange={handlePaginationChange}
             total={count}
           />

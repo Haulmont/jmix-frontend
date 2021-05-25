@@ -14,7 +14,7 @@ export function useCreateBtnCallback<TEntity>(
   const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
   const intl = useIntl();
 
-  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+  let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined = undefined; // We need to initialize it so that it can be used in useCallback deps array
 
   if (entityList != null && onEntityListChange != null) {
     onCommit = (entityInstance?: EntityInstance<TEntity>) => {
@@ -40,5 +40,5 @@ export function useCreateBtnCallback<TEntity>(
       submitBtnCaption,
       hiddenAttributes
     });
-  }, [screens, entityName, entityList]);
+  }, [screens, entityName, onCommit, submitBtnCaption, hiddenAttributes]);
 }

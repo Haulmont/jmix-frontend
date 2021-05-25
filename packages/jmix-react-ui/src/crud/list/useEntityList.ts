@@ -22,11 +22,10 @@ import {
   ListQueryVars,
   useEntityListData,
   HasId,
-  IMultiScreenItem
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useState} from "react";
-import {useLocalStore} from "mobx-react";
+import {useLocalObservable} from "mobx-react";
 import {defaultPaginationConfig} from "../../ui/paging/Paging";
 import {PaginationConfig} from "antd/es/pagination";
 import {useParentScreen} from "../../util/screen";
@@ -61,7 +60,6 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * Determines the initial pagination state. Note that route parameters will override this prop.
    */
   paginationConfig?: PaginationConfig;
-  currentScreen: IMultiScreenItem;
   entityName: string;
   /**
    * Base route path
@@ -215,7 +213,6 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    currentScreen,
     entityName,
     routingPath,
     paginationConfig = defaultPaginationConfig,
@@ -236,7 +233,7 @@ export function useEntityList<
     }
   });
 
-  const entityListState: EntityListState<TEntity> = useLocalStore(() => ({
+  const entityListState: EntityListState<TEntity> = useLocalObservable(() => ({
     entityList,
     selectedEntityId: undefined,
     filter: undefined,
@@ -280,10 +277,10 @@ export function useEntityList<
     screens, entityName, routingPath, entityListState.selectedEntityId, entityListState.entityList, handleEntityListChange, reverseAttrName
   );
   const handleDeleteBtnClick = useDeleteBtnCallback(
-    intl, executeDeleteMutation, queryName, entityListState.selectedEntityId, items, entityList, onEntityListChange
+    intl, executeDeleteMutation, queryName, entityListState.selectedEntityId, items, entityList, handleEntityListChange
   );
 
-  const handlePaginationChange = usePaginationChangeCallback(entityListState, routingPath, currentScreen);
+  const handlePaginationChange = usePaginationChangeCallback(entityListState, routingPath, screens.currentScreen);
   const handleSelectionChange = useSelectionChangeCallback(entityListState);
   const handleFilterChange = useFilterChangeCallback(entityListState);
   const handleSortOrderChange = useSortOrderChangeCallback(entityListState);

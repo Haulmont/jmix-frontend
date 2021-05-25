@@ -62,24 +62,21 @@ const DELETE_SCR_INTEGERIDTESTENTITY = gql`
 const IntIdBrowserCards = observer(
   (props: EntityListProps<IntegerIdTestEntity>) => {
     const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
 
     const {
       items,
       count,
       executeListQuery,
       listQueryResult: { loading, error },
-      showDeletionDialog,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       handlePaginationChange,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<IntegerIdTestEntity>({
       listQuery: SCR_INTEGERIDTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
@@ -142,19 +139,13 @@ const IntIdBrowserCards = observer(
                 entityName={ENTITY_NAME}
                 operation="delete"
               >
-                <DeleteOutlined
-                  key="delete"
-                  onClick={showDeletionDialog.bind(null, e)}
-                />
+                <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
               </EntityPermAccessControl>,
               <EntityPermAccessControl
                 entityName={ENTITY_NAME}
                 operation="update"
               >
-                <EditOutlined
-                  key="edit"
-                  onClick={handleEditBtnClick.bind(null, e.id)}
-                />
+                <EditOutlined key="edit" onClick={handleEditBtnClick} />
               </EntityPermAccessControl>
             ]}
           >
@@ -173,7 +164,7 @@ const IntIdBrowserCards = observer(
 
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            paginationConfig={store.pagination ?? {}}
+            paginationConfig={entityListState.pagination ?? {}}
             onPagingChange={handlePaginationChange}
             total={count}
           />

@@ -39,22 +39,52 @@ export type EntityEditorStore = {
 };
 
 export const useEntityEditorStore = () => {
+  // TODO localobservable
   return useLocalStore(() => ({
     globalErrors: [],
   }));
 };
 
 export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
+  /**
+   * GraphQL query that retrieves the entity instance.
+   * Will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQueryOptions}.
+   */
   loadQuery: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQuery}.
+   */
   loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
+  /**
+   * GraphQL mutation that UPdates or inSERTs (creates) an entity instance (updates if `id` is provided and creates otherwise).
+   * Will be passed to Apollo Client `useMutation` hook along with {@link upsertMutationOptions}.
+   */
   upsertMutation: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client `useMutation` hook along with {@link upsertMutation}.
+   */
   upsertMutationOptions?: MutationHookOptions<TData, TVariables>;
+  /**
+   * An entity instance with a given `id` will be loaded from backend unless {@link entityInstance} is also provided.
+   */
   entityId?: string;
+  // TODO remove
   queryName?: string;
+  /**
+   * Name of the entity being edited.
+   */
   entityName: string;
+  /**
+   * Name of the {@link upsertMutation} input variable.
+   */
   upsertInputName: string;
+  // TODO remove
   updateResultName?: string;
+  // TODO remove
   listQueryName?: string;
+  /**
+   * Base route path.
+   */
   routingPath: string;
   hasAssociations?: boolean;
   screens: Screens;

@@ -35,7 +35,6 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
   const {entityList, onEntityListChange, reverseAttrName} = props;
-  const screens = useContext(ScreensContext);
 
   const {
     items,
@@ -51,8 +50,6 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,

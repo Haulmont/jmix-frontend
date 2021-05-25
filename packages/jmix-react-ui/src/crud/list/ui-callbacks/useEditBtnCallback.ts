@@ -16,7 +16,7 @@ export function useEditBtnCallback<TEntity>(
   const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
   const intl = useIntl();
 
-  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+  let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined = undefined;
 
   if (entityList != null && onEntityListChange != null) {
     onCommit = (updatedEntity?: EntityInstance<TEntity>) => {
@@ -44,5 +44,5 @@ export function useEditBtnCallback<TEntity>(
     openEntityEditorScreen({
       screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption, hiddenAttributes
     });
-  }, [screens, routingPath, entityName, entityList, entityId]);
+  }, [entityList, entityId, screens, entityName, routingPath, onCommit, submitBtnCaption, hiddenAttributes]);
 }

@@ -137,7 +137,6 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 const DatatypesTestBrowserTable = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
     const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
 
     const {
       items,
@@ -145,20 +144,18 @@ const DatatypesTestBrowserTable = observer(
       relationOptions,
       executeListQuery,
       listQueryResult: { loading, error },
-      handleRowSelectionChange,
+      handleSelectionChange,
       handleFilterChange,
       handleSortOrderChange,
       handlePaginationChange,
-      deleteSelectedRow,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<DatatypesTestEntity>({
       listQuery: SCR_DATATYPESTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
@@ -197,9 +194,9 @@ const DatatypesTestBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
+          disabled={entityListState.selectedEntityId == null}
           type="default"
-          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+          onClick={handleEditBtnClick}
         >
           <FormattedMessage id="common.edit" />
         </Button>
@@ -212,8 +209,8 @@ const DatatypesTestBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(null, items)}
+          disabled={entityListState.selectedEntityId == null}
+          onClick={handleDeleteBtnClick}
           key="remove"
           type="default"
         >
@@ -243,8 +240,8 @@ const DatatypesTestBrowserTable = observer(
         items={items}
         count={count}
         relationOptions={relationOptions}
-        current={store.pagination?.current}
-        pageSize={store.pagination?.pageSize}
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
@@ -274,7 +271,7 @@ const DatatypesTestBrowserTable = observer(
           "datatypesTestEntity3",
           "name"
         ].filter(columnDef => columnDef !== reverseAttrName)}
-        onRowSelectionChange={handleRowSelectionChange}
+        onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
         onPaginationChange={handlePaginationChange}
