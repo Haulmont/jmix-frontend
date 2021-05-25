@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.8...@haulmont/react-ide-toolbox@1.0.0-next.9) (2021-05-25)
+
+**Note:** Version bump only for package @haulmont/react-ide-toolbox
+
+
+
+
+
 # [1.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.7...@haulmont/react-ide-toolbox@1.0.0-next.8) (2021-05-10)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.8...@haulmont/jmix-react-core@1.0.0-next.9) (2021-05-25)
+
+
+### Features
+
+* useTimer hook [#217](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/217) ([b32ad59](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/b32ad59b6613e325e9eb4c3083647704ecbe9b63))
+
+
+
+
+
 # [1.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.7...@haulmont/jmix-react-core@1.0.0-next.8) (2021-05-21)
 
 **Note:** Version bump only for package @haulmont/jmix-react-core

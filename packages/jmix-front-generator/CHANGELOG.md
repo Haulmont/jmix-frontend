@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.13...@haulmont/jmix-front-generator@1.0.0-next.14) (2021-05-25)
+
+
+### Features
+
+* icons in react-typescript templates [#313](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/313) ([b1b2d53](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b1b2d53d882bee9758d9d9786afa6f2670eb3637))
+
+
+
+
+
 # [1.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.12...@haulmont/jmix-front-generator@1.0.0-next.13) (2021-05-21)
 
 
