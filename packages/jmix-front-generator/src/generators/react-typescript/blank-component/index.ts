@@ -27,10 +27,12 @@ export class ReactComponentGenerator extends YeomanGenerator {
 }
 
 const description = 'Empty React class-based component';
+const icon = "blank.svg"
 
 export {
   ReactComponentGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
-  description
+  description,
+  icon
 };
