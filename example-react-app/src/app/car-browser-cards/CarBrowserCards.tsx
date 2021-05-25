@@ -1,7 +1,12 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, Card } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  LeftOutlined
+} from "@ant-design/icons";
+import { Button, Card, Tooltip } from "antd";
 import {
   EntityInstance,
   getFields,
@@ -15,6 +20,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
@@ -31,6 +37,7 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -38,7 +45,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       manufacturer
@@ -77,16 +84,20 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarBrowserCards = observer(() => {
+const CarBrowserCards = observer((props: EntityListProps<Car>) => {
+  const { entityList, onEntityListChange, reverseAttrName } = props;
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
-    listQueryResult: { loading, error, data },
+    items,
+    count,
+    executeListQuery,
+    listQueryResult: { loading, error },
     showDeletionDialog,
     handleCreateBtnClick,
     handleEditBtnClick,
     handlePaginationChange,
+    goToParentScreen,
     store
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
@@ -94,25 +105,39 @@ const CarBrowserCards = observer(() => {
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange,
+    reverseAttrName
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
 
-  const dataSource = data?.scr_CarList ?? [];
-  const pagesTotal = data?.scr_CarCount ?? 0;
-
   return (
     <div className="narrow-layout">
+      {entityList != null && (
+        <Tooltip title={<FormattedMessage id="common.back" />}>
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            icon={<LeftOutlined />}
+            onClick={goToParentScreen}
+            key="back"
+            type="default"
+            shape="circle"
+          />
+        </Tooltip>
+      )}
+
       <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <div style={{ marginBottom: "12px" }}>
+        <span style={{ marginBottom: "12px" }}>
           <Button
             htmlType="button"
             type="primary"
@@ -123,15 +148,15 @@ const CarBrowserCards = observer(() => {
               <FormattedMessage id="common.create" />
             </span>
           </Button>
-        </div>
+        </span>
       </EntityPermAccessControl>
 
-      {dataSource == null || dataSource.length === 0 ? (
+      {items == null || items.length === 0 ? (
         <p>
           <FormattedMessage id="management.browser.noItems" />
         </p>
       ) : null}
-      {dataSource.map((e: EntityInstance<Car>) => (
+      {items.map((e: EntityInstance<Car>) => (
         <Card
           title={e._instanceName}
           key={e.id ? toIdString(e.id) : undefined}
@@ -157,14 +182,16 @@ const CarBrowserCards = observer(() => {
             </EntityPermAccessControl>
           ]}
         >
-          {getFields(e).map(p => (
-            <EntityProperty
-              entityName={ENTITY_NAME}
-              propertyName={p}
-              value={e[p]}
-              key={p}
-            />
-          ))}
+          {getFields(e)
+            .filter(p => p !== reverseAttrName)
+            .map(p => (
+              <EntityProperty
+                entityName={ENTITY_NAME}
+                propertyName={p}
+                value={e[p]}
+                key={p}
+              />
+            ))}
         </Card>
       ))}
 
@@ -172,7 +199,7 @@ const CarBrowserCards = observer(() => {
         <Paging
           paginationConfig={store.pagination ?? {}}
           onPagingChange={handlePaginationChange}
-          total={pagesTotal}
+          total={count}
         />
       </div>
     </div>

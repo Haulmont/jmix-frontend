@@ -17,6 +17,8 @@ export default {
   external: [
     '@apollo/client',
     '@haulmont/jmix-rest',
+    '@types/jest-expect-message',
+    '@types/uuid',
     'graphql',
     'mobx',
     'dayjs',
@@ -26,12 +28,14 @@ export default {
     'dayjs/plugin/localeData',
     'dayjs/plugin/weekOfYear',
     'dayjs/plugin/weekYear',
+    'jest-expect-message',
     'mobx-react',
     'react',
     'react-dom',
     'react-router',
     'react-router-dom',
     'react-testing-library',
+    'uuid'
   ],
   plugins: [
     resolve(),

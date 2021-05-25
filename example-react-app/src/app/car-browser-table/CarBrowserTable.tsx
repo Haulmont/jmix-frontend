@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 import {
   EntityPermAccessControl,
   ScreensContext
@@ -10,6 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
@@ -26,6 +27,7 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -33,7 +35,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       manufacturer
@@ -82,12 +84,16 @@ const DELETE_SCR_CAR = gql`
   }
 `;
 
-const CarBrowserTable = observer(() => {
+const CarBrowserTable = observer((props: EntityListProps<Car>) => {
+  const { entityList, onEntityListChange, reverseAttrName } = props;
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
-    listQueryResult: { loading, error, data },
+    items,
+    count,
+    relationOptions,
+    executeListQuery,
+    listQueryResult: { loading, error },
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -95,6 +101,7 @@ const CarBrowserTable = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
+    goToParentScreen,
     store
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
@@ -102,12 +109,15 @@ const CarBrowserTable = observer(() => {
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange,
+    reverseAttrName
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   const buttons = [
@@ -152,7 +162,7 @@ const CarBrowserTable = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, data?.scr_CarList)}
+        onClick={deleteSelectedRow.bind(null, items)}
         key="remove"
         type="default"
       >
@@ -161,14 +171,34 @@ const CarBrowserTable = observer(() => {
     </EntityPermAccessControl>
   ];
 
+  if (entityList != null) {
+    buttons.unshift(
+      <Tooltip title={<FormattedMessage id="common.back" />}>
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          icon={<LeftOutlined />}
+          onClick={goToParentScreen}
+          key="back"
+          type="default"
+          shape="circle"
+        />
+      </Tooltip>
+    );
+  }
+
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={count}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
+      enableFiltersOnColumns={entityList != null ? [] : undefined}
+      enableSortingOnColumns={entityList != null ? [] : undefined}
       columnDefinitions={[
         "manufacturer",
         "model",
@@ -184,7 +214,7 @@ const CarBrowserTable = observer(() => {
         "garage",
         "technicalCertificate",
         "photo"
-      ]}
+      ].filter(columnDef => columnDef !== reverseAttrName)}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

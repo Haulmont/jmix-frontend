@@ -4,6 +4,11 @@ const compositionO2OQuery = `
   _instanceName
   name
   quantity
+  nestedComposition {
+    id
+    _instanceName
+    name
+  }
 }
 `;
 

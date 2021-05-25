@@ -17,6 +17,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
+import { Car } from "../../jmix/entities/scr$Car";
 
 const ENTITY_NAME = "scr$Car";
 const UPSERT_INPUT_NAME = "car";
@@ -75,18 +76,19 @@ const UPSERT_SCR_CAR = gql`
   }
 `;
 
-const CarEditor = observer((props: EntityEditorProps) => {
+const CarEditor = observer((props: EntityEditorProps<Car>) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: { loading: queryLoading, error: queryError, data },
     upsertMutationResult: { loading: upsertLoading },
     store,
@@ -95,7 +97,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
     handleFinish,
     handleFinishFailed,
     handleCancelBtnClick
-  } = useEntityEditor({
+  } = useEntityEditor<Car>({
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
     entityId: multiScreen?.params?.entityId,
@@ -115,7 +117,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -130,6 +132,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="manufacturer"
+          hide={hiddenAttributes?.includes("manufacturer")}
           formItemProps={{
             style: { marginBottom: "12px" },
             rules: [{ required: true }]
@@ -139,6 +142,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="model"
+          hide={hiddenAttributes?.includes("model")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -147,6 +151,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="regNumber"
+          hide={hiddenAttributes?.includes("regNumber")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -155,6 +160,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="purchaseDate"
+          hide={hiddenAttributes?.includes("purchaseDate")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -163,6 +169,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="manufactureDate"
+          hide={hiddenAttributes?.includes("manufactureDate")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -171,6 +178,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="wheelOnRight"
+          hide={hiddenAttributes?.includes("wheelOnRight")}
           formItemProps={{
             style: { marginBottom: "12px" },
             valuePropName: "checked"
@@ -180,6 +188,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="carType"
+          hide={hiddenAttributes?.includes("carType")}
           formItemProps={{
             style: { marginBottom: "12px" },
             rules: [{ required: true }]
@@ -189,6 +198,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="ecoRank"
+          hide={hiddenAttributes?.includes("ecoRank")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -197,6 +207,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="maxPassengers"
+          hide={hiddenAttributes?.includes("maxPassengers")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -205,6 +216,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="price"
+          hide={hiddenAttributes?.includes("price")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -213,6 +225,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="mileage"
+          hide={hiddenAttributes?.includes("mileage")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -221,6 +234,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="garage"
+          hide={hiddenAttributes?.includes("garage")}
           associationOptions={data?.scr_GarageList}
           formItemProps={{
             style: { marginBottom: "12px" }
@@ -230,6 +244,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="technicalCertificate"
+          hide={hiddenAttributes?.includes("technicalCertificate")}
           associationOptions={data?.scr_TechnicalCertificateList}
           formItemProps={{
             style: { marginBottom: "12px" }
@@ -239,6 +254,7 @@ const CarEditor = observer((props: EntityEditorProps) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="photo"
+          hide={hiddenAttributes?.includes("photo")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
