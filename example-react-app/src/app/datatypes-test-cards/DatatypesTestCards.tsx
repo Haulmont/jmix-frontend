@@ -71,6 +71,16 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         name
         quantity
       }
+      compositionO2Mattr {
+        id
+        _instanceName
+        name
+        quantity
+        datatypesTestEntity {
+          id
+          _instanceName
+        }
+      }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
         _instanceName
@@ -98,7 +108,7 @@ export const DatatypesTestCards = observer(() => {
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
+    executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
     store
@@ -114,7 +124,7 @@ export const DatatypesTestCards = observer(() => {
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   if (loading || data == null) {

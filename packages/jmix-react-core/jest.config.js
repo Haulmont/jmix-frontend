@@ -7,9 +7,9 @@ module.exports = {
   },
   "coverageThreshold": {
     "global": {
-      "statements": 40,
-      "branches": 39,
-      "functions": 30,
+      "statements": 39,
+      "branches": 38,
+      "functions": 28,
       "lines": 40
     }
   },
@@ -19,5 +19,6 @@ module.exports = {
   "coveragePathIgnorePatterns": [
     "src/index.ts", // This file only contains exports
     "src/test-doubles/*"
-  ]
+  ],
+  "setupFilesAfterEnv": ["jest-expect-message"]
 };

@@ -30,27 +30,31 @@ import {
   getPropertyInfoNN,
   WithId,
   EntityInstance,
-  getListQueryName,
-  getCountQueryName,
   injectMetadata,
   MetadataInjected,
   toIdString,
   HasId,
   MayHaveInstanceName,
   getPropertyInfo,
+  dollarsToUnderscores,
+  PaginationChangeCallback,
+  JmixSortOrder,
+  SortOrderChangeCallback,
+  ComparisonType,
+  FilterChangeCallback,
+  JmixEntityFilter
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
-import {ComparisonType, FilterChangeCallback, JmixEntityFilter} from '../../crud/filter';
-import {JmixSortOrder, SortOrderChangeCallback } from '../../crud/sort';
-import { PaginationChangeCallback } from '../../crud/pagination';
 
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<TData, TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
-  data?: TData;
+  items?: TEntity[];
+  count?: number;
+  relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
   current?: number;
   pageSize?: number;
   loading: boolean;
@@ -71,6 +75,7 @@ export interface DataTableProps<TData, TEntity> extends MainStoreInjected, Metad
    * Default: filters will be enabled on all columns. Pass empty array to disable all filters.
    */
   enableFiltersOnColumns?: string[],
+  enableSortingOnColumns?: string[],
   /**
    * By default, when any number of filters is active, a `Clear filters` control will be displayed above the
    * table. When clicked, this control disables all filters at once.
@@ -146,9 +151,8 @@ export interface ColumnDefinition<TEntity> {
   columnProps: ColumnProps<TEntity>
 }
 class DataTableComponent<
-  TData extends Record<string, any> = Record<string, any>,
   TEntity extends object = object
-> extends React.Component<DataTableProps<TData, TEntity>, any> {
+> extends React.Component<DataTableProps<TEntity>, any> {
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
@@ -160,7 +164,7 @@ class DataTableComponent<
 
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
 
-  constructor(props: DataTableProps<TData, TEntity>) {
+  constructor(props: DataTableProps<TEntity>) {
     super(props);
 
     const {initialFilter} = props;
@@ -275,13 +279,13 @@ class DataTableComponent<
   }
 
   get items(): TEntity[] {
-    const {data, entityName} = this.props;
-    return data?.[getListQueryName(entityName)] ?? [];
+    const {items} = this.props;
+    return items ?? [];
   }
 
   get total(): number {
-    const {data, entityName} = this.props;
-    return data?.[getCountQueryName(entityName)] ?? 0;
+    const {count} = this.props;
+    return count ?? 0;
   }
 
   get fields(): string[] {
@@ -315,15 +319,18 @@ class DataTableComponent<
   }
 
   getRelationOptions(attrName: string): Array<HasId & MayHaveInstanceName> {
-    const {data, entityName, metadata} = this.props;
+    const {relationOptions, entityName, metadata} = this.props;
+
+    if (relationOptions == null) {
+      return [];
+    }
 
     const nestedEntityName = getPropertyInfo(metadata.entities, entityName, attrName)?.type;
-
     if (nestedEntityName == null) {
       return [];
     }
 
-    return data?.[getListQueryName(nestedEntityName)] ?? [];
+    return relationOptions.get(dollarsToUnderscores(nestedEntityName)) ?? [];
   }
 
   handleFilterOperatorChange = (operator: ComparisonType, propertyName: string) => {
@@ -541,7 +548,7 @@ class DataTableComponent<
             onOperatorChange: this.handleFilterOperatorChange,
             value: this.valuesByProperty.get(propertyName),
             onValueChange: this.handleFilterValueChange,
-            enableSorter: true,
+            enableSorter: this.isSortingForColumnEnabled(propertyName),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
             relationOptions: this.getRelationOptions(propertyName)
@@ -567,6 +574,13 @@ class DataTableComponent<
   isFilterForColumnEnabled(propertyName: string): boolean {
     return this.props.enableFiltersOnColumns
       ? this.props.enableFiltersOnColumns.indexOf(propertyName) > -1
+      : true;
+  }
+
+  isSortingForColumnEnabled(propertyName: string): boolean {
+    const {enableSortingOnColumns} = this.props;
+    return enableSortingOnColumns
+      ? enableSortingOnColumns.indexOf(propertyName) > -1
       : true;
   }
 

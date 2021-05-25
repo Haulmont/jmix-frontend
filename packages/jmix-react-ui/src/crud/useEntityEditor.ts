@@ -19,17 +19,20 @@ import {
   Metadata,
   Screens,
   IMultiScreenItem,
-  redirect,
   dollarsToUnderscores,
-  MayHaveId
+  MayHaveId,
+  EntityInstance,
+  toIdString
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {action} from "mobx";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
-import {graphqlToAntForm} from "../formatters/graphqlToAntForm";
+import {jmixFront_to_ant} from "../formatters/jmixFront_to_ant";
 import {selectFormSuccessMessageId} from "../ui/form/Form";
-import {antFormToGraphQL} from "../formatters/antFormToGraphQL";
+import {ant_to_jmixFront} from "../formatters/ant_to_jmixFront";
+import { useParentScreen } from "../util/screen";
+import { jmixFront_to_jmixGraphQL } from "../formatters/jmixFront_to_jmixGraphQL";
 
 export type EntityEditorStore = {
   globalErrors: string[];
@@ -61,9 +64,10 @@ export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TVariables> {
-  load: GraphQLQueryFn<TVariables>;
+  item: EntityInstance<TEntity>;
+  executeLoadQuery: GraphQLQueryFn<TVariables>;
   loadQueryResult: LazyQueryResult<TData, TVariables>;
-  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
   upsertMutationResult: MutationResult;
   store: EntityEditorStore;
   form: FormInstance;
@@ -74,7 +78,7 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
 }
 
 export function useEntityEditor<
-  TEntity extends MayHaveId = MayHaveId,
+  TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
   TVariables extends HasId = HasId
 >(
@@ -93,8 +97,6 @@ export function useEntityEditor<
     upsertInputName,
     hasAssociations,
     routingPath,
-    screens,
-    multiScreen,
     onCommit,
     entityInstance
   } = options;
@@ -104,51 +106,37 @@ export function useEntityEditor<
   const [form] = useForm();
   const store: EntityEditorStore = useEntityEditorStore();
 
-  const [load, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
-  const {loading: queryLoading, error: queryError, data} = loadQueryResult;
+  const [executeLoadQuery, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  const {data} = loadQueryResult;
 
-  const [upsertItem, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
+  const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
 
   // Fetch the entity (if editing) and association options from backend
   useEffect(() => {
     if (entityId != null || hasAssociations) {
-      load({
+      executeLoadQuery({
         variables: {
           id: entityId,
           loadItem: entityInstance == null && entityId != null
         } as unknown as TVariables
       });
     }
-  }, [entityId, load, hasAssociations, entityInstance]);
+  }, [entityId, executeLoadQuery, hasAssociations, entityInstance]);
+
+  const item = entityInstance != null
+    ? entityInstance
+    : data?.[queryName];
 
   // Fill the form based on retrieved data
   useEffect(() => {
-    if (
-      entityId != null && // Editing an entity
-      !queryLoading &&
-      queryError == null &&
-      data != null &&
-      metadata != null &&
-      entityInstance == null
-    ) {
+    if (item != null && metadata != null) {
       form.setFieldsValue(
-        graphqlToAntForm<TEntity>(data[queryName], entityName, metadata)
+        jmixFront_to_ant<TEntity>(item, entityName, metadata)
       );
     }
+  }, [form, item, metadata, entityName]);
 
-    if (entityInstance != null && metadata != null) {
-      form.setFieldsValue(
-        graphqlToAntForm<TEntity>(entityInstance, entityName, metadata)
-      );
-    }
-  }, [form, queryLoading, queryError, data, metadata, queryName, entityName, entityId]);
-
-  const goToParentScreen = useCallback(() => {
-    if (screens.currentScreenIndex === 1) {
-      redirect(routingPath);
-    }
-    screens.setActiveScreen(multiScreen.parent!, true);
-  }, [screens, routingPath, multiScreen]);
+  const goToParentScreen = useParentScreen(routingPath);
 
   const handleCancelBtnClick = goToParentScreen;
 
@@ -156,7 +144,7 @@ export function useEntityEditor<
     intl,
     form,
     metadata,
-    upsertItem,
+    executeUpsertMutation,
     entityName,
     upsertInputName,
     entityId,
@@ -164,13 +152,15 @@ export function useEntityEditor<
     goToParentScreen,
     updateResultName,
     listQueryName,
-    onCommit
+    onCommit,
+    entityInstance
   });
 
   return {
-    load,
+    item,
+    executeLoadQuery,
     loadQueryResult,
-    upsertItem,
+    executeUpsertMutation,
     upsertMutationResult,
     store,
     form,
@@ -185,7 +175,7 @@ export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
   intl: IntlShape;
   form: FormInstance;
   metadata: Metadata;
-  upsertItem: GraphQLMutationFn<TData, TVariables>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
   entityId?: string;
   entityName: string;
   upsertInputName: string;
@@ -193,7 +183,8 @@ export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
   goToParentScreen: () => void;
   updateResultName: string;
   listQueryName: string;
-  onCommit?: (value: TEntity) => void;
+  onCommit?: (value: EntityInstance<TEntity>) => void;
+  entityInstance?: EntityInstance<TEntity>;
 }
 
 export interface FormSubmitCallbacksHookResult<TEntity> {
@@ -212,7 +203,7 @@ export function useFormSubmitCallbacks<
     intl,
     form,
     metadata,
-    upsertItem,
+    executeUpsertMutation,
     entityName,
     upsertInputName,
     entityId,
@@ -220,7 +211,8 @@ export function useFormSubmitCallbacks<
     goToParentScreen,
     updateResultName,
     listQueryName,
-    onCommit
+    onCommit,
+    entityInstance
   } = options;
 
   const isNewEntity = (entityId == null);
@@ -234,19 +226,25 @@ export function useFormSubmitCallbacks<
   const handleFinish = useCallback(
     (values: { [field: string]: any }) => {
       if (form != null && metadata != null) {
-        const updatedEntity = {
-          ...antFormToGraphQL(values, entityName, metadata),
-          ...addIdIfExistingEntity(entityId)
-        };
-
         // TODO perform client-side validation
 
         if (onCommit != null) {
+          const id = entityInstance?.id != null
+            ? toIdString(entityInstance.id)
+            : undefined;
+          const updatedEntity = {
+            ...ant_to_jmixFront(values, entityName, metadata),
+            ...addIdIfExistingEntity(id)
+          };
           onCommit(updatedEntity as TEntity);
           goToParentScreen();
         } else {
+          const updatedEntity = {
+            ...ant_to_jmixFront(values, entityName, metadata),
+            ...addIdIfExistingEntity(entityId)
+          };
           persistEntity(
-            upsertItem,
+            executeUpsertMutation,
             upsertInputName,
             updatedEntity,
             updateResultName,
@@ -254,7 +252,8 @@ export function useFormSubmitCallbacks<
             entityName,
             isNewEntity,
             goToParentScreen,
-            intl
+            intl,
+            metadata
           );
         }
       }
@@ -267,11 +266,12 @@ export function useFormSubmitCallbacks<
       store,
       form,
       metadata,
-      upsertItem,
+      executeUpsertMutation,
       intl,
       updateResultName,
       listQueryName,
       onCommit,
+      entityInstance,
       goToParentScreen
     ]
   );
@@ -292,11 +292,12 @@ export function persistEntity<
   entityName: string,
   isNewEntity: boolean,
   goToParentScreen: () => void,
-  intl: IntlShape
+  intl: IntlShape,
+  metadata: Metadata
 ) {
   upsertItem({
     variables: {
-      [upsertInputName]: updatedEntity
+      [upsertInputName]: jmixFront_to_jmixGraphQL(updatedEntity, entityName, metadata)
     } as any,
     update(cache: ApolloCache<TData>, result: FetchResult<TData>) {
       const updateResult = result.data?.[updateResultName];

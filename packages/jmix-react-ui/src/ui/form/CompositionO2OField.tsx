@@ -7,13 +7,14 @@ import {
   MayHaveInstanceName,
   ScreensContext,
   toIdString,
-  useMetadata
+  useMetadata,
+  EntityInstance
 } from "@haulmont/jmix-react-core";
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {FormattedMessage, useIntl} from "react-intl";
 import {openEntityEditorScreen} from "../../util/screen";
-import './CompositionO2OField.less';
-import {antFormToGraphQL} from "../../formatters/antFormToGraphQL";
+import './CompositionFields.less';
+import {ant_to_jmixFront} from "../../formatters/ant_to_jmixFront";
 import {showDeleteEntityDialog} from "../../crud/showDeleteEntityDialog";
 
 export interface CompositionO2OFieldProps {
@@ -50,7 +51,7 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
         entityName,
         onCommit: createOnCommitCallback(setDirty, onChange),
         submitBtnCaption: 'common.ok',
-        entityInstance: antFormToGraphQL(value, entityName, metadata)
+        entityInstance: ant_to_jmixFront(value, entityName, metadata)
     });
     },
     [screens, entityName, value, onChange, setDirty]
@@ -102,6 +103,7 @@ const UpsertBtnTitle = ({value, dirty}: UpsertBtnTitleProps) => {
     );
   }
 
+  // TODO get rid of `dirty` flag and put the client-side constructed name into _instanceName
   if (dirty) {
     // When the nested entity has been created/edited but parent entity hasn't been saved yet,
     // the button will read "(unsaved entity)".
@@ -123,7 +125,7 @@ const UpsertBtnTitle = ({value, dirty}: UpsertBtnTitleProps) => {
 
 function createOnCommitCallback(setDirty: (dirty: boolean) => void, onChange?: (value?: MayHaveId) => void): ((value?: MayHaveId) => void) | undefined {
   if (onChange != null) {
-    return (value?: MayHaveId) => {
+    return (value?: EntityInstance) => {
       setDirty(true);
       onChange(value);
     };

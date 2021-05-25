@@ -51,6 +51,7 @@ import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../u
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { TimePicker, TimePickerProps } from '../TimePicker';
 import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
+import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
 
 export interface FieldProps {
   entityName: string;
@@ -67,7 +68,7 @@ export interface FieldProps {
    */
   associationOptions?: Array<HasId & MayHaveInstanceName>;
   /**
-   * This prop shall be supplied if the entity property has Composition relation type.
+   * This prop shall be supplied if the entity property has One-to-Many Composition relation type.
    * It is an id of the enclosing entity instance.
    */
   parentEntityInstanceId?: string;
@@ -84,6 +85,10 @@ export interface FieldProps {
    * that will be rendered, such as `DatePicker` or `Select`).
    */
   componentProps?: FormFieldComponentProps;
+  /**
+   * If `true` the field will not be rendered.
+   */
+  hide?: boolean;
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -91,8 +96,12 @@ export const Field = observer((props: FieldProps) => {
 
   const {
     entityName, propertyName, optionsContainer, associationOptions, componentProps,
-    parentEntityInstanceId, disabled, formItemProps
+    parentEntityInstanceId, disabled, formItemProps, hide
   } = props;
+
+  if (hide) {
+    return null;
+  }
 
   const metadata = useMetadata();
 
@@ -179,8 +188,11 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       const mode = getSelectMode(propertyInfo.cardinality);
       return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
     case 'COMPOSITION':
-      const nestedEntityName = metadata.entities.find((metaClass: MetaClassInfo) => metaClass.entityName === entityName)?.properties
-        .find((property: MetaPropertyInfo) => property.name === propertyName)?.type;
+      const nestedEntityName = metadata.entities
+        .find((metaClass: MetaClassInfo) => metaClass.entityName === entityName) // Find parent entity
+        ?.properties
+        .find((property: MetaPropertyInfo) => property.name === propertyName) // Find the nested entity attribute
+        ?.type; // Get nested entity name
 
       if (nestedEntityName) {
         if (propertyInfo.cardinality === 'ONE_TO_ONE') {
@@ -190,8 +202,19 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
         }
 
         if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-          return null; // TODO
+          const reverseAttrName = metadata.entities
+            .find((metaClass: MetaClassInfo) => metaClass.entityName === nestedEntityName) // Find nested entity
+            ?.properties
+            .find((property: MetaPropertyInfo) => property.type === entityName) // Find the reverse attribute
+            ?.name; // Get reverse attribute name
+
+          if (reverseAttrName != null) {
+            return <CompositionO2MField entityName={nestedEntityName}
+                                        reverseAttrName={reverseAttrName}
+                                        {...rest as Partial<CompositionO2MFieldProps>}
+            />;
         }
+      }
       }
 
       return null;

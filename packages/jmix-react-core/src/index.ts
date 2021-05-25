@@ -27,9 +27,16 @@ export * from './app/EventEmitter';
 export * from './app/Router';
 export * from './app/MetadataProvider';
 
+export * from './crud/getDisplayedItems';
+export * from './crud/getRelationOptions';
+export * from './crud/useEntityListData';
+export * from './crud/filter';
+export * from './crud/pagination';
+export * from './crud/sort';
+
 export * from './data/aliases';
 export * from './data/DataContext';
-export * from './data/EntityInstance';
+export * from './crud/EntityInstance';
 export * from './data/Collection';
 export * from './data/Instance';
 export * from './data/PropertyType';
@@ -44,6 +51,7 @@ export * from './util/file';
 export * from './util/formats';
 export * from './util/errorHandling';
 export * from './util/stateManagement';
+export * from './util/temp-id';
 export * from './util/misc';
 export * from './app/Screens';
 export * from './app/Tabs';

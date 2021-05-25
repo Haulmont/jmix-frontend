@@ -7,11 +7,20 @@ import {
   isToOneAssociation,
   Metadata,
   TemporalPropertyType,
-  applyDataTransferFormat
+  applyDataTransferFormat,
 } from "@haulmont/jmix-react-core";
 import dayjs from "dayjs";
 
-export function antFormToGraphQL(
+/**
+ * Reformats the entity data received from Ant Design `<Form>`
+ * into internal UI kit agnostic format.
+ *
+ * @param item
+ * @param entityName
+ * @param metadata
+ * @param stringIdName
+ */
+export function ant_to_jmixFront(
   item: Record<string, any>,
   entityName: string,
   metadata: Metadata,
@@ -22,25 +31,21 @@ export function antFormToGraphQL(
   Object.entries(item).forEach(([attributeName, value]) => {
     const propInfo = getPropertyInfo(metadata.entities, entityName, attributeName);
 
-    if (attributeName === '_instanceName') {
-      // _instanceName in One-to-One Compositions should not be sent back to server as it will cause validation error
-      return;
-    }
-
-    if (attributeName === stringIdName && stringIdName !== 'id') {
+    // String ID
+    if (attributeName === stringIdName) {
       result.id = value;
       return;
     }
 
     if (propInfo && isOneToOneComposition(propInfo) && value != null) {
-      result[attributeName] = antFormToGraphQL(value, propInfo.type, metadata);
+      result[attributeName] = ant_to_jmixFront(value, propInfo.type, metadata);
       return;
     }
 
     if (propInfo && isOneToManyComposition(propInfo)) {
       value == null
         ? result[attributeName] = []
-        : result[attributeName] = value.map((e: Record<string, any>) => antFormToGraphQL(e, propInfo.type, metadata));
+        : result[attributeName] = value.map((e: Record<string, any>) => ant_to_jmixFront(e, propInfo.type, metadata));
       return;
     }
 

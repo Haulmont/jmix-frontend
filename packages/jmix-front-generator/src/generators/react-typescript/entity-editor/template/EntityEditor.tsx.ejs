@@ -19,11 +19,7 @@ import {
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
 import "<%= relDirShift %>app/App.css";
-<% /* -%>
-<% relationImports.forEach(relationImport =>{ -%>
-import {<%= relationImport.className %>} from "<%= relDirShift %><%= relationImport.path %>";
-<% }) %>
-<% */ -%>
+import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const UPSERT_INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
@@ -49,18 +45,19 @@ const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= className %> = observer((props: EntityEditorProps) => {
+const <%= className %> = observer((props: EntityEditorProps<<%= entity.className %>>) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = 'common.submit'
+    submitBtnCaption = 'common.submit',
+    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
 
   const {
-    load,
+    executeLoadQuery,
     loadQueryResult: {
       loading: queryLoading,
       error: queryError,
@@ -75,7 +72,7 @@ const <%= className %> = observer((props: EntityEditorProps) => {
     handleFinish,
     handleFinishFailed,
     handleCancelBtnClick,
-  } = useEntityEditor({
+  } = useEntityEditor<<%= entity.className %>>({
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     entityId: multiScreen?.params?.entityId,
@@ -97,7 +94,7 @@ const <%= className %> = observer((props: EntityEditorProps) => {
 
   if (queryError != null) {
     console.error(queryError);
-    return <RetryDialog onRetry={load} />;
+    return <RetryDialog onRetry={executeLoadQuery} />;
   }
 
   return (
@@ -112,15 +109,13 @@ const <%= className %> = observer((props: EntityEditorProps) => {
         <% attributes.forEach(attr => { %>
           <Field entityName={ENTITY_NAME}
                  propertyName="<%= attr.name %>"
+                 hide={hiddenAttributes?.includes('<%= attr.name %>')}
 
             <% if (readOnlyFields.includes(attr.name)) { %>
                  disabled={true}
             <% } else if (attr.name === locals.stringIdName) { %>
                  disabled={!isNewEntity(entityId)}
             <% } %>
-
-            <% /* TODO Compositions %>
-            <% */ %>
 
             <% if (Object.keys(associations).includes(attr.name)) { %>
                  associationOptions={data?.<%= dollarsToUnderscores(associations[attr.name].name) %>List}
@@ -170,5 +165,5 @@ registerEntityEditorScreen(
   '<%= nameLiteral %>',
   <<%= className %> />
 );
-  
+
 export default <%= className %>;
