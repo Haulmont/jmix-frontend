@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { PlusOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
+import { Button, Tooltip } from "antd";
 import {
   EntityPermAccessControl,
   ScreensContext
@@ -10,6 +10,7 @@ import {
   DataTable,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
@@ -26,6 +27,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_DatatypesTestEntityOrderBy
     $filter: [inp_scr_DatatypesTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_DatatypesTestEntityCount
     scr_DatatypesTestEntityList(
@@ -33,7 +35,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       bigDecimalAttr
@@ -73,6 +75,16 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         _instanceName
         name
         quantity
+      }
+      compositionO2Mattr {
+        id
+        _instanceName
+        name
+        quantity
+        datatypesTestEntity {
+          id
+          _instanceName
+        }
       }
       intIdentityIdTestEntityAssociationO2OAttr {
         id
@@ -122,129 +134,156 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
   }
 `;
 
-const DatatypesTestBrowserTable = observer(() => {
-  const screens = useContext(ScreensContext);
+const DatatypesTestBrowserTable = observer(
+  (props: EntityListProps<DatatypesTestEntity>) => {
+    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const screens = useContext(ScreensContext);
 
-  const {
-    loadItems,
-    listQueryResult: { loading, error, data },
-    handleRowSelectionChange,
-    handleFilterChange,
-    handleSortOrderChange,
-    handlePaginationChange,
-    deleteSelectedRow,
-    handleCreateBtnClick,
-    handleEditBtnClick,
-    store
-  } = useEntityList<DatatypesTestEntity>({
-    listQuery: SCR_DATATYPESTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-    screens,
-    currentScreen: screens.currentScreen,
-    entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
-  });
+    const {
+      items,
+      count,
+      relationOptions,
+      executeListQuery,
+      listQueryResult: { loading, error },
+      handleRowSelectionChange,
+      handleFilterChange,
+      handleSortOrderChange,
+      handlePaginationChange,
+      deleteSelectedRow,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      goToParentScreen,
+      store
+    } = useEntityList<DatatypesTestEntity>({
+      listQuery: SCR_DATATYPESTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
+      screens,
+      currentScreen: screens.currentScreen,
+      entityName: ENTITY_NAME,
+      routingPath: ROUTING_PATH,
+      entityList,
+      onEntityListChange,
+      reverseAttrName
+    });
 
-  if (error != null) {
-    console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={executeListQuery} />;
+    }
+
+    const buttons = [
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="create"
+        key="create"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          type="primary"
+          icon={<PlusOutlined />}
+          onClick={handleCreateBtnClick}
+        >
+          <span>
+            <FormattedMessage id="common.create" />
+          </span>
+        </Button>
+      </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="update"
+        key="update"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={store.selectedRowKey == null}
+          type="default"
+          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+        >
+          <FormattedMessage id="common.edit" />
+        </Button>
+      </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="delete"
+        key="delete"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={store.selectedRowKey == null}
+          onClick={deleteSelectedRow.bind(null, items)}
+          key="remove"
+          type="default"
+        >
+          <FormattedMessage id="common.remove" />
+        </Button>
+      </EntityPermAccessControl>
+    ];
+
+    if (entityList != null) {
+      buttons.unshift(
+        <Tooltip title={<FormattedMessage id="common.back" />}>
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            icon={<LeftOutlined />}
+            onClick={goToParentScreen}
+            key="back"
+            type="default"
+            shape="circle"
+          />
+        </Tooltip>
+      );
+    }
+
+    return (
+      <DataTable
+        items={items}
+        count={count}
+        relationOptions={relationOptions}
+        current={store.pagination?.current}
+        pageSize={store.pagination?.pageSize}
+        entityName={ENTITY_NAME}
+        loading={loading}
+        error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
+        enableSortingOnColumns={entityList != null ? [] : undefined}
+        columnDefinitions={[
+          "bigDecimalAttr",
+          "booleanAttr",
+          "dateAttr",
+          "dateTimeAttr",
+          "doubleAttr",
+          "integerAttr",
+          "longAttr",
+          "stringAttr",
+          "timeAttr",
+          "uuidAttr",
+          "localDateTimeAttr",
+          "offsetDateTimeAttr",
+          "localDateAttr",
+          "localTimeAttr",
+          "offsetTimeAttr",
+          "enumAttr",
+          "associationO2Oattr",
+          "associationM2Oattr",
+          "compositionO2Oattr",
+          "intIdentityIdTestEntityAssociationO2OAttr",
+          "datatypesTestEntity3",
+          "name"
+        ].filter(columnDef => columnDef !== reverseAttrName)}
+        onRowSelectionChange={handleRowSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
+        hideSelectionColumn={true}
+        buttons={buttons}
+      />
+    );
   }
-
-  const buttons = [
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="create"
-      key="create"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateBtnClick}
-      >
-        <span>
-          <FormattedMessage id="common.create" />
-        </span>
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="update"
-      key="update"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        type="default"
-        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
-      >
-        <FormattedMessage id="common.edit" />
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="delete"
-      key="delete"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(
-          null,
-          data?.scr_DatatypesTestEntityList
-        )}
-        key="remove"
-        type="default"
-      >
-        <FormattedMessage id="common.remove" />
-      </Button>
-    </EntityPermAccessControl>
-  ];
-
-  return (
-    <DataTable
-      data={data}
-      current={store.pagination?.current}
-      pageSize={store.pagination?.pageSize}
-      entityName={ENTITY_NAME}
-      loading={loading}
-      error={error}
-      columnDefinitions={[
-        "bigDecimalAttr",
-        "booleanAttr",
-        "dateAttr",
-        "dateTimeAttr",
-        "doubleAttr",
-        "integerAttr",
-        "longAttr",
-        "stringAttr",
-        "timeAttr",
-        "uuidAttr",
-        "localDateTimeAttr",
-        "offsetDateTimeAttr",
-        "localDateAttr",
-        "localTimeAttr",
-        "offsetTimeAttr",
-        "enumAttr",
-        "associationO2Oattr",
-        "associationM2Oattr",
-        "compositionO2Oattr",
-        "intIdentityIdTestEntityAssociationO2OAttr",
-        "datatypesTestEntity3",
-        "name"
-      ]}
-      onRowSelectionChange={handleRowSelectionChange}
-      onFilterChange={handleFilterChange}
-      onSortOrderChange={handleSortOrderChange}
-      onPaginationChange={handlePaginationChange}
-      hideSelectionColumn={true}
-      buttons={buttons}
-    />
-  );
-});
+);
 
 registerRoute(
   `${ROUTING_PATH}/:entityId?`,

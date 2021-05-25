@@ -1,7 +1,12 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
-import { DeleteOutlined, EditOutlined, PlusOutlined } from "@ant-design/icons";
-import { Button, List } from "antd";
+import {
+  DeleteOutlined,
+  EditOutlined,
+  PlusOutlined,
+  LeftOutlined
+} from "@ant-design/icons";
+import { Button, List, Tooltip } from "antd";
 import {
   EntityInstance,
   getFields,
@@ -14,6 +19,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
@@ -30,6 +36,7 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_IntegerIdTestEntityOrderBy
     $filter: [inp_scr_IntegerIdTestEntityFilterCondition]
+    $loadItems: Boolean!
   ) {
     scr_IntegerIdTestEntityCount
     scr_IntegerIdTestEntityList(
@@ -37,7 +44,7 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) {
+    ) @include(if: $loadItems) {
       id
       _instanceName
       description
@@ -51,106 +58,128 @@ const DELETE_SCR_INTEGERIDTESTENTITY = gql`
   }
 `;
 
-const IntIdBrowserList = observer(() => {
-  const screens = useContext(ScreensContext);
+const IntIdBrowserList = observer(
+  (props: EntityListProps<IntegerIdTestEntity>) => {
+    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const screens = useContext(ScreensContext);
 
-  const {
-    loadItems,
-    listQueryResult: { loading, error, data },
-    showDeletionDialog,
-    handleCreateBtnClick,
-    handleEditBtnClick,
-    handlePaginationChange,
-    store
-  } = useEntityList<IntegerIdTestEntity>({
-    listQuery: SCR_INTEGERIDTESTENTITY_LIST,
-    deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
-    screens,
-    currentScreen: screens.currentScreen,
-    entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
-  });
+    const {
+      items,
+      count,
+      executeListQuery,
+      listQueryResult: { loading, error },
+      showDeletionDialog,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      handlePaginationChange,
+      goToParentScreen,
+      store
+    } = useEntityList<IntegerIdTestEntity>({
+      listQuery: SCR_INTEGERIDTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_INTEGERIDTESTENTITY,
+      screens,
+      currentScreen: screens.currentScreen,
+      entityName: ENTITY_NAME,
+      routingPath: ROUTING_PATH,
+      entityList,
+      onEntityListChange,
+      reverseAttrName
+    });
 
-  if (error != null) {
-    console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
-  }
+    if (error != null) {
+      console.error(error);
+      return <RetryDialog onRetry={executeListQuery} />;
+    }
 
-  if (loading || data == null) {
-    return <Spinner />;
-  }
+    if (loading || items == null) {
+      return <Spinner />;
+    }
 
-  const dataSource = data?.scr_IntegerIdTestEntityList ?? [];
-  const pagesTotal = data?.scr_IntegerIdTestEntityCount ?? 0;
-
-  return (
-    <div className="narrow-layout">
-      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <div style={{ marginBottom: "12px" }}>
-          <Button
-            htmlType="button"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateBtnClick}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </div>
-      </EntityPermAccessControl>
-
-      <List
-        itemLayout="horizontal"
-        bordered
-        dataSource={dataSource}
-        renderItem={(item: EntityInstance<IntegerIdTestEntity>) => (
-          <List.Item
-            actions={[
-              <EntityPermAccessControl
-                entityName={ENTITY_NAME}
-                operation="delete"
-              >
-                <DeleteOutlined
-                  key="delete"
-                  onClick={showDeletionDialog.bind(null, item)}
-                />
-              </EntityPermAccessControl>,
-              <EntityPermAccessControl
-                entityName={ENTITY_NAME}
-                operation="update"
-              >
-                <EditOutlined
-                  key="edit"
-                  onClick={handleEditBtnClick.bind(null, item.id)}
-                />
-              </EntityPermAccessControl>
-            ]}
-          >
-            <div style={{ flexGrow: 1 }}>
-              {getFields(item).map(p => (
-                <EntityProperty
-                  entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={item[p]}
-                  key={p}
-                />
-              ))}
-            </div>
-          </List.Item>
+    return (
+      <div className="narrow-layout">
+        {entityList != null && (
+          <Tooltip title={<FormattedMessage id="common.back" />}>
+            <Button
+              htmlType="button"
+              style={{ margin: "0 12px 12px 0" }}
+              icon={<LeftOutlined />}
+              onClick={goToParentScreen}
+              key="back"
+              type="default"
+              shape="circle"
+            />
+          </Tooltip>
         )}
-      />
 
-      <div style={{ margin: "12px 0 12px 0", float: "right" }}>
-        <Paging
-          paginationConfig={store.pagination ?? {}}
-          onPagingChange={handlePaginationChange}
-          total={pagesTotal}
+        <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+          <span style={{ marginBottom: "12px" }}>
+            <Button
+              htmlType="button"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreateBtnClick}
+            >
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
+          </span>
+        </EntityPermAccessControl>
+
+        <List
+          itemLayout="horizontal"
+          bordered
+          dataSource={items}
+          renderItem={(item: EntityInstance<IntegerIdTestEntity>) => (
+            <List.Item
+              actions={[
+                <EntityPermAccessControl
+                  entityName={ENTITY_NAME}
+                  operation="delete"
+                >
+                  <DeleteOutlined
+                    key="delete"
+                    onClick={showDeletionDialog.bind(null, item)}
+                  />
+                </EntityPermAccessControl>,
+                <EntityPermAccessControl
+                  entityName={ENTITY_NAME}
+                  operation="update"
+                >
+                  <EditOutlined
+                    key="edit"
+                    onClick={handleEditBtnClick.bind(null, item.id)}
+                  />
+                </EntityPermAccessControl>
+              ]}
+            >
+              <div style={{ flexGrow: 1 }}>
+                {getFields(item)
+                  .filter(p => p !== reverseAttrName)
+                  .map(p => (
+                    <EntityProperty
+                      entityName={ENTITY_NAME}
+                      propertyName={p}
+                      value={item[p]}
+                      key={p}
+                    />
+                  ))}
+              </div>
+            </List.Item>
+          )}
         />
+
+        <div style={{ margin: "12px 0 12px 0", float: "right" }}>
+          <Paging
+            paginationConfig={store.pagination ?? {}}
+            onPagingChange={handlePaginationChange}
+            total={count}
+          />
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  }
+);
 
 registerRoute(
   `${ROUTING_PATH}/:entityId?`,

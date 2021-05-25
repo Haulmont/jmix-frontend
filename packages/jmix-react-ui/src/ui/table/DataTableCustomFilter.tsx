@@ -23,6 +23,11 @@ import {
   HasId,
   MayHaveInstanceName,
   toIdString,
+  ComparisonType,
+  NumberComparisonType,
+  TemporalComparisonType,
+  TextComparisonType,
+  UuidComparisonType
 } from '@haulmont/jmix-react-core';
 import {IntegerInput} from "../form/IntegerInput";
 import {BigDecimalInput} from "../form/BigDecimalInput";
@@ -34,13 +39,6 @@ import {uuidPattern} from "../../util/regex";
 import {LabeledValue} from "antd/es/select";
 import {wrapInFormItem, getDefaultFilterFormItemProps} from './DataTableCustomFilterFields';
 import { FormInstance, FormItemProps } from 'antd/es/form';
-import {
-  ComparisonType,
-  NumberComparisonType,
-  TemporalComparisonType,
-  TextComparisonType,
-  UuidComparisonType
-} from '../../crud/filter';
 import {DatePicker} from '../DatePicker';
 import {TimePicker} from '../TimePicker';
 

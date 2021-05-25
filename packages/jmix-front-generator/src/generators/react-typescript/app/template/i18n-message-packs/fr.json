@@ -8,7 +8,7 @@
     "common.unsavedEntity": "(entité non enregistrée)",
     "common.requestFailed": "L'éxecution de l'opération demandée a échouée",
     "common.retry": "Recommencer",
-
+    "common.back": "[TRANSLATION NOT AVAILABLE]",
 
     "home.welcome": "Bienvenu à",
     "router.home": "Accueil",
@@ -73,6 +73,8 @@
     "cubaReact.imagePreview.download": "Télécharger",
   
     "cubaReact.nestedEntityField.create": "Créer un entité",
+    "cubaReact.nestedEntityField.addEntities": "[TRANSLATION NOT AVAILABLE]",
+    "cubaReact.nestedEntityField.andXMore": "[TRANSLATION NOT AVAILABLE]",
     "cubaReact.nestedEntityField.delete.areYouSure": "Êtes-vous sûr de vouloir effacer l'entité imbriqué?",
   
     "cubaReact.nestedEntitiesTableField.delete.areYouSure": "Êtes-vous sûr de vouloir effacer l'entité imbriqué?",

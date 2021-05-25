@@ -8,7 +8,7 @@
   "common.unsavedEntity": "(несохранённая сущность)",
   "common.requestFailed": "Не удалось выполнить операцию",
   "common.retry": "Повторить",
-
+  "common.back": "Назад",
 
   "home.welcome": "Добро пожаловать в",
   "router.home": "Главная страница",
@@ -74,6 +74,8 @@
   "cubaReact.imagePreview.download": "Скачать",
 
   "cubaReact.nestedEntityField.create": "Создать сущность",
+  "cubaReact.nestedEntityField.addEntities": "Добавить сущности",
+  "cubaReact.nestedEntityField.andXMore": " и ещё {quantity}",
   "cubaReact.nestedEntityField.delete.areYouSure": "Удалить вложенную сущность?",
 
   "cubaReact.nestedEntitiesTableField.delete.areYouSure": "Удалить вложенную сущность?",

@@ -1,7 +1,7 @@
 import { instanceItemToFormFields, Metadata } from "@haulmont/jmix-react-core";
 
 /**
- * Takes the data received from backend via GraphQL and reformats it so that it can be
+ * Reformats the entity data so that it can be
  * properly displayed by Ant Design `<Form>`.
  *
  * @typeparam T - entity type.
@@ -11,7 +11,7 @@ import { instanceItemToFormFields, Metadata } from "@haulmont/jmix-react-core";
  * @param metadata
  * @param stringIdName
  */
-export function graphqlToAntForm<T>(
+export function jmixFront_to_ant<T>(
   item: Record<string, any>,
   entityName: string,
   metadata: Metadata,

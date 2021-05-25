@@ -40,6 +40,16 @@ const datatypesQuery = `
     name
     quantity
   }
+  compositionO2Mattr {
+    id
+    _instanceName
+    name
+    quantity
+    datatypesTestEntity {
+      id
+      _instanceName
+    }
+  }
   intIdentityIdTestEntityAssociationO2OAttr {
     id
     _instanceName

@@ -164,7 +164,7 @@ module.exports = {
 
     "editorComponentName": "AssociationO2OEditor",
     "editorQuery": associationO2OQuery,
-  
+
     "browserComponentName": "AssociationO2OBrowserTable",
     "browserType": "table",
     "browserQuery": associationO2OQuery,
@@ -176,7 +176,7 @@ module.exports = {
 
     "editorComponentName": "AssociationO2MEditor",
     "editorQuery": associationO2MQuery,
-    
+
     "browserComponentName": "AssociationO2MBrowserTable",
     "browserType": "table",
     "browserQuery": associationO2MQuery,
@@ -185,10 +185,10 @@ module.exports = {
     "entity": {
       "name": "scr_AssociationM2OTestEntity"
     },
-  
+
     "editorComponentName": "AssociationM2OEditor",
     "editorQuery": associationM2OQuery,
-  
+
     "browserComponentName": "AssociationM2OBrowserTable",
     "browserType": "table",
     "browserQuery": associationM2OQuery,
@@ -197,10 +197,10 @@ module.exports = {
     "entity": {
       "name": "scr_AssociationM2MTestEntity"
     },
-    
+
     "editorComponentName": "AssociationM2MEditor",
     "editorQuery": associationM2MQuery,
-    
+
     "browserComponentName": "AssociationM2MBrowserTable",
     "browserType": "table",
     "browserQuery": associationM2MQuery,
@@ -210,14 +210,14 @@ module.exports = {
     "entity": {
       "name": "scr_CompositionO2OTestEntity"
     },
-    
+
     "editorComponentName": "CompositionO2OEditor",
     "editorQuery": compositionO2OQuery,
-    
+
     "browserComponentName": "CompositionO2OBrowserTable",
     "browserType": "table",
     "browserQuery": compositionO2OQuery,
-    
+
     "nestedEntityInfo": {
       "nestedComposition": "deeplyNestedTestEntity-view"
     }
@@ -226,10 +226,10 @@ module.exports = {
     "entity": {
       "name": "scr_CompositionO2MTestEntity"
     },
-    
+
     "editorComponentName": "CompositionO2MEditor",
     "editorQuery": compositionO2MQuery,
-    
+
     "browserComponentName": "CompositionO2MBrowserTable",
     "browserType": "table",
     "browserQuery": compositionO2MQuery,

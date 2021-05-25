@@ -14,6 +14,7 @@
   "common.unsavedEntity": "（未保存或未命名实体）",
   "common.requestFailed": "请求的操作执行失败",
   "common.retry": "重试",
+  "common.back": "[TRANSLATION NOT AVAILABLE]",
 
   "home.welcome": "欢迎使用",
   "router.home": "主界面",
@@ -78,6 +79,8 @@
   "cubaReact.imagePreview.download": "下载",
 
   "cubaReact.nestedEntityField.create": "创建实体",
+  "cubaReact.nestedEntityField.addEntities": "[TRANSLATION NOT AVAILABLE]",
+  "cubaReact.nestedEntityField.andXMore": "[TRANSLATION NOT AVAILABLE]",
   "cubaReact.nestedEntityField.delete.areYouSure": "确定要删除子实体？",
 
   "cubaReact.nestedEntitiesTableField.delete.areYouSure": "确定要删除子实体？",

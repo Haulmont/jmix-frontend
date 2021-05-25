@@ -4,85 +4,216 @@ import {
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions, MutationResult, Reference,
-  TypedDocumentNode, useLazyQuery, useMutation
+  TypedDocumentNode, useMutation
 } from "@apollo/client";
 import {
   EntityInstance,
   GraphQLMutationFn,
   GraphQLQueryFn,
-  HasId,
   Screens,
   toIdString,
-  MayHaveInstanceName,
-  dollarsToUnderscores, IMultiScreenItem,
-} from '@haulmont/jmix-react-core';
+  dollarsToUnderscores,
+  PaginationChangeCallback,
+  FilterChangeCallback,
+  SortOrderChangeCallback,
+  JmixEntityFilter,
+  JmixPagination,
+  JmixSortOrder,
+  ListQueryVars,
+  useEntityListData,
+  HasId,
+  generateTempId,
+  IMultiScreenItem
+} from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import {calcOffset, JmixPagination, PaginationChangeCallback, saveHistory} from "./pagination";
-import {FilterChangeCallback, JmixEntityFilter} from "./filter";
-import {JmixSortOrder, SortOrderChangeCallback} from "./sort";
+import {useCallback, useState} from "react";
 import {action} from "mobx";
 import { useLocalStore } from "mobx-react";
 import {defaultPaginationConfig} from "../ui/paging/Paging";
 import { PaginationConfig } from "antd/es/pagination";
-import {openEntityEditorScreen} from "../util/screen";
+import {openEntityEditorScreen, useParentScreen} from "../util/screen";
 import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
+import { saveHistory } from "./history";
 
-export interface EntityListHookOptions<TData, TQueryVars, TMutationVars> {
+export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
+  /**
+   * GraphQL query that retrieves the list of entities.
+   * Will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link listQueryOptions}.
+   */
   listQuery: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link listQuery}.
+   */
   listQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
+  /**
+   * GraphQL mutation that deletes a given entity instance.
+   * Will be passed to Apollo Client `useMutation` hook along with {@link deleteMutationOptions}.
+   */
   deleteMutation: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client `useMutation` hook along with {@link deleteMutation}.
+   */
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
+  /**
+   * Determines the initial pagination state.
+   */
   paginationConfig?: PaginationConfig;
   screens: Screens;
   currentScreen: IMultiScreenItem;
   entityName: string;
+  /**
+   * Base route path
+   */
   routingPath: string;
-  queryName?: string;
-  associations?: Record<string, string>;
+  queryName?: string; // TODO remove
+  /**
+   * Use to provide the entity list directly instead of obtaining it from backend.
+   * Note that backend will still be queried for {@link EntityListHookResult.relationOptions} if applicable.
+   */
+  entityList?: Array<EntityInstance<TEntity>>;
+  /**
+   * A callback that will be executed when {@link entityList} is changed
+   * (e.g. entities are added, removed or modified).
+   * @param entityList {@link entityList}
+   */
+  onEntityListChange?: (entityList?: Array<EntityInstance<TEntity>>) => void;
+  /**
+   * The name of One-to-Many Composition reverse attribute.
+   * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
+   */
+  reverseAttrName?: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
-  loadItems: GraphQLQueryFn<TQueryVars>,
-  listQueryResult: LazyQueryResult<TData, TQueryVars>,
-  deleteItem: GraphQLMutationFn<TData, TMutationVars>,
-  deleteMutationResult: MutationResult,
+  /**
+   * Entity instances that will be displayed by the list component.
+   *
+   * When {@link EntityListHookOptions.entityList} is not used, {@link items} will contain
+   * the entity instances retrived from backend upon execution of {@link EntityListHookOptions.listQuery}
+   * (it is also obtainable as {@link listQueryResult}`.data.${entityName}List`).
+   *
+   * When {@link EntityListHookOptions.entityList} is used, {@link items} will contain a relevant
+   * portion of {@link EntityListHookOptions.entityList} depending on pagination / sorting / filtering.
+   */
+  items?: Array<EntityInstance<TEntity>>;
+  /**
+   * Total number of entity instances.
+   *
+   * When {@link EntityListHookOptions.entityList} is not used, {@link count} will contain
+   * the value retrived from backend upon execution of {@link EntityListHookOptions.listQuery}
+   * (it is also obtainable as {@link listQueryResult}`.data.${entityName}Count`).
+   *
+   * When {@link EntityListHookOptions.entityList} is used, {@link count} will contain the total
+   * number of elements in {@link EntityListHookOptions.entityList}.
+   */
+  count?: number;
+  /**
+   * Used when the entity has relation (Association and/or Composition) attributes.
+   * A map between nested entity names and arrays of possible values.
+   */
+  relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
+  /**
+   * Execute function returned from Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook.
+   * A function that executes the {@link EntityListHookOptions.listQuery}.
+   */
+  executeListQuery: GraphQLQueryFn<TQueryVars>;
+  /**
+   * Result object returned from Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook.
+   * Contains query result, loading and error status and more, see {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery}
+   * documentation for details.
+   */
+  listQueryResult: LazyQueryResult<TData, TQueryVars>;
+  /**
+   * Execute function returned from Apollo Client {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation} hook.
+   * A function that executes the {@link EntityListHookOptions.deleteMutation}.
+   */
+  executeDeleteMutation: GraphQLMutationFn<TData, TMutationVars>;
+  /**
+   * Result object returned  from Apollo Client {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation} hook.
+   * Contains mutation result, loading and error status and more, see {@link https://www.apollographql.com/docs/react/data/mutations/ | useMutation}
+   * documentation for details.
+   */
+  deleteMutationResult: MutationResult;
+  /**
+   * `react-intl` {@link https://formatjs.io/docs/react-intl/api/#the-intl-object | intl object}.
+   */
   intl: IntlShape;
+  // TODO remove
   showDeletionDialog: (e: EntityInstance<TEntity>) => void;
+  /**
+   * A callback that will be executed when user clicks the Create button.
+   */
   handleCreateBtnClick: () => void;
+  /**
+   * A callback that will be executed when user clicks the Edit button.
+   * @param id id of the selected entity instance
+   */
   handleEditBtnClick: (id: string) => void;
+  /**
+   * A callback that will be executed when user changes the pagination.
+   */
   handlePaginationChange: PaginationChangeCallback;
+  // TODO probably remove
   getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
+  // TODO rename to handleDeleteBtnClick, pass items via closure
   deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
+  /**
+   * A callback that will be executed when entity instances are selected or deselected.
+   * @param selectedRowKeys
+   */
+  // TODO rename to handleSelectionChange
   handleRowSelectionChange: (selectedRowKeys: string[]) => void;
+  /**
+   * A callback that will be executed when filters are changed.
+   */
   handleFilterChange: FilterChangeCallback;
+  /**
+   * A callback that will be executed when sorting is changed.
+   */
   handleSortOrderChange: SortOrderChangeCallback;
-  store: EntityListLocalStore;
-  associationOptionsMap?: Map<string, Array<HasId & MayHaveInstanceName>>;
+  /**
+   * Observable state
+   */
+  // TODO rename to entityListState
+  store: EntityListLocalStore<TEntity>;
+  /**
+   * A callback that closes the current screen and sets its parent as active screen.
+   */
+  goToParentScreen: () => void;
 }
 
-export interface EntityListLocalStore {
+export interface EntityListLocalStore<TEntity> {
+  /**
+   * If entity list is provided directly via {@link EntityListHookOptions.entityList} rather than being obtained from backend,
+   * this variable will store the entity list including all changes made to it.
+   */
+  entityList?: Array<EntityInstance<TEntity>>;
+  /**
+   * Identifier of the selected entity instance.
+   */
   selectedRowKey?: string;
+  /**
+   * State of entity list filters.
+   */
   filter?: JmixEntityFilter[];
+  /**
+   * State of entity list sort order.
+   */
   sortOrder?: JmixSortOrder;
+  /**
+   * State of entity list pagination.
+   */
   pagination?: JmixPagination;
 }
 
-export interface ListQueryVars {
-  filter?: JmixEntityFilter;
-  orderBy?: JmixSortOrder;
-  limit?: number;
-  offset?: number;
-}
-
 export function useEntityList<
-  TEntity,
+  TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends ListQueryVars = ListQueryVars,
+  TListQueryVars extends ListQueryVars = ListQueryVars,
   TMutationVars extends HasId = HasId
 >(
-  options: EntityListHookOptions<TData, TQueryVars, TMutationVars>
-): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
+  options: EntityListHookOptions<TEntity, TData, TListQueryVars, TMutationVars>
+): EntityListHookResult<TEntity, TData, TListQueryVars, TMutationVars> {
   const {
     listQuery,
     listQueryOptions,
@@ -93,8 +224,10 @@ export function useEntityList<
     entityName,
     routingPath,
     queryName = `${dollarsToUnderscores(entityName)}List`,
-    associations,
     paginationConfig = defaultPaginationConfig,
+    entityList,
+    onEntityListChange,
+    reverseAttrName,
   } = options;
 
   const [pagingDataFromUrl] = useState(() => {
@@ -105,7 +238,8 @@ export function useEntityList<
     }
   });
 
-  const store: EntityListLocalStore = useLocalStore(() => ({
+  const store: EntityListLocalStore<TEntity> = useLocalStore(() => ({
+    entityList,
     selectedRowKey: undefined,
     filter: undefined,
     sortOrder: undefined,
@@ -114,35 +248,38 @@ export function useEntityList<
       pageSize: pagingDataFromUrl.pageSize,
     }
   }));
-  
-  // TODO We probably don't need useMemo here
-  const optsWithVars = useMemo(() => ({
-    variables: {
-      filter: store.filter,
-      orderBy: store.sortOrder,
-      limit: store.pagination?.pageSize,
-      offset: calcOffset(store.pagination?.current, store.pagination?.pageSize)
-    } as TQueryVars,
-    ...listQueryOptions
-  }), [store.pagination, store.filter, store.sortOrder, listQueryOptions]);
+
+  // Used e.g. when entity browser represents the content of a One-to-Many Composition field
+  const handleEntityListChange = (newEntityList: Array<EntityInstance<TEntity>>) => {
+    store.entityList = newEntityList; // Update local state (what is shown in the entity browser)
+    if (onEntityListChange != null) { // Update external state (e.g. parent entity value)
+      onEntityListChange(newEntityList);
+    }
+  };
 
   const intl = useIntl();
 
-  const [loadItems, listQueryResult] = useLazyQuery<TData, TQueryVars>(listQuery, optsWithVars);
-  const [deleteItem, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
+  const {
+    items,
+    count,
+    relationOptions,
+    executeListQuery,
+    listQueryResult
+  } = useEntityListData<TEntity, TData, TListQueryVars>({
+    entityList: store.entityList,
+    listQuery,
+    listQueryOptions,
+    filter: store.filter,
+    sortOrder: store.sortOrder,
+    pagination: store.pagination,
+    entityName
+  });
 
-  // Load items
-  useEffect(() => {
-    loadItems(listQueryOptions);
-  }, [listQueryOptions, loadItems]);
+  const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  const items = listQueryResult.data?.[queryName];
-
-  const associationOptionsMap = getAssociationOptions<TData>(listQueryResult.data, associations);
-
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, deleteItem, queryName);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath);
+  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, store.entityList, handleEntityListChange);
+  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, store.entityList, handleEntityListChange, reverseAttrName);
+  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, store.entityList, handleEntityListChange, reverseAttrName);
 
   const handlePaginationChange = useCallback(
     action((current?: number, pageSize?: number) => {
@@ -172,7 +309,7 @@ export function useEntityList<
   const getRecordById = useCallback(
     (id: string): EntityInstance<TEntity> => {
 
-      const record: EntityInstance<TEntity> | undefined = items.find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
+      const record: EntityInstance<TEntity> | undefined = (items ?? []).find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
 
       if (!record) {
         throw new Error("Cannot find entity with id " + id);
@@ -213,47 +350,110 @@ export function useEntityList<
     [store.sortOrder]
   );
 
+  const goToParentScreen = useParentScreen(routingPath);
+
   return {
-    loadItems, listQueryResult, deleteItem, deleteMutationResult, intl, showDeletionDialog,
-    handleCreateBtnClick, handleEditBtnClick, handlePaginationChange, store,
+    items,
+    count,
+    relationOptions,
+    executeListQuery,
+    listQueryResult,
+    executeDeleteMutation,
+    deleteMutationResult,
+    intl,
+    showDeletionDialog,
+    handleCreateBtnClick,
+    handleEditBtnClick,
+    handlePaginationChange,
+    store,
     getRecordById,
     deleteSelectedRow,
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
-    associationOptionsMap
+    goToParentScreen
   };
 }
 
-export function getAssociationOptions<
-  TData extends Record<string, any> = Record<string, any>
->(data?: TData, associations?: Record<string, string>): Map<string, Array<HasId & MayHaveInstanceName>> | undefined {
-  if (data == null || associations == null) {
-    return undefined;
+export function useCreateBtnCallback<TEntity>(
+  screens: Screens,
+  entityName: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  reverseAttrName?: string
+) {
+  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const intl = useIntl();
+
+  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+
+  if (entityList != null && onEntityListChange != null) {
+    onCommit = (entityInstance?: EntityInstance<TEntity>) => {
+      if (entityInstance != null) {
+        const newEntityInstance = {
+          ...entityInstance,
+          id: generateTempId(),
+          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
+        };
+        onEntityListChange([
+          newEntityInstance,
+          ...entityList
+        ]);
+      }
+    };
   }
 
-  const map = new Map();
-
-  Object.keys(associations).forEach(attrName => {
-    const associationsListQuery = associations[attrName];
-    map.set(attrName, data[associationsListQuery] ?? []);
-  });
-
-  return map;
-}
-
-export function useCreateBtnCallback(screens: Screens, entityName: string) {
   return useCallback(() => {
-    openEntityEditorScreen({screens, entityName});
-  }, [screens, entityName]);
+    openEntityEditorScreen({
+      screens,
+      entityName,
+      onCommit,
+      submitBtnCaption,
+      hiddenAttributes
+    });
+  }, [screens, entityName, entityList]);
 }
 
-export function useEditBtnCallbck(screens: Screens, entityName: string, routingPath: string) {
+export function useEditBtnCallbck<TEntity>(
+  screens: Screens,
+  entityName: string,
+  routingPath: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  reverseAttrName?: string,
+) {
+  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const intl = useIntl();
+
+  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
+
+  if (entityList != null && onEntityListChange != null) {
+    onCommit = (updatedEntity?: EntityInstance<TEntity>) => {
+      if (updatedEntity != null) {
+        const updatedEntityRenamed = {
+          ...updatedEntity,
+          // Changes made to the entity might have invalidated the instance name
+          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
+        };
+        const newList = entityList.map(originalEntity => {
+          if (originalEntity.id === updatedEntityRenamed.id) {
+            return updatedEntityRenamed;
+          }
+          return originalEntity;
+        });
+        onEntityListChange(newList);
+      }
+    };
+  }
+
   return useCallback((entityIdToLoad: string) => {
+    const entityInstance = entityList != null
+      ? entityList.find(e => e.id === entityIdToLoad)
+      : undefined;
     openEntityEditorScreen({
-      screens, entityName, entityIdToLoad, routingPath
+      screens, entityName, entityIdToLoad, routingPath, entityInstance, onCommit, submitBtnCaption, hiddenAttributes
     });
-  }, [screens, routingPath, entityName]);
+  }, [screens, routingPath, entityName, entityList]);
 }
 
 export function useDeletionDialogCallback<
@@ -263,33 +463,78 @@ export function useDeletionDialogCallback<
   >(
   intl: IntlShape,
   deleteMutation: GraphQLMutationFn<TData, TVariables>,
-  queryName: string
+  queryName: string,
+  entityList?: Array<EntityInstance<TEntity>>,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
 ) {
   return useCallback(
     (e: EntityInstance<TEntity>) => {
-      const onConfirm = () => {
-          if (e.id != null) {
-            // noinspection JSIgnoredPromiseFromCall
-            deleteMutation({
-              variables: { id: e.id } as TVariables,
-              update(cache: ApolloCache<TData>) {
-                // Remove deleted item from cache
-                cache.modify({
-                  fields: {
-                    [queryName](existingRefs, { readField }) {
-                      return existingRefs.filter(
-                        (ref: Reference) => e.id !== readField("id", ref)
-                      );
-                    }
-                  }
-                });
-              }
-            });
-          }
+      let onConfirm: () => void;
+
+      if (entityList != null && onEntityListChange != null) {
+        onConfirm = () => {
+          onEntityListChange(
+            entityList.filter(entity => entity.id !== e.id)
+          );
         };
+      } else {
+        onConfirm = getDefaultOnConfirmDelete(e as EntityInstance<TEntity, HasId>, deleteMutation, queryName);
+      }
 
       showDeleteEntityDialog(onConfirm, intl, e);
     },
-    [intl, deleteMutation]
+    [intl, deleteMutation, entityList]
   );
+}
+
+function getEditorOptions<TEntity>(
+  entityList?: Array<EntityInstance<TEntity>>,
+  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
+  reverseAttrName?: string
+): {
+  submitBtnCaption?: string,
+  hiddenAttributes?: string[]
+} {
+  let submitBtnCaption: string | undefined;
+
+  const hiddenAttributes = reverseAttrName != null
+    ? [reverseAttrName]
+    : undefined;
+
+  if (entityList != null && onEntityListChange != null) {
+    submitBtnCaption = 'common.ok';
+  }
+
+  return {submitBtnCaption, hiddenAttributes};
+}
+
+function getDefaultOnConfirmDelete<
+  TEntity,
+  TData,
+  TVariables extends HasId = HasId
+>(
+  e: EntityInstance<TEntity, HasId>,
+  deleteMutation: GraphQLMutationFn<TData, TVariables>,
+  queryName: string
+) {
+  return () => {
+    if (e.id != null) {
+      // noinspection JSIgnoredPromiseFromCall
+      deleteMutation({
+        variables: { id: e.id } as TVariables,
+        update(cache: ApolloCache<TData>) {
+          // Remove deleted item from cache
+          cache.modify({
+            fields: {
+              [queryName](existingRefs, { readField }) {
+                return existingRefs.filter(
+                  (ref: Reference) => e.id !== readField("id", ref)
+                );
+              }
+            }
+          });
+        }
+      });
+    }
+  };
 }

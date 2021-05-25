@@ -1,7 +1,7 @@
 import React, {useContext} from "react";
 import {observer} from "mobx-react";
-import {DeleteOutlined, EditOutlined, PlusOutlined} from '@ant-design/icons';
-import {Button, List} from "antd";
+import {DeleteOutlined, EditOutlined, PlusOutlined, LeftOutlined} from '@ant-design/icons';
+import {Button, List, Tooltip} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -9,6 +9,7 @@ import {
   Spinner,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute,
 } from "@haulmont/jmix-react-ui";
@@ -20,9 +21,9 @@ const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
-  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition], $loadItems: Boolean!) {
     <%= dollarsToUnderscores(entity.name) %>Count
-    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query -%>
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) @include(if: $loadItems) <%= query -%>
   }
 `;
 
@@ -32,16 +33,20 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
-const <%= className %> = observer(() => {
+const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
+  const {entityList, onEntityListChange, reverseAttrName} = props;
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
-    listQueryResult: {loading, error, data},
+    items,
+    count,
+    executeListQuery,
+    listQueryResult: {loading, error},
     showDeletionDialog,
     handleCreateBtnClick,
     handleEditBtnClick,
     handlePaginationChange,
+    goToParentScreen,
     store
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
@@ -49,26 +54,40 @@ const <%= className %> = observer(() => {
     screens,
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange,
+    reverseAttrName
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   <%# TODO Spinner is not properly centered -%>
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner/>;
   }
 
-  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
-  const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
-
   return (
     <div className="narrow-layout">
+      {entityList != null && (
+        <Tooltip title={<FormattedMessage id="common.back" />}>
+          <Button
+              htmlType="button"
+              style={{ margin: "0 12px 12px 0" }}
+              icon={<LeftOutlined />}
+              onClick={goToParentScreen}
+              key="back"
+              type="default"
+              shape="circle"
+          />
+        </Tooltip>
+      )}
+
       <EntityPermAccessControl entityName={ENTITY_NAME} operation='create'>
-        <div style={{ marginBottom: "12px" }}>
+        <span style={{ marginBottom: "12px" }}>
           <Button htmlType="button"
                   type="primary"
                   icon={<PlusOutlined />}
@@ -78,13 +97,13 @@ const <%= className %> = observer(() => {
               <FormattedMessage id="common.create" />
             </span>
           </Button>
-        </div>
+        </span>
       </EntityPermAccessControl>
 
       <List
         itemLayout="horizontal"
         bordered
-        dataSource={dataSource}
+        dataSource={items}
         renderItem={(item: EntityInstance<<%= entity.className %>>) => (
           <List.Item
             actions={[
@@ -103,13 +122,15 @@ const <%= className %> = observer(() => {
             ]}
           >
             <div style={{ flexGrow: 1 }}>
-              {getFields(item).map(p => (
-                <EntityProperty
-                  entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={item[p]}
-                  key={p}
-                />
+              {getFields(item)
+                .filter(p => p !== reverseAttrName)
+                .map(p => (
+                  <EntityProperty
+                    entityName={ENTITY_NAME}
+                    propertyName={p}
+                    value={item[p]}
+                    key={p}
+                  />
               ))}
             </div>
           </List.Item>
@@ -120,7 +141,7 @@ const <%= className %> = observer(() => {
         <Paging
                 paginationConfig={store.pagination ?? {}}
                 onPagingChange={handlePaginationChange}
-                total={pagesTotal}
+                total={count}
         />
       </div>
 

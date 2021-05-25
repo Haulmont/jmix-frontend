@@ -1,12 +1,13 @@
 import React, {useContext} from "react";
 import {observer} from "mobx-react";
-import {PlusOutlined} from '@ant-design/icons';
-import {Button} from "antd";
+import {PlusOutlined, LeftOutlined} from '@ant-design/icons';
+import {Button, Tooltip} from "antd";
 import {EntityPermAccessControl, ScreensContext} from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
   useEntityList,
+  EntityListProps,
   registerEntityBrowserScreen,
   registerRoute,
 } from "@haulmont/jmix-react-ui";
@@ -18,9 +19,9 @@ const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
-  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition], $loadItems: Boolean!) {
     <%= dollarsToUnderscores(entity.name) %>Count
-    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query %>
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) @include(if: $loadItems) <%= query %>
     <% Object.keys(relations).forEach(attrName => { %>
       <%= dollarsToUnderscores(relations[attrName].name) %>List {
       id
@@ -36,12 +37,16 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 }
 `;
 
-const <%= className %> = observer(() => {
+const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
+  const {entityList, onEntityListChange, reverseAttrName} = props;
   const screens = useContext(ScreensContext);
 
   const {
-    loadItems,
-    listQueryResult: {loading, error, data},
+    items,
+    count,
+    relationOptions,
+    executeListQuery,
+    listQueryResult: {loading, error},
     handleRowSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
@@ -49,6 +54,7 @@ const <%= className %> = observer(() => {
     deleteSelectedRow,
     handleCreateBtnClick,
     handleEditBtnClick,
+    goToParentScreen,
     store,
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
@@ -57,11 +63,14 @@ const <%= className %> = observer(() => {
     currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    entityList,
+    onEntityListChange,
+    reverseAttrName,
   });
 
   if (error != null) {
     console.error(error);
-    return <RetryDialog onRetry={loadItems} />;
+    return <RetryDialog onRetry={executeListQuery} />;
   }
 
   const buttons = [
@@ -94,28 +103,48 @@ const <%= className %> = observer(() => {
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
         disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, data?.<%= dollarsToUnderscores(entity.name) %>List)}
+        onClick={deleteSelectedRow.bind(null, items)}
         key="remove"
         type="default"
       >
         <FormattedMessage id="common.remove" />
       </Button>
-    </EntityPermAccessControl>),
+    </EntityPermAccessControl>)
   ];
+
+  if (entityList != null) {
+    buttons.unshift(
+      <Tooltip title={<FormattedMessage id="common.back" />}>
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          icon={<LeftOutlined />}
+          onClick={goToParentScreen}
+          key="back"
+          type="default"
+          shape="circle"
+        />
+      </Tooltip>
+    );
+  }
 
   return (
     <DataTable
-      data={data}
+      items={items}
+      count={count}
+      relationOptions={relationOptions}
       current={store.pagination?.current}
       pageSize={store.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
+      enableFiltersOnColumns={entityList != null ? [] : undefined}
+      enableSortingOnColumns={entityList != null ? [] : undefined}
       columnDefinitions={[
         <% attributes.forEach(p => { -%>
           '<%= p.name %>',
         <% }) %>
-      ]}
+      ].filter(columnDef => columnDef !== reverseAttrName)}
       onRowSelectionChange={handleRowSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}

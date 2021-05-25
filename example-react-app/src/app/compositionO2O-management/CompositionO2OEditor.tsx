@@ -17,6 +17,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
+import { CompositionO2OTestEntity } from "../../jmix/entities/scr_CompositionO2OTestEntity";
 
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
 const UPSERT_INPUT_NAME = "compositionO2OTestEntity";
@@ -32,6 +33,11 @@ const LOAD_SCR_COMPOSITIONO2OTESTENTITY = gql`
       _instanceName
       name
       quantity
+      nestedComposition {
+        id
+        _instanceName
+        name
+      }
     }
   }
 `;
@@ -48,98 +54,112 @@ const UPSERT_SCR_COMPOSITIONO2OTESTENTITY = gql`
   }
 `;
 
-const CompositionO2OEditor = observer((props: EntityEditorProps) => {
-  const {
-    onCommit,
-    entityInstance,
-    submitBtnCaption = "common.submit"
-  } = props;
-  const multiScreen = useContext(MultiScreenContext);
-  const screens = useContext(ScreensContext);
-  const metadata = useMetadata();
+const CompositionO2OEditor = observer(
+  (props: EntityEditorProps<CompositionO2OTestEntity>) => {
+    const {
+      onCommit,
+      entityInstance,
+      submitBtnCaption = "common.submit",
+      hiddenAttributes
+    } = props;
+    const multiScreen = useContext(MultiScreenContext);
+    const screens = useContext(ScreensContext);
+    const metadata = useMetadata();
 
-  const {
-    load,
-    loadQueryResult: { loading: queryLoading, error: queryError },
-    upsertMutationResult: { loading: upsertLoading },
-    store,
-    form,
-    intl,
-    handleFinish,
-    handleFinishFailed,
-    handleCancelBtnClick
-  } = useEntityEditor({
-    loadQuery: LOAD_SCR_COMPOSITIONO2OTESTENTITY,
-    upsertMutation: UPSERT_SCR_COMPOSITIONO2OTESTENTITY,
-    entityId: multiScreen?.params?.entityId,
-    entityName: ENTITY_NAME,
-    upsertInputName: UPSERT_INPUT_NAME,
-    routingPath: ROUTING_PATH,
-    screens,
-    multiScreen,
-    onCommit,
-    entityInstance
-  });
+    const {
+      executeLoadQuery,
+      loadQueryResult: { loading: queryLoading, error: queryError },
+      upsertMutationResult: { loading: upsertLoading },
+      store,
+      form,
+      intl,
+      handleFinish,
+      handleFinishFailed,
+      handleCancelBtnClick
+    } = useEntityEditor<CompositionO2OTestEntity>({
+      loadQuery: LOAD_SCR_COMPOSITIONO2OTESTENTITY,
+      upsertMutation: UPSERT_SCR_COMPOSITIONO2OTESTENTITY,
+      entityId: multiScreen?.params?.entityId,
+      entityName: ENTITY_NAME,
+      upsertInputName: UPSERT_INPUT_NAME,
+      routingPath: ROUTING_PATH,
+      screens,
+      multiScreen,
+      onCommit,
+      entityInstance
+    });
 
-  if (queryLoading || metadata == null) {
-    return <Spinner />;
-  }
+    if (queryLoading || metadata == null) {
+      return <Spinner />;
+    }
 
-  if (queryError != null) {
-    console.error(queryError);
-    return <RetryDialog onRetry={load} />;
-  }
+    if (queryError != null) {
+      console.error(queryError);
+      return <RetryDialog onRetry={executeLoadQuery} />;
+    }
 
-  return (
-    <Card className="narrow-layout">
-      <Form
-        onFinish={handleFinish}
-        onFinishFailed={handleFinishFailed}
-        layout="vertical"
-        form={form}
-        validateMessages={createAntdFormValidationMessages(intl)}
-      >
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="name"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="quantity"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
-        {store.globalErrors.length > 0 && (
-          <Alert
-            message={<MultilineText lines={toJS(store.globalErrors)} />}
-            type="error"
-            style={{ marginBottom: "24px" }}
+    return (
+      <Card className="narrow-layout">
+        <Form
+          onFinish={handleFinish}
+          onFinishFailed={handleFinishFailed}
+          layout="vertical"
+          form={form}
+          validateMessages={createAntdFormValidationMessages(intl)}
+        >
+          <Field
+            entityName={ENTITY_NAME}
+            propertyName="name"
+            hide={hiddenAttributes?.includes("name")}
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
           />
-        )}
 
-        <Form.Item style={{ textAlign: "center" }}>
-          <Button htmlType="button" onClick={handleCancelBtnClick}>
-            <FormattedMessage id="common.cancel" />
-          </Button>
-          <Button
-            type="primary"
-            htmlType="submit"
-            loading={upsertLoading}
-            style={{ marginLeft: "8px" }}
-          >
-            <FormattedMessage id={submitBtnCaption} />
-          </Button>
-        </Form.Item>
-      </Form>
-    </Card>
-  );
-});
+          <Field
+            entityName={ENTITY_NAME}
+            propertyName="quantity"
+            hide={hiddenAttributes?.includes("quantity")}
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={ENTITY_NAME}
+            propertyName="nestedComposition"
+            hide={hiddenAttributes?.includes("nestedComposition")}
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          {store.globalErrors.length > 0 && (
+            <Alert
+              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              type="error"
+              style={{ marginBottom: "24px" }}
+            />
+          )}
+
+          <Form.Item style={{ textAlign: "center" }}>
+            <Button htmlType="button" onClick={handleCancelBtnClick}>
+              <FormattedMessage id="common.cancel" />
+            </Button>
+            <Button
+              type="primary"
+              htmlType="submit"
+              loading={upsertLoading}
+              style={{ marginLeft: "8px" }}
+            >
+              <FormattedMessage id={submitBtnCaption} />
+            </Button>
+          </Form.Item>
+        </Form>
+      </Card>
+    );
+  }
+);
 
 registerEntityEditorScreen(
   ENTITY_NAME,
