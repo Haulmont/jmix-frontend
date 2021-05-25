@@ -1,17 +1,17 @@
 import {
-  ApolloCache,
   DocumentNode,
   LazyQueryHookOptions,
   LazyQueryResult,
-  MutationHookOptions, MutationResult, Reference,
-  TypedDocumentNode, useMutation
+  MutationHookOptions,
+  MutationResult,
+  TypedDocumentNode,
+  useMutation
 } from "@apollo/client";
 import {
   EntityInstance,
   GraphQLMutationFn,
   GraphQLQueryFn,
-  Screens,
-  toIdString,
+  useScreens,
   dollarsToUnderscores,
   PaginationChangeCallback,
   FilterChangeCallback,
@@ -22,18 +22,21 @@ import {
   ListQueryVars,
   useEntityListData,
   HasId,
-  generateTempId,
   IMultiScreenItem
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import {useCallback, useState} from "react";
-import {action} from "mobx";
-import { useLocalStore } from "mobx-react";
-import {defaultPaginationConfig} from "../ui/paging/Paging";
-import { PaginationConfig } from "antd/es/pagination";
-import {openEntityEditorScreen, useParentScreen} from "../util/screen";
-import {showDeleteEntityDialog} from "./showDeleteEntityDialog";
-import { saveHistory } from "./history";
+import {useState} from "react";
+import {useLocalStore} from "mobx-react";
+import {defaultPaginationConfig} from "../../ui/paging/Paging";
+import {PaginationConfig} from "antd/es/pagination";
+import {useParentScreen} from "../../util/screen";
+import {useDeleteBtnCallback} from "./ui-callbacks/useDeleteBtnCallback";
+import {useCreateBtnCallback} from "./ui-callbacks/useCreateBtnCallback";
+import {useEditBtnCallback} from "./ui-callbacks/useEditBtnCallback";
+import {usePaginationChangeCallback} from "./ui-callbacks/usePaginationChangeCallback";
+import {useSelectionChangeCallback} from "./ui-callbacks/useSelectionChangeCallback";
+import {useFilterChangeCallback} from "./ui-callbacks/useFilterChangeCallback";
+import {useSortOrderChangeCallback} from "./ui-callbacks/useSortOrderChangeCallback";
 
 export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
@@ -55,17 +58,15 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    */
   deleteMutationOptions?: MutationHookOptions<TData, TMutationVars>;
   /**
-   * Determines the initial pagination state.
+   * Determines the initial pagination state. Note that route parameters will override this prop.
    */
   paginationConfig?: PaginationConfig;
-  screens: Screens;
   currentScreen: IMultiScreenItem;
   entityName: string;
   /**
    * Base route path
    */
   routingPath: string;
-  queryName?: string; // TODO remove
   /**
    * Use to provide the entity list directly instead of obtaining it from backend.
    * Note that backend will still be queried for {@link EntityListHookResult.relationOptions} if applicable.
@@ -138,31 +139,27 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
    * `react-intl` {@link https://formatjs.io/docs/react-intl/api/#the-intl-object | intl object}.
    */
   intl: IntlShape;
-  // TODO remove
-  showDeletionDialog: (e: EntityInstance<TEntity>) => void;
   /**
    * A callback that will be executed when user clicks the Create button.
    */
   handleCreateBtnClick: () => void;
   /**
    * A callback that will be executed when user clicks the Edit button.
-   * @param id id of the selected entity instance
    */
-  handleEditBtnClick: (id: string) => void;
+  handleEditBtnClick: () => void;
+  /**
+   * A callback that will be executed when user clicks the Delete button.
+   */
+  handleDeleteBtnClick: () => void;
   /**
    * A callback that will be executed when user changes the pagination.
    */
   handlePaginationChange: PaginationChangeCallback;
-  // TODO probably remove
-  getRecordById: (id: string, items: Array<EntityInstance<TEntity>>) => EntityInstance<TEntity>;
-  // TODO rename to handleDeleteBtnClick, pass items via closure
-  deleteSelectedRow: (items: Array<EntityInstance<TEntity>>) => void;
   /**
    * A callback that will be executed when entity instances are selected or deselected.
-   * @param selectedRowKeys
+   * @param selectedEntityIds
    */
-  // TODO rename to handleSelectionChange
-  handleRowSelectionChange: (selectedRowKeys: string[]) => void;
+  handleSelectionChange: (selectedEntityIds: string[]) => void;
   /**
    * A callback that will be executed when filters are changed.
    */
@@ -174,15 +171,14 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   /**
    * Observable state
    */
-  // TODO rename to entityListState
-  store: EntityListLocalStore<TEntity>;
+  entityListState: EntityListState<TEntity>;
   /**
    * A callback that closes the current screen and sets its parent as active screen.
    */
   goToParentScreen: () => void;
 }
 
-export interface EntityListLocalStore<TEntity> {
+export interface EntityListState<TEntity> {
   /**
    * If entity list is provided directly via {@link EntityListHookOptions.entityList} rather than being obtained from backend,
    * this variable will store the entity list including all changes made to it.
@@ -191,7 +187,7 @@ export interface EntityListLocalStore<TEntity> {
   /**
    * Identifier of the selected entity instance.
    */
-  selectedRowKey?: string;
+  selectedEntityId?: string;
   /**
    * State of entity list filters.
    */
@@ -219,16 +215,18 @@ export function useEntityList<
     listQueryOptions,
     deleteMutation,
     deleteMutationOptions,
-    screens,
     currentScreen,
     entityName,
     routingPath,
-    queryName = `${dollarsToUnderscores(entityName)}List`,
     paginationConfig = defaultPaginationConfig,
     entityList,
     onEntityListChange,
     reverseAttrName,
   } = options;
+
+  const queryName = `${dollarsToUnderscores(entityName)}List`;
+  const screens = useScreens();
+  const intl = useIntl();
 
   const [pagingDataFromUrl] = useState(() => {
     const query = new URLSearchParams(window.location.search);
@@ -238,9 +236,9 @@ export function useEntityList<
     }
   });
 
-  const store: EntityListLocalStore<TEntity> = useLocalStore(() => ({
+  const entityListState: EntityListState<TEntity> = useLocalStore(() => ({
     entityList,
-    selectedRowKey: undefined,
+    selectedEntityId: undefined,
     filter: undefined,
     sortOrder: undefined,
     pagination: {
@@ -251,13 +249,11 @@ export function useEntityList<
 
   // Used e.g. when entity browser represents the content of a One-to-Many Composition field
   const handleEntityListChange = (newEntityList: Array<EntityInstance<TEntity>>) => {
-    store.entityList = newEntityList; // Update local state (what is shown in the entity browser)
+    entityListState.entityList = newEntityList; // Update local state (what is shown in the entity browser)
     if (onEntityListChange != null) { // Update external state (e.g. parent entity value)
       onEntityListChange(newEntityList);
     }
   };
-
-  const intl = useIntl();
 
   const {
     items,
@@ -266,89 +262,31 @@ export function useEntityList<
     executeListQuery,
     listQueryResult
   } = useEntityListData<TEntity, TData, TListQueryVars>({
-    entityList: store.entityList,
+    entityList: entityListState.entityList,
     listQuery,
     listQueryOptions,
-    filter: store.filter,
-    sortOrder: store.sortOrder,
-    pagination: store.pagination,
+    filter: entityListState.filter,
+    sortOrder: entityListState.sortOrder,
+    pagination: entityListState.pagination,
     entityName
   });
 
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
-  const showDeletionDialog = useDeletionDialogCallback<TEntity, TData, TMutationVars>(intl, executeDeleteMutation, queryName, store.entityList, handleEntityListChange);
-  const handleCreateBtnClick = useCreateBtnCallback(screens, entityName, store.entityList, handleEntityListChange, reverseAttrName);
-  const handleEditBtnClick = useEditBtnCallbck(screens, entityName, routingPath, store.entityList, handleEntityListChange, reverseAttrName);
-
-  const handlePaginationChange = useCallback(
-    action((current?: number, pageSize?: number) => {
-      store.pagination = {
-        current,
-        pageSize
-      };
-      saveHistory(routingPath, store.pagination);
-
-      if (currentScreen.params === undefined) {
-        currentScreen.params = {}
-      }
-
-      if (current && pageSize) {
-        currentScreen.params.pagination = {
-          pageSize,
-          page: current,
-        }
-      } else  {
-        currentScreen.params = undefined;
-      }
-
-    }),
-    [store.pagination, routingPath]
+  const handleCreateBtnClick = useCreateBtnCallback(
+    screens, entityName, entityListState.entityList, handleEntityListChange, reverseAttrName
+  );
+  const handleEditBtnClick = useEditBtnCallback(
+    screens, entityName, routingPath, entityListState.selectedEntityId, entityListState.entityList, handleEntityListChange, reverseAttrName
+  );
+  const handleDeleteBtnClick = useDeleteBtnCallback(
+    intl, executeDeleteMutation, queryName, entityListState.selectedEntityId, items, entityList, onEntityListChange
   );
 
-  const getRecordById = useCallback(
-    (id: string): EntityInstance<TEntity> => {
-
-      const record: EntityInstance<TEntity> | undefined = (items ?? []).find((item: EntityInstance<TEntity>) => toIdString(item.id!) === id);
-
-      if (!record) {
-        throw new Error("Cannot find entity with id " + id);
-      }
-
-      return record;
-    },
-    [items]
-  );
-
-  const deleteSelectedRow = useCallback(
-    () => {
-      if (store.selectedRowKey != null) {
-        showDeletionDialog(getRecordById(store.selectedRowKey));
-      }
-    },
-    [getRecordById, showDeletionDialog, store.selectedRowKey]
-  );
-
-  const handleRowSelectionChange = useCallback(
-    action((selectedRowKeys: string[]) => {
-      store.selectedRowKey = selectedRowKeys[0];
-    }),
-    [store.selectedRowKey]
-  );
-
-  const handleFilterChange = useCallback(
-    action((filter?: JmixEntityFilter[]) => {
-      store.filter = filter;
-    }),
-    [store.filter]
-  );
-
-  const handleSortOrderChange = useCallback(
-    action((sortOrder?: JmixSortOrder) => {
-      store.sortOrder = sortOrder;
-    }),
-    [store.sortOrder]
-  );
+  const handlePaginationChange = usePaginationChangeCallback(entityListState, routingPath, currentScreen);
+  const handleSelectionChange = useSelectionChangeCallback(entityListState);
+  const handleFilterChange = useFilterChangeCallback(entityListState);
+  const handleSortOrderChange = useSortOrderChangeCallback(entityListState);
 
   const goToParentScreen = useParentScreen(routingPath);
 
@@ -361,180 +299,14 @@ export function useEntityList<
     executeDeleteMutation,
     deleteMutationResult,
     intl,
-    showDeletionDialog,
     handleCreateBtnClick,
     handleEditBtnClick,
     handlePaginationChange,
-    store,
-    getRecordById,
-    deleteSelectedRow,
-    handleRowSelectionChange,
+    handleDeleteBtnClick,
+    handleSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
+    entityListState,
     goToParentScreen
-  };
-}
-
-export function useCreateBtnCallback<TEntity>(
-  screens: Screens,
-  entityName: string,
-  entityList?: Array<EntityInstance<TEntity>>,
-  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string
-) {
-  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
-  const intl = useIntl();
-
-  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
-
-  if (entityList != null && onEntityListChange != null) {
-    onCommit = (entityInstance?: EntityInstance<TEntity>) => {
-      if (entityInstance != null) {
-        const newEntityInstance = {
-          ...entityInstance,
-          id: generateTempId(),
-          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
-        };
-        onEntityListChange([
-          newEntityInstance,
-          ...entityList
-        ]);
-      }
-    };
-  }
-
-  return useCallback(() => {
-    openEntityEditorScreen({
-      screens,
-      entityName,
-      onCommit,
-      submitBtnCaption,
-      hiddenAttributes
-    });
-  }, [screens, entityName, entityList]);
-}
-
-export function useEditBtnCallbck<TEntity>(
-  screens: Screens,
-  entityName: string,
-  routingPath: string,
-  entityList?: Array<EntityInstance<TEntity>>,
-  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string,
-) {
-  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
-  const intl = useIntl();
-
-  let onCommit: (entityInstance?: EntityInstance<TEntity>) => void;
-
-  if (entityList != null && onEntityListChange != null) {
-    onCommit = (updatedEntity?: EntityInstance<TEntity>) => {
-      if (updatedEntity != null) {
-        const updatedEntityRenamed = {
-          ...updatedEntity,
-          // Changes made to the entity might have invalidated the instance name
-          '_instanceName': intl.formatMessage({id: 'common.unsavedEntity'})
-        };
-        const newList = entityList.map(originalEntity => {
-          if (originalEntity.id === updatedEntityRenamed.id) {
-            return updatedEntityRenamed;
-          }
-          return originalEntity;
-        });
-        onEntityListChange(newList);
-      }
-    };
-  }
-
-  return useCallback((entityIdToLoad: string) => {
-    const entityInstance = entityList != null
-      ? entityList.find(e => e.id === entityIdToLoad)
-      : undefined;
-    openEntityEditorScreen({
-      screens, entityName, entityIdToLoad, routingPath, entityInstance, onCommit, submitBtnCaption, hiddenAttributes
-    });
-  }, [screens, routingPath, entityName, entityList]);
-}
-
-export function useDeletionDialogCallback<
-  TEntity,
-  TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId
-  >(
-  intl: IntlShape,
-  deleteMutation: GraphQLMutationFn<TData, TVariables>,
-  queryName: string,
-  entityList?: Array<EntityInstance<TEntity>>,
-  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
-) {
-  return useCallback(
-    (e: EntityInstance<TEntity>) => {
-      let onConfirm: () => void;
-
-      if (entityList != null && onEntityListChange != null) {
-        onConfirm = () => {
-          onEntityListChange(
-            entityList.filter(entity => entity.id !== e.id)
-          );
-        };
-      } else {
-        onConfirm = getDefaultOnConfirmDelete(e as EntityInstance<TEntity, HasId>, deleteMutation, queryName);
-      }
-
-      showDeleteEntityDialog(onConfirm, intl, e);
-    },
-    [intl, deleteMutation, entityList]
-  );
-}
-
-function getEditorOptions<TEntity>(
-  entityList?: Array<EntityInstance<TEntity>>,
-  onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string
-): {
-  submitBtnCaption?: string,
-  hiddenAttributes?: string[]
-} {
-  let submitBtnCaption: string | undefined;
-
-  const hiddenAttributes = reverseAttrName != null
-    ? [reverseAttrName]
-    : undefined;
-
-  if (entityList != null && onEntityListChange != null) {
-    submitBtnCaption = 'common.ok';
-  }
-
-  return {submitBtnCaption, hiddenAttributes};
-}
-
-function getDefaultOnConfirmDelete<
-  TEntity,
-  TData,
-  TVariables extends HasId = HasId
->(
-  e: EntityInstance<TEntity, HasId>,
-  deleteMutation: GraphQLMutationFn<TData, TVariables>,
-  queryName: string
-) {
-  return () => {
-    if (e.id != null) {
-      // noinspection JSIgnoredPromiseFromCall
-      deleteMutation({
-        variables: { id: e.id } as TVariables,
-        update(cache: ApolloCache<TData>) {
-          // Remove deleted item from cache
-          cache.modify({
-            fields: {
-              [queryName](existingRefs, { readField }) {
-                return existingRefs.filter(
-                  (ref: Reference) => e.id !== readField("id", ref)
-                );
-              }
-            }
-          });
-        }
-      });
-    }
   };
 }

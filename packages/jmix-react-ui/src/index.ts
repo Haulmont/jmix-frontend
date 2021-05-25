@@ -11,9 +11,9 @@ export * from './formatters/jmixFront_to_ant';
 export * from './formatters/jmixFront_to_jmixGraphQL';
 
 export * from './crud/useEntityEditor';
-export * from './crud/useEntityList';
+export * from './crud/list/useEntityList';
 export * from './crud/EntityEditorProps';
-export * from './crud/EntityListProps';
+export * from './crud/list/EntityListProps';
 export * from './crud/showDeleteEntityDialog';
 export * from './crud/history';
 

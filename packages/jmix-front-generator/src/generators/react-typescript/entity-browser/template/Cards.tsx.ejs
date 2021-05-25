@@ -42,12 +42,12 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     count,
     executeListQuery,
     listQueryResult: {loading, error},
-    showDeletionDialog,
+    handleDeleteBtnClick,
     handleCreateBtnClick,
     handleEditBtnClick,
     handlePaginationChange,
     goToParentScreen,
-    store
+    entityListState
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
@@ -109,13 +109,13 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
                 <EntityPermAccessControl entityName={ENTITY_NAME} operation='delete'>
                   <DeleteOutlined
                     key='delete'
-                    onClick={showDeletionDialog.bind(null, e)}
+                    onClick={handleDeleteBtnClick}
                   />
                 </EntityPermAccessControl>,
                 <EntityPermAccessControl entityName={ENTITY_NAME} operation='update'>
                   <EditOutlined
                     key="edit"
-                    onClick={handleEditBtnClick.bind(null, e.id)}
+                    onClick={handleEditBtnClick}
                   />
                 </EntityPermAccessControl>
               ]}>
@@ -132,7 +132,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
       <Paging
-              paginationConfig={store.pagination ?? {}}
+              paginationConfig={entityListState.pagination ?? {}}
               onPagingChange={handlePaginationChange}
               total={count}
       />

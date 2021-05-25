@@ -1,5 +1,5 @@
 import { action, makeObservable, observable } from 'mobx';
-import React from 'react';
+import React, { useContext } from 'react';
 
 export interface IMultiScreenProps {
   children?: React.ReactNode;
@@ -149,3 +149,7 @@ export class Screens {
 }
 
 export const ScreensContext = React.createContext<Screens>(null!);
+
+export const useScreens = (): Screens => {
+  return useContext(ScreensContext);
+}

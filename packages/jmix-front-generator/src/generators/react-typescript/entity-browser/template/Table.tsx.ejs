@@ -47,15 +47,15 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     relationOptions,
     executeListQuery,
     listQueryResult: {loading, error},
-    handleRowSelectionChange,
+    handleSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
     handlePaginationChange,
-    deleteSelectedRow,
+    handleDeleteBtnClick,
     handleCreateBtnClick,
     handleEditBtnClick,
     goToParentScreen,
-    store,
+    entityListState,
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
@@ -91,9 +91,9 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
+        disabled={entityListState.selectedRowKey == null}
         type="default"
-        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+        onClick={handleEditBtnClick}
       >
         <FormattedMessage id="common.edit" />
       </Button>
@@ -102,8 +102,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        disabled={entityListState.selectedRowKey == null}
+        onClick={handleDeleteBtnClick}
         key="remove"
         type="default"
       >
@@ -133,8 +133,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       items={items}
       count={count}
       relationOptions={relationOptions}
-      current={store.pagination?.current}
-      pageSize={store.pagination?.pageSize}
+      current={entityListState.pagination?.current}
+      pageSize={entityListState.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
@@ -145,7 +145,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
           '<%= p.name %>',
         <% }) %>
       ].filter(columnDef => columnDef !== reverseAttrName)}
-      onRowSelectionChange={handleRowSelectionChange}
+      onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
