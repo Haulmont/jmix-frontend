@@ -47,7 +47,7 @@
       "react-app/jest"
     ]
   },
-  "cubaPlatform": {
+  "jmix": {
     "generator": "react-typescript"
   },
   "proxy": "http://localhost:8080/",
