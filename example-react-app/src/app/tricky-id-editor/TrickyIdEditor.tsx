@@ -48,8 +48,7 @@ const TrickyIdEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
     const multiScreen = useContext(MultiScreenContext);
     const screens = useContext(ScreensContext);
@@ -99,7 +98,6 @@ const TrickyIdEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="otherAttr"
-            hide={hiddenAttributes?.includes("otherAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

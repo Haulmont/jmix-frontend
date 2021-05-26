@@ -27,7 +27,6 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CompositionO2MTestEntityOrderBy
     $filter: [inp_scr_CompositionO2MTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_CompositionO2MTestEntityCount
     scr_CompositionO2MTestEntityList(
@@ -35,20 +34,11 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       name
       quantity
-      datatypesTestEntity {
-        id
-        _instanceName
-      }
-    }
-
-    scr_DatatypesTestEntityList {
-      id
-      _instanceName
     }
   }
 `;
@@ -61,7 +51,7 @@ const DELETE_SCR_COMPOSITIONO2MTESTENTITY = gql`
 
 const CompositionO2MBrowserTable = observer(
   (props: EntityListProps<CompositionO2MTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -84,8 +74,7 @@ const CompositionO2MBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -172,9 +161,7 @@ const CompositionO2MBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name", "quantity", "datatypesTestEntity"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
+        columnDefinitions={["name", "quantity"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

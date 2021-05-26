@@ -27,7 +27,6 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_AssociationO2OTestEntityOrderBy
     $filter: [inp_scr_AssociationO2OTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_AssociationO2OTestEntityCount
     scr_AssociationO2OTestEntityList(
@@ -35,7 +34,7 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       name
@@ -51,7 +50,7 @@ const DELETE_SCR_ASSOCIATIONO2OTESTENTITY = gql`
 
 const AssociationO2OBrowserTable = observer(
   (props: EntityListProps<AssociationO2OTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -74,8 +73,7 @@ const AssociationO2OBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -162,9 +160,7 @@ const AssociationO2OBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
+        columnDefinitions={["name"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

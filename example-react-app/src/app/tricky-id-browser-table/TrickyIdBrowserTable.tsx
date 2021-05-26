@@ -27,7 +27,6 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_TrickyIdTestEntityOrderBy
     $filter: [inp_scr_TrickyIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_TrickyIdTestEntityCount
     scr_TrickyIdTestEntityList(
@@ -35,7 +34,7 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       otherAttr
@@ -51,7 +50,7 @@ const DELETE_SCR_TRICKYIDTESTENTITY = gql`
 
 const TrickyIdBrowserTable = observer(
   (props: EntityListProps<TrickyIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -74,8 +73,7 @@ const TrickyIdBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -162,9 +160,7 @@ const TrickyIdBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["otherAttr"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
+        columnDefinitions={["otherAttr"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

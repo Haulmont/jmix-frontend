@@ -27,7 +27,6 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_WeirdStringIdTestEntityCount
     scr_WeirdStringIdTestEntityList(
@@ -35,7 +34,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       identifier
@@ -52,7 +51,7 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 
 const WeirdStringIdBrowserTable = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -75,8 +74,7 @@ const WeirdStringIdBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -163,9 +161,7 @@ const WeirdStringIdBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["id", "description"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
+        columnDefinitions={["id", "description"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

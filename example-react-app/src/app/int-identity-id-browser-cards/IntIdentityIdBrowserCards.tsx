@@ -37,7 +37,6 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_IntIdentityIdTestEntityOrderBy
     $filter: [inp_scr_IntIdentityIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_IntIdentityIdTestEntityCount
     scr_IntIdentityIdTestEntityList(
@@ -45,7 +44,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       description
@@ -78,7 +77,7 @@ const DELETE_SCR_INTIDENTITYIDTESTENTITY = gql`
 
 const IntIdentityIdBrowserCards = observer(
   (props: EntityListProps<IntIdentityIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -97,8 +96,7 @@ const IntIdentityIdBrowserCards = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -166,16 +164,14 @@ const IntIdentityIdBrowserCards = observer(
               </EntityPermAccessControl>
             ]}
           >
-            {getFields(e)
-              .filter(p => p !== reverseAttrName)
-              .map(p => (
-                <EntityProperty
-                  entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={e[p]}
-                  key={p}
-                />
-              ))}
+            {getFields(e).map(p => (
+              <EntityProperty
+                entityName={ENTITY_NAME}
+                propertyName={p}
+                value={e[p]}
+                key={p}
+              />
+            ))}
           </Card>
         ))}
 

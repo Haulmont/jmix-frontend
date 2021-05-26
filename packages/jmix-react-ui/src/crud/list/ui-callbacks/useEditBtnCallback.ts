@@ -2,7 +2,7 @@ import {useIntl} from "react-intl";
 import {useCallback} from "react";
 import {openEntityEditorScreen} from "../../../util/screen";
 import {EntityInstance, Screens} from "@haulmont/jmix-react-core";
-import { getEditorOptions } from "./getEditorOptions";
+import { getSubmitBtnCaption } from "./getSubmitBtnCaption";
 
 export function useEditBtnCallback<TEntity>(
   screens: Screens,
@@ -11,9 +11,8 @@ export function useEditBtnCallback<TEntity>(
   entityId?: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string,
 ) {
-  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const submitBtnCaption = getSubmitBtnCaption(entityList, onEntityListChange);
   const intl = useIntl();
 
   let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined = undefined;
@@ -42,7 +41,7 @@ export function useEditBtnCallback<TEntity>(
       ? entityList.find(e => e.id === entityId)
       : undefined;
     openEntityEditorScreen({
-      screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption, hiddenAttributes
+      screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption
     });
-  }, [entityList, entityId, screens, entityName, routingPath, onCommit, submitBtnCaption, hiddenAttributes]);
+  }, [entityList, entityId, screens, entityName, routingPath, onCommit, submitBtnCaption]);
 }

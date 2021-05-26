@@ -33,15 +33,6 @@ const LOAD_SCR_COMPOSITIONO2MTESTENTITY = gql`
       _instanceName
       name
       quantity
-      datatypesTestEntity {
-        id
-        _instanceName
-      }
-    }
-
-    scr_DatatypesTestEntityList {
-      id
-      _instanceName
     }
   }
 `;
@@ -63,8 +54,7 @@ const CompositionO2MEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
     const multiScreen = useContext(MultiScreenContext);
     const screens = useContext(ScreensContext);
@@ -72,7 +62,7 @@ const CompositionO2MEditor = observer(
 
     const {
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
       store,
       form,
@@ -87,7 +77,6 @@ const CompositionO2MEditor = observer(
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      hasAssociations: true,
       screens,
       multiScreen,
       onCommit,
@@ -115,7 +104,6 @@ const CompositionO2MEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
-            hide={hiddenAttributes?.includes("name")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -124,17 +112,6 @@ const CompositionO2MEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="quantity"
-            hide={hiddenAttributes?.includes("quantity")}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={ENTITY_NAME}
-            propertyName="datatypesTestEntity"
-            hide={hiddenAttributes?.includes("datatypesTestEntity")}
-            associationOptions={data?.scr_DatatypesTestEntityList}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

@@ -27,7 +27,6 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_DatatypesTestEntityOrderBy
     $filter: [inp_scr_DatatypesTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_DatatypesTestEntityCount
     scr_DatatypesTestEntityList(
@@ -35,7 +34,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       bigDecimalAttr
@@ -136,7 +135,7 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 
 const DatatypesTestBrowserTable = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -159,8 +158,7 @@ const DatatypesTestBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -270,7 +268,7 @@ const DatatypesTestBrowserTable = observer(
           "intIdentityIdTestEntityAssociationO2OAttr",
           "datatypesTestEntity3",
           "name"
-        ].filter(columnDef => columnDef !== reverseAttrName)}
+        ]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

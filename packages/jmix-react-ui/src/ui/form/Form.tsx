@@ -85,10 +85,6 @@ export interface FieldProps {
    * that will be rendered, such as `DatePicker` or `Select`).
    */
   componentProps?: FormFieldComponentProps;
-  /**
-   * If `true` the field will not be rendered.
-   */
-  hide?: boolean;
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -96,12 +92,8 @@ export const Field = observer((props: FieldProps) => {
 
   const {
     entityName, propertyName, optionsContainer, associationOptions, componentProps,
-    parentEntityInstanceId, disabled, formItemProps, hide
+    parentEntityInstanceId, disabled, formItemProps
   } = props;
-
-  if (hide) {
-    return null;
-  }
 
   const metadata = useMetadata();
 
@@ -202,19 +194,10 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
         }
 
         if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-          const reverseAttrName = metadata.entities
-            .find((metaClass: MetaClassInfo) => metaClass.entityName === nestedEntityName) // Find nested entity
-            ?.properties
-            .find((property: MetaPropertyInfo) => property.type === entityName) // Find the reverse attribute
-            ?.name; // Get reverse attribute name
-
-          if (reverseAttrName != null) {
-            return <CompositionO2MField entityName={nestedEntityName}
-                                        reverseAttrName={reverseAttrName}
-                                        {...rest as Partial<CompositionO2MFieldProps>}
-            />;
+          return <CompositionO2MField entityName={nestedEntityName}
+                                      {...rest as Partial<CompositionO2MFieldProps>}
+                 />;
         }
-      }
       }
 
       return null;

@@ -50,7 +50,6 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
     onCommit,
     entityInstance,
     submitBtnCaption = 'common.submit',
-    hiddenAttributes
   } = props;
   const multiScreen = useContext(MultiScreenContext);
   const screens = useContext(ScreensContext);
@@ -109,7 +108,6 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
         <% attributes.forEach(attr => { %>
           <Field entityName={ENTITY_NAME}
                  propertyName="<%= attr.name %>"
-                 hide={hiddenAttributes?.includes('<%= attr.name %>')}
 
             <% if (readOnlyFields.includes(attr.name)) { %>
                  disabled={true}

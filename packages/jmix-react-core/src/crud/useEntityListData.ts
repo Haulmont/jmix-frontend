@@ -8,7 +8,7 @@ import { getRelationOptions } from "./getRelationOptions";
 import {getCountQueryName, getListQueryName} from "../util/graphql";
 import {GraphQLQueryFn} from "../data/aliases";
 import { EntityInstance } from "./EntityInstance";
-import { HasId } from "../util/metadata";
+import {HasId} from "../util/metadata";
 
 export interface EntityListDataHookOptions<TEntity, TData, TQueryVars> {
   entityList?: Array<EntityInstance<TEntity>>;
@@ -56,7 +56,6 @@ export function useEntityListData<
       orderBy: sortOrder,
       limit: pagination?.pageSize,
       offset: calcOffset(pagination?.current, pagination?.pageSize),
-      loadItems: entityList == null
     } as TListQueryVars,
     ...listQueryOptions
   };
@@ -65,8 +64,13 @@ export function useEntityListData<
 
   // Load items
   useEffect(() => {
-    executeListQuery(listQueryOptions);
-  }, [listQueryOptions, executeListQuery]);
+    // We execute the list query unless `entityList` has been passed directly.
+    // We don't need relation options in this case as filters will be disabled.
+    // If we implement client-side filtering then we'll need to obtain the relation options from backend.
+    if (entityList == null) {
+      executeListQuery();
+    }
+  }, [executeListQuery]);
 
   const items = entityList == null
     ? listQueryResult.data?.[getListQueryName(entityName)]
@@ -86,5 +90,3 @@ export function useEntityListData<
     listQueryResult
   }
 }
-
-

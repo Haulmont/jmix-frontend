@@ -2,16 +2,15 @@ import {useIntl} from "react-intl";
 import {useCallback} from "react";
 import {openEntityEditorScreen} from "../../../util/screen";
 import {EntityInstance, Screens, generateTempId} from "@haulmont/jmix-react-core";
-import { getEditorOptions } from "./getEditorOptions";
+import { getSubmitBtnCaption } from "./getSubmitBtnCaption";
 
 export function useCreateBtnCallback<TEntity>(
   screens: Screens,
   entityName: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string
 ) {
-  const {submitBtnCaption, hiddenAttributes} = getEditorOptions(entityList, onEntityListChange, reverseAttrName);
+  const submitBtnCaption = getSubmitBtnCaption(entityList, onEntityListChange);
   const intl = useIntl();
 
   let onCommit: ((entityInstance?: EntityInstance<TEntity>) => void) | undefined = undefined; // We need to initialize it so that it can be used in useCallback deps array
@@ -37,8 +36,7 @@ export function useCreateBtnCallback<TEntity>(
       screens,
       entityName,
       onCommit,
-      submitBtnCaption,
-      hiddenAttributes
+      submitBtnCaption
     });
-  }, [screens, entityName, onCommit, submitBtnCaption, hiddenAttributes]);
+  }, [screens, entityName, onCommit, submitBtnCaption]);
 }

@@ -59,8 +59,7 @@ const CompositionO2OEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
     const multiScreen = useContext(MultiScreenContext);
     const screens = useContext(ScreensContext);
@@ -110,7 +109,6 @@ const CompositionO2OEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
-            hide={hiddenAttributes?.includes("name")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -119,7 +117,6 @@ const CompositionO2OEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="quantity"
-            hide={hiddenAttributes?.includes("quantity")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -128,7 +125,6 @@ const CompositionO2OEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="nestedComposition"
-            hide={hiddenAttributes?.includes("nestedComposition")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

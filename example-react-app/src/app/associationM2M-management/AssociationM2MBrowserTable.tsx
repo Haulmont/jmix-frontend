@@ -27,7 +27,6 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_AssociationM2MTestEntityOrderBy
     $filter: [inp_scr_AssociationM2MTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_AssociationM2MTestEntityCount
     scr_AssociationM2MTestEntityList(
@@ -35,7 +34,7 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       name
@@ -51,7 +50,7 @@ const DELETE_SCR_ASSOCIATIONM2MTESTENTITY = gql`
 
 const AssociationM2MBrowserTable = observer(
   (props: EntityListProps<AssociationM2MTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -74,8 +73,7 @@ const AssociationM2MBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -162,9 +160,7 @@ const AssociationM2MBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
+        columnDefinitions={["name"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

@@ -1,6 +1,6 @@
 import {IntlShape} from "react-intl";
 import {useCallback} from "react";
-import {showDeleteEntityDialog} from "../../showDeleteEntityDialog";
+import {showDeleteEntityDialog} from "../../common/showDeleteEntityDialog";
 import {EntityInstance, GraphQLMutationFn, HasId} from "@haulmont/jmix-react-core";
 import {ApolloCache, Reference} from "@apollo/client";
 import { getEntityInstanceById } from "./getEntityInstanceById";

@@ -76,11 +76,6 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * @param entityList {@link entityList}
    */
   onEntityListChange?: (entityList?: Array<EntityInstance<TEntity>>) => void;
-  /**
-   * The name of One-to-Many Composition reverse attribute.
-   * Applicable when entity list component represents the content of One-to-Many Composition attribute in the parent entity.
-   */
-  reverseAttrName?: string;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -203,11 +198,11 @@ export interface EntityListState<TEntity> {
 export function useEntityList<
   TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
-  TListQueryVars extends ListQueryVars = ListQueryVars,
+  TQueryVars extends ListQueryVars = ListQueryVars,
   TMutationVars extends HasId = HasId
 >(
-  options: EntityListHookOptions<TEntity, TData, TListQueryVars, TMutationVars>
-): EntityListHookResult<TEntity, TData, TListQueryVars, TMutationVars> {
+  options: EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars>
+): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
     listQuery,
     listQueryOptions,
@@ -218,7 +213,6 @@ export function useEntityList<
     paginationConfig = defaultPaginationConfig,
     entityList,
     onEntityListChange,
-    reverseAttrName,
   } = options;
 
   const queryName = `${dollarsToUnderscores(entityName)}List`;
@@ -258,7 +252,7 @@ export function useEntityList<
     relationOptions,
     executeListQuery,
     listQueryResult
-  } = useEntityListData<TEntity, TData, TListQueryVars>({
+  } = useEntityListData<TEntity, TData, TQueryVars>({
     entityList: entityListState.entityList,
     listQuery,
     listQueryOptions,
@@ -271,13 +265,13 @@ export function useEntityList<
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);
 
   const handleCreateBtnClick = useCreateBtnCallback(
-    screens, entityName, entityListState.entityList, handleEntityListChange, reverseAttrName
+    screens, entityName, entityListState.entityList, handleEntityListChange
   );
   const handleEditBtnClick = useEditBtnCallback(
-    screens, entityName, routingPath, entityListState.selectedEntityId, entityListState.entityList, handleEntityListChange, reverseAttrName
+    screens, entityName, routingPath, entityListState.selectedEntityId, entityListState.entityList, handleEntityListChange
   );
   const handleDeleteBtnClick = useDeleteBtnCallback(
-    intl, executeDeleteMutation, queryName, entityListState.selectedEntityId, items, entityList, handleEntityListChange
+    intl, executeDeleteMutation, queryName, entityListState.selectedEntityId, items, entityListState.entityList, handleEntityListChange
   );
 
   const handlePaginationChange = usePaginationChangeCallback(entityListState, routingPath, screens.currentScreen);

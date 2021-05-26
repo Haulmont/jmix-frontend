@@ -1,5 +1,13 @@
 import {HasId, HasInstanceName, MayHaveId, MayHaveInstanceName} from "../util/metadata";
 
+/**
+ * Use this type with entity instance variables.
+ * Do not use `HasId` / `MayHaveId` / `WithId` etc. directly.
+ *
+ * @typeparam TEntity an entity class from the TypeScript SDK (`src/jmix/entities`).
+ * @typeparam TId {@link HasId} or {@link MayHaveId} depending on whether the entity has an `id`.
+ * @typeparam TInstanceName {@link HasInstanceName} or {@link MayHaveInstanceName} depending on whether the entity has an `_instanceName`.
+ */
 export declare type EntityInstance<
   TEntity = unknown,
   TId extends HasId | MayHaveId = MayHaveId,

@@ -36,7 +36,6 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -44,7 +43,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       manufacturer
@@ -84,7 +83,7 @@ const DELETE_SCR_CAR = gql`
 `;
 
 const CarBrowserList = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange, reverseAttrName } = props;
+  const { entityList, onEntityListChange } = props;
 
   const {
     items,
@@ -103,8 +102,7 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange,
-    reverseAttrName
+    onEntityListChange
   });
 
   if (error != null) {
@@ -169,16 +167,14 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
             ]}
           >
             <div style={{ flexGrow: 1 }}>
-              {getFields(item)
-                .filter(p => p !== reverseAttrName)
-                .map(p => (
-                  <EntityProperty
-                    entityName={ENTITY_NAME}
-                    propertyName={p}
-                    value={item[p]}
-                    key={p}
-                  />
-                ))}
+              {getFields(item).map(p => (
+                <EntityProperty
+                  entityName={ENTITY_NAME}
+                  propertyName={p}
+                  value={item[p]}
+                  key={p}
+                />
+              ))}
             </div>
           </List.Item>
         )}

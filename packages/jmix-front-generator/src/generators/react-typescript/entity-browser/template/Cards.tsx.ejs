@@ -21,9 +21,9 @@ const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
-  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition], $loadItems: Boolean!) {
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count
-    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) @include(if: $loadItems) <%= query -%>
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query -%>
   }
 `;
 
@@ -34,7 +34,7 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
 `;
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
-  const {entityList, onEntityListChange, reverseAttrName} = props;
+  const {entityList, onEntityListChange} = props;
 
   const {
     items,
@@ -54,7 +54,6 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     routingPath: ROUTING_PATH,
     entityList,
     onEntityListChange,
-    reverseAttrName
   });
 
   if (error != null) {
@@ -117,7 +116,6 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
                 </EntityPermAccessControl>
               ]}>
           {getFields(e)
-            .filter(p => p !== reverseAttrName)
             .map(p =>
               <EntityProperty entityName={ENTITY_NAME}
                               propertyName={p}

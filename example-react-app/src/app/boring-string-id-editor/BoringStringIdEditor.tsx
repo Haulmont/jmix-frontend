@@ -53,8 +53,7 @@ const BoringStringIdEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
     const multiScreen = useContext(MultiScreenContext);
     const screens = useContext(ScreensContext);
@@ -104,7 +103,6 @@ const BoringStringIdEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="description"
-            hide={hiddenAttributes?.includes("description")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

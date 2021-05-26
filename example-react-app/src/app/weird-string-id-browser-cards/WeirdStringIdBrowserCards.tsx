@@ -37,7 +37,6 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_WeirdStringIdTestEntityCount
     scr_WeirdStringIdTestEntityList(
@@ -45,7 +44,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       identifier
@@ -62,7 +61,7 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 
 const WeirdStringIdBrowserCards = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -81,8 +80,7 @@ const WeirdStringIdBrowserCards = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -150,16 +148,14 @@ const WeirdStringIdBrowserCards = observer(
               </EntityPermAccessControl>
             ]}
           >
-            {getFields(e)
-              .filter(p => p !== reverseAttrName)
-              .map(p => (
-                <EntityProperty
-                  entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={e[p]}
-                  key={p}
-                />
-              ))}
+            {getFields(e).map(p => (
+              <EntityProperty
+                entityName={ENTITY_NAME}
+                propertyName={p}
+                value={e[p]}
+                key={p}
+              />
+            ))}
           </Card>
         ))}
 

@@ -36,7 +36,6 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_IntegerIdTestEntityOrderBy
     $filter: [inp_scr_IntegerIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_IntegerIdTestEntityCount
     scr_IntegerIdTestEntityList(
@@ -44,7 +43,7 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       description
@@ -60,7 +59,7 @@ const DELETE_SCR_INTEGERIDTESTENTITY = gql`
 
 const IntIdBrowserList = observer(
   (props: EntityListProps<IntegerIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -79,8 +78,7 @@ const IntIdBrowserList = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -145,16 +143,14 @@ const IntIdBrowserList = observer(
               ]}
             >
               <div style={{ flexGrow: 1 }}>
-                {getFields(item)
-                  .filter(p => p !== reverseAttrName)
-                  .map(p => (
-                    <EntityProperty
-                      entityName={ENTITY_NAME}
-                      propertyName={p}
-                      value={item[p]}
-                      key={p}
-                    />
-                  ))}
+                {getFields(item).map(p => (
+                  <EntityProperty
+                    entityName={ENTITY_NAME}
+                    propertyName={p}
+                    value={item[p]}
+                    key={p}
+                  />
+                ))}
               </div>
             </List.Item>
           )}

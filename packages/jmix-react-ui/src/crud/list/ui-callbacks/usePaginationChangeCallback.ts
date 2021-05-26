@@ -1,6 +1,6 @@
 import {useCallback} from "react";
 import {action} from "mobx";
-import {saveHistory} from "../../history";
+import {saveHistory} from "../../../util/history";
 import {EntityListState} from "../useEntityList";
 import {IMultiScreenItem} from "@haulmont/jmix-react-core";
 

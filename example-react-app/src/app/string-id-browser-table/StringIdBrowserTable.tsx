@@ -27,7 +27,6 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_StringIdTestEntityOrderBy
     $filter: [inp_scr_StringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_StringIdTestEntityCount
     scr_StringIdTestEntityList(
@@ -35,7 +34,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       identifier
       _instanceName
       description
@@ -79,7 +78,7 @@ const DELETE_SCR_STRINGIDTESTENTITY = gql`
 
 const StringIdBrowserTable = observer(
   (props: EntityListProps<StringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -102,8 +101,7 @@ const StringIdBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -201,7 +199,7 @@ const StringIdBrowserTable = observer(
           "deletedBy",
           "datatypesTestEntity",
           "datatypesTestEntity3"
-        ].filter(columnDef => columnDef !== reverseAttrName)}
+        ]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}

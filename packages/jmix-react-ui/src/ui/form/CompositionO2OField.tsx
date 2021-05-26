@@ -15,7 +15,7 @@ import {FormattedMessage, useIntl} from "react-intl";
 import {openEntityEditorScreen} from "../../util/screen";
 import './CompositionFields.less';
 import {ant_to_jmixFront} from "../../formatters/ant_to_jmixFront";
-import {showDeleteEntityDialog} from "../../crud/showDeleteEntityDialog";
+import {showDeleteEntityDialog} from "../../crud/common/showDeleteEntityDialog";
 
 export interface CompositionO2OFieldProps {
   value?: MayHaveId;

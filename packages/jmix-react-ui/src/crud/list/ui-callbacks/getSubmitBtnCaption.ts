@@ -1,22 +1,14 @@
 import { EntityInstance } from "@haulmont/jmix-react-core";
 
-export function getEditorOptions<TEntity>(
+export function getSubmitBtnCaption<TEntity = unknown>(
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  reverseAttrName?: string
-): {
-  submitBtnCaption?: string,
-  hiddenAttributes?: string[]
-} {
+): string | undefined {
   let submitBtnCaption: string | undefined;
-
-  const hiddenAttributes = reverseAttrName != null
-    ? [reverseAttrName]
-    : undefined;
 
   if (entityList != null && onEntityListChange != null) {
     submitBtnCaption = 'common.ok';
   }
 
-  return {submitBtnCaption, hiddenAttributes};
+  return submitBtnCaption;
 }

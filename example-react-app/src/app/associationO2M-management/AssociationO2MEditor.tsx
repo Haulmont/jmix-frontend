@@ -53,8 +53,7 @@ const AssociationO2MEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
     const multiScreen = useContext(MultiScreenContext);
     const screens = useContext(ScreensContext);
@@ -104,7 +103,6 @@ const AssociationO2MEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
-            hide={hiddenAttributes?.includes("name")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

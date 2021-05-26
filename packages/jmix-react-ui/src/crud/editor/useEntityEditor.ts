@@ -1,6 +1,6 @@
 import {useCallback, useEffect} from "react";
 import {FormInstance, message} from "antd";
-import {useLocalStore} from "mobx-react";
+import {useLocalObservable} from "mobx-react";
 import {
   ApolloCache,
   DocumentNode, FetchResult,
@@ -28,24 +28,23 @@ import {IntlShape, useIntl} from "react-intl";
 import {action} from "mobx";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
 import {useForm} from "antd/es/form/Form";
-import {jmixFront_to_ant} from "../formatters/jmixFront_to_ant";
-import {selectFormSuccessMessageId} from "../ui/form/Form";
-import {ant_to_jmixFront} from "../formatters/ant_to_jmixFront";
-import { useParentScreen } from "../util/screen";
-import { jmixFront_to_jmixGraphQL } from "../formatters/jmixFront_to_jmixGraphQL";
+import {jmixFront_to_ant} from "../../formatters/jmixFront_to_ant";
+import {selectFormSuccessMessageId} from "../../ui/form/Form";
+import {ant_to_jmixFront} from "../../formatters/ant_to_jmixFront";
+import { useParentScreen } from "../../util/screen";
+import { jmixFront_to_jmixGraphQL } from "../../formatters/jmixFront_to_jmixGraphQL";
 
 export type EntityEditorStore = {
   globalErrors: string[];
 };
 
 export const useEntityEditorStore = () => {
-  // TODO localobservable
-  return useLocalStore(() => ({
+  return useLocalObservable(() => ({
     globalErrors: [],
   }));
 };
 
-export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
+export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
    * GraphQL query that retrieves the entity instance.
    * Will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQueryOptions}.
@@ -54,7 +53,7 @@ export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
   /**
    * Options that will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQuery}.
    */
-  loadQueryOptions?: LazyQueryHookOptions<TData, TVariables>;
+  loadQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
   /**
    * GraphQL mutation that UPdates or inSERTs (creates) an entity instance (updates if `id` is provided and creates otherwise).
    * Will be passed to Apollo Client `useMutation` hook along with {@link upsertMutationOptions}.
@@ -63,41 +62,45 @@ export interface EntityEditorHookOptions<TEntity, TData, TVariables> {
   /**
    * Options that will be passed to Apollo Client `useMutation` hook along with {@link upsertMutation}.
    */
-  upsertMutationOptions?: MutationHookOptions<TData, TVariables>;
+  upsertMutationOptions?: MutationHookOptions<TData, TMutationVars>;
   /**
    * An entity instance with a given `id` will be loaded from backend unless {@link entityInstance} is also provided.
    */
   entityId?: string;
-  // TODO remove
-  queryName?: string;
   /**
    * Name of the entity being edited.
    */
   entityName: string;
   /**
-   * Name of the {@link upsertMutation} input variable.
-   */
-  upsertInputName: string;
-  // TODO remove
-  updateResultName?: string;
-  // TODO remove
-  listQueryName?: string;
-  /**
    * Base route path.
    */
   routingPath: string;
+  /**
+   * Name of the variable in the upsert mutation - uncapitalized entity class name.
+   */
+  // TODO add class name to metadata and obtain upsertInput name from there; remove it from options.
+  upsertInputName: string;
+  // TODO remove and determine by analyzing the query
   hasAssociations?: boolean;
+  // TODO remove and obtain from context
   screens: Screens;
+  // TODO remove and obtain from context
   multiScreen: IMultiScreenItem;
+  /**
+   * A callback that will be executed when the editor is submitted.
+   * @param value
+   */
+  // TODO change value typing
   onCommit?: (value: TEntity) => void;
+  // TODO change value typing
   entityInstance?: TEntity
 }
 
-export interface EntityEditorHookResult<TEntity, TData, TVariables> {
+export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   item: EntityInstance<TEntity>;
-  executeLoadQuery: GraphQLQueryFn<TVariables>;
-  loadQueryResult: LazyQueryResult<TData, TVariables>;
-  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
+  executeLoadQuery: GraphQLQueryFn<TQueryVars>;
+  loadQueryResult: LazyQueryResult<TData, TQueryVars>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
   upsertMutationResult: MutationResult;
   store: EntityEditorStore;
   form: FormInstance;
@@ -110,10 +113,11 @@ export interface EntityEditorHookResult<TEntity, TData, TVariables> {
 export function useEntityEditor<
   TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId
+  TQueryVars extends HasId = HasId,
+  TMutationVars = unknown
 >(
-  options: EntityEditorHookOptions<TEntity, TData, TVariables>
-): EntityEditorHookResult<TEntity, TData, TVariables> {
+  options: EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars>
+): EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
     loadQuery,
     loadQueryOptions,
@@ -121,34 +125,39 @@ export function useEntityEditor<
     upsertMutationOptions,
     entityId,
     entityName,
-    queryName = `${dollarsToUnderscores(entityName)}ById`,
-    updateResultName = `upsert_${dollarsToUnderscores(entityName)}`,
-    listQueryName = `${dollarsToUnderscores(entityName)}List`,
-    upsertInputName,
     hasAssociations,
     routingPath,
     onCommit,
-    entityInstance
+    entityInstance,
+    upsertInputName
   } = options;
 
   const intl = useIntl();
   const metadata = useMetadata();
   const [form] = useForm();
+
+  const queryName = `${dollarsToUnderscores(entityName)}ById`;
+  const updateResultName = `upsert_${dollarsToUnderscores(entityName)}`;
+  const listQueryName = `${dollarsToUnderscores(entityName)}List`;
+
   const store: EntityEditorStore = useEntityEditorStore();
 
-  const [executeLoadQuery, loadQueryResult] = useLazyQuery<TData, TVariables>(loadQuery, loadQueryOptions);
+  // TODO optsWithVars
+
+  const [executeLoadQuery, loadQueryResult] = useLazyQuery<TData, TQueryVars>(loadQuery, loadQueryOptions);
   const {data} = loadQueryResult;
 
-  const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TVariables>(upsertMutation, upsertMutationOptions);
+  const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
   // Fetch the entity (if editing) and association options from backend
   useEffect(() => {
-    if (entityId != null || hasAssociations) {
+    const loadItem = (entityInstance == null && entityId != null);
+    if (loadItem || hasAssociations) {
       executeLoadQuery({
         variables: {
           id: entityId,
-          loadItem: entityInstance == null && entityId != null
-        } as unknown as TVariables
+          loadItem
+        } as unknown as TQueryVars
       });
     }
   }, [entityId, executeLoadQuery, hasAssociations, entityInstance]);
@@ -170,7 +179,7 @@ export function useEntityEditor<
 
   const handleCancelBtnClick = goToParentScreen;
 
-  const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TVariables>({
+  const {handleFinish, handleFinishFailed} = useFormSubmitCallbacks<TEntity, TData, TMutationVars>({
     intl,
     form,
     metadata,
@@ -201,11 +210,11 @@ export function useEntityEditor<
   };
 }
 
-export interface FormSubmitCallbacksHookOptions<TEntity, TData, TVariables> {
+export interface FormSubmitCallbacksHookOptions<TEntity, TData, TMutationVars> {
   intl: IntlShape;
   form: FormInstance;
   metadata: Metadata;
-  executeUpsertMutation: GraphQLMutationFn<TData, TVariables>;
+  executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
   entityId?: string;
   entityName: string;
   upsertInputName: string;
@@ -225,9 +234,9 @@ export interface FormSubmitCallbacksHookResult<TEntity> {
 export function useFormSubmitCallbacks<
   TEntity extends MayHaveId = MayHaveId,
   TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId
+  TMutationVars = unknown
 >(
-  options: FormSubmitCallbacksHookOptions<TEntity, TData, TVariables>
+  options: FormSubmitCallbacksHookOptions<TEntity, TData, TMutationVars>
 ): FormSubmitCallbacksHookResult<TEntity> {
   const {
     intl,
@@ -310,9 +319,9 @@ export function useFormSubmitCallbacks<
 }
 
 export function persistEntity<
-  TEntity extends MayHaveId = MayHaveId,
+  TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
-  TVariables extends HasId = HasId
+  TVariables = unknown
 >(
   upsertItem: GraphQLMutationFn<TData, TVariables>,
   upsertInputName: string,

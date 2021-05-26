@@ -27,7 +27,6 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -35,7 +34,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       manufacturer
@@ -85,7 +84,7 @@ const DELETE_SCR_CAR = gql`
 `;
 
 const CarBrowserTable = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange, reverseAttrName } = props;
+  const { entityList, onEntityListChange } = props;
 
   const {
     items,
@@ -108,8 +107,7 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange,
-    reverseAttrName
+    onEntityListChange
   });
 
   if (error != null) {
@@ -211,7 +209,7 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
         "garage",
         "technicalCertificate",
         "photo"
-      ].filter(columnDef => columnDef !== reverseAttrName)}
+      ]}
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
