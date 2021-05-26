@@ -7,7 +7,7 @@ interface Props extends MenuItemProps {
   screenId?: string;
 }
 
-export const MenuItem: React.FC<Props> = ({children, screenId, onClick, ...menuItemProps}: Props) => {
+export const MenuItem: React.FC<Props> = ({screenId, onClick, ...menuItemProps}: Props) => {
   const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
 
   useEffect(() => {
@@ -41,8 +41,6 @@ export const MenuItem: React.FC<Props> = ({children, screenId, onClick, ...menuI
     <Menu.Item
       {...menuItemProps}
       onClick = {menuItemOnCLick}
-    >
-      {children}
-    </Menu.Item>
+    />
   )
 }
