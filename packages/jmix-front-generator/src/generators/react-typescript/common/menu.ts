@@ -1,5 +1,6 @@
 import path from "path";
 import Generator from "yeoman-generator";
+import uuid from 'uuid'
 import {convertToUnixPath} from "../../../common/utils";
 
 interface AddToMenuOpts {
@@ -120,8 +121,9 @@ export const addAppMenuItem = (appMenuContents: string,
     const newMenuItem =  `
       <MenuItem 
         screenId={"${componentClassName}"}
+        icon={<BarsOutlined />}
+        key={'${uuid.v4()}'}
       >
-        <BarsOutlined />
         <FormattedMessage id={"router.${componentClassName}"} />
       </MenuItem>`
     return getUpdatedAppMenuContent(appMenuContents, newMenuItem)

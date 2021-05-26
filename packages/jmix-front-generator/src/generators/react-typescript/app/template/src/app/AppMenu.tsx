@@ -7,8 +7,11 @@ import { FormattedMessage } from "react-intl";
 export const AppMenu = () => {
   return (
       <VerticalMenu>
-        <MenuItem onClick={tabs.closeAll}>
-          <HomeOutlined />
+        <MenuItem 
+          onClick={tabs.closeAll}
+          icon={<HomeOutlined />}
+          key={"home"}
+        >
           <FormattedMessage id="router.home" />
         </MenuItem>
       </VerticalMenu>
