@@ -122,10 +122,9 @@ export const addAppMenuItem = (appMenuContents: string,
       <MenuItem 
         screenId={"${componentClassName}"}
         icon={<BarsOutlined />}
+        caption={<FormattedMessage id={"router.${componentClassName}"} />}
         key={'${uuid.v4()}'}
-      >
-        <FormattedMessage id={"router.${componentClassName}"} />
-      </MenuItem>`
+      />`
     return getUpdatedAppMenuContent(appMenuContents, newMenuItem)
 
   }

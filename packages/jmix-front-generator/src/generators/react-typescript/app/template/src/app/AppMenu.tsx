@@ -10,10 +10,9 @@ export const AppMenu = () => {
         <MenuItem 
           onClick={tabs.closeAll}
           icon={<HomeOutlined />}
+          caption={<FormattedMessage id="router.home" />}
           key={"home"}
-        >
-          <FormattedMessage id="router.home" />
-        </MenuItem>
+        />
       </VerticalMenu>
   );
 };
