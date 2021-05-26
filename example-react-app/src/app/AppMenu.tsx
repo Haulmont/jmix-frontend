@@ -7,265 +7,236 @@ import { FormattedMessage } from "react-intl";
 export const AppMenu = () => {
   return (
     <VerticalMenu>
-      <MenuItem onClick={tabs.closeAll} icon={<HomeOutlined />} key={"home"}>
-        <FormattedMessage id="router.home" />
-      </MenuItem>
+      <MenuItem
+        onClick={tabs.closeAll}
+        icon={<HomeOutlined />}
+        caption={<FormattedMessage id="router.home" />}
+        key={"home"}
+      />
 
       <MenuItem
         screenId={"TestBlankComponent"}
         icon={<BarsOutlined />}
-        key={"f1ff520a-f8d3-4e85-b35a-19a066774b6a"}
-      >
-        <FormattedMessage id={"router.TestBlankComponent"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.TestBlankComponent"} />}
+        key={"422dd377-0ef2-4cbd-924d-21915cc11407"}
+      />
 
       <MenuItem
         screenId={"StructureComponent"}
         icon={<BarsOutlined />}
-        key={"d3f16e6e-4929-4180-b3a5-42582d788913"}
-      >
-        <FormattedMessage id={"router.StructureComponent"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.StructureComponent"} />}
+        key={"dfd2453c-7a1d-4434-8749-390758b42692"}
+      />
 
       <MenuItem
         screenId={"CarBrowserCards"}
         icon={<BarsOutlined />}
-        key={"c3abdbb6-14f8-4a5a-b32d-2fa7ff0f590e"}
-      >
-        <FormattedMessage id={"router.CarBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CarBrowserCards"} />}
+        key={"fe417299-1fea-471e-b1e8-9efabec1898e"}
+      />
 
       <MenuItem
         screenId={"CarBrowserList"}
         icon={<BarsOutlined />}
-        key={"507f9c19-9fe9-4a23-a61b-050af18db2b3"}
-      >
-        <FormattedMessage id={"router.CarBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CarBrowserList"} />}
+        key={"1d2c017e-5609-4b41-aa77-63a963ecc95b"}
+      />
 
       <MenuItem
         screenId={"CarBrowserTable"}
         icon={<BarsOutlined />}
-        key={"8f0fb11f-6172-4f3c-ba5b-12dfd02ec589"}
-      >
-        <FormattedMessage id={"router.CarBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CarBrowserTable"} />}
+        key={"c895dc58-cdb1-4fc0-a2a8-05219d3d56bd"}
+      />
 
       <MenuItem
         screenId={"CarCardsGrid"}
         icon={<BarsOutlined />}
-        key={"989154e1-ea5c-4799-92d7-dbc17712c18b"}
-      >
-        <FormattedMessage id={"router.CarCardsGrid"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CarCardsGrid"} />}
+        key={"b3ad0f1f-2530-4e03-9e9f-3892f52b1e82"}
+      />
 
       <MenuItem
         screenId={"FavoriteCars"}
         icon={<BarsOutlined />}
-        key={"0ec9f262-24b4-4e7d-a10b-feeb0f067113"}
-      >
-        <FormattedMessage id={"router.FavoriteCars"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.FavoriteCars"} />}
+        key={"860e9cda-50db-4aee-b556-78fa32386291"}
+      />
 
       <MenuItem
         screenId={"DatatypesTestBrowserCards"}
         icon={<BarsOutlined />}
-        key={"01e5641f-6e76-42d5-8eab-4f031d998d88"}
-      >
-        <FormattedMessage id={"router.DatatypesTestBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.DatatypesTestBrowserCards"} />}
+        key={"19008d28-c980-466f-b8dd-8238d7145173"}
+      />
 
       <MenuItem
         screenId={"DatatypesTestBrowserList"}
         icon={<BarsOutlined />}
-        key={"5527c296-7554-410d-965a-ab893d98d490"}
-      >
-        <FormattedMessage id={"router.DatatypesTestBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.DatatypesTestBrowserList"} />}
+        key={"55b12502-d722-4591-8d13-c339de576b5f"}
+      />
 
       <MenuItem
         screenId={"DatatypesTestBrowserTable"}
         icon={<BarsOutlined />}
-        key={"95d871a3-3707-4876-a6d8-cca141bef7a2"}
-      >
-        <FormattedMessage id={"router.DatatypesTestBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.DatatypesTestBrowserTable"} />}
+        key={"e8337926-85d9-43d2-885b-848ed15303d8"}
+      />
 
       <MenuItem
         screenId={"DatatypesTestCards"}
         icon={<BarsOutlined />}
-        key={"e8f39e69-0581-472d-a08d-1d4c1a690ba3"}
-      >
-        <FormattedMessage id={"router.DatatypesTestCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.DatatypesTestCards"} />}
+        key={"13b62c21-7e2e-420c-ad03-32b64e7250fc"}
+      />
 
       <MenuItem
         screenId={"AssociationO2OBrowserTable"}
         icon={<BarsOutlined />}
-        key={"0e79d319-16a7-45d5-add3-c8cd0f9d1984"}
-      >
-        <FormattedMessage id={"router.AssociationO2OBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.AssociationO2OBrowserTable"} />}
+        key={"488c7ef8-a336-4166-b4e8-305264026d83"}
+      />
 
       <MenuItem
         screenId={"AssociationO2MBrowserTable"}
         icon={<BarsOutlined />}
-        key={"be0376de-4e9e-47c9-9ded-56d81c7618fc"}
-      >
-        <FormattedMessage id={"router.AssociationO2MBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.AssociationO2MBrowserTable"} />}
+        key={"8de428a3-c649-4d2c-a4f7-0d17ef57b23a"}
+      />
 
       <MenuItem
         screenId={"AssociationM2OBrowserTable"}
         icon={<BarsOutlined />}
-        key={"96c85415-226f-4b7c-a50b-e9cf1a25e8b4"}
-      >
-        <FormattedMessage id={"router.AssociationM2OBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.AssociationM2OBrowserTable"} />}
+        key={"f4e2acf3-2ffe-4199-b858-c878f01e4e49"}
+      />
 
       <MenuItem
         screenId={"AssociationM2MBrowserTable"}
         icon={<BarsOutlined />}
-        key={"93533c36-fb02-4f94-b2ba-d7f8f2baad08"}
-      >
-        <FormattedMessage id={"router.AssociationM2MBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.AssociationM2MBrowserTable"} />}
+        key={"88e30ff7-9ec2-402d-8bdb-4de700c15ecd"}
+      />
 
       <MenuItem
         screenId={"CompositionO2OBrowserTable"}
         icon={<BarsOutlined />}
-        key={"ddd3f744-8bea-4caf-923e-4693231fe1db"}
-      >
-        <FormattedMessage id={"router.CompositionO2OBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CompositionO2OBrowserTable"} />}
+        key={"b57a04bc-4989-43df-a2df-86545d5f184f"}
+      />
 
       <MenuItem
         screenId={"CompositionO2MBrowserTable"}
         icon={<BarsOutlined />}
-        key={"e3557290-d5b1-4b5b-a290-3668b2ddaa32"}
-      >
-        <FormattedMessage id={"router.CompositionO2MBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.CompositionO2MBrowserTable"} />}
+        key={"b3e60863-e1f1-4116-b0b6-35dc046c1686"}
+      />
 
       <MenuItem
         screenId={"IntIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"ab97e61a-5c2e-4c0c-b92d-997646215fd8"}
-      >
-        <FormattedMessage id={"router.IntIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdBrowserTable"} />}
+        key={"2820a187-b4bf-4045-8e30-f0e32a826bb8"}
+      />
 
       <MenuItem
         screenId={"IntIdBrowserCards"}
         icon={<BarsOutlined />}
-        key={"90c4212a-3dd5-4a13-bca7-4c92f2c59df4"}
-      >
-        <FormattedMessage id={"router.IntIdBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdBrowserCards"} />}
+        key={"7507ef03-381c-4d8c-949a-efc0294b29b1"}
+      />
 
       <MenuItem
         screenId={"IntIdBrowserList"}
         icon={<BarsOutlined />}
-        key={"d782d86e-6d63-4ed5-86b3-d3a1431a5bc4"}
-      >
-        <FormattedMessage id={"router.IntIdBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdBrowserList"} />}
+        key={"2d1eef7d-3106-49f4-82d5-d2d8b3304d1c"}
+      />
 
       <MenuItem
         screenId={"IntIdentityIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"5ea8239e-4b19-49a1-a448-febcea1dc223"}
-      >
-        <FormattedMessage id={"router.IntIdentityIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdentityIdBrowserTable"} />}
+        key={"f1382cb4-0c7e-4ed2-8993-386939712b11"}
+      />
 
       <MenuItem
         screenId={"IntIdentityIdBrowserCards"}
         icon={<BarsOutlined />}
-        key={"e1bf0a09-f73b-4138-b96b-c18dfc48d69a"}
-      >
-        <FormattedMessage id={"router.IntIdentityIdBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdentityIdBrowserCards"} />}
+        key={"c9725655-0f96-45a8-80e2-2423b90cfe69"}
+      />
 
       <MenuItem
         screenId={"IntIdentityIdBrowserList"}
         icon={<BarsOutlined />}
-        key={"4e98c97f-0832-41ca-b361-0b8c22b71eb0"}
-      >
-        <FormattedMessage id={"router.IntIdentityIdBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.IntIdentityIdBrowserList"} />}
+        key={"772006d8-e3b7-43b2-889e-8a6e6482dbea"}
+      />
 
       <MenuItem
         screenId={"StringIdCards"}
         icon={<BarsOutlined />}
-        key={"625c9f36-930e-4bc7-963b-7b2de23eb3ad"}
-      >
-        <FormattedMessage id={"router.StringIdCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.StringIdCards"} />}
+        key={"890d1e30-05ad-4ddd-8cec-5eb5bca96a6c"}
+      />
 
       <MenuItem
         screenId={"StringIdBrowserCards"}
         icon={<BarsOutlined />}
-        key={"cc51f68e-fa68-4ff5-94c9-29344d0ce95f"}
-      >
-        <FormattedMessage id={"router.StringIdBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.StringIdBrowserCards"} />}
+        key={"92518704-93d7-48be-8160-963fdfaa6051"}
+      />
 
       <MenuItem
         screenId={"StringIdBrowserList"}
         icon={<BarsOutlined />}
-        key={"b4f09cd2-e3b0-4993-9071-ec5c8c77c344"}
-      >
-        <FormattedMessage id={"router.StringIdBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.StringIdBrowserList"} />}
+        key={"5fdb49c7-e6df-48b1-8fd6-e05d37396f41"}
+      />
 
       <MenuItem
         screenId={"StringIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"2260cdd5-d680-4895-a523-26036abd3a11"}
-      >
-        <FormattedMessage id={"router.StringIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.StringIdBrowserTable"} />}
+        key={"8fe2de19-2872-4d72-a2fd-5a150d82ee1e"}
+      />
 
       <MenuItem
         screenId={"WeirdStringIdBrowserCards"}
         icon={<BarsOutlined />}
-        key={"28b83e50-e092-4d5c-adab-770b2acf6c75"}
-      >
-        <FormattedMessage id={"router.WeirdStringIdBrowserCards"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.WeirdStringIdBrowserCards"} />}
+        key={"e455a5fe-0ba8-4418-8ca1-d0e14692ba5a"}
+      />
 
       <MenuItem
         screenId={"WeirdStringIdBrowserList"}
         icon={<BarsOutlined />}
-        key={"0289ad24-cb78-4c5e-bda3-790549920346"}
-      >
-        <FormattedMessage id={"router.WeirdStringIdBrowserList"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.WeirdStringIdBrowserList"} />}
+        key={"8a6c615b-5f36-4f88-bd35-eacd8e731e6a"}
+      />
 
       <MenuItem
         screenId={"WeirdStringIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"93d93f6f-f789-4e5d-98e3-1c1d1613d91c"}
-      >
-        <FormattedMessage id={"router.WeirdStringIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.WeirdStringIdBrowserTable"} />}
+        key={"22e5cf57-963a-4402-80d0-702d06be9832"}
+      />
 
       <MenuItem
         screenId={"BoringStringIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"9b240681-b893-4c94-b2ba-5d4ad7605058"}
-      >
-        <FormattedMessage id={"router.BoringStringIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.BoringStringIdBrowserTable"} />}
+        key={"15c46c4d-cd8e-4369-89de-d777adcac0dc"}
+      />
 
       <MenuItem
         screenId={"TrickyIdBrowserTable"}
         icon={<BarsOutlined />}
-        key={"cee9be1f-322c-4519-bb51-af32a6837bb5"}
-      >
-        <FormattedMessage id={"router.TrickyIdBrowserTable"} />
-      </MenuItem>
+        caption={<FormattedMessage id={"router.TrickyIdBrowserTable"} />}
+        key={"2c55f83d-7ae7-489a-a30a-b71f06001948"}
+      />
     </VerticalMenu>
   );
 };
