@@ -6,6 +6,7 @@ import { menuItems } from '../../util/componentsRegistration';
 import { CloseOutlined } from '@ant-design/icons';
 
 import './styles.less';
+import { FormattedMessage } from 'react-intl';
 
 const {TabPane} = Tabs;
 
@@ -16,6 +17,16 @@ function onTabChange(key: string) {
       break;
     }
   }
+}
+
+function getScreenId(title: string) {
+  for (const item of menuItems) {
+    if (item.caption === title) {
+      return (item as RouteItem).screenId;
+    }
+  }
+
+  return null;
 }
 
 function handleCloseClick(e: any, tabItem: IMultiTabItem) {
@@ -34,7 +45,7 @@ export const MultiTabs = observer(() => {
         <TabPane
           tab={
             <>
-              {item.title}
+              <FormattedMessage id={"router." + getScreenId(item.title)} />
               <CloseOutlined className="jmix-tab-icon" onClick={(e) => handleCloseClick(e, item)} />
             </>
           }
