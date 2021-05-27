@@ -1,6 +1,5 @@
 import {useCallback} from "react";
 import {ant_to_jmixFront} from "../../../formatters/ant_to_jmixFront";
-import {FormInstance} from "antd";
 import {addIdIfExistingEntity, EntityInstance, GraphQLMutationFn, toIdString, useMetadata } from "@haulmont/jmix-react-core";
 import { useIntl } from "react-intl";
 import { persistEntity } from "../util/persistEntity";
@@ -10,7 +9,6 @@ export interface SubmitCallbackHookOptions<TEntity, TData, TMutationVars> {
   upsertInputName: string;
   updateResultName: string;
   listQueryName: string;
-  form: FormInstance;
   entityName: string;
   goToParentScreen: () => void;
   entityId?: string;
@@ -27,7 +25,6 @@ export function useSubmitCallback<
   upsertInputName,
   updateResultName,
   listQueryName,
-  form,
   entityName,
   goToParentScreen,
   entityId,
@@ -40,7 +37,7 @@ export function useSubmitCallback<
 
   return useCallback(
     (values: { [field: string]: any }) => {
-      if (form != null && metadata != null) {
+      if (metadata != null) {
         // TODO perform client-side validation
 
         if (onCommit != null) {
@@ -74,7 +71,6 @@ export function useSubmitCallback<
       }
     },
     [
-      form,
       metadata,
       onCommit,
       entityInstance,

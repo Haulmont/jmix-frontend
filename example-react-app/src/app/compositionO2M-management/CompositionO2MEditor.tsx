@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   Field,
   MultilineText,
@@ -55,12 +57,13 @@ const CompositionO2MEditor = observer(
       submitBtnCaption = "common.submit"
     } = props;
 
+    const [form] = useForm();
+
     const {
       executeLoadQuery,
       loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
       entityEditorState,
-      form,
       intl,
       handleSubmit,
       handleSubmitFailed,
@@ -72,7 +75,8 @@ const CompositionO2MEditor = observer(
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
-      entityInstance
+      entityInstance,
+      useEntityEditorForm: createUseAntdForm(form)
     });
 
     if (queryLoading) {

@@ -27,7 +27,6 @@ import {IntlShape, useIntl} from "react-intl";
 import {useState} from "react";
 import {useLocalObservable} from "mobx-react";
 import {defaultPaginationConfig} from "../../ui/paging/Paging";
-import {PaginationConfig} from "antd/es/pagination";
 import {useParentScreen} from "../../util/screen";
 import {useDeleteBtnCallback} from "./ui-callbacks/useDeleteBtnCallback";
 import {useCreateBtnCallback} from "./ui-callbacks/useCreateBtnCallback";
@@ -59,7 +58,7 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
   /**
    * Determines the initial pagination state. Note that route parameters will override this prop.
    */
-  paginationConfig?: PaginationConfig;
+  paginationConfig?: JmixPagination;
   entityName: string;
   /**
    * Base route path

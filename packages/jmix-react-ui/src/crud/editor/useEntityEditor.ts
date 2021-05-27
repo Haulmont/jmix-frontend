@@ -1,5 +1,3 @@
-import {useEffect} from "react";
-import {FormInstance} from "antd";
 import {useLocalObservable} from "mobx-react";
 import {
   DocumentNode,
@@ -14,19 +12,17 @@ import {
   GraphQLMutationFn,
   GraphQLQueryFn,
   HasId,
-  useMetadata,
   dollarsToUnderscores,
   EntityInstance,
   useEntityEditorData
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {ValidateErrorEntity} from "rc-field-form/lib/interface";
-import {useForm} from "antd/es/form/Form";
-import {jmixFront_to_ant} from "../../formatters/jmixFront_to_ant";
 import { useParentScreen } from "../../util/screen";
 import { useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
 import { useSubmitFailedCallback } from "./ui-callbacks/useSubmitFailedCallback";
 import {useMultiScreen} from "../../ui/MultiScreen";
+import { useNoopForm } from "./form/useNoopForm";
 
 export type EntityEditorState = {
   globalErrors: string[];
@@ -84,6 +80,20 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    * Use to provide the entity instance directly instead of obtaining it from backend.
    */
   entityInstance?: EntityInstance<TEntity>
+  /**
+   * A hook that is responsible for putting the entity instance data ({@link item}) into the UI form.
+   *
+   * When using Ant Design `<Form>` create an implementation of this hook by passing a `FormInstance` to {@link createUseAntdForm} factory function.
+   *
+   * When using a different form (e.g. a custom UI kit)  you may provide your own implementation of this hook,
+   * though it might be more convenient to omit it entirely
+   * and fill your form outside of `useEntityEditor` hook using the entity instance data returned from it
+   * ({@link EntityEditorHookResult.item}).
+   *
+   * @param item
+   * @param entityName
+   */
+  useEntityEditorForm?: (item: EntityInstance<TEntity>, entityName: string) => void;
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -96,15 +106,11 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    * A map between child entity names and arrays of possible values.
    */
   relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
-  /**
-   *
-   */
   executeLoadQuery: GraphQLQueryFn<TQueryVars>;
   loadQueryResult: LazyQueryResult<TData, TQueryVars>;
   executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
   upsertMutationResult: MutationResult;
   entityEditorState: EntityEditorState;
-  form: FormInstance;
   intl: IntlShape;
   handleSubmit: (values: TEntity) => void;
   handleSubmitFailed: (errorInfo: ValidateErrorEntity<TEntity>) => void;
@@ -131,12 +137,11 @@ export function useEntityEditor<
     routingPath,
     onCommit,
     entityInstance,
-    upsertInputName
+    upsertInputName,
+    useEntityEditorForm = useNoopForm
   } = options;
 
   const intl = useIntl();
-  const metadata = useMetadata();
-  const [form] = useForm();
 
   const updateResultName = `upsert_${dollarsToUnderscores(entityName)}`;
   const listQueryName = `${dollarsToUnderscores(entityName)}List`;
@@ -156,14 +161,7 @@ export function useEntityEditor<
     entityName
   });
 
-  // Fill the form based on retrieved data
-  useEffect(() => {
-    if (item != null && metadata != null) {
-      form.setFieldsValue(
-        jmixFront_to_ant<TEntity>(item, entityName, metadata)
-      );
-    }
-  }, [form, item, metadata, entityName]);
+  useEntityEditorForm(item, entityName);
 
   const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
@@ -176,7 +174,6 @@ export function useEntityEditor<
     upsertInputName,
     updateResultName,
     listQueryName,
-    form,
     entityName,
     goToParentScreen,
     entityId,
@@ -194,7 +191,6 @@ export function useEntityEditor<
     executeUpsertMutation,
     upsertMutationResult,
     entityEditorState,
-    form,
     intl,
     handleSubmit,
     handleSubmitFailed,

@@ -1,10 +1,12 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   Field,
   MultilineText,
@@ -81,13 +83,14 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
     submitBtnCaption = "common.submit"
   } = props;
 
+  const [form] = useForm();
+
   const {
     relationOptions,
     executeLoadQuery,
     loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
     entityEditorState,
-    form,
     intl,
     handleSubmit,
     handleSubmitFailed,
@@ -99,7 +102,8 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     onCommit,
-    entityInstance
+    entityInstance,
+    useEntityEditorForm: createUseAntdForm(form)
   });
 
   if (queryLoading) {
