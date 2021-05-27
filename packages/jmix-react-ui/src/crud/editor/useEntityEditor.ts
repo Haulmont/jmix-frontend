@@ -73,6 +73,7 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    * Name of the variable in the upsert mutation - uncapitalized entity class name.
    */
   // TODO add class name to metadata and obtain upsertInput name from there; remove it from options.
+  // TODO https://github.com/Haulmont/jmix-frontend/issues/329
   upsertInputName: string;
   /**
    * A callback that will be executed when the editor is submitted.
@@ -86,12 +87,18 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
+  /**
+   * Entity instance that will be displayed by the editor component.
+   */
   item: EntityInstance<TEntity>;
   /**
    * Used when the entity has relation (Association) attributes.
    * A map between child entity names and arrays of possible values.
    */
   relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
+  /**
+   *
+   */
   executeLoadQuery: GraphQLQueryFn<TQueryVars>;
   loadQueryResult: LazyQueryResult<TData, TQueryVars>;
   executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
@@ -141,13 +148,13 @@ export function useEntityEditor<
     relationOptions,
     executeLoadQuery,
     loadQueryResult
-  } = useEntityEditorData(
+  } = useEntityEditorData({
     loadQuery,
     loadQueryOptions,
     entityInstance,
     entityId,
     entityName
-  );
+  });
 
   // Fill the form based on retrieved data
   useEffect(() => {

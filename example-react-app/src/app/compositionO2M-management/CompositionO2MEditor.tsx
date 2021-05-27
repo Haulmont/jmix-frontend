@@ -3,7 +3,6 @@ import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -12,7 +11,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -56,34 +54,28 @@ const CompositionO2MEditor = observer(
       entityInstance,
       submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
 
     const {
       executeLoadQuery,
       loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
+      entityEditorState,
       form,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<CompositionO2MTestEntity>({
       loadQuery: LOAD_SCR_COMPOSITIONO2MTESTENTITY,
       upsertMutation: UPSERT_SCR_COMPOSITIONO2MTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      screens,
-      multiScreen,
       onCommit,
       entityInstance
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -95,8 +87,8 @@ const CompositionO2MEditor = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -117,9 +109,11 @@ const CompositionO2MEditor = observer(
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />

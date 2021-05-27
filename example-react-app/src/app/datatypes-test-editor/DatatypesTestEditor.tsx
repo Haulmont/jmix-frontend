@@ -3,7 +3,6 @@ import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -12,7 +11,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -140,35 +138,29 @@ const DatatypesTestEditor = observer(
       entityInstance,
       submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
 
     const {
+      relationOptions,
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
+      entityEditorState,
       form,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<DatatypesTestEntity>({
       loadQuery: LOAD_SCR_DATATYPESTESTENTITY,
       upsertMutation: UPSERT_SCR_DATATYPESTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      hasAssociations: true,
-      screens,
-      multiScreen,
       onCommit,
       entityInstance
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -180,8 +172,8 @@ const DatatypesTestEditor = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -318,7 +310,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationO2Oattr"
-            associationOptions={data?.scr_AssociationO2OTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationO2OTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -327,7 +321,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Oattr"
-            associationOptions={data?.scr_AssociationM2OTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationM2OTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -336,7 +332,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Mattr"
-            associationOptions={data?.scr_AssociationM2MTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationM2MTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -361,7 +359,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="intIdentityIdTestEntityAssociationO2OAttr"
-            associationOptions={data?.scr_IntIdentityIdTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_IntIdentityIdTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -370,7 +370,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="integerIdTestEntityAssociationM2MAttr"
-            associationOptions={data?.scr_IntegerIdTestEntityList}
+            associationOptions={relationOptions?.get("scr_IntegerIdTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -379,7 +379,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
-            associationOptions={data?.scr_DatatypesTestEntity3List}
+            associationOptions={relationOptions?.get(
+              "scr_DatatypesTestEntity3"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -393,9 +395,11 @@ const DatatypesTestEditor = observer(
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />

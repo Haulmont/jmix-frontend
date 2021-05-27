@@ -3,7 +3,6 @@ import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -12,7 +11,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -82,35 +80,29 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
     entityInstance,
     submitBtnCaption = "common.submit"
   } = props;
-  const multiScreen = useContext(MultiScreenContext);
-  const screens = useContext(ScreensContext);
-  const metadata = useMetadata();
 
   const {
+    relationOptions,
     executeLoadQuery,
-    loadQueryResult: { loading: queryLoading, error: queryError, data },
+    loadQueryResult: { loading: queryLoading, error: queryError },
     upsertMutationResult: { loading: upsertLoading },
-    store,
+    entityEditorState,
     form,
     intl,
-    handleFinish,
-    handleFinishFailed,
+    handleSubmit,
+    handleSubmitFailed,
     handleCancelBtnClick
   } = useEntityEditor<Car>({
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
-    entityId: multiScreen?.params?.entityId,
     entityName: ENTITY_NAME,
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
-    hasAssociations: true,
-    screens,
-    multiScreen,
     onCommit,
     entityInstance
   });
 
-  if (queryLoading || metadata == null) {
+  if (queryLoading) {
     return <Spinner />;
   }
 
@@ -122,8 +114,8 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
   return (
     <Card className="narrow-layout">
       <Form
-        onFinish={handleFinish}
-        onFinishFailed={handleFinishFailed}
+        onFinish={handleSubmit}
+        onFinishFailed={handleSubmitFailed}
         layout="vertical"
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
@@ -222,7 +214,7 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="garage"
-          associationOptions={data?.scr_GarageList}
+          associationOptions={relationOptions?.get("scr_Garage")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -231,7 +223,7 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="technicalCertificate"
-          associationOptions={data?.scr_TechnicalCertificateList}
+          associationOptions={relationOptions?.get("scr_TechnicalCertificate")}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -245,9 +237,11 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
           }}
         />
 
-        {store.globalErrors.length > 0 && (
+        {entityEditorState.globalErrors.length > 0 && (
           <Alert
-            message={<MultilineText lines={toJS(store.globalErrors)} />}
+            message={
+              <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+            }
             type="error"
             style={{ marginBottom: "24px" }}
           />

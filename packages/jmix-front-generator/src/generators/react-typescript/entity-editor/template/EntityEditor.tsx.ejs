@@ -105,7 +105,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
             <% } %>
 
             <% if (Object.keys(associations).includes(attr.name)) { %>
-                 associationOptions={relationOptions?.<%= dollarsToUnderscores(associations[attr.name].type) %>}
+                 associationOptions={relationOptions?.get('<%= dollarsToUnderscores(associations[attr.name].name) %>')}
             <% } %>
 
                   formItemProps={{

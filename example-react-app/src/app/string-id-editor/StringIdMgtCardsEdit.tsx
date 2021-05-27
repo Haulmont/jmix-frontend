@@ -3,7 +3,6 @@ import { Form, Alert, Button, Card } from "antd";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -12,7 +11,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -78,35 +76,29 @@ const StringIdMgtCardsEdit = observer(
       entityInstance,
       submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
 
     const {
+      relationOptions,
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
+      entityEditorState,
       form,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<StringIdTestEntity>({
       loadQuery: LOAD_SCR_STRINGIDTESTENTITY,
       upsertMutation: UPSERT_SCR_STRINGIDTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      hasAssociations: true,
-      screens,
-      multiScreen,
       onCommit,
       entityInstance
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -118,8 +110,8 @@ const StringIdMgtCardsEdit = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -191,7 +183,7 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity"
-            associationOptions={data?.scr_DatatypesTestEntityList}
+            associationOptions={relationOptions?.get("scr_DatatypesTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -200,15 +192,19 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
-            associationOptions={data?.scr_DatatypesTestEntity3List}
+            associationOptions={relationOptions?.get(
+              "scr_DatatypesTestEntity3"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />
