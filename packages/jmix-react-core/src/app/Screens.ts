@@ -150,6 +150,6 @@ export class Screens {
 
 export const ScreensContext = React.createContext<Screens>(null!);
 
-export const useScreens = (): Screens => {
+export function useScreens(): Screens {
   return useContext(ScreensContext);
 }

@@ -1,0 +1,95 @@
+import {editorQueryIncludesRelationOptions} from "../util/graphql";
+import {DocumentNode, LazyQueryHookOptions, LazyQueryResult, TypedDocumentNode, useLazyQuery} from "@apollo/client";
+import {useEffect} from "react";
+import { EntityInstance } from "./EntityInstance";
+import { HasId } from "../util/metadata";
+import { dollarsToUnderscores } from "../util/dollars-to-underscores";
+import {getRelationOptions} from "./getRelationOptions";
+import { GraphQLQueryFn } from "../data/aliases";
+
+export interface EntityEditorDataHookOptions<TEntity, TData, TQueryVars> {
+  /**
+   * GraphQL query that retrieves the entity instance.
+   * Will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQueryOptions}.
+   */
+  loadQuery: DocumentNode | TypedDocumentNode;
+  /**
+   * Options that will be passed to Apollo Client {@link https://www.apollographql.com/docs/react/api/react/hooks/#uselazyquery | useLazyQuery} hook along with {@link loadQuery}.
+   */
+  loadQueryOptions?: LazyQueryHookOptions<TData, TQueryVars>;
+  /**
+   * An entity instance with a given `id` will be loaded from backend unless {@link entityInstance} is also provided.
+   */
+  entityId?: string;
+  /**
+   * Use to provide the entity instance directly instead of obtaining it from backend.
+   */
+  entityInstance?: EntityInstance<TEntity>
+  /**
+   * Name of the entity being edited.
+   */
+  entityName: string;
+}
+
+export interface EntityEditorDataHookResult<TEntity, TData, TQueryVars> {
+  item: EntityInstance<TEntity>;
+  executeLoadQuery: GraphQLQueryFn<TQueryVars>;
+  loadQueryResult: LazyQueryResult<TData, TQueryVars>;
+  /**
+   * Used when the entity has relation (Association) attributes.
+   * A map between child entity names and arrays of possible values.
+   */
+  relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
+}
+
+export type LoadQueryVars = HasId & {
+  loadItem?: boolean;
+};
+
+export function useEntityEditorData<
+  TEntity = unknown,
+  TData extends Record<string, any> = Record<string, any>,
+  TQueryVars extends LoadQueryVars = LoadQueryVars,
+>({
+  loadQuery,
+  loadQueryOptions,
+  entityInstance,
+  entityId,
+  entityName
+}: EntityEditorDataHookOptions<TEntity, TData, TQueryVars>): EntityEditorDataHookResult<TEntity, TData, TQueryVars> {
+
+  const queryName = `${dollarsToUnderscores(entityName)}ById`;
+  const hasAssociations = editorQueryIncludesRelationOptions(loadQuery);
+  const loadItem = (entityInstance == null && entityId != null);
+
+  const optsWithVars = {
+    variables: {
+      id: entityId,
+      loadItem
+    } as TQueryVars,
+    ...loadQueryOptions
+  };
+
+  const [executeLoadQuery, loadQueryResult] = useLazyQuery<TData, TQueryVars>(loadQuery, optsWithVars);
+
+  // Fetch the entity (if editing) and association options from backend
+  useEffect(() => {
+    if (loadItem || hasAssociations) {
+      executeLoadQuery();
+    }
+  }, [loadItem, hasAssociations]);
+
+  const {data} = loadQueryResult;
+  const item = entityInstance != null
+    ? entityInstance
+    : data?.[queryName];
+
+  const relationOptions = getRelationOptions<TData>(entityName, loadQueryResult.data);
+
+  return {
+    item,
+    relationOptions,
+    executeLoadQuery,
+    loadQueryResult
+  };
+}

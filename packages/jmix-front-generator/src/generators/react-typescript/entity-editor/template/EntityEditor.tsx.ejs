@@ -3,7 +3,6 @@ import {Form, Alert, Button, Card} from "antd";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {FormattedMessage} from 'react-intl';
-import {useMetadata, ScreensContext} from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
   RetryDialog,
@@ -14,7 +13,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
@@ -51,43 +49,34 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
     entityInstance,
     submitBtnCaption = 'common.submit',
   } = props;
-  const multiScreen = useContext(MultiScreenContext);
-  const screens = useContext(ScreensContext);
-  const metadata = useMetadata();
 
   const {
+    <% if (Object.keys(associations).length > 0) { -%>
+      relationOptions,
+    <% } -%>
     executeLoadQuery,
     loadQueryResult: {
       loading: queryLoading,
       error: queryError,
-      <% if (Object.keys(associations).length > 0) { -%>
-        data,
-      <% } -%>
     },
     upsertMutationResult: {loading: upsertLoading},
-    store,
+    entityEditorState,
     form,
     intl,
-    handleFinish,
-    handleFinishFailed,
+    handleSubmit,
+    handleSubmitFailed,
     handleCancelBtnClick,
   } = useEntityEditor<<%= entity.className %>>({
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    entityId: multiScreen?.params?.entityId,
     entityName: ENTITY_NAME,
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
-    <% if (Object.keys(associations).length > 0) { -%>
-      hasAssociations: true,
-    <% } -%>
-    screens,
-    multiScreen,
     onCommit,
     entityInstance,
 });
 
-  if (queryLoading || metadata == null) {
+  if (queryLoading) {
     return <Spinner />;
   }
 
@@ -99,8 +88,8 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   return (
     <Card className="narrow-layout">
       <Form
-        onFinish={handleFinish}
-        onFinishFailed={handleFinishFailed}
+        onFinish={handleSubmit}
+        onFinishFailed={handleSubmitFailed}
         layout="vertical"
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
@@ -116,7 +105,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
             <% } %>
 
             <% if (Object.keys(associations).includes(attr.name)) { %>
-                 associationOptions={data?.<%= dollarsToUnderscores(associations[attr.name].name) %>List}
+                 associationOptions={relationOptions?.<%= dollarsToUnderscores(associations[attr.name].type) %>}
             <% } %>
 
                   formItemProps={{
@@ -131,9 +120,9 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
           /> <%# end Field %>
         <% }) %>
 
-        {store.globalErrors.length > 0 && (
+        {entityEditorState.globalErrors.length > 0 && (
           <Alert
-            message={<MultilineText lines={toJS(store.globalErrors)} />}
+            message={<MultilineText lines={toJS(entityEditorState.globalErrors)} />}
             type="error"
             style={{ marginBottom: "24px" }}
           />

@@ -67,7 +67,7 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
   routingPath: string;
   /**
    * Use to provide the entity list directly instead of obtaining it from backend.
-   * Note that backend will still be queried for {@link EntityListHookResult.relationOptions} if applicable.
+   * This is the full list of entities, before applying pagination, filtering and sorting.
    */
   entityList?: Array<EntityInstance<TEntity>>;
   /**
@@ -103,7 +103,7 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   count?: number;
   /**
    * Used when the entity has relation (Association and/or Composition) attributes.
-   * A map between nested entity names and arrays of possible values.
+   * A map between child entity names and arrays of possible values.
    */
   relationOptions?: Map<string, Array<EntityInstance<unknown, HasId>>>;
   /**

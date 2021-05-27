@@ -2,7 +2,7 @@ import {useIntl} from "react-intl";
 import {useCallback} from "react";
 import {openEntityEditorScreen} from "../../../util/screen";
 import {EntityInstance, Screens} from "@haulmont/jmix-react-core";
-import { getSubmitBtnCaption } from "./getSubmitBtnCaption";
+import { getSubmitBtnCaption } from "../util/getSubmitBtnCaption";
 
 export function useEditBtnCallback<TEntity>(
   screens: Screens,
