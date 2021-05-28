@@ -7,4 +7,5 @@ module.exports = {
   "entity": {
     "name": "scr_TrickyIdTestEntity"
   },
+  'menuItem': 'ROOT'
 };

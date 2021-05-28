@@ -5,5 +5,6 @@ module.exports = {
   "entity": {
     "name": "scr_StringIdTestEntity"
   },
-  "componentName": "StringIdCards"
+  "componentName": "StringIdCards",
+  'menuItem': 'ROOT'
 }

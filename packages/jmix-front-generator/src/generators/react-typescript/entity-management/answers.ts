@@ -20,7 +20,9 @@ export interface EntityManagementAnswers extends StringIdAnswers {
 
   browserComponentName: string;
   browserType: BrowserTypes;
-  browserQuery: string,
+  browserQuery: string;
+
+  menuItem: string | null;
 }
 
 export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
@@ -60,7 +62,13 @@ export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
-  }
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
+  },
 ];
 
 

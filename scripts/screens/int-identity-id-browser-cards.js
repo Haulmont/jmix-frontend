@@ -6,5 +6,6 @@ module.exports = {
   "browserType": "cards",
   "entity": {
     "name": "scr_IntIdentityIdTestEntity"
-  }
+  },
+  'menuItem': 'ROOT'
 };

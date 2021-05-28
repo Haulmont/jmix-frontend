@@ -19,7 +19,8 @@ export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateMod
   const {
     className,
     nameLiteral,
-    browserType
+    browserType,
+    menuItem
   } = templateModel;
 
   const extension = '.tsx.ejs';
@@ -37,7 +38,7 @@ export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateMod
     }
   );
 
-  addAppMenu(gen, dirShift, className, nameLiteral);
+  addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true, generateMockProps(browserType));
 };

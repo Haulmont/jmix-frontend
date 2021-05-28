@@ -12,11 +12,13 @@ const compositionO2OQuery = require('./graphql/compositionO2O');
 
 module.exports = {
   "blankComponent": {
-    "componentName": "test-blank-component"
+    "componentName": "test-blank-component",
+    'menuItem': 'ROOT'
   },
   "structure": {
     "componentName": "StructureComponent",
-    "structureType": "Two columns"
+    "structureType": "Two columns",
+    'menuItem': 'ROOT'
   },
 
   // Car Service Center domain entities
@@ -25,7 +27,8 @@ module.exports = {
     "componentName": "CarEditor",
     "entity": {
       "name": "scr$Car"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "carBrowserCards": {
     "query": carEntityQuery,
@@ -33,7 +36,8 @@ module.exports = {
     "browserType": "cards",
     "entity": {
       "name": "scr$Car"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "carBrowserList": {
     "query": carEntityQuery,
@@ -41,7 +45,8 @@ module.exports = {
     "browserType": "list",
     "entity": {
       "name": "scr$Car"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "carBrowserTable": {
     "query": carEntityQuery,
@@ -49,7 +54,8 @@ module.exports = {
     "browserType": "table",
     "entity": {
       "name": "scr$Car"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "carCardsGrid": {
     "query": carEntityQuery,
@@ -57,14 +63,16 @@ module.exports = {
     "entity": {
         "name": "scr$Car"
     },
-    "cardsInRow": "3 columns"
+    "cardsInRow": "3 columns",
+    'menuItem': 'ROOT'
   },
   "favoriteCarsCards": {
     "query": favoriteCarsCardsQuery,
     "componentName": "FavoriteCars",
     "entity": {
       "name": "scr$FavoriteCar"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   // "entityList": {
   //   "entityView": {
@@ -95,7 +103,8 @@ module.exports = {
     "nestedEntityInfo": {
       "compositionO2Oattr": "compositionO2OTestEntity-view",
       "compositionO2Mattr": "compositionO2MTestEntity-view"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "datatypesTestBrowserList": {
     "query": datatypesQuery,
@@ -104,6 +113,7 @@ module.exports = {
     "entity": {
       "name": "scr_DatatypesTestEntity"
     },
+    'menuItem': 'ROOT',
   },
   "datatypesTestBrowserTable": {
     "query": datatypesQuery,
@@ -112,13 +122,15 @@ module.exports = {
     "entity": {
       "name": "scr_DatatypesTestEntity"
     },
+    'menuItem': 'ROOT',
   },
   "datatypesTestCards": {
     "query": datatypesQuery,
     "componentName": "DatatypesTestCards",
     "entity": {
       "name": "scr_DatatypesTestEntity"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   // TODO old version of answers for entity-management with nestedEntityInfo
   // "datatypes2Test": {
@@ -168,6 +180,8 @@ module.exports = {
     "browserComponentName": "AssociationO2OBrowserTable",
     "browserType": "table",
     "browserQuery": associationO2OQuery,
+
+    'menuItem': 'ROOT'
   },
   "associationO2MManagement": {
     "entity": {
@@ -180,6 +194,8 @@ module.exports = {
     "browserComponentName": "AssociationO2MBrowserTable",
     "browserType": "table",
     "browserQuery": associationO2MQuery,
+
+    'menuItem': 'ROOT'
   },
   "associationM2OManagement": {
     "entity": {
@@ -192,6 +208,8 @@ module.exports = {
     "browserComponentName": "AssociationM2OBrowserTable",
     "browserType": "table",
     "browserQuery": associationM2OQuery,
+
+    'menuItem': 'ROOT'
   },
   "associationM2MManagement": {
     "entity": {
@@ -204,6 +222,8 @@ module.exports = {
     "browserComponentName": "AssociationM2MBrowserTable",
     "browserType": "table",
     "browserQuery": associationM2MQuery,
+
+    'menuItem': 'ROOT'
   },
 
   "compositionO2OManagement": {
@@ -220,7 +240,8 @@ module.exports = {
 
     "nestedEntityInfo": {
       "nestedComposition": "deeplyNestedTestEntity-view"
-    }
+    },
+    'menuItem': 'ROOT'
   },
   "compositionO2MManagement": {
     "entity": {
@@ -233,6 +254,8 @@ module.exports = {
     "browserComponentName": "CompositionO2MBrowserTable",
     "browserType": "table",
     "browserQuery": compositionO2MQuery,
+
+    'menuItem': 'ROOT'
   },
 
   // old

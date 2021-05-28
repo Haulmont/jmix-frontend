@@ -6,10 +6,12 @@ export interface CommonTemplateModel {
   className: string;
   relDirShift: string;
   nameLiteral: string;
+  menuItem: string | null;
 }
 
 export type EntityCommonAnswers = {
   componentName: string;
+  menuItem: string | null;
 };
 
 /**
@@ -26,12 +28,14 @@ export type EntityCommonAnswers = {
   const componentName = answers.componentName;
   const relDirShift = normalizeRelativePath(options.dirShift);
   const nameLiteral = unCapitalizeFirst(className);
+  const menuItem = answers.menuItem;
 
   return {
     className,
     componentName,
     relDirShift,
-    nameLiteral
+    nameLiteral,
+    menuItem
   };
 }
 

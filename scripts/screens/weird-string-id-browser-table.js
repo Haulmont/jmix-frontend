@@ -9,4 +9,5 @@ module.exports = {
   },
   "listShowIdAttr": true,
   "listIdAttrPos": 2,
+  'menuItem': 'ROOT'
 };

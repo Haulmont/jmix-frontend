@@ -41,6 +41,9 @@ export function refineAnswers<T>(projectModel: ProjectModel, generatorParams: St
       case StudioTemplatePropertyType.REST_SERVICE_METHOD:
         refinedAnswers[key] = findServiceMethod(projectModel, (answers[key] as RestServiceMethodInfo));
         return;
+      case StudioTemplatePropertyType.MENU_ITEM:
+        refinedAnswers[key] = answers[key] ?? null;
+        return;
       case StudioTemplatePropertyType.INTEGER:
         const value = answers[key];
         if (!Number.isInteger(value)) throw new Error(`Question with code '${key}' has INTEGER type and can't contain '${value}' as answer`);
