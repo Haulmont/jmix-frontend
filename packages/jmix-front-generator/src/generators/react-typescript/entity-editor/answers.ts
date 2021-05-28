@@ -15,6 +15,7 @@ export interface EntityEditorAnswers extends StringIdAnswers {
   entity: EntityWithPath,
   componentName: string,
   query: string,
+  menuItem: string | null
 }
 
 
@@ -39,7 +40,13 @@ export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
-  }
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
+  },
 ];
 
 

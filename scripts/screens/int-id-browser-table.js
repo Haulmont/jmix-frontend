@@ -6,5 +6,6 @@ module.exports = {
   "browserType": "table",
   "entity": {
     "name": "scr_IntegerIdTestEntity"
-  }
+  },
+  'menuItem': 'ROOT'
 };

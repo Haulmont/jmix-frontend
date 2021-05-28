@@ -36,6 +36,12 @@ export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
     defaultValue: "List",
     required: true
   },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
+  },
   browserTypeQuestion,
   {
     code: 'query',
@@ -52,6 +58,7 @@ export interface EntityBrowserAnswers extends StringIdAnswers {
   browserType: BrowserTypes;
   componentName: string;
   query: string;
+  menuItem: string | null;
 }
 
 export const allQuestions: StudioTemplateProperty[] = [

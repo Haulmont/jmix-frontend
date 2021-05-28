@@ -11,7 +11,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
   ) => {
 
   const {dirShift} = options;
-  const {className, nameLiteral} = templateModel;
+  const {className, nameLiteral, menuItem} = templateModel;
   
   const extension = '.tsx.ejs';
 
@@ -23,7 +23,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     projectModel.project?.locales
   );
 
-  addAppMenu(gen, dirShift, className, nameLiteral);
+  addAppMenu(gen, dirShift, className, menuItem);
   addMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, nameLiteral);
 }

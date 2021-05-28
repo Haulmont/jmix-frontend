@@ -13,6 +13,7 @@ export interface Answers extends StringIdAnswers {
   componentName: string;
   entity: EntityWithPath;
   query: string;
+  menuItem: string | null;
 }
 
 const entityCardsQuestions: StudioTemplateProperty[] = [
@@ -35,7 +36,13 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
-  }
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
+  },
 ];
 
 const questionsToBeAskedInCLI = [

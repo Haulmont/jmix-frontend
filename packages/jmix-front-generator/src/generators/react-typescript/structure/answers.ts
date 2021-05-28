@@ -14,8 +14,9 @@ const columnLayoutTypeOptions: ColumnLayoutTypes[] = [
 ]
 
 export interface Answers {
-    componentName: string
-    structureType: ColumnLayoutTypes
+    componentName: string,
+    structureType: ColumnLayoutTypes,
+    menuItem: string | null
 }
 
 export const allQuestions: StudioTemplateProperty[] = [
@@ -31,5 +32,11 @@ export const allQuestions: StudioTemplateProperty[] = [
     required: true,
     propertyType: StudioTemplatePropertyType.OPTION,
     options: columnLayoutTypeOptions,
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
   },
 ];

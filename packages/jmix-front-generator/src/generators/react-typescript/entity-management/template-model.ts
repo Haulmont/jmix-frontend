@@ -20,6 +20,7 @@ export const deriveManagementTemplateModel = async (
     browserType,
     editorComponentName,
     editorQuery,
+    menuItem,
     ...stringIdAnswers
   } = answers;
 
@@ -28,6 +29,7 @@ export const deriveManagementTemplateModel = async (
     componentName: browserComponentName,
     query: browserQuery,
     browserType: browserType,
+    menuItem,
     ...stringIdAnswers
   }, projectModel, gen, options);
 
@@ -35,6 +37,7 @@ export const deriveManagementTemplateModel = async (
     entity,
     componentName: editorComponentName,
     query: editorQuery,
+    menuItem,
     ...stringIdAnswers
   }, projectModel, gen, options)
 

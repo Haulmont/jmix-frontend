@@ -16,6 +16,11 @@ interface ComponentInfo {
   caption: string;
 }
 
+export interface AppMenuItemInfo {
+  componentClassName: string;
+  menuNode: string | null;
+}
+
 export function addToMenu<T>(
   fs: Generator.MemFsEditor,
   {
@@ -59,15 +64,12 @@ export function addToAppMenu<T>(
   {
     destRoot,
     dirShift,
-    caption,
-    menuLink,
-    pathPattern,
-    componentFileName,
+    menuNode,
     componentClassName
-  }: AddToMenuOpts & ComponentInfo,
+  }: AddToMenuOpts & AppMenuItemInfo,
   addAppMenuCallback: (
     appMenuContents: string,
-    routeInfo: RouteInfo,
+    appMenuItemInfo: AppMenuItemInfo,
     customComponentParams?: {[param: string]: unknown}
   ) => string = addAppMenuItem,
   customComponentParams?: {[param: string]: unknown}
@@ -75,7 +77,6 @@ export function addToAppMenu<T>(
 
   const appMenuDir = path.join(destRoot, dirShift ? dirShift : '');
   const appMenuPath = path.join(appMenuDir, 'app', 'AppMenu.tsx');
-  const componentPath = `../../${getRelativePath(appMenuDir, destRoot)}/${componentFileName}`;
 
   if (fs.exists(appMenuPath)) {
     const appMenuContents = fs.read(appMenuPath);
@@ -83,7 +84,7 @@ export function addToAppMenu<T>(
       appMenuPath,
       addAppMenuCallback(
         appMenuContents,
-        {caption, menuLink, pathPattern, componentClassName, componentFileName, componentPath},
+        {componentClassName, menuNode},
         customComponentParams
       ));
     return true;
@@ -111,28 +112,48 @@ ${routingContents}`;
 
 export const addAppMenuItem = (appMenuContents: string,
   {
-    caption,
-    pathPattern,
-    menuLink,
     componentClassName,
-    componentPath
-  }: RouteInfo) => {
-    const closedAppMenuJsxTag = '</VerticalMenu>';
-    const newMenuItem =  `
-      <MenuItem 
-        screenId={"${componentClassName}"}
-        icon={<BarsOutlined />}
-        caption={<FormattedMessage id={"router.${componentClassName}"} />}
-        key={'${uuid.v4()}'}
-      />`
-    return getUpdatedAppMenuContent(appMenuContents, newMenuItem)
+    menuNode
+  }: AppMenuItemInfo) => {
+
+    return updateAppMenuContent(appMenuContents, componentClassName, menuNode, uuid.v4());
 
   }
-  function getUpdatedAppMenuContent(appMenuContents: string, newMenuItem: string): string {
+
+function getUpdatedAppMenuContent(appMenuContents: string, menuNode: string | null, componentClassName: string, key: string): string {
+
+  const newMenuItem = getNewMenuItem(componentClassName, key);
+
+  if(menuNode === "ROOT") {
     const closedAppMenuJsxTag = '</VerticalMenu>';
     const [mainContent, contentEnd] = appMenuContents.split(closedAppMenuJsxTag);
     return [mainContent + ` ${newMenuItem}`, contentEnd].join(closedAppMenuJsxTag);
   }
+  const closedAppMenuJsxTag = '</VerticalMenu>';
+  const [mainContent, contentEnd] = appMenuContents.split(closedAppMenuJsxTag);
+  return [mainContent + ` ${newMenuItem}`, contentEnd].join(closedAppMenuJsxTag);
+}
+
+export function updateAppMenuContent(appMenuContents: string, componentClassName: string, menuNode: string | null, key: string) {
+  return menuNode 
+    ?  getUpdatedAppMenuContent(
+         appMenuContents, 
+         menuNode, 
+         componentClassName,
+         key
+      )
+    : appMenuContents
+}
+
+export function getNewMenuItem(componentClassName: string, key: string) {
+  return `
+    <MenuItem 
+      screenId={"${componentClassName}"}
+      icon={<BarsOutlined />}
+      caption={<FormattedMessage id={"router.${componentClassName}"} />}
+      key={'${key}'}
+    />`
+}
 
 function getRelativePath(routingDir: string, destRoot: string) {
   return convertToUnixPath(path.relative(routingDir, destRoot));

@@ -10,10 +10,17 @@ const blankComponentQuestions: StudioTemplateProperty[] = [
     code: "componentName",
     propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
     required: true
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
   }
 ];
 export interface Answers {
-  componentName: string
+  componentName: string,
+  menuItem: string | null;
 }
 
   

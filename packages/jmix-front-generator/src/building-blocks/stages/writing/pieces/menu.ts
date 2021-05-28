@@ -1,4 +1,4 @@
-import {addRoute, addToMenu, RouteInfo, addToAppMenu, addAppMenuItem} from "../../../../generators/react-typescript/common/menu";
+import {addRoute, addToMenu, RouteInfo, addToAppMenu, addAppMenuItem, AppMenuItemInfo} from "../../../../generators/react-typescript/common/menu";
 import {YeomanGenerator} from "../../../YeomanGenerator";
 
 export function addMenuItem(
@@ -33,22 +33,18 @@ export function addAppMenu(
   gen: YeomanGenerator,
   dirShift: string,
   className: string,
-  nameLiteral: string,
+  menuItem: string | null,
   addAppMenuCallback: (
-    routingContents: string,
-    routeInfo: RouteInfo,
-    customComponentParams?: any
+    appMenuContents: string,
+    appMenuItemInfo: AppMenuItemInfo,
   ) => string = addAppMenuItem,
   customComponentParams?: any
 ) {
   if (!addToAppMenu(gen.fs, {
-      componentFileName: className,
       componentClassName: className,
-      caption: className,
       dirShift: dirShift,
       destRoot: gen.destinationRoot(),
-      menuLink: '/' + nameLiteral,
-      pathPattern: '/' + nameLiteral
+      menuNode: menuItem,
     },
     addAppMenuCallback,
     customComponentParams

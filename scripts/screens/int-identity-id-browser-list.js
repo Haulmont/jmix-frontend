@@ -6,5 +6,6 @@ module.exports = {
   "browserType": "list",
   "entity": {
     "name": "scr_IntIdentityIdTestEntity"
-  }
+  },
+  'menuItem': 'ROOT'
 };

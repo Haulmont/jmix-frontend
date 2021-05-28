@@ -19,6 +19,7 @@ export interface Answers extends StringIdAnswers {
   entity: EntityWithPath;
   cardsInRow: CardsInRowOption;
   query: string;
+  menuItem: string | null;
 }
 
 const entityCardsGridQuestions: StudioTemplateProperty[] = [
@@ -48,7 +49,13 @@ const entityCardsGridQuestions: StudioTemplateProperty[] = [
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
     required: true
-  }
+  },
+  {
+    caption: "Menu item",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.MENU_ITEM,
+    required: true
+  },
 ];
 
 const questionsToBeAskedInCLI = [
