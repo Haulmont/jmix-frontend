@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   Field,
   MultilineText,
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -76,38 +76,33 @@ const StringIdMgtCardsEdit = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
+
+    const [form] = useForm();
 
     const {
+      relationOptions,
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
-      form,
+      entityEditorState,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<StringIdTestEntity>({
       loadQuery: LOAD_SCR_STRINGIDTESTENTITY,
       upsertMutation: UPSERT_SCR_STRINGIDTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      hasAssociations: true,
-      screens,
-      multiScreen,
       onCommit,
-      entityInstance
+      entityInstance,
+      useEntityEditorForm: createUseAntdForm(form)
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -119,8 +114,8 @@ const StringIdMgtCardsEdit = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -128,7 +123,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="description"
-            hide={hiddenAttributes?.includes("description")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -137,7 +131,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="productCode"
-            hide={hiddenAttributes?.includes("productCode")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -146,7 +139,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="createTs"
-            hide={hiddenAttributes?.includes("createTs")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -155,7 +147,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="createdBy"
-            hide={hiddenAttributes?.includes("createdBy")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -164,7 +155,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="updateTs"
-            hide={hiddenAttributes?.includes("updateTs")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -173,7 +163,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="updatedBy"
-            hide={hiddenAttributes?.includes("updatedBy")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -182,7 +171,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="deleteTs"
-            hide={hiddenAttributes?.includes("deleteTs")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -191,7 +179,6 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="deletedBy"
-            hide={hiddenAttributes?.includes("deletedBy")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -200,8 +187,7 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity"
-            hide={hiddenAttributes?.includes("datatypesTestEntity")}
-            associationOptions={data?.scr_DatatypesTestEntityList}
+            associationOptions={relationOptions?.get("scr_DatatypesTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -210,16 +196,19 @@ const StringIdMgtCardsEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
-            hide={hiddenAttributes?.includes("datatypesTestEntity3")}
-            associationOptions={data?.scr_DatatypesTestEntity3List}
+            associationOptions={relationOptions?.get(
+              "scr_DatatypesTestEntity3"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />

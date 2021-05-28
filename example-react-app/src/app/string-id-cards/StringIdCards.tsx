@@ -63,21 +63,16 @@ const DELETE_SCR_STRINGIDTESTENTITY = gql`
 `;
 
 export const StringIdCards = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
-    store
+    entityListState
   } = useEntityList<StringIdTestEntity>({
     listQuery: SCR_STRINGIDTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_StringIdTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
@@ -113,7 +108,7 @@ export const StringIdCards = observer(() => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={pagesTotal}
         />

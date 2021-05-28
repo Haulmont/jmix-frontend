@@ -92,3 +92,7 @@ const Breadcrumb = observer((props: IBreadcrumbProps) => {
     </span>
   );
 });
+
+export function useMultiScreen(): IMultiScreenItem {
+  return useContext(MultiScreenContext);
+}

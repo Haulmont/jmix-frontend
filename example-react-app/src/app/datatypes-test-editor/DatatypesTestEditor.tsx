@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   Field,
   MultilineText,
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -138,38 +138,33 @@ const DatatypesTestEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
+
+    const [form] = useForm();
 
     const {
+      relationOptions,
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
-      form,
+      entityEditorState,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<DatatypesTestEntity>({
       loadQuery: LOAD_SCR_DATATYPESTESTENTITY,
       upsertMutation: UPSERT_SCR_DATATYPESTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      hasAssociations: true,
-      screens,
-      multiScreen,
       onCommit,
-      entityInstance
+      entityInstance,
+      useEntityEditorForm: createUseAntdForm(form)
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -181,8 +176,8 @@ const DatatypesTestEditor = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -190,7 +185,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="bigDecimalAttr"
-            hide={hiddenAttributes?.includes("bigDecimalAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -199,7 +193,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="booleanAttr"
-            hide={hiddenAttributes?.includes("booleanAttr")}
             formItemProps={{
               style: { marginBottom: "12px" },
               valuePropName: "checked"
@@ -209,7 +202,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="dateAttr"
-            hide={hiddenAttributes?.includes("dateAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -218,7 +210,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="dateTimeAttr"
-            hide={hiddenAttributes?.includes("dateTimeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -227,7 +218,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="doubleAttr"
-            hide={hiddenAttributes?.includes("doubleAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -236,7 +226,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="integerAttr"
-            hide={hiddenAttributes?.includes("integerAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -245,7 +234,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="longAttr"
-            hide={hiddenAttributes?.includes("longAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -254,7 +242,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="stringAttr"
-            hide={hiddenAttributes?.includes("stringAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -263,7 +250,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="timeAttr"
-            hide={hiddenAttributes?.includes("timeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -272,7 +258,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="uuidAttr"
-            hide={hiddenAttributes?.includes("uuidAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -281,7 +266,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localDateTimeAttr"
-            hide={hiddenAttributes?.includes("localDateTimeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -290,7 +274,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="offsetDateTimeAttr"
-            hide={hiddenAttributes?.includes("offsetDateTimeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -299,7 +282,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localDateAttr"
-            hide={hiddenAttributes?.includes("localDateAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -308,7 +290,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localTimeAttr"
-            hide={hiddenAttributes?.includes("localTimeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -317,7 +298,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="offsetTimeAttr"
-            hide={hiddenAttributes?.includes("offsetTimeAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -326,7 +306,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="enumAttr"
-            hide={hiddenAttributes?.includes("enumAttr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -335,8 +314,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationO2Oattr"
-            hide={hiddenAttributes?.includes("associationO2Oattr")}
-            associationOptions={data?.scr_AssociationO2OTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationO2OTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -345,8 +325,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Oattr"
-            hide={hiddenAttributes?.includes("associationM2Oattr")}
-            associationOptions={data?.scr_AssociationM2OTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationM2OTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -355,8 +336,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Mattr"
-            hide={hiddenAttributes?.includes("associationM2Mattr")}
-            associationOptions={data?.scr_AssociationM2MTestEntityList}
+            associationOptions={relationOptions?.get(
+              "scr_AssociationM2MTestEntity"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -365,7 +347,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="compositionO2Oattr"
-            hide={hiddenAttributes?.includes("compositionO2Oattr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -374,7 +355,6 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="compositionO2Mattr"
-            hide={hiddenAttributes?.includes("compositionO2Mattr")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -383,10 +363,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="intIdentityIdTestEntityAssociationO2OAttr"
-            hide={hiddenAttributes?.includes(
-              "intIdentityIdTestEntityAssociationO2OAttr"
+            associationOptions={relationOptions?.get(
+              "scr_IntIdentityIdTestEntity"
             )}
-            associationOptions={data?.scr_IntIdentityIdTestEntityList}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -395,10 +374,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="integerIdTestEntityAssociationM2MAttr"
-            hide={hiddenAttributes?.includes(
-              "integerIdTestEntityAssociationM2MAttr"
-            )}
-            associationOptions={data?.scr_IntegerIdTestEntityList}
+            associationOptions={relationOptions?.get("scr_IntegerIdTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -407,8 +383,9 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
-            hide={hiddenAttributes?.includes("datatypesTestEntity3")}
-            associationOptions={data?.scr_DatatypesTestEntity3List}
+            associationOptions={relationOptions?.get(
+              "scr_DatatypesTestEntity3"
+            )}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -417,15 +394,16 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
-            hide={hiddenAttributes?.includes("name")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />

@@ -27,7 +27,6 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_WeirdStringIdTestEntityCount
     scr_WeirdStringIdTestEntityList(
@@ -35,7 +34,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       identifier
@@ -52,8 +51,7 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 
 const WeirdStringIdBrowserTable = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -61,25 +59,22 @@ const WeirdStringIdBrowserTable = observer(
       relationOptions,
       executeListQuery,
       listQueryResult: { loading, error },
-      handleRowSelectionChange,
+      handleSelectionChange,
       handleFilterChange,
       handleSortOrderChange,
       handlePaginationChange,
-      deleteSelectedRow,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<WeirdStringIdTestEntity>({
       listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -113,9 +108,9 @@ const WeirdStringIdBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
+          disabled={entityListState.selectedEntityId == null}
           type="default"
-          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+          onClick={handleEditBtnClick}
         >
           <FormattedMessage id="common.edit" />
         </Button>
@@ -128,8 +123,8 @@ const WeirdStringIdBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(null, items)}
+          disabled={entityListState.selectedEntityId == null}
+          onClick={handleDeleteBtnClick}
           key="remove"
           type="default"
         >
@@ -159,17 +154,15 @@ const WeirdStringIdBrowserTable = observer(
         items={items}
         count={count}
         relationOptions={relationOptions}
-        current={store.pagination?.current}
-        pageSize={store.pagination?.pageSize}
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["id", "description"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
-        onRowSelectionChange={handleRowSelectionChange}
+        columnDefinitions={["id", "description"]}
+        onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
         onPaginationChange={handlePaginationChange}

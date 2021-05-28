@@ -30,6 +30,7 @@ export * from './app/MetadataProvider';
 export * from './crud/getDisplayedItems';
 export * from './crud/getRelationOptions';
 export * from './crud/useEntityListData';
+export * from './crud/useEntityEditorData';
 export * from './crud/filter';
 export * from './crud/pagination';
 export * from './crud/sort';

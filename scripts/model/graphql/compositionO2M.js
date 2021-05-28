@@ -4,10 +4,6 @@ const compositionO2MQuery = `
   _instanceName
   name
   quantity
-  datatypesTestEntity {
-    id
-    _instanceName
-  }
 }
 `;
 

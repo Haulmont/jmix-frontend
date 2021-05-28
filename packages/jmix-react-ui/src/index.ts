@@ -10,12 +10,13 @@ export * from './formatters/ant_to_jmixFront';
 export * from './formatters/jmixFront_to_ant';
 export * from './formatters/jmixFront_to_jmixGraphQL';
 
-export * from './crud/useEntityEditor';
-export * from './crud/useEntityList';
-export * from './crud/EntityEditorProps';
-export * from './crud/EntityListProps';
-export * from './crud/showDeleteEntityDialog';
-export * from './crud/history';
+export * from './crud/editor/useEntityEditor';
+export * from './crud/editor/EntityEditorProps';
+export * from './crud/editor/form/createUseAntdForm';
+export * from './crud/list/useEntityList';
+export * from './crud/list/EntityListProps';
+
+export * from './util/history';
 
 export * from './ui/EntityProperty';
 export * from './ui/form/Form';

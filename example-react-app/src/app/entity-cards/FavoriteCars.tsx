@@ -54,21 +54,16 @@ const DELETE_SCR_FAVORITECAR = gql`
 `;
 
 export const FavoriteCars = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
-    store
+    entityListState
   } = useEntityList<FavoriteCar>({
     listQuery: SCR_FAVORITECAR_LIST,
     deleteMutation: DELETE_SCR_FAVORITECAR,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_FavoriteCarList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
@@ -104,7 +99,7 @@ export const FavoriteCars = observer(() => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={pagesTotal}
         />

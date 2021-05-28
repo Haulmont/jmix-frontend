@@ -18,11 +18,10 @@ export interface CompositionO2MFieldProps {
   value?: EntityInstance[];
   onChange?: (value?: this['value']) => void;
   entityName: string;
-  reverseAttrName: string;
 }
 
 export const CompositionO2MField = observer((props: CompositionO2MFieldProps) => {
-  const {value, entityName, onChange, reverseAttrName} = props;
+  const {value, entityName, onChange} = props;
 
   const metadata = useMetadata();
   const screens = useContext(ScreensContext);
@@ -34,10 +33,9 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
       entityName,
       entityList,
       screens,
-      onEntityListChange: onChange, // TODO decouple from ant
-      reverseAttrName,
+      onEntityListChange: onChange
     });
-  }, [entityName, entityList, screens, onChange, reverseAttrName]);
+  }, [entityName, entityList, screens, onChange]);
 
   return (
     <Button type='link'

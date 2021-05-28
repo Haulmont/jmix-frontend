@@ -19,9 +19,9 @@ const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
-  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition], $loadItems: Boolean!) {
+  query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count
-    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) @include(if: $loadItems) <%= query %>
+    <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query %>
     <% Object.keys(relations).forEach(attrName => { %>
       <%= dollarsToUnderscores(relations[attrName].name) %>List {
       id
@@ -38,8 +38,7 @@ mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
 `;
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
-  const {entityList, onEntityListChange, reverseAttrName} = props;
-  const screens = useContext(ScreensContext);
+  const {entityList, onEntityListChange} = props;
 
   const {
     items,
@@ -47,25 +46,22 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     relationOptions,
     executeListQuery,
     listQueryResult: {loading, error},
-    handleRowSelectionChange,
+    handleSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
     handlePaginationChange,
-    deleteSelectedRow,
+    handleDeleteBtnClick,
     handleCreateBtnClick,
     handleEditBtnClick,
     goToParentScreen,
-    store,
+    entityListState,
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
     onEntityListChange,
-    reverseAttrName,
   });
 
   if (error != null) {
@@ -91,9 +87,9 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
+        disabled={entityListState.selectedEntityId == null}
         type="default"
-        onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+        onClick={handleEditBtnClick}
       >
         <FormattedMessage id="common.edit" />
       </Button>
@@ -102,8 +98,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={store.selectedRowKey == null}
-        onClick={deleteSelectedRow.bind(null, items)}
+        disabled={entityListState.selectedEntityId == null}
+        onClick={handleDeleteBtnClick}
         key="remove"
         type="default"
       >
@@ -133,8 +129,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       items={items}
       count={count}
       relationOptions={relationOptions}
-      current={store.pagination?.current}
-      pageSize={store.pagination?.pageSize}
+      current={entityListState.pagination?.current}
+      pageSize={entityListState.pagination?.pageSize}
       entityName={ENTITY_NAME}
       loading={loading}
       error={error}
@@ -144,8 +140,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
         <% attributes.forEach(p => { -%>
           '<%= p.name %>',
         <% }) %>
-      ].filter(columnDef => columnDef !== reverseAttrName)}
-      onRowSelectionChange={handleRowSelectionChange}
+      ]}
+      onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
