@@ -1,17 +1,11 @@
 language: node_js
 
 os: linux
-
-node_js:
-  - '14.16.1'
+node_js: '14.16.1'
+jdk: oraclejdk11
 
 services:
   - postgresql
-
-addons:
-  apt:
-    packages:
-      - openjdk-11-jdk
 
 env:
   global:
