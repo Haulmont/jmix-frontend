@@ -97,11 +97,10 @@ export interface EntityListScreenOptions {
   entityName: string;
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
-  reverseAttrName?: string;
 }
 
 export function openEntityListScreen(
-  {entityName, entityList, onEntityListChange, screens, reverseAttrName}: EntityListScreenOptions
+  {entityName, entityList, onEntityListChange, screens}: EntityListScreenOptions
 ) {
   const registeredReferral = referencesListByEntityName[entityName];
 
@@ -109,8 +108,7 @@ export function openEntityListScreen(
     title: registeredReferral.entityList.title,
     content: injectProps(registeredReferral.entityList.content, {
       entityList,
-      onEntityListChange,
-      reverseAttrName,
+      onEntityListChange
     }),
   });
 }

@@ -37,7 +37,6 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_WeirdStringIdTestEntityCount
     scr_WeirdStringIdTestEntityList(
@@ -45,7 +44,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       identifier
@@ -62,30 +61,26 @@ const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
 
 const WeirdStringIdBrowserCards = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
       count,
       executeListQuery,
       listQueryResult: { loading, error },
-      showDeletionDialog,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       handlePaginationChange,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<WeirdStringIdTestEntity>({
       listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -143,38 +138,30 @@ const WeirdStringIdBrowserCards = observer(
                 entityName={ENTITY_NAME}
                 operation="delete"
               >
-                <DeleteOutlined
-                  key="delete"
-                  onClick={showDeletionDialog.bind(null, e)}
-                />
+                <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
               </EntityPermAccessControl>,
               <EntityPermAccessControl
                 entityName={ENTITY_NAME}
                 operation="update"
               >
-                <EditOutlined
-                  key="edit"
-                  onClick={handleEditBtnClick.bind(null, e.id)}
-                />
+                <EditOutlined key="edit" onClick={handleEditBtnClick} />
               </EntityPermAccessControl>
             ]}
           >
-            {getFields(e)
-              .filter(p => p !== reverseAttrName)
-              .map(p => (
-                <EntityProperty
-                  entityName={ENTITY_NAME}
-                  propertyName={p}
-                  value={e[p]}
-                  key={p}
-                />
-              ))}
+            {getFields(e).map(p => (
+              <EntityProperty
+                entityName={ENTITY_NAME}
+                propertyName={p}
+                value={e[p]}
+                key={p}
+              />
+            ))}
           </Card>
         ))}
 
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            paginationConfig={store.pagination ?? {}}
+            paginationConfig={entityListState.pagination ?? {}}
             onPagingChange={handlePaginationChange}
             total={count}
           />

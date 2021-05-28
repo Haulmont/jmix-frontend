@@ -1,5 +1,5 @@
 import {EntityMessages} from "@haulmont/jmix-rest";
-import {AttributeType, EnumInfo, MetaClassInfo, MetaPropertyInfo} from '../app/MetadataProvider'
+import {AttributeType, EnumInfo, MetaClassInfo, Metadata, MetaPropertyInfo} from '../app/MetadataProvider'
 
 export function getPropertyInfo(metadata: MetaClassInfo[], entityName: string, propertyName: string): MetaPropertyInfo | null {
     const metaClass = metadata.find(mci => mci.entityName === entityName);
@@ -140,6 +140,14 @@ export function isByteArray({attributeType, type}: MetaPropertyInfo): boolean {
   return attributeType === 'DATATYPE' && type === 'byteArray'
 }
 
+export function findEntityMetadata(entityName: string, metadata: Metadata): MetaClassInfo | undefined {
+  return metadata.entities.find(entity => entity.entityName === entityName);
+}
+
+export function hasRelationProperties(entityInfo: MetaClassInfo): boolean {
+  return entityInfo.properties.some(propertyInfo => isRelationProperty(propertyInfo));
+}
+
 export function isRelationProperty(propertyInfo: MetaPropertyInfo): boolean {
   return isAssociation(propertyInfo) || isComposition(propertyInfo);
 }
@@ -210,7 +218,8 @@ export function isOneToManyComposition(propertyInfo: MetaPropertyInfo): boolean 
 
 // Deprecated as "WithSomething" implies that "something" is mandatory rather than optional.
 // Also, "withSomething" is a standard convention for HOCs.
-// Use "HasSomething" or "MayHaveSomething" instead.
+// Use "HasSomething" or "MayHaveSomething" instead, unless the variable represents an entity instance,
+// in which case use `EntityInstance` with (or without) applicable generic arguments.
 /**
  * @deprecated use {@link MayHaveId}
  */

@@ -36,7 +36,6 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_StringIdTestEntityOrderBy
     $filter: [inp_scr_StringIdTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_StringIdTestEntityCount
     scr_StringIdTestEntityList(
@@ -44,7 +43,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       identifier
       _instanceName
       description
@@ -78,30 +77,26 @@ const DELETE_SCR_STRINGIDTESTENTITY = gql`
 
 const StringIdBrowserList = observer(
   (props: EntityListProps<StringIdTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
       count,
       executeListQuery,
       listQueryResult: { loading, error },
-      showDeletionDialog,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       handlePaginationChange,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<StringIdTestEntity>({
       listQuery: SCR_STRINGIDTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -155,33 +150,25 @@ const StringIdBrowserList = observer(
                   entityName={ENTITY_NAME}
                   operation="delete"
                 >
-                  <DeleteOutlined
-                    key="delete"
-                    onClick={showDeletionDialog.bind(null, item)}
-                  />
+                  <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
                 </EntityPermAccessControl>,
                 <EntityPermAccessControl
                   entityName={ENTITY_NAME}
                   operation="update"
                 >
-                  <EditOutlined
-                    key="edit"
-                    onClick={handleEditBtnClick.bind(null, item.id)}
-                  />
+                  <EditOutlined key="edit" onClick={handleEditBtnClick} />
                 </EntityPermAccessControl>
               ]}
             >
               <div style={{ flexGrow: 1 }}>
-                {getFields(item)
-                  .filter(p => p !== reverseAttrName)
-                  .map(p => (
-                    <EntityProperty
-                      entityName={ENTITY_NAME}
-                      propertyName={p}
-                      value={item[p]}
-                      key={p}
-                    />
-                  ))}
+                {getFields(item).map(p => (
+                  <EntityProperty
+                    entityName={ENTITY_NAME}
+                    propertyName={p}
+                    value={item[p]}
+                    key={p}
+                  />
+                ))}
               </div>
             </List.Item>
           )}
@@ -189,7 +176,7 @@ const StringIdBrowserList = observer(
 
         <div style={{ margin: "12px 0 12px 0", float: "right" }}>
           <Paging
-            paginationConfig={store.pagination ?? {}}
+            paginationConfig={entityListState.pagination ?? {}}
             onPagingChange={handlePaginationChange}
             total={count}
           />

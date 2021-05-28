@@ -27,7 +27,6 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_AssociationM2MTestEntityOrderBy
     $filter: [inp_scr_AssociationM2MTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_AssociationM2MTestEntityCount
     scr_AssociationM2MTestEntityList(
@@ -35,7 +34,7 @@ const SCR_ASSOCIATIONM2MTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       name
@@ -51,8 +50,7 @@ const DELETE_SCR_ASSOCIATIONM2MTESTENTITY = gql`
 
 const AssociationM2MBrowserTable = observer(
   (props: EntityListProps<AssociationM2MTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -60,25 +58,22 @@ const AssociationM2MBrowserTable = observer(
       relationOptions,
       executeListQuery,
       listQueryResult: { loading, error },
-      handleRowSelectionChange,
+      handleSelectionChange,
       handleFilterChange,
       handleSortOrderChange,
       handlePaginationChange,
-      deleteSelectedRow,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<AssociationM2MTestEntity>({
       listQuery: SCR_ASSOCIATIONM2MTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_ASSOCIATIONM2MTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -112,9 +107,9 @@ const AssociationM2MBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
+          disabled={entityListState.selectedEntityId == null}
           type="default"
-          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+          onClick={handleEditBtnClick}
         >
           <FormattedMessage id="common.edit" />
         </Button>
@@ -127,8 +122,8 @@ const AssociationM2MBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(null, items)}
+          disabled={entityListState.selectedEntityId == null}
+          onClick={handleDeleteBtnClick}
           key="remove"
           type="default"
         >
@@ -158,17 +153,15 @@ const AssociationM2MBrowserTable = observer(
         items={items}
         count={count}
         relationOptions={relationOptions}
-        current={store.pagination?.current}
-        pageSize={store.pagination?.pageSize}
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
-        onRowSelectionChange={handleRowSelectionChange}
+        columnDefinitions={["name"]}
+        onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
         onPaginationChange={handlePaginationChange}

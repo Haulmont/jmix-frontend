@@ -1,18 +1,18 @@
 import React, { useContext } from "react";
 import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
-import { useMetadata, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   Field,
   MultilineText,
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
@@ -53,37 +53,32 @@ const AssociationO2OEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit",
-      hiddenAttributes
+      submitBtnCaption = "common.submit"
     } = props;
-    const multiScreen = useContext(MultiScreenContext);
-    const screens = useContext(ScreensContext);
-    const metadata = useMetadata();
+
+    const [form] = useForm();
 
     const {
       executeLoadQuery,
       loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      store,
-      form,
+      entityEditorState,
       intl,
-      handleFinish,
-      handleFinishFailed,
+      handleSubmit,
+      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<AssociationO2OTestEntity>({
       loadQuery: LOAD_SCR_ASSOCIATIONO2OTESTENTITY,
       upsertMutation: UPSERT_SCR_ASSOCIATIONO2OTESTENTITY,
-      entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
-      screens,
-      multiScreen,
       onCommit,
-      entityInstance
+      entityInstance,
+      useEntityEditorForm: createUseAntdForm(form)
     });
 
-    if (queryLoading || metadata == null) {
+    if (queryLoading) {
       return <Spinner />;
     }
 
@@ -95,8 +90,8 @@ const AssociationO2OEditor = observer(
     return (
       <Card className="narrow-layout">
         <Form
-          onFinish={handleFinish}
-          onFinishFailed={handleFinishFailed}
+          onFinish={handleSubmit}
+          onFinishFailed={handleSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
@@ -104,15 +99,16 @@ const AssociationO2OEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
-            hide={hiddenAttributes?.includes("name")}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
           />
 
-          {store.globalErrors.length > 0 && (
+          {entityEditorState.globalErrors.length > 0 && (
             <Alert
-              message={<MultilineText lines={toJS(store.globalErrors)} />}
+              message={
+                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
+              }
               type="error"
               style={{ marginBottom: "24px" }}
             />

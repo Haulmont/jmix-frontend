@@ -31,21 +31,16 @@ const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
 `;
 
 export const <%= className %> = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
-    store
+    entityListState
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    queryName: '<%= dollarsToUnderscores(entity.name) %>List'
   });
 
   if (error != null) {
@@ -82,7 +77,7 @@ export const <%= className %> = observer(() => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={pagesTotal}
         />

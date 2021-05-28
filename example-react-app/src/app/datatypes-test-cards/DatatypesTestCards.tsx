@@ -105,21 +105,16 @@ const DELETE_SCR_DATATYPESTESTENTITY = gql`
 `;
 
 export const DatatypesTestCards = observer(() => {
-  const screens = useContext(ScreensContext);
-
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
     handlePaginationChange,
-    store
+    entityListState
   } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    queryName: "scr_DatatypesTestEntityList"
+    routingPath: ROUTING_PATH
   });
 
   if (error != null) {
@@ -155,7 +150,7 @@ export const DatatypesTestCards = observer(() => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={pagesTotal}
         />

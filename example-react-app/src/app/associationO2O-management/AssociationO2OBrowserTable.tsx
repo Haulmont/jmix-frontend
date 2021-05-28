@@ -27,7 +27,6 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_AssociationO2OTestEntityOrderBy
     $filter: [inp_scr_AssociationO2OTestEntityFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_AssociationO2OTestEntityCount
     scr_AssociationO2OTestEntityList(
@@ -35,7 +34,7 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       name
@@ -51,8 +50,7 @@ const DELETE_SCR_ASSOCIATIONO2OTESTENTITY = gql`
 
 const AssociationO2OBrowserTable = observer(
   (props: EntityListProps<AssociationO2OTestEntity>) => {
-    const { entityList, onEntityListChange, reverseAttrName } = props;
-    const screens = useContext(ScreensContext);
+    const { entityList, onEntityListChange } = props;
 
     const {
       items,
@@ -60,25 +58,22 @@ const AssociationO2OBrowserTable = observer(
       relationOptions,
       executeListQuery,
       listQueryResult: { loading, error },
-      handleRowSelectionChange,
+      handleSelectionChange,
       handleFilterChange,
       handleSortOrderChange,
       handlePaginationChange,
-      deleteSelectedRow,
+      handleDeleteBtnClick,
       handleCreateBtnClick,
       handleEditBtnClick,
       goToParentScreen,
-      store
+      entityListState
     } = useEntityList<AssociationO2OTestEntity>({
       listQuery: SCR_ASSOCIATIONO2OTESTENTITY_LIST,
       deleteMutation: DELETE_SCR_ASSOCIATIONO2OTESTENTITY,
-      screens,
-      currentScreen: screens.currentScreen,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange,
-      reverseAttrName
+      onEntityListChange
     });
 
     if (error != null) {
@@ -112,9 +107,9 @@ const AssociationO2OBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
+          disabled={entityListState.selectedEntityId == null}
           type="default"
-          onClick={handleEditBtnClick.bind(null, store.selectedRowKey)}
+          onClick={handleEditBtnClick}
         >
           <FormattedMessage id="common.edit" />
         </Button>
@@ -127,8 +122,8 @@ const AssociationO2OBrowserTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
-          disabled={store.selectedRowKey == null}
-          onClick={deleteSelectedRow.bind(null, items)}
+          disabled={entityListState.selectedEntityId == null}
+          onClick={handleDeleteBtnClick}
           key="remove"
           type="default"
         >
@@ -158,17 +153,15 @@ const AssociationO2OBrowserTable = observer(
         items={items}
         count={count}
         relationOptions={relationOptions}
-        current={store.pagination?.current}
-        pageSize={store.pagination?.pageSize}
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
         entityName={ENTITY_NAME}
         loading={loading}
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name"].filter(
-          columnDef => columnDef !== reverseAttrName
-        )}
-        onRowSelectionChange={handleRowSelectionChange}
+        columnDefinitions={["name"]}
+        onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
         onPaginationChange={handlePaginationChange}

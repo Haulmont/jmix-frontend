@@ -1,11 +1,12 @@
 import React, {useContext} from "react";
 import {Form, Alert, Button, Card} from "antd";
+import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {toJS} from "mobx";
 import {FormattedMessage} from 'react-intl';
-import {useMetadata, ScreensContext} from "@haulmont/jmix-react-core";
 import {
   createAntdFormValidationMessages,
+  createUseAntdForm,
   RetryDialog,
   <% if (attributes.length > 0) { %>
     Field,
@@ -14,7 +15,6 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  MultiScreenContext,
   registerEntityEditorScreen
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
@@ -50,45 +50,37 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
     onCommit,
     entityInstance,
     submitBtnCaption = 'common.submit',
-    hiddenAttributes
   } = props;
-  const multiScreen = useContext(MultiScreenContext);
-  const screens = useContext(ScreensContext);
-  const metadata = useMetadata();
+
+  const [form] = useForm();
 
   const {
+    <% if (Object.keys(associations).length > 0) { -%>
+      relationOptions,
+    <% } -%>
     executeLoadQuery,
     loadQueryResult: {
       loading: queryLoading,
       error: queryError,
-      <% if (Object.keys(associations).length > 0) { -%>
-        data,
-      <% } -%>
     },
     upsertMutationResult: {loading: upsertLoading},
-    store,
-    form,
+    entityEditorState,
     intl,
-    handleFinish,
-    handleFinishFailed,
+    handleSubmit,
+    handleSubmitFailed,
     handleCancelBtnClick,
   } = useEntityEditor<<%= entity.className %>>({
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
-    entityId: multiScreen?.params?.entityId,
     entityName: ENTITY_NAME,
     upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
-    <% if (Object.keys(associations).length > 0) { -%>
-      hasAssociations: true,
-    <% } -%>
-    screens,
-    multiScreen,
     onCommit,
     entityInstance,
+    useEntityEditorForm: createUseAntdForm(form)
 });
 
-  if (queryLoading || metadata == null) {
+  if (queryLoading) {
     return <Spinner />;
   }
 
@@ -100,8 +92,8 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   return (
     <Card className="narrow-layout">
       <Form
-        onFinish={handleFinish}
-        onFinishFailed={handleFinishFailed}
+        onFinish={handleSubmit}
+        onFinishFailed={handleSubmitFailed}
         layout="vertical"
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
@@ -109,7 +101,6 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
         <% attributes.forEach(attr => { %>
           <Field entityName={ENTITY_NAME}
                  propertyName="<%= attr.name %>"
-                 hide={hiddenAttributes?.includes('<%= attr.name %>')}
 
             <% if (readOnlyFields.includes(attr.name)) { %>
                  disabled={true}
@@ -118,7 +109,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
             <% } %>
 
             <% if (Object.keys(associations).includes(attr.name)) { %>
-                 associationOptions={data?.<%= dollarsToUnderscores(associations[attr.name].name) %>List}
+                 associationOptions={relationOptions?.get('<%= dollarsToUnderscores(associations[attr.name].name) %>')}
             <% } %>
 
                   formItemProps={{
@@ -133,9 +124,9 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
           /> <%# end Field %>
         <% }) %>
 
-        {store.globalErrors.length > 0 && (
+        {entityEditorState.globalErrors.length > 0 && (
           <Alert
-            message={<MultilineText lines={toJS(store.globalErrors)} />}
+            message={<MultilineText lines={toJS(entityEditorState.globalErrors)} />}
             type="error"
             style={{ marginBottom: "24px" }}
           />

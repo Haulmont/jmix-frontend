@@ -36,7 +36,6 @@ const SCR_CAR_LIST = gql`
     $offset: Int
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
-    $loadItems: Boolean!
   ) {
     scr_CarCount
     scr_CarList(
@@ -44,7 +43,7 @@ const SCR_CAR_LIST = gql`
       offset: $offset
       orderBy: $orderBy
       filter: $filter
-    ) @include(if: $loadItems) {
+    ) {
       id
       _instanceName
       manufacturer
@@ -84,30 +83,26 @@ const DELETE_SCR_CAR = gql`
 `;
 
 const CarBrowserList = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange, reverseAttrName } = props;
-  const screens = useContext(ScreensContext);
+  const { entityList, onEntityListChange } = props;
 
   const {
     items,
     count,
     executeListQuery,
     listQueryResult: { loading, error },
-    showDeletionDialog,
+    handleDeleteBtnClick,
     handleCreateBtnClick,
     handleEditBtnClick,
     handlePaginationChange,
     goToParentScreen,
-    store
+    entityListState
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     deleteMutation: DELETE_SCR_CAR,
-    screens,
-    currentScreen: screens.currentScreen,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange,
-    reverseAttrName
+    onEntityListChange
   });
 
   if (error != null) {
@@ -161,33 +156,25 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
                 entityName={ENTITY_NAME}
                 operation="delete"
               >
-                <DeleteOutlined
-                  key="delete"
-                  onClick={showDeletionDialog.bind(null, item)}
-                />
+                <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
               </EntityPermAccessControl>,
               <EntityPermAccessControl
                 entityName={ENTITY_NAME}
                 operation="update"
               >
-                <EditOutlined
-                  key="edit"
-                  onClick={handleEditBtnClick.bind(null, item.id)}
-                />
+                <EditOutlined key="edit" onClick={handleEditBtnClick} />
               </EntityPermAccessControl>
             ]}
           >
             <div style={{ flexGrow: 1 }}>
-              {getFields(item)
-                .filter(p => p !== reverseAttrName)
-                .map(p => (
-                  <EntityProperty
-                    entityName={ENTITY_NAME}
-                    propertyName={p}
-                    value={item[p]}
-                    key={p}
-                  />
-                ))}
+              {getFields(item).map(p => (
+                <EntityProperty
+                  entityName={ENTITY_NAME}
+                  propertyName={p}
+                  value={item[p]}
+                  key={p}
+                />
+              ))}
             </div>
           </List.Item>
         )}
@@ -195,7 +182,7 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
-          paginationConfig={store.pagination ?? {}}
+          paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
           total={count}
         />
