@@ -37,7 +37,7 @@ Make sure `@haulmont/react-scripts` is used
 Specify the following env variable
 
 ```
-JMIX_SERVER_MOCK=true
+JMIX_SERVER_MOCK_GRAPHQL=path/to/schema.graphql
 ```
 
 The mock server endpoints are available at the same port as dev server (e.g. http://localhost:3000/oauth/token)
