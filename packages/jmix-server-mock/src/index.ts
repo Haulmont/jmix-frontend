@@ -7,31 +7,26 @@ import {oauthRouter} from "./oauth";
 
 
 export async function createServer(schemaPath, mockRest = true) {
-  const typeDefs = await readFileSync(schemaPath).toString('utf-8');
+  let typeDefs
+  try {
+    typeDefs = await readFileSync(schemaPath).toString('utf-8');
+  } catch (ex) {
+    throw new Error(`Unable to read ${schemaPath}, please specify correct path to grapqhl schema file using --schema option`)
+  }
 
   const expressApp = express();
 
-  const server = new ApolloServer({
+  const apolloServer = new ApolloServer({
     typeDefs,
     mocks
   });
-  await server.start();
+  await apolloServer.start();
 
-  server.applyMiddleware({app: expressApp});
+  apolloServer.applyMiddleware({app: expressApp});
   expressApp.use(oauthRouter)
   if (mockRest) {
     expressApp.use(restRouter)
   }
 
-  return {server, app: expressApp};
-}
-
-export async function startMockJmixServer(schemaPath, port = 8080) {
-
-  const {server, app} = await createServer(schemaPath);
-
-  app.listen({port});
-  console.log(`🚀 Server ready at http://localhost:${port}${server.graphqlPath}`);
-  return {server, app};
-
+  return {expressApp, apolloServer};
 }

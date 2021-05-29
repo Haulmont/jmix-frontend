@@ -1,16 +1,33 @@
 ## Usage
 
-### One-liner
+### Command Line
 ```shell
-npx @haulmont/jmix-server-mock schema.graphql
+npx @haulmont/jmix-server-mock
+```
+By default, it will use `schema.graphql` and start server at port 4000  http://localhost:4000/graphql
+
+Customize schema path and port using corresponding options
+
+```shell
+npx @haulmont/jmix-server-mock --schema path/to/schema.graphql --port 8081
+```
+
+### From Code
+
+```javascript
+require('@haulmont/jmix-server-mock').createServer(schemaPath)
+    .then(({expressApp, apolloServer}) => {
+      expressApp.listen({port});
+      console.log(`Server ready at http://localhost:${port}${apolloServer.graphqlPath}`);
+    })
 ```
 
 ### Usage in Jmix Frontend
 
-Make sure Haulmont react scripts are used
+Make sure `@haulmont/react-scripts` is used
 
 ```json
-  "dependencies": {
+  "devDependencies": {
     ...
     "@haulmont/react-scripts": "^4.0.2-alpha.7",
     ...
