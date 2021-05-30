@@ -1,6 +1,5 @@
 import { action, computed, observable, ObservableMap, makeObservable } from 'mobx';
 import {
-  JmixRestConnection,
   EntityAttrPermissionValue,
   EffectivePermsInfo,
   getAttributePermission,
@@ -8,7 +7,21 @@ import {
   isSpecificPermissionGranted,
   EntityOperationType
 } from '@haulmont/jmix-rest';
+import {ApolloClient} from "@apollo/client";
+import {gql} from "@apollo/client/core";
 
+export const PERMISSIONS_QUERY = gql`query {
+  permissions {
+    entities {
+      target
+      value
+    },
+    entityAttributes {
+      target
+      value
+    }
+  }
+}`;
 
 export class Security {
 
@@ -16,7 +29,7 @@ export class Security {
   private effectivePermissions: EffectivePermsInfo | null = null;
   permissionsRequestCount = 0;
 
-  constructor(private jmixREST: JmixRestConnection) {
+  constructor(private apolloClient: ApolloClient<unknown>) {
     makeObservable<Security, "effectivePermissions">(this, {
       attrPermissionCache: observable,
       effectivePermissions: observable,
@@ -120,12 +133,13 @@ export class Security {
     this.effectivePermissions = null;
     this.attrPermissionCache.clear();
 
-    return this.jmixREST.getEffectivePermissions()
-      .then(action((effectivePermsInfo: EffectivePermsInfo) => {
+    return this.apolloClient.query({
+        query: PERMISSIONS_QUERY
+      }).then(action(resp => {
         if (requestId === this.permissionsRequestCount) {
-          this.effectivePermissions = effectivePermsInfo;
+          this.effectivePermissions = resp.data.permissions;
         }
-      }))
+      }));
   }
 
 }
