@@ -1,11 +1,13 @@
 import {WebStorageStub} from "../test-doubles/WebStorageStub";
 import { MainStore } from "./MainStore";
 import {JmixRestConnection} from "@haulmont/jmix-rest";
+import {ApolloClient, InMemoryCache} from "@apollo/client";
+import {MockLink} from "@apollo/client/testing";
 
 describe('MainStore', () => {
   it('stores auth token in the provided storage', () => {
     const storage = new WebStorageStub();
-    const mainStore = new MainStore(new JmixRestConnection(), {
+    const mainStore = new MainStore(createMockApolloClient(), new JmixRestConnection(), {
       appName: 'scr-jmix',
       storage
     });
@@ -20,7 +22,7 @@ describe('MainStore', () => {
 
   it('allows to login and logout using a custom auth method', () => {
     const storage = new WebStorageStub();
-    const mainStore = new MainStore(new JmixRestConnection(), {
+    const mainStore = new MainStore(createMockApolloClient(), new JmixRestConnection(), {
       appName: 'scr-jmix',
       storage
     });
@@ -46,3 +48,10 @@ describe('MainStore', () => {
     expect(mainStore.userName).toBe(null);
   });
 });
+
+function createMockApolloClient() {
+  return new ApolloClient<{}>({
+    link: new MockLink([]),
+    cache: new InMemoryCache({})
+  });
+}

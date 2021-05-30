@@ -5,6 +5,7 @@ import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
 import React from "react";
 import { login, logout } from "./Auth";
+import {ApolloClient} from "@apollo/client";
 
 export interface MainStoreOptions {
   appName?: string;
@@ -58,6 +59,7 @@ export class MainStore {
   private revokeTokenEndpoint: string;
 
   constructor(
+    private apolloClient: ApolloClient<unknown>,
     private jmixREST: JmixRestConnection,
     options?: MainStoreOptions
   ) {
@@ -71,7 +73,7 @@ export class MainStore {
     this.locale = options?.locale ?? 'en';
 
     this.jmixREST.onLocaleChange(this.handleLocaleChange);
-    this.security = new Security(this.jmixREST);
+    this.security = new Security(this.apolloClient);
 
     makeObservable<MainStore, "handleLocaleChange">(this, {
       initialized: observable,
