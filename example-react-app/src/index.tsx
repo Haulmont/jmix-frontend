@@ -40,7 +40,6 @@ const client = createApolloClient();
 
 ReactDOM.render(
   <JmixAppProvider
-    apolloClient={client}
     jmixREST={jmixREST}
     config={{
       appName: "scr-jmix",

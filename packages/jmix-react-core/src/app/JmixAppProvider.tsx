@@ -4,7 +4,6 @@ import {MainStore} from "./MainStore";
 import {Provider} from "mobx-react";
 import { MetadataProvider } from "./MetadataProvider";
 import { normalizeMetadata, ProjectModelMetadata } from "../util/normalizeMetadata";
-import {ApolloClient} from "@apollo/client";
 
 let jmixAppContext: React.Context<JmixAppContextValue>;
 let jmixAppConfig: JmixAppConfig | undefined;
@@ -80,7 +79,6 @@ export interface JmixAppProviderProps {
    * REST API facade
    */
   jmixREST: JmixRestConnection;
-  apolloClient: ApolloClient<unknown>;
   children: React.ReactNode | React.ReactNode[] | null;
   /**
    * A callback that retrieves REST API token from an external storage.
@@ -97,7 +95,6 @@ export interface JmixAppProviderProps {
 }
 
 export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
-  apolloClient,
   jmixREST,
   children,
   retrieveRestApiToken = () => Promise.resolve(undefined),
@@ -120,7 +117,7 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
             revokeTokenEndpoint,
             locale
           } = jmixAppConfig ?? {};
-          mainStore = new MainStore(apolloClient, jmixREST, {
+          mainStore = new MainStore(jmixREST, {
             appName,
             storage,
             clientId,

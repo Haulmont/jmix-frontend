@@ -44,8 +44,7 @@ export const jmixREST = initializeApp({
 const client = createApolloClient();
 
 ReactDOM.render(
-  <JmixAppProvider apolloClient={client}
-                   jmixREST={jmixREST}
+  <JmixAppProvider jmixREST={jmixREST}
                    config={{
                      appName: '<%=project.namespace%>',
                      clientId: REST_CLIENT_ID, // TODO Rename once we remove REST

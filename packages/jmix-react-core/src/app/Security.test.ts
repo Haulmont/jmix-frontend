@@ -1,11 +1,8 @@
-import {PERMISSIONS_QUERY, Security} from './Security';
+import { Security } from './Security';
 import {EffectivePermsInfo, EntityPermissionValue, Permission, AttributePermissionValue} from '@haulmont/jmix-rest';
-import {ApolloClient, InMemoryCache} from "@apollo/client";
-import {MockLink} from "@apollo/client/testing";
 
 describe('Security service', () => {
-  // todo enable once haulmont/jmix-graphql/114 is resolved
-  xdescribe('Security#canUploadFiles()', () => {
+  describe('Security#canUploadFiles()', () => {
     it('should return true when upload permission is granted', async () => {
       expect((await createSecurityWithLoadedPerms()).canUploadFiles()).toBe(true);
     });
@@ -83,28 +80,17 @@ async function createSecurityWithLoadedPerms(permsMockConfig?: PermsMockConfig):
 }
 
 async function createSecurity(permsMockConfig?: PermsMockConfig): Promise<Security> {
-  const mockApolloClient = new ApolloClient<{}>({
-    link: new MockLink([{
-      request: {
-        query: PERMISSIONS_QUERY,
-      },
-      result: {
-        data: {
-          permissions: createPerms(permsMockConfig),
-        },
-      },
-    }]),
-    cache: new InMemoryCache({})
-  });
-  return new Security(mockApolloClient);
+  const jmixREST = jest.genMockFromModule<any>('@haulmont/jmix-rest').JmixRestConnection;
+  jmixREST.getEffectivePermissions = jest.fn(() => createPerms(permsMockConfig));
+  return new Security(jmixREST);
 }
 
 function createPerms(
   {entities, entityAttributes, specific}: PermsMockConfig = {}
-): EffectivePermsInfo {
-  return {
+): Promise<EffectivePermsInfo> {
+  return Promise.resolve({
     entities: entities ?? [{target: 'scr$Garage:create', value: 1}],
     entityAttributes: entityAttributes ?? [],
     specifics: specific ?? [{target: 'rest.fileUpload.enabled', value: 1}],
-  };
-}
+  });
+};
