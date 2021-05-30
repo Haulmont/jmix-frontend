@@ -1,11 +1,11 @@
 import { action, autorun, computed, observable, makeObservable } from "mobx";
-import {JmixRestConnection, EntityMessages, JmixRestError, UserInfo} from "@haulmont/jmix-rest";
+import {JmixRestConnection, EntityMessages, JmixRestError} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
 import {Security} from './Security';
 import React from "react";
 import { login, logout } from "./Auth";
-import {ApolloClient} from "@apollo/client";
+import {ApolloClient, gql} from "@apollo/client";
 
 export interface MainStoreOptions {
   appName?: string;
@@ -129,12 +129,20 @@ export class MainStore {
    */
   loadMessages() {
     const requestId = ++this.messagesRequestCount;
-    this.jmixREST.loadEntitiesMessages()
-      .then(action((res: EntityMessages) => {
-        if (requestId === this.messagesRequestCount) {
-          this.messages = res;
+    this.apolloClient.query<{entityMessages: [{key: string, value: string}]}>({
+      query: gql`query {
+        entityMessages {
+          key
+          value
         }
-      }))
+      }`
+    })
+      .then(action((resp) => {
+        if (requestId === this.messagesRequestCount) {
+          const {data: {entityMessages}} = resp;
+          this.messages = entityMessages.reduce((acc, mes) => ({...acc, [mes.key]: mes.value}) , {});
+        }
+      }));
   }
 
   /**
@@ -265,14 +273,22 @@ export class MainStore {
    */
   initialize(): Promise<void> {
     this.locale = this.jmixREST.locale;
-    return this.jmixREST.getUserInfo()
-      .then(action((userInfo: UserInfo) => {
+    return this.apolloClient.query({
+      query: gql`query {
+        userInfo {
+          username
+          locale
+        }
+      }`
+    })
+      .then(action((resp) => {
+        const {userInfo: {username}} = resp.data
         if (this.jmixREST.restApiToken == null) {
           this.usingAnonymously = true;
         } else {
           this.authenticated = true;
         }
-        this.userName = userInfo.name;
+        this.userName = username;
         this.initialized = true;
       }))
       .catch(action(() => {
