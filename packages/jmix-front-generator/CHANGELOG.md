@@ -3,6 +3,44 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.14...@haulmont/jmix-front-generator@1.0.0-next.15) (2021-05-31)
+
+
+### Bug Fixes
+
+* issues with menu after antd updating [#321](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/321) ([06520d9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/06520d9d2adf68327ebb5d464157b3dd78b36ce7))
+
+
+### Code Refactoring
+
+* use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/251) ([1ab4c39](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1ab4c395bd8ac6922f2e8c381d9020e66175572e))
+* use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/251) ([cd7e7d7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/cd7e7d75bff8660c28fb6a77419a3f4e5df77fef))
+
+
+### Features
+
+* menuItem info [#328](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/328) ([703d119](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/703d1193ef7299d15c0544f4b5c2257e26820b9a))
+* mock server [#216](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/216) ([6cd7145](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/6cd7145fb99cbdbe4f8e687c78171b34f0e20139))
+* support One-to-Many Compositions in entity editor [#304](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/304) ([f90ce85](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f90ce8563cd1ecdef691937c525dc15196cc283c))
+* using title property to set MenuItem label [#325](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/325) ([49c06b2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/49c06b21ee973c48c396307ff142f7b36878f96e))
+
+
+### Reverts
+
+* "refactor: use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/251)" ([f248d5a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f248d5a2afdc5a580f66aa1a0dc0a707a1550018))
+
+
+### BREAKING CHANGES
+
+* apollo client shoud be passed to JmixAppProvider
+
+(cherry picked from commit cd7e7d75bff8660c28fb6a77419a3f4e5df77fef)
+* apollo client shoud be passed to JmixAppProvider
+
+
+
+
+
 # [1.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.13...@haulmont/jmix-front-generator@1.0.0-next.14) (2021-05-25)
 
 

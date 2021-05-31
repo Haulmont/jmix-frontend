@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.9...@haulmont/jmix-react-ui@1.0.0-next.10) (2021-05-31)
+
+
+### Bug Fixes
+
+* issues with menu after antd updating [#321](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/321) ([06520d9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/06520d9d2adf68327ebb5d464157b3dd78b36ce7))
+
+
+### Features
+
+* mock server [#216](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/216) ([6cd7145](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/6cd7145fb99cbdbe4f8e687c78171b34f0e20139))
+* support One-to-Many Compositions in entity editor [#304](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/304) ([f90ce85](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/f90ce8563cd1ecdef691937c525dc15196cc283c))
+* using title property to set MenuItem label [#325](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/325) ([49c06b2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/49c06b21ee973c48c396307ff142f7b36878f96e))
+
+
+
+
+
 # [1.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.8...@haulmont/jmix-react-ui@1.0.0-next.9) (2021-05-25)
 
 **Note:** Version bump only for package @haulmont/jmix-react-ui

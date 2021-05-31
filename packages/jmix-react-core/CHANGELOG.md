@@ -3,6 +3,43 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.9...@haulmont/jmix-react-core@1.0.0-next.10) (2021-05-31)
+
+
+### Bug Fixes
+
+* jsdoc for useTimer hook [#315](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/315) ([dc4159e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/dc4159e82e6938da63fcaeeb12ec0b3cbc2328cc))
+
+
+### Code Refactoring
+
+* use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/251) ([1ab4c39](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1ab4c395bd8ac6922f2e8c381d9020e66175572e))
+* use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/251) ([cd7e7d7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/cd7e7d75bff8660c28fb6a77419a3f4e5df77fef))
+
+
+### Features
+
+* iF component [#218](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/218) ([5d26719](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/5d267197f3a866db1710df45fc8f0e0b91110bce))
+* mock server [#216](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/216) ([6cd7145](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/6cd7145fb99cbdbe4f8e687c78171b34f0e20139))
+* support One-to-Many Compositions in entity editor [#304](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/304) ([f90ce85](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f90ce8563cd1ecdef691937c525dc15196cc283c))
+
+
+### Reverts
+
+* "refactor: use graphql to fetch permissions [#251](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/251)" ([f248d5a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f248d5a2afdc5a580f66aa1a0dc0a707a1550018))
+
+
+### BREAKING CHANGES
+
+* apollo client shoud be passed to JmixAppProvider
+
+(cherry picked from commit cd7e7d75bff8660c28fb6a77419a3f4e5df77fef)
+* apollo client shoud be passed to JmixAppProvider
+
+
+
+
+
 # [1.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.8...@haulmont/jmix-react-core@1.0.0-next.9) (2021-05-25)
 
 

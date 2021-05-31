@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/react-ide-toolbox",
-  "version": "1.0.0-next.9",
+  "version": "1.0.0-next.10",
   "description": "React IDE toolbox",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
