@@ -2,6 +2,7 @@ import path from "path";
 import Generator from "yeoman-generator";
 import uuid from 'uuid'
 import {convertToUnixPath} from "../../../common/utils";
+import jscodeshift, {JSXElement, JSXAttribute, stringLiteral, Collection } from 'jscodeshift'
 
 interface AddToMenuOpts {
   destRoot: string;
@@ -120,18 +121,17 @@ export const addAppMenuItem = (appMenuContents: string,
 
   }
 
-function getUpdatedAppMenuContent(appMenuContents: string, menuNode: string | null, componentClassName: string, key: string): string {
+function getUpdatedAppMenuContent(appMenuContents: string, menuNode: string, componentClassName: string, key: string): string {
+
+  const tsxParser = jscodeshift.withParser('tsx');
+  const appMenuAST = tsxParser(appMenuContents);
 
   const newMenuItem = getNewMenuItem(componentClassName, key);
 
   if(menuNode === "ROOT") {
-    const closedAppMenuJsxTag = '</VerticalMenu>';
-    const [mainContent, contentEnd] = appMenuContents.split(closedAppMenuJsxTag);
-    return [mainContent + ` ${newMenuItem}`, contentEnd].join(closedAppMenuJsxTag);
+    return getUpdatedMenuWithRootNode(appMenuAST, newMenuItem);
   }
-  const closedAppMenuJsxTag = '</VerticalMenu>';
-  const [mainContent, contentEnd] = appMenuContents.split(closedAppMenuJsxTag);
-  return [mainContent + ` ${newMenuItem}`, contentEnd].join(closedAppMenuJsxTag);
+  return getUpdatedMenuWithCustomNode(appMenuAST, menuNode, newMenuItem);
 }
 
 export function updateAppMenuContent(appMenuContents: string, componentClassName: string, menuNode: string | null, key: string) {
@@ -145,7 +145,7 @@ export function updateAppMenuContent(appMenuContents: string, componentClassName
     : appMenuContents
 }
 
-export function getNewMenuItem(componentClassName: string, key: string) {
+export function getNewMenuItem(componentClassName: string, key: string) : string {
   return `
     <MenuItem 
       screenId={"${componentClassName}"}
@@ -153,6 +153,52 @@ export function getNewMenuItem(componentClassName: string, key: string) {
       caption={<FormattedMessage id={"router.${componentClassName}"} />}
       key={'${key}'}
     />`
+}
+
+export function pushStringNodeToParentChildren(parrent: Collection<JSXElement>, stringNode: string) : string {
+  const parrentPaths = parrent.paths();
+    
+  if(parrentPaths.length){
+    const [{value: {children}}] = parrentPaths;
+    children?.push(stringLiteral(stringNode));
+    return parrent.toSource();
+  }
+  return parrent.toSource();
+}
+
+export function getUpdatedMenuWithRootNode(appMenuAST: Collection<any>, newMenuItem: string) : string {
+  const verticalMenu = appMenuAST.findJSXElements('VerticalMenu');
+  if(verticalMenu.length){
+    return pushStringNodeToParentChildren(verticalMenu, newMenuItem);
+  }
+
+  const horizontalMenu = appMenuAST.findJSXElements('HorizontalMenu');
+  if(horizontalMenu.length){
+    return pushStringNodeToParentChildren(horizontalMenu, newMenuItem);
+  }
+
+  return appMenuAST.toSource();
+}
+
+export function getUpdatedMenuWithCustomNode(appMenuAST: Collection<any>, menuNode: string, newMenuItem: string) : string {
+  const parrentSubMenuItem = appMenuAST
+    .findJSXElements("SubMenuItem")
+    .find(JSXAttribute, {
+      name: {
+        type: "JSXIdentifier",
+        name: "key"
+      },
+      value: {
+        type: "JSXExpressionContainer",
+        expression: {
+          type: 'StringLiteral',
+          value: menuNode
+        }
+      }
+    })
+    .closest(JSXElement)
+    
+    return pushStringNodeToParentChildren(parrentSubMenuItem, newMenuItem);
 }
 
 function getRelativePath(routingDir: string, destRoot: string) {
