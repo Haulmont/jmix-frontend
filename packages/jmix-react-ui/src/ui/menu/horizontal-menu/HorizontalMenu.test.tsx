@@ -21,10 +21,12 @@ describe('HorizontalMenu', () => {
         <span> Second item title</span>
         <span> Second item content</span>
       </MenuItem> 
-      <SubMenuItem>
-        <MenuItem 
+      <SubMenuItem
+        caption={"test"}
+      >
+        <MenuItem
+          caption={<span> item title</span>} 
           screenId={"thirdScreen"}
-          caption={<span> item title</span>}
         >
           <span> Third item title</span>
           <span> Third item content</span>

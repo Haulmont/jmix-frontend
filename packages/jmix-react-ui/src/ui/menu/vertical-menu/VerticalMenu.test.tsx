@@ -21,7 +21,9 @@ describe('VerticalMenu', () => {
         <span> Second item title</span>
         <span> Second item content</span>
       </MenuItem> 
-      <SubMenuItem>
+      <SubMenuItem
+        caption={"test"}
+      >
         <MenuItem 
           screenId={"thirdScreen"}
           caption={<span> item title</span>}
