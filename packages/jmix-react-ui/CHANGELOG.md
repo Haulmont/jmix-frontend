@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.10...@haulmont/jmix-react-ui@1.0.0-next.11) (2021-06-01)
+
+
+### Features
+
+* behavior of caption property in MenuItem [#344](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/344) ([6368cb8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/6368cb8a74e0c9a336f9e9cbeba274965e3014b4))
+* caption property to SubMenuItem [#340](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/340) ([6cfa497](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/6cfa4973bf81db8e111b4468ed1712b40d0310de))
+
+
+
+
+
 # [1.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.9...@haulmont/jmix-react-ui@1.0.0-next.10) (2021-05-31)
 
 
