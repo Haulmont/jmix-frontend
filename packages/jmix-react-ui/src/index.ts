@@ -13,6 +13,7 @@ export * from './formatters/jmixFront_to_jmixGraphQL';
 export * from './crud/editor/useEntityEditor';
 export * from './crud/editor/EntityEditorProps';
 export * from './crud/editor/form/createUseAntdForm';
+export * from './crud/editor/validation/createUseAntdFormValidation';
 export * from './crud/list/useEntityList';
 export * from './crud/list/EntityListProps';
 
@@ -20,6 +21,7 @@ export * from './util/history';
 
 export * from './ui/EntityProperty';
 export * from './ui/form/Form';
+export * from './ui/form/validation/GlobalErrorsAlert';
 export * from './ui/Msg';
 export * from './ui/table/DataTable';
 export * from './ui/table/DataTableHelpers';
@@ -33,7 +35,6 @@ export * from './ui/retry-dialog/RetryDialog';
 export * from './ui/DatePicker';
 export * from './ui/TimePicker';
 
-export * from './util/errorHandling';
 export * from './util/mapJmixRestErrorToIntlId';
 export * from './util/screen';
 

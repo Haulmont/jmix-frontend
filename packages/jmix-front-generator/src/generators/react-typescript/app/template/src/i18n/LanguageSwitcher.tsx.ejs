@@ -15,7 +15,9 @@ const localeOptions: string[] = <%- JSON.stringify(clientLocales) %>;
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
 
-  const handleChange = useCallback((locale: string) => mainStore.setLocale(locale), [mainStore]);
+  const handleChange = useCallback((locale: string) => {
+    mainStore.locale = locale;
+  }, [mainStore]);
 
   if (localeOptions.length === 1) {
     return null; // Do not show LanguageSwitcher if there is only a single locale option

@@ -1,6 +1,6 @@
 import {IntlShape} from "react-intl";
 import {jmixFront_to_jmixGraphQL} from "../../../formatters/jmixFront_to_jmixGraphQL";
-import {ApolloCache, FetchResult, gql} from "@apollo/client";
+import {ApolloCache, ApolloError, FetchResult, gql} from "@apollo/client";
 import {action} from "mobx";
 import {selectFormSuccessMessageId} from "../../../ui/form/Form";
 import {message} from "antd";
@@ -59,7 +59,16 @@ export function persistEntity<
       message.error(intl.formatMessage({ id: "common.requestFailed" }));
     }
   }))
-    .catch((e: Error) => {
+    .catch((e: Error | ApolloError) => {
+      const constraintViolations = (e as ApolloError)
+        ?.graphQLErrors
+        ?.[0]
+        ?.extensions
+        ?.constraintViolations;
+      if (constraintViolations != null) {
+        return; // Bean validation error
+      }
+
       console.error(e);
       message.error(intl.formatMessage({ id: "common.requestFailed" }));
     });

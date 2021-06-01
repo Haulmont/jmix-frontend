@@ -23,11 +23,9 @@ import {
   Input,
   Select,
   Form,
-  FormInstance, message,
 } from 'antd';
 import {
   CommitMode,
-  JmixRestError,
   PropertyType,
 } from '@haulmont/jmix-rest';
 import {uuidPattern} from '../../util/regex';
@@ -44,14 +42,11 @@ import {LongInput} from './LongInput';
 import {BigDecimalInput} from './BigDecimalInput';
 import {UuidInput} from './UuidInput';
 import {CharInput} from "./CharInput";
-import {DataInstanceStore} from "@haulmont/jmix-react-core";
-import { IntlShape } from 'react-intl';
-import {clearFieldErrors, constructFieldsWithErrors, extractServerValidationErrors} from "../../util/errorHandling";
-import {defaultMapJmixRestErrorToIntlId, mapJmixRestErrorToIntlId} from "../../util/mapJmixRestErrorToIntlId";
 import { DatePicker, DatePickerProps } from '../DatePicker';
 import { TimePicker, TimePickerProps } from '../TimePicker';
 import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
 import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
+import { passthroughRule } from './validation/passthroughRule';
 
 export interface FieldProps {
   entityName: string;
@@ -97,10 +92,17 @@ export const Field = observer((props: FieldProps) => {
 
   const metadata = useMetadata();
 
+  const combinedFormItemProps = {...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps};
+  if (combinedFormItemProps.rules == null) {
+    combinedFormItemProps.rules = [];
+  }
+  // Add a passthrough rule. This will clear server-side errors on `validateTrigger` without having to manually set errors on fields.
+  combinedFormItemProps.rules.push(passthroughRule);
+
   return (
     <FieldPermissionContainer entityName={entityName} propertyName={propertyName} renderField={(isReadOnly: boolean) => {
 
-      return <Form.Item {...{...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps}}>
+      return <Form.Item {...combinedFormItemProps}>
         <FormField entityName={entityName}
                    propertyName={propertyName}
                    disabled={isReadOnly || disabled}
@@ -123,6 +125,7 @@ function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: 
 
   const propertyInfo = getPropertyInfo(entitiesMetadata, entityName, propertyName);
 
+  // TODO we should probably move it into generator template https://github.com/Haulmont/jmix-frontend/issues/342
   if (propertyInfo?.type === 'uuid') {
     formItemProps.rules = [
         { pattern: uuidPattern }
@@ -267,54 +270,6 @@ export function selectFormSuccessMessageId(commitMode?: CommitMode): string {
     default: return "management.editor.updated";
   }
 }
-
-function selectFormErrorMessageId(globalErrors: string[], fieldErrors: Map<string, string[]>): string | void {
-  if (fieldErrors.size > 0 || globalErrors.length > 0) {
-    return "management.editor.validationError";
-  }
-}
-
-export const defaultHandleFinish = <E extends unknown>(
-  values: Record<string, any>,
-  dataInstance: DataInstanceStore<E>,
-  intl: IntlShape,
-  formInstance: FormInstance,
-  commitMode?: CommitMode,
-): Promise<{success: boolean, globalErrors: string[]}> => {
-  clearFieldErrors(formInstance);
-
-  return dataInstance
-    .update(values, commitMode)
-    .then(() => {
-      const successMessageId = selectFormSuccessMessageId(commitMode);
-      message.success(intl.formatMessage({id: successMessageId}));
-
-      return {success: true, globalErrors: []};
-    })
-    .catch((serverError: JmixRestError) => {
-      if (serverError.response && typeof serverError.response.json === "function") {
-        return serverError.response.json().then((response: any) => {
-          const {globalErrors, fieldErrors} = extractServerValidationErrors(response);
-          if (fieldErrors.size > 0) {
-            formInstance.setFields(constructFieldsWithErrors(fieldErrors, formInstance));
-          }
-
-          const errorMessageId = mapJmixRestErrorToIntlId(
-            () => selectFormErrorMessageId(globalErrors, fieldErrors),
-            serverError,
-          )
-          message.error(intl.formatMessage({id: errorMessageId}));
-
-          return {success: false, globalErrors};
-        });
-      } else {
-        message.error(
-          intl.formatMessage({ id: defaultMapJmixRestErrorToIntlId(serverError) })
-        );
-        return {success: false, globalErrors: []};
-      }
-    });
-};
 
 export function getEntityProperties(entityName: string, fields: string[], metadata: MetaClassInfo[]): MetaPropertyInfo[] {
   const allProperties = metadata.find((classInfo: MetaClassInfo) => classInfo.entityName === entityName)
