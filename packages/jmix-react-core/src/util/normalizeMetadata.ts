@@ -24,8 +24,9 @@ export interface ProjectModelEntityAttr {
 }
 
 export interface ProjectModelEntity {
-    name?: string
-    attributes: ProjectModelEntityAttr[]
+    name?: string;
+    className: string;
+    attributes: ProjectModelEntityAttr[];
 }
 
 export interface ProjectModelEnum {
@@ -77,6 +78,7 @@ const transformAttrToProperty = (attr: ProjectModelEntityAttr): MetaPropertyInfo
 const transformEntitiesToMetaClasseses = (entities: ProjectModelEntity[]): MetaClassInfo[] => {
     return entities.map(entity => ({
         entityName: entity.name || 'UnknownEntityName',
+        className: entity.className || 'UnknownClassName',
         properties: entity.attributes.map(transformAttrToProperty)
     }))
 }

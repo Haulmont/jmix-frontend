@@ -1,5 +1,5 @@
 import {formFieldsToInstanceItem, instanceItemToFormFields} from './Instance';
-import {AttributeType, Cardinality} from '../app/MetadataProvider';
+import {AttributeType, Cardinality, MetaClassInfo} from '../app/MetadataProvider';
 import dayjs from 'dayjs';
 import {prepareForCommit} from '../util/internal/data';
 
@@ -286,9 +286,10 @@ describe('prepareForCommit()', () => {
   });
 });
 
-const MOCK_METADATA = [
+const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'test',
+    className: 'test',
     properties: [
       {
         name: "fileRefAttr",
@@ -298,8 +299,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -310,8 +309,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -322,8 +319,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: true,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -334,8 +329,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -346,8 +339,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -358,8 +349,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -370,8 +359,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -382,8 +369,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -394,8 +379,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -406,8 +389,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
       {
@@ -418,14 +399,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_CompositionO2OTestEntity',
+    className: 'CompositionO2OTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -435,14 +415,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_CompositionO2MTestEntity',
+    className: 'CompositionO2MTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -452,14 +431,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_AssociationO2OTestEntity',
+    className: 'AssociationO2OTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -469,14 +447,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_AssociationO2MTestEntity',
+    className: 'AssociationO2MTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -486,14 +463,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_AssociationM2OTestEntity',
+    className: 'AssociationM2OTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -503,14 +479,13 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]
   },
   {
     entityName: 'scr_AssociationM2MTestEntity',
+    className: 'AssociationM2MTestEntity',
     properties: [
       {
         name: "dateAttr",
@@ -520,8 +495,6 @@ const MOCK_METADATA = [
         // --
         mandatory: false,
         readOnly: false,
-        description: "description",
-        persistent: true,
         isTransient: false,
       },
     ]

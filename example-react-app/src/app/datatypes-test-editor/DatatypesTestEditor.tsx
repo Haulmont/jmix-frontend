@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";
-const UPSERT_INPUT_NAME = "datatypesTestEntity";
 const ROUTING_PATH = "/datatypesTestEditor";
 
 const LOAD_SCR_DATATYPESTESTENTITY = gql`
@@ -157,7 +156,6 @@ const DatatypesTestEditor = observer(
       loadQuery: LOAD_SCR_DATATYPESTESTENTITY,
       upsertMutation: UPSERT_SCR_DATATYPESTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

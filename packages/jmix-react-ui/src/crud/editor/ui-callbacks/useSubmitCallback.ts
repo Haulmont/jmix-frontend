@@ -1,12 +1,21 @@
 import {useCallback} from "react";
 import {ant_to_jmixFront} from "../../../formatters/ant_to_jmixFront";
-import {addIdIfExistingEntity, EntityInstance, GraphQLMutationFn, Metadata, toIdString, useMetadata } from "@haulmont/jmix-react-core";
+import {
+  addIdIfExistingEntity,
+  EntityInstance,
+  findEntityMetadata,
+  GraphQLMutationFn,
+  Metadata,
+  toIdString,
+  useMetadata,
+  unCapitalizeFirst,
+  MetaClassInfo
+} from "@haulmont/jmix-react-core";
 import { useIntl } from "react-intl";
 import { persistEntity } from "../util/persistEntity";
 
 export interface SubmitCallbackHookOptions<TEntity, TData, TMutationVars> {
   executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
-  upsertInputName: string;
   updateResultName: string;
   listQueryName: string;
   entityName: string;
@@ -23,7 +32,6 @@ export function useSubmitCallback<
   TMutationVars = unknown
 >({
   executeUpsertMutation,
-  upsertInputName,
   updateResultName,
   listQueryName,
   entityName,
@@ -57,6 +65,14 @@ export function useSubmitCallback<
             ...uiKit_to_jmixFront(values, entityName, metadata),
             ...addIdIfExistingEntity(entityId)
           };
+
+          const entityMetadata: MetaClassInfo | undefined = findEntityMetadata(entityName, metadata);
+          if (entityMetadata == null) {
+            console.error('Cannot find entity metadata for ' + entityName);
+            return;
+          }
+          const upsertInputName = unCapitalizeFirst(entityMetadata.className);
+
           persistEntity(
             executeUpsertMutation,
             upsertInputName,
@@ -79,7 +95,6 @@ export function useSubmitCallback<
       entityName,
       goToParentScreen,
       executeUpsertMutation,
-      upsertInputName,
       updateResultName,
       listQueryName,
       entityName,

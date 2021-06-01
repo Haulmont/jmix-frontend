@@ -22,7 +22,6 @@ import "<%= relDirShift %>app/App.css";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
-const UPSERT_INPUT_NAME = '<%= unCapitalizeFirst(entity.className) %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
@@ -73,7 +72,6 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
     loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     entityName: ENTITY_NAME,
-    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     onCommit,
     entityInstance,
