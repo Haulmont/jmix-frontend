@@ -21,6 +21,7 @@ export class MainStore {
 
   static NAME = 'mainStore';
   static TOKEN_STORAGE_KEY = "jmixRestAccessToken";
+  static LOCALE_STORAGE_KEY = 'jmixLocale';
 
   /**
    * Whether the `MainStore` instance is initialized.
@@ -70,7 +71,9 @@ export class MainStore {
     this.secret = options?.secret ?? 'secret';
     this.obtainTokenEndpoint = options?.obtainTokenEndpoint ?? '/oauth/token';
     this.revokeTokenEndpoint = options?.revokeTokenEndpoint ?? '/oauth/revoke';
-    this.locale = options?.locale ?? 'en';
+    this.locale = options?.locale
+      ?? this.storage.getItem(this.localeStorageKey)
+      ?? 'en';
 
     this.jmixREST.onLocaleChange(this.handleLocaleChange);
     this.security = new Security(this.apolloClient);
@@ -96,6 +99,17 @@ export class MainStore {
         this.loadMessages();
       }
     })
+
+    // Save locale to storage whenever it is changed
+    autorun(() => {
+      if (this.locale != null) {
+        this.storage.setItem(this.localeStorageKey, this.locale);
+        // TODO remove once REST is fully replaced by GraphQL.
+        this.jmixREST.locale = this.locale;
+      } else {
+        this.storage.removeItem(this.localeStorageKey);
+      }
+    });
   }
 
   get authToken(): string | null {
@@ -113,6 +127,10 @@ export class MainStore {
 
   get tokenStorageKey(): string {
     return this.appName + "_" + MainStore.TOKEN_STORAGE_KEY;
+  }
+
+  get localeStorageKey(): string {
+    return this.appName + "_" + MainStore.LOCALE_STORAGE_KEY;
   }
 
   /**
@@ -144,15 +162,6 @@ export class MainStore {
         }
       }));
   }
-
-  /**
-   * Changes the active locale for this frontend client application.
-   *
-   * @param locale - locale to be set as active.
-   */
-  setLocale = (locale: string) => {
-    this.jmixREST.locale = locale;
-  };
 
   get loginRequired(): boolean {
     return !this.authenticated && !this.usingAnonymously;

@@ -15,10 +15,12 @@ export const createApolloClient = (config: ApolloClientConfig = {}) => {
 
   const authLink = setContext((_, { headers }) => {
     const token = storage.getItem("scr-jmix_jmixRestAccessToken");
+    const locale = storage.getItem("scr-jmix_jmixLocale");
     return {
       headers: {
         ...headers,
-        authorization: token ? `Bearer ${token}` : ""
+        authorization: token ? `Bearer ${token}` : "",
+        "Accept-Language": locale
       }
     };
   });

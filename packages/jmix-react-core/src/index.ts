@@ -29,6 +29,7 @@ export * from './app/MetadataProvider';
 
 export * from './crud/getDisplayedItems';
 export * from './crud/getRelationOptions';
+export * from './crud/JmixConstraintViolation';
 export * from './crud/useEntityListData';
 export * from './crud/useEntityEditorData';
 export * from './crud/filter';

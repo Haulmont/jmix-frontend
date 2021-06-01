@@ -22,7 +22,9 @@ import { useParentScreen } from "../../util/screen";
 import { useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
 import { useSubmitFailedCallback } from "./ui-callbacks/useSubmitFailedCallback";
 import {useMultiScreen} from "../../ui/MultiScreen";
-import { useNoopForm } from "./form/useNoopForm";
+import {extractBeanValidationErrors} from "./validation/extractBeanValidationErrors";
+import {JmixServerValidationErrors} from "../../common/JmixServerValidationErrors";
+import { useNoop } from "../../util/useNoop";
 
 export type EntityEditorState = {
   globalErrors: string[];
@@ -89,6 +91,19 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    */
   useEntityEditorForm?: (item: EntityInstance<TEntity>, entityName: string) => void;
   /**
+   * A hook that is responsible for putting the server validation errors info into the UI form.
+   *
+   * When using Ant Design `<Form>` create an implementation of this hook by passing a `FormInstance` to {@link createUseAntdFormValidation} factory function.
+   *
+   * When using a different form (e.g. a custom UI kit)  you may provide your own implementation of this hook,
+   * though it might be more convenient to omit it entirely
+   * and use {@link EntityEditorHookResult.serverValidationErrors} object returned from the `useEntityEditor` hook.
+   * If you need the original `ApolloError` it is accessible as {@link EntityEditorHookResult.upsertMutationResult}`.error`.
+   *
+   * @param errorInfo
+   */
+  useEntityEditorFormValidation?: (errorInfo?: JmixServerValidationErrors) => void;
+  /**
    * Pass when using a form different from Ant Design `<Form>`.
    * A function that reformats the entity data received from the form
    * into internal UI kit agnostic format of Jmix frontend.
@@ -106,6 +121,7 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    * Entity instance that will be displayed by the editor component.
    */
   item: EntityInstance<TEntity>;
+  serverValidationErrors?: JmixServerValidationErrors;
   /**
    * Used when the entity has relation (Association) attributes.
    * A map between child entity names and arrays of possible values.
@@ -147,11 +163,10 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    */
   handleSubmit: (entityInstance: EntityInstance<TEntity>) => void;
   /**
-   * A callback that will be executed when submitting the editor has resulted in an error.
+   * A callback that will be executed when submitting the editor has resulted in a client-side validation error.
    * @param errorInfo
    */
-  // TODO errorInfo type - once validation is implemented
-  handleSubmitFailed: (errorInfo?: any) => void;
+  handleSubmitFailed: () => void;
   /**
    * A callback that will be executed when the editor is closed without submitting.
    */
@@ -178,7 +193,8 @@ export function useEntityEditor<
     routingPath,
     onCommit,
     entityInstance,
-    useEntityEditorForm = useNoopForm
+    useEntityEditorForm = useNoop,
+    useEntityEditorFormValidation = useNoop
   } = options;
 
   const intl = useIntl();
@@ -205,6 +221,9 @@ export function useEntityEditor<
 
   const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
+  const serverValidationErrors = extractBeanValidationErrors(upsertMutationResult.error);
+  useEntityEditorFormValidation(serverValidationErrors);
+
   const goToParentScreen = useParentScreen(routingPath);
 
   const handleCancelBtnClick = goToParentScreen;
@@ -224,6 +243,7 @@ export function useEntityEditor<
 
   return {
     item,
+    serverValidationErrors,
     relationOptions,
     executeLoadQuery,
     loadQueryResult,

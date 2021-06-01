@@ -7,11 +7,12 @@ import {FormattedMessage} from 'react-intl';
 import {
   createAntdFormValidationMessages,
   createUseAntdForm,
+  createUseAntdFormValidation,
   RetryDialog,
   <% if (attributes.length > 0) { %>
     Field,
   <% } %>
-  MultilineText,
+  GlobalErrorsAlert,
   Spinner,
   useEntityEditor,
   EntityEditorProps,
@@ -63,7 +64,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
       error: queryError,
     },
     upsertMutationResult: {loading: upsertLoading},
-    entityEditorState,
+    serverValidationErrors,
     intl,
     handleSubmit,
     handleSubmitFailed,
@@ -75,7 +76,8 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
     routingPath: ROUTING_PATH,
     onCommit,
     entityInstance,
-    useEntityEditorForm: createUseAntdForm(form)
+    useEntityEditorForm: createUseAntdForm(form),
+    useEntityEditorFormValidation: createUseAntdFormValidation(form)
 });
 
   if (queryLoading) {
@@ -122,13 +124,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
           /> <%# end Field %>
         <% }) %>
 
-        {entityEditorState.globalErrors.length > 0 && (
-          <Alert
-            message={<MultilineText lines={toJS(entityEditorState.globalErrors)} />}
-            type="error"
-            style={{ marginBottom: "24px" }}
-          />
-        )}
+        <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
 
         <Form.Item style={{textAlign: 'center'}}>
           <Button htmlType="button"

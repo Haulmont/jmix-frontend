@@ -7,9 +7,10 @@ import { FormattedMessage } from "react-intl";
 import {
   createAntdFormValidationMessages,
   createUseAntdForm,
+  createUseAntdFormValidation,
   RetryDialog,
   Field,
-  MultilineText,
+  GlobalErrorsAlert,
   Spinner,
   useEntityEditor,
   EntityEditorProps,
@@ -59,7 +60,7 @@ const WeirdStringIdEditor = observer(
       executeLoadQuery,
       loadQueryResult: { loading: queryLoading, error: queryError },
       upsertMutationResult: { loading: upsertLoading },
-      entityEditorState,
+      serverValidationErrors,
       intl,
       handleSubmit,
       handleSubmitFailed,
@@ -71,7 +72,8 @@ const WeirdStringIdEditor = observer(
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,
-      useEntityEditorForm: createUseAntdForm(form)
+      useEntityEditorForm: createUseAntdForm(form),
+      useEntityEditorFormValidation: createUseAntdFormValidation(form)
     });
 
     if (queryLoading) {
@@ -108,15 +110,7 @@ const WeirdStringIdEditor = observer(
             }}
           />
 
-          {entityEditorState.globalErrors.length > 0 && (
-            <Alert
-              message={
-                <MultilineText lines={toJS(entityEditorState.globalErrors)} />
-              }
-              type="error"
-              style={{ marginBottom: "24px" }}
-            />
-          )}
+          <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
 
           <Form.Item style={{ textAlign: "center" }}>
             <Button htmlType="button" onClick={handleCancelBtnClick}>
