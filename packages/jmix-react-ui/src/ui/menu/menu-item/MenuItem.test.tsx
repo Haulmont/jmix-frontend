@@ -7,14 +7,18 @@ import HorizontalMenu from "../horizontal-menu"
 describe('MenuItem', () => {
 
   const menuItemJsx: JSX.Element = (
-      <MenuItem>
-        <span> item title</span>
+      <MenuItem
+        caption={<span> item title</span>}
+      >
         <span> item content</span>
       </MenuItem>
   )
 
   const menuItemWithScreenIdJsx : JSX.Element = (
-      <MenuItem screenId={"tested"}>
+      <MenuItem 
+        screenId={"tested"}
+        caption={<span> item title</span>}
+      >
         <span> item title</span>
         <span> item content</span>
       </MenuItem>
@@ -24,6 +28,7 @@ describe('MenuItem', () => {
       <MenuItem 
         screenId={"tested"}
         onClick={() => console.log("custom click handler")}
+        caption={<span> item title</span>}
       >
         <span> item title</span>
         <span> item content</span>

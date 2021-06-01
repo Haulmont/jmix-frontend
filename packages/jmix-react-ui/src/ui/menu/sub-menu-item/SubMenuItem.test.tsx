@@ -21,10 +21,14 @@ describe('MenuItem', () => {
 
   const subMenuItemWithMenuItemsJsx : JSX.Element = (
       <SubMenuItem>
-        <MenuItem>
+        <MenuItem
+          caption={<span> item title</span>}
+        >
           first tested menu item
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          caption={<span> item title</span>}
+        >
           second tested menu item
         </MenuItem>
       </SubMenuItem>
@@ -34,10 +38,14 @@ describe('MenuItem', () => {
     <SubMenuItem>
       <SubMenuItem>
         <SubMenuItem>
-          <MenuItem>
+          <MenuItem
+            caption={<span> item title</span>}
+          >
             first tested menu item
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            caption={<span> item title</span>}
+          >
             second tested menu item
           </MenuItem> 
         </SubMenuItem> 
