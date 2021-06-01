@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { AssociationO2OTestEntity } from "../../jmix/entities/scr_AssociationO2OTestEntity";
 
 const ENTITY_NAME = "scr_AssociationO2OTestEntity";
-const UPSERT_INPUT_NAME = "associationO2OTestEntity";
 const ROUTING_PATH = "/associationO2OEditor";
 
 const LOAD_SCR_ASSOCIATIONO2OTESTENTITY = gql`
@@ -71,7 +70,6 @@ const AssociationO2OEditor = observer(
       loadQuery: LOAD_SCR_ASSOCIATIONO2OTESTENTITY,
       upsertMutation: UPSERT_SCR_ASSOCIATIONO2OTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

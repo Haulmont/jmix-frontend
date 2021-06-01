@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
 const ENTITY_NAME = "scr_StringIdTestEntity";
-const UPSERT_INPUT_NAME = "stringIdTestEntity";
 const ROUTING_PATH = "/stringIdMgtCardsEdit";
 
 const LOAD_SCR_STRINGIDTESTENTITY = gql`
@@ -95,7 +94,6 @@ const StringIdMgtCardsEdit = observer(
       loadQuery: LOAD_SCR_STRINGIDTESTENTITY,
       upsertMutation: UPSERT_SCR_STRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

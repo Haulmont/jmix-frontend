@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { Car } from "../../jmix/entities/scr$Car";
 
 const ENTITY_NAME = "scr$Car";
-const UPSERT_INPUT_NAME = "car";
 const ROUTING_PATH = "/carEditor";
 
 const LOAD_SCR_CAR = gql`
@@ -99,7 +98,6 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
     entityName: ENTITY_NAME,
-    upsertInputName: UPSERT_INPUT_NAME,
     routingPath: ROUTING_PATH,
     onCommit,
     entityInstance,

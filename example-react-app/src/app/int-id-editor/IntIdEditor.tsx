@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 
 const ENTITY_NAME = "scr_IntegerIdTestEntity";
-const UPSERT_INPUT_NAME = "integerIdTestEntity";
 const ROUTING_PATH = "/intIdEditor";
 
 const LOAD_SCR_INTEGERIDTESTENTITY = gql`
@@ -66,7 +65,6 @@ const IntIdEditor = observer(
       loadQuery: LOAD_SCR_INTEGERIDTESTENTITY,
       upsertMutation: UPSERT_SCR_INTEGERIDTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

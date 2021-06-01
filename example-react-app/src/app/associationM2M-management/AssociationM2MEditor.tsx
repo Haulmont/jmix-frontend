@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
 
 const ENTITY_NAME = "scr_AssociationM2MTestEntity";
-const UPSERT_INPUT_NAME = "associationM2MTestEntity";
 const ROUTING_PATH = "/associationM2MEditor";
 
 const LOAD_SCR_ASSOCIATIONM2MTESTENTITY = gql`
@@ -71,7 +70,6 @@ const AssociationM2MEditor = observer(
       loadQuery: LOAD_SCR_ASSOCIATIONM2MTESTENTITY,
       upsertMutation: UPSERT_SCR_ASSOCIATIONM2MTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

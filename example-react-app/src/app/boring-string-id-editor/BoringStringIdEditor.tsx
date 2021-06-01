@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 
 const ENTITY_NAME = "scr_BoringStringIdTestEntity";
-const UPSERT_INPUT_NAME = "boringStringIdTestEntity";
 const ROUTING_PATH = "/boringStringIdEditor";
 
 const LOAD_SCR_BORINGSTRINGIDTESTENTITY = gql`
@@ -71,7 +70,6 @@ const BoringStringIdEditor = observer(
       loadQuery: LOAD_SCR_BORINGSTRINGIDTESTENTITY,
       upsertMutation: UPSERT_SCR_BORINGSTRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

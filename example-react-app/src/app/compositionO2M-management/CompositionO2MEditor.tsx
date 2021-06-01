@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 
 const ENTITY_NAME = "scr_CompositionO2MTestEntity";
-const UPSERT_INPUT_NAME = "compositionO2MTestEntity";
 const ROUTING_PATH = "/compositionO2MEditor";
 
 const LOAD_SCR_COMPOSITIONO2MTESTENTITY = gql`
@@ -72,7 +71,6 @@ const CompositionO2MEditor = observer(
       loadQuery: LOAD_SCR_COMPOSITIONO2MTESTENTITY,
       upsertMutation: UPSERT_SCR_COMPOSITIONO2MTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

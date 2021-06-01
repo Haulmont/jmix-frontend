@@ -20,7 +20,6 @@ import "../../app/App.css";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 
 const ENTITY_NAME = "scr_WeirdStringIdTestEntity";
-const UPSERT_INPUT_NAME = "weirdStringIdTestEntity";
 const ROUTING_PATH = "/weirdStringIdEditor";
 
 const LOAD_SCR_WEIRDSTRINGIDTESTENTITY = gql`
@@ -69,7 +68,6 @@ const WeirdStringIdEditor = observer(
       loadQuery: LOAD_SCR_WEIRDSTRINGIDTESTENTITY,
       upsertMutation: UPSERT_SCR_WEIRDSTRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
-      upsertInputName: UPSERT_INPUT_NAME,
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,

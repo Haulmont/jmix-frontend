@@ -66,12 +66,6 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    */
   routingPath: string;
   /**
-   * Name of the variable in the upsert mutation - uncapitalized entity class name.
-   */
-  // TODO add class name to metadata and obtain upsertInput name from there; remove it from options.
-  // TODO https://github.com/Haulmont/jmix-frontend/issues/329
-  upsertInputName: string;
-  /**
    * A callback that will be executed when the editor is submitted.
    * @param entityInstance
    */
@@ -184,7 +178,6 @@ export function useEntityEditor<
     routingPath,
     onCommit,
     entityInstance,
-    upsertInputName,
     useEntityEditorForm = useNoopForm
   } = options;
 
@@ -218,7 +211,6 @@ export function useEntityEditor<
 
   const handleSubmit = useSubmitCallback({
     executeUpsertMutation,
-    upsertInputName,
     updateResultName,
     listQueryName,
     entityName,
