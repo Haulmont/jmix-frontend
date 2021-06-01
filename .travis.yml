@@ -42,16 +42,16 @@ jobs:
 #        - npm run bootstrap-react-native-app
 #        - travis/push-client-builds.sh
 
-    - name: "Tests on generated app"
-      # setup cuba postgres user; build and run backend app
-      before_install: node scripts/ci-bootstrap-backend.js
-      script:
-        - npm run bootstrap-react-app
-        - npm run validate-react-app
-        - npm run build --prefix example-react-app
-        - npm run start-react-app &
-        - sleep 120
-        - npm test example-react-app/ --prefix test-pup
+#    - name: "Tests on generated app"
+#      # setup cuba postgres user; build and run backend app
+#      before_install: node scripts/ci-bootstrap-backend.js
+#      script:
+#        - npm run bootstrap-react-app
+#        - npm run validate-react-app
+#        - npm run build --prefix example-react-app
+#        - npm run start-react-app &
+#        - sleep 120
+#        - npm test example-react-app/ --prefix test-pup
 
     - name: "Unit tests, coverage and lint commits"
       # setup cuba postgres user; build and run backend app
