@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.10...@haulmont/react-ide-toolbox@1.0.0-next.11) (2021-06-02)
+
+
+### Features
+
+* ability to specify properties for palette wizard [#350](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/issues/350) ([f2ace74](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/f2ace74529b56730d4f05e91d9b4fa5c0a95bedf))
+
+
+
+
+
 # [1.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.9...@haulmont/react-ide-toolbox@1.0.0-next.10) (2021-05-31)
 
 **Note:** Version bump only for package @haulmont/react-ide-toolbox

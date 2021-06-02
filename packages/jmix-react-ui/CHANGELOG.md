@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.11...@haulmont/jmix-react-ui@1.0.0-next.12) (2021-06-02)
+
+**Note:** Version bump only for package @haulmont/jmix-react-ui
+
+
+
+
+
 # [1.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.10...@haulmont/jmix-react-ui@1.0.0-next.11) (2021-06-01)
 
 
