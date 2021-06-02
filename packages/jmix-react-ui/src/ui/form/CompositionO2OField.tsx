@@ -54,7 +54,7 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
         entityInstance: ant_to_jmixFront(value, entityName, metadata)
     });
     },
-    [screens, entityName, value, onChange, setDirty]
+    [value, screens, entityName, onChange, metadata]
   );
 
   const handleDeleteBtnClick = useCallback(

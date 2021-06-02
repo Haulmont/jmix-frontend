@@ -23,6 +23,7 @@ describe('MenuItem', () => {
   const menuItemWithOnclickJsx : JSX.Element = (
       <MenuItem 
         screenId={"tested"}
+        // eslint-disable-next-line no-console
         onClick={() => console.log("custom click handler")}
       >
         <span> item title</span>

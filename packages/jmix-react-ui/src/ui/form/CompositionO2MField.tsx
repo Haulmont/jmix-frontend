@@ -26,6 +26,7 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
   const metadata = useMetadata();
   const screens = useContext(ScreensContext);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const entityList = value?.map(item => ant_to_jmixFront(item, entityName, metadata)) ?? [];
 
   const handleClick = useCallback(() => {

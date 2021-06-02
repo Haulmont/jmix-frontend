@@ -5,11 +5,19 @@ import { menuItems } from "../../../util/componentsRegistration";
 
 interface Props extends MenuItemProps {
   screenId?: string;
-  caption?: React.ReactNode
+  caption?: React.ReactNode;
 }
 
-export const MenuItem: React.FC<Props> = ({ screenId, caption, onClick, children, ...menuItemProps }: Props) => {
-  const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
+export const MenuItem: React.FC<Props> = ({
+  screenId,
+  caption,
+  onClick,
+  children,
+  ...menuItemProps
+}: Props) => {
+  const [currentMenuItem, setCurrentMenuItem] = useState<
+    RouteItem | SubMenu | null
+  >(null);
 
   useEffect(() => {
     const currentMenuItem: any = screenId
@@ -22,7 +30,7 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, onClick, children
 
   const menuItemDefaultHandler = useCallback(() => {
     if (currentMenuItem) {
-      const { caption, component, menuLink } = { ...currentMenuItem }
+      const { caption, component, menuLink } = { ...currentMenuItem };
       tabs.push({
         title: caption as string,
         content: component,
@@ -33,20 +41,20 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, onClick, children
   }, [currentMenuItem]);
 
   const childrenWithTitle = useMemo(() => {
-    return React.Children.toArray([caption, children])
+    return React.Children.toArray([caption, children]);
   }, [caption, children]);
 
-  const menuItemOnCLick = useCallback((menuInfo) => {
-    menuItemDefaultHandler();
-    onClick?.(menuInfo);
-  }, [menuItemDefaultHandler, onClick])
+  const menuItemOnCLick = useCallback(
+    menuInfo => {
+      menuItemDefaultHandler();
+      onClick?.(menuInfo);
+    },
+    [menuItemDefaultHandler, onClick]
+  );
 
   return (
-    <Menu.Item
-      {...menuItemProps}
-      title={caption}
-      children={childrenWithTitle}
-      onClick={menuItemOnCLick}
-    />
-  )
-}
+    <Menu.Item {...menuItemProps} title={caption} onClick={menuItemOnCLick}>
+      {childrenWithTitle}
+    </Menu.Item>
+  );
+};

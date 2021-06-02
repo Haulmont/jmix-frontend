@@ -17,10 +17,10 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
 
   let content = null;
   if (screens.screens.length) {
-    content = screens.screens.map((item) => {
+    content = screens.screens.map((item, key) => {
       const params = {} as { key?: string };
 
-      return <MultiScreenItem item={item} {...params} />;
+      return <MultiScreenItem item={item} {...params} key={key} />;
     });
   }
 
@@ -63,8 +63,8 @@ const Breadcrumbs = observer(() => {
 
   return (
     <div className="jmix-multi-screen--breadcrumbs">
-      {Array.from(screens.screens).map(screen => (
-        <Breadcrumb screen={screen} />
+      {Array.from(screens.screens).map((screen, key) => (
+        <Breadcrumb screen={screen} key={key} />
       ))}
     </div>
   );

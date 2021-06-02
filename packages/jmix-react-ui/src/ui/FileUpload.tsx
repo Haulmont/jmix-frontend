@@ -236,7 +236,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
         />
       </>
     );
-  };
+  }
 
 }
 

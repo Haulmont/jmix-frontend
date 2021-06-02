@@ -569,7 +569,7 @@ class DataTableComponent<
 
         throw new Error(`Neither field name nor columnProps were provided`);
     });
-  };
+  }
 
   isFilterForColumnEnabled(propertyName: string): boolean {
     return this.props.enableFiltersOnColumns

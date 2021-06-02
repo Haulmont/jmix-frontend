@@ -9,6 +9,8 @@ export function usePaginationChangeCallback<TEntity>(
   routingPath: string,
   currentScreen: IMultiScreenItem
 ) {
+  // TODO: fix
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   return useCallback(
     action((current?: number, pageSize?: number) => {
       entityListState.pagination = {

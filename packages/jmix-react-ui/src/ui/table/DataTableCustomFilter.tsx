@@ -378,7 +378,6 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       case '_startsWith':
       case '_endsWith':
       case '_contains':
-      // case '_doesNotContain':
       case '_in':
       case '_notIn':
       case '_isNull':
@@ -507,7 +506,6 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       case 'string':
         switch (this.operator as TextComparisonType) {
           case '_contains':
-          // case '_doesNotContain':
           case '_eq':
           case '_neq':
           case '_startsWith':
@@ -668,7 +666,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         />
       </Form.Item>
     );
-  };
+  }
 
   get datePickerField(): ReactNode {
     const component = (

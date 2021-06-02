@@ -72,21 +72,6 @@ export function useSubmitCallback<
         }
       }
     },
-    [
-      metadata,
-      onCommit,
-      entityInstance,
-      entityName,
-      goToParentScreen,
-      executeUpsertMutation,
-      upsertInputName,
-      updateResultName,
-      listQueryName,
-      entityName,
-      isNewEntity,
-      goToParentScreen,
-      intl,
-      metadata
-    ]
+    [metadata, onCommit, entityInstance?.id, uiKit_to_jmixFront, entityName, goToParentScreen, entityId, executeUpsertMutation, upsertInputName, updateResultName, listQueryName, isNewEntity, intl]
   );
 }

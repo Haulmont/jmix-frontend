@@ -216,6 +216,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
       // According to the typings this field expects any[] | undefined
       // However, in reality undefined makes the filter icon to be highlighted.
       // If we want the icon to not be highlighted we need to pass null instead.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       filteredValue: (filters && filters[propertyName])
         ? toJS(filters[propertyName])
