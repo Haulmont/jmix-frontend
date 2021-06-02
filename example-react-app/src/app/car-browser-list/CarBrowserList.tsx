@@ -65,7 +65,6 @@ const SCR_CAR_LIST = gql`
         id
         _instanceName
       }
-      photo
 
       version
       createdBy

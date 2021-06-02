@@ -21,7 +21,6 @@ const carEntityQuery = `
     id
     _instanceName
   }
-  photo
 
   version
   createdBy

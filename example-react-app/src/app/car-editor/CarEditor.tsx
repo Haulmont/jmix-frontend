@@ -47,7 +47,6 @@ const LOAD_SCR_CAR = gql`
         id
         _instanceName
       }
-      photo
 
       version
       createdBy
@@ -228,14 +227,6 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
           entityName={ENTITY_NAME}
           propertyName="technicalCertificate"
           associationOptions={relationOptions?.get("scr_TechnicalCertificate")}
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-
-        <Field
-          entityName={ENTITY_NAME}
-          propertyName="photo"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
