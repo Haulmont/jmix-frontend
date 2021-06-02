@@ -5,19 +5,11 @@ import { menuItems } from "../../../util/componentsRegistration";
 
 interface Props extends MenuItemProps {
   screenId?: string;
-  caption?: React.ReactNode;
+  caption: React.ReactNode
 }
 
-export const MenuItem: React.FC<Props> = ({
-  screenId,
-  caption,
-  onClick,
-  children,
-  ...menuItemProps
-}: Props) => {
-  const [currentMenuItem, setCurrentMenuItem] = useState<
-    RouteItem | SubMenu | null
-  >(null);
+export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, children, ...menuItemProps }: Props) => {
+  const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
 
   useEffect(() => {
     const currentMenuItem: any = screenId

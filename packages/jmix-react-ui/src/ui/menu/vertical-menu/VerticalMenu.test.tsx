@@ -8,20 +8,33 @@ describe('VerticalMenu', () => {
 
   const verticalMenuJsx: JSX.Element = (
     <VerticalMenu>
-      <MenuItem>
+      <MenuItem
+        caption={<span> item title</span>}
+      >
         <span> first item title</span>
         <span> first item content</span>
       </MenuItem>
-      <MenuItem screenId={"secondScreen"}>
+      <MenuItem 
+        screenId={"secondScreen"}
+        caption={<span> item title</span>}
+      >
         <span> Second item title</span>
         <span> Second item content</span>
       </MenuItem> 
-      <SubMenuItem>
-        <MenuItem screenId={"thirdScreen"}>
+      <SubMenuItem
+        caption={"test"}
+      >
+        <MenuItem 
+          screenId={"thirdScreen"}
+          caption={<span> item title</span>}
+        >
           <span> Third item title</span>
           <span> Third item content</span>
         </MenuItem>
-        <MenuItem screenId={"fourthScreen"}>
+        <MenuItem 
+          screenId={"fourthScreen"}
+          caption={<span> item title</span>}
+        >
           <span> Fourth item title</span>
           <span> Fourth item content</span>
         </MenuItem> 

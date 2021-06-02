@@ -44,6 +44,7 @@ jobs:
 
     - name: "Tests on generated app"
       # setup cuba postgres user; build and run backend app
+      env: ALLOWED_TO_FAIL=true
       before_install: node scripts/ci-bootstrap-backend.js
       script:
         - npm run bootstrap-react-app

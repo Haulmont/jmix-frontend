@@ -8,36 +8,56 @@ import HorizontalMenu from "../horizontal-menu"
 describe('MenuItem', () => {
 
   const subMenuItemJsx: JSX.Element = (
-      <SubMenuItem>
+      <SubMenuItem
+        caption={"test"}
+      >
         <span> item title</span>
         <span> item content</span>
       </SubMenuItem>
   )
 
   const subMenuItemWithEmptyChildrenJsx : JSX.Element = (
-      <SubMenuItem>
+      <SubMenuItem
+        caption={"test"}
+      >
       </SubMenuItem>
   )
 
   const subMenuItemWithMenuItemsJsx : JSX.Element = (
-      <SubMenuItem>
-        <MenuItem>
+      <SubMenuItem
+        caption={"test"}
+      >
+        <MenuItem
+          caption={<span> item title</span>}
+        >
           first tested menu item
         </MenuItem>
-        <MenuItem>
+        <MenuItem
+          caption={<span> item title</span>}
+        >
           second tested menu item
         </MenuItem>
       </SubMenuItem>
   )
 
   const subMenuItemWithSubMenuItemsJsx: JSX.Element = (
-    <SubMenuItem>
-      <SubMenuItem>
-        <SubMenuItem>
-          <MenuItem>
+    <SubMenuItem
+      caption={"test1"}
+    >
+      <SubMenuItem
+        caption={"test2"}
+      >
+        <SubMenuItem
+          caption={"test3"}
+        >
+          <MenuItem
+            caption={<span> item title</span>}
+          >
             first tested menu item
           </MenuItem>
-          <MenuItem>
+          <MenuItem
+            caption={<span> item title</span>}
+          >
             second tested menu item
           </MenuItem> 
         </SubMenuItem> 
