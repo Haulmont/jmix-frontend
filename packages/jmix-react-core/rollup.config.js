@@ -16,6 +16,7 @@ export default {
   ],
   external: [
     '@apollo/client',
+    '@apollo/client/link/context',
     '@haulmont/jmix-rest',
     '@types/jest-expect-message',
     '@types/uuid',
