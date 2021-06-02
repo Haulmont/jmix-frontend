@@ -36,7 +36,8 @@ export function useCreateBtnCallback<TEntity>(
       screens,
       entityName,
       onCommit,
-      submitBtnCaption
+      submitBtnCaption,
+      intl
     });
   }, [screens, entityName, onCommit, submitBtnCaption]);
 }

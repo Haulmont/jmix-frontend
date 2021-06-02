@@ -25,6 +25,7 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
 
   const metadata = useMetadata();
   const screens = useContext(ScreensContext);
+  const intl = useIntl();
 
   const entityList = value?.map(item => ant_to_jmixFront(item, entityName, metadata)) ?? [];
 
@@ -33,7 +34,8 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
       entityName,
       entityList,
       screens,
-      onEntityListChange: onChange
+      onEntityListChange: onChange,
+      intl
     });
   }, [entityName, entityList, screens, onChange]);
 

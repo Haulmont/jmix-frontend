@@ -41,7 +41,7 @@ export function useEditBtnCallback<TEntity>(
       ? entityList.find(e => e.id === entityId)
       : undefined;
     openEntityEditorScreen({
-      screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption
+      screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption, intl
     });
   }, [entityList, entityId, screens, entityName, routingPath, onCommit, submitBtnCaption]);
 }

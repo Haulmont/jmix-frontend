@@ -22,6 +22,10 @@
   "file.download.notAllowed": "You do not have a permission to download files",
   "file.noFile": "No file",
 
+  "list.doesNotExist": "List screen for {entityName} does not exist",
+
+  "editor.doesNotExist": "Editor screen for {entityName} does not exist",
+
   "cubaReact.dataTable.clearAllFilters": "Clear filters",
   "cubaReact.dataTable.validation.requiredField": "Required field",
   "cubaReact.dataTable.validation.uuid": "Not a valid UUID",
