@@ -2,6 +2,8 @@ import {EntityInstance, MayHaveId, redirect, Screens, ScreensContext} from "@hau
 import {referencesListByEntityName} from "./componentsRegistration";
 import React, {ReactNode, useCallback, useContext} from "react";
 import {MultiScreenContext} from "../ui/MultiScreen";
+import { IntlShape } from "react-intl";
+import { message } from "antd";
 
 export interface EntityEditorScreenOptions<TEntity> {
   screens: Screens;
@@ -28,6 +30,7 @@ export interface EntityEditorScreenOptions<TEntity> {
    */
   submitBtnCaption?: string;
   hiddenAttributes?: string[];
+  intl: IntlShape;
 }
 
 export function openEntityEditorScreen<TEntity>({
@@ -38,9 +41,19 @@ export function openEntityEditorScreen<TEntity>({
   onCommit,
   entityInstance,
   submitBtnCaption,
-  hiddenAttributes
+  hiddenAttributes,
+  intl
 }: EntityEditorScreenOptions<TEntity>) {
   const registeredReferral = referencesListByEntityName[entityName];
+
+  if (registeredReferral == null) {
+    // TODO use UI kit agnostic notification API
+    message.error(intl.formatMessage(
+      {id: 'editor.doesNotExist'},
+      {entityName}
+    ));
+    return;
+  }
 
   if (entityIdToLoad != null && entityInstance != null) {
     console.warn('Both entityIdToLoad and entityInstance parameters are provided, entityInstance will take precedence.');
@@ -97,12 +110,22 @@ export interface EntityListScreenOptions {
   entityName: string;
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
+  intl: IntlShape;
 }
 
 export function openEntityListScreen(
-  {entityName, entityList, onEntityListChange, screens}: EntityListScreenOptions
+  {entityName, entityList, onEntityListChange, screens, intl}: EntityListScreenOptions
 ) {
   const registeredReferral = referencesListByEntityName[entityName];
+
+  if (registeredReferral == null) {
+    // TODO use UI kit agnostic notification API
+    message.error(intl.formatMessage(
+      {id: 'list.doesNotExist'},
+      {entityName}
+    ));
+    return;
+  }
 
   screens.push({
     title: registeredReferral.entityList.title,

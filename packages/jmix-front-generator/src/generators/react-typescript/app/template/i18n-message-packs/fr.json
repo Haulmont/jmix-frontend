@@ -22,6 +22,10 @@
     "file.download.notAllowed": "[TRANSLATION NOT AVAILABLE]",
     "file.noFile": "[TRANSLATION NOT AVAILABLE]",
 
+    "list.doesNotExist": "[TRANSLATION NOT AVAILABLE]",
+
+    "editor.doesNotExist": "[TRANSLATION NOT AVAILABLE]",
+
     "cubaReact.dataTable.clearAllFilters": "Effacer les filtres",
     "cubaReact.dataTable.validation.requiredField": "Champ obligatoire",
     "cubaReact.dataTable.validation.uuid": "UUID invalid",

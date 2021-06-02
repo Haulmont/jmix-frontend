@@ -28,6 +28,10 @@
   "file.download.notAllowed": "[TRANSLATION NOT AVAILABLE]",
   "file.noFile": "[TRANSLATION NOT AVAILABLE]",
 
+  "list.doesNotExist": "[TRANSLATION NOT AVAILABLE]",
+
+  "editor.doesNotExist": "[TRANSLATION NOT AVAILABLE]",
+
   "cubaReact.dataTable.clearAllFilters": "清空过滤器",
   "cubaReact.dataTable.validation.requiredField": "必填字段",
   "cubaReact.dataTable.validation.uuid": "无效 UUID",

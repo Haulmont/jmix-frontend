@@ -40,7 +40,8 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
           screens,
           entityName,
           onCommit: createOnCommitCallback(setDirty, onChange),
-          submitBtnCaption: 'common.ok'
+          submitBtnCaption: 'common.ok',
+          intl
         });
         return;
       }
@@ -51,7 +52,8 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
         entityName,
         onCommit: createOnCommitCallback(setDirty, onChange),
         submitBtnCaption: 'common.ok',
-        entityInstance: ant_to_jmixFront(value, entityName, metadata)
+        entityInstance: ant_to_jmixFront(value, entityName, metadata),
+        intl
     });
     },
     [screens, entityName, value, onChange, setDirty]

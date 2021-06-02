@@ -22,6 +22,9 @@
   "file.download.notAllowed": "У Вас отсутствует разрешение на скачивание файлов",
   "file.noFile": "Нет файла",
 
+  "list.doesNotExist": "Отсутствует экран списка для сущности {entityName}",
+
+  "editor.doesNotExist": "Отсутствует экран редактирования для сущности {entityName}",
 
   "cubaReact.dataTable.clearAllFilters": "Очистить фильтры",
   "cubaReact.dataTable.validation.requiredField": "Обязательное поле",
