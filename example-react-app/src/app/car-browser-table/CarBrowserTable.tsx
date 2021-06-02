@@ -56,7 +56,6 @@ const SCR_CAR_LIST = gql`
         id
         _instanceName
       }
-      photo
 
       version
       createdBy
@@ -207,8 +206,7 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
         "price",
         "mileage",
         "garage",
-        "technicalCertificate",
-        "photo"
+        "technicalCertificate"
       ]}
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
