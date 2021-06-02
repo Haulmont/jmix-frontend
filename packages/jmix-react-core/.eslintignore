@@ -1,0 +1,2 @@
+node_modules/**/*.(j|t)s,
+dist*

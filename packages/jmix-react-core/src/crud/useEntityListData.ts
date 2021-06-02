@@ -123,7 +123,7 @@ export function useEntityListData<
     if (entityList == null) {
       executeListQuery();
     }
-  }, [executeListQuery]);
+  }, [entityList, executeListQuery]);
 
   const items = entityList == null
     ? listQueryResult.data?.[getListQueryName(entityName)]

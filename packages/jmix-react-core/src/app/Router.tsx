@@ -236,7 +236,7 @@ export const Router = observer((props: IRouterProps) => {
   const { routes, global = false, hashMode = false } = props;
   const [state] = useState(() => new RouterState(routes));
 
-  useEffect(() => state.onUnmount, []);
+  useEffect(() => state.onUnmount, [state.onUnmount]);
 
   useEffect(() => {
     if (global) globalRoutersCount++;
@@ -245,7 +245,7 @@ export const Router = observer((props: IRouterProps) => {
     return () => {
       globalRoutersCount--;
     };
-  }, []);
+  }, [global]);
 
   useEffect(() => {
     currentRoute.hashMode = Boolean(hashMode);
@@ -305,33 +305,14 @@ export const Link = observer(
       active: false,
     }));
 
-    useEffect(
-      () => reaction(
-        () => {
-          const { currentRegExp, currentLocation } = currentRoute;
-
-          return [to, exact, currentLocation, currentRegExp];
-        },
-        () => {
-          calcActive();
-        },
-      ),
-      [],
-    );
-
-    const handleClick = useCallback((e) => {
-      e.preventDefault();
-
-      redirect(to);
-    }, []);
-
     const calcActive = useCallback(() => {
       const { currentRegExp, currentLocation } = currentRoute;
 
       let active = false;
       if (exact) {
         if (dontIgnoreHash && !currentRoute.hashMode) {
-          active = to === currentLocation.fullPath + currentLocation.location.hash;
+          active =
+            to === currentLocation.fullPath + currentLocation.location.hash;
         } else {
           active = to === currentLocation.fullPath;
         }
@@ -343,7 +324,29 @@ export const Link = observer(
         state.active = active;
         if (grabActive) grabActive(active);
       }
-    }, []);
+    }, [dontIgnoreHash, exact, grabActive, state, to]);
+
+    useEffect(
+      () => reaction(
+        () => {
+          const { currentRegExp, currentLocation } = currentRoute;
+
+          return [to, exact, currentLocation, currentRegExp];
+        },
+        () => {
+          calcActive();
+        },
+      ),
+      [calcActive, exact, to],
+    );
+
+    const handleClick = useCallback((e) => {
+      e.preventDefault();
+
+      redirect(to);
+    }, [to]);
+
+
 
     useState(() => calcActive());
 

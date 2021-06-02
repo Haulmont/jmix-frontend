@@ -89,7 +89,7 @@ export function useEntityEditorData<
     if (loadItem || hasAssociations) {
       executeLoadQuery();
     }
-  }, [loadItem, hasAssociations]);
+  }, [loadItem, hasAssociations, executeLoadQuery]);
 
   const {data} = loadQueryResult;
   const item = entityInstance != null
