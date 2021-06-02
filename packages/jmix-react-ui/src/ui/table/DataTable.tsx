@@ -33,6 +33,7 @@ import {
   injectMetadata,
   MetadataInjected,
   toIdString,
+  isRelationProperty,
   HasId,
   MayHaveInstanceName,
   getPropertyInfo,
@@ -578,7 +579,15 @@ class DataTableComponent<
   }
 
   isSortingForColumnEnabled(propertyName: string): boolean {
-    const {enableSortingOnColumns} = this.props;
+    const {enableSortingOnColumns, metadata, entityName} = this.props;
+
+    const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
+    if (propertyInfo != null && isRelationProperty(propertyInfo)) {
+      // Sorting on Association and Composition fields is disabled
+      // because it is currently not possible to sort by instance name
+      return false;
+    }
+
     return enableSortingOnColumns
       ? enableSortingOnColumns.indexOf(propertyName) > -1
       : true;
