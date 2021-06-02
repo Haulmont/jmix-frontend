@@ -30,8 +30,12 @@ export const Category: React.FC<{name: String }> = ({children}) => {
   )
 }
 
+export type VariantProps = {
+  name?: String,
+  requiredParams?: Array<string>
+}
 
-export const Variant: React.FC<{name?: String }> = ({children}) => {
+export const Variant: React.FC<VariantProps> = ({children}) => {
   return (
     <Fragment>
       {children}
