@@ -435,7 +435,15 @@ export function instanceItemToFormFields<T>(
     if(isOneToOneComposition(propInfo)) {
       if (value != null) {
         fields[key] = instanceItemToFormFields(value, propInfo.type, metadata);
+        return;
       }
+
+      // We need to explicitly set `null` on empty fields rather than just omit the key.
+      // Example of why things can go wrong otherwise: https://github.com/Haulmont/jmix-frontend/issues/318.
+      // What happens is that the form fields will be set twice, first with data from Apollo cache and then from network response.
+      // If cache contains a value and network response says that the field should be empty, then unless we explicitly set `null`
+      // during the second call of `setFieldsValue`, the form will still contain the old value.
+      fields[key] = null;
       return;
     }
 
