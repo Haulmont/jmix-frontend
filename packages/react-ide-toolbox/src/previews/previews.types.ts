@@ -18,10 +18,45 @@ export type ControlUnionHandler =
   | ControlJsonHandler
 
 
-type PropsEditItem = {
-  controlType: PropsControlTypes,
-  data?: any;
+type PropEditSelect = {
+  controlType: PropsControlTypes.Select,
+  data?: string[] | number[]
 }
+
+type PropEditInput = {
+  controlType: PropsControlTypes.Input,
+  data?: string | number
+}
+
+type PropEditRadio = {
+  controlType: PropsControlTypes.Radio,
+  data?: string[] | number[]
+}
+
+type PropEditTextarea = {
+  controlType: PropsControlTypes.Textarea,
+  data?: string | number
+}
+
+type PropEditCheckbox = {
+  controlType: PropsControlTypes.Checkbox,
+  data?: boolean
+}
+
+type PropEditJson = {
+  controlType: PropsControlTypes.JsonEditor,
+  data?: ComponentPreviewProps
+}
+
+type PropsEditItem = 
+  | PropEditInput
+  | PropEditTextarea
+  | PropEditSelect
+  | PropEditRadio
+  | PropEditCheckbox
+  | PropEditJson
+
+export type TableItemControlData = number[] | string[] | ComponentPreviewProps
 
 export type ComponentPreviewProps = {
   [propsName: string]: any
