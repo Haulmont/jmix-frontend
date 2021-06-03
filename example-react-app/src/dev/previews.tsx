@@ -1,3 +1,4 @@
+import React from "react";
 import TrickyIdBrowserTable from "../app/tricky-id-browser-table/TrickyIdBrowserTable";
 import TrickyIdEditor from "../app/tricky-id-editor/TrickyIdEditor";
 import BoringStringIdBrowserTable from "../app/boring-string-id-browser-table/BoringStringIdBrowserTable";
@@ -45,7 +46,6 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import { TestBlankComponent } from "../app/blank-components/TestBlankComponent";
-import React from "react";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
 export const ComponentPreviews = () => {
@@ -54,187 +54,141 @@ export const ComponentPreviews = () => {
       <ComponentPreview path="/testBlankComponent">
         <TestBlankComponent />
       </ComponentPreview>
-
       <ComponentPreview path="/CarEditor">
         <CarEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/CarBrowserCards">
         <CarBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/CarBrowserList">
         <CarBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/CarBrowserTable">
         <CarBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/favoriteCars">
         <FavoriteCars />
       </ComponentPreview>
-
       <ComponentPreview path="/DatatypesTestEditor">
         <DatatypesTestEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/DatatypesTestBrowserCards">
         <DatatypesTestBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/DatatypesTestBrowserList">
         <DatatypesTestBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/DatatypesTestBrowserTable">
         <DatatypesTestBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/datatypesTestCards">
         <DatatypesTestCards />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationO2OEditor">
         <AssociationO2OEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationO2OBrowserTable">
         <AssociationO2OBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationO2MEditor">
         <AssociationO2MEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationO2MBrowserTable">
         <AssociationO2MBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationM2OEditor">
         <AssociationM2OEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationM2OBrowserTable">
         <AssociationM2OBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationM2MEditor">
         <AssociationM2MEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/AssociationM2MBrowserTable">
         <AssociationM2MBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/CompositionO2OEditor">
         <CompositionO2OEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/CompositionO2OBrowserTable">
         <CompositionO2OBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/CompositionO2MEditor">
         <CompositionO2MEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/CompositionO2MBrowserTable">
         <CompositionO2MBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/DeeplyNestedTestEntityEditor">
         <DeeplyNestedTestEntityEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/DeeplyNestedO2MTestEntityTable">
         <DeeplyNestedO2MTestEntityTable />
       </ComponentPreview>
-
       <ComponentPreview path="/DeeplyNestedO2MTestEntityEditor">
         <DeeplyNestedO2MTestEntityEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdEditor">
         <IntIdEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdBrowserTable">
         <IntIdBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdBrowserCards">
         <IntIdBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdBrowserList">
         <IntIdBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdentityIdEditor">
         <IntIdentityIdEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdentityIdBrowserTable">
         <IntIdentityIdBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdentityIdBrowserCards">
         <IntIdentityIdBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/IntIdentityIdBrowserList">
         <IntIdentityIdBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/stringIdCards">
         <StringIdCards />
       </ComponentPreview>
-
       <ComponentPreview path="/StringIdMgtCardsEdit">
         <StringIdMgtCardsEdit />
       </ComponentPreview>
-
       <ComponentPreview path="/StringIdBrowserCards">
         <StringIdBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/StringIdBrowserList">
         <StringIdBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/StringIdBrowserTable">
         <StringIdBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/WeirdStringIdEditor">
         <WeirdStringIdEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/WeirdStringIdBrowserCards">
         <WeirdStringIdBrowserCards />
       </ComponentPreview>
-
       <ComponentPreview path="/WeirdStringIdBrowserList">
         <WeirdStringIdBrowserList />
       </ComponentPreview>
-
       <ComponentPreview path="/WeirdStringIdBrowserTable">
         <WeirdStringIdBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/BoringStringIdEditor">
         <BoringStringIdEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/BoringStringIdBrowserTable">
         <BoringStringIdBrowserTable />
       </ComponentPreview>
-
       <ComponentPreview path="/TrickyIdEditor">
         <TrickyIdEditor />
       </ComponentPreview>
-
       <ComponentPreview path="/TrickyIdBrowserTable">
         <TrickyIdBrowserTable />
       </ComponentPreview>

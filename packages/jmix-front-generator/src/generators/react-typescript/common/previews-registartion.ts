@@ -1,6 +1,15 @@
 import path from "path";
 import Generator from "yeoman-generator";
 import { convertToUnixPath } from "../../../common/utils";
+import jscodeshift, {
+  identifier,
+  stringLiteral,
+  ImportDeclaration,
+  importSpecifier,
+  importDefaultSpecifier, 
+  importDeclaration, 
+  Collection
+} from "jscodeshift"
 
 interface registerComponentOpts {
   destRoot: string;
@@ -68,29 +77,66 @@ export const addComponent = (
   }: RouteInfo,
   isDefaultExport: boolean,
   componentProps?: { [param: string]: unknown }
-) => `` + `${generateComponentImport(isDefaultExport, componentClassName,componentPath )}
-  ${removeClosedPreviewsJsxElement(componentPreviewsContents)}
-    <ComponentPreview path="${pathPattern}">
-      <${componentClassName} ${serializeComponentsProps(componentClassName, componentProps)}/>
-    </ComponentPreview>
-  </Previews>
-  ${addClosedBracket(componentPreviewsContents)}
-};`
+) => {
+
+  const tsxParser = jscodeshift.withParser('tsx');
+  const previewsAST = tsxParser(componentPreviewsContents);
+
+  addComponentImport(previewsAST, isDefaultExport, componentClassName, componentPath);
+
+  const newComponentPreview = getNewComponentPreview(pathPattern, componentClassName, componentProps);
+  return addComponentToPreview(previewsAST, newComponentPreview);
+} 
 
 function getRelativePath(routingDir: string, destRoot: string) {
   return convertToUnixPath(path.relative(routingDir, destRoot));
 }
 
-function removeClosedPreviewsJsxElement(componentPreviewsContents: string): string {
-  return componentPreviewsContents
-    .replace("</Previews>;", "")
-    .replace("</Previews>", "")
-    .replace(" );", "")
-    .replace("};", "");
+export function getNewComponentPreview(
+  pathPattern: string, 
+  componentClassName: string, 
+  componentProps?: { [param: string]: unknown }
+): string {
+  return `
+  <ComponentPreview path="${pathPattern}">
+    <${componentClassName} ${serializeComponentsProps(componentClassName, componentProps)}/>
+  </ComponentPreview>`
 }
 
-function addClosedBracket(componentPreviewsContents: string): string {
-  return componentPreviewsContents.includes("return (") ? ");" : "";
+function addComponentImport(
+  previewsAST: Collection<any>, 
+  isDefaultExport: boolean, 
+  componentClassName: string, 
+  componentPath: string
+) : string {
+  const allPreviewsImports = previewsAST.find(ImportDeclaration);
+
+  const componentImportDeclaration = importDeclaration(
+    [isDefaultExport 
+      ? importDefaultSpecifier(identifier(componentClassName))
+      : importSpecifier(identifier(componentClassName))
+    ],
+    stringLiteral(componentPath),
+    "value"
+  );
+
+  allPreviewsImports
+    .at(0)
+    .insertAfter(componentImportDeclaration)
+  
+    return allPreviewsImports.toSource();
+}
+
+function addComponentToPreview(previewsAST: Collection<any>, newComponent: string) {
+  const previews =  previewsAST.findJSXElements("Previews");
+  const previewsParrentPaths = previews.paths();
+    
+  if(previewsParrentPaths.length){
+    const [{value: {children}}] = previewsParrentPaths;
+    children?.push(stringLiteral(newComponent));
+    return previews.toSource();
+  }
+  return previews.toSource();
 }
 
 function serializeComponentsProps(componentClassName:string, componentProps?: { [param: string]: unknown }): string {
@@ -112,10 +158,4 @@ function serializePropValue(propValue: unknown): unknown {
     case 'function': return `${propValue.toString()}`;
     default: return propValue;
   }
-}
-
-function generateComponentImport (isDefaultExport: boolean, componentClassName: string, componentPath: string) :string {
-  return isDefaultExport 
-  ? `import ${componentClassName} from '${componentPath}'`
-  : `import {${componentClassName}} from '${componentPath}'`
 }
