@@ -70,15 +70,21 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         _instanceName
         name
         quantity
+        nestedComposition {
+          id
+          _instanceName
+          name
+        }
       }
       compositionO2Mattr {
         id
         _instanceName
         name
         quantity
-        datatypesTestEntity {
+        deeplyNestedO2Mattr {
           id
           _instanceName
+          name
         }
       }
       intIdentityIdTestEntityAssociationO2OAttr {

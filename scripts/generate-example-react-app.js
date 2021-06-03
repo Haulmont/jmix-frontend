@@ -2,6 +2,9 @@ const gen = require('./generate-client-scr');
 
 const clientDir = 'example-react-app';
 const answers = require('./model/example-react-app-answers.js');
+const deeplyNestedEditor = require('./screens/deeply-nested-editor');
+const deeplyNestedO2MEditor = require('./screens/deeply-nested-o2m-editor');
+const deeplyNestedO2MTable = require('./screens/deeply-nested-o2m-browser-table');
 const intIdentityIdCardsConfig = require('./screens/int-identity-id-cards.js');
 const intIdentityIdEditorConfig = require('./screens/int-identity-id-editor');
 const intIdentityIdBrowserTableConfig = require('./screens/int-identity-id-browser-table');
@@ -151,6 +154,24 @@ gen(
         dirShift,
         dest: 'src/app/compositionO2M-management',
         answers: answers.compositionO2MManagement
+      },
+      {
+        command: 'react-typescript:entity-editor',
+        dirShift,
+        dest: 'src/app/deeplyNestedO2O-editor',
+        answers: deeplyNestedEditor
+      },
+      {
+        command: 'react-typescript:entity-browser',
+        dirShift,
+        dest: 'src/app/deeplyNestedO2M-browser',
+        answers: deeplyNestedO2MTable
+      },
+      {
+        command: 'react-typescript:entity-editor',
+        dirShift,
+        dest: 'src/app/deeplyNestedO2M-editor',
+        answers: deeplyNestedO2MEditor
       },
       
       

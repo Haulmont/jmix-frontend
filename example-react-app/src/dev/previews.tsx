@@ -19,6 +19,9 @@ import IntIdBrowserList from "../app/int-id-browser-list/IntIdBrowserList";
 import IntIdBrowserCards from "../app/int-id-browser-cards/IntIdBrowserCards";
 import IntIdBrowserTable from "../app/int-id-browser-table/IntIdBrowserTable";
 import IntIdEditor from "../app/int-id-editor/IntIdEditor";
+import DeeplyNestedO2MTestEntityEditor from "../app/deeplyNestedO2M-editor/DeeplyNestedO2MTestEntityEditor";
+import DeeplyNestedO2MTestEntityTable from "../app/deeplyNestedO2M-browser/DeeplyNestedO2MTestEntityTable";
+import DeeplyNestedTestEntityEditor from "../app/deeplyNestedO2O-editor/DeeplyNestedTestEntityEditor";
 import CompositionO2MBrowserTable from "../app/compositionO2M-management/CompositionO2MBrowserTable";
 import CompositionO2MEditor from "../app/compositionO2M-management/CompositionO2MEditor";
 import CompositionO2OBrowserTable from "../app/compositionO2O-management/CompositionO2OBrowserTable";
@@ -138,6 +141,18 @@ export const ComponentPreviews = () => {
 
       <ComponentPreview path="/CompositionO2MBrowserTable">
         <CompositionO2MBrowserTable />
+      </ComponentPreview>
+
+      <ComponentPreview path="/DeeplyNestedTestEntityEditor">
+        <DeeplyNestedTestEntityEditor />
+      </ComponentPreview>
+
+      <ComponentPreview path="/DeeplyNestedO2MTestEntityTable">
+        <DeeplyNestedO2MTestEntityTable />
+      </ComponentPreview>
+
+      <ComponentPreview path="/DeeplyNestedO2MTestEntityEditor">
+        <DeeplyNestedO2MTestEntityEditor />
       </ComponentPreview>
 
       <ComponentPreview path="/IntIdEditor">

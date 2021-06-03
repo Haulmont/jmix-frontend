@@ -39,6 +39,11 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
       _instanceName
       name
       quantity
+      deeplyNestedO2Mattr {
+        id
+        _instanceName
+        name
+      }
     }
   }
 `;
