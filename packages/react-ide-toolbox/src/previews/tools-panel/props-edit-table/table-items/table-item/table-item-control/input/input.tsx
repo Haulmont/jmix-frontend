@@ -1,9 +1,10 @@
 import React from "react";
 
-export const Input: React.FC<React.HTMLProps<HTMLInputElement>> = (props) => {
+export const Input: React.FC<React.HTMLProps<HTMLInputElement>> = ({value, ...restProps}) => {
   return (
     <input
-      {...props}
+      {...restProps}
+      value={value ?? ""}
       type={"text"}
     />
   )
