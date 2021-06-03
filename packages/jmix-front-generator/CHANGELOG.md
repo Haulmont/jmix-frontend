@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.16...@haulmont/jmix-front-generator@1.0.0-next.17) (2021-06-03)
+
+
+### Bug Fixes
+
+* make menu item question non-required ([66a1336](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/66a13362897db79702d9bc951379786403511a10))
+
+
+### Features
+
+* adding MenuItem to SubMenuItem child by key [#333](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/333) ([4da3f03](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4da3f03e7145801657a5d801fc165cc7daaac668))
+* support bean validation [#235](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/235) ([11efc72](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/11efc72b571f5a42ae78f1d332180dc76e7a7f36))
+
+
+
+
+
 # [1.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.15...@haulmont/jmix-front-generator@1.0.0-next.16) (2021-06-02)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator
