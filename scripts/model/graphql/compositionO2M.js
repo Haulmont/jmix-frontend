@@ -4,6 +4,11 @@ const compositionO2MQuery = `
   _instanceName
   name
   quantity
+  deeplyNestedO2Mattr {
+    id
+    _instanceName
+    name
+  }  
 }
 `;
 

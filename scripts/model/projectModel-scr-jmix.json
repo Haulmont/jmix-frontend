@@ -2059,6 +2059,23 @@
           "unique": false,
           "length": "255",
           "transient": false
+        },
+        {
+          "name": "deeplyNestedO2Mattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DeeplyNestedO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+            "label": "DeeplyNestedO2MTestEntity",
+            "entityName": "scr_DeeplyNestedO2MTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "unique": false,
+          "mappedBy": "compositionO2MTestEntity",
+          "transient": false
         }
       ]
     },
@@ -2924,6 +2941,73 @@
           "readOnly": false,
           "column": "NAME",
           "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DeeplyNestedO2MTestEntity",
+      "className": "DeeplyNestedO2MTestEntity",
+      "packageName": "com.company.scr.entity.test",
+      "dataStore": "main",
+      "table": "SCR_DEEPLY_NESTED_O2M_TEST_ENT",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "NAME",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "compositionO2MTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "CompositionO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.CompositionO2MTestEntity",
+            "label": "CompositionO2MTestEntity",
+            "entityName": "scr_CompositionO2MTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "column": "COMPOSITION_O2M_TEST_ENTITY_ID",
+          "mandatory": true,
           "unique": false,
           "length": "255",
           "transient": false
@@ -3842,6 +3926,38 @@
           "unique": false,
           "length": "255",
           "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Order_1",
+      "className": "Order",
+      "packageName": "com.company.scr.graphql.dto",
+      "dataStore": "main",
+      "embeddable": false,
+      "persistentEntity": false,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.scr.graphql.dto.Order",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "id",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
         }
       ]
     }
@@ -6772,6 +6888,63 @@
     },
     {
       "name": "_base",
+      "entity": "scr_DeeplyNestedO2MTestEntity",
+      "classFqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_DeeplyNestedO2MTestEntity",
+      "classFqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_local",
+      "entity": "scr_DeeplyNestedO2MTestEntity",
+      "classFqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "name",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_base",
       "entity": "scr_DeeplyNestedTestEntity",
       "classFqn": "com.company.scr.entity.test.DeeplyNestedTestEntity",
       "overwrite": false,
@@ -7615,6 +7788,33 @@
           "lazy": false
         }
       ]
+    },
+    {
+      "name": "_base",
+      "entity": "scr_Order_1",
+      "classFqn": "com.company.scr.graphql.dto.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_instance_name",
+      "entity": "scr_Order_1",
+      "classFqn": "com.company.scr.graphql.dto.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
+    },
+    {
+      "name": "_local",
+      "entity": "scr_Order_1",
+      "classFqn": "com.company.scr.graphql.dto.Order",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [],
+      "allProperties": []
     }
   ],
   "restQueries": [],

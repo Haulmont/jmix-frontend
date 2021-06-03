@@ -1519,6 +1519,21 @@
           "readOnly": false,
           "mandatory": false,
           "transient": false
+        },
+        {
+          "name": "deeplyNestedO2Mattr",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "DeeplyNestedO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.DeeplyNestedO2MTestEntity",
+            "label": "DeeplyNestedO2MTestEntity",
+            "entityName": "scr_DeeplyNestedO2MTestEntity"
+          },
+          "mappingType": "COMPOSITION",
+          "cardinality": "ONE_TO_MANY",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
         }
       ]
     },
@@ -2197,6 +2212,53 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_DeeplyNestedO2MTestEntity",
+      "className": "DeeplyNestedO2MTestEntity",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": true,
+          "transient": false
+        },
+        {
+          "name": "name",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
+          "name": "compositionO2MTestEntity",
+          "type": {
+            "packageName": "com.company.scr.entity.test",
+            "className": "CompositionO2MTestEntity",
+            "fqn": "com.company.scr.entity.test.CompositionO2MTestEntity",
+            "label": "CompositionO2MTestEntity",
+            "entityName": "scr_CompositionO2MTestEntity"
+          },
+          "mappingType": "ASSOCIATION",
+          "cardinality": "MANY_TO_ONE",
+          "readOnly": false,
+          "mandatory": true,
           "transient": false
         }
       ]
@@ -2895,6 +2957,25 @@
             "className": "String",
             "fqn": "java.lang.String",
             "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        }
+      ]
+    },
+    {
+      "name": "scr_Order_1",
+      "className": "Order",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
           },
           "mappingType": "DATATYPE",
           "readOnly": false,

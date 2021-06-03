@@ -14,22 +14,22 @@ import {
   registerEntityBrowserScreen,
   registerRoute
 } from "@haulmont/jmix-react-ui";
-import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
+import { DeeplyNestedO2MTestEntity } from "../../jmix/entities/scr_DeeplyNestedO2MTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr_DatatypesTestEntity";
-const ROUTING_PATH = "/datatypesTestBrowserTable";
+const ENTITY_NAME = "scr_DeeplyNestedO2MTestEntity";
+const ROUTING_PATH = "/deeplyNestedO2MTestEntityTable";
 
-const SCR_DATATYPESTESTENTITY_LIST = gql`
-  query scr_DatatypesTestEntityList(
+const SCR_DEEPLYNESTEDO2MTESTENTITY_LIST = gql`
+  query scr_DeeplyNestedO2MTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_DatatypesTestEntityOrderBy
-    $filter: [inp_scr_DatatypesTestEntityFilterCondition]
+    $orderBy: inp_scr_DeeplyNestedO2MTestEntityOrderBy
+    $filter: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition]
   ) {
-    scr_DatatypesTestEntityCount
-    scr_DatatypesTestEntityList(
+    scr_DeeplyNestedO2MTestEntityCount
+    scr_DeeplyNestedO2MTestEntityList(
       limit: $limit
       offset: $offset
       orderBy: $orderBy
@@ -37,110 +37,19 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     ) {
       id
       _instanceName
-      bigDecimalAttr
-      booleanAttr
-      dateAttr
-      dateTimeAttr
-      doubleAttr
-      integerAttr
-      longAttr
-      stringAttr
-      timeAttr
-      uuidAttr
-      localDateTimeAttr
-      offsetDateTimeAttr
-      localDateAttr
-      localTimeAttr
-      offsetTimeAttr
-      enumAttr
-      associationO2Oattr {
-        id
-        _instanceName
-      }
-      associationO2Mattr {
-        id
-        _instanceName
-      }
-      associationM2Oattr {
-        id
-        _instanceName
-      }
-      associationM2Mattr {
-        id
-        _instanceName
-      }
-      compositionO2Oattr {
-        id
-        _instanceName
-        name
-        quantity
-        nestedComposition {
-          id
-          _instanceName
-          name
-        }
-      }
-      compositionO2Mattr {
-        id
-        _instanceName
-        name
-        quantity
-        deeplyNestedO2Mattr {
-          id
-          _instanceName
-          name
-        }
-      }
-      intIdentityIdTestEntityAssociationO2OAttr {
-        id
-        _instanceName
-      }
-      integerIdTestEntityAssociationM2MAttr {
-        id
-        _instanceName
-      }
-      datatypesTestEntity3 {
-        id
-        _instanceName
-      }
       name
     }
-
-    scr_AssociationO2OTestEntityList {
-      id
-      _instanceName
-    }
-
-    scr_AssociationM2OTestEntityList {
-      id
-      _instanceName
-    }
-
-    scr_IntIdentityIdTestEntityList {
-      id
-      _instanceName
-    }
-
-    scr_DatatypesTestEntity3List {
-      id
-      _instanceName
-    }
-
-    scr_CompositionO2OTestEntityList {
-      id
-      _instanceName
-    }
   }
 `;
 
-const DELETE_SCR_DATATYPESTESTENTITY = gql`
-  mutation Delete_scr_DatatypesTestEntity($id: String!) {
-    delete_scr_DatatypesTestEntity(id: $id)
+const DELETE_SCR_DEEPLYNESTEDO2MTESTENTITY = gql`
+  mutation Delete_scr_DeeplyNestedO2MTestEntity($id: String!) {
+    delete_scr_DeeplyNestedO2MTestEntity(id: $id)
   }
 `;
 
-const DatatypesTestBrowserTable = observer(
-  (props: EntityListProps<DatatypesTestEntity>) => {
+const DeeplyNestedO2MTestEntityTable = observer(
+  (props: EntityListProps<DeeplyNestedO2MTestEntity>) => {
     const { entityList, onEntityListChange } = props;
 
     const {
@@ -158,9 +67,9 @@ const DatatypesTestBrowserTable = observer(
       handleEditBtnClick,
       goToParentScreen,
       entityListState
-    } = useEntityList<DatatypesTestEntity>({
-      listQuery: SCR_DATATYPESTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
+    } = useEntityList<DeeplyNestedO2MTestEntity>({
+      listQuery: SCR_DEEPLYNESTEDO2MTESTENTITY_LIST,
+      deleteMutation: DELETE_SCR_DEEPLYNESTEDO2MTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
@@ -251,30 +160,7 @@ const DatatypesTestBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={[
-          "bigDecimalAttr",
-          "booleanAttr",
-          "dateAttr",
-          "dateTimeAttr",
-          "doubleAttr",
-          "integerAttr",
-          "longAttr",
-          "stringAttr",
-          "timeAttr",
-          "uuidAttr",
-          "localDateTimeAttr",
-          "offsetDateTimeAttr",
-          "localDateAttr",
-          "localTimeAttr",
-          "offsetTimeAttr",
-          "enumAttr",
-          "associationO2Oattr",
-          "associationM2Oattr",
-          "compositionO2Oattr",
-          "intIdentityIdTestEntityAssociationO2OAttr",
-          "datatypesTestEntity3",
-          "name"
-        ]}
+        columnDefinitions={["name"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
@@ -289,15 +175,15 @@ const DatatypesTestBrowserTable = observer(
 registerRoute(
   `${ROUTING_PATH}/:entityId?`,
   ROUTING_PATH,
-  "datatypesTestBrowserTable",
-  <DatatypesTestBrowserTable />,
+  "deeplyNestedO2MTestEntityTable",
+  <DeeplyNestedO2MTestEntityTable />,
   ENTITY_NAME,
-  "DatatypesTestBrowserTable"
+  "DeeplyNestedO2MTestEntityTable"
 );
 registerEntityBrowserScreen(
   ENTITY_NAME,
-  "datatypesTestBrowserTable",
-  <DatatypesTestBrowserTable />
+  "deeplyNestedO2MTestEntityTable",
+  <DeeplyNestedO2MTestEntityTable />
 );
 
-export default DatatypesTestBrowserTable;
+export default DeeplyNestedO2MTestEntityTable;

@@ -1,10 +1,12 @@
 import { DatatypesTestEntity } from "./scr_DatatypesTestEntity";
+import { DeeplyNestedO2MTestEntity } from "./scr_DeeplyNestedO2MTestEntity";
 export class CompositionO2MTestEntity {
   static NAME = "scr_CompositionO2MTestEntity";
   id?: string;
   datatypesTestEntity?: DatatypesTestEntity | null;
   quantity?: number | null;
   name?: string | null;
+  deeplyNestedO2Mattr?: DeeplyNestedO2MTestEntity[] | null;
 }
 export type CompositionO2MTestEntityViewName =
   | "_base"
