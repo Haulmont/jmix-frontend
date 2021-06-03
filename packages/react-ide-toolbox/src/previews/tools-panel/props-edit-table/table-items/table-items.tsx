@@ -2,6 +2,7 @@ import React, { useCallback, useEffect } from "react";
 import {
   ToolsPropsModifier,
   PropsControlTypes,
+  TableItemControlData
 } from "../../../previews.types";
 import TableItem from "./table-item"
 import "./table-items.scss";
@@ -153,7 +154,7 @@ export const TableItems: React.FC<Props> = ({ toolsPropsToEdit }) => {
         return (
           <TableItem
             key={propName}
-            data={propInfo.data}
+            data={(propInfo.data as TableItemControlData)}
             controlType={propInfo.controlType}
             propName={propName}
             propValue={

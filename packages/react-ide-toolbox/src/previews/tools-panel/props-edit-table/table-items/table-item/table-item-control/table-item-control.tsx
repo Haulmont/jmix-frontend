@@ -6,7 +6,7 @@ import {
   ControlSelectHandler,
   ControlTextareaHandler,
   ControlJsonHandler,
-  ComponentPreviewProps
+  TableItemControlData
 } from "../../../../../previews.types"
 
 import Input from "./input";
@@ -18,7 +18,7 @@ import JsonEditor from "./json-editor"
 
 interface Props {
   controlType?: PropsControlTypes;
-  data?: string[] | number[] | ComponentPreviewProps;
+  data?: TableItemControlData;
   propName: string;
   propValue: any;
   onPropChange: ControlUnionHandler
