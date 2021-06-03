@@ -9,7 +9,7 @@ export function useAntdForm<TEntity>(form: FormInstance, item: EntityInstance<TE
   useEffect(() => {
     if (item != null && metadata != null) {
       form.setFieldsValue(
-        jmixFront_to_ant<TEntity>(item, entityName, metadata)
+        jmixFront_to_ant(item, entityName, metadata)
       );
     }
   }, [form, item, metadata, entityName]);
