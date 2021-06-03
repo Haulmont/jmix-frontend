@@ -59,8 +59,7 @@ jobs:
       before_install: node scripts/ci-bootstrap-backend.js
       script:
         - commitlint-travis
-        - npm run lerna 
-
+        - npm run lerna run coverage
 
     - name: "front-generator - e2e - e2e:react:new-project"
       script:
