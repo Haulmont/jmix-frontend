@@ -1,13 +1,13 @@
 import React from "react";
 
 interface Props extends React.HTMLProps<HTMLSelectElement> {
-  oprionsData?: string[] | number[]
+  optionsData?: string[] | number[]
 }
 
-export const Select: React.FC<Props> = ({oprionsData, ...restProps}) => {
+export const Select: React.FC<Props> = ({optionsData, ...restProps}) => {
   return (
     <select {...restProps}>
-      {oprionsData?.map((value: string | number) => {
+      {optionsData?.map((value: string | number) => {
         return (
           <option
             value={value}
