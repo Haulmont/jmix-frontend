@@ -51,7 +51,7 @@ export const TableItemControl: React.FC<Props> = ({ controlType, data, propName,
           className={"table-item-control"}
           id={propName}
           onChange={onPropChange as ControlSelectHandler}
-          oprionsData={data as (string[] | number[])}
+          optionsData={data as (string[] | number[])}
         />
       )
 
