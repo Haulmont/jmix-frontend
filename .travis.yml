@@ -1,7 +1,7 @@
 language: node_js
 
 os: linux
-node_js: '14.16.1'
+node_js: '15.14.0'
 jdk: oraclejdk11
 
 services:
