@@ -1,10 +1,11 @@
-import {JmixRestConnection, PropertyType} from "@haulmont/jmix-rest";
+import {JmixRestConnection} from "@haulmont/jmix-rest";
 import React from "react";
 import {MainStore} from "./MainStore";
 import {Provider} from "mobx-react";
 import { MetadataProvider } from "./MetadataProvider";
 import { normalizeMetadata, ProjectModelMetadata } from "../util/normalizeMetadata";
 import {ApolloClient} from "@apollo/client";
+import { PropertyType } from "../data/PropertyType";
 
 let jmixAppContext: React.Context<JmixAppContextValue>;
 let jmixAppConfig: JmixAppConfig | undefined;

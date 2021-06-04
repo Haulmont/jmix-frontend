@@ -40,15 +40,13 @@ export interface ProjectModelMetadata {
     enums: ProjectModelEnum[]
 }
 
-const firstLetterToLower = ([head, ...tail]: string): string => head.toLocaleLowerCase() + tail.join("")
-
 const transformType = (type: any, mappingType: AttributeType): string => {
     switch (mappingType) {
-        case 'DATATYPE': return firstLetterToLower(type.label)
-        case 'ENUM': return type.fqn
-        case 'ASSOCIATION': return type.entityName
-        case 'COMPOSITION': return type.entityName
-        default: throw new Error(`Unknown mappingType: ${mappingType}`)
+        case 'DATATYPE': return type.label;
+        case 'ENUM': return type.fqn;
+        case 'ASSOCIATION': return type.entityName;
+        case 'COMPOSITION': return type.entityName;
+        default: throw new Error(`Unknown mappingType: ${mappingType}`);
     }
 }
 const transformEnumsToEnumInfos = (enums: ProjectModelEnum[]): EnumInfo[] => {

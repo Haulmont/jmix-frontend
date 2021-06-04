@@ -1,8 +1,7 @@
 import { action, computed, observable, reaction, toJS, makeObservable } from "mobx";
 import {
   PredefinedView, 
-  SerializedEntityProps, 
-  TemporalPropertyType,  
+  SerializedEntityProps,
   CommitMode,
   getStringId
 } from "@haulmont/jmix-rest";
@@ -25,6 +24,7 @@ import {
 import {TEMPORARY_ENTITY_ID_PREFIX} from "../util/data";
 import { prepareForCommit } from "../util/internal/data";
 import { getMetadata, MetaClassInfo } from "../app/MetadataProvider";
+import { TemporalPropertyType } from "./PropertyType";
 
 /**
  * Retrieves an entity instance using Generic REST API.
