@@ -94,6 +94,7 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
         id
         _instanceName
       }
+      readOnlyStringAttr
       name
     }
 
@@ -392,6 +393,15 @@ const DatatypesTestEditor = observer(
             associationOptions={relationOptions?.get(
               "scr_DatatypesTestEntity3"
             )}
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={ENTITY_NAME}
+            propertyName="readOnlyStringAttr"
+            disabled={true}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}

@@ -103,6 +103,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
       }
+      readOnlyStringAttr
       name
     }
 
@@ -273,6 +274,7 @@ const DatatypesTestBrowserTable = observer(
           "compositionO2Oattr",
           "intIdentityIdTestEntityAssociationO2OAttr",
           "datatypesTestEntity3",
+          "readOnlyStringAttr",
           "name"
         ]}
         onRowSelectionChange={handleSelectionChange}

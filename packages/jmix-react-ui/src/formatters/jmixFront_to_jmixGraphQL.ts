@@ -20,12 +20,18 @@ export function jmixFront_to_jmixGraphQL(
   Object.entries(item).forEach(([attributeName, value]) => {
     const propInfo = getPropertyInfo(metadata.entities, entityName, attributeName);
 
+    if (propInfo == null) {
+      // There won't be property info e.g. for `_instanceName`.
+      // Normally we would expect everything that is a part of a valid input object to have property info.
+      return;
+    }
+
     // Recursively traverse compositions
-    if (propInfo != null && isOneToOneComposition(propInfo) && value != null) {
+    if (isOneToOneComposition(propInfo) && value != null) {
       result[attributeName] = jmixFront_to_jmixGraphQL(value, propInfo.type, metadata);
       return;
     }
-    if (propInfo != null && isOneToManyComposition(propInfo) && value != null) {
+    if (isOneToManyComposition(propInfo) && value != null) {
       result[attributeName] = value.map((e: Record<string, any>) => jmixFront_to_jmixGraphQL(e, propInfo.type, metadata));
       return;
     }
@@ -40,6 +46,11 @@ export function jmixFront_to_jmixGraphQL(
       if (!isTempId(value)) {
         result.id = value;
       }
+      return;
+    }
+
+    // Strip read-only fields
+    if (propInfo.readOnly) {
       return;
     }
 
