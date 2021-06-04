@@ -19,7 +19,8 @@ cache:
 before_script:
   - npx lerna bootstrap
   - npx lerna run prepublishOnly
-
+after_failure:
+  - cat /home/travis/.npm/_logs/2021-06-04T03_41_11_953Z-debug.log
 jobs:
   allow_failures:
     env:
