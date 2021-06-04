@@ -68,11 +68,10 @@ const datatypesQuery = `
     id
     _instanceName
   }
+  readOnlyStringAttr
   name
 }
 `;
-
-// readOnlyStringAttr TODO https://github.com/Haulmont/jmix-graphql/issues/85
 
 // stringIdTestEntityAssociationO2O {
 //   id

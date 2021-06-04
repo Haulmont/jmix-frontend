@@ -112,6 +112,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
         id
         _instanceName
       }
+      readOnlyStringAttr
       name
     }
   }
