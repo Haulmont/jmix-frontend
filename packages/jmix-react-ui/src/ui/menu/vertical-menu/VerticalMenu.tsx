@@ -1,12 +1,12 @@
 import React, {CSSProperties} from "react";
-import { Menu } from "antd";
+import {Menu, MenuProps} from "antd";
 
 interface Props {
   children: (JSX.Element | JSX.Element[]);
   style?: CSSProperties;
 }
 
-export const VerticalMenu: React.FC<Props> = ({children, style}: Props) => {  
+export function VerticalMenu<T = MenuProps>({children, style, ...restProps}: Props & T) {
   return (
     <Menu
       mode={"inline"}
@@ -15,6 +15,7 @@ export const VerticalMenu: React.FC<Props> = ({children, style}: Props) => {
         borderRight: 0 ,
         ...style
       }}
+      {...restProps}
     >
       {children}
     </Menu>

@@ -1,12 +1,12 @@
 import React, {CSSProperties} from "react";
-import { Menu } from "antd";
+import {Menu, MenuProps} from "antd";
 
-interface Props {
+type Props = {
   children: JSX.Element | JSX.Element[];
   style?: CSSProperties;
 }
 
-export const HorizontalMenu: React.FC<Props> = ({children, style}: Props) => {
+export function HorizontalMenu<T = MenuProps>({children, style, ...restProps}: Props & T) {
   return (
     <Menu
       mode={"horizontal"}
@@ -15,6 +15,7 @@ export const HorizontalMenu: React.FC<Props> = ({children, style}: Props) => {
         borderRight: 0 ,
         ...style
       }}
+      {...restProps}
     >
       {children}
     </Menu>
