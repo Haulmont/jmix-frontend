@@ -8,9 +8,9 @@ module.exports = {
   "coverageThreshold": {
     "global": {
       "statements": 39,
-      "branches": 38,
+      "branches": 37,
       "functions": 28,
-      "lines": 40
+      "lines": 39
     }
   },
   "collectCoverageFrom": [

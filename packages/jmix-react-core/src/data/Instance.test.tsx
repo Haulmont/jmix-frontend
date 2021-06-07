@@ -3,6 +3,7 @@ import {AttributeType, Cardinality, MetaClassInfo} from '../app/MetadataProvider
 import dayjs from 'dayjs';
 import {prepareForCommit} from '../util/internal/data';
 
+// TODO create tests for react-ui ant_to_jmixFront based on these ones
 describe('formFieldsToInstanceItem', () => {
   it('does not remove temporary id', () => {
     const patch = {id: '_CUBA_TEMPORARY_ENTITY_ID_7283974224', stringAttr: 'Some value'};
@@ -304,7 +305,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "stringAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "string",
+        type: "String",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -314,7 +315,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "readOnlyStringAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "string",
+        type: "String",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -324,7 +325,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: 'dateAttr',
         attributeType: 'DATATYPE' as AttributeType,
-        type: 'date',
+        type: 'Date',
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -334,7 +335,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: 'dateTimeAttr',
         attributeType: 'DATATYPE' as AttributeType,
-        type: 'dateTime',
+        type: 'DateTime',
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -410,7 +411,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -426,7 +427,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -442,7 +443,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -458,7 +459,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -474,7 +475,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,
@@ -490,7 +491,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
       {
         name: "dateAttr",
         attributeType: "DATATYPE" as AttributeType,
-        type: "date",
+        type: "Date",
         cardinality: "NONE" as Cardinality,
         // --
         mandatory: false,

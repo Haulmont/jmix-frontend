@@ -6,7 +6,6 @@ import { Input, Select, Tag, Tooltip, InputNumber } from "antd";
 import {observer} from "mobx-react";
 import {Dayjs} from 'dayjs';
 import {CaptionValuePair} from "./DataTableCustomFilter";
-import {PropertyType} from '@haulmont/jmix-rest';
 import {ReactNode, Ref} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {IntegerInput} from '../form/IntegerInput';
@@ -14,7 +13,13 @@ import {DoubleInput} from '../form/DoubleInput';
 import {LongInput} from '../form/LongInput';
 import {BigDecimalInput} from '../form/BigDecimalInput';
 import {CharInput} from "../form/CharInput";
-import {assertNever, applyDataTransferFormat, applyDisplayFormat, MetaPropertyInfo} from '@haulmont/jmix-react-core';
+import {
+  PropertyType,
+  assertNever,
+  applyDataTransferFormat,
+  applyDisplayFormat,
+  MetaPropertyInfo,
+} from '@haulmont/jmix-react-core';
 import {InputNumberProps} from 'antd/es/input-number';
 import {LabeledValue} from 'antd/es/select';
 import './DataTableListEditor.less';
@@ -81,29 +86,29 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
       return DataTableListEditorType.SELECT;
     } else {
       switch(this.props.propertyInfo.type as PropertyType) {
-        case 'string':
-        case 'uuid':
+        case 'String':
+        case 'UUID':
           return DataTableListEditorType.TEXT;
-        case 'char':
+        case 'Char':
           return DataTableListEditorType.CHAR;
-        case 'int':
+        case 'Integer':
           return DataTableListEditorType.INTEGER;
-        case 'double':
+        case 'Double':
           return DataTableListEditorType.DOUBLE;
-        case 'long':
+        case 'Long':
           return DataTableListEditorType.LONG;
-        case 'decimal':
+        case 'BigDecimal':
           return DataTableListEditorType.BIG_DECIMAL;
-        case 'date':
-        case 'localDate':
+        case 'Date':
+        case 'LocalDate':
           return DataTableListEditorType.DATE;
-        case 'time':
-        case 'localTime':
-        case 'offsetTime':
+        case 'Time':
+        case 'LocalTime':
+        case 'OffsetTime':
           return DataTableListEditorType.TIME;
-        case 'dateTime':
-        case 'localDateTime':
-        case 'offsetDateTime':
+        case 'DateTime':
+        case 'LocalDateTime':
+        case 'OffsetDateTime':
           return DataTableListEditorType.DATETIME;
         default:
           throw new Error(`Unexpected property type ${this.props.propertyInfo.type}`);

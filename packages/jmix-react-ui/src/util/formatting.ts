@@ -1,5 +1,5 @@
-import {TemporalPropertyType} from '@haulmont/jmix-rest';
 import {
+  TemporalPropertyType,
   getDataTransferFormat,
   getDisplayFormat,
   isTemporalProperty,

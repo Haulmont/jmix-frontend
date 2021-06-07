@@ -3,7 +3,6 @@ import { Form } from 'antd';
 import { Button, Divider, Input, Select } from 'antd';
 import {FilterDropdownProps} from 'antd/es/table/interface';
 import {observer} from 'mobx-react';
-import {NumericPropertyType, PropertyType} from '@haulmont/jmix-rest';
 import { action, computed, makeObservable } from 'mobx';
 import {Dayjs} from 'dayjs';
 import {DataTableListEditor} from './DataTableListEditor';
@@ -23,6 +22,8 @@ import {
   HasId,
   MayHaveInstanceName,
   toIdString,
+  NumericPropertyType,
+  PropertyType,
   ComparisonType,
   NumberComparisonType,
   TemporalComparisonType,
@@ -213,7 +214,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
   initValue = (operator: ComparisonType = this.operator): void => {
     if (operator === '_isNull') {
       this.value = false;
-    } else if (this.propertyInfoNN.type === 'boolean') {
+    } else if ((this.propertyInfoNN.type as PropertyType) === 'Boolean') {
       this.value = true;
     } else if (operator === '_in' || operator === '_notIn') {
       this.value = [];
@@ -321,26 +322,26 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     }
 
     switch (propertyInfo.type as PropertyType) {
-      case 'boolean':
+      case 'Boolean':
         return '_eq';
-      case 'date':
-      case 'time':
-      case 'dateTime':
-      case 'localDate':
-      case 'localTime':
-      case 'localDateTime':
-      case 'offsetDateTime':
-      case 'offsetTime':
+      case 'Date':
+      case 'Time':
+      case 'DateTime':
+      case 'LocalDate':
+      case 'LocalTime':
+      case 'LocalDateTime':
+      case 'OffsetDateTime':
+      case 'OffsetTime':
         return '_eq';
-      case 'int':
-      case 'double':
-      case 'decimal':
-      case 'long':
-      case 'char':
+      case 'Integer':
+      case 'Double':
+      case 'BigDecimal':
+      case 'Long':
+      case 'Char':
         return '_eq';
-      case 'string':
+      case 'String':
         return '_contains';
-      case 'uuid':
+      case 'UUID':
         return '_eq';
       default:
         throw new Error(`${this.errorContext} Unexpected property type ${propertyInfo.type} when trying to get the default condition operator`)
@@ -421,12 +422,12 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     }
 
     switch (propertyInfo.type as PropertyType) {
-      case 'boolean':
+      case 'Boolean':
         return this.yesNoSelectField;
 
-      case 'dateTime':
-      case 'localDateTime':
-      case 'offsetDateTime':
+      case 'DateTime':
+      case 'LocalDateTime':
+      case 'OffsetDateTime':
         switch (this.operator as TemporalComparisonType) {
           case '_eq':
           case '_neq':
@@ -445,8 +446,8 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'date':
-      case 'localDate':
+      case 'Date':
+      case 'LocalDate':
         switch (this.operator as TemporalComparisonType) {
           case '_eq':
           case '_neq':
@@ -465,9 +466,9 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'time':
-      case 'localTime':
-      case 'offsetTime':
+      case 'Time':
+      case 'LocalTime':
+      case 'OffsetTime':
         switch (this.operator as TemporalComparisonType) {
           case '_eq':
           case '_neq':
@@ -484,10 +485,10 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'int':
-      case 'double':
-      case 'decimal':
-      case 'long':
+      case 'Integer':
+      case 'Double':
+      case 'BigDecimal':
+      case 'Long':
         switch (this.operator as NumberComparisonType) {
           case '_eq':
           case '_neq':
@@ -504,7 +505,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'string':
+      case 'String':
         switch (this.operator as TextComparisonType) {
           case '_contains':
           // case '_doesNotContain':
@@ -521,7 +522,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'uuid':
+      case 'UUID':
         switch (this.operator as UuidComparisonType) {
           case '_eq':
           case '_neq':
@@ -534,7 +535,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'char':
+      case 'Char':
         switch (this.operator) {
           case '_eq':
           case '_neq':
@@ -579,13 +580,13 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   numberInputField(propertyType: NumericPropertyType): ReactNode {
     switch (propertyType) {
-      case 'int':
+      case 'Integer':
         return this.createFilterInput(<IntegerInput onChange={this.onNumberInputChange}/>, true);
-      case 'double':
+      case 'Double':
         return this.createFilterInput(<DoubleInput onChange={this.onNumberInputChange}/>, true);
-      case 'long':
+      case 'Long':
         return this.createFilterInput(<LongInput onChange={this.onNumberInputChange}/>, true);
-      case 'decimal':
+      case 'BigDecimal':
         return this.createFilterInput(<BigDecimalInput onChange={this.onNumberInputChange}/>, true);
       default:
         return assertNever('property type', propertyType);
@@ -745,27 +746,27 @@ function getAvailableOperators(propertyInfo: MetaPropertyInfo): ComparisonType[]
   }
 
   switch (propertyInfo.type as PropertyType) {
-    case 'boolean':
+    case 'Boolean':
       return ['_eq', '_neq', '_isNull'];
-    case 'date':
-    case 'localDate':
-    case 'dateTime':
-    case 'localDateTime':
-    case 'offsetDateTime':
+    case 'Date':
+    case 'LocalDate':
+    case 'DateTime':
+    case 'LocalDateTime':
+    case 'OffsetDateTime':
       return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull', '__inInterval'];
-    case 'time':
-    case 'localTime':
-    case 'offsetTime':
+    case 'Time':
+    case 'LocalTime':
+    case 'OffsetTime':
       return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
-    case 'int':
-    case 'double':
-    case 'long':
-    case 'decimal':
+    case 'Integer':
+    case 'Double':
+    case 'Long':
+    case 'BigDecimal':
       return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
-    case 'string':
+    case 'String':
       return ['_contains', '_eq', '_in', '_notIn', '_neq', /* TODO 'doesNotContain', */ '_isNull', '_startsWith', '_endsWith'];
-    case 'uuid':
-    case 'char':
+    case 'UUID':
+    case 'Char':
       return ['_eq', '_in', '_notIn', '_neq', '_isNull'];
     default:
       throw new Error(`Could not determine available condition operators for property ${propertyInfo.name} with attribute type ${propertyInfo.attributeType} and type ${propertyInfo.type}`);

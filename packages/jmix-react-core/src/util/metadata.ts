@@ -1,5 +1,6 @@
 import {EntityMessages} from "@haulmont/jmix-rest";
 import {AttributeType, EnumInfo, MetaClassInfo, Metadata, MetaPropertyInfo} from '../app/MetadataProvider'
+import { PropertyType } from "../data/PropertyType";
 
 export function getPropertyInfo(metadata: MetaClassInfo[], entityName: string, propertyName: string): MetaPropertyInfo | null {
     const metaClass = metadata.find(mci => mci.entityName === entityName);
@@ -63,54 +64,55 @@ export function getPropertyCaption(propertyName: string, entityName: string, mes
 
 export function isPropertyTypeSupported(propertyInfo: MetaPropertyInfo): boolean {
   const supportedAttributeTypes: AttributeType[] = ['ENUM', 'ASSOCIATION', 'COMPOSITION'];
-  const supportedTypes: string[] = [
-    'string', 'char',
-    'uuid',
-    'int', 'double', 'decimal', 'long',
-    'date', 'time', 'dateTime',
-    'localDate', 'localTime', 'localDateTime',
-    'offsetTime', 'offsetDateTime',
-    'boolean'
+  const supportedTypes: PropertyType[] = [
+    'String', 'Char',
+    'UUID',
+    'Integer', 'Double', 'BigDecimal', 'Long',
+    'Date', 'Time', 'DateTime',
+    'LocalDate', 'LocalTime', 'LocalDateTime',
+    'OffsetTime', 'OffsetDateTime',
+    'Boolean',
+    'fileRef'
   ];
 
   return supportedAttributeTypes.indexOf(propertyInfo.attributeType) > -1
-    || supportedTypes.indexOf(propertyInfo.type) > -1;
+    || supportedTypes.indexOf(propertyInfo.type as PropertyType) > -1;
 }
 
 export function isFileProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'fileRef';
+  return (type as PropertyType) === 'fileRef';
 }
 
 export function isDateProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'date';
+  return (type as PropertyType) === 'Date';
 }
 
 export function isLocalDateProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'localDate';
+  return (type as PropertyType) === 'LocalDate';
 }
 
 export function isTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'time';
+  return (type as PropertyType) === 'Time';
 }
 
 export function isLocalTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'localTime';
+  return (type as PropertyType) === 'LocalTime';
 }
 
 export function isOffsetTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'offsetTime';
+  return (type as PropertyType) === 'OffsetTime';
 }
 
 export function isDateTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'dateTime';
+  return (type as PropertyType) === 'DateTime';
 }
 
 export function isLocalDateTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'localDateTime';
+  return (type as PropertyType) === 'LocalDateTime';
 }
 
 export function isOffsetDateTimeProperty({type}: MetaPropertyInfo): boolean {
-  return type === 'offsetDateTime';
+  return (type as PropertyType) === 'OffsetDateTime';
 }
 
 export function isAnyDateProperty(propertyInfo: MetaPropertyInfo): boolean {
@@ -137,7 +139,7 @@ export function isTemporalProperty(propertyInfo: MetaPropertyInfo): boolean {
 }
 
 export function isByteArray({attributeType, type}: MetaPropertyInfo): boolean {
-  return attributeType === 'DATATYPE' && type === 'byteArray'
+  return attributeType === 'DATATYPE' && type === 'ByteArray'
 }
 
 export function findEntityMetadata(entityName: string, metadata: Metadata): MetaClassInfo | undefined {

@@ -1,3 +1,3 @@
-export declare type TemporalPropertyType = 'date' | 'time' | 'dateTime' | 'localDate' | 'localTime' | 'localDateTime' | 'offsetDateTime' | 'offsetTime';
-export declare type NumericPropertyType = 'int' | 'long' | 'double' | 'decimal';
-export declare type PropertyType = TemporalPropertyType | 'string' | 'uuid' | 'char' | 'byteArray' | NumericPropertyType | 'boolean';
+export declare type TemporalPropertyType = 'Date' | 'Time' | 'DateTime' | 'LocalDate' | 'LocalTime' | 'LocalDateTime' | 'OffsetDateTime' | 'OffsetTime';
+export declare type NumericPropertyType = 'Integer' | 'Long' | 'Double' | 'BigDecimal';
+export declare type PropertyType = TemporalPropertyType | 'String' | 'UUID' | 'Char' | 'ByteArray' | NumericPropertyType | 'Boolean' | 'fileRef';

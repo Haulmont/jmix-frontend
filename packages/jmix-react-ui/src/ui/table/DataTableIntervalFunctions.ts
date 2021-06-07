@@ -1,7 +1,6 @@
 import dayjs, {Dayjs} from 'dayjs';
 import {TemporalInterval, DataTableIntervalEditorMode, PredefinedIntervalOption, TimeUnit} from './DataTableIntervalEditor';
-import {PropertyType} from '@haulmont/jmix-rest';
-import {applyDataTransferFormat} from '@haulmont/jmix-react-core';
+import {applyDataTransferFormat, PropertyType} from '@haulmont/jmix-react-core';
 
 const selectMinDateForInterval = (
   mode: DataTableIntervalEditorMode,
