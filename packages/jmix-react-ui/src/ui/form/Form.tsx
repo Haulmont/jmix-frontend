@@ -237,7 +237,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
 
 interface EnumFieldProps extends SelectProps<SelectValue> {
   enumClass: string;
-};
+}
 
 export const EnumField = observer(({enumClass, ...rest}: EnumFieldProps) => {
   const metadata = useMetadata();
