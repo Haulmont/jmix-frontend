@@ -10,6 +10,7 @@ export const IntegerInput = forwardRef((props: InputNumberProps, ref: Ref<typeof
                  max={JAVA_INTEGER_MAX_VALUE}
                  precision={0}
                  className='inputnumber-field'
+                 // @ts-ignore ref is missing in typings, but it does actually work
                  ref={ref}
                  {...props}
     />
