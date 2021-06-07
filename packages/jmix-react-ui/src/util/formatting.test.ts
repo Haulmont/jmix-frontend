@@ -1,6 +1,5 @@
 import {toDisplayValue} from './formatting';
-import {PropertyType} from '@haulmont/jmix-rest';
-import {MetaPropertyInfo} from '@haulmont/jmix-react-core';
+import {MetaPropertyInfo, PropertyType} from '@haulmont/jmix-react-core';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 
@@ -33,51 +32,51 @@ describe('toDisplayValue()', () => {
   });
 
   it('changes format of DateTime', () => {
-    expectMsStripped('dateTime');
+    expectMsStripped('DateTime');
   });
 
   it('changes format of LocalDateTime', () => {
-    expectMsStripped('localDateTime');
+    expectMsStripped('LocalDateTime');
   });
 
   xit('changes format of OffsetDateTime', () => {
-    expectFormat('offsetDateTime', '2020-02-02 02:02:02.222 +0200', '2020-02-02 02:02:02')
+    expectFormat('OffsetDateTime', '2020-02-02 02:02:02.222 +0200', '2020-02-02 02:02:02')
   });
 
   xit('changes format of OffsetTime', () => {
-    expectFormat('offsetTime', '01:02:03 +0200', '01:02:03');
+    expectFormat('OffsetTime', '01:02:03 +0200', '01:02:03');
   });
 
   it('does not change format of OffsetTime', () => {
-    expectFormat('time', '01:02:03');
+    expectFormat('Time', '01:02:03');
   });
 
   it('does not change format of Date', () => {
-    expectFormat('date', '2020-01-02');
+    expectFormat('Date', '2020-01-02');
   });
 
   it('does not change format of Time', () => {
-    expectFormat('time', '01:02:03');
+    expectFormat('Time', '01:02:03');
   });
 
   it('does not change format of LocalDate', () => {
-    expectFormat('localDate', '2020-01-02');
+    expectFormat('LocalDate', '2020-01-02');
   });
 
   it('does not change format of LocalTime', () => {
-    expectFormat('localTime', '01:02:03');
+    expectFormat('LocalTime', '01:02:03');
   });
 
   it('does not change format of Date', () => {
-    expectFormat('date', '2020-01-02');
+    expectFormat('Date', '2020-01-02');
   });
 
   it('does not change format of non-temporal fields', () => {
-    expectFormat('int', 42);
-    expectFormat('double', 4.2);
-    expectFormat('string', 'Lorem ipsum');
-    expectFormat('uuid', '00000000-0000-0000-0000-000000000000');
-    expectFormat('byteArray', 'Ynl0ZUFycmF5');
-    expectFormat('boolean', true);
+    expectFormat('Integer', 42);
+    expectFormat('Double', 4.2);
+    expectFormat('String', 'Lorem ipsum');
+    expectFormat('UUID', '00000000-0000-0000-0000-000000000000');
+    expectFormat('ByteArray', 'Ynl0ZUFycmF5');
+    expectFormat('Boolean', true);
   });
 });

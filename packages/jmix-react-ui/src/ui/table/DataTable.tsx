@@ -43,7 +43,8 @@ import {
   SortOrderChangeCallback,
   ComparisonType,
   FilterChangeCallback,
-  JmixEntityFilter
+  JmixEntityFilter,
+  PropertyType
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
@@ -420,7 +421,7 @@ class DataTableComponent<
 
     this.fields.forEach((field: string) => {
       const propertyInfo = getPropertyInfoNN(field, entityName, this.props.metadata.entities);
-      if (propertyInfo.type === 'boolean') {
+      if ((propertyInfo.type as PropertyType) === 'Boolean') {
         this.valuesByProperty.set(field, 'true');
       }
     });

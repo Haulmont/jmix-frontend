@@ -8,6 +8,7 @@ import {
   WithId,
   HasId,
   MayHaveInstanceName,
+  PropertyType,
   useMetadata,
   EnumInfo,
   MetaClassInfo,
@@ -26,7 +27,6 @@ import {
 } from 'antd';
 import {
   CommitMode,
-  PropertyType,
 } from '@haulmont/jmix-rest';
 import {uuidPattern} from '../../util/regex';
 import * as React from 'react';
@@ -126,7 +126,7 @@ function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: 
   const propertyInfo = getPropertyInfo(entitiesMetadata, entityName, propertyName);
 
   // TODO we should probably move it into generator template https://github.com/Haulmont/jmix-frontend/issues/342
-  if (propertyInfo?.type === 'uuid') {
+  if ((propertyInfo?.type as PropertyType) === 'UUID') {
     formItemProps.rules = [
         { pattern: uuidPattern }
       ];
@@ -206,30 +206,30 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       return null;
   }
   switch (propertyInfo.type as PropertyType) {
-    case 'boolean':
+    case 'Boolean':
       return <Checkbox {...(rest as CheckboxProps)}/>;
-    case 'date':
-    case 'localDate':
+    case 'Date':
+    case 'LocalDate':
       return <DatePicker {...(rest as DatePickerProps)}/>;
-    case 'dateTime':
-    case 'localDateTime':
-    case 'offsetDateTime':
+    case 'DateTime':
+    case 'LocalDateTime':
+    case 'OffsetDateTime':
       return <DatePicker showTime={true} {...(rest as DatePickerProps & {showTime?: boolean | object})}/>;
-    case 'time':
-    case 'localTime':
-    case 'offsetTime':
+    case 'Time':
+    case 'LocalTime':
+    case 'OffsetTime':
       return <TimePicker {...(rest as TimePickerProps)}/>;
-    case 'int':
+    case 'Integer':
       return <IntegerInput {...(rest as InputNumberProps)}/>;
-    case 'double':
+    case 'Double':
       return <DoubleInput {...(rest as InputNumberProps)}/>;
-    case 'long':
+    case 'Long':
       return <LongInput {...(rest as InputNumberProps)}/>;
-    case 'decimal':
+    case 'BigDecimal':
       return <BigDecimalInput {...(rest as InputNumberProps)}/>;
-    case 'uuid':
+    case 'UUID':
       return <UuidInput {...(rest as InputProps)}/>
-    case 'char':
+    case 'Char':
       return <CharInput {...(rest as InputProps)}/>
   }
   return <Input {...(rest as InputProps)}/>;

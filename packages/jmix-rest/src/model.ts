@@ -1,21 +1,21 @@
 /**
  * @deprecated
  */
-export type TemporalPropertyType =
+export type RestTemporalPropertyType =
   'date' | 'time' | 'dateTime' | 'localDate' | 'localTime' | 'localDateTime' | 'offsetDateTime' | 'offsetTime';
 
 /**
  * @deprecated
  */
-export type NumericPropertyType = 'int' | 'long' | 'double' | 'decimal';
+export type RestNumericPropertyType = 'int' | 'long' | 'double' | 'decimal';
 
 /**
  * @deprecated
  */
-export type PropertyType = TemporalPropertyType |
+export type RestPropertyType = RestTemporalPropertyType |
   'string' | 'uuid' | 'char'
   | 'byteArray'
-  | NumericPropertyType
+  | RestNumericPropertyType
   | 'boolean';
 
 export interface SerializedEntityProps {

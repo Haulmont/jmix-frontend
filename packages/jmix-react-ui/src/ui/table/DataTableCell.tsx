@@ -1,7 +1,7 @@
 import {Checkbox} from 'antd';
 import React, {ReactNode} from 'react';
 import {SerializedEntityProps} from '@haulmont/jmix-rest';
-import { MainStoreInjected, MainStore, getEnumCaption, useMetadata, MetaPropertyInfo } from '@haulmont/jmix-react-core';
+import { MainStoreInjected, MainStore, getEnumCaption, useMetadata, MetaPropertyInfo, PropertyType } from '@haulmont/jmix-react-core';
 import { toDisplayValue } from '../../util/formatting';
 
 type DataTableCellProps<EntityType> = MainStoreInjected & {
@@ -15,7 +15,7 @@ export const DataTableCell = <EntityType extends unknown>(props: DataTableCellPr
 
   const {type, attributeType, cardinality, name} = props.propertyInfo;
 
-  if (type === 'boolean') {
+  if ((type as PropertyType) === 'Boolean') {
     return (
       <Checkbox
         checked={props.text as boolean}
