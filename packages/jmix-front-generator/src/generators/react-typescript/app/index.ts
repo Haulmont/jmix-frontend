@@ -26,8 +26,11 @@ export class ReactTSAppGenerator extends YeomanGenerator {
   }
 }
 
+const index = 1;
+
 export {
   ReactTSAppGenerator as generator,
   appOptionsConfig as options,
   allQuestions as params,
+  index
 };

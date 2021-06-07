@@ -30,11 +30,12 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
 
 const description = 'Read-only set of entities displayed as table, cards or list.';
 const icon = 'entity-browser.svg'
-
+const index = 2;
 export {
   ReactEntityBrowserGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
   description,
-  icon
+  icon,
+  index
 }

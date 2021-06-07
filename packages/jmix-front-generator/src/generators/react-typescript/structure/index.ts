@@ -28,11 +28,12 @@ export class ReactComponentGenerator extends YeomanGenerator {
 
 const description = 'Layout with several columns. Proportions and amount of columns are configurable upon creation.';
 const icon = 'structure.svg';
-
+const index = 5;
 export {
   ReactComponentGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
   description,
-  icon
+  icon,
+  index
 };

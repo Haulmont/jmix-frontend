@@ -28,11 +28,12 @@ export class EntityCardsGenerator extends YeomanGenerator {
 
 const description = 'Read-only list of entities displayed as cards.';
 const icon = 'entity-cards.svg';
-
+const index = 3;
 export {
   EntityCardsGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
   description,
-  icon
+  icon,
+  index
 }

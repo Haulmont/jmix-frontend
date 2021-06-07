@@ -28,7 +28,6 @@ export class EntityCardsGenerator extends YeomanGenerator {
 
 const description = 'Read-only list of entities displayed as a grid with 2, 3 or 4 columns in a row.';
 const icon = 'entity-cards-grid.svg';
-
 export {
   EntityCardsGenerator as generator,
   componentOptionsConfig as options,

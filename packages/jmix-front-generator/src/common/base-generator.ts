@@ -185,6 +185,7 @@ export interface GeneratorExports {
   params?: StudioTemplateProperty[],
   description?: string;
   icon?: string;
+  index?: number;
 }
 
 /**
