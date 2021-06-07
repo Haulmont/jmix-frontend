@@ -30,7 +30,6 @@ export class ReactEntityManagementGenerator extends YeomanGenerator {
 
 const description = 'Standard entity editor and browser screens created at once. The best choice for CRUD operations.';
 const icon = 'entity-management.svg';
-
 export {
   ReactEntityManagementGenerator as generator,
   componentOptionsConfig as options,

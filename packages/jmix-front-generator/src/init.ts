@@ -26,6 +26,7 @@ export interface ProvidedClientInfo {
 }
 
 export interface GeneratorInfo {
+  index: number;
   name: string;
   description?: string;
   options?: OptionsConfig;
@@ -69,8 +70,7 @@ export async function generate(
 
 function collectGenerators(generatorsDir: string, genFileName?: string): GeneratorInfo[] {
   const dirs = readdirSync(generatorsDir);
-  return dirs.reduce((generators: GeneratorInfo[], name: string) => {
-
+  return sortGenerators(dirs.reduce((generators: GeneratorInfo[], name: string) => {
     genFileName = genFileName ? genFileName : GENERATOR_FILE_NAME;
     const generatorPath = path.join(generatorsDir, name);
     if (existsSync(path.join(generatorPath, genFileName)) && statSync(generatorPath).isDirectory()) {
@@ -81,15 +81,20 @@ function collectGenerators(generatorsDir: string, genFileName?: string): Generat
       const options = generatorExports.options;
       const params = generatorExports.params;
       const description = generatorExports.description;
+      const index = generatorExports.index ?? dirs.length; // will be pushed to a tail if no index
 
       const iconPath = generatorExports.icon
-        ? path.relative(process.cwd(),path.join(generatorPath, generatorExports.icon))
+        ? path.relative(process.cwd(), path.join(generatorPath, generatorExports.icon))
         : undefined;
 
-      generators.push({name, options, params, description, iconPath});
+      generators.push({name, options, params, description, iconPath, index});
       return generators;
     } else {
       return generators;
     }
-  }, []);
+  }, []));
+}
+
+function sortGenerators(generators: GeneratorInfo[]) {
+  return generators.slice().sort((a, b) => a.index - b.index);
 }

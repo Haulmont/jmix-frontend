@@ -1,7 +1,7 @@
 import {OptionConfig} from "yeoman-generator";
 
 export type OptionsConfig = {
-  [optionName: string]: OptionConfig
+  [optionName: string]: OptionConfig;
 }
 
 interface CommanderOptionInfo {

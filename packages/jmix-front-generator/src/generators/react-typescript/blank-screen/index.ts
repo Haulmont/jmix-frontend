@@ -28,11 +28,12 @@ export class ReactComponentGenerator extends YeomanGenerator {
 
 const description = 'Empty screen template.';
 const icon = "blank.svg"
-
+const index = 0;
 export {
   ReactComponentGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
   description,
-  icon
+  icon,
+  index
 };
