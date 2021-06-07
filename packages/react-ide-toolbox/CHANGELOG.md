@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.11...@haulmont/react-ide-toolbox@1.0.0-next.12) (2021-06-07)
+
+
+### Bug Fixes
+
+* controlled state for checkbox and input [#356](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/issues/356) ([a8dc7cf](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/a8dc7cfc9341be2279f7e14a7d43675927a7715c))
+* more strictly interface for propsEditInfo [#356](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/issues/356) ([ce9fb86](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/ce9fb862e1e66362237195538d286961e94bf7a4))
+* typo in select property optionsData [#356](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/issues/356) ([c130aa0](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/commit/c130aa0f72f802ae01c313d2c376dfb9da91dc0d))
+
+
+
+
+
 # [1.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/react-ide-toolbox/compare/@haulmont/react-ide-toolbox@1.0.0-next.10...@haulmont/react-ide-toolbox@1.0.0-next.11) (2021-06-02)
 
 

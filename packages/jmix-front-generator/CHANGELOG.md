@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.17...@haulmont/jmix-front-generator@1.0.0-next.18) (2021-06-07)
+
+
+### Bug Fixes
+
+* no error message when opening list/editor that doesn't exist [#319](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/319) ([6582715](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/6582715ff0f390ed22cfa9e0b049571dbe0b55d1))
+
+
+### Features
+
+* aPI for menu item selection / sub menu item expand [#367](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/367) ([839fdc8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/839fdc8c9623f248f53bbcef8ae2e59fe0d27ba4))
+* using AST in previews generation [#358](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/358) ([b771acb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b771acb1cededf8229e01e5e3e26d7e34adf3f57))
+
+
+
+
+
 # [1.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.16...@haulmont/jmix-front-generator@1.0.0-next.17) (2021-06-03)
 
 

@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.13...@haulmont/jmix-react-ui@1.0.0-next.14) (2021-06-07)
+
+
+### Bug Fixes
+
+* do not send read-only attributes in mutations [#297](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/297) ([861efe6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/861efe69faf747b4ca41bcb72522ede2945bd874))
+* no error message when opening list/editor that doesn't exist [#319](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/319) ([6582715](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/6582715ff0f390ed22cfa9e0b049571dbe0b55d1))
+
+
+### Features
+
+* aPI for menu item selection / sub menu item expand [#367](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/367) ([839fdc8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/839fdc8c9623f248f53bbcef8ae2e59fe0d27ba4))
+
+
+
+
+
 # [1.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.12...@haulmont/jmix-react-ui@1.0.0-next.13) (2021-06-03)
 
 

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.12...@haulmont/jmix-react-core@1.0.0-next.13) (2021-06-07)
+
+
+### Bug Fixes
+
+* deleted O2O Composition still shows in the editor [#318](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/318) ([99fcea0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/99fcea0348611ca9b5a67e0492b80a50fb3718c1))
+
+
+
+
+
 # [1.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.11...@haulmont/jmix-react-core@1.0.0-next.12) (2021-06-03)
 
 
