@@ -1,15 +1,22 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
+import { useIntl } from "react-intl"
 import { Menu, MenuItemProps } from "antd";
 import { tabs, redirect, RouteItem, SubMenu } from "@haulmont/jmix-react-core";
 import { menuItems } from "../../../util/componentsRegistration";
 
+
 interface Props extends MenuItemProps {
   screenId?: string;
-  caption: React.ReactNode
+  caption: string
 }
 
 export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, children, ...menuItemProps }: Props) => {
   const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
+  const {formatMessage} = useIntl();
+
+  const formattedCaption = useMemo(() => {
+    return formatMessage({id: caption, defaultMessage: caption})
+  }, [caption])
 
   useEffect(() => {
     const currentMenuItem: any = screenId
@@ -22,9 +29,9 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
 
   const menuItemDefaultHandler = useCallback(() => {
     if (currentMenuItem) {
-      const { caption, component, menuLink } = { ...currentMenuItem }
+      const { component, menuLink } = { ...currentMenuItem }
       tabs.push({
-        title: caption as string,
+        title: formattedCaption,
         content: component,
         key: menuLink as string
       });
@@ -32,9 +39,9 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
     }
   }, [currentMenuItem]);
 
-  const childrenWithTitle = useMemo(() => {
-    return React.Children.toArray([caption, children])
-  }, [caption, children]);
+  const childrenWithCaption = useMemo(() => {
+    return React.Children.toArray([formattedCaption, children])
+  }, [formattedCaption, children]);
 
   const menuItemOnCLick = useCallback((menuInfo) => {
     menuItemDefaultHandler();
@@ -44,8 +51,8 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
   return (
     <Menu.Item
       {...menuItemProps}
-      title={title ?? caption}
-      children={childrenWithTitle}
+      title={title ?? formattedCaption}
+      children={childrenWithCaption}
       onClick={menuItemOnCLick}
     />
   )
