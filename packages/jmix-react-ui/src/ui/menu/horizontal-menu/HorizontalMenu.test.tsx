@@ -1,45 +1,47 @@
 import React from 'react';
-import TestRenderer, {ReactTestRenderer } from 'react-test-renderer';
+import TestRenderer, { ReactTestRenderer } from 'react-test-renderer';
 import { HorizontalMenu } from "./HorizontalMenu";
 import MenuItem from "../menu-item";
 import SubMenuItem from "../sub-menu-item";
+import { IntlProvider } from 'react-intl';
 
 describe('HorizontalMenu', () => {
-
   const horizontalMenuJsx: JSX.Element = (
-    <HorizontalMenu>
-      <MenuItem
-        caption={<span> item title</span>}
-      >
-        <span> first item title</span>
-        <span> first item content</span>
-      </MenuItem>
-      <MenuItem 
-        screenId={"secondScreen"}
-        caption={<span> item title</span>}
-      >
-        <span> Second item title</span>
-        <span> Second item content</span>
-      </MenuItem> 
-      <SubMenuItem
-        caption={"test"}
-      >
+    <IntlProvider locale="en">
+      <HorizontalMenu>
         <MenuItem
-          caption={<span> item title</span>} 
-          screenId={"thirdScreen"}
+          caption={"item title"}
         >
-          <span> Third item title</span>
-          <span> Third item content</span>
+          <span> first item title</span>
+          <span> first item content</span>
         </MenuItem>
-        <MenuItem 
-          screenId={"fourthScreen"}
-          caption={<span> item title</span>}
+        <MenuItem
+          screenId={"secondScreen"}
+          caption={"item title"}
         >
-          <span> Fourth item title</span>
-          <span> Fourth item content</span>
-        </MenuItem> 
-      </SubMenuItem> 
-    </HorizontalMenu>
+          <span> Second item title</span>
+          <span> Second item content</span>
+        </MenuItem>
+        <SubMenuItem
+          caption={"test"}
+        >
+          <MenuItem
+            caption={"item title"}
+            screenId={"thirdScreen"}
+          >
+            <span> Third item title</span>
+            <span> Third item content</span>
+          </MenuItem>
+          <MenuItem
+            screenId={"fourthScreen"}
+            caption={"item title"}
+          >
+            <span> Fourth item title</span>
+            <span> Fourth item content</span>
+          </MenuItem>
+        </SubMenuItem>
+      </HorizontalMenu>
+    </IntlProvider>
   )
 
   let horizontalMenuTestRenderer: ReactTestRenderer;

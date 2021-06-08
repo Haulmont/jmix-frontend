@@ -150,7 +150,7 @@ export function getNewMenuItem(componentClassName: string, key: string) : string
     <MenuItem 
       screenId={"${componentClassName}"}
       icon={<BarsOutlined />}
-      caption={<FormattedMessage id={"router.${componentClassName}"} />}
+      caption={"router.${componentClassName}"}
       key={'${key}'}
     />`
 }
