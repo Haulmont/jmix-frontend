@@ -66,6 +66,9 @@ export function initializeApolloClient<TCacheShape>(config: JmixApolloConfig<TCa
       addTypename: false
     }) as unknown as ApolloCache<TCacheShape>,
     defaultOptions: {
+      query: {
+        fetchPolicy: 'network-only'
+      },
       watchQuery: {
         fetchPolicy: "cache-and-network"
       }
