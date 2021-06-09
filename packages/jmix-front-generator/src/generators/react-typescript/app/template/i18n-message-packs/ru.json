@@ -11,7 +11,7 @@
   "common.back": "Назад",
 
   "home.welcome": "Добро пожаловать в",
-  "router.home": "Главная страница",
+  "menu.home": "Главная страница",
   "login.failed": "Не удалось войти",
   "login.placeholder.login": "Логин",
   "login.placeholder.password": "Пароль",

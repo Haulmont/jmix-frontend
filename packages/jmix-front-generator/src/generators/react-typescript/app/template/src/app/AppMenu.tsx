@@ -9,7 +9,7 @@ export const AppMenu = () => {
         <MenuItem 
           onClick={tabs.closeAll}
           icon={<HomeOutlined />}
-          caption={"router.home"}
+          caption={"menu.home"}
           key={"home"}
         />
       </VerticalMenu>
