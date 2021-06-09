@@ -9,6 +9,7 @@ import {
 } from '@haulmont/jmix-rest';
 import {ApolloClient} from "@apollo/client";
 import {gql} from "@apollo/client/core";
+import {isDevModeEnabled} from "../util/devMode";
 
 export const PERMISSIONS_QUERY = gql`query {
   permissions {
@@ -92,6 +93,7 @@ export class Security {
    */
   isOperationPermissionGranted = (entityName: string, operation: EntityOperationType): boolean => {
     if (!this.isDataLoaded) { return false; }
+    if (isDevModeEnabled()) { return true; }
 
     return isOperationAllowed(entityName, operation, this.effectivePermissions ?? undefined);
   };
@@ -110,6 +112,7 @@ export class Security {
     requiredAttrPerm: Exclude<EntityAttrPermissionValue, 'DENY'>
   ): boolean => {
     if (!this.isDataLoaded) { return false; }
+    if (isDevModeEnabled()) { return true; }
 
     const attrPerm = this.getAttributePermission(entityName, attrName);
 
@@ -124,6 +127,7 @@ export class Security {
 
   isSpecificPermissionGranted = (target: string): boolean => {
     if (!this.isDataLoaded) { return false; }
+    if (isDevModeEnabled()) { return true; }
 
     return isSpecificPermissionGranted(target, this.effectivePermissions ?? undefined);
   }

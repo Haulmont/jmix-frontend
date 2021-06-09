@@ -25,7 +25,9 @@ const withInitialHook: (useInitialHook: () => InitialHookStatus) => React.FC<Dev
     }
 
     if(status.error) {
-      return <div> Error! </div>;
+      return <div>
+        Unable to bootstrap dev mode. Probably you need to run backend or enable backend mocking mode.
+      </div>;
     }
 
     return <DevBootstrap>{children}</DevBootstrap> ;
