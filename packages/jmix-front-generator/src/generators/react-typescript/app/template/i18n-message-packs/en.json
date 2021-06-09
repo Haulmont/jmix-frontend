@@ -11,7 +11,7 @@
   "common.back": "Back",
 
   "home.welcome": "Welcome to",
-  "router.home": "Home",
+  "menu.home": "Home",
   "login.failed": "Login failed",
   "login.placeholder.login": "Login",
   "login.placeholder.password": "Password",

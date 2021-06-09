@@ -9,13 +9,13 @@ describe ('AppMenu generation', () => {
       const componentName = "TestComponent";
   
       const expectedMenuItem  = `
-      <MenuItem 
-        screenId={"${componentName}"}
-        icon={<BarsOutlined />}
-        caption={<FormattedMessage id={"router.${componentName}"} />}
-        key={'${key}'}
-      />`;
-  
+    <MenuItem 
+      screenId={"${componentName}"}
+      icon={<BarsOutlined />}
+      caption={"menu.${componentName}"}
+      key={'${key}'}
+    />`;
+
       assert.equal(getNewMenuItem(componentName, key), expectedMenuItem);
     });
   });
@@ -37,7 +37,7 @@ describe ('AppMenu generation', () => {
           <MenuItem \r
                 screenId={"${componentName}"}\r
                 icon={<BarsOutlined />}\r
-                caption={<FormattedMessage id={"router.${componentName}"} />}\r
+                caption={"menu.${componentName}"}\r
                 key={'${key}'}\r
               /></VerticalMenu>\r
         `;
@@ -70,7 +70,7 @@ describe ('AppMenu generation', () => {
             <MenuItem \r
                   screenId={"${componentName}"}\r
                   icon={<BarsOutlined />}\r
-                  caption={<FormattedMessage id={"router.${componentName}"} />}\r
+                  caption={"menu.${componentName}"}\r
                   key={'${key}'}\r
                 /></SubMenuItem>\r
           <MenuItem/>\r
@@ -115,7 +115,7 @@ describe ('AppMenu generation', () => {
           <MenuItem \r
                 screenId={"${componentName}"}\r
                 icon={<BarsOutlined />}\r
-                caption={<FormattedMessage id={"router.${componentName}"} />}\r
+                caption={"menu.${componentName}"}\r
                 key={'${key}'}\r
               /></HorizontalMenu>\r
         `;
@@ -148,7 +148,7 @@ describe ('AppMenu generation', () => {
             <MenuItem \r
                   screenId={"${componentName}"}\r
                   icon={<BarsOutlined />}\r
-                  caption={<FormattedMessage id={"router.${componentName}"} />}\r
+                  caption={"menu.${componentName}"}\r
                   key={'${key}'}\r
                 /></SubMenuItem>\r
           <MenuItem/>\r

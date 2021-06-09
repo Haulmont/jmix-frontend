@@ -11,7 +11,7 @@
     "common.back": "[TRANSLATION NOT AVAILABLE]",
 
     "home.welcome": "Bienvenu à",
-    "router.home": "Accueil",
+    "menu.home": "Accueil",
     "login.failed": "Echec de l'authentification",
     "login.placeholder.login": "Identifiant",
     "login.placeholder.password": "Mot de passe",

@@ -66,7 +66,7 @@ function mergeI18nMessages(
   if (localeCode === 'en') {
     componentMessages = {
       ...componentMessages,
-      [`router.${className}`]: menuCaption
+      [`menu.${className}`]: menuCaption
     };
   }
 
