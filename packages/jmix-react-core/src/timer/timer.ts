@@ -7,12 +7,25 @@ interface TimerHookControls {
 
 type TimerId = ReturnType<typeof setTimeout | typeof setInterval>;
 
-type TimerHook = (
+type TimerHookOptions = {
+  /**
+   * Delay time to run callback in setTimeout/setInterval
+   */
   delay: number,
+  /**
+   * To be passed to setTimeout/setInterval as callback
+   */
   callback: () => void,
+  /**
+   * When it true, timer will be ran without start() call
+   */
   autostart?: boolean, 
+  /**
+   * When it true, timer will use setInterval (false - setTimeout)
+   */
   repeating?: boolean
-) => TimerHookControls;
+}
+type TimerHook = (options: TimerHookOptions) => TimerHookControls;
 
 /**
  * This hook is used for creaiting and manipulating custom 
@@ -21,7 +34,10 @@ type TimerHook = (
  * 
  * @example
  *  const CustomComponent: React.FC = () => {
- *    const {start, stop} = useTimer(1000, () => console.log('custom callback'));
+ *    const {start, stop} = useTimer({
+ *      delay: 1000, 
+ *      callback: () => console.log('custom callback')
+ *    });
  *    return (
  *      <>
  *        <button onClick={start}>
@@ -34,15 +50,11 @@ type TimerHook = (
  *    )
  *  }
  * 
- * @param {number} delay delay time to run callback in setTimeout/setInterval.
- * @param {function} callback to be passed to setTimeout/setInterval as callback.
- * @param {boolean} autostart When it true, timer will be ran without start() call.
- * @param {boolean} repeating When it true, timer will use setInterval (false - setTimeout).
+ * @param {TimerHookOptions} options object with settings params: delay, callback, autostart, repeating.
  *
  * @returns {TimerHookControls} object with start and stop method to control timer
  */
-export const useTimer: TimerHook = (...timerHookArgs) => {
-  const [delay, callback, autostart = false, repeating = false] = timerHookArgs;
+export const useTimer: TimerHook = ({delay, callback, autostart = false, repeating = false}) => {
   const [isTimerInProgress, setTimerToInProgress] = useState<boolean>(autostart);
   const [timerId, setTimerId] = useState<TimerId>();
 
@@ -68,9 +80,14 @@ export const useTimer: TimerHook = (...timerHookArgs) => {
   }, [repeating, timerId])
 
   useEffect(() => {
+    return () => {
+      clearTimer();
+    }
+  }, []);
+
+  useEffect(() => {
     isTimerInProgress ? startTimer() : clearTimer();
   }, [isTimerInProgress]);
-
 
   return {
    start: () => {
