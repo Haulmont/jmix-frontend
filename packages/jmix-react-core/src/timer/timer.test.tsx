@@ -1,10 +1,11 @@
 import React from 'react';
 import {useTimer} from "./timer";
-import TestRenderer from 'react-test-renderer';
+import TestRenderer, {ReactTestRenderer} from 'react-test-renderer';
 
 let closureTimerStart: () => void;
 let closureTimerStop: () => void;
 let testedCallback: () => void;
+let TestedComponent: ReactTestRenderer;
 const testedDelay = 1000;
 const timerExecuteTime = 5000;
 
@@ -15,7 +16,7 @@ interface TestedProps {
   repeating?: boolean
 }
 const TestedCompWithUseTimer: React.FC<TestedProps> = ({delay, callback, autostart, repeating}) => {
-  const {start, stop} = useTimer(delay, callback, autostart, repeating);
+  const {start, stop} = useTimer({delay, callback, autostart, repeating});
   closureTimerStart = start;
   closureTimerStop = stop;
   return (
@@ -158,6 +159,30 @@ describe("useTimer works correctly with setTImeout",() => {
     expect(testedCallback).toHaveBeenCalledTimes(1);
   })
 
+  it('clearTimeout works correctly after component unmounting', () => {
+    TestRenderer.act(() => {
+      TestedComponent = TestRenderer.create(
+        <TestedCompWithUseTimer
+          delay={testedDelay}
+          callback={testedCallback}
+        />
+      )
+    })
+
+    expect(testedCallback).not.toBeCalled();
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+
+    TestRenderer.act(() => {
+      closureTimerStart();
+      TestedComponent.unmount();
+      jest.runAllTimers();
+    })
+
+    expect(setTimeout).toHaveBeenCalledTimes(1);
+    expect(testedCallback).not.toBeCalled();
+  })
+
   describe("useTimer works correctly with setInterval",() => {
     beforeEach(() => {
       jest.useFakeTimers();
@@ -287,6 +312,32 @@ describe("useTimer works correctly with setTImeout",() => {
       jest.advanceTimersByTime(timerExecuteTime);
       expect(testedCallback).toBeCalled();
       expect(testedCallback).toHaveBeenCalledTimes(5);
+    })
+
+    it('clearInterval works correctly after component unmounting', () => {
+      TestRenderer.act(() => {
+        TestedComponent = TestRenderer.create(
+          <TestedCompWithUseTimer
+            delay={testedDelay}
+            callback={testedCallback}
+            repeating={true}
+          />
+        )
+      })
+  
+      expect(testedCallback).not.toBeCalled();
+
+      TestRenderer.act(() => {
+        closureTimerStart();
+        TestedComponent.unmount();
+      })
+      
+      expect(setInterval).not.toBeCalled();
+      
+      jest.advanceTimersByTime(timerExecuteTime);
+  
+      expect(setInterval).not.toBeCalled();
+      expect(testedCallback).not.toBeCalled();
     })
   })
 })
