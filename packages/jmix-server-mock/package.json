@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-server-mock",
-  "version": "1.0.0-next.1",
+  "version": "1.0.0-next.20",
   "description": "Server mocking Jmix GraphQL backend for easier standalone development and visual designer support",
   "main": "dist/index.js",
   "bin": {
