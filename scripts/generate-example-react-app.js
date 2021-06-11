@@ -34,7 +34,11 @@ gen(
     clientDir,
     'scripts/model/projectModel-scr-jmix.json',
     [
-      { command: 'react-typescript:app' },
+      {
+        command: 'react-typescript:app',
+        // Uncomment if you need a horizontal menu
+        // answers: answers.app
+      },
       {
         command: 'react-typescript:blank-screen',
         dirShift,
