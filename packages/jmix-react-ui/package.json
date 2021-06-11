@@ -11,7 +11,7 @@
   "dependencies": {
     "@haulmont/jmix-react-core": "^1.0.0-next.20",
     "@haulmont/jmix-rest": "^1.0.0-next.20",
-    "query-string": "^6.11.0"
+    "query-string": "^6.14.1"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.0.0",
