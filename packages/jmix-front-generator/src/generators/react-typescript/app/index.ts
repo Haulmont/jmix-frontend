@@ -1,8 +1,8 @@
-import {ComponentOptions, commonGenerationOptionsConfig} from "../../../common/cli-options";
+import {ComponentOptions} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Answers, getAnswersFromPrompt, allQuestions} from "./answers";
-import {Options} from "./options";
+import {Options, appOptionsConfig} from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
@@ -28,6 +28,6 @@ export class ReactTSAppGenerator extends YeomanGenerator {
 
 export {
   ReactTSAppGenerator as generator,
-  commonGenerationOptionsConfig as options,
+  appOptionsConfig as options,
   allQuestions as params,
 };

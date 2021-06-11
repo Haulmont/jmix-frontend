@@ -11,6 +11,10 @@ const compositionO2MQuery = require('./graphql/compositionO2M');
 const compositionO2OQuery = require('./graphql/compositionO2O');
 
 module.exports = {
+  "app": {
+    "menuType": "horizontal",
+  },
+
   "blankComponent": {
     "componentName": "test-blank-screen",
     'menuItem': 'ROOT'

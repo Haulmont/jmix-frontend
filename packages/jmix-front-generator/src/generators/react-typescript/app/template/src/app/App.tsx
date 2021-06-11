@@ -39,17 +39,25 @@ const App = observer(() => {
   return (
     <Layout className="main-layout">
       <Layout.Header>
-        <AppHeader />
+        <% if (menuType === 'vertical') { %>
+          <AppHeader />
+        <% } else { %>
+          <AppHeader>
+            <AppMenu theme="dark" />
+          </AppHeader>
+        <% } %>
       </Layout.Header>
       <Layout className="layout-container">
-        <Layout.Sider
-          width={200}
-          breakpoint="sm"
-          collapsedWidth={0}
-          className="layout-sider"
-        >
-          <AppMenu/>
-        </Layout.Sider>
+        <% if (menuType === 'vertical') { %>
+          <Layout.Sider
+            width={200}
+            breakpoint="sm"
+            collapsedWidth={0}
+            className="layout-sider"
+          >
+            <AppMenu/>
+          </Layout.Sider>
+        <% } %>
         <Layout className="layout-content">
           <Layout.Content>
             <Router global routes={routes} />
