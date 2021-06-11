@@ -39,6 +39,7 @@ import "./app/datatypes-test-browser-table/DatatypesTestBrowserTable";
 import "./app/datatypes-test-browser-list/DatatypesTestBrowserList";
 import "./app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
 import "./app/datatypes-test-editor/DatatypesTestEditor";
+import "./app/car-master-detail/CarMasterDetail";
 import "./app/entity-cards/FavoriteCars";
 import "./app/car-cards-grid/CarCardsGrid";
 import "./app/car-browser-table/CarBrowserTable";

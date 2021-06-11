@@ -74,6 +74,21 @@ module.exports = {
     },
     'menuItem': 'ROOT'
   },
+  "carMasterDetail": {
+    "entity": {
+      "name": "scr$Car"
+    },
+
+    "masterDetailComponentName": "CarMasterDetail",
+
+    "editorComponentName": "CarMasterDetailEditor",
+    "editorQuery": carEntityQuery,
+
+    "browserComponentName": "CarMasterDetailBrowser",
+    "browserQuery": carEntityQuery,
+
+    'menuItem': 'ROOT'
+  },
   // "entityList": {
   //   "entityView": {
   //     "name": "_local",

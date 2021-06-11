@@ -1,0 +1,150 @@
+import React from "react";
+import {Form, Button} from "antd";
+import { useForm } from "antd/es/form/Form";
+import {observer} from "mobx-react";
+import {FormattedMessage} from 'react-intl';
+import {
+  createAntdFormValidationMessages,
+  createUseAntdForm,
+  createUseAntdFormValidation,
+  RetryDialog,
+  <% if (attributes.length > 0) { %>
+    Field,
+  <% } %>
+  GlobalErrorsAlert,
+  Spinner,
+  useMasterDetailEditor,
+  EntityEditorProps,
+  useCreateAntdResetForm,
+} from '@haulmont/jmix-react-ui';
+import { gql } from "@apollo/client";
+import "<%= relDirShift %>app/App.css";
+import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
+
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
+  query <%= dollarsToUnderscores(entity.name) %>ById($id: String = "", $loadItem: Boolean!) {
+    <%= dollarsToUnderscores(entity.name) %>ById(id: $id) @include(if: $loadItem) <%= query -%>
+    <% Object.keys(associations).forEach(attrName => { %>
+      <%= dollarsToUnderscores(associations[attrName].name) %>List {
+        id
+        _instanceName
+      }
+    <% }) %>
+  }
+`;
+
+const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
+  mutation Upsert_<%= dollarsToUnderscores(entity.name) %>($<%= unCapitalizeFirst(entity.className) %>: inp_<%= dollarsToUnderscores(entity.name) %>!) {
+    upsert_<%= dollarsToUnderscores(entity.name) %>(<%= unCapitalizeFirst(entity.className) %>: $<%= unCapitalizeFirst(entity.className) %>) {
+      id
+    }
+  }
+`;
+
+const <%= className %> = observer((props: EntityEditorProps<<%= entity.className %>>) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = 'common.submit',
+  } = props;
+
+  const [form] = useForm();
+
+  const {
+    <% if (Object.keys(associations).length > 0) { -%>
+      relationOptions,
+    <% } -%>
+    executeLoadQuery,
+    loadQueryResult: {
+      loading: queryLoading,
+      error: queryError,
+    },
+    upsertMutationResult: {loading: upsertLoading},
+    serverValidationErrors,
+    intl,
+    handleSubmit,
+    handleSubmitFailed,
+    handleCancelBtnClick,
+  } = useMasterDetailEditor<<%= entity.className %>>({
+    loadQuery: LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+    upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    onCommit,
+    entityInstance,
+    useEntityEditorForm: createUseAntdForm(form),
+    useEntityEditorFormValidation: createUseAntdFormValidation(form),
+    resetEntityEditorForm: useCreateAntdResetForm(form),
+});
+
+  if (queryLoading) {
+    return <Spinner />;
+  }
+
+  if (queryError != null) {
+    console.error(queryError);
+    return <RetryDialog onRetry={executeLoadQuery} />;
+  }
+
+  return (
+    <Form
+      onFinish={handleSubmit}
+      onFinishFailed={handleSubmitFailed}
+      layout="vertical"
+      form={form}
+      validateMessages={createAntdFormValidationMessages(intl)}
+    >
+      <% attributes.forEach(attr => { %>
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="<%= attr.name %>"
+
+          <% if (readOnlyFields.includes(attr.name)) { %>
+            disabled={true}
+          <% } else if (attr.name === locals.stringIdName) { %>
+            disabled={!isNewEntity(entityId) || isDisabledForm}
+          <% } %>
+
+          <% if (Object.keys(associations).includes(attr.name)) { %>
+            associationOptions={relationOptions?.get('<%= dollarsToUnderscores(associations[attr.name].name) %>')}
+          <% } %>
+
+            formItemProps={{
+            style: {marginBottom: "12px"},
+          <% if (attr.mandatory) { -%>
+            rules: [{required: true}],
+          <% } -%>
+          <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
+            valuePropName: "checked",
+          <% } -%>
+          }}
+        /> <%# end Field %>
+      <% }) %>
+
+      <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
+
+      <Form.Item style={{textAlign: 'center'}}>
+        <Button
+          htmlType="button"
+          onClick={handleCancelBtnClick}
+        >
+          <FormattedMessage id='common.cancel'/>
+        </Button>
+        <Button
+          type="primary"
+          htmlType="submit"
+          <%# disabled={status !== "DONE" && status !== "ERROR"} //TODO client-side validation %>
+          loading={upsertLoading}
+          style={{marginLeft: '8px'}}
+      >
+          <FormattedMessage id={submitBtnCaption}/>
+        </Button>
+      </Form.Item>
+    </Form>
+  );
+});
+
+export default <%= className %>;
