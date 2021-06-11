@@ -229,7 +229,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       return <BigDecimalInput {...(rest as InputNumberProps)}/>;
     case 'UUID':
       return <UuidInput {...(rest as InputProps)}/>
-    case 'Char':
+    case 'Character':
       return <CharInput {...(rest as InputProps)}/>
   }
   return <Input {...(rest as InputProps)}/>;

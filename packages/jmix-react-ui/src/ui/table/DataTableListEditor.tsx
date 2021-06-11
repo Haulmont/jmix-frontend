@@ -89,7 +89,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
         case 'String':
         case 'UUID':
           return DataTableListEditorType.TEXT;
-        case 'Char':
+        case 'Character':
           return DataTableListEditorType.CHAR;
         case 'Integer':
           return DataTableListEditorType.INTEGER;

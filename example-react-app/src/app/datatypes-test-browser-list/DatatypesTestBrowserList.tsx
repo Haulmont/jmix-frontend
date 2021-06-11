@@ -54,6 +54,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       integerAttr
       longAttr
       stringAttr
+      charAttr
       timeAttr
       uuidAttr
       localDateTimeAttr

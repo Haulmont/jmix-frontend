@@ -20,6 +20,7 @@ export class DatatypesTestEntity {
   integerAttr?: number | null;
   longAttr?: any | null;
   stringAttr?: string | null;
+  charAttr?: any | null;
   timeAttr?: any | null;
   uuidAttr?: any | null;
   localDateTimeAttr?: any | null;
@@ -61,6 +62,7 @@ export type DatatypesTestEntityView<
       | "integerAttr"
       | "longAttr"
       | "stringAttr"
+      | "charAttr"
       | "timeAttr"
       | "uuidAttr"
       | "localDateTimeAttr"
@@ -84,6 +86,7 @@ export type DatatypesTestEntityView<
       | "integerAttr"
       | "longAttr"
       | "stringAttr"
+      | "charAttr"
       | "timeAttr"
       | "uuidAttr"
       | "localDateTimeAttr"
@@ -107,6 +110,7 @@ export type DatatypesTestEntityView<
       | "integerAttr"
       | "longAttr"
       | "stringAttr"
+      | "charAttr"
       | "timeAttr"
       | "uuidAttr"
       | "localDateTimeAttr"
