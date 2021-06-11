@@ -10,6 +10,24 @@ import {addComponentPreviews} from "../../../building-blocks/stages/writing/piec
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import * as path from "path"
 
+export const writeEditorMessages: WriteStage<ComponentOptions, {
+  className: string;
+}> = async (
+  projectModel, templateModel, gen, options
+) => {
+  writeComponentI18nMessages(
+    gen.fs,
+    templateModel.className,
+    options.dirShift,
+    projectModel.project?.locales,
+    {
+      en: entityManagementEn,
+      fr: entityManagementFr,
+      ru: entityManagementRu
+    }
+  );
+}
+
 export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel> = async (
   projectModel, templateModel, gen, options
 ) => {
@@ -22,17 +40,8 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
   const extension = '.tsx.ejs';
 
   writeEditorComponent(gen, extension, templateModel);
-  writeComponentI18nMessages(
-    gen.fs,
-    className,
-    options.dirShift,
-    projectModel.project?.locales,
-    {
-      en: entityManagementEn,
-      fr: entityManagementFr,
-      ru: entityManagementRu
-    }
-  );
+
+  await writeEditorMessages(projectModel, templateModel, gen, options);
 
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true, {entityId: 'new'});

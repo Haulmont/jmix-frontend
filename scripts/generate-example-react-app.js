@@ -85,6 +85,12 @@ gen(
         dest: 'src/app/entity-cards',
         answers: answers.favoriteCarsCards
       },
+      {
+        command: 'react-typescript:entity-master-detail',
+        dirShift,
+        dest: 'src/app/car-master-detail',
+        answers: answers.carMasterDetail
+      },
 
       // All datatypes
       {

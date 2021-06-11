@@ -10,7 +10,7 @@ export interface EntityTemplateModel {
 }
 
 export interface EntityAnswers {
-  entity: Entity
+  entity: Entity;
 }
 
 export function deriveEntity(

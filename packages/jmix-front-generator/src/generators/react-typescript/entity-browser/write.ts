@@ -12,6 +12,22 @@ import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import { BrowserTypes } from "./answers";
 import * as path from "path";
 
+export const writeBrowserMessages: WriteStage<ComponentOptions, {className: string}> = async (
+  projectModel, templateModel, gen, options
+) => {
+  writeComponentI18nMessages(
+    gen.fs,
+    templateModel.className,
+    options.dirShift,
+    projectModel.project?.locales,
+    {
+      en: entityManagementEn,
+      fr: entityManagementFr,
+      ru: entityManagementRu
+    }
+  );
+}
+
 export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateModel> = async (
   projectModel, templateModel, gen, options
 ) => {
@@ -26,17 +42,8 @@ export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateMod
   const extension = '.tsx.ejs';
 
   writeBrowserComponent(gen, extension, templateModel);
-  writeComponentI18nMessages(
-    gen.fs,
-    className,
-    options.dirShift,
-    projectModel.project?.locales,
-    {
-      en: entityManagementEn,
-      fr: entityManagementFr,
-      ru: entityManagementRu
-    }
-  );
+
+  await writeBrowserMessages(projectModel, templateModel, gen, options);
 
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);

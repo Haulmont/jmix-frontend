@@ -1,0 +1,33 @@
+import React from "react";
+import <%= editorClassName %> from "./<%= editorClassName %>";
+import <%= browserClassName %> from "./<%= browserClassName %>";
+import { registerEntityBrowserScreen, registerRoute, MasterDetailManager } from "@haulmont/jmix-react-ui";
+import { observer } from "mobx-react";
+
+const ENTITY_NAME = '<%= entity.name %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= className %> = observer(() => {
+  return (
+    <MasterDetailManager
+      editor={<<%= editorClassName %> />}
+      browser={<<%= browserClassName %> />}
+    />
+  );
+});
+
+registerRoute(
+  `${ROUTING_PATH}/:entityId?`,
+  ROUTING_PATH,
+  '<%= nameLiteral %>',
+  <<%= className %> />,
+  ENTITY_NAME,
+  '<%= className %>'
+);
+registerEntityBrowserScreen(
+  ENTITY_NAME,
+  '<%= nameLiteral %>',
+  <<%= className %> />
+);
+
+export default <%= className %>;
