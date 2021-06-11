@@ -1719,6 +1719,19 @@
           "transient": false
         },
         {
+          "name": "charAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Character",
+            "fqn": "java.lang.Character",
+            "label": "Character"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "mandatory": false,
+          "transient": false
+        },
+        {
           "name": "timeAttr",
           "type": {
             "packageName": "java.util",

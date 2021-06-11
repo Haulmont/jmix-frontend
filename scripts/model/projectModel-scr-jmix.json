@@ -2325,6 +2325,22 @@
           "transient": false
         },
         {
+          "name": "charAttr",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Character",
+            "fqn": "java.lang.Character",
+            "label": "Character"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "CHAR_ATTR",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
           "name": "timeAttr",
           "type": {
             "packageName": "java.util",
@@ -6211,6 +6227,10 @@
           "lazy": false
         },
         {
+          "name": "charAttr",
+          "lazy": false
+        },
+        {
           "name": "timeAttr",
           "lazy": false
         },
@@ -6282,6 +6302,10 @@
         },
         {
           "name": "stringAttr",
+          "lazy": false
+        },
+        {
+          "name": "charAttr",
           "lazy": false
         },
         {
@@ -6375,6 +6399,10 @@
           "lazy": false
         },
         {
+          "name": "charAttr",
+          "lazy": false
+        },
+        {
           "name": "timeAttr",
           "lazy": false
         },
@@ -6446,6 +6474,10 @@
         },
         {
           "name": "stringAttr",
+          "lazy": false
+        },
+        {
+          "name": "charAttr",
           "lazy": false
         },
         {
@@ -6580,6 +6612,10 @@
         },
         {
           "name": "stringAttr",
+          "lazy": false
+        },
+        {
+          "name": "charAttr",
           "lazy": false
         },
         {

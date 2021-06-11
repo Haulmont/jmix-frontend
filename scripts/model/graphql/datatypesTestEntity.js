@@ -10,6 +10,7 @@ const datatypesQuery = `
   integerAttr
   longAttr
   stringAttr
+  charAttr
   timeAttr
   uuidAttr
   localDateTimeAttr

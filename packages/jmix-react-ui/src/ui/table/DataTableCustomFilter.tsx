@@ -337,7 +337,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       case 'Double':
       case 'BigDecimal':
       case 'Long':
-      case 'Char':
+      case 'Character':
         return '_eq';
       case 'String':
         return '_contains';
@@ -535,7 +535,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         }
         throw new Error(this.cannotDetermineConditionInput(propertyInfo.type));
 
-      case 'Char':
+      case 'Character':
         switch (this.operator) {
           case '_eq':
           case '_neq':
@@ -766,7 +766,7 @@ function getAvailableOperators(propertyInfo: MetaPropertyInfo): ComparisonType[]
     case 'String':
       return ['_contains', '_eq', '_in', '_notIn', '_neq', /* TODO 'doesNotContain', */ '_isNull', '_startsWith', '_endsWith'];
     case 'UUID':
-    case 'Char':
+    case 'Character':
       return ['_eq', '_in', '_notIn', '_neq', '_isNull'];
     default:
       throw new Error(`Could not determine available condition operators for property ${propertyInfo.name} with attribute type ${propertyInfo.attributeType} and type ${propertyInfo.type}`);

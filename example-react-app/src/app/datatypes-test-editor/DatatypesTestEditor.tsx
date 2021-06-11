@@ -36,6 +36,7 @@ const LOAD_SCR_DATATYPESTESTENTITY = gql`
       integerAttr
       longAttr
       stringAttr
+      charAttr
       timeAttr
       uuidAttr
       localDateTimeAttr
@@ -249,6 +250,14 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="stringAttr"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+
+          <Field
+            entityName={ENTITY_NAME}
+            propertyName="charAttr"
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
