@@ -26,7 +26,7 @@ export class ReactComponentGenerator extends YeomanGenerator {
   }
 }
 
-const description = 'Empty React class-based component';
+const description = 'Empty screen template.';
 const icon = "blank.svg"
 
 export {
