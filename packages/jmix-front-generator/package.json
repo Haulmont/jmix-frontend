@@ -31,7 +31,7 @@
     "@types/prettier": "~1.19.0",
     "commander": "~2.13.0",
     "graphql": "^15.4.0",
-    "graphql-tag": "^2.11.0",
+    "graphql-tag": "^2.12.4",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jscodeshift": "^0.12.0",
     "node-fetch": "^2.6.1",
