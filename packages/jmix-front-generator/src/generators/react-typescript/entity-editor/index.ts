@@ -28,7 +28,7 @@ export class ReactEntityManagementGenerator extends YeomanGenerator {
   }
 }
 
-const description = 'CRUD (list + editor) screens for specified entity';
+const description = 'Standard entity editor screen with a form and action buttons.';
 const icon = 'entity-editor.svg';
 
 export {

@@ -28,7 +28,7 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
   }
 }
 
-const description = 'list screens for specified entity';
+const description = 'Read-only set of entities displayed as table, cards or list.';
 const icon = 'entity-browser.svg'
 
 export {

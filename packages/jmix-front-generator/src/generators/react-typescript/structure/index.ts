@@ -26,7 +26,7 @@ export class ReactComponentGenerator extends YeomanGenerator {
   }
 }
 
-const description = 'A set of templates with a prepared skeleton for splitting the screen into sections';
+const description = 'Layout with several columns. Proportions and amount of columns are configurable upon creation.';
 const icon = 'structure.svg';
 
 export {

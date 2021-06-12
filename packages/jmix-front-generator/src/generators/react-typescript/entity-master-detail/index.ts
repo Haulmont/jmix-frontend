@@ -28,11 +28,13 @@ export class ReactEntityMasterDetailGenerator extends YeomanGenerator {
   }
 }
 
-const description = 'Combined screen with the browser on the left and the editor on the right.';
+const description = 'Combined screen with entity table on the left and a form on the right hand side.';
+const icon = 'master-detail.svg';
 
 export {
   ReactEntityMasterDetailGenerator as generator,
   componentOptionsConfig as options,
   allQuestions as params,
-  description
+  description,
+  icon
 }
