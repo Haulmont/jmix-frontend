@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.20...@haulmont/jmix-react-core@1.0.0-next.21) (2021-06-12)
+
+
+### Bug Fixes
+
+* missing filter for Character attribute [#354](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/354) ([dcd1cd2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/dcd1cd2ce3810f29b5f30b7ee42f7c300b1f1d87))
+
+
+### Features
+
+* changed useTimer API and added timer clearing after component unmounting [#388](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/388) ([da17e65](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/da17e65f805d172b949ca931a3ff16d78d5305f3))
+
+
+
+
+
 # [1.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.12...@haulmont/jmix-react-core@1.0.0-next.13) (2021-06-07)
 
 

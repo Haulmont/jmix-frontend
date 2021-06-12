@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.20...@haulmont/jmix-react-ui@1.0.0-next.21) (2021-06-12)
+
+
+### Bug Fixes
+
+* missing filter for Character attribute [#354](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/354) ([dcd1cd2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/dcd1cd2ce3810f29b5f30b7ee42f7c300b1f1d87))
+
+
+### Features
+
+* master-detail template ([fd9e9d1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/fd9e9d1abfc18cd0432f78bb3449f7c101628877))
+
+
+
+
+
 # [1.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.13...@haulmont/jmix-react-ui@1.0.0-next.14) (2021-06-07)
 
 
