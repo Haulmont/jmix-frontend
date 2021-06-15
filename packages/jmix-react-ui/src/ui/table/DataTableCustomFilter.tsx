@@ -297,13 +297,13 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
           <div className='footer'>
             <Button htmlType='submit'
                     type='link'>
-              <FormattedMessage id='cubaReact.dataTable.ok'/>
+              <FormattedMessage id='jmix.dataTable.ok'/>
             </Button>
             <Button
               htmlType='button'
               type='link'
               onClick={this.resetFilter}>
-              <FormattedMessage id='cubaReact.dataTable.reset'/>
+              <FormattedMessage id='jmix.dataTable.reset'/>
             </Button>
           </div>
         </div>
@@ -384,7 +384,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
       case '_notIn':
       case '_isNull':
       case '__inInterval':
-        return this.props.intl.formatMessage({ id: 'cubaReact.dataTable.operator.' + operator });
+        return this.props.intl.formatMessage({ id: 'jmix.dataTable.operator.' + operator });
       default:
         throw new Error(`${this.errorContext} Unexpected condition operator ${operator} when trying to get operator caption`);
     }
@@ -572,7 +572,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
     options.rules.push({
       pattern: uuidPattern,
-      message: this.props.intl.formatMessage({id: 'cubaReact.dataTable.validation.uuid'})
+      message: this.props.intl.formatMessage({id: 'jmix.dataTable.validation.uuid'})
     });
 
     return this.createFilterInput(<UuidInput onChange={this.onTextInputChange}/>, true, options);
@@ -631,12 +631,12 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         <Select.Option value='true'
                        className='cuba-filter-value-true'
         >
-          <FormattedMessage id='cubaReact.dataTable.yes'/>
+          <FormattedMessage id='jmix.dataTable.yes'/>
         </Select.Option>
         <Select.Option value='false'
                        className='cuba-filter-value-false'
         >
-          <FormattedMessage id='cubaReact.dataTable.no'/>
+          <FormattedMessage id='jmix.dataTable.no'/>
         </Select.Option>
       </Select>
     );

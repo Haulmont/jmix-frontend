@@ -233,7 +233,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
           >
             <PlusOutlined />
             &nbsp;
-            <FormattedMessage id='cubaReact.dataTable.listEditor.addItem'/>
+            <FormattedMessage id='jmix.dataTable.listEditor.addItem'/>
           </Tag>
         )}
       </div>

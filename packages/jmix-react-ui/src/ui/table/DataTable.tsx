@@ -509,7 +509,7 @@ class DataTableComponent<
                 onClick={this.clearFilters}
                 type='link'>
           <FilterOutlined />
-          <span><FormattedMessage id='cubaReact.dataTable.clearAllFilters'/></span>
+          <span><FormattedMessage id='jmix.dataTable.clearAllFilters'/></span>
         </Button>
       );
     } else {

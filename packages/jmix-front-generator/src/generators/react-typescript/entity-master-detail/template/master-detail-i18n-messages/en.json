@@ -1,4 +1,4 @@
 {
-  "masterDetail.entityUnselected": "Select an entity for editing",
-  "masterDetail.create.ifEntitySelected": "Are you sure you don't want to save the entity?"
+  "masterDetail.entityUnselected": "Select an entity",
+  "masterDetail.create.ifEntitySelected": "Changes will not be saved. Proceed?"
 }

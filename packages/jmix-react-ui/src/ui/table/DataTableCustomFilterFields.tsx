@@ -10,7 +10,7 @@ export function getDefaultFilterFormItemProps(intl: IntlShape, name: string): Fo
     rules: [
       {
         required: true,
-        message: intl.formatMessage({id: 'cubaReact.dataTable.validation.requiredField'})
+        message: intl.formatMessage({id: 'jmix.dataTable.validation.requiredField'})
       }
     ]
   };
