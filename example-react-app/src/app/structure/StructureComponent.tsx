@@ -1,5 +1,8 @@
 import { Row, Col, Card } from "antd";
 import React from "react";
+import { registerScreen } from "@haulmont/jmix-react-ui";
+
+const ROUTING_PATH = "/structureComponent";
 
 export const StructureComponent = () => (
   <Row gutter={16}>
@@ -12,3 +15,13 @@ export const StructureComponent = () => (
     </Col>
   </Row>
 );
+
+registerScreen({
+  component: StructureComponent,
+  caption: "structureComponent",
+  screenId: "StructureComponent",
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
+});

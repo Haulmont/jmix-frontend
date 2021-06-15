@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { DeeplyNestedO2MTestEntity } from "../../jmix/entities/scr_DeeplyNestedO2MTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -172,18 +171,18 @@ const DeeplyNestedO2MTestEntityTable = observer(
   }
 );
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "deeplyNestedO2MTestEntityTable",
-  <DeeplyNestedO2MTestEntityTable />,
-  ENTITY_NAME,
-  "DeeplyNestedO2MTestEntityTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "deeplyNestedO2MTestEntityTable",
-  <DeeplyNestedO2MTestEntityTable />
-);
+registerScreen({
+  component: DeeplyNestedO2MTestEntityTable,
+  caption: "deeplyNestedO2MTestEntityTable",
+  screenId: "DeeplyNestedO2MTestEntityTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default DeeplyNestedO2MTestEntityTable;

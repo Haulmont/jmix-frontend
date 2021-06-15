@@ -12,7 +12,7 @@ const compositionO2OQuery = require('./graphql/compositionO2O');
 
 module.exports = {
   "blankComponent": {
-    "componentName": "test-blank-component",
+    "componentName": "test-blank-screen",
     'menuItem': 'ROOT'
   },
   "structure": {

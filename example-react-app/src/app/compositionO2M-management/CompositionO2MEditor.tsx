@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditorScreen
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -147,10 +147,14 @@ const CompositionO2MEditor = observer(
   }
 );
 
-registerEntityEditorScreen(
-  ENTITY_NAME,
-  "compositionO2MEditor",
-  <CompositionO2MEditor />
-);
+registerScreen({
+  component: CompositionO2MEditor,
+  caption: "compositionO2MEditor",
+  screenId: "CompositionO2MEditor",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityEditor: true
+  }
+});
 
 export default CompositionO2MEditor;

@@ -9,7 +9,7 @@ import {
   RetryDialog,
   Spinner,
   useEntityList,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
@@ -108,11 +108,12 @@ export const FavoriteCars = observer(() => {
   );
 });
 
-registerRoute(
-  ROUTING_PATH,
-  ROUTING_PATH,
-  "FavoriteCars",
-  <FavoriteCars />,
-  ENTITY_NAME,
-  "FavoriteCars"
-);
+registerScreen({
+  component: FavoriteCars,
+  caption: "favoriteCars",
+  screenId: "FavoriteCars",
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
+});

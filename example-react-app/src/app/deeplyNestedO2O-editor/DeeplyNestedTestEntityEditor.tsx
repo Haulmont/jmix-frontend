@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditorScreen
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -122,10 +122,14 @@ const DeeplyNestedTestEntityEditor = observer(
   }
 );
 
-registerEntityEditorScreen(
-  ENTITY_NAME,
-  "deeplyNestedTestEntityEditor",
-  <DeeplyNestedTestEntityEditor />
-);
+registerScreen({
+  component: DeeplyNestedTestEntityEditor,
+  caption: "deeplyNestedTestEntityEditor",
+  screenId: "DeeplyNestedTestEntityEditor",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityEditor: true
+  }
+});
 
 export default DeeplyNestedTestEntityEditor;

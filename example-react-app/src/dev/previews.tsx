@@ -46,14 +46,14 @@ import CarBrowserTable from "../app/car-browser-table/CarBrowserTable";
 import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
-import { TestBlankComponent } from "../app/blank-components/TestBlankComponent";
+import { TestBlankScreen } from "../app/blank-screen/TestBlankScreen";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
 export const ComponentPreviews = () => {
   return (
     <Previews>
-      <ComponentPreview path="/testBlankComponent">
-        <TestBlankComponent />
+      <ComponentPreview path="/testBlankScreen">
+        <TestBlankScreen />
       </ComponentPreview>
       <ComponentPreview path="/CarEditor">
         <CarEditor />

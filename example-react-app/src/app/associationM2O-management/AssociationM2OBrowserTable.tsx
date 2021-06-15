@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -172,18 +171,18 @@ const AssociationM2OBrowserTable = observer(
   }
 );
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "associationM2OBrowserTable",
-  <AssociationM2OBrowserTable />,
-  ENTITY_NAME,
-  "AssociationM2OBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "associationM2OBrowserTable",
-  <AssociationM2OBrowserTable />
-);
+registerScreen({
+  component: AssociationM2OBrowserTable,
+  caption: "associationM2OBrowserTable",
+  screenId: "AssociationM2OBrowserTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default AssociationM2OBrowserTable;

@@ -1,8 +1,8 @@
 import React, { useCallback, useState, useEffect, useMemo } from "react";
 import { useIntl } from "react-intl"
 import { Menu, MenuItemProps } from "antd";
-import { tabs, redirect, RouteItem, SubMenu } from "@haulmont/jmix-react-core";
-import { menuItems } from "../../../util/componentsRegistration";
+import { RouteItem, SubMenu } from "@haulmont/jmix-react-core";
+import {menuItems, openScreenInTab} from "../../../util/componentsRegistration";
 
 
 interface Props extends MenuItemProps {
@@ -19,25 +19,22 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
   }, [caption])
 
   useEffect(() => {
-    const currentMenuItem: any = screenId
+    const menuItem: any = screenId
       ? menuItems.find(item => {
         return (item as any)?.screenId === screenId;
       })
       : null;
-    setCurrentMenuItem(currentMenuItem);
+    setCurrentMenuItem(menuItem);
   }, [screenId]);
 
   const menuItemDefaultHandler = useCallback(() => {
-    if (currentMenuItem) {
-      const { component, menuLink } = { ...currentMenuItem }
-      tabs.push({
-        title: formattedCaption,
-        content: component,
-        key: menuLink as string
-      });
-      redirect(menuLink as string);
+    if (currentMenuItem != null && screenId != null) {
+      const { menuLink } = { ...currentMenuItem };
+      if (menuLink != null) {
+        openScreenInTab(screenId, menuLink);
+      }
     }
-  }, [currentMenuItem]);
+  }, [currentMenuItem, screenId]);
 
   const childrenWithCaption = useMemo(() => {
     return React.Children.toArray([formattedCaption, children])

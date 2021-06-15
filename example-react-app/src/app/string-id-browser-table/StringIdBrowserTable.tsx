@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -211,18 +210,18 @@ const StringIdBrowserTable = observer(
   }
 );
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "stringIdBrowserTable",
-  <StringIdBrowserTable />,
-  ENTITY_NAME,
-  "StringIdBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "stringIdBrowserTable",
-  <StringIdBrowserTable />
-);
+registerScreen({
+  component: StringIdBrowserTable,
+  caption: "stringIdBrowserTable",
+  screenId: "StringIdBrowserTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default StringIdBrowserTable;

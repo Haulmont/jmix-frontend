@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditorScreen
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -445,10 +445,14 @@ const DatatypesTestEditor = observer(
   }
 );
 
-registerEntityEditorScreen(
-  ENTITY_NAME,
-  "datatypesTestEditor",
-  <DatatypesTestEditor />
-);
+registerScreen({
+  component: DatatypesTestEditor,
+  caption: "datatypesTestEditor",
+  screenId: "DatatypesTestEditor",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityEditor: true
+  }
+});
 
 export default DatatypesTestEditor;

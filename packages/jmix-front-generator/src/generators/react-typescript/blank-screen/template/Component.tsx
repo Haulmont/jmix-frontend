@@ -1,19 +1,12 @@
-import { Row, Col, Card } from 'antd';
 import React from "react";
 import {registerScreen} from "@haulmont/jmix-react-ui";
 
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 export const <%= className %> = () => (
-  <Row gutter={16}>
-    <% columnOptions.forEach(columnOption => { %>
-      <Col span={<%= columnOption.gridSize %>}>
-        <Card title="<%= columnOption.name %> header">
-          Content
-        </Card>
-      </Col>
-    <% }) %>
-  </Row>
+  <div>
+    <%= className %>
+  </div>
 );
 
 registerScreen({

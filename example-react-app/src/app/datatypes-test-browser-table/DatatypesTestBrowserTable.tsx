@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -290,18 +289,18 @@ const DatatypesTestBrowserTable = observer(
   }
 );
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "datatypesTestBrowserTable",
-  <DatatypesTestBrowserTable />,
-  ENTITY_NAME,
-  "DatatypesTestBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "datatypesTestBrowserTable",
-  <DatatypesTestBrowserTable />
-);
+registerScreen({
+  component: DatatypesTestBrowserTable,
+  caption: "datatypesTestBrowserTable",
+  screenId: "DatatypesTestBrowserTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default DatatypesTestBrowserTable;

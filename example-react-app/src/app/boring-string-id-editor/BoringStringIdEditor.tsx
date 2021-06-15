@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditorScreen
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -125,10 +125,14 @@ const BoringStringIdEditor = observer(
   }
 );
 
-registerEntityEditorScreen(
-  ENTITY_NAME,
-  "boringStringIdEditor",
-  <BoringStringIdEditor />
-);
+registerScreen({
+  component: BoringStringIdEditor,
+  caption: "boringStringIdEditor",
+  screenId: "BoringStringIdEditor",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityEditor: true
+  }
+});
 
 export default BoringStringIdEditor;

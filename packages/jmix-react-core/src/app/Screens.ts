@@ -9,13 +9,15 @@ export interface IMultiScreenItem {
   title: string;
   content: React.ReactNode;
   parent?: IMultiScreenItem;
-  params?: {
-    entityId?: string;
-    pagination?: {
-      page: number;
-      pageSize: number;
-    }
-  };
+  params?: MultiScreenItemParams;
+}
+
+export interface MultiScreenItemParams {
+  entityId?: string;
+  pagination?: {
+    page: number;
+    pageSize: number;
+  }
 }
 
 /**
@@ -32,6 +34,13 @@ export class Screens {
 
   constructor() {
     makeObservable(this);
+  }
+
+  setCurrentRootPageData(title: string, menuPath: string) {
+    this.currentRootPageData = {
+      title,
+      menuPath
+    };
   }
 
   /**

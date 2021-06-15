@@ -1,7 +1,7 @@
 import React from "react";
 import <%= editorClassName %> from "./<%= editorClassName %>";
 import <%= browserClassName %> from "./<%= browserClassName %>";
-import { registerEntityBrowserScreen, registerRoute, MasterDetailManager } from "@haulmont/jmix-react-ui";
+import { registerScreen, MasterDetailManager } from "@haulmont/jmix-react-ui";
 import { observer } from "mobx-react";
 
 const ENTITY_NAME = '<%= entity.name %>';
@@ -16,18 +16,18 @@ const <%= className %> = observer(() => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  '<%= nameLiteral %>',
-  <<%= className %> />,
-  ENTITY_NAME,
-  '<%= className %>'
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  '<%= nameLiteral %>',
-  <<%= className %> />
-);
+registerScreen({
+  component: <%= className %>,
+  caption: '<%= nameLiteral %>',
+  screenId: '<%= className %>',
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH,
+  }
+});
 
 export default <%= className %>;

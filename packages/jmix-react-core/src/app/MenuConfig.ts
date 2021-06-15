@@ -1,7 +1,6 @@
 export interface RouteItem {
   pathPattern: string
   menuLink: string
-  component: any
   caption: string
   screenId: string;
 }

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
-import { menuItems } from '../../util/componentsRegistration';
+import {menuItems, openScreenInTab} from '../../util/componentsRegistration';
 import { CloseOutlined } from '@ant-design/icons';
 
 import './styles.less';
@@ -67,11 +67,7 @@ const Content = observer((props: IContentProps) => {
 
 function checkRoute(item: RouteItem) {
   if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
-    tabs.push({
-      title: item.caption,
-      content: item.component,
-      key: item.menuLink,
-    });
+    openScreenInTab(item.screenId, item.menuLink);
   }
 }
 
