@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -178,18 +177,18 @@ const CompositionO2MBrowserTable = observer(
   }
 );
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "compositionO2MBrowserTable",
-  <CompositionO2MBrowserTable />,
-  ENTITY_NAME,
-  "CompositionO2MBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "compositionO2MBrowserTable",
-  <CompositionO2MBrowserTable />
-);
+registerScreen({
+  component: CompositionO2MBrowserTable,
+  caption: "compositionO2MBrowserTable",
+  screenId: "CompositionO2MBrowserTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default CompositionO2MBrowserTable;

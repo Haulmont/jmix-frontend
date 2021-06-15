@@ -1,8 +1,25 @@
-import React, { useContext, useState } from 'react';
-import { MultiScreen } from '../ui/MultiScreen';
-import { getMenuItems, ScreensContext, tabs } from '@haulmont/jmix-react-core';
-import { observer } from 'mobx-react';
-import { sleep, currentRoute } from '@haulmont/jmix-react-core';
+import {
+  getMenuItems,
+  assertNever,
+  ReactComponent,
+  Screens,
+  MultiScreenItemParams,
+  tabs,
+  redirect,
+  currentRoute,
+  useScreens,
+  useReaction
+} from '@haulmont/jmix-react-core';
+import React, { useEffect } from 'react';
+import {observer} from "mobx-react";
+import {MultiScreen} from "../ui/MultiScreen";
+
+export class ScreenNotFoundError extends Error {
+  constructor(message: string) {
+    super(message);
+    this.name = 'ScreenNotFoundError';
+  }
+}
 
 export const menuItems = getMenuItems();
 
@@ -12,149 +29,243 @@ export const routerData = {
   match: null as any,
 };
 
-export interface IReferenceItem {
-  entityList: {
-    title: string;
-    content: React.ReactNode;
-  };
-  entityItemEdit: {
-    title: string;
-    content: React.ReactNode;
-  };
-  entityItemNew: {
-    title: string;
-    content: React.ReactNode;
-  };
-}
-
-export interface IReferenceList {
-  [k: string]: IReferenceItem;
-}
-
-export const referencesListByEntityName: IReferenceList = {};
-
-
-function getRefItem(entityName: string) {
-  if (!referencesListByEntityName[entityName]) {
-    referencesListByEntityName[entityName] = {
-      entityItemEdit: {
-        title: '',
-        content: null,
-      },
-      entityItemNew: {
-        title: '',
-        content: null,
-      },
-      entityList: {
-        title: '',
-        content: null,
-      },
-    };
-  }
-
-  return referencesListByEntityName[entityName];
+export interface RegisteredScreen {
+  caption: string;
+  component: ReactComponent;
 }
 
 /**
- * Registration screens that present entity list view.
- * Important: File with this function must be included in src/routing.ts.
+ * Opens a registered screen in a new tab.
+ * Example of usage: navigating the menu.
  *
- * @param entityName - name of your entity
- * @param title - page title
- * @param component - your screen component. Example: <MyComponent />
- */
-export function registerEntityBrowserScreen(entityName: string, title: string, component: React.ReactNode) {
-  const refItem = getRefItem(entityName);
-  refItem.entityList.title = title;
-  refItem.entityList.content = component;
-}
-
-/**
- * Registration screens that present entity creation view.
- * Important: File with this function must be included in src/routing.ts.
+ * @param screenId
+ * @param menuLink
  *
- * @param entityName - name of your entity
- * @param title - page title
- * @param component - your screen component. Example: <MyComponent />
+ * @throws ScreenNotFoundError if a screen with given {@link screenId} is not found
  */
-export function registerEntityCreatorScreen(entityName: string, title: string, component: React.ReactNode) {
-  const refItem = getRefItem(entityName);
-  refItem.entityItemNew.title = title;
-  refItem.entityItemNew.content = component;
-}
+export function openScreenInTab(screenId: string, menuLink: string) {
+  const screen = getScreen(screenId);
 
+  const entityName: string | undefined = Array.from(entityListRegistry.entries())
+    .find(([_name, id]) => (id === screenId))
+    ?.[0];
 
-/**
- * Registration screens that present entity edit view. Also this function register entity creation view if that wasn't previously defined.
- * Important: File with this function must be included in src/routing.ts.
- *
- * @param entityName - name of your entity
- * @param title - page title
- * @param component - your screen component. Example: <MyComponent />
- */
-export function registerEntityEditorScreen(entityName: string, title: string, component: React.ReactNode) {
-  const refItem = getRefItem(entityName);
-  refItem.entityItemEdit.title = title;
-  refItem.entityItemEdit.content = component;
-
-  // Add new item component doesn't register yet
-  if (refItem.entityItemNew.content === null) {
-    refItem.entityItemNew.title = title;
-    refItem.entityItemNew.content = component;
-  }
-}
-
-/**
- * Register route
- * Important: File with this function must be included in src/routing.ts.
- *
- * @param routePath - router path param. See router docs. Example: '/my_list_view/:entityId?'
- * @param menuPath - link that use side menu for this page. Example: '/my_list_view'
- * @param title - page title for breadcrumbs in multi screen.
- * @param component - your screen component. Example: <MyComponent />.
- * @param entityName - name of your entity.
- * @param screenId - id of the screen
- */
-export function registerRoute(routePath: string, menuPath: string, title: string, component: React.ReactChild, entityName: string, screenId: string) {
-  const Comp = observer(() => {
-    const screens = useContext(ScreensContext);
-
-    screens.currentRootPageData.title = title;
-    screens.currentRootPageData.menuPath = menuPath;
-
-    useState(() => {
-      screens.closeAll();
-
-      screens.push({
-        title,
-        content: component
-      });
-
-      const entityId = currentRoute.routeParams.entityId;
-      if (entityId && tabs.tabs.length === 1) {
-        (async () => {
-          await sleep();
-          const registeredReferral = referencesListByEntityName[entityName];
-
-          screens.push({
-            title: registeredReferral.entityItemEdit.title,
-            content: registeredReferral.entityItemEdit.content,
-            params: {
-              entityId,
-            },
-          });
-        })();
-      }
-    });
-
-    return <MultiScreen />;
+  tabs.push({
+    title: screen.caption,
+    content: <MultiScreenWrapper screen={screen}
+                                 menuLink={menuLink}
+                                 entityName={entityName}
+             />,
+    key: menuLink
   });
+  redirect(menuLink);
+}
 
-  menuItems.push({
-    pathPattern: routePath,
-    menuLink: menuPath,
-    component: <Comp />,
-    caption: title,
+export interface OpenCrudScreenOptions<TProps = any> {
+  entityName: string;
+  crudScreenType: 'entityEditor' | 'entityList';
+  screens: Screens;
+  props?: TProps;
+  screenParams?: MultiScreenItemParams;
+}
+
+/**
+ * Opens a registered CRUD screen (entity list or editor) for a given entity
+ * within an existing tab. Example of usage: opening a child entity editor when
+ * editing a Composition attribute in parent entity.
+ *
+ * @throws ScreenNotFoundError if a CRUD screen for given entity is not found
+ * @param options
+ */
+export function openCrudScreen<TProps = any>(options: OpenCrudScreenOptions<TProps>) {
+  const {
+    entityName,
+    crudScreenType,
+    screens,
+    props,
+    screenParams
+  } = options;
+
+  const screen = getCrudScreen(entityName, crudScreenType);
+  pushToScreens<TProps>(screen, screens, props, screenParams);
+}
+
+function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens, props?: TProps, screenParams?: MultiScreenItemParams) {
+  screens.push({
+    title: screen.caption,
+    content: createScreenElement<TProps>(screen, props),
+    params: screenParams
+  });
+}
+
+function createScreenElement<TProps = any>(screen: RegisteredScreen, props?: TProps) {
+  return React.createElement(screen.component, props);
+}
+
+const screenRegistry = new Map<string, RegisteredScreen>();
+
+function getScreen(screenId: string): RegisteredScreen {
+  const screen = screenRegistry.get(screenId);
+  if (screen == null) {
+    throw new ScreenNotFoundError(`Registered screen with id "${screenId}" was not found`);
+  }
+  return screen;
+}
+
+const entityEditorRegistry = new Map<string, string>();
+const entityListRegistry = new Map<string, string>();
+
+function getCrudScreen(entityName: string, crudScreenType: 'entityEditor' | 'entityList'): RegisteredScreen {
+  let crudScreenRegistry: Map<string, string>;
+  switch (crudScreenType) {
+    case 'entityEditor': {
+      crudScreenRegistry = entityEditorRegistry;
+      break;
+    }
+    case 'entityList': {
+      crudScreenRegistry = entityListRegistry;
+      break;
+    }
+    default: {
+      assertNever('crudScreenType', crudScreenType);
+    }
+  }
+
+  const screenId = crudScreenRegistry.get(entityName);
+  if (screenId == null) {
+    throw new ScreenNotFoundError(`Registered CRUD screen from entity "${entityName}" was not found`);
+  }
+  return getScreen(screenId);
+}
+
+export interface ScreenRegistrationOptions {
+  /**
+   * Screen component.
+   */
+  component: ReactComponent;
+  /**
+   * Caption for menu item and tab.
+   */
+  caption: string;
+  /**
+   * Unique identifier for a screen.
+   */
+  screenId: string;
+  menuOptions?: MenuRegistrationOptions;
+  crudOptions?: CrudRegistrationOptions;
+}
+
+export interface MenuRegistrationOptions {
+  pathPattern: string;
+  menuLink: string;
+}
+
+export interface CrudRegistrationOptions {
+  entityName: string;
+  isEntityEditor?: boolean;
+  isEntityList?: boolean;
+}
+
+export function registerScreen(options: ScreenRegistrationOptions) {
+  const {
+    component,
+    caption,
     screenId,
+    menuOptions,
+    crudOptions
+  } = options;
+
+  screenRegistry.set(screenId, {
+    caption,
+    component
   });
+
+  if (menuOptions != null) {
+    registerMenuItem({
+      screenId,
+      caption,
+      ...menuOptions
+    });
+  }
+
+  if (crudOptions != null) {
+    registerCrudScreen({
+      screenId,
+      ...crudOptions
+    });
+  }
 }
+
+interface MenuItemOptions {
+  caption: string;
+  pathPattern: string;
+  menuLink: string;
+  screenId: string;
+}
+
+function registerMenuItem(options: MenuItemOptions) {
+  getMenuItems().push(options);
+}
+
+interface CrudScreenRegistrationOptions {
+  screenId: string;
+  entityName: string;
+  isEntityEditor?: boolean;
+  isEntityList?: boolean;
+}
+
+function registerCrudScreen(options: CrudScreenRegistrationOptions) {
+  const {screenId, entityName, isEntityEditor, isEntityList} = options;
+
+  if (isEntityEditor) {
+    entityEditorRegistry.set(entityName, screenId);
+  }
+
+  if (isEntityList) {
+    entityListRegistry.set(entityName, screenId);
+  }
+}
+
+interface MultiScreenWrapperProps {
+  screen: RegisteredScreen;
+  menuLink: string;
+  entityName?: string;
+}
+
+const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
+  const {screen, menuLink, entityName} = props;
+  const screens = useScreens();
+
+  screens.currentRootPageData.title = screen.caption;
+  screens.currentRootPageData.menuPath = menuLink;
+
+  useEffect(() => {
+    // Since ScreensContext is not available within `openScreenInTab` method,
+    // we have to push the screen from here.
+    // TODO Is there a better way?
+    pushToScreens(screen, screens);
+  }, []);
+
+  // If the screen is an entity browser then we need to listen from entityId URL parameter and open editor.
+  useReaction(
+    () => currentRoute.routeParams.entityId,
+    (entityId: string) => {
+      if (entityName == null) {
+        return; // Screen is not an entity browser.
+      }
+
+      if (entityId != null && tabs.tabs.length === 1) {
+        openCrudScreen({
+          entityName,
+          crudScreenType: 'entityEditor',
+          screens,
+          screenParams: {
+            entityId
+          }
+        });
+      }
+    }
+  );
+
+  return <MultiScreen />;
+});

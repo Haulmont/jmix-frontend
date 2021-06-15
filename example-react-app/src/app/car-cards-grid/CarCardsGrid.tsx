@@ -10,7 +10,7 @@ import {
   RetryDialog,
   Spinner,
   useEntityList,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
@@ -125,11 +125,12 @@ export const CarCardsGrid = observer(() => {
   );
 });
 
-registerRoute(
-  ROUTING_PATH,
-  ROUTING_PATH,
-  "CarCardsGrid",
-  <CarCardsGrid />,
-  ENTITY_NAME,
-  "CarCardsGrid"
-);
+registerScreen({
+  component: CarCardsGrid,
+  caption: "carCardsGrid",
+  screenId: "CarCardsGrid",
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
+});

@@ -45,14 +45,14 @@ describe('react generator test', () => {
 
     await rimraf(`${COMPONENT_DIR}/*`);
 
-    await generate('react-typescript', 'blank-component',
+    await generate('react-typescript', 'blank-screen',
       opts(COMPONENT_DIR, answers.blankComponent, componentRelativeModelPath));
 
     assertFilesPlain('src/app/component/BlankComponent.tsx', REACT_DIR, FIXTURES_DIR);
 
     await rimraf(`${COMPONENT_DIR}/*`);
 
-    await generate('react-typescript', 'blank-component',
+    await generate('react-typescript', 'blank-screen',
       opts(COMPONENT_DIR, answers.blankComponentLowCase, absoluteModelPath));
 
     assertFilesPlain('src/app/component/BlankComponent.tsx', REACT_DIR, FIXTURES_DIR);

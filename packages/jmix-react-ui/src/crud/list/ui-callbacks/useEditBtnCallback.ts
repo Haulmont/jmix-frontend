@@ -3,12 +3,13 @@ import {useCallback} from "react";
 import {openEntityEditorScreen} from "../../../util/screen";
 import {EntityInstance, Screens} from "@haulmont/jmix-react-core";
 import { getSubmitBtnCaption } from "../util/getSubmitBtnCaption";
+import * as React from "react";
 
 export function useEditBtnCallback<TEntity>(
   screens: Screens,
   entityName: string,
   routingPath: string,
-  entityId?: string,
+  selectedEntityId?: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
 ) {
@@ -36,12 +37,12 @@ export function useEditBtnCallback<TEntity>(
     };
   }
 
-  return useCallback(() => {
+  return useCallback((_event?: React.MouseEvent, entityId: string | undefined = selectedEntityId) => {
     const entityInstance = entityList != null
       ? entityList.find(e => e.id === entityId)
       : undefined;
     openEntityEditorScreen({
       screens, entityName, entityIdToLoad: entityId, routingPath, entityInstance, onCommit, submitBtnCaption, intl
     });
-  }, [entityList, entityId, screens, entityName, routingPath, onCommit, submitBtnCaption]);
+  }, [entityList, selectedEntityId, screens, entityName, routingPath, onCommit, submitBtnCaption]);
 }

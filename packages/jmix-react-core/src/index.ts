@@ -28,6 +28,8 @@ export * from './app/EventEmitter';
 export * from './app/Router';
 export * from './app/MetadataProvider';
 
+export * from './common/ReactComponent';
+
 export * from './crud/getDisplayedItems';
 export * from './crud/getRelationOptions';
 export * from './crud/JmixConstraintViolation';

@@ -35,6 +35,7 @@ import {usePaginationChangeCallback} from "./ui-callbacks/usePaginationChangeCal
 import {useSelectionChangeCallback} from "./ui-callbacks/useSelectionChangeCallback";
 import {useFilterChangeCallback} from "./ui-callbacks/useFilterChangeCallback";
 import {useSortOrderChangeCallback} from "./ui-callbacks/useSortOrderChangeCallback";
+import * as React from "react";
 
 export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
@@ -138,11 +139,11 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
   /**
    * A callback that will be executed when user clicks the Edit button.
    */
-  handleEditBtnClick: () => void;
+  handleEditBtnClick: (event?: React.MouseEvent, entityId?: string) => void;
   /**
    * A callback that will be executed when user clicks the Delete button.
    */
-  handleDeleteBtnClick: () => void;
+  handleDeleteBtnClick: (event?: React.MouseEvent, entityId?: string) => void;
   /**
    * A callback that will be executed when user changes the pagination.
    */

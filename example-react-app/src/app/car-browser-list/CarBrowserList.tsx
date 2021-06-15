@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import {
   DeleteOutlined,
@@ -20,8 +20,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
@@ -115,34 +114,36 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
 
   return (
     <div className="narrow-layout">
-      {entityList != null && (
-        <Tooltip title={<FormattedMessage id="common.back" />}>
-          <Button
-            htmlType="button"
-            style={{ margin: "0 12px 12px 0" }}
-            icon={<LeftOutlined />}
-            onClick={goToParentScreen}
-            key="back"
-            type="default"
-            shape="circle"
-          />
-        </Tooltip>
-      )}
+      <div style={{ marginBottom: "12px" }}>
+        {entityList != null && (
+          <Tooltip title={<FormattedMessage id="common.back" />}>
+            <Button
+              htmlType="button"
+              style={{ margin: "0 12px 12px 0" }}
+              icon={<LeftOutlined />}
+              onClick={goToParentScreen}
+              key="back"
+              type="default"
+              shape="circle"
+            />
+          </Tooltip>
+        )}
 
-      <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-        <span style={{ marginBottom: "12px" }}>
-          <Button
-            htmlType="button"
-            type="primary"
-            icon={<PlusOutlined />}
-            onClick={handleCreateBtnClick}
-          >
-            <span>
-              <FormattedMessage id="common.create" />
-            </span>
-          </Button>
-        </span>
-      </EntityPermAccessControl>
+        <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
+          <span>
+            <Button
+              htmlType="button"
+              type="primary"
+              icon={<PlusOutlined />}
+              onClick={handleCreateBtnClick}
+            >
+              <span>
+                <FormattedMessage id="common.create" />
+              </span>
+            </Button>
+          </span>
+        </EntityPermAccessControl>
+      </div>
 
       <List
         itemLayout="horizontal"
@@ -155,13 +156,23 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
                 entityName={ENTITY_NAME}
                 operation="delete"
               >
-                <DeleteOutlined key="delete" onClick={handleDeleteBtnClick} />
+                <DeleteOutlined
+                  key="delete"
+                  onClick={(event?: React.MouseEvent) =>
+                    handleDeleteBtnClick(event, item.id)
+                  }
+                />
               </EntityPermAccessControl>,
               <EntityPermAccessControl
                 entityName={ENTITY_NAME}
                 operation="update"
               >
-                <EditOutlined key="edit" onClick={handleEditBtnClick} />
+                <EditOutlined
+                  key="edit"
+                  onClick={(event?: React.MouseEvent) =>
+                    handleEditBtnClick(event, item.id)
+                  }
+                />
               </EntityPermAccessControl>
             ]}
           >
@@ -190,14 +201,18 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "carBrowserList",
-  <CarBrowserList />,
-  ENTITY_NAME,
-  "CarBrowserList"
-);
-registerEntityBrowserScreen(ENTITY_NAME, "carBrowserList", <CarBrowserList />);
+registerScreen({
+  component: CarBrowserList,
+  caption: "carBrowserList",
+  screenId: "CarBrowserList",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default CarBrowserList;

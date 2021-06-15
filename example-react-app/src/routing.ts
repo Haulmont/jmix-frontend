@@ -47,7 +47,7 @@ import "./app/car-browser-list/CarBrowserList";
 import "./app/car-browser-cards/CarBrowserCards";
 import "./app/car-editor/CarEditor";
 import "./app/structure/StructureComponent";
-import "./app/blank-components/TestBlankComponent";
+import "./app/blank-screen/TestBlankScreen";
 import { menuItems } from "@haulmont/jmix-react-ui";
 // Code below demonstrates how we can create SubMenu section
 // Remove '/*' '*/' comments and restart app to get this block in menu

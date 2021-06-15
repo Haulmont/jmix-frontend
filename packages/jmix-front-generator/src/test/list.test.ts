@@ -30,7 +30,7 @@ const client = '' + `
         "params": []
       },
       {
-        "name": "blank-component",
+        "name": "blank-screen",
         "options": {
           "dest": {
             "alias": "d",

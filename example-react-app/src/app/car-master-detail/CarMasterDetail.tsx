@@ -1,11 +1,7 @@
 import React from "react";
 import CarMasterDetailEditor from "./CarMasterDetailEditor";
 import CarMasterDetailBrowser from "./CarMasterDetailBrowser";
-import {
-  registerEntityBrowserScreen,
-  registerRoute,
-  MasterDetailManager
-} from "@haulmont/jmix-react-ui";
+import { registerScreen, MasterDetailManager } from "@haulmont/jmix-react-ui";
 import { observer } from "mobx-react";
 
 const ENTITY_NAME = "scr$Car";
@@ -20,18 +16,18 @@ const CarMasterDetail = observer(() => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "carMasterDetail",
-  <CarMasterDetail />,
-  ENTITY_NAME,
-  "CarMasterDetail"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "carMasterDetail",
-  <CarMasterDetail />
-);
+registerScreen({
+  component: CarMasterDetail,
+  caption: "carMasterDetail",
+  screenId: "CarMasterDetail",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default CarMasterDetail;

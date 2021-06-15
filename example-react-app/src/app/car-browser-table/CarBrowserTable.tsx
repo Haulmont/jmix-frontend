@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -11,8 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityBrowserScreen,
-  registerRoute
+  registerScreen
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr$Car";
 import { FormattedMessage } from "react-intl";
@@ -218,18 +217,18 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
   );
 });
 
-registerRoute(
-  `${ROUTING_PATH}/:entityId?`,
-  ROUTING_PATH,
-  "carBrowserTable",
-  <CarBrowserTable />,
-  ENTITY_NAME,
-  "CarBrowserTable"
-);
-registerEntityBrowserScreen(
-  ENTITY_NAME,
-  "carBrowserTable",
-  <CarBrowserTable />
-);
+registerScreen({
+  component: CarBrowserTable,
+  caption: "carBrowserTable",
+  screenId: "CarBrowserTable",
+  crudOptions: {
+    entityName: ENTITY_NAME,
+    isEntityList: true
+  },
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default CarBrowserTable;

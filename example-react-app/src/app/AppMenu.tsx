@@ -13,9 +13,9 @@ export const AppMenu = () => {
         key={"home"}
       />
       <MenuItem
-        screenId={"TestBlankComponent"}
+        screenId={"TestBlankScreen"}
         icon={<BarsOutlined />}
-        caption={"menu.TestBlankComponent"}
+        caption={"menu.TestBlankScreen"}
         key={"1214a4b6-7bf9-4f9b-ae4d-0593b09562a7"}
       />
       <MenuItem

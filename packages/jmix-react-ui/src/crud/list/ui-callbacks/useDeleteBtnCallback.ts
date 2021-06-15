@@ -4,6 +4,7 @@ import {showDeleteEntityDialog} from "../../common/showDeleteEntityDialog";
 import {EntityInstance, GraphQLMutationFn, HasId} from "@haulmont/jmix-react-core";
 import {ApolloCache, Reference} from "@apollo/client";
 import { getEntityInstanceById } from "../util/getEntityInstanceById";
+import * as React from "react";
 
 export function useDeleteBtnCallback<
   TEntity = unknown,
@@ -19,16 +20,16 @@ export function useDeleteBtnCallback<
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void
 ) {
   return useCallback(
-    () => {
-      if (selectedEntityId != null && items != null) {
-        const entityInstance = getEntityInstanceById(selectedEntityId, items);
+    (_event?: React.MouseEvent, entityId: string | undefined = selectedEntityId) => {
+      if (entityId != null && items != null) {
+        const entityInstance = getEntityInstanceById(entityId, items);
 
         let onConfirm: () => void;
 
         if (entityList != null && onEntityListChange != null) {
           onConfirm = () => {
             onEntityListChange(
-              entityList.filter(entity => entity.id !== selectedEntityId)
+              entityList.filter(entity => entity.id !== entityId)
             );
           };
         } else {

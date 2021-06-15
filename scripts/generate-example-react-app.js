@@ -36,9 +36,9 @@ gen(
     [
       { command: 'react-typescript:app' },
       {
-        command: 'react-typescript:blank-component',
+        command: 'react-typescript:blank-screen',
         dirShift,
-        dest: 'src/app/blank-components',
+        dest: 'src/app/blank-screen',
         answers: answers.blankComponent
       },
       {
