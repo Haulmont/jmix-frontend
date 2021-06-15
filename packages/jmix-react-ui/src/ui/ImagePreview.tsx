@@ -51,13 +51,13 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
     const {intl, isVisible, isLoading, objectUrl, fileName, onClose} = this.props;
 
     return (
-      <Modal title={intl.formatMessage({id: 'cubaReact.imagePreview.title'})}
+      <Modal title={intl.formatMessage({id: 'jmix.imagePreview.title'})}
              visible={isVisible}
              afterClose={onClose}
              onCancel={onClose}
              onOk={this.saveFile}
-             cancelText={intl.formatMessage({id: 'cubaReact.imagePreview.close'})}
-             okText={intl.formatMessage({id: 'cubaReact.imagePreview.download'})}
+             cancelText={intl.formatMessage({id: 'jmix.imagePreview.close'})}
+             okText={intl.formatMessage({id: 'jmix.imagePreview.download'})}
              okButtonProps={this.okButtonProps}
              destroyOnClose={true}
              width='80vw'
@@ -73,7 +73,7 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
               {fileName}
             </div>
             <img src={objectUrl}
-                 alt={intl.formatMessage({id: 'cubaReact.imagePreview.alt'})}
+                 alt={intl.formatMessage({id: 'jmix.imagePreview.alt'})}
                  className='image'
             />
           </div>

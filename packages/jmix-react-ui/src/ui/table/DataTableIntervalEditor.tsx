@@ -107,13 +107,13 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
           onChange={this.onModeChanged}
           value={this.mode}>
         <Radio value={'last'}>
-          <FormattedMessage id='cubaReact.dataTable.intervalEditor.last'/>
+          <FormattedMessage id='jmix.dataTable.intervalEditor.last'/>
         </Radio>
         <Radio value={'next'}>
-          <FormattedMessage id='cubaReact.dataTable.intervalEditor.next'/>
+          <FormattedMessage id='jmix.dataTable.intervalEditor.next'/>
         </Radio>
         <Radio value={'predefined'}>
-          <FormattedMessage id='cubaReact.dataTable.intervalEditor.predefined'/>
+          <FormattedMessage id='jmix.dataTable.intervalEditor.predefined'/>
         </Radio>
       </Radio.Group>
     );
@@ -126,7 +126,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
                  initialValue={this.option}
                  rules={[{
                    required: true,
-                   message: this.props.intl.formatMessage({id: 'cubaReact.dataTable.validation.requiredField'})
+                   message: this.props.intl.formatMessage({id: 'jmix.dataTable.validation.requiredField'})
                  }]}
       >
         <Select onChange={this.onPredefinedIntervalOptionChanged}
@@ -134,22 +134,22 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
                 className='cuba-interval-predefined-select'
         >
           <Select.Option value={'today'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.today' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.today' />
           </Select.Option>
           <Select.Option value={'yesterday'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.yesterday' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.yesterday' />
           </Select.Option>
           <Select.Option value={'tomorrow'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.tomorrow' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.tomorrow' />
           </Select.Option>
           <Select.Option value={'lastMonth'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.lastMonth' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.lastMonth' />
           </Select.Option>
           <Select.Option value={'thisMonth'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.thisMonth' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.thisMonth' />
           </Select.Option>
           <Select.Option value={'nextMonth'}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.nextMonth' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.nextMonth' />
           </Select.Option>
         </Select>
       </Form.Item>
@@ -165,7 +165,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
                    initialValue={this.numberOfUnits}
                    rules={[{
                      required: true,
-                     message: this.props.intl.formatMessage({id: 'cubaReact.dataTable.validation.requiredField'})
+                     message: this.props.intl.formatMessage({id: 'jmix.dataTable.validation.requiredField'})
                    }]}
         >
           <InputNumber onChange={this.onIntervalNumberChanged}/>
@@ -175,16 +175,16 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
                   onChange={this.onIntervalUnitChanged}
                   dropdownMatchSelectWidth={false}>
             <Select.Option value={'days'}>
-              <FormattedMessage id='cubaReact.dataTable.intervalEditor.days' />
+              <FormattedMessage id='jmix.dataTable.intervalEditor.days' />
             </Select.Option>
             <Select.Option value={'hours'}>
-              <FormattedMessage id='cubaReact.dataTable.intervalEditor.hours' />
+              <FormattedMessage id='jmix.dataTable.intervalEditor.hours' />
             </Select.Option>
             <Select.Option value={'minutes'}>
-              <FormattedMessage id='cubaReact.dataTable.intervalEditor.minutes' />
+              <FormattedMessage id='jmix.dataTable.intervalEditor.minutes' />
             </Select.Option>
             <Select.Option value={'months'}>
-              <FormattedMessage id='cubaReact.dataTable.intervalEditor.months' />
+              <FormattedMessage id='jmix.dataTable.intervalEditor.months' />
             </Select.Option>
           </Select>
         </Form.Item>
@@ -192,7 +192,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
           <Checkbox onChange={this.onIncludeCurrentChanged}
                     className='cuba-interval-include-current'
                     defaultChecked={this.includeCurrent}>
-            <FormattedMessage id='cubaReact.dataTable.intervalEditor.includingCurrent' />
+            <FormattedMessage id='jmix.dataTable.intervalEditor.includingCurrent' />
           </Checkbox>
         </Form.Item>
       </div>

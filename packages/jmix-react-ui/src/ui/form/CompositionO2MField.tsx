@@ -60,7 +60,7 @@ const BtnTitle = ({value}: BtnTitleProps) => {
     return (
       <span>
         <PlusOutlined />
-        <FormattedMessage id='cubaReact.nestedEntityField.addEntities' />
+        <FormattedMessage id='jmix.nestedEntityField.addEntities' />
       </span>
     );
   }
@@ -84,7 +84,7 @@ export function constructTitle(entityList: EntityInstance[], intl: IntlShape): s
   }
   if (entityList.length > 2) {
     title += intl.formatMessage(
-      {id: 'cubaReact.nestedEntityField.andXMore'},
+      {id: 'jmix.nestedEntityField.andXMore'},
       {quantity: entityList.length - 2}
     );
   }

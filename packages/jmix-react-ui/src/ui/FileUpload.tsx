@@ -102,7 +102,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     fileList = fileList.slice(-1); // Limit to a single file
 
     if (info.file.status === 'error') {
-      message.error(this.props.intl.formatMessage({id: 'cubaReact.fileUpload.uploadFailed'}));
+      message.error(this.props.intl.formatMessage({id: 'jmix.fileUpload.uploadFailed'}));
     }
 
     if (info.file.status === 'done') {
@@ -137,20 +137,20 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
       .then(action((blob: Blob) => {
         this.previewImageObjectUrl = URL.createObjectURL(blob);
       })).catch(action(() => {
-        message.error(intl.formatMessage({id: 'cubaReact.file.downloadFailed'}));
+        message.error(intl.formatMessage({id: 'jmix.file.downloadFailed'}));
         this.isPreviewVisible = false;
       })).finally(action(() => {
         this.isPreviewLoading = false;
       }));
     } else {
       // Download file with correct filename
-      const hideDownloadMessage = message.loading(intl.formatMessage({id: 'cubaReact.file.downloading'}));
+      const hideDownloadMessage = message.loading(intl.formatMessage({id: 'jmix.file.downloading'}));
       getJmixREST()!.getFile(this.fileList[0].uid).then((blob: Blob) => {
         const objectUrl: string = URL.createObjectURL(blob);
         saveFile(objectUrl, fileName);
         URL.revokeObjectURL(objectUrl);
       }).catch(() => {
-        message.error(intl.formatMessage({id: 'cubaReact.file.downloadFailed'}));
+        message.error(intl.formatMessage({id: 'jmix.file.downloadFailed'}));
       }).finally(() => {
         hideDownloadMessage();
       });
@@ -250,7 +250,7 @@ function FileUploadDropArea(props: FileUploadDropAreaProps) {
       <div className='cuba-file-drop-area'>
         <UploadOutlined className='replaceicon' />
         <span className='replacetext'>
-          <FormattedMessage id='cubaReact.fileUpload.replace'/>
+          <FormattedMessage id='jmix.fileUpload.replace'/>
         </span>
       </div>
     )
@@ -258,7 +258,7 @@ function FileUploadDropArea(props: FileUploadDropAreaProps) {
       <div className='cuba-file-drop-area'>
         <UploadOutlined className='uploadicon' />
         <div className='uploadtext'>
-          <FormattedMessage id='cubaReact.fileUpload.upload'/>
+          <FormattedMessage id='jmix.fileUpload.upload'/>
         </div>
       </div>
     );

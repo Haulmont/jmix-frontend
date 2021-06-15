@@ -100,7 +100,7 @@ const UpsertBtnTitle = ({value, dirty}: UpsertBtnTitleProps) => {
     return (
       <span>
         <PlusOutlined />
-        <FormattedMessage id={'cubaReact.nestedEntityField.create'} />
+        <FormattedMessage id={'jmix.nestedEntityField.create'} />
       </span>
     );
   }
