@@ -6,7 +6,7 @@ import {useDevLogin} from './dev/hooks';
 import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
 import {JmixAppProvider, initializeApolloClient} from "@haulmont/jmix-react-core";
-import {I18nProvider} from "@haulmont/jmix-react-ui";
+import {I18nProvider, Modals} from "@haulmont/jmix-react-ui";
 import {initializeApp} from "@haulmont/jmix-rest";
 import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./config";
 import 'mobx-react-lite/batchingForReactDom';
@@ -56,6 +56,7 @@ ReactDOM.render(
                      locale: '<%= clientLocales.length > 0 ? clientLocales[0] : 'en' %>'
                    }}
                    metadata={metadata}
+                   Modals={Modals}
   >
     <ApolloProvider client={client}>
       <I18nProvider messagesMapping={messagesMapping}

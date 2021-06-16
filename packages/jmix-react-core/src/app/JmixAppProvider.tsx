@@ -91,6 +91,7 @@ export interface JmixAppProviderProps {
    * or `undefined` if no valid token is available.
    */
   retrieveRestApiToken?: () => Promise<string|undefined>;
+  Modals: React.ComponentType,
   /**
    * Configuration object.
    */
@@ -104,6 +105,7 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
   retrieveRestApiToken = () => Promise.resolve(undefined),
   config,
   metadata,
+  Modals
 }) => {
   const JmixRestConnectionContext = getContext();
   return (
@@ -146,7 +148,9 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
           <JmixRestConnectionContext.Provider value={context}>
             <MetadataProvider metadata={normalizeMetadata(metadata)}>
               <Provider mainStore={mainStore}>
-                {children}
+                <Modals>
+                  {children}
+                </Modals>
               </Provider>
             </MetadataProvider>
           </JmixRestConnectionContext.Provider>

@@ -1,17 +1,17 @@
 import {ListQueryVars, HasId} from "@haulmont/jmix-react-core";
-import {Modal} from "antd";
 import {useCallback} from "react";
 import { IntlShape } from "react-intl";
 import {useEntityList, EntityListHookOptions, EntityListHookResult} from "../../crud/list/useEntityList";
 import { useMasterDetailStore } from "./MasterDetailContext";
+import {modals} from "../modals";
 
 function showConfirmDialog(
   onConfirm: () => void,
   intl: IntlShape,
   messageId: string,
 ) {
-  Modal.confirm({
-    title: intl.formatMessage({id: messageId}),
+  modals.open({
+    content: intl.formatMessage({id: messageId}),
     okText: intl.formatMessage({id: "common.ok"}),
     cancelText: intl.formatMessage({id: "common.cancel"}),
     onOk: onConfirm,

@@ -53,3 +53,6 @@ export * from './ui/Tabs';
 export * from './screen-registration/screen-registration';
 
 export * from './ui/menu'
+
+export * from './ui/notifications';
+export * from './ui/modals';
