@@ -31,5 +31,8 @@ module.exports = {
     "^react$": "<rootDir>/../jmix-react-core/node_modules/react",
     "^mobx-react$": "<rootDir>/../jmix-react-core/node_modules/mobx-react",
     "\\.(css|less)$":  "<rootDir>/src/mocks/test-mocks/styleMock.ts"
-  }
+  },
+  "setupFiles": [
+    "./src/test/polyfills.js"
+  ]
 };

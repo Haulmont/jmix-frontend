@@ -47,6 +47,7 @@
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "mockdate": "^3.0.5",
+    "object.fromentries": "^2.0.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-intl": "^5.3.0",
