@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useMemo } from "react";
 import { useIntl } from "react-intl"
 import { Menu, MenuItemProps } from "antd";
 import { RouteItem, SubMenu } from "@haulmont/jmix-react-core";
-import {menuItems, openScreenInTab} from "../../../util/componentsRegistration";
+import {menuItems, openScreenInTab} from "../../../screen-registration/screen-registration";
 
 
 interface Props extends MenuItemProps {

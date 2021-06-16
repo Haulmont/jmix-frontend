@@ -3,7 +3,7 @@ import {useCallback, useContext} from "react";
 import {MultiScreenContext} from "../ui/MultiScreen";
 import { IntlShape } from "react-intl";
 import { message } from "antd";
-import {openCrudScreen, ScreenNotFoundError} from "./componentsRegistration";
+import {openCrudScreen, ScreenNotFoundError} from "../screen-registration/screen-registration";
 
 export interface EntityEditorScreenOptions<TEntity> {
   screens: Screens;
