@@ -1,15 +1,14 @@
-import {Modal} from "antd";
 import {IntlShape} from "react-intl";
 import {EntityInstance} from "@haulmont/jmix-react-core";
+import {modals} from "../../ui/modals";
 
 export function showDeleteEntityDialog(
   onConfirm: () => void,
   intl: IntlShape,
   entityInstance?: EntityInstance,
 ) {
-  // TODO use UI kit agnostic API
-  Modal.confirm({
-    title: intl.formatMessage(
+  modals.open({
+    content: intl.formatMessage(
       {id: "management.browser.delete.areYouSure"},
       {
         instanceName: entityInstance?._instanceName
