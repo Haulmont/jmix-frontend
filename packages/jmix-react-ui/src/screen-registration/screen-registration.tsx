@@ -13,6 +13,7 @@ import {
 import React, { useEffect } from 'react';
 import {observer} from "mobx-react";
 import {MultiScreen} from "../ui/MultiScreen";
+import {entityEditorRegistry, entityListRegistry, screenRegistry } from './registry';
 
 export class ScreenNotFoundError extends Error {
   constructor(message: string) {
@@ -102,8 +103,6 @@ function createScreenElement<TProps = any>(screen: RegisteredScreen, props?: TPr
   return React.createElement(screen.component, props);
 }
 
-const screenRegistry = new Map<string, RegisteredScreen>();
-
 function getScreen(screenId: string): RegisteredScreen {
   const screen = screenRegistry.get(screenId);
   if (screen == null) {
@@ -111,9 +110,6 @@ function getScreen(screenId: string): RegisteredScreen {
   }
   return screen;
 }
-
-const entityEditorRegistry = new Map<string, string>();
-const entityListRegistry = new Map<string, string>();
 
 function getCrudScreen(entityName: string, crudScreenType: 'entityEditor' | 'entityList'): RegisteredScreen {
   let crudScreenRegistry: Map<string, string>;
