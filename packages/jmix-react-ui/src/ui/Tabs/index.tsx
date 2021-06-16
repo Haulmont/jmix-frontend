@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
-import {menuItems, openScreenInTab} from '../../util/componentsRegistration';
+import {menuItems, openScreenInTab} from '../../screen-registration/screen-registration';
 import { CloseOutlined } from '@ant-design/icons';
 
 import './styles.less';
