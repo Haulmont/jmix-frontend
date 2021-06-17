@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -125,14 +125,11 @@ const AssociationO2MEditor = observer(
   }
 );
 
-registerScreen({
+registerEntityEditor({
   component: AssociationO2MEditor,
   caption: "associationO2MEditor",
   screenId: "AssociationO2MEditor",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME
 });
 
 export default AssociationO2MEditor;

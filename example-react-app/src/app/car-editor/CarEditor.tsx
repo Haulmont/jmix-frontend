@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -252,14 +252,11 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
   );
 });
 
-registerScreen({
+registerEntityEditor({
   component: CarEditor,
   caption: "carEditor",
   screenId: "CarEditor",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME
 });
 
 export default CarEditor;

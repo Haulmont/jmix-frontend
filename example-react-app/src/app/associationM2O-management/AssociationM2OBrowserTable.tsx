@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { AssociationM2OTestEntity } from "../../jmix/entities/scr_AssociationM2OTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -171,14 +171,11 @@ const AssociationM2OBrowserTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: AssociationM2OBrowserTable,
   caption: "associationM2OBrowserTable",
   screenId: "AssociationM2OBrowserTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

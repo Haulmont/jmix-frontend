@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -120,14 +120,11 @@ const TrickyIdEditor = observer(
   }
 );
 
-registerScreen({
+registerEntityEditor({
   component: TrickyIdEditor,
   caption: "trickyIdEditor",
   screenId: "TrickyIdEditor",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME
 });
 
 export default TrickyIdEditor;

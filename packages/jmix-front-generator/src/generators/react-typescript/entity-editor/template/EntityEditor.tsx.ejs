@@ -16,7 +16,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen,
+  registerEntityEditor,
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
 import "<%= relDirShift %>app/App.css";
@@ -145,14 +145,11 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   );
 });
 
-registerScreen({
+registerEntityEditor({
   component: <%= className %>,
   caption: '<%= nameLiteral %>',
   screenId: '<%= className %>',
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME,
 });
 
 export default <%= className %>;

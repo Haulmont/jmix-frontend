@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { DeeplyNestedO2MTestEntity } from "../../jmix/entities/scr_DeeplyNestedO2MTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -171,14 +171,11 @@ const DeeplyNestedO2MTestEntityTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: DeeplyNestedO2MTestEntityTable,
   caption: "deeplyNestedO2MTestEntityTable",
   screenId: "DeeplyNestedO2MTestEntityTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

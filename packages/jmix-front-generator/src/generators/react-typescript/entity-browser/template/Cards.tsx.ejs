@@ -10,7 +10,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen,
+  registerEntityList,
 } from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
@@ -140,14 +140,11 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   );
 });
 
-registerScreen({
+registerEntityList({
   component: <%= className %>,
   caption: '<%= nameLiteral %>',
   screenId: '<%= className %>',
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

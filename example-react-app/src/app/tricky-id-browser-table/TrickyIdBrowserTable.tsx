@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -171,14 +171,11 @@ const TrickyIdBrowserTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: TrickyIdBrowserTable,
   caption: "trickyIdBrowserTable",
   screenId: "TrickyIdBrowserTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

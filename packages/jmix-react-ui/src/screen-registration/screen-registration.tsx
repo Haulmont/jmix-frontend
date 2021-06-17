@@ -148,18 +148,11 @@ export interface ScreenRegistrationOptions {
    */
   screenId: string;
   menuOptions?: MenuRegistrationOptions;
-  crudOptions?: CrudRegistrationOptions;
 }
 
 export interface MenuRegistrationOptions {
   pathPattern: string;
   menuLink: string;
-}
-
-export interface CrudRegistrationOptions {
-  entityName: string;
-  isEntityEditor?: boolean;
-  isEntityList?: boolean;
 }
 
 export function registerScreen(options: ScreenRegistrationOptions) {
@@ -168,7 +161,6 @@ export function registerScreen(options: ScreenRegistrationOptions) {
     caption,
     screenId,
     menuOptions,
-    crudOptions
   } = options;
 
   screenRegistry.set(screenId, {
@@ -183,13 +175,22 @@ export function registerScreen(options: ScreenRegistrationOptions) {
       ...menuOptions
     });
   }
+}
 
-  if (crudOptions != null) {
-    registerCrudScreen({
-      screenId,
-      ...crudOptions
-    });
-  }
+export interface CrudScreenRegistrationOptions extends ScreenRegistrationOptions {
+  entityName: string;
+}
+
+export function registerEntityEditor(options: CrudScreenRegistrationOptions) {
+  const { entityName, screenId } = options;
+  registerScreen(options);
+  entityEditorRegistry.set(entityName, screenId);
+}
+
+export function registerEntityList(options: CrudScreenRegistrationOptions) {
+  const { entityName, screenId } = options;
+  registerScreen(options);
+  entityListRegistry.set(entityName, screenId);
 }
 
 interface MenuItemOptions {
@@ -201,25 +202,6 @@ interface MenuItemOptions {
 
 function registerMenuItem(options: MenuItemOptions) {
   getMenuItems().push(options);
-}
-
-interface CrudScreenRegistrationOptions {
-  screenId: string;
-  entityName: string;
-  isEntityEditor?: boolean;
-  isEntityList?: boolean;
-}
-
-function registerCrudScreen(options: CrudScreenRegistrationOptions) {
-  const {screenId, entityName, isEntityEditor, isEntityList} = options;
-
-  if (isEntityEditor) {
-    entityEditorRegistry.set(entityName, screenId);
-  }
-
-  if (isEntityList) {
-    entityListRegistry.set(entityName, screenId);
-  }
 }
 
 interface MultiScreenWrapperProps {
