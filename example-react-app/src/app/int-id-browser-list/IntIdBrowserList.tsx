@@ -10,8 +10,7 @@ import { Button, List, Tooltip } from "antd";
 import {
   EntityInstance,
   getFields,
-  EntityPermAccessControl,
-  ScreensContext
+  EntityPermAccessControl
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,

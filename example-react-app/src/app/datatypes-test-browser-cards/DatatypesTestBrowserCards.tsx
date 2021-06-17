@@ -11,8 +11,7 @@ import {
   EntityInstance,
   getFields,
   EntityPermAccessControl,
-  toIdString,
-  ScreensContext
+  toIdString
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
