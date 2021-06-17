@@ -20,5 +20,5 @@ module.exports = {
     "src/index.ts", // This file only contains exports
     "src/test-doubles/*"
   ],
-  "setupFilesAfterEnv": ["jest-expect-message"]
+  "setupFilesAfterEnv": ["jest-expect-message", "./src/test/polyfills.js"]
 };

@@ -31,6 +31,7 @@ export default {
     'dayjs/plugin/weekYear',
     'jest-expect-message',
     'mobx-react',
+    'object.fromentries',
     'react',
     'react-dom',
     'react-router',
