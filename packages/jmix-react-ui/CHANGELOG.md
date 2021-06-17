@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.21...@haulmont/jmix-react-ui@1.0.0-next.22) (2021-06-17)
+
+
+### Features
+
+* notifications and modals API [#300](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/300) ([b0dcf03](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/b0dcf0336e478617d1a80aff5fcef627e5e2485c))
+
+
+
+
+
 # [1.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.20...@haulmont/jmix-react-ui@1.0.0-next.21) (2021-06-12)
 
 
