@@ -134,12 +134,6 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_DATATYPESTESTENTITY = gql`
-  mutation Delete_scr_DatatypesTestEntity($id: String!) {
-    delete_scr_DatatypesTestEntity(id: $id)
-  }
-`;
-
 const DatatypesTestBrowserTable = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -161,7 +155,6 @@ const DatatypesTestBrowserTable = observer(
       entityListState
     } = useEntityList<DatatypesTestEntity>({
       listQuery: SCR_DATATYPESTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_DATATYPESTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

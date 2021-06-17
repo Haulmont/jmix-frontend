@@ -41,12 +41,6 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_TRICKYIDTESTENTITY = gql`
-  mutation Delete_scr_TrickyIdTestEntity($id: String!) {
-    delete_scr_TrickyIdTestEntity(id: $id)
-  }
-`;
-
 const TrickyIdBrowserTable = observer(
   (props: EntityListProps<TrickyIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -68,7 +62,6 @@ const TrickyIdBrowserTable = observer(
       entityListState
     } = useEntityList<TrickyIdTestEntity>({
       listQuery: SCR_TRICKYIDTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_TRICKYIDTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

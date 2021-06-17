@@ -63,12 +63,6 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-const DELETE_SCR_CAR = gql`
-  mutation Delete_scr_Car($id: String!) {
-    delete_scr_Car(id: $id)
-  }
-`;
-
 export const CarCardsGrid = observer(() => {
   const {
     executeListQuery,
@@ -77,7 +71,6 @@ export const CarCardsGrid = observer(() => {
     entityListState
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
-    deleteMutation: DELETE_SCR_CAR,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     paginationConfig: defaultGridPaginationConfig

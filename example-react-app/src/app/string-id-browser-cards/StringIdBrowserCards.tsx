@@ -69,12 +69,6 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_STRINGIDTESTENTITY = gql`
-  mutation Delete_scr_StringIdTestEntity($id: String!) {
-    delete_scr_StringIdTestEntity(id: $id)
-  }
-`;
-
 const StringIdBrowserCards = observer(
   (props: EntityListProps<StringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -92,7 +86,6 @@ const StringIdBrowserCards = observer(
       entityListState
     } = useEntityList<StringIdTestEntity>({
       listQuery: SCR_STRINGIDTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_STRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

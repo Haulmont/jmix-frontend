@@ -41,12 +41,6 @@ const SCR_BORINGSTRINGIDTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_BORINGSTRINGIDTESTENTITY = gql`
-  mutation Delete_scr_BoringStringIdTestEntity($id: String!) {
-    delete_scr_BoringStringIdTestEntity(id: $id)
-  }
-`;
-
 const BoringStringIdBrowserTable = observer(
   (props: EntityListProps<BoringStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -68,7 +62,6 @@ const BoringStringIdBrowserTable = observer(
       entityListState
     } = useEntityList<BoringStringIdTestEntity>({
       listQuery: SCR_BORINGSTRINGIDTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_BORINGSTRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
