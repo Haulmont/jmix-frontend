@@ -41,12 +41,6 @@ const SCR_DEEPLYNESTEDO2MTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_DEEPLYNESTEDO2MTESTENTITY = gql`
-  mutation Delete_scr_DeeplyNestedO2MTestEntity($id: String!) {
-    delete_scr_DeeplyNestedO2MTestEntity(id: $id)
-  }
-`;
-
 const DeeplyNestedO2MTestEntityTable = observer(
   (props: EntityListProps<DeeplyNestedO2MTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -68,7 +62,6 @@ const DeeplyNestedO2MTestEntityTable = observer(
       entityListState
     } = useEntityList<DeeplyNestedO2MTestEntity>({
       listQuery: SCR_DEEPLYNESTEDO2MTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_DEEPLYNESTEDO2MTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

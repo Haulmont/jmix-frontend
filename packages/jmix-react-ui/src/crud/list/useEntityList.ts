@@ -36,6 +36,7 @@ import {useSelectionChangeCallback} from "./ui-callbacks/useSelectionChangeCallb
 import {useFilterChangeCallback} from "./ui-callbacks/useFilterChangeCallback";
 import {useSortOrderChangeCallback} from "./ui-callbacks/useSortOrderChangeCallback";
 import * as React from "react";
+import {createDeleteMutation} from "./util/createDeleteMutation";
 
 export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
@@ -51,7 +52,7 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * GraphQL mutation that deletes a given entity instance.
    * Will be passed to Apollo Client `useMutation` hook along with {@link deleteMutationOptions}.
    */
-  deleteMutation: DocumentNode | TypedDocumentNode;
+  deleteMutation?: DocumentNode | TypedDocumentNode;
   /**
    * Options that will be passed to Apollo Client `useMutation` hook along with {@link deleteMutation}.
    */
@@ -204,11 +205,11 @@ export function useEntityList<
   options: EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars>
 ): EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
   const {
+    entityName,
     listQuery,
     listQueryOptions,
-    deleteMutation,
+    deleteMutation = createDeleteMutation(entityName),
     deleteMutationOptions,
-    entityName,
     routingPath,
     paginationConfig = defaultPaginationConfig,
     entityList,

@@ -41,12 +41,6 @@ const SCR_ASSOCIATIONO2MTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_ASSOCIATIONO2MTESTENTITY = gql`
-  mutation Delete_scr_AssociationO2MTestEntity($id: String!) {
-    delete_scr_AssociationO2MTestEntity(id: $id)
-  }
-`;
-
 const AssociationO2MBrowserTable = observer(
   (props: EntityListProps<AssociationO2MTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -68,7 +62,6 @@ const AssociationO2MBrowserTable = observer(
       entityListState
     } = useEntityList<AssociationO2MTestEntity>({
       listQuery: SCR_ASSOCIATIONO2MTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_ASSOCIATIONO2MTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

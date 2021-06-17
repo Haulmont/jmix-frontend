@@ -51,12 +51,6 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_WEIRDSTRINGIDTESTENTITY = gql`
-  mutation Delete_scr_WeirdStringIdTestEntity($id: String!) {
-    delete_scr_WeirdStringIdTestEntity(id: $id)
-  }
-`;
-
 const WeirdStringIdBrowserList = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -74,7 +68,6 @@ const WeirdStringIdBrowserList = observer(
       entityListState
     } = useEntityList<WeirdStringIdTestEntity>({
       listQuery: SCR_WEIRDSTRINGIDTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_WEIRDSTRINGIDTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

@@ -52,12 +52,6 @@ const SCR_COMPOSITIONO2OTESTENTITY_LIST = gql`
   }
 `;
 
-const DELETE_SCR_COMPOSITIONO2OTESTENTITY = gql`
-  mutation Delete_scr_CompositionO2OTestEntity($id: String!) {
-    delete_scr_CompositionO2OTestEntity(id: $id)
-  }
-`;
-
 const CompositionO2OBrowserTable = observer(
   (props: EntityListProps<CompositionO2OTestEntity>) => {
     const { entityList, onEntityListChange } = props;
@@ -79,7 +73,6 @@ const CompositionO2OBrowserTable = observer(
       entityListState
     } = useEntityList<CompositionO2OTestEntity>({
       listQuery: SCR_COMPOSITIONO2OTESTENTITY_LIST,
-      deleteMutation: DELETE_SCR_COMPOSITIONO2OTESTENTITY,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,

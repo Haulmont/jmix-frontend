@@ -25,12 +25,6 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   }
 `;
 
-const DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
-  mutation Delete_<%= dollarsToUnderscores(entity.name) %>($id: String!) {
-    delete_<%= dollarsToUnderscores(entity.name) %>(id: $id)
-  }
-`;
-
 export const <%= className %> = observer(() => {
   const {
     executeListQuery,
@@ -39,7 +33,6 @@ export const <%= className %> = observer(() => {
     entityListState
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
-    deleteMutation: DELETE_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     paginationConfig: defaultGridPaginationConfig,

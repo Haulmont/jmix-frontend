@@ -47,12 +47,6 @@ const SCR_FAVORITECAR_LIST = gql`
   }
 `;
 
-const DELETE_SCR_FAVORITECAR = gql`
-  mutation Delete_scr_FavoriteCar($id: String!) {
-    delete_scr_FavoriteCar(id: $id)
-  }
-`;
-
 export const FavoriteCars = observer(() => {
   const {
     executeListQuery,
@@ -61,7 +55,6 @@ export const FavoriteCars = observer(() => {
     entityListState
   } = useEntityList<FavoriteCar>({
     listQuery: SCR_FAVORITECAR_LIST,
-    deleteMutation: DELETE_SCR_FAVORITECAR,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH
   });

@@ -75,12 +75,6 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-const DELETE_SCR_CAR = gql`
-  mutation Delete_scr_Car($id: String!) {
-    delete_scr_Car(id: $id)
-  }
-`;
-
 const CarBrowserTable = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
 
@@ -101,7 +95,6 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
     entityListState
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
-    deleteMutation: DELETE_SCR_CAR,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
