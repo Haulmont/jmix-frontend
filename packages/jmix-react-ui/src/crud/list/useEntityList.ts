@@ -19,7 +19,6 @@ import {
   JmixEntityFilter,
   JmixPagination,
   JmixSortOrder,
-  ListQueryVars,
   useEntityListData,
   HasId,
 } from "@haulmont/jmix-react-core";
@@ -77,6 +76,11 @@ export interface EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars
    * @param entityList {@link entityList}
    */
   onEntityListChange?: (entityList?: Array<EntityInstance<TEntity>>) => void;
+  /**
+   * Pass `true` if you don't want the query to be automatically executed upon invocation of the hook.
+   * You will be able to trigger the query manually by invoking {@link EntityListHookResult.executeListQuery} function.
+   */
+  lazyLoading?: boolean;
 }
 
 export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -199,7 +203,7 @@ export interface EntityListState<TEntity> {
 export function useEntityList<
   TEntity = unknown,
   TData extends Record<string, any> = Record<string, any>,
-  TQueryVars extends ListQueryVars = ListQueryVars,
+  TQueryVars = any,
   TMutationVars extends HasId = HasId
 >(
   options: EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars>
@@ -214,6 +218,7 @@ export function useEntityList<
     paginationConfig = defaultPaginationConfig,
     entityList,
     onEntityListChange,
+    lazyLoading
   } = options;
 
   const queryName = `${dollarsToUnderscores(entityName)}List`;
@@ -260,7 +265,8 @@ export function useEntityList<
     filter: entityListState.filter,
     sortOrder: entityListState.sortOrder,
     pagination: entityListState.pagination,
-    entityName
+    entityName,
+    lazyLoading
   });
 
   const [executeDeleteMutation, deleteMutationResult] = useMutation<TData, TMutationVars>(deleteMutation, deleteMutationOptions);

@@ -38,6 +38,11 @@ export interface EntityListDataHookOptions<TEntity, TData, TQueryVars> {
    * State of entity list pagination.
    */
   pagination?: JmixPagination;
+  /**
+   * Pass `true` if you don't want the query to be automatically executed upon invocation of the hook.
+   * You will be able to trigger the query manually by invoking {@link EntityListDataHookResult.executeListQuery} function.
+   */
+  lazyLoading?: boolean;
 }
 
 export interface EntityListDataHookResult<TEntity, TData, TQueryVars> {
@@ -92,7 +97,7 @@ export interface ListQueryVars {
 export function useEntityListData<
   TEntity,
   TData extends Record<string, any> = Record<string, any>,
-  TListQueryVars extends ListQueryVars = ListQueryVars,
+  TListQueryVars = any
 >({
   entityList,
   listQuery,
@@ -100,7 +105,8 @@ export function useEntityListData<
   filter,
   sortOrder,
   pagination,
-  entityName
+  entityName,
+  lazyLoading
 }: EntityListDataHookOptions<TEntity, TData, TListQueryVars>): EntityListDataHookResult<TEntity, TData, TListQueryVars> {
 
   const optsWithVars = {
@@ -109,7 +115,7 @@ export function useEntityListData<
       orderBy: sortOrder,
       limit: pagination?.pageSize,
       offset: calcOffset(pagination?.current, pagination?.pageSize),
-    } as TListQueryVars,
+    } as TListQueryVars & ListQueryVars,
     ...listQueryOptions
   };
 
@@ -120,10 +126,10 @@ export function useEntityListData<
     // We execute the list query unless `entityList` has been passed directly.
     // We don't need relation options in this case as filters will be disabled.
     // If we implement client-side filtering then we'll need to obtain the relation options from backend.
-    if (entityList == null) {
+    if (!lazyLoading && (entityList == null)) {
       executeListQuery();
     }
-  }, [executeListQuery]);
+  }, [executeListQuery, lazyLoading, entityList]);
 
   const items = entityList == null
     ? listQueryResult.data?.[getListQueryName(entityName)]

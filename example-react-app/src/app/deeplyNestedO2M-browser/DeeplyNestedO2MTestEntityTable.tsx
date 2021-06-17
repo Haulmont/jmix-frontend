@@ -2,10 +2,7 @@ import React from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
-import {
-  EntityPermAccessControl,
-  ScreensContext
-} from "@haulmont/jmix-react-core";
+import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
