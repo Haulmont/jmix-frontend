@@ -41,6 +41,17 @@ describe('Screens', () => {
     expect(screens.screens).toEqual([]);
   });
 
+  it('Screens.push()', () => {
+    screens.push(screen1);
+    expect(screens.screens[0]).toEqual(screen1);
+    expect(screens.currentScreen).toEqual(screen1);
+    screens.push(screen2);
+    expect(screens.screens[0]).toEqual(screen1);
+    expect(screens.screens[1]).toEqual(screen2);
+    expect(screens.currentScreen).toEqual(screen2);
+    expect(screens.currentScreen.parent).toEqual(screen1);
+  });
+
   describe('Screens.setActiveScreen()', () => {
     it('sets active screen', () => {
       screens.screens = [screen1, screen2];

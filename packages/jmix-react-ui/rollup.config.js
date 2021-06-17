@@ -33,6 +33,7 @@ export default {
     'mobx',
     'dayjs',
     'mobx-react',
+    'object.fromentries',
     'react',
     'react-intl',
     'react-input-mask',
