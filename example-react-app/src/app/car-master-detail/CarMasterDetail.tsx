@@ -1,7 +1,10 @@
 import React from "react";
 import CarMasterDetailEditor from "./CarMasterDetailEditor";
 import CarMasterDetailBrowser from "./CarMasterDetailBrowser";
-import { registerScreen, MasterDetailManager } from "@haulmont/jmix-react-ui";
+import {
+  registerEntityList,
+  MasterDetailManager
+} from "@haulmont/jmix-react-ui";
 import { observer } from "mobx-react";
 
 const ENTITY_NAME = "scr$Car";
@@ -16,14 +19,11 @@ const CarMasterDetail = observer(() => {
   );
 });
 
-registerScreen({
+registerEntityList({
   component: CarMasterDetail,
   caption: "carMasterDetail",
   screenId: "CarMasterDetail",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

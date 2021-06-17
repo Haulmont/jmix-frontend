@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -225,14 +225,11 @@ const StringIdMgtCardsEdit = observer(
   }
 );
 
-registerScreen({
+registerEntityEditor({
   component: StringIdMgtCardsEdit,
   caption: "stringIdMgtCardsEdit",
   screenId: "StringIdMgtCardsEdit",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME
 });
 
 export default StringIdMgtCardsEdit;

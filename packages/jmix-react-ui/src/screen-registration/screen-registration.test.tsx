@@ -1,7 +1,7 @@
 import React from "react";
 import {
   openCrudScreen,
-  openScreenInTab, registerScreen,
+  openScreenInTab, registerEntityEditor, registerEntityList, registerScreen,
   ScreenNotFoundError,
 } from "./screen-registration";
 import {getMenuItems, Screens, tabs} from "@haulmont/jmix-react-core";
@@ -194,24 +194,18 @@ describe('Screen registration', () => {
     });
 
     it('can register CRUD screen', () => {
-      registerScreen({
+      registerEntityList({
         component: () => null,
         caption: 'Car List',
         screenId: 'CarList',
-        crudOptions: {
-          entityName: 'scr_Car',
-          isEntityList: true
-        }
+        entityName: 'scr_Car',
       });
 
-      registerScreen({
+      registerEntityEditor({
         component: () => null,
         caption: 'Car Editor',
         screenId: 'CarEditor',
-        crudOptions: {
-          entityName: 'scr_Car',
-          isEntityEditor: true
-        }
+        entityName: 'scr_Car',
       });
 
       expect(entityEditorRegistry.has('scr_Car')).toEqual(true);

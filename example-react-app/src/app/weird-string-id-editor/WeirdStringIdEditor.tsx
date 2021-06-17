@@ -14,7 +14,7 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerScreen
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -131,14 +131,11 @@ const WeirdStringIdEditor = observer(
   }
 );
 
-registerScreen({
+registerEntityEditor({
   component: WeirdStringIdEditor,
   caption: "weirdStringIdEditor",
   screenId: "WeirdStringIdEditor",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityEditor: true
-  }
+  entityName: ENTITY_NAME
 });
 
 export default WeirdStringIdEditor;

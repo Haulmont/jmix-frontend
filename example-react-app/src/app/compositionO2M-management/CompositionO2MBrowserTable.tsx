@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { CompositionO2MTestEntity } from "../../jmix/entities/scr_CompositionO2MTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -177,14 +177,11 @@ const CompositionO2MBrowserTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: CompositionO2MBrowserTable,
   caption: "compositionO2MBrowserTable",
   screenId: "CompositionO2MBrowserTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

@@ -21,7 +21,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -182,14 +182,11 @@ const WeirdStringIdBrowserCards = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: WeirdStringIdBrowserCards,
   caption: "weirdStringIdBrowserCards",
   screenId: "WeirdStringIdBrowserCards",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

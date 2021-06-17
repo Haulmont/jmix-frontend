@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -289,14 +289,11 @@ const DatatypesTestBrowserTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: DatatypesTestBrowserTable,
   caption: "datatypesTestBrowserTable",
   screenId: "DatatypesTestBrowserTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

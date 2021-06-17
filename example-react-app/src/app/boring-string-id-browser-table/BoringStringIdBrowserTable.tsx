@@ -11,7 +11,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -171,14 +171,11 @@ const BoringStringIdBrowserTable = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: BoringStringIdBrowserTable,
   caption: "boringStringIdBrowserTable",
   screenId: "BoringStringIdBrowserTable",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH

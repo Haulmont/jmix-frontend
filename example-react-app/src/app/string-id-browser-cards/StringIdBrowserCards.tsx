@@ -21,7 +21,7 @@ import {
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerScreen
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { FormattedMessage } from "react-intl";
@@ -199,14 +199,11 @@ const StringIdBrowserCards = observer(
   }
 );
 
-registerScreen({
+registerEntityList({
   component: StringIdBrowserCards,
   caption: "stringIdBrowserCards",
   screenId: "StringIdBrowserCards",
-  crudOptions: {
-    entityName: ENTITY_NAME,
-    isEntityList: true
-  },
+  entityName: ENTITY_NAME,
   menuOptions: {
     pathPattern: `${ROUTING_PATH}/:entityId?`,
     menuLink: ROUTING_PATH
