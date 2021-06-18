@@ -84,13 +84,13 @@
 					<a name="usereaction" class="tsd-anchor"></a>
 					<h3><span class="tsd-flag ts-flagConst">Const</span> use<wbr>Reaction</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">use<wbr>Reaction&lt;T&gt;<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, effect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">IReactionOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">use<wbr>Reaction&lt;T&gt;<span class="tsd-signature-symbol">(</span>expression<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">T</span>, effect<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, prevExpressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, options<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">IReactionOptions</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/stateManagement.ts#L16">src/util/stateManagement.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/stateManagement.ts#L16">src/util/stateManagement.ts:16</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -133,11 +133,11 @@
 									</ul>
 								</li>
 								<li>
-									<h5>effect: <span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>effect: <span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, prevExpressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>expressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, prevExpressionResult<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">T</span>, reactionObject<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IReactionPublic</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
@@ -145,6 +145,9 @@
 													<ul class="tsd-parameters">
 														<li>
 															<h5>expressionResult: <span class="tsd-signature-type">T</span></h5>
+														</li>
+														<li>
+															<h5>prevExpressionResult: <span class="tsd-signature-type">T</span></h5>
 														</li>
 														<li>
 															<h5>reactionObject: <span class="tsd-signature-type">IReactionPublic</span></h5>
@@ -174,77 +177,8 @@
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_accesscontrol.html">access-<wbr>control/<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_attrpermaccesscontrol.html">access-<wbr>control/<wbr>Attr<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_entitypermaccesscontrol.html">access-<wbr>control/<wbr>Entity<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_jmixappprovider.html">app/<wbr>Jmix<wbr>App<wbr>Provider</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_mainstore.html">app/<wbr>Main<wbr>Store</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_menuconfig.html">app/<wbr>Menu<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_security.html">app/<wbr>Security</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_security_test.html">app/<wbr>Security.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_association.html">data/<wbr>Association</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_collection.html">data/<wbr>Collection</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_collection_test.html">data/<wbr>Collection.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_datacontext.html">data/<wbr>Data<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_instance.html">data/<wbr>Instance</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_instance_test.html">data/<wbr>Instance.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_collation.html">util/collation</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_collation_test.html">util/collation.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_data.html">util/data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_errorhandling.html">util/error<wbr>Handling</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_formats.html">util/formats</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_internal_data.html">util/internal/data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_metadata.html">util/metadata</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="util_statemanagement.html">util/state<wbr>Management</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_temporal.html">util/temporal</a>
 					</li>
 				</ul>
 			</nav>
@@ -267,6 +201,7 @@
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

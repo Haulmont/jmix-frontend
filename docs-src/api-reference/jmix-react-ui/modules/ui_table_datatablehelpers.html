@@ -73,20 +73,19 @@
 							<h3>Interfaces</h3>
 							<ul class="tsd-index-list">
 								<li class="tsd-kind-interface tsd-parent-kind-module"><a href="../interfaces/ui_table_datatablehelpers.datacolumnconfig.html" class="tsd-kind-icon">Data<wbr>Column<wbr>Config</a></li>
-								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter"><a href="../interfaces/ui_table_datatablehelpers.tablechangedto.html" class="tsd-kind-icon">Table<wbr>ChangeDTO</a></li>
+								<li class="tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter"><a href="../interfaces/ui_table_datatablehelpers.tablechangeshape.html" class="tsd-kind-icon">Table<wbr>Change<wbr>Shape</a></li>
 							</ul>
 						</section>
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#entityfiltertotablefilters" class="tsd-kind-icon">entity<wbr>Filter<wbr>ToTable<wbr>Filters</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#generatecustomfilterdropdown" class="tsd-kind-icon">generate<wbr>Custom<wbr>Filter<wbr>Dropdown</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="ui_table_datatablehelpers.html#generatedatacolumn" class="tsd-kind-icon">generate<wbr>Data<wbr>Column</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#generateenumfilter" class="tsd-kind-icon">generate<wbr>Enum<wbr>Filter</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#getpreservedconditions" class="tsd-kind-icon">get<wbr>Preserved<wbr>Conditions</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#graphqlfiltertotablefilters" class="tsd-kind-icon">graphql<wbr>Filter<wbr>ToTable<wbr>Filters</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="ui_table_datatablehelpers.html#handletablechange" class="tsd-kind-icon">handle<wbr>Table<wbr>Change</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#isconditionsgroup" class="tsd-kind-icon">is<wbr>Conditions<wbr>Group</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#ispreservedcondition" class="tsd-kind-icon">is<wbr>Preserved<wbr>Condition</a></li>
-								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="ui_table_datatablehelpers.html#setfilters" class="tsd-kind-icon">set<wbr>Filters</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="ui_table_datatablehelpers.html#setfilters" class="tsd-kind-icon">set<wbr>Filters</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter"><a href="ui_table_datatablehelpers.html#setsorter" class="tsd-kind-icon">set<wbr>Sorter</a></li>
 							</ul>
 						</section>
@@ -96,53 +95,16 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="entityfiltertotablefilters" class="tsd-anchor"></a>
-					<h3>entity<wbr>Filter<wbr>ToTable<wbr>Filters</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">entity<wbr>Filter<wbr>ToTable<wbr>Filters<span class="tsd-signature-symbol">(</span>entityFilter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EntityFilter</span>, fields<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L441">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:441</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Converts EntityFilter to antd table filters object.
-									Useful e.g. to set the initial state of table filters when the table is loaded with a predefined EntityFilter.</p>
-								</div>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>entityFilter: <span class="tsd-signature-type">EntityFilter</span></h5>
-								</li>
-								<li>
-									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>names of the entity properties displayed in the table.
-											Allows to check the <code>EntityFilter.conditions</code> against the list of displayed fields and ensure that only
-										the conditions related to the displayed fields are used.</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
 					<a name="generatecustomfilterdropdown" class="tsd-anchor"></a>
 					<h3>generate<wbr>Custom<wbr>Filter<wbr>Dropdown</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Custom<wbr>Filter<wbr>Dropdown<span class="tsd-signature-symbol">(</span>propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, operator<span class="tsd-signature-symbol">: </span><a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, onOperatorChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, onValueChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, customFilterRefCallback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>instance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FormInstance</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FilterDropdownProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ReactNode</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Custom<wbr>Filter<wbr>Dropdown<span class="tsd-signature-symbol">(</span>propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, operator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComparisonType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, onOperatorChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComparisonType</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, onValueChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, customFilterRefCallback<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span>instance<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FormInstance</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span>, relationOptions<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">HasId</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">MayHaveInstanceName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FilterDropdownProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ReactNode</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L258">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:258</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L272">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:272</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -154,21 +116,21 @@
 									<h5>entityName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>operator: <a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
+									<h5>operator: <span class="tsd-signature-type">ComparisonType</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
 								</li>
 								<li>
-									<h5>onOperatorChange: <span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
+									<h5>onOperatorChange: <span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComparisonType</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">void</span></h5>
 									<ul class="tsd-parameters">
 										<li class="tsd-parameter-signature">
 											<ul class="tsd-signatures tsd-kind-type-literal">
-												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+												<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>operator<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ComparisonType</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 											</ul>
 											<ul class="tsd-descriptions">
 												<li class="tsd-description">
 													<h4 class="tsd-parameters-title">Parameters</h4>
 													<ul class="tsd-parameters">
 														<li>
-															<h5>operator: <a href="ui_table_datatablecustomfilter.html#comparisontype" class="tsd-signature-type" data-tsd-kind="Type alias">ComparisonType</a></h5>
+															<h5>operator: <span class="tsd-signature-type">ComparisonType</span></h5>
 														</li>
 														<li>
 															<h5>propertyName: <span class="tsd-signature-type">string</span></h5>
@@ -228,6 +190,9 @@
 										</li>
 									</ul>
 								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> relationOptions: <span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">HasId</span><span class="tsd-signature-symbol"> &amp; </span><span class="tsd-signature-type">MayHaveInstanceName</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-symbol">(</span>props<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FilterDropdownProps</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol"> =&gt; </span><span class="tsd-signature-type">React.ReactNode</span></h4>
 							<ul class="tsd-parameters">
@@ -261,7 +226,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L157">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:157</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L166">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:166</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -378,13 +343,13 @@
 					<a name="generateenumfilter" class="tsd-anchor"></a>
 					<h3>generate<wbr>Enum<wbr>Filter</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">generate<wbr>Enum<wbr>Filter<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span>, mainStore<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MainStore</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ColumnFilterItem</span><span class="tsd-signature-symbol">[]</span></li>
+						<li class="tsd-signature tsd-kind-icon">generate<wbr>Enum<wbr>Filter<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span>, metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Metadata</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ColumnFilterItem</span><span class="tsd-signature-symbol">[]</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L241">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:241</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L255">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:255</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -396,14 +361,66 @@
 							<ul class="tsd-parameters">
 								<li>
 									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
-								</li>
-								<li>
-									<h5>mainStore: <span class="tsd-signature-type">MainStore</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
+								<li>
+									<h5>metadata: <span class="tsd-signature-type">Metadata</span></h5>
+								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ColumnFilterItem</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getpreservedconditions" class="tsd-anchor"></a>
+					<h3>get<wbr>Preserved<wbr>Conditions</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Preserved<wbr>Conditions<span class="tsd-signature-symbol">(</span>filters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span>, fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L496">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:496</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>filters: <span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+								<li>
+									<h5>fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="graphqlfiltertotablefilters" class="tsd-anchor"></a>
+					<h3>graphql<wbr>Filter<wbr>ToTable<wbr>Filters</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">graphql<wbr>Filter<wbr>ToTable<wbr>Filters<span class="tsd-signature-symbol">(</span>initialFilter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JmixEntityFilter</span>, fields<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L481">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:481</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>initialFilter: <span class="tsd-signature-type">JmixEntityFilter</span></h5>
+								</li>
+								<li>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -411,13 +428,13 @@
 					<a name="handletablechange" class="tsd-anchor"></a>
 					<h3>handle<wbr>Table<wbr>Change</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">handle<wbr>Table<wbr>Change&lt;E&gt;<span class="tsd-signature-symbol">(</span>tableChangeDTO<span class="tsd-signature-symbol">: </span><a href="../interfaces/ui_table_datatablehelpers.tablechangedto.html" class="tsd-signature-type" data-tsd-kind="Interface">TableChangeDTO</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></li>
+						<li class="tsd-signature tsd-kind-icon">handle<wbr>Table<wbr>Change&lt;E&gt;<span class="tsd-signature-symbol">(</span>tableChange<span class="tsd-signature-symbol">: </span><a href="../interfaces/ui_table_datatablehelpers.tablechangeshape.html" class="tsd-signature-type" data-tsd-kind="Interface">TableChangeShape</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L414">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:414</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L460">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:460</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -438,115 +455,47 @@
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>tableChangeDTO: <a href="../interfaces/ui_table_datatablehelpers.tablechangedto.html" class="tsd-signature-type" data-tsd-kind="Interface">TableChangeDTO</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5>tableChange: <a href="../interfaces/ui_table_datatablehelpers.tablechangeshape.html" class="tsd-signature-type" data-tsd-kind="Interface">TableChangeShape</a><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
 						</li>
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="isconditionsgroup" class="tsd-anchor"></a>
-					<h3>is<wbr>Conditions<wbr>Group</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Conditions<wbr>Group<span class="tsd-signature-symbol">(</span>conditionOrConditionsGroup<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Condition</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ConditionsGroup</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L463">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:463</a></li>
-								</ul>
-							</aside>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>conditionOrConditionsGroup: <span class="tsd-signature-type">Condition</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ConditionsGroup</span></h5>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="ispreservedcondition" class="tsd-anchor"></a>
-					<h3>is<wbr>Preserved<wbr>Condition</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Preserved<wbr>Condition<span class="tsd-signature-symbol">(</span>condition<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Condition</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ConditionsGroup</span>, fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
-					</ul>
-					<ul class="tsd-descriptions">
-						<li class="tsd-description">
-							<aside class="tsd-sources">
-								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L477">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:477</a></li>
-								</ul>
-							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Determines whether a condition shall be preserved in <code>DataCollectionStore</code> when clearing table filters.</p>
-								</div>
-								<dl class="tsd-comment-tags">
-									<dt>remarks</dt>
-									<dd><p>Preserved conditions include <code>ConditionGroup</code>s and conditions on fields that are not displayed in the table.
-										Effectively they act as invisible filters that cannot be disabled.</p>
-									</dd>
-								</dl>
-							</div>
-							<h4 class="tsd-parameters-title">Parameters</h4>
-							<ul class="tsd-parameters">
-								<li>
-									<h5>condition: <span class="tsd-signature-type">Condition</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">ConditionsGroup</span></h5>
-								</li>
-								<li>
-									<h5>fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>names of the entity properties displayed in the table</p>
-									</div>
-								</li>
-							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-						</li>
-					</ul>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 					<a name="setfilters" class="tsd-anchor"></a>
 					<h3>set<wbr>Filters</h3>
-					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Filters&lt;E&gt;<span class="tsd-signature-symbol">(</span>tableFilters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">ReactText</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span>, fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, mainStore<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MainStore</span>, dataCollection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataCollectionStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Filters<span class="tsd-signature-symbol">(</span>tableFilters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">ReactText</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span>, onFilterChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">FilterChangeCallback</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, fields<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span>, metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Metadata</span>, apiFilters<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L290">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:290</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L307">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:307</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets filters on provided <code>dataCollection</code> based on current state of table filters</p>
-								</div>
-							</div>
-							<h4 class="tsd-type-parameters-title">Type parameters</h4>
-							<ul class="tsd-type-parameters">
-								<li>
-									<h4>E</h4>
-								</li>
-							</ul>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
 									<h5>tableFilters: <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">(</span><span class="tsd-signature-type">ReactText</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 								<li>
+									<h5>onFilterChange: <span class="tsd-signature-type">FilterChangeCallback</span></h5>
+								</li>
+								<li>
+									<h5>entityName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
 									<h5>fields: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>mainStore: <span class="tsd-signature-type">MainStore</span></h5>
+									<h5>metadata: <span class="tsd-signature-type">Metadata</span></h5>
 								</li>
 								<li>
-									<h5>dataCollection: <span class="tsd-signature-type">DataCollectionStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> apiFilters: <span class="tsd-signature-type">JmixEntityFilter</span><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
@@ -559,20 +508,15 @@
 					<a name="setsorter" class="tsd-anchor"></a>
 					<h3>set<wbr>Sorter</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
-						<li class="tsd-signature tsd-kind-icon">set<wbr>Sorter&lt;E&gt;<span class="tsd-signature-symbol">(</span>sorter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, defaultSort<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span>, dataCollection<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">DataCollectionStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<wbr>Sorter&lt;E&gt;<span class="tsd-signature-symbol">(</span>sorter<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span>, onSortOrderChange<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">SortOrderChangeCallback</span>, defaultSort<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">JmixSortOrder</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L358">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:358</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-ui/src/ui/table/DataTableHelpers.tsx#L395">jmix-react-ui/src/ui/table/DataTableHelpers.tsx:395</a></li>
 								</ul>
 							</aside>
-							<div class="tsd-comment tsd-typography">
-								<div class="lead">
-									<p>Sets sort field/order on provided <code>dataCollection</code> based on current state of table <code>sorter</code>.</p>
-								</div>
-							</div>
 							<h4 class="tsd-type-parameters-title">Type parameters</h4>
 							<ul class="tsd-type-parameters">
 								<li>
@@ -585,14 +529,10 @@
 									<h5>sorter: <span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">SorterResult</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
-									<h5>defaultSort: <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h5>
-									<div class="tsd-comment tsd-typography">
-										<p>name of the field to be sorted by. If the name is preceeding by the &#39;+&#39; character, then the sort order is ascending,
-										if by the &#39;-&#39; character then descending. If there is no special character before the property name, then ascending sort will be used.</p>
-									</div>
+									<h5>onSortOrderChange: <span class="tsd-signature-type">SortOrderChangeCallback</span></h5>
 								</li>
 								<li>
-									<h5>dataCollection: <span class="tsd-signature-type">DataCollectionStore</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">E</span><span class="tsd-signature-symbol">&gt;</span></h5>
+									<h5><span class="tsd-flag ts-flagOptional">Optional</span> defaultSort: <span class="tsd-signature-type">JmixSortOrder</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
@@ -620,10 +560,7 @@
 						<a href="../interfaces/ui_table_datatablehelpers.datacolumnconfig.html" class="tsd-kind-icon">Data<wbr>Column<wbr>Config</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module tsd-has-type-parameter">
-						<a href="../interfaces/ui_table_datatablehelpers.tablechangedto.html" class="tsd-kind-icon">Table<wbr>ChangeDTO</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="ui_table_datatablehelpers.html#entityfiltertotablefilters" class="tsd-kind-icon">entity<wbr>Filter<wbr>ToTable<wbr>Filters</a>
+						<a href="../interfaces/ui_table_datatablehelpers.tablechangeshape.html" class="tsd-kind-icon">Table<wbr>Change<wbr>Shape</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="ui_table_datatablehelpers.html#generatecustomfilterdropdown" class="tsd-kind-icon">generate<wbr>Custom<wbr>Filter<wbr>Dropdown</a>
@@ -634,16 +571,16 @@
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="ui_table_datatablehelpers.html#generateenumfilter" class="tsd-kind-icon">generate<wbr>Enum<wbr>Filter</a>
 					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="ui_table_datatablehelpers.html#getpreservedconditions" class="tsd-kind-icon">get<wbr>Preserved<wbr>Conditions</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="ui_table_datatablehelpers.html#graphqlfiltertotablefilters" class="tsd-kind-icon">graphql<wbr>Filter<wbr>ToTable<wbr>Filters</a>
+					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="ui_table_datatablehelpers.html#handletablechange" class="tsd-kind-icon">handle<wbr>Table<wbr>Change</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="ui_table_datatablehelpers.html#isconditionsgroup" class="tsd-kind-icon">is<wbr>Conditions<wbr>Group</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="ui_table_datatablehelpers.html#ispreservedcondition" class="tsd-kind-icon">is<wbr>Preserved<wbr>Condition</a>
-					</li>
-					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">
 						<a href="ui_table_datatablehelpers.html#setfilters" class="tsd-kind-icon">set<wbr>Filters</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module tsd-has-type-parameter">

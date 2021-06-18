@@ -72,6 +72,12 @@
 						<section class="tsd-index-section ">
 							<h3>Type aliases</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#hasid" class="tsd-kind-icon">Has<wbr>Id</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#hasinstancename" class="tsd-kind-icon">Has<wbr>Instance<wbr>Name</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#hasname" class="tsd-kind-icon">Has<wbr>Name</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#mayhaveid" class="tsd-kind-icon">May<wbr>Have<wbr>Id</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#mayhaveinstancename" class="tsd-kind-icon">May<wbr>Have<wbr>Instance<wbr>Name</a></li>
+								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#mayhavename" class="tsd-kind-icon">May<wbr>Have<wbr>Name</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#withid" class="tsd-kind-icon">With<wbr>Id</a></li>
 								<li class="tsd-kind-type-alias tsd-parent-kind-module"><a href="util_metadata.html#withname" class="tsd-kind-icon">With<wbr>Name</a></li>
 							</ul>
@@ -79,10 +85,12 @@
 						<section class="tsd-index-section ">
 							<h3>Functions</h3>
 							<ul class="tsd-index-list">
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#findentitymetadata" class="tsd-kind-icon">find<wbr>Entity<wbr>Metadata</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#getenumcaption" class="tsd-kind-icon">get<wbr>Enum<wbr>Caption</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#getpropertycaption" class="tsd-kind-icon">get<wbr>Property<wbr>Caption</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#getpropertyinfo" class="tsd-kind-icon">get<wbr>Property<wbr>Info</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#getpropertyinfonn" class="tsd-kind-icon">get<wbr>Property<wbr>InfoNN</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#hasrelationproperties" class="tsd-kind-icon">has<wbr>Relation<wbr>Properties</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#isanydateproperty" class="tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Property</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#isanydatetimeproperty" class="tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Time<wbr>Property</a></li>
 								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_metadata.html#isanytimeproperty" class="tsd-kind-icon">is<wbr>Any<wbr>Time<wbr>Property</a></li>
@@ -123,19 +131,134 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Type aliases</h2>
 				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
-					<a name="withid" class="tsd-anchor"></a>
-					<h3>With<wbr>Id</h3>
-					<div class="tsd-signature tsd-kind-icon">With<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<a name="hasid" class="tsd-anchor"></a>
+					<h3>Has<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">Has<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L210">src/util/metadata.ts:210</a></li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L234">src/util/metadata.ts:234</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
 							<li class="tsd-parameter">
-								<h5><span class="tsd-flag ts-flagOptional">Optional</span> id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+								<h5>id<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="hasinstancename" class="tsd-anchor"></a>
+					<h3>Has<wbr>Instance<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">Has<wbr>Instance<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>_instanceName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L237">src/util/metadata.ts:237</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>_instance<wbr>Name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="hasname" class="tsd-anchor"></a>
+					<h3>Has<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">Has<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L240">src/util/metadata.ts:240</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5>name<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="mayhaveid" class="tsd-anchor"></a>
+					<h3>May<wbr>Have<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">May<wbr>Have<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L235">src/util/metadata.ts:235</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="mayhaveinstancename" class="tsd-anchor"></a>
+					<h3>May<wbr>Have<wbr>Instance<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">May<wbr>Have<wbr>Instance<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>_instanceName<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L238">src/util/metadata.ts:238</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> _instance<wbr>Name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="mayhavename" class="tsd-anchor"></a>
+					<h3>May<wbr>Have<wbr>Name</h3>
+					<div class="tsd-signature tsd-kind-icon">May<wbr>Have<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L241">src/util/metadata.ts:241</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span></h5>
+							</li>
+						</ul>
+					</div>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-parent-kind-module">
+					<a name="withid" class="tsd-anchor"></a>
+					<h3>With<wbr>Id</h3>
+					<div class="tsd-signature tsd-kind-icon">With<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol"> }</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L228">src/util/metadata.ts:228</a></li>
+						</ul>
+					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>use <a href="util_metadata.html#mayhaveid">MayHaveId</a></p>
+							</dd>
+						</dl>
+					</div>
+					<div class="tsd-type-declaration">
+						<h4>Type declaration</h4>
+						<ul class="tsd-parameters">
+							<li class="tsd-parameter">
+								<h5><span class="tsd-flag ts-flagOptional">Optional</span> id<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">object</span></h5>
 							</li>
 						</ul>
 					</div>
@@ -146,9 +269,16 @@
 					<div class="tsd-signature tsd-kind-icon">With<wbr>Name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-symbol">{ </span>name<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> }</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L212">src/util/metadata.ts:212</a></li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L232">src/util/metadata.ts:232</a></li>
 						</ul>
 					</aside>
+					<div class="tsd-comment tsd-typography">
+						<dl class="tsd-comment-tags">
+							<dt>deprecated</dt>
+							<dd><p>use <a href="util_metadata.html#mayhavename">MayHaveName</a></p>
+							</dd>
+						</dl>
+					</div>
 					<div class="tsd-type-declaration">
 						<h4>Type declaration</h4>
 						<ul class="tsd-parameters">
@@ -162,16 +292,42 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Functions</h2>
 				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
-					<a name="getenumcaption" class="tsd-anchor"></a>
-					<h3>get<wbr>Enum<wbr>Caption</h3>
+					<a name="findentitymetadata" class="tsd-anchor"></a>
+					<h3>find<wbr>Entity<wbr>Metadata</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Enum<wbr>Caption<span class="tsd-signature-symbol">(</span>enumValueName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span>, enums<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">EnumInfo</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+						<li class="tsd-signature tsd-kind-icon">find<wbr>Entity<wbr>Metadata<span class="tsd-signature-symbol">(</span>entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, metadata<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metadata.html" class="tsd-signature-type" data-tsd-kind="Interface">Metadata</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L34">src/util/metadata.ts:34</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L145">src/util/metadata.ts:145</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>entityName: <span class="tsd-signature-type">string</span></h5>
+								</li>
+								<li>
+									<h5>metadata: <a href="../interfaces/app_metadataprovider.metadata.html" class="tsd-signature-type" data-tsd-kind="Interface">Metadata</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="getenumcaption" class="tsd-anchor"></a>
+					<h3>get<wbr>Enum<wbr>Caption</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Enum<wbr>Caption<span class="tsd-signature-symbol">(</span>enumValueName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a>, enums<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.enuminfo.html" class="tsd-signature-type" data-tsd-kind="Interface">EnumInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L36">src/util/metadata.ts:36</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -180,10 +336,10 @@
 									<h5>enumValueName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 								<li>
-									<h5>enums: <span class="tsd-signature-type">EnumInfo</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>enums: <a href="../interfaces/app_metadataprovider.enuminfo.html" class="tsd-signature-type" data-tsd-kind="Interface">EnumInfo</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span></h4>
@@ -200,7 +356,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L59">src/util/metadata.ts:59</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L61">src/util/metadata.ts:61</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -226,19 +382,19 @@
 					<a name="getpropertyinfo" class="tsd-anchor"></a>
 					<h3>get<wbr>Property<wbr>Info</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Property<wbr>Info<span class="tsd-signature-symbol">(</span>metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaClassInfo</span><span class="tsd-signature-symbol">[]</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Property<wbr>Info<span class="tsd-signature-symbol">(</span>metadata<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol">[]</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L3">src/util/metadata.ts:3</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L5">src/util/metadata.ts:5</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>metadata: <span class="tsd-signature-type">MetaClassInfo</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>metadata: <a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol">[]</span></h5>
 								</li>
 								<li>
 									<h5>entityName: <span class="tsd-signature-type">string</span></h5>
@@ -247,7 +403,7 @@
 									<h5>propertyName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -255,13 +411,13 @@
 					<a name="getpropertyinfonn" class="tsd-anchor"></a>
 					<h3>get<wbr>Property<wbr>InfoNN</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">get<wbr>Property<wbr>InfoNN<span class="tsd-signature-symbol">(</span>propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, metadata<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaClassInfo</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span></li>
+						<li class="tsd-signature tsd-kind-icon">get<wbr>Property<wbr>InfoNN<span class="tsd-signature-symbol">(</span>propertyName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, entityName<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, metadata<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L21">src/util/metadata.ts:21</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L23">src/util/metadata.ts:23</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -283,12 +439,35 @@
 									<h5>entityName: <span class="tsd-signature-type">string</span></h5>
 								</li>
 								<li>
-									<h5>metadata: <span class="tsd-signature-type">MetaClassInfo</span><span class="tsd-signature-symbol">[]</span></h5>
+									<h5>metadata: <a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol">[]</span></h5>
 									<div class="tsd-comment tsd-typography">
 									</div>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">MetaPropertyInfo</span></h4>
+							<h4 class="tsd-returns-title">Returns <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="hasrelationproperties" class="tsd-anchor"></a>
+					<h3>has<wbr>Relation<wbr>Properties</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">has<wbr>Relation<wbr>Properties<span class="tsd-signature-symbol">(</span>entityInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L149">src/util/metadata.ts:149</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>entityInfo: <a href="../interfaces/app_metadataprovider.metaclassinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaClassInfo</a></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
 						</li>
 					</ul>
 				</section>
@@ -296,19 +475,19 @@
 					<a name="isanydateproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Any<wbr>Date<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L115">src/util/metadata.ts:115</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L118">src/util/metadata.ts:118</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -319,19 +498,19 @@
 					<a name="isanydatetimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Any<wbr>Date<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L126">src/util/metadata.ts:126</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L129">src/util/metadata.ts:129</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -342,19 +521,19 @@
 					<a name="isanytimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Any<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Any<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L120">src/util/metadata.ts:120</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L123">src/util/metadata.ts:123</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -365,19 +544,19 @@
 					<a name="isassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Association<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Association<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L170">src/util/metadata.ts:170</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L181">src/util/metadata.ts:181</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -388,19 +567,19 @@
 					<a name="isbytearray" class="tsd-anchor"></a>
 					<h3>is<wbr>Byte<wbr>Array</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Byte<wbr>Array<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Byte<wbr>Array<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L138">src/util/metadata.ts:138</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L141">src/util/metadata.ts:141</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -411,19 +590,19 @@
 					<a name="iscomposition" class="tsd-anchor"></a>
 					<h3>is<wbr>Composition</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Composition<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Composition<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L198">src/util/metadata.ts:198</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L209">src/util/metadata.ts:209</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -434,19 +613,19 @@
 					<a name="isdateproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Date<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L83">src/util/metadata.ts:83</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L86">src/util/metadata.ts:86</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -457,19 +636,19 @@
 					<a name="isdatetimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Date<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L103">src/util/metadata.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L106">src/util/metadata.ts:106</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -480,19 +659,19 @@
 					<a name="isfileproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>File<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>File<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>File<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L79">src/util/metadata.ts:79</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L82">src/util/metadata.ts:82</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -503,19 +682,19 @@
 					<a name="islocaldateproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Local<wbr>Date<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Date<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L87">src/util/metadata.ts:87</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L90">src/util/metadata.ts:90</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -526,19 +705,19 @@
 					<a name="islocaldatetimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Local<wbr>Date<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L107">src/util/metadata.ts:107</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L110">src/util/metadata.ts:110</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -549,19 +728,19 @@
 					<a name="islocaltimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Local<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Local<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L95">src/util/metadata.ts:95</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L98">src/util/metadata.ts:98</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -572,19 +751,19 @@
 					<a name="ismanytomanyassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>Many<wbr>ToMany<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L194">src/util/metadata.ts:194</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L205">src/util/metadata.ts:205</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -595,19 +774,19 @@
 					<a name="ismanytomanyrelation" class="tsd-anchor"></a>
 					<h3>is<wbr>Many<wbr>ToMany<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L158">src/util/metadata.ts:158</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L169">src/util/metadata.ts:169</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -618,19 +797,19 @@
 					<a name="ismanytooneassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>Many<wbr>ToOne<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L190">src/util/metadata.ts:190</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L201">src/util/metadata.ts:201</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -641,19 +820,19 @@
 					<a name="ismanytoonerelation" class="tsd-anchor"></a>
 					<h3>is<wbr>Many<wbr>ToOne<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Many<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L154">src/util/metadata.ts:154</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L165">src/util/metadata.ts:165</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -664,19 +843,19 @@
 					<a name="isoffsetdatetimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Offset<wbr>Date<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Offset<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Offset<wbr>Date<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L111">src/util/metadata.ts:111</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L114">src/util/metadata.ts:114</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -687,19 +866,19 @@
 					<a name="isoffsettimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Offset<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Offset<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Offset<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L99">src/util/metadata.ts:99</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L102">src/util/metadata.ts:102</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -710,19 +889,19 @@
 					<a name="isonetomanyassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToMany<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L186">src/util/metadata.ts:186</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L197">src/util/metadata.ts:197</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -733,19 +912,19 @@
 					<a name="isonetomanycomposition" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToMany<wbr>Composition</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Composition<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Composition<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L206">src/util/metadata.ts:206</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L217">src/util/metadata.ts:217</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -756,19 +935,19 @@
 					<a name="isonetomanyrelation" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToMany<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L150">src/util/metadata.ts:150</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L161">src/util/metadata.ts:161</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -779,19 +958,19 @@
 					<a name="isonetooneassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToOne<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L182">src/util/metadata.ts:182</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L193">src/util/metadata.ts:193</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -802,19 +981,19 @@
 					<a name="isonetoonecomposition" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToOne<wbr>Composition</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Composition<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Composition<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L202">src/util/metadata.ts:202</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L213">src/util/metadata.ts:213</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -825,19 +1004,19 @@
 					<a name="isonetoonerelation" class="tsd-anchor"></a>
 					<h3>is<wbr>One<wbr>ToOne<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>One<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L146">src/util/metadata.ts:146</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L157">src/util/metadata.ts:157</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -848,19 +1027,19 @@
 					<a name="ispropertytypesupported" class="tsd-anchor"></a>
 					<h3>is<wbr>Property<wbr>Type<wbr>Supported</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Property<wbr>Type<wbr>Supported<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Property<wbr>Type<wbr>Supported<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L63">src/util/metadata.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L65">src/util/metadata.ts:65</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -871,19 +1050,19 @@
 					<a name="isrelationproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Relation<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Relation<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Relation<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L142">src/util/metadata.ts:142</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L153">src/util/metadata.ts:153</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -894,19 +1073,19 @@
 					<a name="istemporalproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Temporal<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Temporal<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Temporal<wbr>Property<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L132">src/util/metadata.ts:132</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L135">src/util/metadata.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -917,19 +1096,19 @@
 					<a name="istimeproperty" class="tsd-anchor"></a>
 					<h3>is<wbr>Time<wbr>Property</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Time<wbr>Property<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L91">src/util/metadata.ts:91</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L94">src/util/metadata.ts:94</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -940,19 +1119,19 @@
 					<a name="istomanyassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>ToMany<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>ToMany<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L178">src/util/metadata.ts:178</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L189">src/util/metadata.ts:189</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -963,19 +1142,19 @@
 					<a name="istomanyrelation" class="tsd-anchor"></a>
 					<h3>is<wbr>ToMany<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>ToMany<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L166">src/util/metadata.ts:166</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L177">src/util/metadata.ts:177</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -986,19 +1165,19 @@
 					<a name="istooneassociation" class="tsd-anchor"></a>
 					<h3>is<wbr>ToOne<wbr>Association</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>ToOne<wbr>Association<span class="tsd-signature-symbol">(</span>propertyInfo<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L174">src/util/metadata.ts:174</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L185">src/util/metadata.ts:185</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>propertyInfo: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>propertyInfo: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1009,19 +1188,19 @@
 					<a name="istoonerelation" class="tsd-anchor"></a>
 					<h3>is<wbr>ToOne<wbr>Relation</h3>
 					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
-						<li class="tsd-signature tsd-kind-icon">is<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">MetaPropertyInfo</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">is<wbr>ToOne<wbr>Relation<span class="tsd-signature-symbol">(</span>__namedParameters<span class="tsd-signature-symbol">: </span><a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/util/metadata.ts#L162">src/util/metadata.ts:162</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/util/metadata.ts#L173">src/util/metadata.ts:173</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>__namedParameters: <span class="tsd-signature-type">MetaPropertyInfo</span></h5>
+									<h5>__namedParameters: <a href="../interfaces/app_metadataprovider.metapropertyinfo.html" class="tsd-signature-type" data-tsd-kind="Interface">MetaPropertyInfo</a></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -1036,87 +1215,39 @@
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_accesscontrol.html">access-<wbr>control/<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_attrpermaccesscontrol.html">access-<wbr>control/<wbr>Attr<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="access_control_entitypermaccesscontrol.html">access-<wbr>control/<wbr>Entity<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_jmixappprovider.html">app/<wbr>Jmix<wbr>App<wbr>Provider</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_mainstore.html">app/<wbr>Main<wbr>Store</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_menuconfig.html">app/<wbr>Menu<wbr>Config</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_security.html">app/<wbr>Security</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="app_security_test.html">app/<wbr>Security.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_association.html">data/<wbr>Association</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_collection.html">data/<wbr>Collection</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_collection_test.html">data/<wbr>Collection.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_datacontext.html">data/<wbr>Data<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_instance.html">data/<wbr>Instance</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="data_instance_test.html">data/<wbr>Instance.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_collation.html">util/collation</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_collation_test.html">util/collation.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_data.html">util/data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_errorhandling.html">util/error<wbr>Handling</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_formats.html">util/formats</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_internal_data.html">util/internal/data</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="util_metadata.html">util/metadata</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_statemanagement.html">util/state<wbr>Management</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="util_temporal.html">util/temporal</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#hasid" class="tsd-kind-icon">Has<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#hasinstancename" class="tsd-kind-icon">Has<wbr>Instance<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#hasname" class="tsd-kind-icon">Has<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#mayhaveid" class="tsd-kind-icon">May<wbr>Have<wbr>Id</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#mayhaveinstancename" class="tsd-kind-icon">May<wbr>Have<wbr>Instance<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
+						<a href="util_metadata.html#mayhavename" class="tsd-kind-icon">May<wbr>Have<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="util_metadata.html#withid" class="tsd-kind-icon">With<wbr>Id</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
 						<a href="util_metadata.html#withname" class="tsd-kind-icon">With<wbr>Name</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="util_metadata.html#findentitymetadata" class="tsd-kind-icon">find<wbr>Entity<wbr>Metadata</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="util_metadata.html#getenumcaption" class="tsd-kind-icon">get<wbr>Enum<wbr>Caption</a>
@@ -1129,6 +1260,9 @@
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="util_metadata.html#getpropertyinfonn" class="tsd-kind-icon">get<wbr>Property<wbr>InfoNN</a>
+					</li>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="util_metadata.html#hasrelationproperties" class="tsd-kind-icon">has<wbr>Relation<wbr>Properties</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
 						<a href="util_metadata.html#isanydateproperty" class="tsd-kind-icon">is<wbr>Any<wbr>Date<wbr>Property</a>
@@ -1240,6 +1374,7 @@
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
 				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>

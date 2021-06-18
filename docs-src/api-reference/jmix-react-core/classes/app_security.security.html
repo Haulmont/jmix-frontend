@@ -104,10 +104,12 @@
 						<section class="tsd-index-section ">
 							<h3>Methods</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#canuploadandlinkfile" class="tsd-kind-icon">can<wbr>Upload<wbr>And<wbr>Link<wbr>File</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#candownloadfiles" class="tsd-kind-icon">can<wbr>Download<wbr>Files</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#canuploadfiles" class="tsd-kind-icon">can<wbr>Upload<wbr>Files</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#getattributepermission" class="tsd-kind-icon">get<wbr>Attribute<wbr>Permission</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#isattributepermissiongranted" class="tsd-kind-icon">is<wbr>Attribute<wbr>Permission<wbr>Granted</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#isoperationpermissiongranted" class="tsd-kind-icon">is<wbr>Operation<wbr>Permission<wbr>Granted</a></li>
+								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#isspecificpermissiongranted" class="tsd-kind-icon">is<wbr>Specific<wbr>Permission<wbr>Granted</a></li>
 								<li class="tsd-kind-method tsd-parent-kind-class"><a href="app_security.security.html#loadpermissions" class="tsd-kind-icon">load<wbr>Permissions</a></li>
 							</ul>
 						</section>
@@ -120,19 +122,19 @@
 					<a name="constructor" class="tsd-anchor"></a>
 					<h3>constructor</h3>
 					<ul class="tsd-signatures tsd-kind-constructor tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">new <wbr>Security<span class="tsd-signature-symbol">(</span>jmixREST<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">JmixRestConnection</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="app_security.security.html" class="tsd-signature-type" data-tsd-kind="Class">Security</a></li>
+						<li class="tsd-signature tsd-kind-icon">new <wbr>Security<span class="tsd-signature-symbol">(</span>apolloClient<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ApolloClient</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><a href="app_security.security.html" class="tsd-signature-type" data-tsd-kind="Class">Security</a></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L16">src/app/Security.ts:16</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L31">src/app/Security.ts:31</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
 							<ul class="tsd-parameters">
 								<li>
-									<h5>jmixREST: <span class="tsd-signature-type">JmixRestConnection</span></h5>
+									<h5>apolloClient: <span class="tsd-signature-type">ApolloClient</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">unknown</span><span class="tsd-signature-symbol">&gt;</span></h5>
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <a href="app_security.security.html" class="tsd-signature-type" data-tsd-kind="Class">Security</a></h4>
@@ -148,17 +150,17 @@
 					<div class="tsd-signature tsd-kind-icon">attr<wbr>Permission<wbr>Cache<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ObservableMap</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">EntityAttrPermissionValue</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L14">src/app/Security.ts:14</a></li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L29">src/app/Security.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 					<a name="effectivepermissions" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagPrivate">Private</span> <span class="tsd-flag ts-flagOptional">Optional</span> effective<wbr>Permissions</h3>
-					<div class="tsd-signature tsd-kind-icon">effective<wbr>Permissions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">EffectivePermsInfo</span></div>
+					<h3><span class="tsd-flag ts-flagPrivate">Private</span> effective<wbr>Permissions</h3>
+					<div class="tsd-signature tsd-kind-icon">effective<wbr>Permissions<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">null</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">EffectivePermsInfo</span><span class="tsd-signature-symbol"> = null</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L15">src/app/Security.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L30">src/app/Security.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -168,7 +170,7 @@
 					<div class="tsd-signature tsd-kind-icon">permissions<wbr>Request<wbr>Count<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> = 0</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L16">src/app/Security.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L31">src/app/Security.ts:31</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -185,7 +187,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L26">src/app/Security.ts:26</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L48">src/app/Security.ts:48</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -209,7 +211,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L33">src/app/Security.ts:33</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L55">src/app/Security.ts:55</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -225,23 +227,43 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Methods</h2>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
-					<a name="canuploadandlinkfile" class="tsd-anchor"></a>
-					<h3>can<wbr>Upload<wbr>And<wbr>Link<wbr>File</h3>
+					<a name="candownloadfiles" class="tsd-anchor"></a>
+					<h3>can<wbr>Download<wbr>Files</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">can<wbr>Upload<wbr>And<wbr>Link<wbr>File<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+						<li class="tsd-signature tsd-kind-icon">can<wbr>Download<wbr>Files<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L56">src/app/Security.ts:56</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L83">src/app/Security.ts:83</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
 								<div class="lead">
-									<p>Returns a boolean indicating whether the current user is allowed to upload files.
-										This is convenience method that checks whether a user has a <code>create</code> operation permission
-									on <code>sys$FileDescriptor</code> entity and <code>cuba.restApi.fileUpload.enabled</code> specific permission.</p>
+									<p>Returns a boolean indicating whether the current user is allowed to download files.</p>
+								</div>
+							</div>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="canuploadfiles" class="tsd-anchor"></a>
+					<h3>can<wbr>Upload<wbr>Files</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">can<wbr>Upload<wbr>Files<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L76">src/app/Security.ts:76</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Returns a boolean indicating whether the current user is allowed to upload files.</p>
 								</div>
 							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -258,7 +280,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L37">src/app/Security.ts:37</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L59">src/app/Security.ts:59</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -284,7 +306,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L85">src/app/Security.ts:85</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L109">src/app/Security.ts:109</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -321,7 +343,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L71">src/app/Security.ts:71</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L94">src/app/Security.ts:94</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -346,6 +368,29 @@
 					</ul>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+					<a name="isspecificpermissiongranted" class="tsd-anchor"></a>
+					<h3>is<wbr>Specific<wbr>Permission<wbr>Granted</h3>
+					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+						<li class="tsd-signature tsd-kind-icon">is<wbr>Specific<wbr>Permission<wbr>Granted<span class="tsd-signature-symbol">(</span>target<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L128">src/app/Security.ts:128</a></li>
+								</ul>
+							</aside>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>target: <span class="tsd-signature-type">string</span></h5>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+						</li>
+					</ul>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
 					<a name="loadpermissions" class="tsd-anchor"></a>
 					<h3>load<wbr>Permissions</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
@@ -355,7 +400,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-react-core/src/app/Security.ts#L103">src/app/Security.ts:103</a></li>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/13a28008/packages/jmix-react-core/src/app/Security.ts#L135">src/app/Security.ts:135</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">Promise</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">void</span><span class="tsd-signature-symbol">&gt;</span></h4>
@@ -370,77 +415,8 @@
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/access_control_accesscontrol.html">access-<wbr>control/<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/access_control_attrpermaccesscontrol.html">access-<wbr>control/<wbr>Attr<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/access_control_entitypermaccesscontrol.html">access-<wbr>control/<wbr>Entity<wbr>Perm<wbr>Access<wbr>Control</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/app_jmixappprovider.html">app/<wbr>Jmix<wbr>App<wbr>Provider</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/app_mainstore.html">app/<wbr>Main<wbr>Store</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/app_menuconfig.html">app/<wbr>Menu<wbr>Config</a>
-					</li>
 					<li class="current tsd-kind-module">
 						<a href="../modules/app_security.html">app/<wbr>Security</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/app_security_test.html">app/<wbr>Security.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_association.html">data/<wbr>Association</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_collection.html">data/<wbr>Collection</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_collection_test.html">data/<wbr>Collection.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_datacontext.html">data/<wbr>Data<wbr>Context</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_instance.html">data/<wbr>Instance</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/data_instance_test.html">data/<wbr>Instance.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/index.html">index</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_collation.html">util/collation</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_collation_test.html">util/collation.test</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_data.html">util/data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_errorhandling.html">util/error<wbr>Handling</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_formats.html">util/formats</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_internal_data.html">util/internal/data</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_metadata.html">util/metadata</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_statemanagement.html">util/state<wbr>Management</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util_temporal.html">util/temporal</a>
 					</li>
 				</ul>
 			</nav>
@@ -470,7 +446,10 @@
 								<a href="app_security.security.html#permissions" class="tsd-kind-icon">permissions</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
-								<a href="app_security.security.html#canuploadandlinkfile" class="tsd-kind-icon">can<wbr>Upload<wbr>And<wbr>Link<wbr>File</a>
+								<a href="app_security.security.html#candownloadfiles" class="tsd-kind-icon">can<wbr>Download<wbr>Files</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="app_security.security.html#canuploadfiles" class="tsd-kind-icon">can<wbr>Upload<wbr>Files</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="app_security.security.html#getattributepermission" class="tsd-kind-icon">get<wbr>Attribute<wbr>Permission</a>
@@ -482,12 +461,18 @@
 								<a href="app_security.security.html#isoperationpermissiongranted" class="tsd-kind-icon">is<wbr>Operation<wbr>Permission<wbr>Granted</a>
 							</li>
 							<li class=" tsd-kind-method tsd-parent-kind-class">
+								<a href="app_security.security.html#isspecificpermissiongranted" class="tsd-kind-icon">is<wbr>Specific<wbr>Permission<wbr>Granted</a>
+							</li>
+							<li class=" tsd-kind-method tsd-parent-kind-class">
 								<a href="app_security.security.html#loadpermissions" class="tsd-kind-icon">load<wbr>Permissions</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
+					<li class=" tsd-kind-variable tsd-parent-kind-module">
+						<a href="../modules/app_security.html#permissions_query" class="tsd-kind-icon">PERMISSIONS_<wbr>QUERY</a>
+					</li>
 				</ul>
 			</nav>
 		</div>
@@ -498,17 +483,18 @@
 		<h2>Legend</h2>
 		<div class="tsd-legend-group">
 			<ul class="tsd-legend">
+				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
+				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
+				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
+				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
+			</ul>
+			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
 				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 				<li class="tsd-kind-constructor tsd-parent-kind-class"><span class="tsd-kind-icon">Constructor</span></li>
 				<li class="tsd-kind-property tsd-parent-kind-class"><span class="tsd-kind-icon">Property</span></li>
 				<li class="tsd-kind-method tsd-parent-kind-class"><span class="tsd-kind-icon">Method</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
-				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
-				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
-				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
