@@ -73,7 +73,7 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
   );
 
   return (
-    <span>
+    <span className='jmix-composition-field'>
       <Button type='link'
               onClick={handleUpsertBtnClick}
               className='jmix-composition-field-upsert-btn'

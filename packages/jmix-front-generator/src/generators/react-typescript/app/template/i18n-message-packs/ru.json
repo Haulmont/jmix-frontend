@@ -83,6 +83,8 @@
 
   "jmix.nestedEntitiesTableField.delete.areYouSure": "Удалить вложенную сущность?",
 
+  "jmix.form.validation.childError": "Ошибка валидации во вложенной сущности",
+
   "cubaRest.error.serverNotResponded": "Сервер не отвечает",
   "cubaRest.error.serverError": "Ошибка на стороне сервера",
   "cubaRest.error.badRequest": "Запрос сформирован неправильно",

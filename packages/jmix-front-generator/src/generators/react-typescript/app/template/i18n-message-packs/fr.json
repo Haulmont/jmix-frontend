@@ -83,6 +83,8 @@
   
     "jmix.nestedEntitiesTableField.delete.areYouSure": "Êtes-vous sûr de vouloir effacer l'entité imbriqué?",
 
+    "jmix.form.validation.childError": "jmix.form.validation.childError [TRANSLATION NOT AVAILABLE]",
+
     "cubaRest.error.serverNotResponded": "cubaRest.error.serverNotResponded [TRANSLATION NOT AVAILABLE]",
     "cubaRest.error.serverError": "cubaRest.error.serverError [TRANSLATION NOT AVAILABLE]",
     "cubaRest.error.badRequest": "cubaRest.error.badRequest [TRANSLATION NOT AVAILABLE]",
