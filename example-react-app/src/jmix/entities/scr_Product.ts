@@ -1,4 +1,4 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 export class Product {
   static NAME = "scr_Product";
   id?: string;

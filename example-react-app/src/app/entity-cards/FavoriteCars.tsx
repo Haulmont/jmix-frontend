@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import { Card } from "antd";
-import { FavoriteCar } from "../../jmix/entities/scr$FavoriteCar";
+import { FavoriteCar } from "../../jmix/entities/scr_FavoriteCar";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
@@ -14,7 +14,7 @@ import {
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr$FavoriteCar";
+const ENTITY_NAME = "scr_FavoriteCar";
 const ROUTING_PATH = "/favoriteCars";
 
 const SCR_FAVORITECAR_LIST = gql`

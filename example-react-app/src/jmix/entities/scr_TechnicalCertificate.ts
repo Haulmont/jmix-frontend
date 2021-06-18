@@ -1,6 +1,6 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 export class TechnicalCertificate {
-  static NAME = "scr$TechnicalCertificate";
+  static NAME = "scr_TechnicalCertificate";
   id?: string;
   certNumber?: string | null;
   car?: Car | null;

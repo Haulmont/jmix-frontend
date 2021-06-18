@@ -17,7 +17,7 @@
   },
   "entities": [
     {
-      "name": "scr$Car",
+      "name": "scr_Car",
       "className": "Car",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -184,7 +184,7 @@
             "className": "Garage",
             "fqn": "com.company.scr.entity.Garage",
             "label": "Garage",
-            "entityName": "scr$Garage"
+            "entityName": "scr_Garage"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -250,7 +250,7 @@
             "className": "TechnicalCertificate",
             "fqn": "com.company.scr.entity.TechnicalCertificate",
             "label": "TechnicalCertificate",
-            "entityName": "scr$TechnicalCertificate"
+            "entityName": "scr_TechnicalCertificate"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_ONE",
@@ -448,7 +448,7 @@
       ]
     },
     {
-      "name": "scr$CarRent",
+      "name": "scr_CarRent",
       "className": "CarRent",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -485,7 +485,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -550,7 +550,7 @@
       ]
     },
     {
-      "name": "scr$FavoriteCar",
+      "name": "scr_FavoriteCar",
       "className": "FavoriteCar",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -587,7 +587,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -635,7 +635,7 @@
       ]
     },
     {
-      "name": "scr$Garage",
+      "name": "scr_Garage",
       "className": "Garage",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -672,7 +672,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -802,7 +802,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -882,7 +882,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -895,7 +895,7 @@
       ]
     },
     {
-      "name": "scr$SparePart",
+      "name": "scr_SparePart",
       "className": "SparePart",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -948,7 +948,7 @@
             "className": "SparePart",
             "fqn": "com.company.scr.entity.SparePart",
             "label": "SparePart",
-            "entityName": "scr$SparePart"
+            "entityName": "scr_SparePart"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -962,7 +962,7 @@
       ]
     },
     {
-      "name": "scr$TechnicalCertificate",
+      "name": "scr_TechnicalCertificate",
       "className": "TechnicalCertificate",
       "packageName": "com.company.scr.entity",
       "dataStore": "main",
@@ -1015,7 +1015,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_ONE",
@@ -1492,7 +1492,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -4040,7 +4040,7 @@
   "views": [
     {
       "name": "_base",
-      "entity": "scr$Car",
+      "entity": "scr_Car",
       "classFqn": "com.company.scr.entity.Car",
       "overwrite": false,
       "systemProperties": false,
@@ -4187,7 +4187,7 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$Car",
+      "entity": "scr_Car",
       "classFqn": "com.company.scr.entity.Car",
       "overwrite": false,
       "systemProperties": false,
@@ -4214,7 +4214,7 @@
     },
     {
       "name": "_local",
-      "entity": "scr$Car",
+      "entity": "scr_Car",
       "classFqn": "com.company.scr.entity.Car",
       "overwrite": false,
       "systemProperties": false,
@@ -4361,7 +4361,7 @@
     },
     {
       "name": "car-edit",
-      "entity": "scr$Car",
+      "entity": "scr_Car",
       "classFqn": "com.company.scr.entity.Car",
       "parentName": "_local",
       "overwrite": false,
@@ -4369,12 +4369,12 @@
       "properties": [
         {
           "name": "garage",
-          "entity": "scr$Garage",
+          "entity": "scr_Garage",
           "lazy": false
         },
         {
           "name": "technicalCertificate",
-          "entity": "scr$TechnicalCertificate",
+          "entity": "scr_TechnicalCertificate",
           "lazy": false
         }
       ],
@@ -4449,12 +4449,12 @@
         },
         {
           "name": "garage",
-          "entity": "scr$Garage",
+          "entity": "scr_Garage",
           "lazy": false
         },
         {
           "name": "technicalCertificate",
-          "entity": "scr$TechnicalCertificate",
+          "entity": "scr_TechnicalCertificate",
           "lazy": false
         }
       ]
@@ -4488,7 +4488,7 @@
     },
     {
       "name": "_base",
-      "entity": "scr$CarRent",
+      "entity": "scr_CarRent",
       "classFqn": "com.company.scr.entity.CarRent",
       "overwrite": false,
       "systemProperties": false,
@@ -4523,7 +4523,7 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$CarRent",
+      "entity": "scr_CarRent",
       "classFqn": "com.company.scr.entity.CarRent",
       "overwrite": false,
       "systemProperties": false,
@@ -4532,7 +4532,7 @@
     },
     {
       "name": "_local",
-      "entity": "scr$CarRent",
+      "entity": "scr_CarRent",
       "classFqn": "com.company.scr.entity.CarRent",
       "overwrite": false,
       "systemProperties": false,
@@ -4567,7 +4567,7 @@
     },
     {
       "name": "carRent-edit",
-      "entity": "scr$CarRent",
+      "entity": "scr_CarRent",
       "classFqn": "com.company.scr.entity.CarRent",
       "parentName": "_local",
       "overwrite": false,
@@ -4575,7 +4575,7 @@
       "properties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         }
       ],
@@ -4594,21 +4594,21 @@
         },
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         }
       ]
     },
     {
       "name": "_base",
-      "entity": "scr$FavoriteCar",
+      "entity": "scr_FavoriteCar",
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "overwrite": false,
       "systemProperties": false,
       "properties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4619,7 +4619,7 @@
       "allProperties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4630,28 +4630,28 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$FavoriteCar",
+      "entity": "scr_FavoriteCar",
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "overwrite": false,
       "systemProperties": false,
       "properties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         }
       ],
       "allProperties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         }
       ]
     },
     {
       "name": "_local",
-      "entity": "scr$FavoriteCar",
+      "entity": "scr_FavoriteCar",
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "overwrite": false,
       "systemProperties": false,
@@ -4670,7 +4670,7 @@
     },
     {
       "name": "favoriteCar-edit",
-      "entity": "scr$FavoriteCar",
+      "entity": "scr_FavoriteCar",
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "parentName": "_local",
       "overwrite": false,
@@ -4678,7 +4678,7 @@
       "properties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4694,7 +4694,7 @@
         },
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4706,7 +4706,7 @@
     },
     {
       "name": "favoriteCar-view",
-      "entity": "scr$FavoriteCar",
+      "entity": "scr_FavoriteCar",
       "classFqn": "com.company.scr.entity.FavoriteCar",
       "parentName": "_local",
       "overwrite": false,
@@ -4714,7 +4714,7 @@
       "properties": [
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4730,7 +4730,7 @@
         },
         {
           "name": "car",
-          "entity": "scr$Car",
+          "entity": "scr_Car",
           "lazy": false
         },
         {
@@ -4742,7 +4742,7 @@
     },
     {
       "name": "_base",
-      "entity": "scr$Garage",
+      "entity": "scr_Garage",
       "classFqn": "com.company.scr.entity.Garage",
       "overwrite": false,
       "systemProperties": false,
@@ -4801,7 +4801,7 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$Garage",
+      "entity": "scr_Garage",
       "classFqn": "com.company.scr.entity.Garage",
       "overwrite": false,
       "systemProperties": false,
@@ -4820,7 +4820,7 @@
     },
     {
       "name": "_local",
-      "entity": "scr$Garage",
+      "entity": "scr_Garage",
       "classFqn": "com.company.scr.entity.Garage",
       "overwrite": false,
       "systemProperties": false,
@@ -4906,7 +4906,7 @@
     },
     {
       "name": "_base",
-      "entity": "scr$SparePart",
+      "entity": "scr_SparePart",
       "classFqn": "com.company.scr.entity.SparePart",
       "overwrite": false,
       "systemProperties": false,
@@ -4925,7 +4925,7 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$SparePart",
+      "entity": "scr_SparePart",
       "classFqn": "com.company.scr.entity.SparePart",
       "overwrite": false,
       "systemProperties": false,
@@ -4944,7 +4944,7 @@
     },
     {
       "name": "_local",
-      "entity": "scr$SparePart",
+      "entity": "scr_SparePart",
       "classFqn": "com.company.scr.entity.SparePart",
       "overwrite": false,
       "systemProperties": false,
@@ -4963,7 +4963,7 @@
     },
     {
       "name": "sparePart-view",
-      "entity": "scr$SparePart",
+      "entity": "scr_SparePart",
       "classFqn": "com.company.scr.entity.SparePart",
       "parentName": "_local",
       "overwrite": false,
@@ -4971,7 +4971,7 @@
       "properties": [
         {
           "name": "spareParts",
-          "entity": "scr$SparePart",
+          "entity": "scr_SparePart",
           "lazy": false
         }
       ],
@@ -4982,14 +4982,14 @@
         },
         {
           "name": "spareParts",
-          "entity": "scr$SparePart",
+          "entity": "scr_SparePart",
           "lazy": false
         }
       ]
     },
     {
       "name": "_base",
-      "entity": "scr$TechnicalCertificate",
+      "entity": "scr_TechnicalCertificate",
       "classFqn": "com.company.scr.entity.TechnicalCertificate",
       "overwrite": false,
       "systemProperties": false,
@@ -5008,7 +5008,7 @@
     },
     {
       "name": "_instance_name",
-      "entity": "scr$TechnicalCertificate",
+      "entity": "scr_TechnicalCertificate",
       "classFqn": "com.company.scr.entity.TechnicalCertificate",
       "overwrite": false,
       "systemProperties": false,
@@ -5027,7 +5027,7 @@
     },
     {
       "name": "_local",
-      "entity": "scr$TechnicalCertificate",
+      "entity": "scr_TechnicalCertificate",
       "classFqn": "com.company.scr.entity.TechnicalCertificate",
       "overwrite": false,
       "systemProperties": false,

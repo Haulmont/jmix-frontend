@@ -1,4 +1,4 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 export class ScrUserInfo {
   static NAME = "ScrUserInfo";
   id?: string;
