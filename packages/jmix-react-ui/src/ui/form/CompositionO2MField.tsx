@@ -42,7 +42,7 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
   return (
     <Button type='link'
             onClick={handleClick}
-            className='jmix-composition-field-upsert-btn'
+            className='jmix-composition-field jmix-composition-field-upsert-btn'
     >
       <BtnTitle value={value} />
     </Button>
