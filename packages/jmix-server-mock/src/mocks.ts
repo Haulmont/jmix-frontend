@@ -13,3 +13,54 @@ export const mocks = {
   LocalDateTime: () => '2020-03-03T03:03:03',
   LocalTime: () => '23:59:59'
 }
+
+export function mockedResolvers(document) {
+  return {
+    Query: {
+      permissions: () => {
+        const allTypes = document.definitions.filter(({ kind }) => {
+          return kind === "ObjectTypeDefinition"
+        });
+        const entities = allTypes.map((item: any) => {
+          const currentEntity = item.name.value
+          return [
+            {
+              target: `${currentEntity}:create`,
+              value: 1
+            },
+            {
+              target: `${currentEntity}:read`,
+              value: 1
+            },
+            {
+              target: `${currentEntity}:update`,
+              value: 1
+            },
+            {
+              target: `${currentEntity}:delete`,
+              value: 1
+            },
+          ]
+        }).flat();
+
+        const entityAttributes = allTypes.map((item: any) => {
+          const currentEntity = item.name.value;
+          const attributes = item.fields.map((field) => {
+            return field.name.value;
+          })
+          return attributes.map((attr) => {
+            return {
+              target: `${currentEntity}:${attr}`,
+              value: 2
+            }
+          })
+        }).flat();
+
+        return {
+          entities,
+          entityAttributes
+        }
+      }
+    }
+  }
+}

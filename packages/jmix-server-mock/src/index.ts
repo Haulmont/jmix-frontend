@@ -1,7 +1,7 @@
 import express from "express";
-import {ApolloServer} from "apollo-server-express";
+import {ApolloServer, gql} from "apollo-server-express";
 import {readFileSync} from "fs";
-import {mocks} from "./mocks";
+import {mocks, mockedResolvers} from "./mocks";
 import {restRouter} from "./rest";
 import {oauthRouter} from "./oauth";
 
@@ -15,10 +15,12 @@ export async function createServer(schemaPath, mockRest = true) {
   }
 
   const expressApp = express();
-
+  
   const apolloServer = new ApolloServer({
     typeDefs,
-    mocks
+    mocks,
+    resolvers: mockedResolvers(gql`${typeDefs}`),
+    mockEntireSchema: false
   });
   await apolloServer.start();
 

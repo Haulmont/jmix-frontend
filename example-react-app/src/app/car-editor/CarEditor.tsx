@@ -18,9 +18,9 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
-import { Car } from "../../jmix/entities/scr$Car";
+import { Car } from "../../jmix/entities/scr_Car";
 
-const ENTITY_NAME = "scr$Car";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carEditor";
 
 const LOAD_SCR_CAR = gql`

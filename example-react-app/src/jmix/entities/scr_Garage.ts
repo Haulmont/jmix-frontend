@@ -1,7 +1,7 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 import { User } from "./scr_User";
 export class Garage {
-  static NAME = "scr$Garage";
+  static NAME = "scr_Garage";
   id?: string;
   cars?: Car[] | null;
   name?: string | null;
