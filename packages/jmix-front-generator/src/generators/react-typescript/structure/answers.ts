@@ -37,6 +37,6 @@ export const allQuestions: StudioTemplateProperty[] = [
     caption: "Menu item",
     code: "menuItem",
     propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: true
+    required: false
   },
 ];
