@@ -50,7 +50,7 @@ export function openScreenInTab(screenId: string, menuLink: string) {
     content: <MultiScreenWrapper screen={screen}
                                  menuLink={menuLink}
              />,
-    key: menuLink
+    key: menuLink.substr(1)
   });
   redirect(menuLink);
 }

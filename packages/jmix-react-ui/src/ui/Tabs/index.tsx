@@ -38,7 +38,7 @@ export const MultiTabs = observer(() => {
               <CloseOutlined className="jmix-tab-icon" onClick={(e) => handleCloseClick(e, item)} />
             </>
           }
-          key={item.key.substr(1)}
+          key={item.key}
         >
           <Content item={item} />
         </TabPane>
