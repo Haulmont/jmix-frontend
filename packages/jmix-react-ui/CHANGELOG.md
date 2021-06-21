@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.22...@haulmont/jmix-react-ui@1.0.0-next.23) (2021-06-21)
+
+
+### Bug Fixes
+
+* correct menuItems captions after locale changing [#418](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/418) ([a5bbde7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/a5bbde76220c9f55b06af55ab62e422824076cb0))
+* support bean validation for child entities [#390](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/390) ([7029b9e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/7029b9eda28c484ef4ed6289ca0025ecb3ad198c))
+
+
+
+
+
 # [1.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.21...@haulmont/jmix-react-ui@1.0.0-next.22) (2021-06-17)
 
 

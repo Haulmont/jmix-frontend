@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { observer } from "mobx-react";
 import { Row, Col, Card } from "antd";
-import { Car } from "../../jmix/entities/scr$Car";
+import { Car } from "../../jmix/entities/scr_Car";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   defaultGridPaginationConfig,
@@ -15,7 +15,7 @@ import {
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr$Car";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carCardsGrid";
 
 const SCR_CAR_LIST = gql`

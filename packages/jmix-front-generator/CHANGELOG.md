@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.22...@haulmont/jmix-front-generator@1.0.0-next.23) (2021-06-21)
+
+
+### Bug Fixes
+
+* make menu item non-required in all templates ([58bde69](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/58bde69a47c68f8598a5c776f234b6d8196983e2))
+* support bean validation for child entities [#390](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/390) ([7029b9e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/7029b9eda28c484ef4ed6289ca0025ecb3ad198c))
+* typeError when opening any entity list screen in visual designer [#425](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/425) ([492b083](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/492b0835ce2cf4bd7fb9982a6d03bb461fb3422c))
+
+
+### Features
+
+* app horizontal menu ([3a2a4a2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3a2a4a2922966de36b48fbe02b2783a371087765))
+
+
+
+
+
 # [1.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.21...@haulmont/jmix-front-generator@1.0.0-next.22) (2021-06-17)
 
 

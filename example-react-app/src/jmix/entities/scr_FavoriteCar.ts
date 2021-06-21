@@ -1,7 +1,7 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 import { User } from "./scr_User";
 export class FavoriteCar {
-  static NAME = "scr$FavoriteCar";
+  static NAME = "scr_FavoriteCar";
   id?: string;
   car?: Car | null;
   user?: User | null;

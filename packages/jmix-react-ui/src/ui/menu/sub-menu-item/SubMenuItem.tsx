@@ -7,11 +7,11 @@ interface Props extends SubMenuProps {
 }
 
 export const SubMenuItem: React.FC<Props> = ({caption, ...subMenuItemProps}: Props) => {
-  const {formatMessage} = useIntl();
+  const {formatMessage, locale} = useIntl();
 
   const formattedCaption = useMemo(() => {
     return formatMessage({id: caption, defaultMessage: caption})
-  }, [caption])
+  }, [caption, locale]);
 
   return (
     <Menu.SubMenu 

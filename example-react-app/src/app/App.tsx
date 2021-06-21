@@ -49,6 +49,7 @@ const App = observer(() => {
         >
           <AppMenu />
         </Layout.Sider>
+
         <Layout className="layout-content">
           <Layout.Content>
             <Router global routes={routes} />

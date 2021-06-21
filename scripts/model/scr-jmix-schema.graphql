@@ -79,6 +79,8 @@ type Mutation {
 }
 
 type Query {
+    userInfo: userInfo
+    entityMessages: [entityMessages]
     permissions: sec_PermissionConfig
     scr_AssociationM2MTestEntityById(id: String!): scr_AssociationM2MTestEntity
     scr_AssociationM2MTestEntityCount: Long
@@ -947,6 +949,16 @@ type ui_TablePresentation {
     updateTs: Date
     updatedBy: String
     username: String
+}
+
+type userInfo {
+    username: String
+    locale: String
+}
+
+type entityMessages {
+    key: String
+    value: String
 }
 
 enum CarType {

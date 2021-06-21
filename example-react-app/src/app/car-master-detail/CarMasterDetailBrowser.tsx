@@ -9,11 +9,11 @@ import {
   useMasterDetailList,
   EntityListProps
 } from "@haulmont/jmix-react-ui";
-import { Car } from "../../jmix/entities/scr$Car";
+import { Car } from "../../jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
-const ENTITY_NAME = "scr$Car";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carMasterDetailBrowser";
 
 const SCR_CAR_LIST = gql`

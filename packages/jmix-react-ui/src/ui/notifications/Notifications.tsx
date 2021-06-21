@@ -3,34 +3,34 @@ import { notification as antNotification } from 'antd';
 import { ArgsProps } from 'antd/lib/notification';
 
 type NotificationOptions<Options> = Options & {
-  type?: string,
-  title: React.ReactNode,
-  message: React.ReactNode,
+  type?: NotificationType,
+  title?: React.ReactNode,
+  description: React.ReactNode,
 }
 
-enum NotificationTypes {
-  SUCCES = 'success',
+export enum NotificationType {
+  SUCCESS = 'success',
   ERROR = 'error',
   INFO = 'info',
   WARNING = 'warning'
 }
 
 const notifications = {
-  send<Options = ArgsProps>({ title, message, type, ...restOptions }: NotificationOptions<Options>) {
+  show<Options = ArgsProps>({ title, description, type, ...restOptions }: NotificationOptions<Options>) {
     const config = {
       ...restOptions,
       message: title,
-      description: message,
+      description,
     };
 
     switch (type) {
-      case NotificationTypes.SUCCES:
+      case NotificationType.SUCCESS:
         return antNotification.success(config);
-      case NotificationTypes.ERROR:
+      case NotificationType.ERROR:
         return antNotification.error(config);
-      case NotificationTypes.INFO:
+      case NotificationType.INFO:
         return antNotification.info(config);
-      case NotificationTypes.WARNING:
+      case NotificationType.WARNING:
         return antNotification.warning(config);
       default:
         return antNotification.open(config);

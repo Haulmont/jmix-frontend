@@ -1,6 +1,6 @@
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 export class CarRent {
-  static NAME = "scr$CarRent";
+  static NAME = "scr_CarRent";
   id?: string;
   car?: Car | null;
   fromDate?: any | null;

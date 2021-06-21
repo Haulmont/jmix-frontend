@@ -1,5 +1,5 @@
 import { LogoutOutlined } from "@ant-design/icons";
-import { Button } from "antd";
+import { Button, Space } from "antd";
 import React, { useCallback } from "react";
 import { observer } from "mobx-react";
 import "./AppHeader.css";
@@ -9,7 +9,7 @@ import { useIntl } from "react-intl";
 import JmixLightIcon from "../icons/JmixLightIcon";
 import { modals } from "@haulmont/jmix-react-ui";
 
-const AppHeader = observer(() => {
+const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
   const intl = useIntl();
   const mainStore = useMainStore();
 
@@ -26,17 +26,19 @@ const AppHeader = observer(() => {
     <div className="app-header">
       <JmixLightIcon className="app-header__icon" />
 
-      <div className="user-panel">
-        <LanguageSwitcher className="panelelement language-switcher -header" />
-        <span className="panelelement">{mainStore.userName}</span>
+      <div className="app-header__content">{children}</div>
+
+      <Space className="app-header__user-panel">
+        <LanguageSwitcher className="language-switcher -header" />
+        <span>{mainStore.userName}</span>
         <Button
-          className="panelelement"
           id="button_logout"
-          ghost={true}
+          className="app-header__user-panel__logout-btn"
+          type="text"
           icon={<LogoutOutlined />}
           onClick={showLogoutConfirm}
         />
-      </div>
+      </Space>
     </div>
   );
 });

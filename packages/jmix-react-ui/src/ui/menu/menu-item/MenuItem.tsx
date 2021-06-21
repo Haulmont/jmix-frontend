@@ -12,11 +12,11 @@ interface Props extends MenuItemProps {
 
 export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, children, ...menuItemProps }: Props) => {
   const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
-  const {formatMessage} = useIntl();
+  const {formatMessage, locale} = useIntl();
 
   const formattedCaption = useMemo(() => {
     return formatMessage({id: caption, defaultMessage: caption})
-  }, [caption])
+  }, [caption, locale]);
 
   useEffect(() => {
     const menuItem: any = screenId

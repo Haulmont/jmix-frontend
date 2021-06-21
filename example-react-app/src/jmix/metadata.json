@@ -1,7 +1,7 @@
 {
   "entities": [
     {
-      "name": "scr$Car",
+      "name": "scr_Car",
       "className": "Car",
       "attributes": [
         {
@@ -128,7 +128,7 @@
             "className": "Garage",
             "fqn": "com.company.scr.entity.Garage",
             "label": "Garage",
-            "entityName": "scr$Garage"
+            "entityName": "scr_Garage"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -182,7 +182,7 @@
             "className": "TechnicalCertificate",
             "fqn": "com.company.scr.entity.TechnicalCertificate",
             "label": "TechnicalCertificate",
-            "entityName": "scr$TechnicalCertificate"
+            "entityName": "scr_TechnicalCertificate"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_ONE",
@@ -329,7 +329,7 @@
       ]
     },
     {
-      "name": "scr$CarRent",
+      "name": "scr_CarRent",
       "className": "CarRent",
       "attributes": [
         {
@@ -352,7 +352,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -402,7 +402,7 @@
       ]
     },
     {
-      "name": "scr$FavoriteCar",
+      "name": "scr_FavoriteCar",
       "className": "FavoriteCar",
       "attributes": [
         {
@@ -425,7 +425,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -464,7 +464,7 @@
       ]
     },
     {
-      "name": "scr$Garage",
+      "name": "scr_Garage",
       "className": "Garage",
       "attributes": [
         {
@@ -487,7 +487,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -595,7 +595,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -655,7 +655,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_MANY",
@@ -666,7 +666,7 @@
       ]
     },
     {
-      "name": "scr$SparePart",
+      "name": "scr_SparePart",
       "className": "SparePart",
       "attributes": [
         {
@@ -702,7 +702,7 @@
             "className": "SparePart",
             "fqn": "com.company.scr.entity.SparePart",
             "label": "SparePart",
-            "entityName": "scr$SparePart"
+            "entityName": "scr_SparePart"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",
@@ -713,7 +713,7 @@
       ]
     },
     {
-      "name": "scr$TechnicalCertificate",
+      "name": "scr_TechnicalCertificate",
       "className": "TechnicalCertificate",
       "attributes": [
         {
@@ -749,7 +749,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "ONE_TO_ONE",
@@ -1102,7 +1102,7 @@
             "className": "Car",
             "fqn": "com.company.scr.entity.Car",
             "label": "Car",
-            "entityName": "scr$Car"
+            "entityName": "scr_Car"
           },
           "mappingType": "ASSOCIATION",
           "cardinality": "MANY_TO_ONE",

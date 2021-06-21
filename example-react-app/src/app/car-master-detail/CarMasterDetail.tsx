@@ -7,7 +7,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { observer } from "mobx-react";
 
-const ENTITY_NAME = "scr$Car";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carMasterDetail";
 
 const CarMasterDetail = observer(() => {

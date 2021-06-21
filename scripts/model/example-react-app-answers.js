@@ -11,6 +11,10 @@ const compositionO2MQuery = require('./graphql/compositionO2M');
 const compositionO2OQuery = require('./graphql/compositionO2O');
 
 module.exports = {
+  "app": {
+    "menuType": "horizontal",
+  },
+
   "blankComponent": {
     "componentName": "test-blank-screen",
     'menuItem': 'ROOT'
@@ -26,7 +30,7 @@ module.exports = {
     "query": carEntityQuery,
     "componentName": "CarEditor",
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_Car"
     },
     'menuItem': 'ROOT'
   },
@@ -35,7 +39,7 @@ module.exports = {
     "componentName": "CarBrowserCards",
     "browserType": "cards",
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_Car"
     },
     'menuItem': 'ROOT'
   },
@@ -44,7 +48,7 @@ module.exports = {
     "componentName": "CarBrowserList",
     "browserType": "list",
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_Car"
     },
     'menuItem': 'ROOT'
   },
@@ -53,7 +57,7 @@ module.exports = {
     "componentName": "CarBrowserTable",
     "browserType": "table",
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_Car"
     },
     'menuItem': 'ROOT'
   },
@@ -61,7 +65,7 @@ module.exports = {
     "query": carEntityQuery,
     "componentName": "CarCardsGrid",
     "entity": {
-        "name": "scr$Car"
+        "name": "scr_Car"
     },
     "cardsInRow": "3 columns",
     'menuItem': 'ROOT'
@@ -70,13 +74,13 @@ module.exports = {
     "query": favoriteCarsCardsQuery,
     "componentName": "FavoriteCars",
     "entity": {
-      "name": "scr$FavoriteCar"
+      "name": "scr_FavoriteCar"
     },
     'menuItem': 'ROOT'
   },
   "carMasterDetail": {
     "entity": {
-      "name": "scr$Car"
+      "name": "scr_Car"
     },
 
     "masterDetailComponentName": "CarMasterDetail",
@@ -92,11 +96,11 @@ module.exports = {
   // "entityList": {
   //   "entityView": {
   //     "name": "_local",
-  //     "entityName": "scr$Garage"
+  //     "entityName": "scr_Garage"
   //   },
   //   "componentName": "scr-garage-list",
   //   "entity": {
-  //     "name": "scr$Garage"
+  //     "name": "scr_Garage"
   //   }
   // },
 
@@ -277,7 +281,7 @@ module.exports = {
   "queryResults": {
     "query": {
       "name": "carsByType",
-      "entityName": "scr$Car"
+      "entityName": "scr_Car"
     },
     "componentName": "scr-cars-by-type-list"
   },
