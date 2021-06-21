@@ -6,9 +6,7 @@ import {
   MultiScreenItemParams,
   tabs,
   redirect,
-  currentRoute,
   useScreens,
-  useReaction
 } from '@haulmont/jmix-react-core';
 import React, { useEffect } from 'react';
 import {observer} from "mobx-react";
@@ -47,15 +45,10 @@ export interface RegisteredScreen {
 export function openScreenInTab(screenId: string, menuLink: string) {
   const screen = getScreen(screenId);
 
-  const entityName: string | undefined = Array.from(entityListRegistry.entries())
-    .find(([_name, id]) => (id === screenId))
-    ?.[0];
-
   tabs.push({
     title: screen.caption,
     content: <MultiScreenWrapper screen={screen}
                                  menuLink={menuLink}
-                                 entityName={entityName}
              />,
     key: menuLink
   });
@@ -207,11 +200,10 @@ function registerMenuItem(options: MenuItemOptions) {
 interface MultiScreenWrapperProps {
   screen: RegisteredScreen;
   menuLink: string;
-  entityName?: string;
 }
 
 const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
-  const {screen, menuLink, entityName} = props;
+  const {screen, menuLink} = props;
   const screens = useScreens();
 
   screens.currentRootPageData.title = screen.caption;
@@ -223,27 +215,6 @@ const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
     // TODO Is there a better way?
     pushToScreens(screen, screens);
   }, []);
-
-  // If the screen is an entity browser then we need to listen from entityId URL parameter and open editor.
-  useReaction(
-    () => currentRoute.routeParams.entityId,
-    (entityId: string) => {
-      if (entityName == null) {
-        return; // Screen is not an entity browser.
-      }
-
-      if (entityId != null && tabs.tabs.length === 1) {
-        openCrudScreen({
-          entityName,
-          crudScreenType: 'entityEditor',
-          screens,
-          screenParams: {
-            entityId
-          }
-        });
-      }
-    }
-  );
 
   return <MultiScreen />;
 });
