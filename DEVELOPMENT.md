@@ -14,7 +14,7 @@ Perform npm install and lerna bootstrap:
 
 ```
 npm install
-npm run lerna-bootstrap
+npm run lerna bootstrap --no-audit
 ```
 
 ## Example React App and Jmix Backend
