@@ -8,6 +8,7 @@ import {getMenuItems, Screens, tabs} from "@haulmont/jmix-react-core";
 import {entityEditorRegistry, entityListRegistry, screenRegistry } from "./registry";
 
 describe('Screen registration', () => {
+  global.scrollTo = jest.fn();
 
   describe('openScreenInTab()', () => {
     beforeEach(() => {
