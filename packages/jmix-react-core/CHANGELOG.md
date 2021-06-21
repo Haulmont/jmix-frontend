@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.22...@haulmont/jmix-react-core@1.0.0-next.23) (2021-06-21)
+
+
+### Features
+
+* mocked permissions for mock-server [#385](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/385) ([5236527](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/5236527e6aa6e8d816be65ad204ad58279962c52))
+
+
+
+
+
 # [1.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.21...@haulmont/jmix-react-core@1.0.0-next.22) (2021-06-17)
 
 

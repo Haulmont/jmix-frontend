@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-ui",
-  "version": "1.0.0-next.22",
+  "version": "1.0.0-next.23",
   "description": "Jmix utilities and components for React",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,8 +9,8 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^1.0.0-next.22",
-    "@haulmont/jmix-rest": "^1.0.0-next.20",
+    "@haulmont/jmix-react-core": "^1.0.0-next.23",
+    "@haulmont/jmix-rest": "^1.0.0-next.21",
     "query-string": "^6.11.0"
   },
   "peerDependencies": {
