@@ -5,9 +5,9 @@ jest.useFakeTimers();
 describe('notifications API', () => {
 
   it('send method', async () => {
-    notifications.send({
+    notifications.show({
       title: "testedNotificationTitle",
-      message: "testedNotificationMessage",
+      description: "testedNotificationMessage",
       key: "testedNotification",
       prefixCls: "tested"
     });
@@ -20,16 +20,16 @@ describe('notifications API', () => {
     let firstTestedNotificationCount: number;
     let secondTestedNotificationCount: number;
 
-    notifications.send({
+    notifications.show({
       title: "firstTestedNotificationTitle",
-      message: "firstTestedNotificationMessage",
+      description: "firstTestedNotificationMessage",
       key: '1',
       duration: null,
       prefixCls: "first-tested"
     });
-    notifications.send({
+    notifications.show({
       title: "secondTestedNotificationTitle",
-      message: "secondTestedNotificationMessage",
+      description: "secondTestedNotificationMessage",
       key: '2',
       duration: null,
       prefixCls: "second-tested"
@@ -55,16 +55,16 @@ describe('notifications API', () => {
     let firstTestedNotificationCount: number;
     let secondTestedNotificationCount: number;
 
-    notifications.send({
+    notifications.show({
       title: "firstTestedNotificationTitle",
-      message: "firstTestedNotificationMessage",
+      description: "firstTestedNotificationMessage",
       key: '1',
       duration: null,
       prefixCls: "first-tested"
     });
-    notifications.send({
+    notifications.show({
       title: "secondTestedNotificationTitle",
-      message: "secondTestedNotificationMessage",
+      description: "secondTestedNotificationMessage",
       key: '2',
       duration: null,
       prefixCls: "second-tested"
