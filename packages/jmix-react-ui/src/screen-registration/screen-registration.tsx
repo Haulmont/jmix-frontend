@@ -57,7 +57,7 @@ export function openScreenInTab(screenId: string, menuLink: string) {
                                  menuLink={menuLink}
                                  entityName={entityName}
              />,
-    key: menuLink.substr(1)
+    key: menuLink
   });
   redirect(menuLink);
 }
