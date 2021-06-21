@@ -5,7 +5,12 @@ import {ComponentPreviews} from './dev/previews';
 import {useDevLogin} from './dev/hooks';
 import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
-import {JmixAppProvider, initializeApolloClient} from "@haulmont/jmix-react-core";
+import {
+  JmixAppProvider,
+  initializeApolloClient,
+  Screens,
+  ScreensContext,
+} from "@haulmont/jmix-react-core";
 import {I18nProvider, Modals} from "@haulmont/jmix-react-ui";
 import {initializeApp} from "@haulmont/jmix-rest";
 import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./config";
@@ -46,6 +51,8 @@ const client = initializeApolloClient({
   localeStorageKey: '<%= project.namespace %>_jmixLocale',
 });
 
+const devScreens = new Screens();
+
 ReactDOM.render(
   <JmixAppProvider apolloClient={client}
                    jmixREST={jmixREST}
@@ -61,7 +68,11 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <I18nProvider messagesMapping={messagesMapping}
                     antdLocaleMapping={antdLocaleMapping}>
-        <DevSupport ComponentPreviews={<ComponentPreviews />}
+        <DevSupport ComponentPreviews={
+                      <ScreensContext.Provider value={devScreens}>
+                          <ComponentPreviews />
+                      </ScreensContext.Provider>
+                    }
                     useInitialHook={useDevLogin}>
           <App />
         </DevSupport>
