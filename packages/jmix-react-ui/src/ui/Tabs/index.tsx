@@ -67,7 +67,7 @@ const Content = observer((props: IContentProps) => {
 
 function checkRoute(item: RouteItem) {
   if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
-    openScreenInTab(item.screenId, item.menuLink);
+    openScreenInTab(item.screenId, window.location.pathname + window.location.search);
   }
 }
 
