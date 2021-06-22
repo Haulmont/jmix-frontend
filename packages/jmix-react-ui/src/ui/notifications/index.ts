@@ -1,2 +1,2 @@
-import {notifications} from "./Notifications"
-export {notifications};
+import {notifications, NotificationType} from "./Notifications"
+export {notifications, NotificationType};
