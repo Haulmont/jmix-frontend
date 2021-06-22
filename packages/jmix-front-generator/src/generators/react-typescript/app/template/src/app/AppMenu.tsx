@@ -12,7 +12,7 @@ export const AppMenu = (props: AppMenuProps) => {
         <MenuItem 
           onClick={tabs.closeAll}
           icon={<HomeOutlined />}
-          caption={"menu.home"}
+          caption={"screen.home"}
           key={"home"}
         />
       </<%= menuType === 'vertical' ? 'VerticalMenu' : 'HorizontalMenu' %>>

@@ -124,7 +124,7 @@ const DeeplyNestedTestEntityEditor = observer(
 
 registerEntityEditor({
   component: DeeplyNestedTestEntityEditor,
-  caption: "deeplyNestedTestEntityEditor",
+  caption: "screen.DeeplyNestedTestEntityEditor",
   screenId: "DeeplyNestedTestEntityEditor",
   entityName: ENTITY_NAME
 });

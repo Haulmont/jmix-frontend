@@ -12,212 +12,212 @@ export const AppMenu = (props: AppMenuProps) => {
       <MenuItem
         onClick={tabs.closeAll}
         icon={<HomeOutlined />}
-        caption={"menu.home"}
+        caption={"screen.home"}
         key={"home"}
       />
       <MenuItem
         screenId={"TestBlankScreen"}
         icon={<BarsOutlined />}
-        caption={"menu.TestBlankScreen"}
-        key={"f92786eb-0716-4f0c-aae6-15ac9c49ab69"}
+        caption={"screen.TestBlankScreen"}
+        key={"0a95d0db-6fad-4d1d-bf07-8c07adf2dde4"}
       />
       <MenuItem
         screenId={"StructureComponent"}
         icon={<BarsOutlined />}
-        caption={"menu.StructureComponent"}
-        key={"0000f66e-07ae-4ea7-9004-4e8c0e1eb143"}
+        caption={"screen.StructureComponent"}
+        key={"f79a1441-37a0-4dcd-9131-088aca0af945"}
       />
       <MenuItem
         screenId={"CarBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.CarBrowserCards"}
-        key={"95baaa4e-b577-4eb6-a364-8b6b739fc895"}
+        caption={"screen.CarBrowserCards"}
+        key={"bcd97522-bb35-44be-b71d-15e5022cfc5a"}
       />
       <MenuItem
         screenId={"CarBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.CarBrowserList"}
-        key={"0376880f-05de-4301-a198-011d84839bca"}
+        caption={"screen.CarBrowserList"}
+        key={"bd01b24b-a878-4e93-b716-e3e27bbac245"}
       />
       <MenuItem
         screenId={"CarBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.CarBrowserTable"}
-        key={"89ccf004-9ff5-467e-931f-b0f2faf39cb2"}
+        caption={"screen.CarBrowserTable"}
+        key={"949973aa-4f02-45d8-a266-06cacf7b3f07"}
       />
       <MenuItem
         screenId={"CarCardsGrid"}
         icon={<BarsOutlined />}
-        caption={"menu.CarCardsGrid"}
-        key={"5a72bcbf-5ca5-47da-8f1e-ff2f0babf693"}
+        caption={"screen.CarCardsGrid"}
+        key={"f04b9fd3-c146-44d0-a9ee-f6b0815676bb"}
       />
       <MenuItem
         screenId={"FavoriteCars"}
         icon={<BarsOutlined />}
-        caption={"menu.FavoriteCars"}
-        key={"651ecfba-9b3d-4503-8f75-94616f3d628b"}
+        caption={"screen.FavoriteCars"}
+        key={"1e56ac4f-a02c-41c4-bf4b-2ee89f1d5446"}
       />
       <MenuItem
         screenId={"CarMasterDetail"}
         icon={<BarsOutlined />}
-        caption={"menu.CarMasterDetail"}
-        key={"3fd46dc6-75f6-495c-8e4b-bc4bf4876d90"}
+        caption={"screen.CarMasterDetail"}
+        key={"428e1f89-6208-4add-96f0-b5c05d96f805"}
       />
       <MenuItem
         screenId={"DatatypesTestBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.DatatypesTestBrowserCards"}
-        key={"8f153bd0-daa2-407d-a624-cc29e125d68e"}
+        caption={"screen.DatatypesTestBrowserCards"}
+        key={"7aefb2bd-b456-4baf-bb98-5ee62d5bd155"}
       />
       <MenuItem
         screenId={"DatatypesTestBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.DatatypesTestBrowserList"}
-        key={"06f0bdf0-cf3e-4a12-bb98-45851a7dcdcd"}
+        caption={"screen.DatatypesTestBrowserList"}
+        key={"9a3b9056-cd5e-4e9c-a527-2ad696fb1bdc"}
       />
       <MenuItem
         screenId={"DatatypesTestBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.DatatypesTestBrowserTable"}
-        key={"9c88f1fa-b552-4c67-b287-d292e9e56afa"}
+        caption={"screen.DatatypesTestBrowserTable"}
+        key={"c0dcf9a1-2dd6-4e9c-b1de-2b5f8b87fdc4"}
       />
       <MenuItem
         screenId={"DatatypesTestCards"}
         icon={<BarsOutlined />}
-        caption={"menu.DatatypesTestCards"}
-        key={"7fad3ae1-0550-4b81-8eb5-9cd3d89c11da"}
+        caption={"screen.DatatypesTestCards"}
+        key={"50c63ea7-6f25-4a42-a957-d7e0435c0d44"}
       />
       <MenuItem
         screenId={"AssociationO2OBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.AssociationO2OBrowserTable"}
-        key={"ded9e699-c4ca-4333-b055-3917840622d2"}
+        caption={"screen.AssociationO2OBrowserTable"}
+        key={"edcbf5a7-8426-4da2-b20a-761e2f47de5d"}
       />
       <MenuItem
         screenId={"AssociationO2MBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.AssociationO2MBrowserTable"}
-        key={"e2a98173-a742-43f2-a31f-ee01dfb85878"}
+        caption={"screen.AssociationO2MBrowserTable"}
+        key={"ad88bd9a-97c6-4cc7-aac8-382d3e83b412"}
       />
       <MenuItem
         screenId={"AssociationM2OBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.AssociationM2OBrowserTable"}
-        key={"46f70ded-444d-4aa3-9526-4d182eda54e3"}
+        caption={"screen.AssociationM2OBrowserTable"}
+        key={"c001049a-149b-4f9c-a211-a7cfa1ed136e"}
       />
       <MenuItem
         screenId={"AssociationM2MBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.AssociationM2MBrowserTable"}
-        key={"80b3cf37-e13c-45d3-bf8a-cf465a1a7ac6"}
+        caption={"screen.AssociationM2MBrowserTable"}
+        key={"c6f183a5-05fe-4224-b4c9-9290beaea7a8"}
       />
       <MenuItem
         screenId={"CompositionO2OBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.CompositionO2OBrowserTable"}
-        key={"8b1de516-3c04-49c1-a6e8-21a6c1e9e348"}
+        caption={"screen.CompositionO2OBrowserTable"}
+        key={"4260882c-e9eb-4a9f-87c6-f531daa97145"}
       />
       <MenuItem
         screenId={"CompositionO2MBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.CompositionO2MBrowserTable"}
-        key={"6bbb4940-7ee7-4a86-b786-e8186f1ad923"}
+        caption={"screen.CompositionO2MBrowserTable"}
+        key={"c62dd4fb-5d84-4cc0-a4fe-a5092456bf74"}
       />
       <MenuItem
         screenId={"DeeplyNestedO2MTestEntityTable"}
         icon={<BarsOutlined />}
-        caption={"menu.DeeplyNestedO2MTestEntityTable"}
-        key={"40a5d8da-a350-4fd0-a5dd-b0d093af8a9a"}
+        caption={"screen.DeeplyNestedO2MTestEntityTable"}
+        key={"bcfb4116-6a77-45fe-8879-2130d78c159e"}
       />
       <MenuItem
         screenId={"IntIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdBrowserTable"}
-        key={"be2595e1-7289-4b04-a3ba-8f173f247f2f"}
+        caption={"screen.IntIdBrowserTable"}
+        key={"b14523c8-322d-4549-967a-0b02922db06c"}
       />
       <MenuItem
         screenId={"IntIdBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdBrowserCards"}
-        key={"f36917d1-f1c4-4d1f-ae53-87a8cf545c65"}
+        caption={"screen.IntIdBrowserCards"}
+        key={"020bf142-2c30-4edc-bb1f-2efd0ee14ba2"}
       />
       <MenuItem
         screenId={"IntIdBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdBrowserList"}
-        key={"7afa3f91-f8b9-41c5-be93-de9b66c3be4f"}
+        caption={"screen.IntIdBrowserList"}
+        key={"9a4ed97a-1a3a-454a-9c0f-95c398b3cbe4"}
       />
       <MenuItem
         screenId={"IntIdentityIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdentityIdBrowserTable"}
-        key={"762cccf4-f3b9-44d3-b271-3b818039649a"}
+        caption={"screen.IntIdentityIdBrowserTable"}
+        key={"c892d5dc-67e3-4268-ad9e-bdf4f47fe217"}
       />
       <MenuItem
         screenId={"IntIdentityIdBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdentityIdBrowserCards"}
-        key={"b969e0bb-90a2-4cde-a66c-256a6ce5142c"}
+        caption={"screen.IntIdentityIdBrowserCards"}
+        key={"21d4fab4-583b-4e5c-a364-aea28dc03cfb"}
       />
       <MenuItem
         screenId={"IntIdentityIdBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.IntIdentityIdBrowserList"}
-        key={"f539bf48-5ba4-42ff-aa8c-fa86d3e1d8e3"}
+        caption={"screen.IntIdentityIdBrowserList"}
+        key={"59a7ad61-1337-4b96-8775-d1269e50aa74"}
       />
       <MenuItem
         screenId={"StringIdCards"}
         icon={<BarsOutlined />}
-        caption={"menu.StringIdCards"}
-        key={"cda2c5dc-cc28-40f5-a5b5-37a056f60a83"}
+        caption={"screen.StringIdCards"}
+        key={"5449b80a-7bdc-4475-9f85-f71f68d7c8d1"}
       />
       <MenuItem
         screenId={"StringIdBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.StringIdBrowserCards"}
-        key={"58d5bdff-b168-458d-8f8b-d2fcb42fc269"}
+        caption={"screen.StringIdBrowserCards"}
+        key={"b61291bb-9b41-492a-a5bb-ac9ba526b905"}
       />
       <MenuItem
         screenId={"StringIdBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.StringIdBrowserList"}
-        key={"24c215a9-2f8a-4142-8f24-63241f7a9ad8"}
+        caption={"screen.StringIdBrowserList"}
+        key={"5d6be18c-26e1-4736-99ae-537824213c39"}
       />
       <MenuItem
         screenId={"StringIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.StringIdBrowserTable"}
-        key={"0722867b-fca7-4e90-b561-069a06d51ca1"}
+        caption={"screen.StringIdBrowserTable"}
+        key={"6c5902d4-b048-441f-8f2c-d47c68293b7a"}
       />
       <MenuItem
         screenId={"WeirdStringIdBrowserCards"}
         icon={<BarsOutlined />}
-        caption={"menu.WeirdStringIdBrowserCards"}
-        key={"b3fd6802-fcc6-47e5-aa24-618c1d569177"}
+        caption={"screen.WeirdStringIdBrowserCards"}
+        key={"e4ee4e62-e896-43fa-b4c9-dc7510ae5e70"}
       />
       <MenuItem
         screenId={"WeirdStringIdBrowserList"}
         icon={<BarsOutlined />}
-        caption={"menu.WeirdStringIdBrowserList"}
-        key={"b93319e1-64ea-4f8d-8bed-de3f0b99f8f2"}
+        caption={"screen.WeirdStringIdBrowserList"}
+        key={"b160037e-1483-472a-b834-591007771647"}
       />
       <MenuItem
         screenId={"WeirdStringIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.WeirdStringIdBrowserTable"}
-        key={"90393806-2105-4bbb-9b7c-e5dc6139c954"}
+        caption={"screen.WeirdStringIdBrowserTable"}
+        key={"264b22a0-33ea-464e-8435-eec5e8c3947d"}
       />
       <MenuItem
         screenId={"BoringStringIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.BoringStringIdBrowserTable"}
-        key={"cbbec04d-782b-4725-8ff4-16c45723d0c0"}
+        caption={"screen.BoringStringIdBrowserTable"}
+        key={"66b8940c-95a4-4e28-98a8-862bfd20127c"}
       />
       <MenuItem
         screenId={"TrickyIdBrowserTable"}
         icon={<BarsOutlined />}
-        caption={"menu.TrickyIdBrowserTable"}
-        key={"881cb23d-2bca-47d1-aa2f-38ffd7d23da9"}
+        caption={"screen.TrickyIdBrowserTable"}
+        key={"1ff37fbf-fa60-4869-9323-8b8a3d5e3373"}
       />
     </VerticalMenu>
   );

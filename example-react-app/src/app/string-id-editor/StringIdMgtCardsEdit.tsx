@@ -227,7 +227,7 @@ const StringIdMgtCardsEdit = observer(
 
 registerEntityEditor({
   component: StringIdMgtCardsEdit,
-  caption: "stringIdMgtCardsEdit",
+  caption: "screen.StringIdMgtCardsEdit",
   screenId: "StringIdMgtCardsEdit",
   entityName: ENTITY_NAME
 });

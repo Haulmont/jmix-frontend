@@ -120,7 +120,7 @@ export const CarCardsGrid = observer(() => {
 
 registerScreen({
   component: CarCardsGrid,
-  caption: "carCardsGrid",
+  caption: "screen.CarCardsGrid",
   screenId: "CarCardsGrid",
   menuOptions: {
     pathPattern: ROUTING_PATH,

@@ -45,7 +45,7 @@ describe('i18n generation', () => {
 
     expect(writeJSON).not.calledWith(expectRuPath);
     expect(writeJSON).calledWith(
-      expectEnPath, {'menu.componentClassName': 'Component Class Name'});
+      expectEnPath, {'screen.componentClassName': 'Component Class Name'});
 
     readJSON.returns({});
     writeComponentI18nMessages(fs, "componentClassName", './directory/shift');
@@ -55,7 +55,7 @@ describe('i18n generation', () => {
 
     expect(writeJSON).not.calledWith(expectRuPath);
     expect(writeJSON).calledWith(
-      expectEnPath, {'menu.componentClassName': 'Component Class Name'});
+      expectEnPath, {'screen.componentClassName': 'Component Class Name'});
   });
 
   it('should merge and write i18n messages', () => {
@@ -82,7 +82,7 @@ describe('i18n generation', () => {
       'key3': 'predefined value 3',
       'key4': 'template value 4',
       'key5': 'template value 5',
-      'menu.testClass': 'Test Class',
+      'screen.testClass': 'Test Class',
       'keyNotInTemplate': 'key not in template'
     };
 
@@ -116,7 +116,7 @@ describe('i18n generation', () => {
 
     readJSON.withArgs(expectRuPath).returns(ruExisting);
     // case where all keys, include 'router.*' already exist in file and have the same values
-    readJSON.withArgs(expectEnPath).returns({'menu.testClass':'Test Class', ...enExisting});
+    readJSON.withArgs(expectEnPath).returns({'screen.testClass':'Test Class', ...enExisting});
 
     writeComponentI18nMessages(fs, 'testClass', './directory/shift');
     expect(writeJSON).not.calledWith(expectRuPath);
@@ -134,7 +134,7 @@ describe('i18n generation', () => {
     expect(writeJSON).not.calledWith(expectRuPath);
     expect(writeJSON).not.calledWith(expectEnPath);
 
-    readJSON.withArgs(expectEnPath).returns({'menu.testClass':'Test Class', ...enExisting});
+    readJSON.withArgs(expectEnPath).returns({'screen.testClass':'Test Class', ...enExisting});
 
     enJson = { 'key1': 'new value 1'};
     writeComponentI18nMessages(fs, 'testClass', './directory/shift', undefined, {en: enJson});
@@ -220,7 +220,7 @@ const ALL_I18N_KEYS = [
   "common.requestFailed",
   "common.retry",
   "home.welcome",
-  "menu.home",
+  "screen.home",
   "login.failed",
   "login.placeholder.login",
   "login.placeholder.password",

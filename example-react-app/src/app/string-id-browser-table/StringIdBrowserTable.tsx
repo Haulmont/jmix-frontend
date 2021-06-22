@@ -202,7 +202,7 @@ const StringIdBrowserTable = observer(
 
 registerEntityList({
   component: StringIdBrowserTable,
-  caption: "stringIdBrowserTable",
+  caption: "screen.StringIdBrowserTable",
   screenId: "StringIdBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

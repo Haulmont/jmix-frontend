@@ -163,7 +163,7 @@ const BoringStringIdBrowserTable = observer(
 
 registerEntityList({
   component: BoringStringIdBrowserTable,
-  caption: "boringStringIdBrowserTable",
+  caption: "screen.BoringStringIdBrowserTable",
   screenId: "BoringStringIdBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

@@ -220,7 +220,7 @@ const IntIdentityIdEditor = observer(
 
 registerEntityEditor({
   component: IntIdentityIdEditor,
-  caption: "intIdentityIdEditor",
+  caption: "screen.IntIdentityIdEditor",
   screenId: "IntIdentityIdEditor",
   entityName: ENTITY_NAME
 });

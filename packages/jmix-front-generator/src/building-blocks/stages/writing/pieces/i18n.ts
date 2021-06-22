@@ -61,12 +61,12 @@ function mergeI18nMessages(
   localeCode: string
 ): Record<string, string> | null {
 
-  const menuCaption = splitByCapitalLetter(capitalizeFirst(className));
+  const screenCaption = splitByCapitalLetter(capitalizeFirst(className));
 
   if (localeCode === 'en') {
     componentMessages = {
       ...componentMessages,
-      [`menu.${className}`]: menuCaption
+      [`screen.${className}`]: screenCaption
     };
   }
 

@@ -11,7 +11,7 @@ export const <%= className %> = () => (
 
 registerScreen({
   component: <%= className %>,
-  caption: '<%= nameLiteral %>',
+  caption: 'screen.<%= className %>',
   screenId: '<%= className %>',
   menuOptions: {
     pathPattern: ROUTING_PATH,

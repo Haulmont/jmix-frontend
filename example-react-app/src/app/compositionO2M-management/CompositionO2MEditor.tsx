@@ -149,7 +149,7 @@ const CompositionO2MEditor = observer(
 
 registerEntityEditor({
   component: CompositionO2MEditor,
-  caption: "compositionO2MEditor",
+  caption: "screen.CompositionO2MEditor",
   screenId: "CompositionO2MEditor",
   entityName: ENTITY_NAME
 });

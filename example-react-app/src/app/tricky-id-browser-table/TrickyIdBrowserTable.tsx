@@ -163,7 +163,7 @@ const TrickyIdBrowserTable = observer(
 
 registerEntityList({
   component: TrickyIdBrowserTable,
-  caption: "trickyIdBrowserTable",
+  caption: "screen.TrickyIdBrowserTable",
   screenId: "TrickyIdBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

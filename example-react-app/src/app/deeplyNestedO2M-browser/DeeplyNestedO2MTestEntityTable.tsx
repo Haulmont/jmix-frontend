@@ -163,7 +163,7 @@ const DeeplyNestedO2MTestEntityTable = observer(
 
 registerEntityList({
   component: DeeplyNestedO2MTestEntityTable,
-  caption: "deeplyNestedO2MTestEntityTable",
+  caption: "screen.DeeplyNestedO2MTestEntityTable",
   screenId: "DeeplyNestedO2MTestEntityTable",
   entityName: ENTITY_NAME,
   menuOptions: {

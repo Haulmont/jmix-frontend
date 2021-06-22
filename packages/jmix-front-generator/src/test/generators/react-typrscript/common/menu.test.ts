@@ -12,7 +12,7 @@ describe ('AppMenu generation', () => {
     <MenuItem 
       screenId={"${componentName}"}
       icon={<BarsOutlined />}
-      caption={"menu.${componentName}"}
+      caption={"screen.${componentName}"}
       key={'${key}'}
     />`;
 
@@ -37,7 +37,7 @@ describe ('AppMenu generation', () => {
           <MenuItem \r
                 screenId={"${componentName}"}\r
                 icon={<BarsOutlined />}\r
-                caption={"menu.${componentName}"}\r
+                caption={"screen.${componentName}"}\r
                 key={'${key}'}\r
               /></VerticalMenu>\r
         `;
@@ -70,7 +70,7 @@ describe ('AppMenu generation', () => {
             <MenuItem \r
                   screenId={"${componentName}"}\r
                   icon={<BarsOutlined />}\r
-                  caption={"menu.${componentName}"}\r
+                  caption={"screen.${componentName}"}\r
                   key={'${key}'}\r
                 /></SubMenuItem>\r
           <MenuItem/>\r
@@ -115,7 +115,7 @@ describe ('AppMenu generation', () => {
           <MenuItem \r
                 screenId={"${componentName}"}\r
                 icon={<BarsOutlined />}\r
-                caption={"menu.${componentName}"}\r
+                caption={"screen.${componentName}"}\r
                 key={'${key}'}\r
               /></HorizontalMenu>\r
         `;
@@ -148,7 +148,7 @@ describe ('AppMenu generation', () => {
             <MenuItem \r
                   screenId={"${componentName}"}\r
                   icon={<BarsOutlined />}\r
-                  caption={"menu.${componentName}"}\r
+                  caption={"screen.${componentName}"}\r
                   key={'${key}'}\r
                 /></SubMenuItem>\r
           <MenuItem/>\r

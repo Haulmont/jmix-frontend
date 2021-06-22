@@ -195,7 +195,7 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
 
 registerEntityList({
   component: CarBrowserList,
-  caption: "carBrowserList",
+  caption: "screen.CarBrowserList",
   screenId: "CarBrowserList",
   entityName: ENTITY_NAME,
   menuOptions: {

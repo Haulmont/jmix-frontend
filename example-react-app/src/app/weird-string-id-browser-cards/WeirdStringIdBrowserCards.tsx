@@ -176,7 +176,7 @@ const WeirdStringIdBrowserCards = observer(
 
 registerEntityList({
   component: WeirdStringIdBrowserCards,
-  caption: "weirdStringIdBrowserCards",
+  caption: "screen.WeirdStringIdBrowserCards",
   screenId: "WeirdStringIdBrowserCards",
   entityName: ENTITY_NAME,
   menuOptions: {

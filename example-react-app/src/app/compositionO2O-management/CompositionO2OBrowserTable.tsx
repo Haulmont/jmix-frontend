@@ -174,7 +174,7 @@ const CompositionO2OBrowserTable = observer(
 
 registerEntityList({
   component: CompositionO2OBrowserTable,
-  caption: "compositionO2OBrowserTable",
+  caption: "screen.CompositionO2OBrowserTable",
   screenId: "CompositionO2OBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

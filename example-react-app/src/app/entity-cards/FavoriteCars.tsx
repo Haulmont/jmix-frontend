@@ -103,7 +103,7 @@ export const FavoriteCars = observer(() => {
 
 registerScreen({
   component: FavoriteCars,
-  caption: "favoriteCars",
+  caption: "screen.FavoriteCars",
   screenId: "FavoriteCars",
   menuOptions: {
     pathPattern: ROUTING_PATH,

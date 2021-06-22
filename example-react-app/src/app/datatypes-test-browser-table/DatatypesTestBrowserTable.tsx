@@ -281,7 +281,7 @@ const DatatypesTestBrowserTable = observer(
 
 registerEntityList({
   component: DatatypesTestBrowserTable,
-  caption: "datatypesTestBrowserTable",
+  caption: "screen.DatatypesTestBrowserTable",
   screenId: "DatatypesTestBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

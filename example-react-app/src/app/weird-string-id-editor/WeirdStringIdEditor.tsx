@@ -133,7 +133,7 @@ const WeirdStringIdEditor = observer(
 
 registerEntityEditor({
   component: WeirdStringIdEditor,
-  caption: "weirdStringIdEditor",
+  caption: "screen.WeirdStringIdEditor",
   screenId: "WeirdStringIdEditor",
   entityName: ENTITY_NAME
 });
