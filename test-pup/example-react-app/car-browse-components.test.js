@@ -1,7 +1,7 @@
 const {login} = require("../common/login-to-scr");
 const puppeteer = require("puppeteer");
 
-xdescribe('car browse components for mechanic', () => {
+describe('car browse components for mechanic', () => {
 
   let page;
 
@@ -12,7 +12,7 @@ xdescribe('car browse components for mechanic', () => {
 
   it('should check that car cards are loaded', async () => {
 
-    await page.goto('http://localhost:3000/carManagement');
+    await page.goto('http://localhost:3000/carBrowserCards');
     await page.waitFor('div.ant-card');
     const carCards = await page.$$('div.ant-card');
     expect(carCards.length).toEqual(10);
@@ -35,7 +35,7 @@ xdescribe('car browse components for mechanic', () => {
 
   it('should check that car list is loaded', async () => {
 
-    await page.goto('http://localhost:3000/carManagement2');
+    await page.goto('http://localhost:3000/carBrowserList');
     await page.waitFor('div.ant-list');
     const carListItems = await page.$$('li.ant-list-item');
     expect(carListItems.length).toEqual(10);

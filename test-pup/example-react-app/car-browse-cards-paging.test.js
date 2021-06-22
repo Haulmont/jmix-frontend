@@ -4,17 +4,18 @@ const puppeteer = require("puppeteer");
 
 const checkCarsPaging = checkPaging('div.ant-card');
 
-xdescribe('car browse cards paging', () => {
+describe('car browse cards paging', () => {
 
   let page;
-  const url = 'carManagement';
+  const url = 'carBrowserCards';
 
   beforeAll(async () => {
-    page = await (await puppeteer.launch()).newPage();
+    const browser = await puppeteer.launch();
+    page = await browser.newPage();
     await login(page);
   });
 
-  const buttonTitles = ['Previous Page', '1', '2', '3', 'Next Page', null];
+  const buttonTitles = ['Previous Page', '1', 'Next Page'];
 
   // TODO fix the test
   // it('should check pages count with page size = 10', async () => {
@@ -26,14 +27,14 @@ xdescribe('car browse cards paging', () => {
 
   it('should check pages count with page size > 10', async () => {
     // fix for CI - '20' check failed unexpectedly
-    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page', null]]);
+    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page']]);
 
     // TODO VB test fails randomly (timing-dependent?)
     // await checkCarsPaging(page, `${url}?page=1&pageSize=50`, [22, ['Previous Page', '1', 'Next Page', null]]);
   });
 
   it('should use only allowed page size url param', async () => {
-    await checkCarsPaging(page, `${url}?page=5&pageSize=23`, [10, buttonTitles]);
+    await checkCarsPaging(page, `${url}?page=5&pageSize=23`, [22, buttonTitles]);
     const activePageButtonTitle = await page
       .$eval('ul.ant-pagination li.ant-pagination-item-active', el => el.getAttribute('title'));
     expect(activePageButtonTitle).toEqual('1');
