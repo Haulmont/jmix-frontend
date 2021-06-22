@@ -150,7 +150,7 @@ export function getNewMenuItem(componentClassName: string, key: string) : string
     <MenuItem 
       screenId={"${componentClassName}"}
       icon={<BarsOutlined />}
-      caption={"menu.${componentClassName}"}
+      caption={"screen.${componentClassName}"}
       key={'${key}'}
     />`
 }

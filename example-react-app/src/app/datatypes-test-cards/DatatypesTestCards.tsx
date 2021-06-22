@@ -162,7 +162,7 @@ export const DatatypesTestCards = observer(() => {
 
 registerScreen({
   component: DatatypesTestCards,
-  caption: "datatypesTestCards",
+  caption: "screen.DatatypesTestCards",
   screenId: "DatatypesTestCards",
   menuOptions: {
     pathPattern: ROUTING_PATH,

@@ -190,7 +190,7 @@ const IntIdentityIdBrowserList = observer(
 
 registerEntityList({
   component: IntIdentityIdBrowserList,
-  caption: "intIdentityIdBrowserList",
+  caption: "screen.IntIdentityIdBrowserList",
   screenId: "IntIdentityIdBrowserList",
   entityName: ENTITY_NAME,
   menuOptions: {

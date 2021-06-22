@@ -243,7 +243,7 @@ const DatatypesTestBrowserCards = observer(
 
 registerEntityList({
   component: DatatypesTestBrowserCards,
-  caption: "datatypesTestBrowserCards",
+  caption: "screen.DatatypesTestBrowserCards",
   screenId: "DatatypesTestBrowserCards",
   entityName: ENTITY_NAME,
   menuOptions: {

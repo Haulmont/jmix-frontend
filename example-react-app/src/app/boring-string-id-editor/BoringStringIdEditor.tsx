@@ -127,7 +127,7 @@ const BoringStringIdEditor = observer(
 
 registerEntityEditor({
   component: BoringStringIdEditor,
-  caption: "boringStringIdEditor",
+  caption: "screen.BoringStringIdEditor",
   screenId: "BoringStringIdEditor",
   entityName: ENTITY_NAME
 });

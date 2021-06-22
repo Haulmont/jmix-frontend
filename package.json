@@ -40,6 +40,7 @@
     "update-react-core-and-ui": "npm run pack-given-client-libs @haulmont/jmix-react-ui @haulmont/jmix-react-core && npm run update-given-client-libs example-react-app react-core react-ui",
     "generate-react-app": "node scripts/generate-example-react-app.js",
     "bootstrap-react-app": "npm run generate-react-app && npm run update-react-client-libs",
+    "bootstrap-react-lite": "npm run generate-react-app && npm run update-react-core-and-ui",
     "bootstrap-react-native-app": "node scripts/generate-react-native-client-scr.js && npm run update-react-native-client-libs",
     "bootstrap-jmix-app": "node scripts/jmix/bootstrap-jmix-app.js",
     "update-jmix-app": "node scripts/jmix/update-jmix-app.js",

@@ -4,4 +4,4 @@ const args = process.argv.slice(2);
 const clientDir = args[0];
 const libs = args.slice(1);
 
-updateClientLibs(clientDir, libs, true);
+updateClientLibs(clientDir, libs);

@@ -254,7 +254,7 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
 
 registerEntityEditor({
   component: CarEditor,
-  caption: "carEditor",
+  caption: "screen.CarEditor",
   screenId: "CarEditor",
   entityName: ENTITY_NAME
 });

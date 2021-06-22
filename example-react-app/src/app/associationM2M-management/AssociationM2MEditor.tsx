@@ -127,7 +127,7 @@ const AssociationM2MEditor = observer(
 
 registerEntityEditor({
   component: AssociationM2MEditor,
-  caption: "associationM2MEditor",
+  caption: "screen.AssociationM2MEditor",
   screenId: "AssociationM2MEditor",
   entityName: ENTITY_NAME
 });

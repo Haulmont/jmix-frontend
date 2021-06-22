@@ -122,7 +122,7 @@ const TrickyIdEditor = observer(
 
 registerEntityEditor({
   component: TrickyIdEditor,
-  caption: "trickyIdEditor",
+  caption: "screen.TrickyIdEditor",
   screenId: "TrickyIdEditor",
   entityName: ENTITY_NAME
 });

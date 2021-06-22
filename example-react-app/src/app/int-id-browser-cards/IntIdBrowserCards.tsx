@@ -175,7 +175,7 @@ const IntIdBrowserCards = observer(
 
 registerEntityList({
   component: IntIdBrowserCards,
-  caption: "intIdBrowserCards",
+  caption: "screen.IntIdBrowserCards",
   screenId: "IntIdBrowserCards",
   entityName: ENTITY_NAME,
   menuOptions: {

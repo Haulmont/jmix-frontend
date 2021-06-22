@@ -163,7 +163,7 @@ const AssociationO2MBrowserTable = observer(
 
 registerEntityList({
   component: AssociationO2MBrowserTable,
-  caption: "associationO2MBrowserTable",
+  caption: "screen.AssociationO2MBrowserTable",
   screenId: "AssociationO2MBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

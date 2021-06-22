@@ -447,7 +447,7 @@ const DatatypesTestEditor = observer(
 
 registerEntityEditor({
   component: DatatypesTestEditor,
-  caption: "datatypesTestEditor",
+  caption: "screen.DatatypesTestEditor",
   screenId: "DatatypesTestEditor",
   entityName: ENTITY_NAME
 });

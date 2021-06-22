@@ -112,7 +112,7 @@ export const StringIdCards = observer(() => {
 
 registerScreen({
   component: StringIdCards,
-  caption: "stringIdCards",
+  caption: "screen.StringIdCards",
   screenId: "StringIdCards",
   menuOptions: {
     pathPattern: ROUTING_PATH,

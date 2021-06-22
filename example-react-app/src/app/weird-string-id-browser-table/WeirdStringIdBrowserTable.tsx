@@ -164,7 +164,7 @@ const WeirdStringIdBrowserTable = observer(
 
 registerEntityList({
   component: WeirdStringIdBrowserTable,
-  caption: "weirdStringIdBrowserTable",
+  caption: "screen.WeirdStringIdBrowserTable",
   screenId: "WeirdStringIdBrowserTable",
   entityName: ENTITY_NAME,
   menuOptions: {

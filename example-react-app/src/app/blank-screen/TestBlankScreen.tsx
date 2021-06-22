@@ -7,7 +7,7 @@ export const TestBlankScreen = () => <div>TestBlankScreen</div>;
 
 registerScreen({
   component: TestBlankScreen,
-  caption: "testBlankScreen",
+  caption: "screen.TestBlankScreen",
   screenId: "TestBlankScreen",
   menuOptions: {
     pathPattern: ROUTING_PATH,

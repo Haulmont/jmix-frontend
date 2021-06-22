@@ -18,7 +18,7 @@ export const StructureComponent = () => (
 
 registerScreen({
   component: StructureComponent,
-  caption: "structureComponent",
+  caption: "screen.StructureComponent",
   screenId: "StructureComponent",
   menuOptions: {
     pathPattern: ROUTING_PATH,

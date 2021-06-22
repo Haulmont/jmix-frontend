@@ -12,7 +12,7 @@
   "common.back": "common.back [TRANSLATION NOT AVAILABLE]",
 
   "home.welcome": "欢迎使用",
-  "menu.home": "主界面",
+  "screen.home": "主界面",
   "login.failed": "登录失败",
   "login.placeholder.login": "用户名",
   "login.placeholder.password": "密码",

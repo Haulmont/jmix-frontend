@@ -21,7 +21,7 @@ const CarMasterDetail = observer(() => {
 
 registerEntityList({
   component: CarMasterDetail,
-  caption: "carMasterDetail",
+  caption: "screen.CarMasterDetail",
   screenId: "CarMasterDetail",
   entityName: ENTITY_NAME,
   menuOptions: {
