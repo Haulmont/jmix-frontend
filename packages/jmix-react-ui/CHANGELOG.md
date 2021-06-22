@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.24](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.23...@haulmont/jmix-react-ui@1.0.0-next.24) (2021-06-22)
+
+
+### Bug Fixes
+
+* editor is opened twice when editing from registered entity list ([83e1453](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/83e14532446a157435431d3e75864adb5625b2f3))
+* pagination doesn't change when deleting last item [#391](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/391) ([225ba33](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/225ba33381be93a6d1b112b5f42969a50547713d))
+* Tabs id generation ([cf9a00e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/cf9a00eb13bbf9336b71302828da6f6305c4c3c2))
+
+
+### Reverts
+
+* "fix: Tabs id generation" ([619e606](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/619e6060d64f3b917e2c02c9d71fdd68bccb8b35))
+* partially revert Fix render DOM elements inside Screen's TabPanel ([4b899f7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/4b899f74581d70e719ec92e59025555e070f38c8))
+
+
+
+
+
 # [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.22...@haulmont/jmix-react-ui@1.0.0-next.23) (2021-06-21)
 
 
