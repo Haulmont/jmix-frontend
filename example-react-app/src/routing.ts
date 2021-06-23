@@ -48,3 +48,4 @@ import "./app/car-browser-cards/CarBrowserCards";
 import "./app/car-editor/CarEditor";
 import "./app/structure/StructureComponent";
 import "./app/blank-screen/TestBlankScreen";
+import { menuItems } from "@haulmont/jmix-react-ui";

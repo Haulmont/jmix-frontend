@@ -22,7 +22,7 @@ import "<%= relDirShift %>app/App.css";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
-const ROUTING_PATH = '/<%= nameLiteral %>';
+const ROUTING_PATH = '/<%= routingPath %>';
 
 const LOAD_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   query <%= dollarsToUnderscores(entity.name) %>ById($id: String = "", $loadItem: Boolean!) {
