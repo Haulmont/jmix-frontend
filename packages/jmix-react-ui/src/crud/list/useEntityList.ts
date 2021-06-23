@@ -291,7 +291,7 @@ export function useEntityList<
   // If we have deleted the last item on page, and it's not the first page, we want to change pagination
   if (items?.length === 0
     && entityListState?.pagination?.current != null
-    && entityListState?.pagination?.current > 0
+    && entityListState?.pagination?.current > 1
   ) {
     handlePaginationChange(entityListState?.pagination?.current - 1, entityListState?.pagination?.pageSize);
   }
