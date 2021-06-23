@@ -1,5 +1,5 @@
 import {ColumnProps, TablePaginationConfig} from 'antd/es/table';
-import {SorterResult, ColumnFilterItem, FilterDropdownProps} from 'antd/es/table/interface';
+import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction} from 'antd/es/table/interface';
 import React, { ReactText } from 'react';
 import {DataTableCell} from './DataTableCell';
 import {
@@ -24,7 +24,8 @@ import {
   FilterChangeCallback,
   JmixEntityFilter,
   JmixSortOrder,
-  SortOrderChangeCallback
+  SortOrderChangeCallback,
+  assertNever
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
@@ -447,6 +448,10 @@ export interface TableChangeShape<E> {
   fields: string[],
   metadata: Metadata;
   entityName: string;
+  /**
+   * What has triggered the callback: change in pagination, sorters or filters.
+   */
+  tableAction: TableAction;
 }
 
 /**
@@ -469,12 +474,23 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
     onPaginationChange,
     fields,
     metadata,
-    entityName
+    entityName,
+    tableAction
   } = tableChange;
 
-  setFilters(tableFilters, onFilterChange, entityName, fields, metadata, apiFilters);
-  setSorter(sorter, onSortOrderChange, defaultSortOrder);
-  onPaginationChange(pagination.current, pagination.pageSize);
+  switch (tableAction) {
+    case 'filter':
+      setFilters(tableFilters, onFilterChange, entityName, fields, metadata, apiFilters);
+      break;
+    case 'sort':
+      setSorter(sorter, onSortOrderChange, defaultSortOrder);
+      break;
+    case 'paginate':
+      onPaginationChange(pagination.current, pagination.pageSize);
+      break;
+    default:
+      assertNever('table action', tableAction);
+  }
 }
 
 // TODO docs

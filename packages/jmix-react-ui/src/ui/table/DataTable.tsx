@@ -2,7 +2,7 @@ import React, {ReactNode, ReactText} from 'react';
 import { FilterOutlined } from '@ant-design/icons';
 import { Button, message, Spin, Table } from 'antd';
 import {ColumnProps, TableProps} from 'antd/es/table';
-import {Key, RowSelectionType, SorterResult, TablePaginationConfig} from 'antd/es/table/interface';
+import {Key, RowSelectionType, SorterResult, TableCurrentDataSource, TablePaginationConfig} from 'antd/es/table/interface';
 import {
   action,
   computed,
@@ -343,7 +343,14 @@ class DataTableComponent<
     this.valuesByProperty.set(propertyName, value);
   };
 
-  onChange = (pagination: TablePaginationConfig, filters: Record<string, Array<Key | boolean> | null>, sorter: SorterResult<TEntity> | Array<SorterResult<TEntity>>): void => {
+  onChange = (
+    pagination: TablePaginationConfig,
+    filters: Record<string, Array<Key | boolean> | null>,
+    sorter: SorterResult<TEntity> | Array<SorterResult<TEntity>>,
+    extra: TableCurrentDataSource<TEntity>
+  ): void => {
+    const {action: tableAction} = extra;
+
     this.tableFilters = filters;
 
     const {fields} = this;
@@ -364,7 +371,8 @@ class DataTableComponent<
       fields,
       metadata,
       entityName,
-      onPaginationChange
+      onPaginationChange,
+      tableAction
     });
   };
 
