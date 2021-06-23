@@ -14,7 +14,7 @@ import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
 
 const ENTITY_NAME = '<%= entity.name %>';
-const ROUTING_PATH = '/<%= nameLiteral %>';
+const ROUTING_PATH = '/<%= routingPath %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {

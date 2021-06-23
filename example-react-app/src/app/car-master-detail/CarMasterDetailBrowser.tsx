@@ -14,7 +14,7 @@ import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_Car";
-const ROUTING_PATH = "/carMasterDetailBrowser";
+const ROUTING_PATH = "/carMasterDetail";
 
 const SCR_CAR_LIST = gql`
   query scr_CarList(

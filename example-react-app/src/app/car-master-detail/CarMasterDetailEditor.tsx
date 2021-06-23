@@ -20,7 +20,7 @@ import "../../app/App.css";
 import { Car } from "../../jmix/entities/scr_Car";
 
 const ENTITY_NAME = "scr_Car";
-const ROUTING_PATH = "/carMasterDetailEditor";
+const ROUTING_PATH = "/carMasterDetail";
 
 const LOAD_SCR_CAR = gql`
   query scr_CarById($id: String = "", $loadItem: Boolean!) {

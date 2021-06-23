@@ -8,10 +8,11 @@ import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/c
 import { deriveEntityCommon, CommonTemplateModel } from "../../../building-blocks/stages/template-model/pieces/common";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
 import { deriveEntity, EntityWithPath, EntityTemplateModel } from "../../../building-blocks/stages/template-model/pieces/entity";
+import {elementNameToClass, unCapitalizeFirst} from "../../../common/utils";
 
 export interface MasterDetailTemplateModel {
   browserTemplateModel: MasterDetailBrowserTemplateModel;
-  editorTemplateModel: EntityEditorTemplateModel;
+  editorTemplateModel: MasterDetailEditorTemplateModel;
   masterDetailTemplateModel: MasterDetailComponentTemplateModel;
 };
 
@@ -25,8 +26,11 @@ export const deriveMasterDetailTemplateModel = async (
     editorComponentName,
     editorQuery,
     menuItem,
+    masterDetailComponentName,
     ...stringIdAnswers
   } = answers;
+
+  const routingPath = unCapitalizeFirst(elementNameToClass(masterDetailComponentName));
 
   const browserTemplateModel = await deriveMasterDetailBrowserTemplateModel({
     entity,
@@ -34,15 +38,20 @@ export const deriveMasterDetailTemplateModel = async (
     query: browserQuery,
     menuItem,
     ...stringIdAnswers,
-  }, projectModel, gen, options);
+  }, projectModel, gen, options, routingPath);
 
-  const editorTemplateModel = await deriveEditorTemplateModel({
+  const baseEditorTemplateModel = await deriveEditorTemplateModel({
     entity,
     componentName: editorComponentName,
     query: editorQuery,
     menuItem,
     ...stringIdAnswers
   }, projectModel, gen, options);
+
+  const editorTemplateModel = {
+    routingPath,
+    ...baseEditorTemplateModel
+  }
 
   const masterDetailTemplateModel = await deriveMasterDetailComponentTemplateModel({
     editorClassName: editorTemplateModel.className,
@@ -60,14 +69,19 @@ export const deriveMasterDetailTemplateModel = async (
 };
 
 type MasterDetailBrowserAnswers = Omit<EntityBrowserAnswers, 'browserType'>
-export type MasterDetailBrowserTemplateModel = Omit<EntityBrowserTemplateModel, 'browserType'>
+export type MasterDetailBrowserTemplateModel = Omit<EntityBrowserTemplateModel, 'browserType'> & {routingPath: string}
 
 export const deriveMasterDetailBrowserTemplateModel = async (
-  answers: MasterDetailBrowserAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions
+  answers: MasterDetailBrowserAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions, routingPath: string
 ): Promise<MasterDetailBrowserTemplateModel> => {
   const {browserType, ...masterDetailBrowserTemplateModel} = await deriveBrowserTemplateModel({...answers, browserType: 'table'}, projectModel, gen, options)
-  return masterDetailBrowserTemplateModel;
+  return {
+    routingPath,
+    ...masterDetailBrowserTemplateModel
+  };
 }
+
+type MasterDetailEditorTemplateModel = EntityEditorTemplateModel & {routingPath: string};
 
 interface MasterDetailComponentAnswers {
   editorClassName: string;
