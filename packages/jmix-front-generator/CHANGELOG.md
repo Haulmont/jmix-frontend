@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.24](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.23...@haulmont/jmix-front-generator@1.0.0-next.24) (2021-06-23)
+
+
+### Bug Fixes
+
+* compilation of new project fails due to empty routing.ts [#448](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/448) ([0e56e96](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/0e56e9624498c730fc4617075bd5ac55e99f5b7e))
+* master-detail screen: incorrect route after pagination [#446](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/446) ([a8a8c33](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/a8a8c336c5536a5d1b60f09c3638a86b2cae9406))
+* message keys in tab and screen titles [#324](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/324) ([444eeb1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/444eeb11727af6d4568c9edff32f6848599a29bb))
+
+
+
+
+
 # [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.22...@haulmont/jmix-front-generator@1.0.0-next.23) (2021-06-21)
 
 

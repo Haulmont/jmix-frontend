@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.26](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.25...@haulmont/jmix-react-ui@1.0.0-next.26) (2021-06-23)
+
+
+### Bug Fixes
+
+* filter, sorting and pagination callbacks all fire simultaneously [#383](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/383) ([66c1a0c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/66c1a0cde54bd7f63f0a0cfa731c9f850e582d7c))
+* get pagination params from URL [#422](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/422) ([9345e17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/9345e17c3e4668f53e80b98357da5b8906f17693))
+* message keys in tab and screen titles [#324](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/324) ([444eeb1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/444eeb11727af6d4568c9edff32f6848599a29bb))
+
+
+
+
+
 # [1.0.0-next.25](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.24...@haulmont/jmix-react-ui@1.0.0-next.25) (2021-06-22)
 
 **Note:** Version bump only for package @haulmont/jmix-react-ui
