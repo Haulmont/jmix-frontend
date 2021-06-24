@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import { action, makeObservable, observable, reaction } from 'mobx';
 import React from 'react';
 import { Screens } from './Screens';
 import { redirect } from './Router';
@@ -22,6 +22,19 @@ export class Tabs {
 
   constructor() {
     makeObservable(this);
+
+    // Update route url when tabs are changed
+    reaction(() => [ this.currentTab ], () => {
+      const screensInTab = this.currentTab.screensInTab;
+      if (screensInTab) {
+        updateUrl(screensInTab);
+      }
+    });
+    reaction(() => [ this.tabs.length ], () => {
+      if (this.tabs.length === 0) {
+        redirect('/');
+      }
+    });
   }
 
   /**
@@ -83,20 +96,20 @@ export class Tabs {
   setActiveTab = action((activeTab: IMultiTabItem) => {
     this.currentTab = activeTab;
 
-    if (activeTab.screensInTab) {
-      let url = activeTab.screensInTab.currentRootPageData.menuPath;
-      if (activeTab.screensInTab.screens.length > 1) {
-        const secondScreen = activeTab.screensInTab.screens[1];
-        if (secondScreen.params?.entityId) {
-          url += '/' + secondScreen.params?.entityId;
-        }
-      }
-
-      redirect(url);
-    }
-
     window.scrollTo(0, 0);
   });
+}
+
+function updateUrl(screens: Screens) {
+  let url = screens.currentRootPageData.menuPath;
+  if (screens.screens.length > 1) {
+    const secondScreen = screens.screens[1];
+    if (secondScreen.params?.entityId) {
+      url += '/' + secondScreen.params?.entityId;
+    }
+  }
+
+  redirect(url);
 }
 
 /**
