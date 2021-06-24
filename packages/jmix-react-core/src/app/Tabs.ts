@@ -72,7 +72,11 @@ export class Tabs {
     const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      this.currentTab = this.tabs[removedTabIndex - 1];
+      const updatedCurrentTabIndex = removedTabIndex === 0 
+        ? 0
+        : removedTabIndex - 1
+
+      this.currentTab = this.tabs[updatedCurrentTabIndex];
     }
   });
 
