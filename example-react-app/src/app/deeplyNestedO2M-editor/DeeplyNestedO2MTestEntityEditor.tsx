@@ -129,7 +129,11 @@ registerEntityEditor({
   component: DeeplyNestedO2MTestEntityEditor,
   caption: "screen.DeeplyNestedO2MTestEntityEditor",
   screenId: "DeeplyNestedO2MTestEntityEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default DeeplyNestedO2MTestEntityEditor;

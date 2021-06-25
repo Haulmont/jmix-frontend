@@ -129,7 +129,11 @@ registerEntityEditor({
   component: AssociationM2OEditor,
   caption: "screen.AssociationM2OEditor",
   screenId: "AssociationM2OEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default AssociationM2OEditor;

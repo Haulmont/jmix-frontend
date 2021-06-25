@@ -5,7 +5,7 @@ import {writeComponentI18nMessages} from "../../../building-blocks/stages/writin
 import entityManagementEn from "./template/editor-i18n-messages/en.json";
 import entityManagementFr from "./template/editor-i18n-messages/fr.json";
 import entityManagementRu from "./template/editor-i18n-messages/ru.json";
-import {addEntityMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
+import {addAppMenu, addEntityMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
 import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import * as path from "path"
@@ -35,6 +35,7 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
   const {
     className,
     nameLiteral,
+    menuItem
   } = templateModel;
 
   const extension = '.tsx.ejs';
@@ -43,6 +44,8 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
 
   await writeEditorMessages(projectModel, templateModel, gen, options);
 
+  
+  addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true, {entityId: 'new'});
 };

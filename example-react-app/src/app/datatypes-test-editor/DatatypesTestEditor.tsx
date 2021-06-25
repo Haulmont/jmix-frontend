@@ -449,7 +449,11 @@ registerEntityEditor({
   component: DatatypesTestEditor,
   caption: "screen.DatatypesTestEditor",
   screenId: "DatatypesTestEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default DatatypesTestEditor;

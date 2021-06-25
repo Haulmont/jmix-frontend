@@ -124,7 +124,11 @@ registerEntityEditor({
   component: TrickyIdEditor,
   caption: "screen.TrickyIdEditor",
   screenId: "TrickyIdEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default TrickyIdEditor;

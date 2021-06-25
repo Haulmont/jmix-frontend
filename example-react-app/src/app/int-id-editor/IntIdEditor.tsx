@@ -124,7 +124,11 @@ registerEntityEditor({
   component: IntIdEditor,
   caption: "screen.IntIdEditor",
   screenId: "IntIdEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default IntIdEditor;
