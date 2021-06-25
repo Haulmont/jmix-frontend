@@ -59,6 +59,7 @@
   "screen.CarEditor": "Car Editor",
   "screen.StructureComponent": "Structure Component",
   "screen.TestBlankScreen": "Test Blank Screen",
+  "screen.ExampleCustomScreen": "Example Custom Screen",
   "common.ok": "OK",
   "common.cancel": "Cancel",
   "common.create": "Create",

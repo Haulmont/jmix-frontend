@@ -19,6 +19,10 @@ module.exports = {
     "componentName": "test-blank-screen",
     'menuItem': 'ROOT'
   },
+  "exampleCustomScreen": {
+    "componentName": "example-custom-screen",
+    "menuItem": "ROOT"
+  },
   "structure": {
     "componentName": "StructureComponent",
     "structureType": "Two columns",

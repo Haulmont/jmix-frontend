@@ -6,6 +6,7 @@ import {Security} from './Security';
 import React from "react";
 import { login, logout } from "./Auth";
 import {ApolloClient, gql} from "@apollo/client";
+import {ContentDisplayMode} from "./ContentDisplayMode";
 
 export interface MainStoreOptions {
   appName?: string;
@@ -15,6 +16,7 @@ export interface MainStoreOptions {
   obtainTokenEndpoint?: string;
   revokeTokenEndpoint?: string;
   locale?: string;
+  contentDisplayMode?: ContentDisplayMode;
 }
 
 export class MainStore {
@@ -44,6 +46,11 @@ export class MainStore {
    * Localized entity messages.
    */
   messages: EntityMessages | null = null;
+
+  /**
+   * See {@link ContentDisplayMode}
+   */
+  contentDisplayMode: ContentDisplayMode = ContentDisplayMode.ActivateExistingTab;
 
   security: Security;
 
@@ -75,6 +82,10 @@ export class MainStore {
       ?? this.storage.getItem(this.localeStorageKey)
       ?? 'en';
 
+    if (options?.contentDisplayMode != null) {
+      this.contentDisplayMode = options.contentDisplayMode;
+    }
+
     this.jmixREST.onLocaleChange(this.handleLocaleChange);
     this.security = new Security(this.apolloClient);
 
@@ -85,6 +96,7 @@ export class MainStore {
       userName: observable,
       locale: observable,
       messages: observable,
+      contentDisplayMode: observable,
       initialize: action,
       loadMessages: action,
       loginRequired: computed,

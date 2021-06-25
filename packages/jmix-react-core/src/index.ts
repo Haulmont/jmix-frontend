@@ -20,6 +20,7 @@ export * from './access-control/EntityPermAccessControl';
 
 export * from './app/Auth';
 export * from './app/Apollo';
+export * from './app/ContentDisplayMode';
 export * from './app/JmixAppProvider';
 export * from './app/JmixServerError';
 export * from './app/MainStore';

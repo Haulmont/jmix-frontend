@@ -6,6 +6,7 @@ import { MetadataProvider } from "./MetadataProvider";
 import { normalizeMetadata, ProjectModelMetadata } from "../util/normalizeMetadata";
 import {ApolloClient} from "@apollo/client";
 import { PropertyType } from "../data/PropertyType";
+import {ContentDisplayMode} from "./ContentDisplayMode";
 
 let jmixAppContext: React.Context<JmixAppContextValue>;
 let jmixAppConfig: JmixAppConfig | undefined;
@@ -69,10 +70,16 @@ export interface JmixAppConfig {
   /**
    * Display formats for entity properties of temporal types.
    * Can be used to override the formats used for data presentation.
-   * See @{link https://day.js.org/docs/en/display/format | Day.js documentation}
+   * See {@link https://day.js.org/docs/en/display/format | Day.js documentation}
    * for details on available formats.
    */
   displayFormats?: Partial<Record<PropertyType, string>>;
+  /**
+   * Sets {@link MainStore.contentDisplayMode}.
+   *
+   * @defaultValue {@link ContentDisplayMode.ActivateExistingTab}
+   */
+  contentDisplayMode?: ContentDisplayMode;
 }
 
 export interface JmixAppProviderProps {
@@ -121,7 +128,8 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
             secret,
             obtainTokenEndpoint,
             revokeTokenEndpoint,
-            locale
+            locale,
+            contentDisplayMode
           } = jmixAppConfig ?? {};
           mainStore = new MainStore(apolloClient, jmixREST, {
             appName,
@@ -130,7 +138,8 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
             secret,
             obtainTokenEndpoint,
             revokeTokenEndpoint,
-            locale
+            locale,
+            contentDisplayMode
           });
           retrieveRestApiToken().then((restApiToken) => {
             if (restApiToken != null) {

@@ -27,6 +27,7 @@ export * from './crud/list/EntityListProps';
 export * from './util/history';
 
 export * from './ui/EntityProperty';
+export * from './ui/content-area/ContentArea';
 export * from './ui/form/Form';
 export * from './ui/form/validation/GlobalErrorsAlert';
 export * from './ui/Msg';
