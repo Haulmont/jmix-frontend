@@ -11,7 +11,7 @@ const {TabPane} = Tabs;
 
 function onTabChange(key: string) {
   for (const tab of tabs.tabs) {
-    if (tab.key === key) {
+    if (tab.key.substr(1) === key) {
       tabs.setActiveTab(tab);
       break;
     }
@@ -29,7 +29,7 @@ export const MultiTabs = observer(() => {
   }
 
   return (
-    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
+    <Tabs activeKey={tabs.currentTab.key.substr(1)} onChange={onTabChange}>
       {tabs.tabs.map((item) => (
         <TabPane
           tab={
@@ -38,7 +38,7 @@ export const MultiTabs = observer(() => {
               <CloseOutlined className="jmix-tab-icon" onClick={(e) => handleCloseClick(e, item)} />
             </>
           }
-          key={item.key}
+          key={item.key.substr(1)}
         >
           <Content item={item} />
         </TabPane>
