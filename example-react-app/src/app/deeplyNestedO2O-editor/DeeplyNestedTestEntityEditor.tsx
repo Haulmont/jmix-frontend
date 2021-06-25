@@ -126,7 +126,11 @@ registerEntityEditor({
   component: DeeplyNestedTestEntityEditor,
   caption: "screen.DeeplyNestedTestEntityEditor",
   screenId: "DeeplyNestedTestEntityEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default DeeplyNestedTestEntityEditor;

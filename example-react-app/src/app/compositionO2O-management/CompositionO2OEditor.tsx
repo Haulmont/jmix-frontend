@@ -151,7 +151,11 @@ registerEntityEditor({
   component: CompositionO2OEditor,
   caption: "screen.CompositionO2OEditor",
   screenId: "CompositionO2OEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default CompositionO2OEditor;

@@ -129,7 +129,11 @@ registerEntityEditor({
   component: AssociationM2MEditor,
   caption: "screen.AssociationM2MEditor",
   screenId: "AssociationM2MEditor",
-  entityName: ENTITY_NAME
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default AssociationM2MEditor;

@@ -150,6 +150,10 @@ registerEntityEditor({
   caption: 'screen.<%= className %>',
   screenId: '<%= className %>',
   entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH,
+  }
 });
 
 export default <%= className %>;
