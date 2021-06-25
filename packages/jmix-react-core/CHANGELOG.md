@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.24](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.23...@haulmont/jmix-react-core@1.0.0-next.24) (2021-06-25)
+
+
+### Bug Fixes
+
+* error after closing first active tab ([e451afc](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/e451afc9617a83388c7a21b38dfd31ff55adb084))
+
+
+
+
+
 # [1.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.22...@haulmont/jmix-react-core@1.0.0-next.23) (2021-06-21)
 
 
