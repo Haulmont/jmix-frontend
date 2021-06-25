@@ -8,7 +8,7 @@ const encodeAnswers = (answers) => {
     return Buffer.from(JSON.stringify(answers)).toString('base64')
 };
 
-const generateClientScr = async (clientName, clientDir, modelPath, generators, clean = true) => {
+const generateClientScr = async (clientName, clientDir, modelPath, generators, clean = true, copyCustomFiles) => {
     const SCR_APP_DIR = path.join(process.cwd(), clientDir);
 
     console.log(`*** Generating ${clientName} ***`);
@@ -38,6 +38,10 @@ const generateClientScr = async (clientName, clientDir, modelPath, generators, c
             `cd ${SCR_APP_DIR} && ${genCubaFrontCmd} ${generator.command}` +
             modelArg + dirShift + dest + answers
         );
+    }
+
+    if (copyCustomFiles != null) {
+        copyCustomFiles();
     }
 
     console.log(`${clientName} generation - DONE`)

@@ -2,7 +2,7 @@ import React, { useCallback, useState, useEffect, useMemo } from "react";
 import { useIntl } from "react-intl"
 import { Menu, MenuItemProps } from "antd";
 import { RouteItem, SubMenu } from "@haulmont/jmix-react-core";
-import {menuItems, openScreenInTab} from "../../../screen-registration/screen-registration";
+import {menuItems, openScreen} from "../../../screen-registration/screen-registration";
 
 
 interface Props extends MenuItemProps {
@@ -31,7 +31,7 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
     if (currentMenuItem != null && screenId != null) {
       const { menuLink } = { ...currentMenuItem };
       if (menuLink != null) {
-        openScreenInTab(screenId, menuLink);
+        openScreen(screenId, menuLink);
       }
     }
   }, [currentMenuItem, screenId]);

@@ -41,13 +41,15 @@ describe('Tabs core API', () => {
     title: 'tab1',
     content: () => null,
     key: 'tab1',
-    screensInTab: screens1
+    screensInTab: screens1,
+    rootScreenId: 'screen1'
   };
   const tab2 = {
     title: 'tab2',
     content: () => null,
     key: 'tab2',
-    screensInTab: screens2
+    screensInTab: screens2,
+    rootScreenId: 'screen2'
   };
 
   beforeEach(() => {

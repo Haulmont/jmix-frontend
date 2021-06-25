@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
-import {menuItems, openScreenInTab} from '../../screen-registration/screen-registration';
+import {menuItems, openScreen} from '../../screen-registration/screen-registration';
 import { CloseOutlined } from '@ant-design/icons';
 import './styles.less';
 import {FormattedMessage} from 'react-intl';
@@ -25,7 +25,7 @@ function handleCloseClick(e: any, tabItem: IMultiTabItem) {
 
 export const MultiTabs = observer(() => {
   if (!tabs.tabs.length) {
-    return tabs.homePage as JSX.Element;
+    return null;
   }
 
   return (
@@ -67,7 +67,7 @@ const Content = observer((props: IContentProps) => {
 
 function checkRoute(item: RouteItem) {
   if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
-    openScreenInTab(item.screenId, window.location.pathname + window.location.search);
+    openScreen(item.screenId, window.location.pathname + window.location.search);
   }
 }
 

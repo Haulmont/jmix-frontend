@@ -7,11 +7,15 @@ import {
   tabs,
   redirect,
   useScreens,
+  getMainStore,
+  MainStore,
+  ContentDisplayMode
 } from '@haulmont/jmix-react-core';
 import React, { useEffect } from 'react';
 import {observer} from "mobx-react";
 import {MultiScreen} from "../ui/MultiScreen";
 import {entityEditorRegistry, entityListRegistry, screenRegistry } from './registry';
+import {singleContentArea} from "../ui/single-content-area/SingleContentAreaState";
 
 export class ScreenNotFoundError extends Error {
   constructor(message: string) {
@@ -34,25 +38,59 @@ export interface RegisteredScreen {
 }
 
 /**
- * Opens a registered screen in a new tab.
+ * Opens a registered screen.
  * Example of usage: navigating the menu.
+ * Exact behavior (e.g. open in a new tab, replace existing opened screen)
+ * depends on {@link MainStore.contentDisplayMode} setting.
  *
  * @param screenId
- * @param menuLink
+ * @param route
  *
  * @throws ScreenNotFoundError if a screen with given {@link screenId} is not found
  */
-export function openScreenInTab(screenId: string, menuLink: string) {
+export function openScreen(screenId: string, route: string) {
   const screen = getScreen(screenId);
 
-  tabs.push({
-    title: screen.caption,
-    content: <MultiScreenWrapper screen={screen}
-                                 menuLink={menuLink}
-             />,
-    key: menuLink
-  });
-  redirect(menuLink);
+  const mainStore: MainStore = getMainStore();
+
+  switch (mainStore.contentDisplayMode) {
+    case ContentDisplayMode.ActivateExistingTab:
+      tabs.pushOrActivate({
+        title: screen.caption,
+        content: (
+          <MultiScreenWrapper screen={screen}
+                              menuLink={route}
+          />
+        ),
+        key: route,
+        rootScreenId: screenId
+      });
+      break;
+    case ContentDisplayMode.AlwaysNewTab:
+      tabs.push({
+        title: screen.caption,
+        content: (
+          <MultiScreenWrapper screen={screen}
+                              menuLink={route}
+          />
+        ),
+        key: route,
+        rootScreenId: screenId
+      });
+      break;
+    case ContentDisplayMode.NoTabs:
+      singleContentArea.activateScreen(screenId, (
+        <MultiScreenWrapper screen={screen}
+                            menuLink={route}
+                            replace={true}
+        />
+      ));
+      break;
+    default:
+      assertNever('MainStore.contentDisplayMode', mainStore.contentDisplayMode);
+  }
+
+  redirect(route);
 }
 
 export interface OpenCrudScreenOptions<TProps = any> {
@@ -65,7 +103,7 @@ export interface OpenCrudScreenOptions<TProps = any> {
 
 /**
  * Opens a registered CRUD screen (entity list or editor) for a given entity
- * within an existing tab. Example of usage: opening a child entity editor when
+ * within an existing {@link MultiScreen}. Example of usage: opening a child entity editor when
  * editing a Composition attribute in parent entity.
  *
  * @throws ScreenNotFoundError if a CRUD screen for given entity is not found
@@ -200,21 +238,25 @@ function registerMenuItem(options: MenuItemOptions) {
 interface MultiScreenWrapperProps {
   screen: RegisteredScreen;
   menuLink: string;
+  replace?: boolean;
 }
 
 const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
-  const {screen, menuLink} = props;
+  const {screen, menuLink, replace} = props;
   const screens = useScreens();
 
   screens.currentRootPageData.title = screen.caption;
   screens.currentRootPageData.menuPath = menuLink;
 
   useEffect(() => {
-    // Since ScreensContext is not available within `openScreenInTab` method,
+    // Since ScreensContext is not available within `openScreen` method,
     // we have to push the screen from here.
     // TODO Is there a better way?
+    if (replace) {
+      screens.closeAll();
+    }
     pushToScreens(screen, screens);
-  }, []);
+  }, [screen, screens, replace]);
 
   return <MultiScreen />;
 });

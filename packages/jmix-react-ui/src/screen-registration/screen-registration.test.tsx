@@ -1,40 +1,133 @@
 import React from "react";
 import {
   openCrudScreen,
-  openScreenInTab, registerEntityEditor, registerEntityList, registerScreen,
-  ScreenNotFoundError,
+  openScreen, registerEntityEditor, registerEntityList, registerScreen,
+  ScreenNotFoundError
 } from "./screen-registration";
-import {getMenuItems, Screens, tabs} from "@haulmont/jmix-react-core";
+import {getMenuItems, Screens, tabs, getMainStore, ContentDisplayMode} from "@haulmont/jmix-react-core";
 import {entityEditorRegistry, entityListRegistry, screenRegistry } from "./registry";
+import {singleContentArea} from "../ui/single-content-area/SingleContentAreaState";
+
+jest.mock('@haulmont/jmix-react-core', () => ({
+  ...jest.requireActual('@haulmont/jmix-react-core'),
+  getMainStore: jest.fn(),
+}));
 
 describe('Screen registration', () => {
   global.scrollTo = jest.fn();
 
   describe('openScreenInTab()', () => {
-    beforeEach(() => {
+    afterEach(() => {
       screenRegistry.clear();
       tabs.closeAll();
+      tabs.tabsIndex = 0;
+      singleContentArea.content = null;
+      singleContentArea.screenId = undefined;
     });
 
     it('throws when screen does not exist', () => {
       expect(
-        () => openScreenInTab('non-existent screenId', 'menuLink' )
+        () => openScreen('non-existent screenId', 'menuLink' )
       ).toThrow(ScreenNotFoundError);
     });
 
-    it('opens screen when it exists', () => {
+    it('opens screen when it exists, ContentDisplayMode.ActivateExistingTab', () => {
       screenRegistry.set('screenId', {
         caption: 'screenCaption',
         component: () => <div>Component</div>
       });
 
+      // @ts-ignore
+      getMainStore.mockReturnValue({
+        contentDisplayMode: ContentDisplayMode.ActivateExistingTab
+      });
+
       expect(
-        () => openScreenInTab('screenId', 'menuLink' )
+        () => openScreen('screenId', 'menuLink' )
       ).not.toThrow();
 
       expect(tabs.currentTab.title).toEqual('screenCaption');
       expect(tabs.currentTab.key).toEqual('menuLink__0');
+
+      expect(
+        () => openScreen('screenId', 'menuLink' )
+      ).not.toThrow();
+
+      expect(tabs.currentTab.title).toEqual('screenCaption');
+      expect(tabs.currentTab.key).toEqual('menuLink__0');
+      expect(tabs.tabs.length).toEqual(1);
+      expect(tabs.tabs[0].title).toEqual('screenCaption');
+
+      expect(singleContentArea.screenId).toBeUndefined();
+      expect(singleContentArea.content).toBeNull();
     });
+
+    it('opens screen when it exists, ContentDisplayMode.AlwaysNewTab', () => {
+      screenRegistry.set('screenId', {
+        caption: 'screenCaption',
+        component: () => <div>Component</div>
+      });
+
+      // @ts-ignore
+      getMainStore.mockReturnValue({
+        contentDisplayMode: ContentDisplayMode.AlwaysNewTab
+      });
+
+      expect(
+        () => openScreen('screenId', 'menuLink' )
+      ).not.toThrow();
+
+      expect(tabs.currentTab.title).toEqual('screenCaption');
+      expect(tabs.currentTab.key).toEqual('menuLink__0');
+
+      expect(
+        () => openScreen('screenId', 'menuLink' )
+      ).not.toThrow();
+
+      expect(tabs.currentTab.title).toEqual('screenCaption');
+      expect(tabs.currentTab.key).toEqual('menuLink__1');
+      expect(tabs.tabs.length).toEqual(2);
+      expect(tabs.tabs[0].title).toEqual('screenCaption');
+      expect(tabs.tabs[0].key).toEqual('menuLink__0');
+      expect(tabs.tabs[1].title).toEqual('screenCaption');
+      expect(tabs.tabs[1].key).toEqual('menuLink__1');
+
+      expect(singleContentArea.screenId).toBeUndefined();
+      expect(singleContentArea.content).toBeNull();
+    });
+
+    it('opens screen when it exists, ContentDisplayMode.NoTabs', () => {
+      const Component1 = () => <div>Component</div>;
+      screenRegistry.set('screenId', {
+        caption: 'screenCaption',
+        component: Component1
+      });
+      const Component2 = () => <div>Component2</div>;
+      screenRegistry.set('screenId2', {
+        caption: 'screenCaption2',
+        component: Component2
+      });
+
+      // @ts-ignore
+      getMainStore.mockReturnValue({
+        contentDisplayMode: ContentDisplayMode.NoTabs
+      });
+
+      expect(
+        () => openScreen('screenId', 'menuLink' )
+      ).not.toThrow();
+
+      expect(singleContentArea.screenId).toEqual('screenId');
+
+      expect(
+        () => openScreen('screenId2', 'menuLink2' )
+      ).not.toThrow();
+
+      expect(singleContentArea.screenId).toEqual('screenId2');
+
+      expect(tabs.tabs.length).toEqual(0);
+    });
+
   });
 
   describe('openCrudScreen()', () => {

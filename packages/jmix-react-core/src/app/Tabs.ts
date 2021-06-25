@@ -3,10 +3,10 @@ import React from 'react';
 import { Screens } from './Screens';
 import { redirect } from './Router';
 
-
 export interface IMultiTabItem {
   title: string;
   content: React.ReactNode;
+  rootScreenId: string;
   key: string;
   screensInTab?: Screens;
 }
@@ -18,7 +18,6 @@ export class Tabs {
   @observable.ref tabs: IMultiTabItem[] = [];
   @observable.ref currentTab: IMultiTabItem = null!;
   tabsIndex = 0;
-  homePage: React.ReactNode = null;
 
   constructor() {
     makeObservable(this);
@@ -100,6 +99,23 @@ export class Tabs {
     }
 
     window.scrollTo(0, 0);
+  });
+
+  /**
+   * {@link push}es the tab unless there is already a tab with same `rootScreenId`, in which case
+   * that tab will be activated.
+   */
+  pushOrActivate = action((tab: IMultiTabItem) => {
+    const tabIndex = this.tabs.findIndex(t => t.rootScreenId === tab.rootScreenId);
+
+    if (tabIndex > -1) {
+      // Tab already opened
+      this.setActiveTab(this.tabs[tabIndex]);
+      return;
+    }
+
+    // Open in a new tab
+    this.push(tab);
   });
 }
 
