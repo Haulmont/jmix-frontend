@@ -3,7 +3,7 @@ import { FilterOutlined } from '@ant-design/icons';
 import { Button, message, Spin } from 'antd';
 import { Table } from './Table'
 import {ColumnProps, TableProps} from 'antd/es/table';
-import {Key, RowSelectionType, SorterResult, TableCurrentDataSource, TablePaginationConfig} from 'antd/es/table/interface';
+import {Key, RowSelectionType, SorterResult, TablePaginationConfig, TableCurrentDataSource} from 'antd/es/table/interface';
 import {
   action,
   computed,
@@ -53,7 +53,7 @@ import {ApolloError} from "@apollo/client";
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<ExtTableProps, TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+interface DataTableProps<ExtTableProps, TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
   items?: TEntity[];
   count?: number;
@@ -140,7 +140,7 @@ export interface DataTableProps<ExtTableProps, TEntity> extends MainStoreInjecte
   tablePropsAdapter?: (props: Omit<DataTableProps<ExtTableProps, TEntity>, "tableComponent" | "tableComponentProps" | "tablePropsAdapter">) => ExtTableProps
 }
 
-export interface ColumnDefinition<TEntity> {
+interface ColumnDefinition<TEntity> {
   /**
    * Entity property name.
    * Use it if you want to create a custom variant of the default property-bound column.
@@ -350,13 +350,12 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
   };
 
   onChange = (
-    pagination: TablePaginationConfig,
-    filters: Record<string, Array<Key | boolean> | null>,
+    pagination: TablePaginationConfig, 
+    filters: Record<string, Array<Key | boolean> | null>, 
     sorter: SorterResult<TEntity> | Array<SorterResult<TEntity>>,
     extra: TableCurrentDataSource<TEntity>
   ): void => {
     const {action: tableAction} = extra;
-
     this.tableFilters = filters;
 
     const {fields} = this;
@@ -380,7 +379,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
       onPaginationChange,
       tableAction
     });
-  };
+  }
 
   onRowClicked = (record: TEntity): void => {
     if (this.isRowSelectionEnabled) {
@@ -499,13 +498,6 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
         defaultTableProps = {
           ...defaultTableProps,
           onRow: this.onRow,
-        };
-      }
-
-      if (this.props.hideSelectionColumn) {
-        defaultTableProps.rowSelection = {
-          ...defaultTableProps.rowSelection,
-          renderCell: () => ''
         };
       }
     }
@@ -660,4 +652,4 @@ const dataTable =
     )
   );
 
-export {dataTable as DataTable};
+export {dataTable as DataTableGen, ColumnDefinition as ColumnDefinitionGen, DataTableProps as DataTablePropsGen};

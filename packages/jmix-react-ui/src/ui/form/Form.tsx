@@ -48,7 +48,7 @@ import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OF
 import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
 import { passthroughRule } from './validation/passthroughRule';
 
-export interface FieldProps {
+export interface FieldProps<TComponentProps = FormFieldComponentProps> {
   entityName: string;
   propertyName: string;
   /**
@@ -79,7 +79,7 @@ export interface FieldProps {
    * Props that will be passed through to the underlying component (i.e. the actual component
    * that will be rendered, such as `DatePicker` or `Select`).
    */
-  componentProps?: FormFieldComponentProps;
+  componentProps?: TComponentProps;
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -117,7 +117,7 @@ export const Field = observer((props: FieldProps) => {
 
 });
 
-function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
+export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
     label: <Msg entityName={entityName} propertyName={propertyName}/>

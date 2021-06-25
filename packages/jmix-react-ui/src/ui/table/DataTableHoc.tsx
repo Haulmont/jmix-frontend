@@ -1,9 +1,8 @@
-import React, {ReactNode, ReactText} from 'react';
+import React, { ReactNode, ReactText } from 'react';
 import { FilterOutlined } from '@ant-design/icons';
-import { Button, message, Spin } from 'antd';
-import { Table } from './Table'
-import {ColumnProps, TableProps} from 'antd/es/table';
-import {Key, RowSelectionType, SorterResult, TableCurrentDataSource, TablePaginationConfig} from 'antd/es/table/interface';
+import { Button, message, Spin, Table } from 'antd';
+import { ColumnProps, TableProps } from 'antd/es/table';
+import { Key, RowSelectionType, SorterResult, TableCurrentDataSource, TablePaginationConfig } from 'antd/es/table/interface';
 import {
   action,
   computed,
@@ -13,17 +12,17 @@ import {
   toJS,
   makeObservable,
 } from 'mobx';
-import {observer} from 'mobx-react';
-import {CustomFilterInputValue} from './DataTableCustomFilter';
+import { observer } from 'mobx-react';
+import { CustomFilterInputValue } from './DataTableCustomFilter';
 import './DataTable.less';
-import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
+import { FormattedMessage, injectIntl, WrappedComponentProps } from 'react-intl';
 import {
   graphqlFilterToTableFilters,
   generateDataColumn,
   handleTableChange,
   getPreservedConditions
 } from './DataTableHelpers';
-import {EntityAttrPermissionValue} from "@haulmont/jmix-rest";
+import { EntityAttrPermissionValue } from "@haulmont/jmix-rest";
 import {
   MainStoreInjected,
   injectMainStore,
@@ -48,14 +47,14 @@ import {
   PropertyType
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
-import {ApolloError} from "@apollo/client";
+import { ApolloError } from "@apollo/client";
 
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<ExtTableProps, TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+interface DataTableProps extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
-  items?: TEntity[];
+  items?: object[];
   count?: number;
   relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
   current?: number;
@@ -120,27 +119,21 @@ export interface DataTableProps<ExtTableProps, TEntity> extends MainStoreInjecte
    * Can be used to override any of the underlying
    * {@link https://ant.design/components/table/#Table | Table properties}.
    */
-  tableProps?: TableProps<TEntity>,
+  tableProps?: TableProps<object>,
   /**
    * @deprecated use `columnDefinitions` instead. If used together, `columnDefinitions` will take precedence.
    */
-  columnProps?: ColumnProps<TEntity>,
+  columnProps?: ColumnProps<object>,
   /**
    * Describes the columns to be displayed. An element of this array can be
    * a property name (which will render a column displaying that property;
    * the column will have the default look&feel)
    * or a {@link ColumnDefinition} object (which allows creating a custom column).
    */
-  columnDefinitions: Array<string | ColumnDefinition<TEntity>>,
-
-  tableComponent?: (props: ExtTableProps) => JSX.Element,
-
-  tableComponentProps?: ExtTableProps,
-
-  tablePropsAdapter?: (props: Omit<DataTableProps<ExtTableProps, TEntity>, "tableComponent" | "tableComponentProps" | "tablePropsAdapter">) => ExtTableProps
+  columnDefinitions: Array<string | ColumnDefinition>
 }
 
-export interface ColumnDefinition<TEntity> {
+interface ColumnDefinition {
   /**
    * Entity property name.
    * Use it if you want to create a custom variant of the default property-bound column.
@@ -157,25 +150,24 @@ export interface ColumnDefinition<TEntity> {
    * (e.g. an action button column or a calculated field column) use this prop only and do not use {@link field}.
    * In this case only the properties present in {@link columnProps} will be applied to the column.
    */
-  columnProps: ColumnProps<TEntity>
+  columnProps: ColumnProps<object>
 }
-class DataTableComponent<ExtTableProps = any, TEntity extends object = object> extends React.Component<DataTableProps<ExtTableProps,TEntity>, any> {
+class DataTableComponent extends React.Component<DataTableProps, any> {
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
   operatorsByProperty: Map<string, ComparisonType> = new Map();
   valuesByProperty: Map<string, CustomFilterInputValue> = new Map();
 
-
   // We need to mount and unmount several reactions (listeners) on componentDidMount/componentWillUnmount
   disposers: IReactionDisposer[] = [];
 
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
 
-  constructor(props: DataTableProps<ExtTableProps,TEntity>) {
+  constructor(props: DataTableProps) {
     super(props);
 
-    const {initialFilter} = props;
+    const { initialFilter } = props;
 
     if (initialFilter) {
       this.tableFilters = graphqlFilterToTableFilters(initialFilter, this.fields);
@@ -217,7 +209,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
       ([items, loading]: any) => { // TODO proper typing
         if (this.isRowSelectionEnabled && this.selectedRowKeys.length > 0 && !loading) {
 
-          const displayedRowKeys = items.map((item: EntityInstance<TEntity>) => this.constructRowKey(item));
+          const displayedRowKeys = items.map((item: EntityInstance<object>) => this.constructRowKey(item));
 
           const displayedSelectedKeys: string[] = [];
 
@@ -236,9 +228,9 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     this.disposers.push(reaction(
       () => this.props.error,
       (error) => {
-        const {intl} = this.props;
+        const { intl } = this.props;
         if (error != null) {
-          message.error(intl.formatMessage({id: 'common.requestFailed'}));
+          message.error(intl.formatMessage({ id: 'common.requestFailed' }));
         }
       }
     ));
@@ -286,22 +278,22 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     return ['single', 'multi'].indexOf(this.props.rowSelectionMode) > -1;
   }
 
-  get items(): TEntity[] {
-    const {items} = this.props;
+  get items(): object[] {
+    const { items } = this.props;
     return items ?? [];
   }
 
   get total(): number {
-    const {count} = this.props;
+    const { count } = this.props;
     return count ?? 0;
   }
 
   get fields(): string[] {
 
-    const {columnDefinitions} = this.props;
+    const { columnDefinitions } = this.props;
 
     if (columnDefinitions != null) {
-      return columnDefinitions.reduce((accumulatedFields: string[], columnDefinition: string | ColumnDefinition<TEntity>) => {
+      return columnDefinitions.reduce((accumulatedFields: string[], columnDefinition: string | ColumnDefinition) => {
         if (typeof columnDefinition === 'string') {
           accumulatedFields.push(columnDefinition);
         } else if (typeof (columnDefinition.field === 'string')) {
@@ -316,7 +308,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
   }
 
   get paginationConfig(): TablePaginationConfig {
-    const {current, pageSize} = this.props;
+    const { current, pageSize } = this.props;
 
     return {
       showSizeChanger: true,
@@ -327,7 +319,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
   }
 
   getRelationOptions(attrName: string): Array<HasId & MayHaveInstanceName> {
-    const {relationOptions, entityName, metadata} = this.props;
+    const { relationOptions, entityName, metadata } = this.props;
 
     if (relationOptions == null) {
       return [];
@@ -350,13 +342,12 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
   };
 
   onChange = (
-    pagination: TablePaginationConfig,
-    filters: Record<string, Array<Key | boolean> | null>,
-    sorter: SorterResult<TEntity> | Array<SorterResult<TEntity>>,
-    extra: TableCurrentDataSource<TEntity>
+    pagination: TablePaginationConfig, 
+    filters: Record<string, Array<Key | boolean> | null>, 
+    sorter: SorterResult<object> | Array<SorterResult<object>>,
+    extra: TableCurrentDataSource<object>
   ): void => {
     const {action: tableAction} = extra;
-
     this.tableFilters = filters;
 
     const {fields} = this;
@@ -370,7 +361,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
       metadata
     } = this.props;
 
-    handleTableChange<TEntity>({
+    handleTableChange<object>({
       pagination,
       tableFilters: filters,  apiFilters: initialFilter, onFilterChange,
       sorter, onSortOrderChange, defaultSortOrder,
@@ -380,9 +371,9 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
       onPaginationChange,
       tableAction
     });
-  };
+  }
 
-  onRowClicked = (record: TEntity): void => {
+  onRowClicked = (record: object): void => {
     if (this.isRowSelectionEnabled) {
       const clickedRowKey = this.constructRowKey(record);
 
@@ -420,14 +411,14 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     }
   };
 
-  onRow = (record: TEntity): React.HTMLAttributes<HTMLElement> => {
+  onRow = (record: object): React.HTMLAttributes<HTMLElement> => {
     return {
       onClick: () => this.onRowClicked(record)
     }
   };
 
   clearFilters = (): void => {
-    const {entityName, initialFilter, onFilterChange} = this.props;
+    const { entityName, initialFilter, onFilterChange } = this.props;
 
     this.tableFilters = {};
     this.operatorsByProperty.clear();
@@ -463,26 +454,25 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     }
   }
 
-  get tableComponentsProps() {
-    const {tablePropsAdapter, tableComponent, hideSelectionColumn, loading} = this.props;
+  render() {
+    const { loading, mainStore } = this.props;
 
-    if(tableComponent) {
-
-      if(tablePropsAdapter) {
-        return {...tablePropsAdapter(this.props), ...this.props.tableComponentProps}
-      }
-      return {...this.props.tableComponentProps}
+    if (mainStore?.isEntityDataLoaded() !== true) {
+      return (
+        <div className='cuba-data-table-loader'>
+          <Spin size='large' />
+        </div>
+      );
     }
 
-
-    let defaultTableProps: TableProps<TEntity> = {
+    let defaultTableProps: TableProps<object> = {
       loading,
       columns: this.generateColumnProps,
       dataSource: this.items,
       onChange: this.onChange,
       pagination: this.paginationConfig,
       rowKey: record => this.constructRowKey(record),
-      scroll: {x: true}
+      scroll: { x: true }
     };
 
     if (this.isRowSelectionEnabled) {
@@ -501,47 +491,17 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
           onRow: this.onRow,
         };
       }
-
-      if (this.props.hideSelectionColumn) {
-        defaultTableProps.rowSelection = {
-          ...defaultTableProps.rowSelection,
-          renderCell: () => ''
-        };
-      }
     }
 
-    return { 
-      ...defaultTableProps, 
-      ...this.props.tableProps,
-      className:  hideSelectionColumn ? '_cuba-hide-selection-column' : ""
-    };
-
-
-  }
-
-
-  render() {
-    const { mainStore } = this.props;
-
-    if (mainStore?.isEntityDataLoaded() !== true) {
-      return (
-        <div className='cuba-data-table-loader'>
-          <Spin size='large'/>
-        </div>
-      );
-    }
-
+    const tableProps = { ...defaultTableProps, ...this.props.tableProps };
 
     return (
       <div className='cuba-data-table'>
-        <div className='buttons'> 
+        <div className='buttons'>
           {this.props.buttons}
           {this.props.hideClearFilters ? null : this.clearFiltersButton}
         </div>
-        <Table<ExtTableProps>
-          { ...this.tableComponentsProps as ExtTableProps}
-          tableComponent = {this.props.tableComponent}
-        />
+        <Table {...tableProps} className={this.props.hideSelectionColumn ? '_cuba-hide-selection-column' : ''} />
       </div>
     );
   }
@@ -550,11 +510,11 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     if (this.isClearFiltersShown) {
       return (
         <Button htmlType='button'
-                className='cuba-data-table-clear-filters'
-                onClick={this.clearFilters}
-                type='link'>
+          className='cuba-data-table-clear-filters'
+          onClick={this.clearFilters}
+          type='link'>
           <FilterOutlined />
-          <span><FormattedMessage id='jmix.dataTable.clearAllFilters'/></span>
+          <span><FormattedMessage id='jmix.dataTable.clearAllFilters' /></span>
         </Button>
       );
     } else {
@@ -566,12 +526,12 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
     return Object.values(this.tableFilters).some(value => value != null);
   }
 
-  get generateColumnProps(): Array<ColumnProps<TEntity>> {
-    const {columnDefinitions, mainStore, entityName} = this.props;
+  get generateColumnProps(): Array<ColumnProps<object>> {
+    const { columnDefinitions, mainStore, entityName } = this.props;
 
     return (columnDefinitions ?? this.fields)
-      .filter((columnDef: string | ColumnDefinition<TEntity>) => {
-        const {getAttributePermission} = mainStore!.security;
+      .filter((columnDef: string | ColumnDefinition) => {
+        const { getAttributePermission } = mainStore!.security;
         const propertyName = columnDefToPropertyName(columnDef);
         if (propertyName != null) {
           const perm: EntityAttrPermissionValue = getAttributePermission(entityName, propertyName);
@@ -579,14 +539,14 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
         }
         return true; // Column not bound to an entity attribute
       })
-      .map((columnDef: string | ColumnDefinition<TEntity>) => {
+      .map((columnDef: string | ColumnDefinition) => {
         const propertyName = columnDefToPropertyName(columnDef);
-        const columnSettings = (columnDef as ColumnDefinition<TEntity>).columnProps;
+        const columnSettings = (columnDef as ColumnDefinition).columnProps;
 
         if (propertyName != null) {
           // Column is bound to an entity property
 
-          const generatedColumnProps = generateDataColumn<TEntity>({
+          const generatedColumnProps = generateDataColumn<object>({
             propertyName,
             entityName,
             enableFilter: this.isFilterForColumnEnabled(propertyName),
@@ -615,7 +575,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
         }
 
         throw new Error(`Neither field name nor columnProps were provided`);
-    });
+      });
   };
 
   isFilterForColumnEnabled(propertyName: string): boolean {
@@ -625,7 +585,7 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
   }
 
   isSortingForColumnEnabled(propertyName: string): boolean {
-    const {enableSortingOnColumns, metadata, entityName} = this.props;
+    const { enableSortingOnColumns, metadata, entityName } = this.props;
 
     const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
     if (propertyInfo != null && isRelationProperty(propertyInfo)) {
@@ -639,17 +599,17 @@ class DataTableComponent<ExtTableProps = any, TEntity extends object = object> e
       : true;
   }
 
-  constructRowKey(record: TEntity & WithId): string {
+  constructRowKey(record: object & WithId): string {
     return toIdString(record.id!);
   }
 
 }
 
-function columnDefToPropertyName<E>(columnDef: string | ColumnDefinition<E>): string | undefined {
+function columnDefToPropertyName(columnDef: string | ColumnDefinition): string | undefined {
   return typeof columnDef === 'string' ? columnDef : columnDef.field;
 }
 
-const dataTable = 
+const DataTable =
   injectIntl(
     injectMainStore(
       injectMetadata(
@@ -660,4 +620,66 @@ const dataTable =
     )
   );
 
-export {dataTable as DataTable};
+type TableContainerProps= {
+    data: Data
+  }
+
+function withTableData(data: Data) {
+  return function <Props extends Data =  DataTableProps & Data>(WrappedComponent: React.ComponentType<Props>): React.ComponentType<Props> {
+    return (props: Props) => {
+      return (
+        <WrappedComponent
+          data={data}
+          {...props}
+        />
+      )
+    }
+  }
+}
+
+function DataTableContainer(props: TableContainerProps & DataTableProps) {
+  const {data, ...restProps} = props;
+  const {
+    items,
+    count,
+    relationOptions,
+    loading,
+    error,
+    handleSelectionChange,
+    handleFilterChange,
+    handleSortOrderChange,
+    handlePaginationChange,
+    columnDefinitions
+  } = data;
+  return (
+    <DataTable
+      {...restProps}
+      items={items}
+      count={count}
+      relationOptions={relationOptions}
+      loading={loading}
+      error={error}
+      columnDefinitions={columnDefinitions}
+      onRowSelectionChange={handleSelectionChange}
+      onFilterChange={handleFilterChange!}
+      onSortOrderChange={handleSortOrderChange!}
+      onPaginationChange={handlePaginationChange!}
+    />
+  )
+}
+
+type Data = {
+  items? : object[],
+  count?: number,
+  relationOptions?: Map<string, Array<HasId & MayHaveInstanceName>>;
+  handleSelectionChange? : (selectedEntityIds: string[]) => void,
+  handleFilterChange: FilterChangeCallback,
+  handleSortOrderChange: SortOrderChangeCallback,
+  handlePaginationChange: PaginationChangeCallback,
+  loading: boolean;
+  error?: ApolloError;
+  columnDefinitions:  (string | ColumnDefinition)[]
+}
+
+
+export { DataTable as DataTableHoc, withTableData,  DataTableContainer, ColumnDefinition as ColumnDefinitionHoc, DataTableProps as DataTablePropsHoc};

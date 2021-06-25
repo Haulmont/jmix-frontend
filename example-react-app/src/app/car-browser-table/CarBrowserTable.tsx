@@ -4,11 +4,14 @@ import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
-  DataTable,
+  DataTableGen,
   RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityList
+  registerEntityList,
+  withTableData,
+  DataTableContainer
+
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
@@ -98,6 +101,80 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
     onEntityListChange
   });
 
+  const dataForTableHoc = {
+      items,
+      count,
+      relationOptions,
+      handleSelectionChange,
+      handleFilterChange,
+      handleSortOrderChange,
+      handlePaginationChange,
+      loading,
+      error,
+      columnDefinitions: [
+        "manufacturer",
+        "model",
+        "regNumber",
+        "purchaseDate",
+        "manufactureDate",
+        "wheelOnRight",
+        "carType",
+        "ecoRank",
+        "maxPassengers",
+        "price",
+        "mileage",
+        "garage",
+        "technicalCertificate"
+      ]
+    }
+
+//-------------HOC----------------------------------------------------
+  const CustomTableForHocing: React.FC = (props: any) => {
+    return (
+      <div>
+        Custom Hocked Table
+        {props.data.items?.map((item) => {
+          return (
+            <div>
+              {item.carType}
+            </div>
+          )
+        })}
+      </div>
+    )
+  }
+
+  const HocedTable = withTableData(dataForTableHoc)(DataTableContainer as React.FC<any>);
+  const HocedCustomTable = withTableData(dataForTableHoc)<any>(CustomTableForHocing);
+//---------------------------------------------------------------------
+
+//--------------- With adapter ----------------------------------------
+interface CustomTableProps {
+  customItems: any
+}
+
+const customTableAdapter = (props: any) => {
+  return {
+    customItems: props.items
+  }
+}
+
+const MyCustomTable = ({ customItems }: CustomTableProps) => {
+  return (
+    <div>
+      Custom Table
+      {customItems?.map((item) => {
+        return (
+          <div>
+            {item.carType}
+          </div>
+        )
+      })}
+    </div>
+  )
+}
+//--------------------------------------------------------------------
+
   if (error != null) {
     console.error(error);
     return <RetryDialog onRetry={executeListQuery} />;
@@ -171,41 +248,57 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
   }
 
   return (
-    <DataTable
-      items={items}
-      count={count}
-      relationOptions={relationOptions}
-      current={entityListState.pagination?.current}
-      pageSize={entityListState.pagination?.pageSize}
-      entityName={ENTITY_NAME}
-      loading={loading}
-      error={error}
-      enableFiltersOnColumns={entityList != null ? [] : undefined}
-      enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={[
-        "manufacturer",
-        "model",
-        "regNumber",
-        "purchaseDate",
-        "manufactureDate",
-        "wheelOnRight",
-        "carType",
-        "ecoRank",
-        "maxPassengers",
-        "price",
-        "mileage",
-        "garage",
-        "technicalCertificate"
-      ]}
-      onRowSelectionChange={handleSelectionChange}
-      onFilterChange={handleFilterChange}
-      onSortOrderChange={handleSortOrderChange}
-      onPaginationChange={handlePaginationChange}
-      hideSelectionColumn={true}
-      buttons={buttons}
-    />
+    <>
+      <DataTableGen
+        items={items}
+        count={count}
+        relationOptions={relationOptions}
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
+        entityName={ENTITY_NAME}
+        loading={loading}
+        error={error}
+        enableFiltersOnColumns={entityList != null ? [] : undefined}
+        enableSortingOnColumns={entityList != null ? [] : undefined}
+        columnDefinitions={[
+          "manufacturer",
+          "model",
+          "regNumber",
+          "purchaseDate",
+          "manufactureDate",
+          "wheelOnRight",
+          "carType",
+          "ecoRank",
+          "maxPassengers",
+          "price",
+          "mileage",
+          "garage",
+          "technicalCertificate"
+        ]}
+        onRowSelectionChange={handleSelectionChange}
+        onFilterChange={handleFilterChange}
+        onSortOrderChange={handleSortOrderChange}
+        onPaginationChange={handlePaginationChange}
+        hideSelectionColumn={true}
+        buttons={buttons}
+        tableComponent={MyCustomTable}
+        tablePropsAdapter={customTableAdapter}
+      />
+
+      <HocedTable
+        current={entityListState.pagination?.current}
+        pageSize={entityListState.pagination?.pageSize}
+        entityName={ENTITY_NAME}
+        hideSelectionColumn={true}
+        buttons={buttons}
+      />
+
+      <HocedCustomTable/>
+    </>
+
   );
 });
+
 
 registerEntityList({
   component: CarBrowserTable,

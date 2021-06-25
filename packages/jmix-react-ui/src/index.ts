@@ -57,3 +57,9 @@ export * from './ui/menu'
 
 export * from './ui/notifications';
 export * from './ui/modals';
+
+export * from './ui/button';
+export * from './ui/text-field';
+
+export * from './ui/table/DataTableGen';
+export * from './ui/table/DataTableHoc';

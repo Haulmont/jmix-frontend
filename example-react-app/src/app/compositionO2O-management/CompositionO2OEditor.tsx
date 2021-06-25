@@ -14,7 +14,8 @@ import {
   Spinner,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditor
+  registerEntityEditor,
+  TextField
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
 import "../../app/App.css";
@@ -53,6 +54,20 @@ const UPSERT_SCR_COMPOSITIONO2OTESTENTITY = gql`
     }
   }
 `;
+
+interface MyInputProps {
+  backgroundColor?: string
+}
+
+const MyInput = ({backgroundColor, ...rest}: MyInputProps) => {
+  return (
+    <input 
+      style={{backgroundColor}} 
+      type="text"
+      {...rest} 
+    />
+  )
+}
 
 const CompositionO2OEditor = observer(
   (props: EntityEditorProps<CompositionO2OTestEntity>) => {
@@ -102,12 +117,17 @@ const CompositionO2OEditor = observer(
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
-          <Field
+          <TextField<MyInputProps>
             entityName={ENTITY_NAME}
             propertyName="name"
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
+            componentProps={{
+              backgroundColor: "red"
+            }}
+            textFieldComponent={MyInput}
+            
           />
 
           <Field
