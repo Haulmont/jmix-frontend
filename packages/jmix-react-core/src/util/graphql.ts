@@ -1,6 +1,10 @@
 import {dollarsToUnderscores} from "./dollars-to-underscores";
 import {DocumentNode, TypedDocumentNode} from "@apollo/client";
 
+export function getByIdQueryName(entityName: string): string {
+  return `${dollarsToUnderscores(entityName)}ById`;
+}
+
 export function getListQueryName(entityName: string): string {
   return `${dollarsToUnderscores(entityName)}List`;
 }

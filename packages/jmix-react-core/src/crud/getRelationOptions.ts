@@ -1,4 +1,4 @@
-import {extractEntityName, getListQueryName } from "../util/graphql";
+import {extractEntityName, getByIdQueryName, getListQueryName} from "../util/graphql";
 import { HasId } from "../util/metadata";
 import { EntityInstance } from "./EntityInstance";
 
@@ -15,6 +15,7 @@ export function getRelationOptions<
     .filter(queryName => {
       // Filter out query result related to the entity being listed so that only relation options are left
       return queryName !== getListQueryName(entityName)
+        && queryName !== getByIdQueryName(entityName);
     })
     .map(queryName => {
       const relatedEntityName = extractEntityName(queryName, 'List');
