@@ -494,6 +494,13 @@ class DataTableComponent<
           onRow: this.onRow,
         };
       }
+
+      if (this.props.hideSelectionColumn) {
+        defaultTableProps.rowSelection = {
+          ...defaultTableProps.rowSelection,
+          renderCell: () => ''
+        };
+      }
     }
 
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
@@ -504,7 +511,7 @@ class DataTableComponent<
           {this.props.buttons}
           {this.props.hideClearFilters ? null : this.clearFiltersButton}
         </div>
-        <Table { ...tableProps } className={this.props.hideSelectionColumn ? '_cuba-hide-selection-column' : ''} />
+        <Table { ...tableProps } />
       </div>
     );
   }
