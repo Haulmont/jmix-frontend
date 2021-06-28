@@ -17,7 +17,9 @@ export default {
   external: [
     '@apollo/client',
     '@apollo/client/link/context',
+    '@apollo/client/testing',
     '@haulmont/jmix-rest',
+    '@testing-library/react-hooks',
     '@types/jest-expect-message',
     '@types/uuid',
     'graphql',
