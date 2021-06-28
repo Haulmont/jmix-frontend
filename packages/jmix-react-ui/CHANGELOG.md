@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.29](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.28...@haulmont/jmix-react-ui@1.0.0-next.29) (2021-06-28)
+
+
+### Features
+
+* switchable tabbing modes [#452](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/452) ([f94ba51](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/f94ba51072d9b170345c310d7f2f96ba589e8c79))
+
+
+
+
+
 # [1.0.0-next.28](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.27...@haulmont/jmix-react-ui@1.0.0-next.28) (2021-06-25)
 
 **Note:** Version bump only for package @haulmont/jmix-react-ui
