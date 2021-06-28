@@ -22,6 +22,7 @@ export default {
     '@apollo/client',
     '@haulmont/jmix-rest',
     '@haulmont/jmix-react-core',
+    '@testing-library/react-hooks',
     '@types/jest-expect-message',
     'antd',
     'antd/es/date-picker/generatePicker',
