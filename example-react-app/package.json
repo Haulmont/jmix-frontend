@@ -4,8 +4,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@apollo/client": "^3.3.15",
-    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.0.0-next.23.tgz",
-    "@haulmont/jmix-react-ui": "file:../packages/jmix-react-ui/haulmont-jmix-react-ui-1.0.0-next.27.tgz",
+    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.0.0-next.24.tgz",
+    "@haulmont/jmix-react-ui": "file:../packages/jmix-react-ui/haulmont-jmix-react-ui-1.0.0-next.28.tgz",
     "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-1.0.0-next.21.tgz",
     "@haulmont/react-ide-toolbox": "file:../packages/react-ide-toolbox/haulmont-react-ide-toolbox-1.0.0-next.21.tgz",
     "@haulmont/react-scripts": "^4.0.2-alpha.8",

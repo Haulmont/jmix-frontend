@@ -47,11 +47,15 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import { TestBlankScreen } from "../app/blank-screen/TestBlankScreen";
+import { ExampleCustomScreen } from "../app/example-custom-screen/ExampleCustomScreen";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
 export const ComponentPreviews = () => {
   return (
     <Previews>
+      <ComponentPreview path="/exampleCustomScreen">
+        <ExampleCustomScreen />
+      </ComponentPreview>
       <ComponentPreview path="/testBlankScreen">
         <TestBlankScreen />
       </ComponentPreview>

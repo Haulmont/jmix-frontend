@@ -10,7 +10,7 @@ export const AppMenu = (props: AppMenuProps) => {
   return (
       <<%= menuType === 'vertical' ? 'VerticalMenu' : 'HorizontalMenu' %> {...props}>
         <MenuItem 
-          onClick={tabs.closeAll}
+          screenId="HomePage"
           icon={<HomeOutlined />}
           caption={"screen.home"}
           key={"home"}

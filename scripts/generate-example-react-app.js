@@ -1,4 +1,5 @@
 const gen = require('./generate-client-scr');
+const fs = require("fs");
 
 const clientDir = 'example-react-app';
 const answers = require('./model/example-react-app-answers.js');
@@ -38,6 +39,12 @@ gen(
         command: 'react-typescript:app',
         // Uncomment if you need a horizontal menu
         // answers: answers.app
+      },
+      {
+        command: 'react-typescript:blank-screen',
+        dirShift,
+        dest: 'src/app/example-custom-screen',
+        answers: answers.exampleCustomScreen
       },
       {
         command: 'react-typescript:blank-screen',
@@ -324,5 +331,10 @@ gen(
         dest: 'src/app/tricky-id-browser-table',
         answers: trickyIdBrowserTableConfig
       },
-    ]
+    ],
+  true,
+  () => {
+    fs.copyFileSync(__dirname + '/custom-screens/ExampleCustomScreen.tsx', __dirname + '/../example-react-app/src/app/example-custom-screen/ExampleCustomScreen.tsx');
+  }
 );
+

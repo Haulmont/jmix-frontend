@@ -10,10 +10,16 @@ export const AppMenu = (props: AppMenuProps) => {
   return (
     <VerticalMenu {...props}>
       <MenuItem
-        onClick={tabs.closeAll}
+        screenId="HomePage"
         icon={<HomeOutlined />}
         caption={"screen.home"}
         key={"home"}
+      />
+      <MenuItem
+        screenId={"ExampleCustomScreen"}
+        icon={<BarsOutlined />}
+        caption={"screen.ExampleCustomScreen"}
+        key={"5d20353e-2ff7-4c05-914d-38f4de5e62e6"}
       />
       <MenuItem
         screenId={"TestBlankScreen"}

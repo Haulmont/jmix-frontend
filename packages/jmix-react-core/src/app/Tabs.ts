@@ -3,10 +3,10 @@ import React from 'react';
 import { Screens } from './Screens';
 import { redirect } from './Router';
 
-
 export interface IMultiTabItem {
   title: string;
   content: React.ReactNode;
+  rootScreenId: string;
   key: string;
   screensInTab?: Screens;
 }
@@ -18,7 +18,6 @@ export class Tabs {
   @observable.ref tabs: IMultiTabItem[] = [];
   @observable.ref currentTab: IMultiTabItem = null!;
   tabsIndex = 0;
-  homePage: React.ReactNode = null;
 
   constructor() {
     makeObservable(this);
@@ -85,7 +84,11 @@ export class Tabs {
     const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      this.currentTab = this.tabs[removedTabIndex - 1];
+      const updatedCurrentTabIndex = removedTabIndex === 0 
+        ? 0
+        : removedTabIndex - 1
+
+      this.currentTab = this.tabs[updatedCurrentTabIndex];
     }
   });
 
@@ -97,6 +100,23 @@ export class Tabs {
     this.currentTab = activeTab;
 
     window.scrollTo(0, 0);
+  });
+
+  /**
+   * {@link push}es the tab unless there is already a tab with same `rootScreenId`, in which case
+   * that tab will be activated.
+   */
+  pushOrActivate = action((tab: IMultiTabItem) => {
+    const tabIndex = this.tabs.findIndex(t => t.rootScreenId === tab.rootScreenId);
+
+    if (tabIndex > -1) {
+      // Tab already opened
+      this.setActiveTab(this.tabs[tabIndex]);
+      return;
+    }
+
+    // Open in a new tab
+    this.push(tab);
   });
 }
 
