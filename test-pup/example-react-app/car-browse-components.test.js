@@ -1,7 +1,7 @@
 const {login} = require("../common/login-to-scr");
 const puppeteer = require("puppeteer");
 
-describe('car browse components for mechanic', () => {
+describe('car browse components', () => {
 
   let page;
 
@@ -55,6 +55,14 @@ describe('car browse components for mechanic', () => {
     //   ' Tata',
     //   ' Tata',
     // ]);
+  });
+
+  it('should check that car table is loaded', async () => {
+
+    await page.goto('http://localhost:3000/carBrowserTable');
+    await page.waitFor('tr.ant-table-row');
+    const carRows = await page.$$('tr.ant-table-row');
+    expect(carRows.length).toEqual(10);
   });
 
   afterAll(async done => {
