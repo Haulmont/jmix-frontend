@@ -20,6 +20,7 @@ export default {
   external: [
     '@ant-design/icons',
     '@apollo/client',
+    '@apollo/client/testing',
     '@haulmont/jmix-rest',
     '@haulmont/jmix-react-core',
     '@testing-library/react-hooks',
