@@ -3,8 +3,12 @@ module.exports = {
     "<rootDir>/src"
   ],
   "transform": {
-    "^.+\\.tsx?$": "ts-jest"
+    "^.+\\.tsx?$": "ts-jest",
+    "/node_modules/(antd|@ant-design|rc-.+?|@babel\/runtime).+(js|jsx)$": "babel-jest"
   },
+  "transformIgnorePatterns": [
+    "/node_modules/(?!antd|@ant-design|rc-.+?|@babel\/runtime).+(js|jsx)$"
+  ],
   "coverageThreshold": {
     "global": {
       "statements": 4,
