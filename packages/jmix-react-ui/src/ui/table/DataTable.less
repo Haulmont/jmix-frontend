@@ -18,6 +18,17 @@
   transform: translate(-50%, -50%);
 }
 
+._cuba-hide-selection-column .ant-table-selection-column {
+  display: none;
+}
+
+th.ant-table-cell.--resizable {
+  overflow: auto;
+  resize: horizontal;
+  transition: none;
+  position: relative;
+}
+
 @media screen and (max-width: @screen-xs-max) {
   .cuba-data-table-clear-filters {
     margin-left: 0;

@@ -20,7 +20,7 @@ import {
   graphqlFilterToTableFilters,
   generateDataColumn,
   handleTableChange,
-  getPreservedConditions
+  getPreservedConditions, isResizable, DataColumnConfig
 } from './DataTableHelpers';
 import {EntityAttrPermissionValue} from "@haulmont/jmix-rest";
 import {
@@ -150,7 +150,11 @@ export interface ColumnDefinition<TEntity> {
    * (e.g. an action button column or a calculated field column) use this prop only and do not use {@link field}.
    * In this case only the properties present in {@link columnProps} will be applied to the column.
    */
-  columnProps: ColumnProps<TEntity>
+  columnProps?: ColumnProps<TEntity>,
+  /**
+   * If {@link resizable} is `true`, the column width can be changed by clicking and dragging.
+   */
+  resizable?: boolean
 }
 
 class DataTableComponent<
@@ -550,8 +554,7 @@ class DataTableComponent<
 
         if (propertyName != null) {
           // Column is bound to an entity property
-
-          const generatedColumnProps = generateDataColumn<TEntity>({
+          let config: DataColumnConfig = {
             propertyName,
             entityName,
             enableFilter: this.isFilterForColumnEnabled(propertyName),
@@ -563,8 +566,17 @@ class DataTableComponent<
             enableSorter: this.isSortingForColumnEnabled(propertyName),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
-            relationOptions: this.getRelationOptions(propertyName)
-          });
+            relationOptions: this.getRelationOptions(propertyName),
+          };
+
+          if (isResizable<TEntity>(columnDef)) {
+            config = {
+              ...config,
+              resizable: true
+            };
+          }
+
+          const generatedColumnProps = generateDataColumn<TEntity>(config);
 
           return {
             ...generatedColumnProps,
