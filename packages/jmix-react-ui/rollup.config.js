@@ -23,6 +23,8 @@ export default {
     '@apollo/client/testing',
     '@haulmont/jmix-rest',
     '@haulmont/jmix-react-core',
+    '@testing-library/jest-dom',
+    '@testing-library/react',
     '@testing-library/react-hooks',
     '@types/jest-expect-message',
     'antd',
