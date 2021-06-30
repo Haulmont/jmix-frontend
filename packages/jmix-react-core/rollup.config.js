@@ -19,6 +19,8 @@ export default {
     '@apollo/client/link/context',
     '@apollo/client/testing',
     '@haulmont/jmix-rest',
+    '@testing-library/jest-dom',
+    '@testing-library/react',
     '@testing-library/react-hooks',
     '@types/jest-expect-message',
     '@types/uuid',
