@@ -1,4 +1,4 @@
-import { action, makeObservable, observable } from 'mobx';
+import {action, makeObservable, observable} from 'mobx';
 import React, { useContext } from 'react';
 
 export interface IMultiScreenProps {
@@ -143,18 +143,23 @@ export class Screens {
       this.screens = newScreens;
     }
 
+    window.history.pushState({}, '', this.getUrl());
+  });
 
-    const pagination = activeScreen.params?.pagination;
-    const entityId = activeScreen.params?.entityId;
+  getUrl(): string {
+    const pagination = this.currentScreen.params?.pagination;
+    const entityId = this.currentScreen.params?.entityId;
+
+    let url = this.currentRootPageData.menuPath;
 
     if (pagination) {
-      window.history.pushState({}, '', this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
+      url = (this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
     } else if (entityId) {
-      window.history.pushState({}, '', this.currentRootPageData.menuPath + `/${entityId}`);
-    } else {
-      window.history.pushState({}, '', this.currentRootPageData.menuPath);
+      url = (this.currentRootPageData.menuPath + `/${entityId}`);
     }
-  });
+
+    return url;
+  }
 }
 
 export const ScreensContext = React.createContext<Screens>(null!);
