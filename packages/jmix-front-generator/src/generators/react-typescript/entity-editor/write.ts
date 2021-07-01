@@ -35,7 +35,8 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
   const {
     className,
     nameLiteral,
-    menuItem
+    menuItem,
+    shouldAddToMenu
   } = templateModel;
 
   const extension = '.tsx.ejs';
@@ -44,8 +45,10 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
 
   await writeEditorMessages(projectModel, templateModel, gen, options);
 
-  
-  addAppMenu(gen, dirShift, className, menuItem);
+  if(shouldAddToMenu){
+      addAppMenu(gen, dirShift, className, menuItem);
+  }
+
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true, {entityId: 'new'});
 };

@@ -7,6 +7,7 @@ export interface CommonTemplateModel {
   relDirShift: string;
   nameLiteral: string;
   menuItem: string | null;
+  shouldAddToMenu: boolean;
 }
 
 export type EntityCommonAnswers = {
@@ -29,13 +30,15 @@ export type EntityCommonAnswers = {
   const relDirShift = normalizeRelativePath(options.dirShift);
   const nameLiteral = unCapitalizeFirst(className);
   const menuItem = answers.menuItem;
+  const shouldAddToMenu = true;
 
   return {
     className,
     componentName,
     relDirShift,
     nameLiteral,
-    menuItem
+    menuItem,
+    shouldAddToMenu
   };
 }
 
