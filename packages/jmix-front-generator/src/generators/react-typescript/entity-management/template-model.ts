@@ -43,6 +43,9 @@ export const deriveManagementTemplateModel = async (
 
   return {
     browserTemplateModel,
-    editorTemplateModel,
+    editorTemplateModel: {
+      ...editorTemplateModel,
+      shouldAddToMenu: false
+    }
   }
 };
