@@ -135,12 +135,15 @@ export function jmixFront_to_ant(
         return;
       }
 
-      if (dayjs.isDayjs(value)) {
-        fields[attrName] = dayjs(value, getDataTransferFormat(propInfo.type as TemporalPropertyType));
-        return;
+      if (typeof value === 'string') {
+        const temporalValue = dayjs(value, getDataTransferFormat(propInfo.type as TemporalPropertyType));
+        if (temporalValue.isValid()) {
+          fields[attrName] = temporalValue;
+          return;
+        }
       }
 
-      console.error('Expected to be a dayjs object:', value);
+      console.error('Expected to be a string representing a valid date:', value);
       return;
     }
 
