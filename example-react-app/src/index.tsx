@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import App from "./app/App";
-import { ComponentPreviews } from "./dev/previews";
+// import { ComponentPreviews } from "./dev/previews";
 import { useDevLogin } from "./dev/hooks";
 import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
@@ -74,7 +74,7 @@ ReactDOM.render(
         <DevSupport
           ComponentPreviews={
             <ScreensContext.Provider value={devScreens}>
-              <ComponentPreviews />
+              {/*<ComponentPreviews />*/}
             </ScreensContext.Provider>
           }
           useInitialHook={useDevLogin}
