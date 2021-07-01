@@ -21,7 +21,7 @@ const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
-    <%= dollarsToUnderscores(entity.name) %>Count
+    <%= dollarsToUnderscores(entity.name) %>Count(filter: $filter)
     <%= dollarsToUnderscores(entity.name) %>List(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter) <%= query -%>
   }
 `;

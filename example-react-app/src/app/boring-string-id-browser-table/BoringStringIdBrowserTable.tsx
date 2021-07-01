@@ -24,7 +24,7 @@ const SCR_BORINGSTRINGIDTESTENTITY_LIST = gql`
     $orderBy: inp_scr_BoringStringIdTestEntityOrderBy
     $filter: [inp_scr_BoringStringIdTestEntityFilterCondition]
   ) {
-    scr_BoringStringIdTestEntityCount
+    scr_BoringStringIdTestEntityCount(filter: $filter)
     scr_BoringStringIdTestEntityList(
       limit: $limit
       offset: $offset

@@ -36,7 +36,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     $orderBy: inp_scr_DatatypesTestEntityOrderBy
     $filter: [inp_scr_DatatypesTestEntityFilterCondition]
   ) {
-    scr_DatatypesTestEntityCount
+    scr_DatatypesTestEntityCount(filter: $filter)
     scr_DatatypesTestEntityList(
       limit: $limit
       offset: $offset
