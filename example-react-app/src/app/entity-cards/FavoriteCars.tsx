@@ -24,7 +24,7 @@ const SCR_FAVORITECAR_LIST = gql`
     $orderBy: inp_scr_FavoriteCarOrderBy
     $filter: [inp_scr_FavoriteCarFilterCondition]
   ) {
-    scr_FavoriteCarCount
+    scr_FavoriteCarCount(filter: $filter)
     scr_FavoriteCarList(
       limit: $limit
       offset: $offset

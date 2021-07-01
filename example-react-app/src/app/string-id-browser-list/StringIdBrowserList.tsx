@@ -35,7 +35,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
     $orderBy: inp_scr_StringIdTestEntityOrderBy
     $filter: [inp_scr_StringIdTestEntityFilterCondition]
   ) {
-    scr_StringIdTestEntityCount
+    scr_StringIdTestEntityCount(filter: $filter)
     scr_StringIdTestEntityList(
       limit: $limit
       offset: $offset

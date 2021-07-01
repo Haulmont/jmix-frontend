@@ -35,7 +35,7 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
     $orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     $filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
   ) {
-    scr_WeirdStringIdTestEntityCount
+    scr_WeirdStringIdTestEntityCount(filter: $filter)
     scr_WeirdStringIdTestEntityList(
       limit: $limit
       offset: $offset

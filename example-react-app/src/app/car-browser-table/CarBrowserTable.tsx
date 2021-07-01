@@ -24,7 +24,7 @@ const SCR_CAR_LIST = gql`
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
   ) {
-    scr_CarCount
+    scr_CarCount(filter: $filter)
     scr_CarList(
       limit: $limit
       offset: $offset

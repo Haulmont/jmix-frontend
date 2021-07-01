@@ -24,7 +24,7 @@ const SCR_DEEPLYNESTEDO2MTESTENTITY_LIST = gql`
     $orderBy: inp_scr_DeeplyNestedO2MTestEntityOrderBy
     $filter: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition]
   ) {
-    scr_DeeplyNestedO2MTestEntityCount
+    scr_DeeplyNestedO2MTestEntityCount(filter: $filter)
     scr_DeeplyNestedO2MTestEntityList(
       limit: $limit
       offset: $offset
