@@ -49,5 +49,6 @@ import "./app/car-editor/CarEditor";
 import "./app/structure/StructureComponent";
 import "./app/blank-screen/TestBlankScreen";
 import "./app/example-custom-screen/ExampleCustomScreen";
+import "./app/entity-inspector/EntityInspector";
 import { menuItems } from "@haulmont/jmix-react-ui";
 import "./app/home/HomePage";

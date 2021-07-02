@@ -1,0 +1,16 @@
+.entity-inspector-breadcrumb {
+  cursor: pointer;
+  color: #197de1;
+}
+
+.entity-inspector-breadcrumb:hover {
+  text-decoration: underline;
+}
+
+.entity-inspector-breadcrumb_active{
+  color: inherit;
+}
+
+.entity-inspector-screen_disabled {
+  display: none;
+}
