@@ -8,6 +8,8 @@ export interface IMultiScreenProps {
 export interface IMultiScreenItem {
   title: string;
   content: React.ReactNode;
+  // TODO BREAKING CHANGE v2.0.0 Make mandatory
+  key?: string;
   parent?: IMultiScreenItem;
   params?: MultiScreenItemParams;
 }

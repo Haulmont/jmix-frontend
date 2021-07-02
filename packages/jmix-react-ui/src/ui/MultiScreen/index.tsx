@@ -18,9 +18,7 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
   let content = null;
   if (screens.screens.length) {
     content = screens.screens.map((item) => {
-      const params = {} as { key?: string };
-
-      return <MultiScreenItem item={item} {...params} />;
+      return <MultiScreenItem item={item} key={item.key} />;
     });
   }
 

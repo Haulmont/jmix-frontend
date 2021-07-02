@@ -19,7 +19,6 @@ import {
   REST_CLIENT_SECRET,
   GRAPHQL_URI
 } from "./config";
-import "mobx-react-lite/batchingForReactDom";
 import metadata from "./jmix/metadata.json";
 import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";

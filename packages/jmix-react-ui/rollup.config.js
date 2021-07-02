@@ -27,6 +27,7 @@ export default {
     '@testing-library/react',
     '@testing-library/react-hooks',
     '@types/jest-expect-message',
+    '@types/uuid',
     'antd',
     'antd/es/date-picker/generatePicker',
     'antd/es/date-picker/style/index',
@@ -45,7 +46,8 @@ export default {
     'react-router',
     'react-router-dom',
     'react-testing-library',
-    'query-string'
+    'query-string',
+    'uuid'
   ],
   plugins: [
     resolve(),
