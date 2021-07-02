@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0...@haulmont/jmix-front-generator@1.0.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* aborting of adding editor component to menu when managment component is generated [#479](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/479) ([e8d72d7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/e8d72d7215407f817d6dd646801be122c61c24aa))
+* send filter with count query ([a258873](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/a25887377d68c175bf0572ac64dd8ad53948ca9d))
+
+
+
+
+
 # [1.0.0-next.25](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0-next.24...@haulmont/jmix-front-generator@1.0.0-next.25) (2021-06-28)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0...@haulmont/jmix-react-ui@1.0.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* dates are not shown in editor fields [#480](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/480) ([161f733](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/161f733f501fd3d10346e0d3a51953368e49210a))
+* disable text wrap inside breadcrumb [#416](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/416) ([5068839](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/50688399c5a6398d0d6ceb8eaa01cb1b20eb6e14))
+
+
+
+
+
 # [1.0.0-next.29](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0-next.28...@haulmont/jmix-react-ui@1.0.0-next.29) (2021-06-28)
 
 

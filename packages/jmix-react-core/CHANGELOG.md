@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0...@haulmont/jmix-react-core@1.0.1) (2021-07-02)
+
+
+### Bug Fixes
+
+* route is not changed when switching/closing tabs [#404](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/404) ([8d5a346](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/8d5a346b81363a586fe4f2f2148169108d46d243))
+
+
+
+
+
 # [1.0.0-next.25](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0-next.24...@haulmont/jmix-react-core@1.0.0-next.25) (2021-06-28)
 
 
