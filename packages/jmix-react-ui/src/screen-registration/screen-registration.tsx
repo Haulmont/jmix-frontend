@@ -16,6 +16,7 @@ import {observer} from "mobx-react";
 import {MultiScreen} from "../ui/MultiScreen";
 import {entityEditorRegistry, entityListRegistry, screenRegistry } from './registry';
 import {singleContentArea} from "../ui/single-content-area/SingleContentAreaState";
+import uuid from "uuid";
 
 export class ScreenNotFoundError extends Error {
   constructor(message: string) {
@@ -126,6 +127,7 @@ function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens,
   screens.push({
     title: screen.caption,
     content: createScreenElement<TProps>(screen, props),
+    key: uuid.v4(),
     params: screenParams
   });
 }

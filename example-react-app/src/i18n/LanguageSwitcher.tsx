@@ -1,5 +1,6 @@
 import React, { CSSProperties, useCallback } from "react";
 import { observer } from "mobx-react";
+import { action } from "mobx";
 import { Select } from "antd";
 import { useMainStore } from "@haulmont/jmix-react-core";
 import localeCaptions from "./localeCaptions";
@@ -16,9 +17,9 @@ export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
 
   const handleChange = useCallback(
-    (locale: string) => {
+    action((locale: string) => {
       mainStore.locale = locale;
-    },
+    }),
     [mainStore]
   );
 

@@ -1,5 +1,6 @@
 import React, {CSSProperties, useCallback} from 'react';
 import { observer } from "mobx-react";
+import {action} from "mobx";
 import {Select} from 'antd';
 import {useMainStore} from '@haulmont/jmix-react-core';
 import localeCaptions from './localeCaptions';
@@ -15,9 +16,9 @@ const localeOptions: string[] = <%- JSON.stringify(clientLocales) %>;
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
 
-  const handleChange = useCallback((locale: string) => {
+  const handleChange = useCallback(action((locale: string) => {
     mainStore.locale = locale;
-  }, [mainStore]);
+  }), [mainStore]);
 
   if (localeOptions.length === 1) {
     return null; // Do not show LanguageSwitcher if there is only a single locale option
