@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.1...@haulmont/jmix-react-ui@1.0.2) (2021-07-05)
+
+
+### Bug Fixes
+
+* component previews: path with hash redirects to root [#488](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/488) ([2c5aee3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/2c5aee32895bb3ed6f211faf74e01164eb18f4c0))
+* first column in DataTable has incorrect width ([ae5ff63](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/ae5ff63e1c517b7fb1634288bd8ad9bd7c270dcb))
+
+
+
+
+
 ## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0...@haulmont/jmix-react-ui@1.0.1) (2021-07-02)
 
 

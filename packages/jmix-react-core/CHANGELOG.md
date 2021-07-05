@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.1...@haulmont/jmix-react-core@1.0.2) (2021-07-05)
+
+
+### Bug Fixes
+
+* component previews: path with hash redirects to root [#488](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/488) ([2c5aee3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/2c5aee32895bb3ed6f211faf74e01164eb18f4c0))
+
+
+
+
+
 ## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.0...@haulmont/jmix-react-core@1.0.1) (2021-07-02)
 
 
