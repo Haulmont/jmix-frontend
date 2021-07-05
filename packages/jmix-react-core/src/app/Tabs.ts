@@ -1,7 +1,7 @@
-import { action, makeObservable, observable, reaction } from 'mobx';
+import {action, makeObservable, observable, reaction} from 'mobx';
 import React from 'react';
-import { Screens } from './Screens';
-import { redirect } from './Router';
+import {Screens} from './Screens';
+import {redirect} from './Router';
 
 export interface IMultiTabItem {
   title: string;
@@ -91,7 +91,7 @@ export class Tabs {
     const removedTabIndex = this.tabs.indexOf(tabToRemove);
     this.tabs = this.tabs.filter(tab => tab !== tabToRemove);
     if (switchTab) {
-      const updatedCurrentTabIndex = removedTabIndex === 0 
+      const updatedCurrentTabIndex = removedTabIndex === 0
         ? 0
         : removedTabIndex - 1
 
