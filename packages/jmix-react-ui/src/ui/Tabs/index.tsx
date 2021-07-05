@@ -6,6 +6,7 @@ import {menuItems, openScreen} from '../../screen-registration/screen-registrati
 import { CloseOutlined } from '@ant-design/icons';
 import './styles.less';
 import {FormattedMessage} from 'react-intl';
+import {isDevModeEnabled} from "@haulmont/jmix-react-core";
 
 const {TabPane} = Tabs;
 
@@ -66,6 +67,12 @@ const Content = observer((props: IContentProps) => {
 });
 
 function checkRoute(item: RouteItem) {
+  // Quickfix for https://github.com/Haulmont/jmix-frontend/issues/488
+  if (isDevModeEnabled()) {
+    return;
+  }
+  // Todo We should think of more correct (non-invasive) behavior
+
   if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
     openScreen(item.screenId, window.location.pathname + window.location.search);
   }

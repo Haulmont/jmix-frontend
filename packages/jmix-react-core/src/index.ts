@@ -60,6 +60,7 @@ export * from './util/stateManagement';
 export * from './util/temp-id';
 export * from './util/misc';
 export * from './util/uncapitalize-first';
+export * from './util/devMode'
 export * from './app/Screens';
 export * from './app/Tabs';
 export * from './util/normalizeMetadata';
