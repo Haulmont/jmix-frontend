@@ -49,7 +49,7 @@
     "jest": "^25.1.0",
     "jest-expect-message": "^1.0.2",
     "less": "^3.10.3",
-    "mobx": "^6.1.8",
+    "mobx": "^6.3.2",
     "mobx-react": "^7.1.0",
     "mockdate": "^3.0.5",
     "object.fromentries": "^2.0.4",
