@@ -55,7 +55,7 @@
     "object.fromentries": "^2.0.4",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
-    "react-intl": "^5.3.0",
+    "react-intl": "^5.20.2",
     "react-test-renderer": "^17.0.1",
     "rollup": "~1.17.0",
     "rollup-plugin-commonjs": "^10.1.0",
