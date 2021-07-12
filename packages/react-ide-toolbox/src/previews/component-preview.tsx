@@ -10,7 +10,7 @@ interface Props {
   exact?: boolean;
 }
 
-export const ComponentPreview: React.FC<Props> = ({ path, children, setToolsPropsToEdit, exact = false, propsEditInfo }: Props) => {
+export const ComponentPreview: React.FC<Props> = ({ path, children, setToolsPropsToEdit, exact = true, propsEditInfo }: Props) => {
   const setPropsToEdit = useCallback((propsToEdit: PropsModifier) => {
     setToolsPropsToEdit!({
       ...propsToEdit,
