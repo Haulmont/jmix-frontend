@@ -3,6 +3,8 @@ import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import MockDate from 'mockdate';
 
+const systemTimeZone = dayjs().format('Z');
+
 describe('Should return correct interval', () => {
   beforeAll(() => {
     dayjs.extend(customParseFormat);
@@ -243,26 +245,26 @@ describe('Should return correct interval', () => {
     expect(interval.maxDate).toEqual('2019-09-20T14:59:59.999');
   });
 
-  xit('for property type "OffsetDateTime", last 5 days excluding current', () => {
+  it('for property type "OffsetDateTime", last 5 days excluding current', () => {
     const interval = determineLastNextXInterval('last', 5, 'days', false, 'OffsetDateTime');
-    expect(interval.minDate).toEqual('2019-09-15T00:00:00.000+00:00');
-    expect(interval.maxDate).toEqual('2019-09-19T23:59:59.999+00:00');
+    expect(interval.minDate).toEqual(`2019-09-15T00:00:00.000${systemTimeZone}`);
+    expect(interval.maxDate).toEqual(`2019-09-19T23:59:59.999${systemTimeZone}`);
   });
-  xit('for property type "OffsetDateTime", last 5 hours excluding current', () => {
+  it('for property type "OffsetDateTime", last 5 hours excluding current', () => {
     const interval = determineLastNextXInterval('last', 5, 'hours', false, 'OffsetDateTime');
-    expect(interval.minDate).toEqual('2019-09-20T10:00:00.000+00:00');
-    expect(interval.maxDate).toEqual('2019-09-20T14:59:59.999+00:00');
+    expect(interval.minDate).toEqual(`2019-09-20T10:00:00.000${systemTimeZone}`);
+    expect(interval.maxDate).toEqual(`2019-09-20T14:59:59.999${systemTimeZone}`);
   });
 
-  xit('for property type "OffsetTime", last 5 days excluding current', () => {
+  it('for property type "OffsetTime", last 5 days excluding current', () => {
     const interval = determineLastNextXInterval('last', 5, 'days', false, 'OffsetTime');
-    expect(interval.minDate).toEqual('00:00:00+00:00');
-    expect(interval.maxDate).toEqual('23:59:59+00:00');
+    expect(interval.minDate).toEqual(`00:00:00${systemTimeZone}`);
+    expect(interval.maxDate).toEqual(`23:59:59${systemTimeZone}`);
   });
-  xit('for property type "OffsetTime", last 5 hours excluding current', () => {
+  it('for property type "OffsetTime", last 5 hours excluding current', () => {
     const interval = determineLastNextXInterval('last', 5, 'hours', false, 'OffsetTime');
-    expect(interval.minDate).toEqual('10:00:00+00:00');
-    expect(interval.maxDate).toEqual('14:59:59+00:00');
+    expect(interval.minDate).toEqual(`10:00:00${systemTimeZone}`);
+    expect(interval.maxDate).toEqual(`14:59:59${systemTimeZone}`);
   });
 
 });

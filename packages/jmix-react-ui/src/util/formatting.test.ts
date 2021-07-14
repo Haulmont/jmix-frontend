@@ -26,6 +26,8 @@ function expectFormat(type: PropertyType, input: string | number | boolean, outp
   expect(formatted).toEqual(output);
 }
 
+const systemTimeZone = dayjs().format('Z');
+
 describe('toDisplayValue()', () => {
   beforeAll(() => {
     dayjs.extend(customParseFormat);
@@ -39,12 +41,12 @@ describe('toDisplayValue()', () => {
     expectMsStripped('LocalDateTime');
   });
 
-  xit('changes format of OffsetDateTime', () => {
-    expectFormat('OffsetDateTime', '2020-02-02 02:02:02.222 +0200', '2020-02-02 02:02:02')
+  it('changes format of OffsetDateTime', () => {
+    expectFormat('OffsetDateTime', `2020-02-02 02:02:02.222${systemTimeZone}`, '2020-02-02 02:02:02')
   });
 
-  xit('changes format of OffsetTime', () => {
-    expectFormat('OffsetTime', '01:02:03 +0200', '01:02:03');
+  it('changes format of OffsetTime', () => {
+    expectFormat('OffsetTime', `01:02:03${systemTimeZone}`, '01:02:03');
   });
 
   it('does not change format of OffsetTime', () => {
