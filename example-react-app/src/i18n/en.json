@@ -47,6 +47,7 @@
   "screen.DatatypesTestBrowserCards": "Datatypes Test Browser Cards",
   "screen.DatatypesTestEditor": "Datatypes Test Editor",
   "screen.FormWizardBrowserTable": "Form Wizard Browser Table",
+  "screen.FormWizardEditor": "Form Wizard Editor",
   "screen.FormWizardCompositionO2O": "Form Wizard Composition O2 O",
   "masterDetail.entityUnselected": "Select an entity",
   "masterDetail.create.ifEntitySelected": "Changes will not be saved. Proceed?",
