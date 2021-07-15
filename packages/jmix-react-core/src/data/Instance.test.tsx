@@ -291,6 +291,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'test',
     className: 'test',
+    persistentEntity: true,
     properties: [
       {
         name: "fileRefAttr",
@@ -407,6 +408,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_CompositionO2OTestEntity',
     className: 'CompositionO2OTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
@@ -423,6 +425,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_CompositionO2MTestEntity',
     className: 'CompositionO2MTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
@@ -439,6 +442,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationO2OTestEntity',
     className: 'AssociationO2OTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
@@ -455,6 +459,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationO2MTestEntity',
     className: 'AssociationO2MTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
@@ -471,6 +476,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationM2OTestEntity',
     className: 'AssociationM2OTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
@@ -487,6 +493,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationM2MTestEntity',
     className: 'AssociationM2MTestEntity',
+    persistentEntity: true,
     properties: [
       {
         name: "dateAttr",
