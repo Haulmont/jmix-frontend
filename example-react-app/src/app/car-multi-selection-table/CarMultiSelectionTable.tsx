@@ -6,31 +6,16 @@ import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
-  useMasterDetailList,
-  EntityListProps
+  useMultiSelectionTable,
+  EntityListProps,
+  registerEntityList
 } from "@haulmont/jmix-react-ui";
 import { Car } from "../../jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
 
 const ENTITY_NAME = "scr_Car";
-const ROUTING_PATH = "/carMasterDetail";
-
-const COLUMN_NAMES = [
-  "manufacturer",
-  "model",
-  "regNumber",
-  "purchaseDate",
-  "manufactureDate",
-  "wheelOnRight",
-  "carType",
-  "ecoRank",
-  "maxPassengers",
-  "price",
-  "mileage",
-  "garage",
-  "technicalCertificate"
-];
+const ROUTING_PATH = "/carMultiSelectionTable";
 
 const SCR_CAR_LIST = gql`
   query scr_CarList(
@@ -87,7 +72,7 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
+const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
 
   const {
@@ -101,10 +86,10 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
     handleSortOrderChange,
     handlePaginationChange,
     handleDeleteBtnClick,
-    handleCreateBtnClick,
     goToParentScreen,
-    entityListState
-  } = useMasterDetailList<Car>({
+    entityListState,
+    multiSelectionTableStore
+  } = useMultiSelectionTable<Car>({
     listQuery: SCR_CAR_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
@@ -120,30 +105,16 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
   const buttons = [
     <EntityPermAccessControl
       entityName={ENTITY_NAME}
-      operation="create"
-      key="create"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateBtnClick}
-      >
-        <span>
-          <FormattedMessage id="common.create" />
-        </span>
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
       operation="delete"
       key="delete"
     >
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
+        disabled={
+          multiSelectionTableStore.selectedEntityIds == null ||
+          multiSelectionTableStore.selectedEntityIds.length === 0
+        }
         onClick={handleDeleteBtnClick}
         key="remove"
         type="default"
@@ -181,7 +152,22 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
       error={error}
       enableFiltersOnColumns={entityList != null ? [] : undefined}
       enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={COLUMN_NAMES}
+      columnDefinitions={[
+        "manufacturer",
+        "model",
+        "regNumber",
+        "purchaseDate",
+        "manufactureDate",
+        "wheelOnRight",
+        "carType",
+        "ecoRank",
+        "maxPassengers",
+        "price",
+        "mileage",
+        "garage",
+        "technicalCertificate"
+      ]}
+      rowSelectionMode="multi"
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
@@ -192,4 +178,15 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
   );
 });
 
-export default CarMasterDetailBrowser;
+registerEntityList({
+  component: CarMultiSelectionTable,
+  caption: "screen.CarMultiSelectionTable",
+  screenId: "CarMultiSelectionTable",
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
+
+export default CarMultiSelectionTable;

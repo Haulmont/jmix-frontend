@@ -1,4 +1,7 @@
 {
+  "multiSelectionTable.delete.success": "Выбранные сущности успешно удалены",
+  "multiSelectionTable.delete.error": "Произошла ошибка во время удаления выбранных сущностей",
+  "multiSelectionTable.delete.areYouSure": "Вы уверены, что хотите удалить выбранные сущности?",
   "formWizard.currectStepValidationError": "Ошибка валидации на текущем шаге. Пожалуйста, проверьте введенные данные.",
   "formWizard.serverValidationError": "Ошибка валидации на сервера.",
   "masterDetail.entityUnselected": "Выберете сущность для редактирования",

@@ -40,6 +40,7 @@ import DatatypesTestBrowserTable from "../app/datatypes-test-browser-table/Datat
 import DatatypesTestBrowserList from "../app/datatypes-test-browser-list/DatatypesTestBrowserList";
 import DatatypesTestBrowserCards from "../app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
 import DatatypesTestEditor from "../app/datatypes-test-editor/DatatypesTestEditor";
+import CarMultiSelectionTable from "../app/car-multi-selection-table/CarMultiSelectionTable";
 import FormWizardBrowserTable from "../app/form-wizard-browser/FormWizardBrowserTable";
 import FormWizardCompositionO2O from "../app/form-wizard-compositionO2O-editor/FormWizardCompositionO2O";
 import CarMasterDetail from "../app/car-master-detail/CarMasterDetail";
@@ -84,6 +85,9 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/FormWizardBrowserTable">
         <FormWizardBrowserTable />
+      </ComponentPreview>
+      <ComponentPreview path="/CarMultiSelectionTable">
+        <CarMultiSelectionTable />
       </ComponentPreview>
       <ComponentPreview path="/DatatypesTestEditor">
         <DatatypesTestEditor />

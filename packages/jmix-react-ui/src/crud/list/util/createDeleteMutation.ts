@@ -12,3 +12,17 @@ export function createDeleteMutation(entityName: string): DocumentNode | TypedDo
 
   return gql(mutationString);
 }
+
+export function createDeleteMutationForSomeEntities(entityName: string, entityIds: string[]): DocumentNode | TypedDocumentNode {
+  const graphqlSafeEntityName = dollarsToUnderscores(entityName);
+
+  const deleteEntities = entityIds.map((entityId, index)=> `${graphqlSafeEntityName}${index}: delete_${graphqlSafeEntityName}(id: "${entityId}")`).join('\n')
+
+  const mutationString = `
+    mutation Delete_some_${graphqlSafeEntityName} {
+      ${deleteEntities}
+    }
+  `;
+
+  return gql(mutationString);
+}

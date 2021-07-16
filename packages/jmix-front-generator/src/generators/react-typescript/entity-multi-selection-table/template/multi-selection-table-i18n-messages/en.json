@@ -1,0 +1,5 @@
+{
+  "multiSelectionTable.delete.success": "Selected entities deleted successfully",
+  "multiSelectionTable.delete.error": "Error occurred while deleting the selected entities",
+  "multiSelectionTable.delete.areYouSure": "Are you sure you want to delete the selected entities?"
+}

@@ -2,7 +2,6 @@ import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../commo
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
-import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
   askStringIdQuestions,
   StringIdAnswers,
@@ -10,10 +9,18 @@ import {
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../common/entity";
+import {
+  entityQuestion,
+  EntityAnswer,
+  menuItemQuestion,
+  MenuItemAnswer,
+  createComponentNameQuestion,
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export interface EntityMasterDetailAnswers extends StringIdAnswers {
-  entity: EntityWithPath;
-
+export interface EntityMasterDetailAnswers extends
+EntityAnswer,
+MenuItemAnswer,
+StringIdAnswers {
   masterDetailComponentName: string;
 
   editorComponentName: string;
@@ -21,31 +28,20 @@ export interface EntityMasterDetailAnswers extends StringIdAnswers {
 
   browserComponentName: string;
   browserQuery: string;
-
-  menuItem: string | null;
 }
 
 export const commonEntityMasterDetailQuestions: StudioTemplateProperty[] = [
-  {
-    code: 'entity',
-    caption: 'Entity',
-    propertyType: StudioTemplatePropertyType.ENTITY,
-    required: true
-  },
-  {
+  entityQuestion,
+  createComponentNameQuestion({
     code: 'masterDetailComponentName',
     caption: 'Master Detail component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
     defaultValue: 'MasterDetail',
-    required: true
-  },
-  {
+  }),
+  createComponentNameQuestion({
     code: 'editorComponentName',
     caption: 'Editor component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
     defaultValue: 'Editor',
-    required: true
-  },
+  }),
   {
     code: 'editorQuery',
     // Subject to change, in future we might want to get the full query from Studio
@@ -54,13 +50,11 @@ export const commonEntityMasterDetailQuestions: StudioTemplateProperty[] = [
     relatedProperty: "entity",
     required: true
   },
-  {
+  createComponentNameQuestion({
     code: 'browserComponentName',
     caption: 'Browser component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: "List",
-    required: true
-  },
+    defaultValue: "List"
+  }),
   {
     code: 'browserQuery',
     // Subject to change, in future we might want to get the full query from Studio
@@ -69,12 +63,7 @@ export const commonEntityMasterDetailQuestions: StudioTemplateProperty[] = [
     relatedProperty: "entity",
     required: true
   },
-  {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
+  menuItemQuestion,
 ];
 
 

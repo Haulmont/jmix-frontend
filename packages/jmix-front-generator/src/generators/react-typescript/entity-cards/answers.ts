@@ -1,48 +1,33 @@
-
-
-import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {askStringIdQuestions, StringIdAnswers} from "../../../building-blocks/stages/answers/pieces/stringId";
 import { isStringIdEntity } from "../common/entity";
+import {
+  entityQuestion,
+  EntityAnswer,
+  createComponentNameQuestion,
+  ComponentNameAnswer,
+  createQueryQuestion,
+  QueryAnswer,
+  menuItemQuestion,
+  MenuItemAnswer,
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export interface Answers extends StringIdAnswers {
-  componentName: string;
-  entity: EntityWithPath;
-  query: string;
-  menuItem: string | null;
-}
+export interface Answers extends
+EntityAnswer,
+ComponentNameAnswer,
+QueryAnswer,
+MenuItemAnswer,
+StringIdAnswers {}
 
 const entityCardsQuestions: StudioTemplateProperty[] = [
-  {
-    caption: "Entity",
-    code: "entity",
-    propertyType: StudioTemplatePropertyType.ENTITY,
-    required: true
-  },
-  {
-    caption: "Component class name",
-    code: "componentName",
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: "Cards",
-    required: true
-  },
-  {
-    code: 'query',
-    caption: 'GraphQL query',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
-    relatedProperty: "entity",
-    required: true
-  },
-  {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
+  entityQuestion,
+  createComponentNameQuestion({defaultValue: 'Cards'}),
+  createQueryQuestion(),
+  menuItemQuestion,
 ];
 
 const questionsToBeAskedInCLI = [

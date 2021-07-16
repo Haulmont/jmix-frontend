@@ -19,33 +19,32 @@ import {
   MenuItemAnswer,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export interface EntityEditorAnswers extends
+export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
+  entityQuestion,
+  createComponentNameQuestion({defaultValue: 'List'}),
+  createQueryQuestion(),
+  menuItemQuestion,
+];
+
+export interface MultiSelectionTableAnswers extends
 EntityAnswer,
 ComponentNameAnswer,
 QueryAnswer,
 MenuItemAnswer,
 StringIdAnswers {}
 
-export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
-  entityQuestion,
-  createComponentNameQuestion({defaultValue: 'Edit'}),
-  createQueryQuestion(),
-  menuItemQuestion,
-];
-
-
 export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityEditorQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
+  ...commonEntityBrowserQuestions,
 ];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
-): Promise<EntityEditorAnswers> => {
+): Promise<MultiSelectionTableAnswers> => {
   const initialQuestions = [
-    ...commonEntityEditorQuestions
+    ...commonEntityBrowserQuestions
   ];
 
-  const answers: EntityEditorAnswers = await askQuestions<EntityEditorAnswers>(initialQuestions, projectModel, gen);
+  const answers: MultiSelectionTableAnswers = await askQuestions<MultiSelectionTableAnswers>(initialQuestions, projectModel, gen);
 
   if (isStringIdEntity(projectModel, answers.entity)) {
     const stringIdAnswers = await askStringIdQuestions(

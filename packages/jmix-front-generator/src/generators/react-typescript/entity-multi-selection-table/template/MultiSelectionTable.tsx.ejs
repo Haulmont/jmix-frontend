@@ -6,17 +6,16 @@ import {EntityPermAccessControl} from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
-  useMasterDetailList,
+  useMultiSelectionTable,
   EntityListProps,
+  registerEntityList,
 } from "@haulmont/jmix-react-ui";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
 
 const ENTITY_NAME = '<%= entity.name %>';
-const ROUTING_PATH = '/<%= routingPath %>';
-
-const COLUMN_NAMES = <%- include(includesPath('RenderValue'), {data: attributes.map(attr => attr.name)}) %>;
+const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
@@ -45,10 +44,10 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     handleSortOrderChange,
     handlePaginationChange,
     handleDeleteBtnClick,
-    handleCreateBtnClick,
     goToParentScreen,
     entityListState,
-  } = useMasterDetailList<<%= entity.className %>>({
+    multiSelectionTableStore,
+  } = useMultiSelectionTable<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
@@ -62,24 +61,18 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   }
 
   const buttons = [
-    <EntityPermAccessControl entityName={ENTITY_NAME} operation='create' key='create'>
+    <EntityPermAccessControl
+      entityName={ENTITY_NAME}
+      operation='delete'
+      key='delete'
+    >
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateBtnClick}
-      >
-        <span>
-          <FormattedMessage id="common.create" />
-        </span>
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl entityName={ENTITY_NAME} operation='delete' key='delete'>
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
+        disabled={
+          multiSelectionTableStore.selectedEntityIds == null
+          || multiSelectionTableStore.selectedEntityIds.length === 0
+        }
         onClick={handleDeleteBtnClick}
         key="remove"
         type="default"
@@ -117,7 +110,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       error={error}
       enableFiltersOnColumns={entityList != null ? [] : undefined}
       enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={COLUMN_NAMES}
+      columnDefinitions={<%- include(includesPath('RenderValue'), {data: attributes.map(attr => attr.name)}) %>}
+      rowSelectionMode="multi"
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
@@ -126,6 +120,17 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       buttons={buttons}
     />
   );
+});
+
+registerEntityList({
+  component: <%= className %>,
+  caption: 'screen.<%= className %>',
+  screenId: '<%= className %>',
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
 });
 
 export default <%= className %>;
