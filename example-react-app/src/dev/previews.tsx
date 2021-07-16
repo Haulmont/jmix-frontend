@@ -40,6 +40,7 @@ import DatatypesTestBrowserTable from "../app/datatypes-test-browser-table/Datat
 import DatatypesTestBrowserList from "../app/datatypes-test-browser-list/DatatypesTestBrowserList";
 import DatatypesTestBrowserCards from "../app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
 import DatatypesTestEditor from "../app/datatypes-test-editor/DatatypesTestEditor";
+import CarMultiSelectionTable from "../app/car-multi-selection-table/CarMultiSelectionTable";
 import CarMasterDetail from "../app/car-master-detail/CarMasterDetail";
 import { FavoriteCars } from "../app/entity-cards/FavoriteCars";
 import CarBrowserTable from "../app/car-browser-table/CarBrowserTable";
@@ -76,6 +77,9 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/CarMasterDetail">
         <CarMasterDetail />
+      </ComponentPreview>
+      <ComponentPreview path="/CarMultiSelectionTable">
+        <CarMultiSelectionTable />
       </ComponentPreview>
       <ComponentPreview path="/DatatypesTestEditor">
         <DatatypesTestEditor />

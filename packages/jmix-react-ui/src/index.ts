@@ -23,6 +23,7 @@ export * from './crud/editor/form/useCreateAntdResetForm';
 export * from './crud/editor/validation/createUseAntdFormValidation';
 export * from './crud/list/useEntityList';
 export * from './crud/list/EntityListProps';
+export * from "./ui/MultiTable/useMultiTable";
 
 export * from './util/history';
 

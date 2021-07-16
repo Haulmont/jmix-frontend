@@ -1,0 +1,5 @@
+{
+  "management.browser.delete.areYouSure": "Êtes-vous sûr de vouloir supprimer {instanceName}?",
+  "management.browser.delete.ok": "Supprimer",
+  "management.browser.noItems": "Aucune donnée"
+}

@@ -102,6 +102,12 @@ gen(
         dest: 'src/app/car-master-detail',
         answers: answers.carMasterDetail
       },
+      {
+        command: 'react-typescript:entity-multi-selection-table',
+        dirShift,
+        dest: 'src/app/car-multi-selection-table',
+        answers: answers.carMultiSelectionTable
+      },
 
       // All datatypes
       {
