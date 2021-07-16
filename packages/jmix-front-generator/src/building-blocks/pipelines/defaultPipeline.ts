@@ -41,8 +41,8 @@ export interface DefaultPipelineStages<O extends CommonGenerationOptions, A, M> 
   configureGenerator?: ConfigStage<O>;
   getProjectModel?: ProjectModelStage<O>;
   getAnswersFromOptions?: AnswersFromOptionsStage<O, A>;
-  getAnswersFromPrompt: AnswersFromPromptStage<O, A>;
-  deriveTemplateModel: TemplateModelStage<O, A, M>;
+  getAnswersFromPrompt?: AnswersFromPromptStage<O, A>;
+  deriveTemplateModel?: TemplateModelStage<O, A, M>;
   write: WriteStage<O, M>
 }
 

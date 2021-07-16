@@ -1,7 +1,7 @@
 import {ComponentOptions, componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
+import {allQuestions, Answers} from "./answers";
 import {Options} from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
@@ -17,8 +17,7 @@ export class ReactComponentGenerator extends YeomanGenerator {
     await defaultPipeline<Options, Answers, TemplateModel>({
       templateDir: path.join(__dirname, 'template'),
       questions: allQuestions,
-      stages: { 
-        getAnswersFromPrompt,
+      stages: {
         deriveTemplateModel,
         write
       }

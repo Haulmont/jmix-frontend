@@ -1,42 +1,42 @@
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {
+  createComponentNameQuestion,
+  ComponentNameAnswer,
+  menuItemQuestion,
+  MenuItemAnswer,
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
 export type ColumnLayoutTypes =
   "Two columns"
   | "Two columns with 1:3 proportion"
   | "Two columns with 3:1 proportion"
-  | "Four columns"
+  | "Four columns";
 
 const columnLayoutTypeOptions: ColumnLayoutTypes[] = [
   "Two columns",
   "Two columns with 1:3 proportion",
   "Two columns with 3:1 proportion",
   "Four columns",
-]
+];
 
-export interface Answers {
-    componentName: string,
-    structureType: ColumnLayoutTypes,
-    menuItem: string | null
+interface StructureTypeAnswer {
+  structureType: ColumnLayoutTypes;
+} 
+const structureTypeAnswer: StudioTemplateProperty = {
+  caption: 'Select structure type',
+  code: 'structureType',
+  required: true,
+  propertyType: StudioTemplatePropertyType.OPTION,
+  options: columnLayoutTypeOptions,
 }
 
+export interface Answers extends
+ComponentNameAnswer,
+StructureTypeAnswer,
+MenuItemAnswer {}
+
 export const allQuestions: StudioTemplateProperty[] = [
-  {
-    caption: "Component class name",
-    code: "componentName",
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    required: true
-  },
-  {
-    caption: 'Select structure type',
-    code: 'structureType',
-    required: true,
-    propertyType: StudioTemplatePropertyType.OPTION,
-    options: columnLayoutTypeOptions,
-  },
-  {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
+  createComponentNameQuestion({defaultValue: 'Structure'}),
+  structureTypeAnswer,
+  menuItemQuestion,
 ];

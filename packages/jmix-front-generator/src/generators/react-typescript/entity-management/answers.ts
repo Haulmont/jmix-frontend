@@ -2,7 +2,6 @@ import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../commo
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
-import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
   askStringIdQuestions,
   StringIdAnswers,
@@ -11,64 +10,53 @@ import {
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../common/entity";
 import { BrowserTypes, browserTypeQuestion } from "../entity-browser/answers";
+import {
+  createComponentNameQuestion,
+  entityQuestion,
+  EntityAnswer,
+  menuItemQuestion,
+  MenuItemAnswer,
+  createQueryQuestion,
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export interface EntityManagementAnswers extends StringIdAnswers {
-  entity: EntityWithPath;
-
+export interface EntityManagementAnswers extends
+EntityAnswer,
+MenuItemAnswer,
+StringIdAnswers {
   editorComponentName: string;
   editorQuery: string;
 
   browserComponentName: string;
   browserType: BrowserTypes;
   browserQuery: string;
-
-  menuItem: string | null;
 }
 
 export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
-  {
-    code: 'entity',
-    caption: 'Entity',
-    propertyType: StudioTemplatePropertyType.ENTITY,
-    required: true
-  },
-  {
+  entityQuestion,
+  createComponentNameQuestion({
     code: 'editorComponentName',
     caption: 'Editor component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: 'Editor',
-    required: true
-  },
-  {
+    defaultValue: 'Editor'
+  }),
+  createQueryQuestion({
     code: 'editorQuery',
     // Subject to change, in future we might want to get the full query from Studio
     caption: 'GraphQL query for entity editor',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
-    required: true
-  },
-  {
+  }),
+  createComponentNameQuestion({
     code: 'browserComponentName',
     caption: 'Browser component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
     defaultValue: "List",
-    required: true
-  },
+  }),
   browserTypeQuestion,
-  {
+  createQueryQuestion({
     code: 'browserQuery',
-    // Subject to change, in future we might want to get the full query from Studio
     caption: 'GraphQL query for entity browser',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
-    required: true
-  },
-  {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
+
+  }),
+  menuItemQuestion,
 ];
 
 

@@ -6,7 +6,6 @@ import {Options} from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import { defaultGetAnswersFromPrompt } from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 
 export class ReactComponentGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -18,7 +17,6 @@ export class ReactComponentGenerator extends YeomanGenerator {
       templateDir: path.join(__dirname, 'template'),
       questions: allQuestions,
       stages: { 
-        getAnswersFromPrompt: defaultGetAnswersFromPrompt,
         deriveTemplateModel,
         write
       }

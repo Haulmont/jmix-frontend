@@ -2,7 +2,6 @@ import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../commo
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
-import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
   askStringIdQuestions,
   StringIdAnswers,
@@ -10,6 +9,16 @@ import {
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../common/entity";
+import {
+  entityQuestion,
+  EntityAnswer,
+  createComponentNameQuestion,
+  ComponentNameAnswer,
+  createQueryQuestion,
+  QueryAnswer,
+  menuItemQuestion,
+  MenuItemAnswer,
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
 export type BrowserTypes = 'table' | 'list' | 'cards';
 
@@ -22,44 +31,22 @@ export const browserTypeQuestion = {
   options: ['table', 'cards', 'list']
 };
 
-export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
-  {
-    code: 'entity',
-    caption: 'Entity',
-    propertyType: StudioTemplatePropertyType.ENTITY,
-    required: true
-  },
-  {
-    code: 'componentName',
-    caption: 'Component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: "List",
-    required: true
-  },
-  {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
-  browserTypeQuestion,
-  {
-    code: 'query',
-    // Subject to change, in future we might want to get the full query from Studio
-    caption: 'GraphQL query for entity browser',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
-    relatedProperty: "entity",
-    required: true
-  }
-];
-
-export interface EntityBrowserAnswers extends StringIdAnswers {
-  entity: EntityWithPath;
+export interface EntityBrowserAnswers extends 
+EntityAnswer,
+ComponentNameAnswer,
+QueryAnswer,
+MenuItemAnswer,
+StringIdAnswers {
   browserType: BrowserTypes;
-  componentName: string;
-  query: string;
-  menuItem: string | null;
 }
+
+export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
+  entityQuestion,
+  createComponentNameQuestion({defaultValue: 'List'}),
+  browserTypeQuestion,
+  createQueryQuestion(),
+  menuItemQuestion,
+];
 
 export const allQuestions: StudioTemplateProperty[] = [
   ...commonEntityBrowserQuestions,

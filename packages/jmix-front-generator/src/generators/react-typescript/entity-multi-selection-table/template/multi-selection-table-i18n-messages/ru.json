@@ -1,0 +1,5 @@
+{
+  "multiSelectionTable.delete.success": "Выбранные сущности успешно удалены",
+  "multiSelectionTable.delete.error": "Произошла ошибка во время удаления выбранных сущностей",
+  "multiSelectionTable.delete.areYouSure": "Вы уверены, что хотите удалить выбранные сущности?"
+}
