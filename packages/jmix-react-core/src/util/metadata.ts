@@ -33,6 +33,22 @@ export function getPropertyInfoNN(propertyName: string, entityName: string, meta
   return propertyInfo;
 }
 
+export function getAllPersistentEntitiesNames(metadata: Metadata): EntityNamesInfo[] {
+  return metadata.entities
+  .filter((metaClassItem) => {
+    return metaClassItem.persistentEntity;
+  })
+  .map(({entityName, className}: MetaClassInfo) => {
+      return {entityName, className};
+  })
+}
+
+export function getAllEntityPropertiesNames(entityName: string, metadata: Metadata): string[] | undefined {
+  return findEntityMetadata(entityName, metadata)?.properties.map((property) => {
+    return property.name;
+  });
+} 
+
 export function getEnumCaption(enumValueName: string, propertyInfo: MetaPropertyInfo, enums: EnumInfo[]): string | undefined {
   const enumInfo = enums.find(enumInfo => enumInfo.name === propertyInfo.type);
 
@@ -239,3 +255,5 @@ export type MayHaveInstanceName = {_instanceName?: string};
 
 export type HasName = {name: string};
 export type MayHaveName = {name?: string};
+
+export type EntityNamesInfo = {entityName: string, className: string};

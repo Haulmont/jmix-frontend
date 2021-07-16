@@ -1,0 +1,20 @@
+.m2o-association-field-container {
+  display: flex;
+}
+
+.m2o-association-field-wrapper {
+  width: 100%;
+}
+
+.m2o-association-field-entity-picker-icon {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  align-self: center;
+  width: 30px;
+  height: 32px;
+  border-style: solid;
+  border-width: 1px;
+  margin-top: 5px;
+  opacity: 0.4;
+}

@@ -4,7 +4,7 @@ import { VerticalMenu, MenuItem, SubMenuItem } from "@haulmont/jmix-react-ui";
 import { BarsOutlined, HomeOutlined } from "@ant-design/icons";
 import { tabs } from "@haulmont/jmix-react-core";
 
-export interface AppMenuProps extends MenuProps {}
+export interface AppMenuProps extends MenuProps { }
 
 export const AppMenu = (props: AppMenuProps) => {
   return (
@@ -231,6 +231,15 @@ export const AppMenu = (props: AppMenuProps) => {
         caption={"screen.TrickyIdBrowserTable"}
         key={"062aaa06-eaeb-491f-9099-c308b3773eb9"}
       />
+
+        <MenuItem
+        screenId={"EntityInspector"}
+        icon={<BarsOutlined />}
+        caption={"screen.EntityInspector"}
+        key={"entity-inspector"}
+
+      />
+
     </VerticalMenu>
   );
 };
