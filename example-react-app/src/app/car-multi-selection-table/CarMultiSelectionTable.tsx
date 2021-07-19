@@ -6,7 +6,7 @@ import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
-  useEntityList,
+  useMultiTable,
   EntityListProps,
   registerEntityList
 } from "@haulmont/jmix-react-ui";
@@ -103,8 +103,9 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
     handlePaginationChange,
     handleDeleteBtnClick,
     goToParentScreen,
-    entityListState
-  } = useEntityList<Car>({
+    entityListState,
+    multiTableStore
+  } = useMultiTable<Car>({
     listQuery: SCR_CAR_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
@@ -126,7 +127,7 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
+        disabled={multiTableStore.selectedEntityIds == null || multiTableStore.selectedEntityIds.length === 0}
         onClick={handleDeleteBtnClick}
         key="remove"
         type="default"

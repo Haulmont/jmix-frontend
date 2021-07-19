@@ -16,10 +16,13 @@ export function createDeleteMutation(entityName: string): DocumentNode | TypedDo
 export function createDeleteMutationForSomeEntities(entityName: string, entityIds: string[]): DocumentNode | TypedDocumentNode {
   const graphqlSafeEntityName = dollarsToUnderscores(entityName);
 
-  const mutationString = 
-      entityIds.map(entityId => `mutation Delete_${graphqlSafeEntityName} {
-        ${`delete_${graphqlSafeEntityName}(id: ${entityId})`}
-      }`).join('\n');
+  const deleteEntities = entityIds.map((entityId, index)=> `${graphqlSafeEntityName}${index}: delete_${graphqlSafeEntityName}(id: "${entityId}")`).join('\n')
+
+  const mutationString = `
+    mutation Delete_some_${graphqlSafeEntityName} {
+      ${deleteEntities}
+    }
+  `;
 
   return gql(mutationString);
 }

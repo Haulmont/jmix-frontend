@@ -6,7 +6,7 @@ import {EntityPermAccessControl} from "@haulmont/jmix-react-core";
 import {
   DataTable,
   RetryDialog,
-  useEntityList,
+  useMultiTable,
   EntityListProps,
   registerEntityList,
 } from "@haulmont/jmix-react-ui";
@@ -52,7 +52,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     handleDeleteBtnClick,
     goToParentScreen,
     entityListState,
-  } = useEntityList<<%= entity.className %>>({
+  } = useMultiTable<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
@@ -74,7 +74,10 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       <Button
         htmlType="button"
         style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
+        disabled={
+          multiTableStore.selectedEntityIds == null
+          || multiTableStore.selectedEntityIds.length === 0
+        }
         onClick={handleDeleteBtnClick}
         key="remove"
         type="default"
