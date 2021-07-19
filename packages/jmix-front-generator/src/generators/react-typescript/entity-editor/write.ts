@@ -7,8 +7,10 @@ import entityManagementFr from "./template/editor-i18n-messages/fr.json";
 import entityManagementRu from "./template/editor-i18n-messages/ru.json";
 import {addAppMenu, addEntityMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
 import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
-import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import * as path from "path"
+import { writeFields } from "src/templates/Fields/write";
+
+const tsxExtension = '.tsx.ejs';
 
 export const writeEditorMessages: WriteStage<ComponentOptions, {
   className: string;
@@ -39,9 +41,7 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
     shouldAddToMenu
   } = templateModel;
 
-  const extension = '.tsx.ejs';
-
-  writeEditorComponent(gen, extension, templateModel);
+  writeEditorComponent(projectModel, templateModel, gen, options);
 
   await writeEditorMessages(projectModel, templateModel, gen, options);
 
@@ -53,13 +53,15 @@ export const writeEditor: WriteStage<ComponentOptions, EntityEditorTemplateModel
   addComponentPreviews(gen, dirShift, className, className, true, {entityId: 'new'});
 };
 
-export function writeEditorComponent<M extends {className: string}>(
-  gen: YeomanGenerator,
-  extension: string,
-  model: M
-) {
+
+export const writeEditorComponent: WriteStage<ComponentOptions, EntityEditorTemplateModel> = async (
+  projectModel, templateModel, gen, options
+) => {
+  await writeFields(projectModel, templateModel, gen, options)
+
   gen.fs.copyTpl(
-    path.join(__dirname, 'template', 'EntityEditor' + extension),
-    gen.destinationPath(model.className + extension), model
+    path.join(__dirname, 'template', 'EntityEditor' + tsxExtension),
+    gen.destinationPath(templateModel.className + tsxExtension),
+    templateModel
   );
 }

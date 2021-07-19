@@ -9,9 +9,6 @@ import {
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
-  <% if (attributes.length > 0) { %>
-    Field,
-  <% } %>
   GlobalErrorsAlert,
   Spinner,
   useEntityEditor,
@@ -21,6 +18,8 @@ import {
 import { gql } from "@apollo/client";
 import "<%= relDirShift %>app/App.css";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
+
+import {<%= fieldsComponentName %>} from './<%= fieldsComponentName %>';
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
@@ -98,31 +97,10 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
-        <% attributes.forEach(attr => { %>
-          <Field entityName={ENTITY_NAME}
-                 propertyName="<%= attr.name %>"
-
-            <% if (readOnlyFields.includes(attr.name)) { %>
-                 disabled={true}
-            <% } else if (attr.name === locals.stringIdName) { %>
-                 disabled={!isNewEntity(entityId)}
-            <% } %>
-
-            <% if (Object.keys(associations).includes(attr.name)) { %>
-                 associationOptions={relationOptions?.get('<%= dollarsToUnderscores(associations[attr.name].name) %>')}
-            <% } %>
-
-                  formItemProps={{
-                  style: {marginBottom: "12px"},
-            <% if (attr.mandatory) { -%>
-                  rules: [{required: true}],
-            <% } -%>
-            <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
-                  valuePropName: "checked",
-            <% } -%>
-            }}
-          /> <%# end Field %>
-        <% }) %>
+        <<%= fieldsComponentName %>
+          relationOptions={relationOptions}
+          entityId={entityId}
+        />
 
         <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
 
