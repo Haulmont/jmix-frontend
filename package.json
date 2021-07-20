@@ -66,7 +66,8 @@
     "doc:manual-cn": "node scripts/docs/generate-docs-site.js docs-src-cn manualOnly",
     "doc:src": "node scripts/docs/update-docs-src.js",
     "validate-react-app": "prettier --check example-react-app/**/*.ts && CI=true npm test --prefix example-react-app",
-    "publish:versions": "lerna version -m 'chore: bump versions' --no-push --conventional-commits"
+    "publish:versions": "lerna version -m 'chore: bump versions' --no-push --conventional-commits",
+    "publish:prerelease-versions": "lerna version -m 'chore: bump versions (prerelease)' --no-push --conventional-commits --conventional-prerelease --preid next"
   },
   "config": {
     "commitizen": {
