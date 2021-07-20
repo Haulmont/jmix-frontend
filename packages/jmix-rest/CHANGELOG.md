@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.1-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.0...@haulmont/jmix-rest@1.0.1-next.0) (2021-07-20)
+
+
+### Bug Fixes
+
+* componentPreview by default exact prop is true ([449e259](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/449e259caf99b8da8dfee943fde5a9a629f016be))
+
+
+
+
+
 # [1.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.0-next.20...@haulmont/jmix-rest@1.0.0-next.21) (2021-06-21)
 
 **Note:** Version bump only for package @haulmont/jmix-rest

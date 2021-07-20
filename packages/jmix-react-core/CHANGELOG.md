@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.2...@haulmont/jmix-react-core@1.1.0-next.0) (2021-07-20)
+
+
+### Bug Fixes
+
+* componentPreview by default exact prop is true ([449e259](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/449e259caf99b8da8dfee943fde5a9a629f016be))
+
+
+### Features
+
+* app persistentEntity flag for entity to metadata ([26f42a2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/26f42a2c9806fd21fce4107ce584246560633589))
+
+
+
+
+
 ## [1.0.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.0.1...@haulmont/jmix-react-core@1.0.2) (2021-07-05)
 
 

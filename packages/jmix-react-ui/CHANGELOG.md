@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.0.3-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.2...@haulmont/jmix-react-ui@1.0.3-next.0) (2021-07-20)
+
+
+### Bug Fixes
+
+* componentPreview by default exact prop is true ([449e259](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/449e259caf99b8da8dfee943fde5a9a629f016be))
+* deep equality for DataTable reaction on this.items changing ([27e5e67](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/27e5e674f519e8d68a48ab8c492683fceb58f9f6))
+
+
+
+
+
 ## [1.0.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.1...@haulmont/jmix-react-ui@1.0.2) (2021-07-05)
 
 
