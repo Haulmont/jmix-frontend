@@ -2,5 +2,10 @@
   "packages": [
     "packages/*", "test-pup"
   ],
-  "version": "independent"
+  "version": "independent",
+  "command": {
+    "version": {
+      "message": "chore: bump versions"
+    }
+  }
 }
