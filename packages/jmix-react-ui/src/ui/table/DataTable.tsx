@@ -10,7 +10,7 @@ import {
   observable,
   reaction,
   toJS,
-  makeObservable,
+  makeObservable, comparer,
 } from 'mobx';
 import {observer} from 'mobx-react';
 import {CustomFilterInputValue} from './DataTableCustomFilter';
@@ -152,6 +152,7 @@ export interface ColumnDefinition<TEntity> {
    */
   columnProps: ColumnProps<TEntity>
 }
+
 class DataTableComponent<
   TEntity extends object = object
 > extends React.Component<DataTableProps<TEntity>, any> {
@@ -213,16 +214,10 @@ class DataTableComponent<
 
           const displayedRowKeys = items.map((item: EntityInstance<TEntity>) => this.constructRowKey(item));
 
-          const displayedSelectedKeys: string[] = [];
-
-          this.selectedRowKeys.forEach((selectedKey: string) => {
-            if (displayedRowKeys.indexOf(selectedKey) > -1) {
-              displayedSelectedKeys.push(selectedKey);
-            }
-          });
-
-          this.selectedRowKeys = displayedSelectedKeys;
+          this.selectedRowKeys = this.selectedRowKeys.filter(selectedKey => displayedRowKeys.indexOf(selectedKey) > -1);
         }
+      }, {
+        equals: comparer.structural
       }
     ));
 
