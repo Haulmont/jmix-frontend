@@ -6,6 +6,8 @@
   "common.edit": "编辑",
   "common.remove": "删除",
   "common.submit": "提交",
+  "common.next": "common.next [TRANSLATION NOT AVAILABLE]",
+  "common.previous": "common.previous [TRANSLATION NOT AVAILABLE]",
   "common.unsavedEntity": "（未保存或未命名实体）",
   "common.requestFailed": "请求的操作执行失败",
   "common.retry": "重试",

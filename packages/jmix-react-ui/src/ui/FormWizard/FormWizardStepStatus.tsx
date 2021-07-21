@@ -3,11 +3,11 @@ import React from "react";
 import { useFormWizard } from "./FormWizardContext";
 import {Steps} from 'antd';
 
-interface FormWizardSteperProps {
+export interface FormWizardStepStatusProps {
     onSelectStep: (stepIndex: number) => void;
 }
 
-export const FormWizardSteper = observer(({onSelectStep}: FormWizardSteperProps) => {
+export const FormWizardStepStatus = observer(({onSelectStep}: FormWizardStepStatusProps) => {
     const {formWizardStore} = useFormWizard();
 
     return (
@@ -19,6 +19,7 @@ export const FormWizardSteper = observer(({onSelectStep}: FormWizardSteperProps)
         >
             {formWizardStore.steps.map(step => (
                 <Steps.Step
+                    disabled={step.status === 'wait'}
                     key={step.name}
                     title={step.name}
                     status={step.status}

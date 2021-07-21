@@ -1,6 +1,7 @@
-import {Form, FormInstance} from 'antd';
+import {Form, FormInstance, message} from 'antd';
 import { observer } from 'mobx-react';
 import React, {useEffect, useCallback, useMemo} from 'react';
+import { useIntl } from 'react-intl';
 import { useAntdFormValidation } from '../../crud/editor/validation/useAntdFormValidation';
 import { useFormWizard } from './FormWizardContext';
 import { FormWizardStore, StepStore } from './FormWizardStore';
@@ -20,6 +21,8 @@ const useSetupStep = ({
     form,
     stepName,
 }: UseSetupStepOptions) => {
+    const intl = useIntl();
+
     useEffect(() => {
         const stepValues = Object.entries(formWizardStore.values)
             .reduce<Record<string, any>>((acc, [key, value]) => {
@@ -54,6 +57,7 @@ const useSetupStep = ({
         
         if (stepFieldErrors.size > 0) {
             stepStore?.setStatus('error');
+            message.error(intl.formatMessage({ id: "formWizard.serverValidationError"}));
         }
         
         return {
@@ -80,6 +84,7 @@ export const FormWizardStep = observer(({
     fieldNames,
 }: FormWizardStepProps) => {
     const [form] = Form.useForm();
+    const intl = useIntl();
 
     const {formWizardStore, formWizardHelpersRef} = useFormWizard();
 
@@ -99,6 +104,8 @@ export const FormWizardStep = observer(({
         } catch (error) {
             console.error(error);
             stepStore?.setStatus('error');
+            message.error(intl.formatMessage({ id: 'formWizard.currectStepValidationError'}));
+            throw error;
         }
     }, [form, formWizardStore.steps, formWizardStore.stepIndex]);
 

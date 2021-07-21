@@ -7,7 +7,7 @@ interface FormWizardHelpers {
     onFinishFailed?: (error: any) => void;
 } 
 
-const defaultHerlpersRef: React.MutableRefObject<FormWizardHelpers> = {
+const defaultFormWizardHelpers: React.MutableRefObject<FormWizardHelpers> = {
     current: {
         validateFields: () => Promise.reject<void>('validateCurrentFields function is undefinded'),
         onFinish: () => new Error('validateCurrentFields function is undefinded'),
@@ -20,7 +20,7 @@ export const FormWizardContext = createContext<{
     formWizardHelpersRef: React.MutableRefObject<FormWizardHelpers>,
 }>({
     formWizardStore: new FormWizardStore(),
-    formWizardHelpersRef: defaultHerlpersRef,
+    formWizardHelpersRef: defaultFormWizardHelpers,
 });
 
 export interface FormWizardProviderProps {
@@ -35,7 +35,7 @@ export const FormWizardProvider = ({
     return (
         <FormWizardContext.Provider value={{
             formWizardStore,
-            formWizardHelpersRef: defaultHerlpersRef,
+            formWizardHelpersRef: defaultFormWizardHelpers,
         }}>
             {children}
         </FormWizardContext.Provider>

@@ -111,43 +111,7 @@ export class FormWizardStore {
     }
 
     // Helpers
-    // getResult() {
-    //     return this.steps.reduce<Record<string, any>>((acc, step) => {
-    //         if (step.status !== 'finish') {
-    //             throw new Error('One of a fialdStep isn\'t valid')
-    //         }
-    //         return {
-    //             ...acc,
-    //             ...step.values
-    //         }
-    //     }, {})
-    // }
-
-    // setFieldErrorsForSteps(fieldErrors: Map<string, string[]>) {
-    //     this.steps.forEach(step => {
-    //         step.setServerFieldErrors(
-    //             selectStepFieldErrors(fieldErrors, step.FIELD_NAMES)
-    //         )
-    //         if(step.serverFieldErrors.size > 0) {
-    //             step.setStatus('error')
-    //         }
-    //     })
-    // }
-
     getStepByName(stepName: string): StepStore | undefined {
         return this.steps.find(step => step.name === stepName);
     }
-    
-    // setStepValuesFromValues(values: Record<string, any>) {
-    //     this.steps.forEach(step => {
-    //         const stepValues = Object.entries(values)
-    //             .reduce<Record<string, any>>((acc, [key, value]) => {
-    //                 if (step.FIELD_NAMES.includes(key)) {
-    //                     return {...acc, [key]: value}
-    //                 }
-    //                 return acc
-    //             }, {});
-    //         step.setValues(stepValues);
-    //     })
-    // }
 }

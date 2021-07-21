@@ -45,7 +45,7 @@ export * from './ui/TimePicker';
 export * from './ui/FormWizard/FormWizardManager';
 export * from './ui/FormWizard/FormWizardStore';
 export * from './ui/FormWizard/FormWizardStep';
-export * from './ui/FormWizard/FormWizardSteper';
+export * from './ui/FormWizard/FormWizardStepStatus';
 export * from './ui/FormWizard/FormWizardButtons';
 export * from './ui/FormWizard/FormWizardContext';
 export * from './ui/FormWizard/useEntityEditorFormWizard';
