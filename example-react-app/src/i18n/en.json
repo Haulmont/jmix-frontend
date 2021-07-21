@@ -47,6 +47,8 @@
   "screen.DatatypesTestBrowserCards": "Datatypes Test Browser Cards",
   "screen.DatatypesTestEditor": "Datatypes Test Editor",
   "screen.FormWizardBrowserTable": "Form Wizard Browser Table",
+  "formWizard.currectStepValidationError": "Validation Error at the current step. Please check the data you entered.",
+  "formWizard.serverValidationError": "Server validation error.",
   "screen.FormWizardEditor": "Form Wizard Editor",
   "screen.FormWizardCompositionO2O": "Form Wizard Composition O2 O",
   "masterDetail.entityUnselected": "Select an entity",

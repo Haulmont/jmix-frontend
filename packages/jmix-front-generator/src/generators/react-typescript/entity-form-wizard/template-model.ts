@@ -49,8 +49,7 @@ export const deriveTemplateModel = async (
     readOnlyFields,
     relationImports,
     associatedEntityClassNames
-  } = deriveEditorTemplateModel(answers, projectModel, displayedAttributes)
-  // const {editAssociatedEntityClassNames} = deriveEditAssociatedEntityClassNames(associations)
+  } = deriveEditorTemplateModel(answers, projectModel, displayedAttributes);
 
   return {
     query: answers.query,

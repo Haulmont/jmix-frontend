@@ -4,7 +4,7 @@ import {
     <% } %>
     FormWizardManager,
     FormWizardStep,
-    FormWizardSteper,
+    FormWizardStepStatus,
     Spinner,
     RetryDialog,
     EntityEditorProps,
@@ -89,7 +89,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
                 onFinishFailed={handleSubmitFailed}
                 validateMessages={createAntdFormValidationMessages(intl)}
             >
-                <FormWizardSteper onSelectStep={handleSelectStep} />
+                <FormWizardStepStatus onSelectStep={handleSelectStep} />
 
                 <% steps.forEach(step => { %>
                     <FormWizardStep

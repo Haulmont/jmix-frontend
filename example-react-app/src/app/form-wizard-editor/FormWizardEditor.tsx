@@ -2,7 +2,7 @@ import {
   Field,
   FormWizardManager,
   FormWizardStep,
-  FormWizardSteper,
+  FormWizardStepStatus,
   Spinner,
   RetryDialog,
   EntityEditorProps,
@@ -105,7 +105,7 @@ const FormWizardEditor = withFormWizardProvider(
           onFinishFailed={handleSubmitFailed}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
-          <FormWizardSteper onSelectStep={handleSelectStep} />
+          <FormWizardStepStatus onSelectStep={handleSelectStep} />
 
           <FormWizardStep
             stepName="Step0"
