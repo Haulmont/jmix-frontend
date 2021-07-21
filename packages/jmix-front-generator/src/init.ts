@@ -34,8 +34,29 @@ export interface GeneratorInfo {
   iconPath?: string
 }
 
-export function collectClients(generatorFileName?: string): GeneratedClientInfo[] {
-  const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
+export interface GeneratorDiscoveryOptions {
+  customGeneratorPaths?: string[],
+  includeStockGenerators?: boolean,
+}
+
+export function collectClients(generatorFileName?: string, opts?: GeneratorDiscoveryOptions): GeneratedClientInfo[] {
+  const {customGeneratorPaths, includeStockGenerators = true} = opts ?? {};
+
+  const clients: GeneratedClientInfo[] = [];
+
+  if (includeStockGenerators) {
+    const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
+    clients.concat(readClientDir(clientsDirPath, generatorFileName));
+  }
+
+  customGeneratorPaths?.forEach(path => {
+    clients.concat(readClientDir(path));
+  });
+
+  return clients;
+}
+
+function readClientDir(clientsDirPath: string, generatorFileName?: string) {
   return readdirSync(clientsDirPath).map((clientDirName): GeneratedClientInfo => {
     return readClient(clientsDirPath, clientDirName, generatorFileName);
   });

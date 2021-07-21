@@ -1,23 +1,19 @@
 /* istanbul ignore file */ //todo not sure how to test and cover this
-import {generate, collectClients, GeneratedClientInfo} from "./init";
+import {generate, collectClients, GeneratedClientInfo, GeneratorDiscoveryOptions} from "./init";
 import {Command} from 'commander';
 import {exportList} from "./list";
 import {extractAvailableOptions, pickOptions} from "./common/cli-options";
 
 export const ownVersion = require('../package').version;
 
-/**
- * @alpha
- */
-export function createAndLaunchCli() {
-  const clients: GeneratedClientInfo[] = collectClients();
+export interface CliCreationOptions extends GeneratorDiscoveryOptions {}
+
+export function createAndLaunchCli({customGeneratorPaths, includeStockGenerators}: CliCreationOptions) {
+  const clients: GeneratedClientInfo[] = collectClients(undefined, {customGeneratorPaths, includeStockGenerators});
   const program: Command = createCli(ownVersion, clients);
   launchCli(program);
 }
 
-/**
- * @alpha
- */
 export function createCli(
   version: string,
   clients: GeneratedClientInfo[],
@@ -58,9 +54,6 @@ export function createCli(
   return program;
 }
 
-/**
- * @alpha
- */
 export function launchCli(program: Command) {
   program.parse(process.argv); // invokes provided command
 
