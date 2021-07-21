@@ -46,6 +46,7 @@
   "screen.DatatypesTestBrowserList": "Datatypes Test Browser List",
   "screen.DatatypesTestBrowserCards": "Datatypes Test Browser Cards",
   "screen.DatatypesTestEditor": "Datatypes Test Editor",
+  "screen.CarMultiSelectionTable": "Car Multi Selection Table",
   "masterDetail.entityUnselected": "Select an entity",
   "masterDetail.create.ifEntitySelected": "Changes will not be saved. Proceed?",
   "screen.CarMasterDetail": "Car Master Detail",

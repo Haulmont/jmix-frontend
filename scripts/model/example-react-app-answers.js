@@ -97,6 +97,14 @@ module.exports = {
 
     'menuItem': 'ROOT'
   },
+  "carMultiSelectionTable": {
+    "query": carEntityQuery,
+    "componentName": "CarMultiSelectionTable",
+    "entity": {
+      "name": "scr_Car"
+    },
+    'menuItem': 'ROOT'
+  },
   // "entityList": {
   //   "entityView": {
   //     "name": "_local",
