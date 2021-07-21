@@ -17,7 +17,6 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
-import "../../app/App.css";
 import { DeeplyNestedO2MTestEntity } from "../../jmix/entities/scr_DeeplyNestedO2MTestEntity";
 
 const ENTITY_NAME = "scr_DeeplyNestedO2MTestEntity";

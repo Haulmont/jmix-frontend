@@ -28,6 +28,9 @@ const boringStringIdEditorConfig = require('./screens/boring-string-id-editor');
 const boringStringIdBrowserTableConfig = require('./screens/boring-string-id-browser-table.js');
 const trickyIdEditorConfig = require('./screens/tricky-id-editor.js');
 const trickyIdBrowserTableConfig = require('./screens/tricky-id-browser-table.js');
+const formWizardEditor = require('./screens/form-wizard-editor.js');
+const formWizardCompositionO2O = require('./screens/form-wizard-composition-o2o');
+const formWizardBrowser = require('./screens/form-wizard-browser.js');
 const dirShift = '../../';
 
 gen(
@@ -101,6 +104,24 @@ gen(
         dirShift,
         dest: 'src/app/car-master-detail',
         answers: answers.carMasterDetail
+      },
+      {
+        command: 'react-typescript:entity-editor',
+        dirShift,
+        dest: 'src/app/form-wizard-compositionO2O-editor',
+        answers: formWizardCompositionO2O
+      },
+      {
+        command: 'react-typescript:entity-form-wizard',
+        dirShift,
+        dest: 'src/app/form-wizard-editor',
+        answers: formWizardEditor
+      },
+      {
+        command: 'react-typescript:entity-browser',
+        dirShift,
+        dest: 'src/app/form-wizard-browser',
+        answers: formWizardBrowser
       },
 
       // All datatypes

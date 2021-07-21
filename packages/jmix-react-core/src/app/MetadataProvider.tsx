@@ -66,19 +66,15 @@ export interface MetadataProviderProps {
 export const MetadataProvider = ({
     metadata,
     children
-}: MetadataProviderProps) => (
-    <MetadataContext.Consumer>
-        {() => {
-            globalMetadata = metadata
+}: MetadataProviderProps) => {
+    globalMetadata = metadata
 
-            return (
-                <MetadataContext.Provider value={metadata}>
-                    {children}
-                </MetadataContext.Provider>
-            )
-        }}
-    </MetadataContext.Consumer>
-);
+    return (
+        <MetadataContext.Provider value={metadata}>
+            {children}
+        </MetadataContext.Provider>
+    )
+};
 
 export interface MetadataInjected {
     metadata: Metadata;
