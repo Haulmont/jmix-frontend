@@ -1,6 +1,6 @@
 import {ColumnProps, TablePaginationConfig} from 'antd/es/table';
 import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction} from 'antd/es/table/interface';
-import React, { ReactText } from 'react';
+import React, {ReactText} from 'react';
 import {DataTableCell} from './DataTableCell';
 import {
   DataTableCustomFilter as CustomFilter,
@@ -29,6 +29,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
+import {ColumnDefinition} from "./DataTable";
 
 // todo we should not use '*Helpers' in class name in case of lack semantic. This class need to be split
 //  to different files like 'DataColumn', 'Conditions', 'Filters', 'Paging' ot something like this
@@ -67,6 +68,11 @@ export interface DataColumnConfig {
    */
   customFilterRef?: (instance: FormInstance) => void;
   relationOptions?: Array<HasId & MayHaveInstanceName>;
+
+  /**
+   * See {@link ColumnDefinition.resizable}
+   */
+  resizable?: boolean;
 }
 
 /**
@@ -177,7 +183,8 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     enableSorter,
     mainStore,
     customFilterRef,
-    relationOptions
+    relationOptions,
+    resizable
   } = config;
 
   let dataIndex: string | string[];
@@ -208,8 +215,32 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     dataIndex,
     sorter: enableSorter,
     key: propertyName as string,
-    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record})
+    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record}),
   };
+
+  if (resizable) {
+    defaultColumnProps = {
+      ...defaultColumnProps,
+      className: '--resizable',
+      onHeaderCell: () => ({
+        // Disable column selection if resizer's corner is clicked.
+        onClickCapture: event => {
+          if (event.target instanceof HTMLTableCellElement && event.target.nodeName === 'TH') {
+            const {width, x} = event.target.getBoundingClientRect()
+            const cursorPos = event.clientX;
+
+            const resizeCornerWidth = 10;
+
+            const rightBorder = x + width;
+            const clickedOnResizeCorner = rightBorder - cursorPos <= resizeCornerWidth;
+            if (clickedOnResizeCorner) {
+              event.stopPropagation();
+            }
+          }
+        }
+      })
+    }
+  }
 
   if (enableFilter && isPropertyTypeSupported(propertyInfo)) {
     defaultColumnProps = {
@@ -246,6 +277,19 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
   }
 
   return defaultColumnProps;
+}
+
+/**
+ * Checks whether the column should be resizable.
+ *
+ * @param columnDef: ColumnDefinition<TEntity> | string
+ */
+export function isResizable<TEntity>(columnDef: ColumnDefinition<TEntity> | string): columnDef is ColumnDefinition<TEntity>{
+  if (typeof columnDef === 'string') {
+    return false;
+  }
+
+  return columnDef.resizable === true;
 }
 
 /**
