@@ -42,7 +42,7 @@ export function useMasterDetailList<
 
   const handleCreateBtnClick: EntityListHookResultType['handleCreateBtnClick'] = useCallback(
     () => {
-      if (masterDetailStore.selectedEntityId != undefined) {
+      if (masterDetailStore.selectedEntityId != null) {
         showConfirmDialog(
           () => {
             masterDetailStore.setIsOpenEditor(true);
@@ -61,13 +61,27 @@ export function useMasterDetailList<
 
   const handleSelectionChange: EntityListHookResultType['handleSelectionChange'] = useCallback(
     (selectedEntityIds) => {
-      if(selectedEntityIds.length === 0) {
+      if (selectedEntityIds.length === 0) {
         masterDetailStore.setIsOpenEditor(false);
         masterDetailStore.setSelectedEntityId(undefined);
       } else {
-        masterDetailStore.setIsOpenEditor(true);
-        masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
-      };
+        if (!masterDetailStore.dirty) {
+          masterDetailStore.setIsOpenEditor(true);
+          masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
+        } else {
+          modals.open({
+            content: intl.formatMessage({id: 'masterDetail.create.ifEntitySelected'}),
+            okText: intl.formatMessage({id: "common.ok"}),
+            cancelText: intl.formatMessage({id: "common.cancel"}),
+            onOk: () => {
+              masterDetailStore.setDirty(false);
+              masterDetailStore.setIsOpenEditor(true);
+              masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
+            },
+          })
+        }
+      }
+
       entityListData.handleSelectionChange(selectedEntityIds);
     },
     [intl, masterDetailStore]

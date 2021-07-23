@@ -21,5 +21,10 @@
                     valuePropName: "checked",
                <% } -%>
           }}
+
+          <% Object.entries(fieldProps).forEach(([propName, prop]) => {%>
+               <%= propName %>={<%= prop %>}
+          <% }) %>
+
     /> <%# end Field %>
 <% }) %>

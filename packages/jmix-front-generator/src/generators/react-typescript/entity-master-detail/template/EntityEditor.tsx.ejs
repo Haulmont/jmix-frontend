@@ -16,7 +16,8 @@ import {
   useCreateAntdResetForm,
   useEntityPersistCallbacks,
   useSubmitFailedCallback,
-  ant_to_jmixFront
+  ant_to_jmixFront,
+  useChangeConfirm
 } from '@haulmont/jmix-react-antd';
 import {
   createAntdFormValidationMessages,
@@ -56,6 +57,12 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   } = props;
   const [form] = useForm();
   const onSubmitFailed = useSubmitFailedCallback();
+  const {setDirty} = useChangeConfirm()
+
+  const fieldComponentProps = {
+    onBlur: setDirty
+  }
+
   const {
     <% if (Object.keys(associations).length > 0) { -%>
       relationOptions,
@@ -104,6 +111,9 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
       <%- include(includesPath('Fields'), {
         attributes,
         associations,
+        fieldProps: {
+          componentProps: 'fieldComponentProps'
+        }
       }) %>
 
       <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
