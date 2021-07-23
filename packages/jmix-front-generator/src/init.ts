@@ -14,10 +14,10 @@ const INFO_FILE_NAME = 'info.json';
  */
 export interface GeneratedClientInfo {
   bundled: boolean;
-  name: string
+  name: string;
   generators: GeneratorInfo[];
-  bower?: boolean,
-  clientBaseTech?: string
+  bower?: boolean;
+  clientBaseTech?: string;
 }
 
 export interface ProvidedClientInfo {
@@ -30,48 +30,93 @@ export interface GeneratorInfo {
   name: string;
   description?: string;
   options?: OptionsConfig;
-  params?: StudioTemplateProperty[]
-  iconPath?: string
+  params?: StudioTemplateProperty[];
+  iconPath?: string;
+  path: string;
 }
 
-export function collectClients(generatorFileName?: string): GeneratedClientInfo[] {
+export interface GeneratorDiscoveryOptions {
+  customizeClient?: string;
+  customGeneratorPaths?: string[];
+  customTemplatePaths?: string[];
+  noStockGenerators?: boolean;
+}
+
+export function collectClients(generatorFileName?: string, opts?: GeneratorDiscoveryOptions): GeneratedClientInfo[] {
+  const {
+    customizeClient,
+    customGeneratorPaths,
+    noStockGenerators
+  } = opts ?? {};
+
   const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
+  const clients: GeneratedClientInfo[] = readClientDir(clientsDirPath, generatorFileName, customizeClient, noStockGenerators);
+
+  return includeCustomGenerators(clients, customizeClient, customGeneratorPaths);
+}
+
+function includeCustomGenerators(
+  clients: GeneratedClientInfo[],
+  customizeClient?: string,
+  customGeneratorPaths?: string[],
+): GeneratedClientInfo[] {
+  if (customGeneratorPaths == null || customizeClient == null) {
+    // No custom generators to be added
+    return clients;
+  }
+
+  const customGenerators = customGeneratorPaths.reduce((generators: GeneratorInfo[], generatorPath: string) => {
+    return generators.concat(collectGenerators(generatorPath));
+  }, []);
+
+  console.log('\x1b[41m%s\x1b[0m', 'customGenerators');
+  console.log(customGenerators);
+
+  const newClients = [...clients];
+
+  const clientToCustomize = newClients.find(client => client.name === customizeClient);
+  if (clientToCustomize == null) {
+    throw new Error(`Attempted to customize client ${customizeClient} but was not able to find it`);
+  }
+  clientToCustomize.generators = clientToCustomize.generators.concat(customGenerators);
+
+  return newClients;
+}
+
+function readClientDir(clientsDirPath: string, generatorFileName?: string, customizeClient?: string, noStockGenerators?: boolean): GeneratedClientInfo[] {
   return readdirSync(clientsDirPath).map((clientDirName): GeneratedClientInfo => {
-    return readClient(clientsDirPath, clientDirName, generatorFileName);
+    return readClient(clientsDirPath, clientDirName, generatorFileName,  (clientDirName !== customizeClient) && noStockGenerators);
   });
 }
 
 /**
  * @alpha
  */
-export function readClient(clientsDirPath: string, clientDirName: string, generatorFileName?: string) {
+export function readClient(clientsDirPath: string, clientDirName: string, generatorFileName?: string, noStockGenerators?: boolean): GeneratedClientInfo {
   const info:ProvidedClientInfo = require(path.join(clientsDirPath, clientDirName, INFO_FILE_NAME));
   return {
     bundled: true,
     name: clientDirName,
     bower: info.bower,
     clientBaseTech: info.clientBaseTech,
-    generators: collectGenerators(path.join(clientsDirPath, clientDirName), generatorFileName)
+    generators: noStockGenerators ? [] : collectGenerators(path.join(clientsDirPath, clientDirName), generatorFileName),
   }
 }
 
 export async function generate(
-  generatorName: string,
-  subGeneratorName: string,
+  generatorPath: string,
   options?: {},
-  baseDir: string = __dirname
 ): Promise<void> {
   const env = new YeomanEnvironment();
 
-  const {generator} = await import(path.join(baseDir, GENERATORS_DIR_NAME, generatorName, subGeneratorName));
+  const {generator} = await import(generatorPath);
   env.registerStub(generator, generator.name);
   return env.run(generator.name, options);
 }
 
-function collectGenerators(generatorsDir: string, genFileName?: string): GeneratorInfo[] {
+function collectGenerators(generatorsDir: string, genFileName: string = GENERATOR_FILE_NAME): GeneratorInfo[] {
   const dirs = readdirSync(generatorsDir);
   return sortGenerators(dirs.reduce((generators: GeneratorInfo[], name: string) => {
-    genFileName = genFileName ? genFileName : GENERATOR_FILE_NAME;
     const generatorPath = path.join(generatorsDir, name);
     if (existsSync(path.join(generatorPath, genFileName)) && statSync(generatorPath).isDirectory()) {
       const generatorExports: GeneratorExports = require(generatorPath);
@@ -87,7 +132,7 @@ function collectGenerators(generatorsDir: string, genFileName?: string): Generat
         ? path.relative(process.cwd(), path.join(generatorPath, generatorExports.icon))
         : undefined;
 
-      generators.push({name, options, params, description, iconPath, index});
+      generators.push({name, options, params, description, iconPath, index, path: generatorPath});
       return generators;
     } else {
       return generators;

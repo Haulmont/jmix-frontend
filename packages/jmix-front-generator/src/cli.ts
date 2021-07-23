@@ -1,31 +1,63 @@
 /* istanbul ignore file */ //todo not sure how to test and cover this
 import {generate, collectClients, GeneratedClientInfo} from "./init";
-import {Command} from 'commander';
+import {Command, Option} from 'commander';
 import {exportList} from "./list";
 import {extractAvailableOptions, pickOptions} from "./common/cli-options";
+import * as path from "path";
 
 export const ownVersion = require('../package').version;
 
-/**
- * @alpha
- */
-export function createAndLaunchCli() {
-  const clients: GeneratedClientInfo[] = collectClients();
-  const program: Command = createCli(ownVersion, clients);
-  launchCli(program);
+interface CustomGeneratorConfig {
+  customizeClient?: string;
+  customGeneratorPaths?: string[];
+  customTemplatePaths?: string[];
+  noStockGenerators?: boolean;
 }
 
-/**
- * @alpha
- */
+export function createAndLaunchCli() {
+  const {program}: {program: Command} = require('commander');
+
+  // Add options that configure which generators to use
+  program
+    .addOption(new Option(
+      '--customize-client <clientName>',
+      'Selected client will use custom generators and/or overridden templates in stock generators.'
+    ))
+    .addOption(new Option(
+      '--custom-generator-paths <paths...>',
+      'Use custom generators from the filesystem.'
+    ))
+    .addOption(new Option(
+      '--custom-template-paths <paths...>',
+      'Use templates from the filesystem to override templates in stock generators.'
+    ))
+    .addOption(new Option(
+      '--no-stock-generators',
+      'Do not include stock generators to the list of available generators. Stock generators with overridden templates will be included.'
+    ));
+
+  const {customizeClient, customGeneratorPaths, customTemplatePaths, noStockGenerators} = program.parse().opts<CustomGeneratorConfig>();
+
+  const expandRelativePath = (p: string) => path.resolve(p);
+
+  const clients: GeneratedClientInfo[] = collectClients(undefined, {
+    customizeClient,
+    customGeneratorPaths: customGeneratorPaths?.map(expandRelativePath),
+    customTemplatePaths: customTemplatePaths?.map(expandRelativePath),
+    noStockGenerators
+  });
+
+  const cli: Command = createCli(ownVersion, clients, undefined, undefined, program);
+  launchCli(cli);
+}
+
 export function createCli(
   version: string,
   clients: GeneratedClientInfo[],
   customClientNames?: string[],
-  customClientsBaseDir?: string
+  customClientsBaseDir?: string,
+  program: Command = require('commander'),
 ): Command {
-  const program: Command = require('commander');
-
   program.version(version, '-v, --version')
     .usage('[command] [options]');
 
@@ -49,7 +81,7 @@ export function createCli(
       const baseDir = customClientNames?.includes(client.name) ? customClientsBaseDir : undefined;
 
       generationCommand.action(function (cmd) {
-        return generate(client.name, generator.name, pickOptions(cmd, generator.options), baseDir);
+        return generate(generator.path, pickOptions(cmd, generator.options));
       })
 
     })
@@ -58,9 +90,6 @@ export function createCli(
   return program;
 }
 
-/**
- * @alpha
- */
 export function launchCli(program: Command) {
   program.parse(process.argv); // invokes provided command
 

@@ -14,6 +14,7 @@ const rimraf = promisify(require('rimraf'));
 const SDK_DIR = `src/test/generated/sdk`;
 const SDK_ALL_DIR = path.join(process.cwd(), `${SDK_DIR}/all`);
 const SDK_MODEL_DIR = path.join(process.cwd(), `${SDK_DIR}/model`);
+const GENERATORS_DIR = path.join(__dirname, '../../../generators');
 
 describe('sdk generator test', () => {
 
@@ -23,7 +24,7 @@ describe('sdk generator test', () => {
   });
 
   it('should generate sdk:all', () => rimraf(`${SDK_ALL_DIR}/*`)
-    .then(() => generate('sdk', 'all', {
+    .then(() => generate(path.join(GENERATORS_DIR, 'sdk', 'all'), {
         model: modelPath,
         dest: SDK_ALL_DIR,
         debug: true
@@ -37,7 +38,7 @@ describe('sdk generator test', () => {
     }));
 
   it('should generate sdk:model', () => rimraf(`${SDK_MODEL_DIR}/*`)
-    .then(() => generate('sdk', 'model', {
+    .then(() => generate(path.join(GENERATORS_DIR, 'sdk', 'model'), {
         model: modelPath,
         dest: SDK_MODEL_DIR,
         debug: true

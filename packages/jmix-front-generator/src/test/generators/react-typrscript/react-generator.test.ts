@@ -23,6 +23,7 @@ const EM_DIR = path.join(REACT_DIR, 'src/app/entity-management');
 
 const FIXTURES_DIR = path.join(process.cwd(), `src/test/fixtures/react-client`);
 const TEST_RUN_DIR = path.join(__dirname, '../../../../');
+const GENERATORS_DIR = path.join(__dirname, '../../../generators');
 
 // run each generator test from the same directory - we need it to test relative cli paths
 beforeEach(() => process.chdir(TEST_RUN_DIR));
@@ -33,7 +34,7 @@ describe('react generator test', () => {
 
     await rimraf(`${REACT_DIR}/*`);
 
-    await generate('react-typescript', 'app', opts(REACT_DIR, null, absoluteModelPath));
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'app'), opts(REACT_DIR, null, absoluteModelPath));
     assert.ok(fs.existsSync(`entities/base`));
     assert.ok(fs.existsSync(`enums/enums.ts`));
     assertFilesPlain('src/index.tsx', REACT_DIR, FIXTURES_DIR);
@@ -45,14 +46,14 @@ describe('react generator test', () => {
 
     await rimraf(`${COMPONENT_DIR}/*`);
 
-    await generate('react-typescript', 'blank-screen',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'blank-screen'),
       opts(COMPONENT_DIR, answers.blankComponent, componentRelativeModelPath));
 
     assertFilesPlain('src/app/component/BlankComponent.tsx', REACT_DIR, FIXTURES_DIR);
 
     await rimraf(`${COMPONENT_DIR}/*`);
 
-    await generate('react-typescript', 'blank-screen',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'blank-screen'),
       opts(COMPONENT_DIR, answers.blankComponentLowCase, absoluteModelPath));
 
     assertFilesPlain('src/app/component/BlankComponent.tsx', REACT_DIR, FIXTURES_DIR);
@@ -62,7 +63,7 @@ describe('react generator test', () => {
 
     await rimraf(`${COMPONENT_DIR}/*`);
 
-    await generate('react-typescript', 'structure',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'structure'),
       opts(COMPONENT_DIR, answers.structureComponent, componentRelativeModelPath));
 
     assertFilesPlain('src/app/component/StructureComponent.tsx', REACT_DIR, FIXTURES_DIR);
@@ -72,7 +73,7 @@ describe('react generator test', () => {
 
     await rimraf(`${CARDS_DIR}/*`);
 
-    await generate('react-typescript', 'entity-cards',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-cards'),
       opts(CARDS_DIR, answers.entityCards, componentRelativeModelPath));
 
     assertFilesPlain('src/app/entity-cards/MpgFavoriteCarCards.tsx', REACT_DIR, FIXTURES_DIR);
@@ -81,7 +82,7 @@ describe('react generator test', () => {
   it('should generate React client entity-cards-grid', async function () {
     await rimraf(`${CARDS_GRID_DIR}/*`);
 
-    await generate('react-typescript', 'entity-cards-grid',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-cards-grid'),
       opts(CARDS_GRID_DIR, answers.entityCardsGrid, componentRelativeModelPath));
 
     assertFilesPlain('src/app/entity-cards-grid/MpgFavoriteCarCardsGrid.tsx', REACT_DIR, FIXTURES_DIR);
@@ -91,23 +92,23 @@ describe('react generator test', () => {
 
     await rimraf(`${EM_DIR}/*`);
 
-    await generate('react-typescript', 'entity-management',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-management'),
       opts(EM_DIR, answers.entityManagement, componentRelativeModelPath));
 
     process.chdir(TEST_RUN_DIR);
-    await generate('react-typescript', 'entity-management',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-management'),
       opts(EM_DIR, answers.entityManagement2, absoluteModelPath));
 
     process.chdir(TEST_RUN_DIR);
-    await generate('react-typescript', 'entity-management',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-management'),
       opts(EM_DIR, answers.entityManagement3, componentRelativeModelPath));
 
     process.chdir(TEST_RUN_DIR);
-    await generate('react-typescript', 'entity-management',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-management'),
       opts(EM_DIR, answers.entityManagementLowCase, absoluteModelPath));
 
     process.chdir(TEST_RUN_DIR);
-    await generate('react-typescript', 'entity-management',
+    await generate(path.join(GENERATORS_DIR, 'react-typescript', 'entity-management'),
       opts(EM_DIR, stringIdAnswers, modelPathScr));
 
     process.chdir(TEST_RUN_DIR);
