@@ -106,6 +106,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
         <%- include(includesPath('Fields'), {
           attributes,
           associations,
+          fieldProps: {}
         }) %>
 
         <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />

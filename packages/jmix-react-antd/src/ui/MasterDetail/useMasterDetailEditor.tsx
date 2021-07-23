@@ -1,4 +1,4 @@
-import { dollarsToUnderscores, LoadQueryVars } from "@haulmont/jmix-react-core";
+import {dollarsToUnderscores, LoadQueryVars} from "@haulmont/jmix-react-core";
 import { useCallback, useEffect } from "react";
 import { 
     useEntityEditor, 
@@ -8,6 +8,9 @@ import {
 } from "@haulmont/jmix-react-web";
 import { useMasterDetailStore } from "./MasterDetailContext";
 import { ant_to_jmixFront } from "../../formatters/ant_to_jmixFront";
+import {useChangeConfirm} from "./useChangeConfirm";
+import { notifications, NotificationType } from "../notifications";
+import { useIntl } from "react-intl";
 
 export interface EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
 extends EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
@@ -28,9 +31,13 @@ export function useMasterDetailEditor<
     const {
         entityName,
         entityInstance,
-        onCommit,
         resetEntityEditorForm,
+        onCommit,
     } = options;
+
+    const intl = useIntl();
+
+    const {setPristine} = useChangeConfirm();
 
     const entityEditorData = useEntityEditor<TEntity, TData, TQueryVars, TMutationVars>(options);
 
@@ -55,26 +62,55 @@ export function useMasterDetailEditor<
         }
     }, [executeLoadQuery, masterDetailStore.selectedEntityId]);
 
-    const goToParentScreen = useCallback(() => {
+    const closeEditor = useCallback(() => {
+        masterDetailStore.setDirty(false);
         masterDetailStore.setIsOpenEditor(false);
         masterDetailStore.setSelectedEntityId(undefined);
     }, [masterDetailStore]);
+
+    const onCreate = useCallback(() => {
+        notifications.show({
+            type: NotificationType.SUCCESS,
+            description: intl.formatMessage({ id: "management.editor.created" })
+          })
+        setPristine();
+    }, [notifications, intl, setPristine]);
+
+    const onEdit = useCallback(() => {
+        notifications.show({
+            type: NotificationType.SUCCESS,
+            description: intl.formatMessage({ id: "management.editor.updated" })
+        })
+        setPristine();
+    }, [notifications, intl, setPristine]);
+
+    const onError = useCallback(() => {
+        notifications.show({
+            type: NotificationType.ERROR,
+            description: intl.formatMessage({ id: "common.requestFailed" })
+        })
+    }, [notifications, intl]);
 
     const handleSubmit = useSubmitCallback({
         executeUpsertMutation,
         updateResultName,
         listQueryName,
         entityName,
-        goToParentScreen,
+        goToParentScreen: closeEditor,
         entityId: masterDetailStore.selectedEntityId,
         entityInstance,
         uiKit_to_jmixFront: ant_to_jmixFront,
         onCommit,
+        persistEntityCallbacks: {
+            onCreate,
+            onEdit,
+            onError,
+        }
     });
 
     return {
         ...entityEditorData,
         handleSubmit,
-        handleCancelBtnClick: goToParentScreen,
+        handleCancelBtnClick: closeEditor,
     };
 }

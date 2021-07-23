@@ -106,6 +106,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
                         <%- include(includesPath('Fields'), {
                             attributes: step.attributes,
                             associations,
+                            fieldProps: {}
                         }) %>
                     </FormWizardStep>
                 <% }) %>

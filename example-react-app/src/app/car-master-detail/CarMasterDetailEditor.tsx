@@ -14,7 +14,8 @@ import {
   useCreateAntdResetForm,
   useEntityPersistCallbacks,
   useSubmitFailedCallback,
-  ant_to_jmixFront
+  ant_to_jmixFront,
+  useChangeConfirm
 } from "@haulmont/jmix-react-antd";
 import {
   createAntdFormValidationMessages,
@@ -86,6 +87,12 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
   } = props;
   const [form] = useForm();
   const onSubmitFailed = useSubmitFailedCallback();
+  const { setDirty } = useChangeConfirm();
+
+  const fieldComponentProps = {
+    onBlur: setDirty
+  };
+
   const {
     relationOptions,
     executeLoadQuery,
@@ -133,6 +140,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
           style: { marginBottom: "12px" },
           rules: [{ required: true }]
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -141,6 +149,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -149,6 +158,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -157,6 +167,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -165,6 +176,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -174,6 +186,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
           style: { marginBottom: "12px" },
           valuePropName: "checked"
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -183,6 +196,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
           style: { marginBottom: "12px" },
           rules: [{ required: true }]
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -191,6 +205,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -199,6 +214,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -207,6 +223,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -215,6 +232,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -224,6 +242,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <Field
@@ -233,6 +252,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
         formItemProps={{
           style: { marginBottom: "12px" }
         }}
+        componentProps={fieldComponentProps}
       />
 
       <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
