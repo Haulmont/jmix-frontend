@@ -1,4 +1,6 @@
 {
+  "addons.Addons": "Addons",
+
   "common.ok": "OK",
   "common.cancel": "Cancel",
   "common.create": "Create",
