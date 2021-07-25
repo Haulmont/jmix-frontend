@@ -3,6 +3,11 @@ import {Locale} from "../../../../common/model/cuba-model";
 import path from "path";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../../common/utils";
 
+export enum ComponentType {
+  Screen = 'screen',
+  Addon = 'addons'
+}
+
 // TODO Switch to a single i18n pack
 // Moved (almost) unchanged from src/common
 
@@ -27,13 +32,14 @@ export function writeComponentI18nMessages(
   className: string,
   dirShift: string = './',
   projectLocales?: Locale[],
-  componentMessagesPerLocale: Record<string, Record<string, string>> = {en: {}, ru: {}}
+  componentMessagesPerLocale: Record<string, Record<string, string>> = {en: {}, ru: {}},
+  componentType: ComponentType = ComponentType.Screen
 ) {
   Object.entries(componentMessagesPerLocale).forEach(([localeCode, componentMessages]) => {
     if (projectLocales == null || projectLocales.some(projectLocale => projectLocale.code === localeCode)) {
       const existingMessagesPath = path.join(dirShift, `i18n/${localeCode}.json`);
       const existingMessages: Record<string, string> | null = fs.readJSON(existingMessagesPath);
-      const mergedMessages = mergeI18nMessages(existingMessages, componentMessages, className, localeCode);
+      const mergedMessages = mergeI18nMessages(existingMessages, componentMessages, className, localeCode, componentType);
 
       if (mergedMessages != null) {
         fs.writeJSON(existingMessagesPath, mergedMessages);
@@ -58,7 +64,8 @@ function mergeI18nMessages(
   existingMessages: Record<string, string> | null,
   componentMessages: Record<string, string>,
   className: string,
-  localeCode: string
+  localeCode: string,
+  componentType: ComponentType
 ): Record<string, string> | null {
 
   const screenCaption = splitByCapitalLetter(capitalizeFirst(className));
@@ -66,7 +73,7 @@ function mergeI18nMessages(
   if (localeCode === 'en') {
     componentMessages = {
       ...componentMessages,
-      [`screen.${className}`]: screenCaption
+      [`${componentType}.${className}`]: screenCaption
     };
   }
 

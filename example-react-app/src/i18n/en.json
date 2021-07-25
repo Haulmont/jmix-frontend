@@ -70,6 +70,7 @@
   "screen.StructureComponent": "Structure Component",
   "screen.TestBlankScreen": "Test Blank Screen",
   "screen.ExampleCustomScreen": "Example Custom Screen",
+  "addons.Addons": "Addons",
   "common.ok": "OK",
   "common.cancel": "Cancel",
   "common.create": "Create",

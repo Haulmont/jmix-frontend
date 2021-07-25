@@ -215,6 +215,7 @@ describe('i18n message packs', async () => {
 
 const EXPECTED_I18N_KEYS = [
   // Main message pack
+  "addons.Addons",
   "common.ok",
   "common.cancel",
   "common.create",
