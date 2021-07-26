@@ -34,7 +34,8 @@ export function createAndLaunchCli() {
     .addOption(new Option(
       '--no-stock-generators',
       'Do not include stock generators to the list of available generators. Stock generators with overridden templates will be included.'
-    ));
+    ))
+    .allowUnknownOption(true); // Otherwise program.parse below will fail. We set allowUnknownOption back to false once we know the full list of options.
 
   const {customizeClient, customGeneratorPaths, customTemplatePaths, noStockGenerators} = program.parse().opts<CustomGeneratorConfig>();
 
@@ -75,8 +76,11 @@ export function createCli(
         .description(`Generates ${client.name} ${generator.name}`);
 
       extractAvailableOptions(generator.options).forEach(({pattern, description}) => {
+        console.log(pattern, description);
         generationCommand.option(pattern, description);
       });
+
+      program.allowUnknownOption(false);
 
       const baseDir = customClientNames?.includes(client.name) ? customClientsBaseDir : undefined;
 
