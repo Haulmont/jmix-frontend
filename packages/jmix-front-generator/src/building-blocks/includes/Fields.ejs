@@ -1,0 +1,25 @@
+<% attributes.forEach(attr => { %>
+     <Field
+          entityName={ENTITY_NAME}
+          propertyName="<%= attr.name %>"
+          <% if (readOnlyFields.includes(attr.name)) { %>
+               disabled={true}
+          <% } else if (attr.name === locals.stringIdName) { %>
+               disabled={!isNewEntity(entityId)}
+          <% } %>
+
+          <% if (Object.keys(associations).includes(attr.name)) { %>
+               associationOptions={relationOptions?.get('<%= dollarsToUnderscores(associations[attr.name].name) %>')}
+          <% } %>
+
+          formItemProps={{
+               style: {marginBottom: "12px"},
+               <% if (attr.mandatory) { -%>
+                    rules: [{required: true}],
+               <% } -%>
+               <% if (attr.type && attr.type.fqn === 'java.lang.Boolean') { -%>
+                    valuePropName: "checked",
+               <% } -%>
+          }}
+    /> <%# end Field %>
+<% }) %>
