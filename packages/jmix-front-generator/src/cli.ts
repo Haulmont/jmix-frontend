@@ -20,8 +20,12 @@ export function createAndLaunchCli() {
   // Add options that configure which generators to use
   program
     .addOption(new Option(
+      '--template-override <pathToCustomTemplate>',
+      'Use provided template with the currently invoked generator.'
+    ))
+    .addOption(new Option(
       '--customize-client <clientName>',
-      'Selected client will use custom generators and/or overridden templates in stock generators.'
+      'Selected client will use custom generators and/or stock generators with custom templates.'
     ))
     .addOption(new Option(
       '--custom-generator-paths <paths...>',
@@ -76,16 +80,13 @@ export function createCli(
         .description(`Generates ${client.name} ${generator.name}`);
 
       extractAvailableOptions(generator.options).forEach(({pattern, description}) => {
-        console.log(pattern, description);
         generationCommand.option(pattern, description);
       });
 
       program.allowUnknownOption(false);
 
-      const baseDir = customClientNames?.includes(client.name) ? customClientsBaseDir : undefined;
-
       generationCommand.action(function (cmd) {
-        return generate(generator.path, pickOptions(cmd, generator.options));
+        return generate(generator.path, pickOptions(cmd, generator.options), generator.templateOverride);
       })
 
     })

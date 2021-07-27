@@ -45,6 +45,7 @@ export interface CommonGenerationOptions {
   model?: string;
   answers?: string;
   verbose?: boolean;
+  templateOverride?: string;
 }
 
 /**

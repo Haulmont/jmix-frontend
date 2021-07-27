@@ -33,6 +33,7 @@ export interface GeneratorInfo {
   params?: StudioTemplateProperty[];
   iconPath?: string;
   path: string;
+  templateOverride?: string;
 }
 
 export interface GeneratorDiscoveryOptions {
@@ -46,41 +47,71 @@ export function collectClients(generatorFileName?: string, opts?: GeneratorDisco
   const {
     customizeClient,
     customGeneratorPaths,
+    customTemplatePaths,
     noStockGenerators
   } = opts ?? {};
 
   const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
   const clients: GeneratedClientInfo[] = readClientDir(clientsDirPath, generatorFileName, customizeClient, noStockGenerators);
 
-  return includeCustomGenerators(clients, customizeClient, customGeneratorPaths);
+  includeCustomTemplates(clients, customizeClient, customTemplatePaths);
+  includeCustomGenerators(clients, customizeClient, customGeneratorPaths);
+
+  return clients;
+}
+
+function includeCustomTemplates(
+  clients: GeneratedClientInfo[],
+  customizeClient?: string,
+  customTemplatePaths?: string[],
+) {
+  if (customTemplatePaths == null || customizeClient == null) {
+    // No custom generators to be added
+    return;
+  }
+
+  for (const templatePath of customTemplatePaths) {
+    const dirs = readdirSync(templatePath);
+
+    for (const dir of dirs) {
+      const templateLocation = path.resolve(templatePath, dir);
+      const generatorName = path.basename(dir);
+
+      const clientIndex = clients.findIndex(c => c.name === customizeClient);
+      if (clientIndex === -1) {
+        throw new Error(`Tried to customize client "${customizeClient}", but there is no such client.`);
+      }
+      const generatorIndex = clients[clientIndex]
+        ?.generators
+        ?.findIndex(g => g.name === generatorName);
+      if (generatorIndex === -1) {
+        throw new Error(`Tried to use a custom template for generator "${generatorName}" in client "${customizeClient}", but there is no such generator. Did you mean to create a custom generator instead? Failed on custom template path "${templateLocation}".`);
+      }
+      clients[clientIndex].generators[generatorIndex].templateOverride = templateLocation;
+    }
+
+  }
 }
 
 function includeCustomGenerators(
   clients: GeneratedClientInfo[],
   customizeClient?: string,
   customGeneratorPaths?: string[],
-): GeneratedClientInfo[] {
+) {
   if (customGeneratorPaths == null || customizeClient == null) {
     // No custom generators to be added
-    return clients;
+    return;
   }
 
   const customGenerators = customGeneratorPaths.reduce((generators: GeneratorInfo[], generatorPath: string) => {
     return generators.concat(collectGenerators(generatorPath));
   }, []);
 
-  console.log('\x1b[41m%s\x1b[0m', 'customGenerators');
-  console.log(customGenerators);
-
-  const newClients = [...clients];
-
-  const clientToCustomize = newClients.find(client => client.name === customizeClient);
+  const clientToCustomize = clients.find(client => client.name === customizeClient);
   if (clientToCustomize == null) {
     throw new Error(`Attempted to customize client ${customizeClient} but was not able to find it`);
   }
   clientToCustomize.generators = clientToCustomize.generators.concat(customGenerators);
-
-  return newClients;
 }
 
 function readClientDir(clientsDirPath: string, generatorFileName?: string, customizeClient?: string, noStockGenerators?: boolean): GeneratedClientInfo[] {
@@ -106,12 +137,16 @@ export function readClient(clientsDirPath: string, clientDirName: string, genera
 export async function generate(
   generatorPath: string,
   options?: {},
+  templateOverride?: string,
 ): Promise<void> {
   const env = new YeomanEnvironment();
 
   const {generator} = await import(generatorPath);
   env.registerStub(generator, generator.name);
-  return env.run(generator.name, options);
+  return env.run(generator.name, {
+    templateOverride,
+    ...options
+  });
 }
 
 function collectGenerators(generatorsDir: string, genFileName: string = GENERATOR_FILE_NAME): GeneratorInfo[] {
