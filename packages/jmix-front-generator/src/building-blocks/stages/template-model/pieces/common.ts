@@ -1,5 +1,8 @@
 import { normalizeRelativePath, elementNameToClass, unCapitalizeFirst } from "../../../../common/utils";
 import { DirShiftOption } from "../../options/pieces/dir-shift";
+import * as path from 'path';
+
+const includesPath = (...paths: string[]) => path.join(__dirname, '../../../../building-blocks/includes', ...paths);
 
 export interface CommonTemplateModel {
   componentName: string;
@@ -8,6 +11,7 @@ export interface CommonTemplateModel {
   nameLiteral: string;
   menuItem: string | null;
   shouldAddToMenu: boolean;
+  includesPath: (...paths: string[]) => string;
 }
 
 export type EntityCommonAnswers = {
@@ -38,7 +42,8 @@ export type EntityCommonAnswers = {
     relDirShift,
     nameLiteral,
     menuItem,
-    shouldAddToMenu
+    shouldAddToMenu,
+    includesPath,
   };
 }
 

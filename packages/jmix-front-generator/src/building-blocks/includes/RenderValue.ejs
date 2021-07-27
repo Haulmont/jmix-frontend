@@ -1,0 +1,19 @@
+<% if (Array.isArray(data)) { %>
+    [
+        <% data.forEach(element => { %><%- include('RenderValue', {data: element}) %>,<% }) %>
+    ]
+<% } %>
+<% if (!Array.isArray(data) && typeof data === 'object' && data !== null) { %>
+    {
+        <% Object.keys(data).forEach(key => { %>
+            <%= key %>: <%- include('RenderValue', {data: data[key]}) %>,
+        <% }) %>
+    }
+<% } %>
+<% if (typeof data === 'string') { %>"<%= data %>"<% } %>
+<% if (
+    typeof data === 'number'
+    || typeof data === 'boolean'
+    || data === undefined
+    || data === null
+) { %><%= data %><% } %>

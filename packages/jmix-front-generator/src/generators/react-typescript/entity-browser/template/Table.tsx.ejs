@@ -128,11 +128,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       error={error}
       enableFiltersOnColumns={entityList != null ? [] : undefined}
       enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={[
-        <% attributes.forEach(p => { -%>
-          '<%= p.name %>',
-        <% }) %>
-      ]}
+      columnDefinitions={<%- include(includesPath('RenderValue'), {data: attributes.map(attr => attr.name)}) %>}
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
