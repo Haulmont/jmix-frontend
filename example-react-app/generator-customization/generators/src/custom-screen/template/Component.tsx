@@ -5,7 +5,7 @@ const ROUTING_PATH = '/<%= nameLiteral %>';
 
 export const <%= className %> = () => (
   <div>
-    CUSTOM GENERATOR IN ACTION! <%= className %>
+    CUSTOM GENERATOR <%= className %>
   </div>
 );
 

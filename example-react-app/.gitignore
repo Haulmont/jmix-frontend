@@ -8,6 +8,9 @@
 /build
 /build-gradle
 
+# built generators
+/generator-customization/generators/build
+
 # misc
 .DS_Store
 
