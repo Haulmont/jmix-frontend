@@ -2,15 +2,17 @@
   "compilerOptions": {
     "target": "ES2015",
     "module": "commonjs",
+    "rootDir": "./src",
     "outDir": "./build",
     "resolveJsonModule": true,
     "sourceMap": true,
     "strict": true,
     "baseUrl": ".",
     "esModuleInterop": true,
+    "skipLibCheck": true,
   },
   "include": [
-    "src/**/*.ts",
+    "src/**/*.ts"
   ],
   "exclude": [
     "src/*/template/**"
