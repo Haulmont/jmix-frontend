@@ -1,12 +1,9 @@
-import {componentOptionsConfig} from "../../../common/cli-options";
-import path from "path";
-import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
+import {ComponentOptions, componentOptionsConfig, defaultPipeline, YeomanGenerator} from "@haulmont/jmix-front-generator";
 import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
-import {Options} from "./options";
-import {TemplateModel, deriveTemplateModel} from "./template-model";
+import { Options } from "./options";
+import {deriveTemplateModel, TemplateModel} from "./template-model";
+import * as path from "path";
 import {write} from "./write";
-import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
 export class ReactComponentGenerator extends YeomanGenerator {
 

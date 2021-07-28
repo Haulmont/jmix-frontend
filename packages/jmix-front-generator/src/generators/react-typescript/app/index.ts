@@ -1,4 +1,3 @@
-import {ComponentOptions} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Answers, getAnswersFromPrompt, allQuestions} from "./answers";
@@ -6,6 +5,7 @@ import {Options, appOptionsConfig} from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
 export class ReactTSAppGenerator extends YeomanGenerator {
 

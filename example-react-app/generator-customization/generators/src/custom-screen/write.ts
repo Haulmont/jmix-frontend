@@ -1,10 +1,6 @@
-import {writeComponentI18nMessages} from "../../../building-blocks/stages/writing/pieces/i18n";
-import {WriteStage} from "../../../building-blocks/pipelines/defaultPipeline";
-import {addMenuItem, addAppMenu} from "../../../building-blocks/stages/writing/pieces/menu";
-import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {Options} from "./options";
-import {TemplateModel} from "./template-model";
-import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
+import {addAppMenu, addComponentPreviews, addMenuItem, writeComponentI18nMessages, WriteStage, YeomanGenerator } from "@haulmont/jmix-front-generator";
+import { Options } from "./options";
+import { TemplateModel } from "./template-model";
 
 export const write: WriteStage<Options, TemplateModel> = async (
     projectModel, templateModel, gen, options

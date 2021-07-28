@@ -1,4 +1,4 @@
-import {ComponentOptions, componentOptionsConfig} from "../../../common/cli-options";
+import {componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {allQuestions, Answers} from "./answers";
@@ -7,6 +7,7 @@ import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { defaultGetAnswersFromPrompt } from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
+import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
 
 export class ReactComponentGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {

@@ -1,9 +1,6 @@
-import {ProjectModel} from "../../../common/model/cuba-model";
-import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
+import {CommonTemplateModel, deriveEntityCommon, ProjectModel, YeomanGenerator} from "@haulmont/jmix-front-generator";
 import {Answers} from "./answers";
 import {Options} from "./options";
-import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import {deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 
 export interface TemplateModel extends CommonTemplateModel {}
 

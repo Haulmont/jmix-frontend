@@ -62,7 +62,8 @@ describe('sdk generator test', () => {
     const gerOptions = {
       model: notExistingModelPath,
       dest: SDK_ALL_DIR,
-      debug: true
+      debug: true,
+      dirShift: '../../'
     }
 
     const Gen = class extends SdkAllGenerator {

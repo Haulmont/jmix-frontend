@@ -1,4 +1,3 @@
-import {CommonGenerationOptions} from "../../../common/cli-options";
-import {DirShiftOption} from "../../../building-blocks/stages/options/pieces/dir-shift";
+import { CommonGenerationOptions, DirShiftOption } from "@haulmont/jmix-front-generator";
 
 export type Options = CommonGenerationOptions & DirShiftOption;
