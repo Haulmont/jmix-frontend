@@ -8,6 +8,7 @@ import { defaultGetAnswersFromPrompt } from "../stages/answers/defaultGetAnswers
 import { defaultDeriveTemplateModel } from "../stages/template-model/defaultDeriveTemplateModel";
 import {StudioTemplateProperty} from "../../common/studio/studio-model";
 import {ProjectModel} from "../../common/model/cuba-model";
+import { defaultWrite } from "../stages/writing/defaultWrite";
 
 export interface DefaultPipelineInput<O extends CommonGenerationOptions, A, M> {
   /**
@@ -17,7 +18,7 @@ export interface DefaultPipelineInput<O extends CommonGenerationOptions, A, M> {
   /**
    * All possible questions that can be asked by this generator.
    */
-  questions: StudioTemplateProperty[],
+  questions?: StudioTemplateProperty[],
   /**
    * Defaults to {@link commonGenerationOptionsConfig}.
    */
@@ -25,7 +26,7 @@ export interface DefaultPipelineInput<O extends CommonGenerationOptions, A, M> {
   /**
    * Can be used to replace default implementations of pipeline stages.
    */
-  stages: DefaultPipelineStages<O, A, M>;
+  stages?: DefaultPipelineStages<O, A, M>;
 }
 
 export type OptionsStage<O extends CommonGenerationOptions> = (optionsConfig: OptionsConfig, gen: YeomanGenerator) => Promise<O>; //TODO probably doesn't need to be async
@@ -43,7 +44,7 @@ export interface DefaultPipelineStages<O extends CommonGenerationOptions, A, M> 
   getAnswersFromOptions?: AnswersFromOptionsStage<O, A>;
   getAnswersFromPrompt?: AnswersFromPromptStage<O, A>;
   deriveTemplateModel?: TemplateModelStage<O, A, M>;
-  write: WriteStage<O, M>
+  write?: WriteStage<O, M>
 }
 
 /**
@@ -71,8 +72,8 @@ export async function defaultPipeline<O extends CommonGenerationOptions, A, M>(
     getAnswersFromOptions = defaultGetAnswersFromOptions,
     getAnswersFromPrompt = defaultGetAnswersFromPrompt,
     deriveTemplateModel = defaultDeriveTemplateModel,
-    write
-  } = input.stages;
+    write = defaultWrite
+  } = input.stages ?? {};
 
   // Setting the generator's destinationRoot (which happens inside configureGenerator) will change the current working directory,
   // therefore we need to save the directory from which the generator command was invoked.

@@ -6,5 +6,5 @@ const clientDir = 'example-react-app';
 rimraf.sync(path.join(clientDir,'package-lock.json'));
 updateClientLibs(
     clientDir,
-    ['rest', 'react-core', 'react-ui', 'react-ide-toolbox']
+    ['rest', 'react-core', 'react-ui', 'react-ide-toolbox', 'front-generator']
 );

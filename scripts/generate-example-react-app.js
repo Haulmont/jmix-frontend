@@ -245,7 +245,7 @@ gen(
         answers: intIdBrowserListConfig
       },
       {
-        command: 'react-identity-typescript:entity-cards',
+        command: 'react-typescript:entity-cards',
         dirShift,
         dest: 'src/app/int-id-cards',
         answers: intIdentityIdCardsConfig

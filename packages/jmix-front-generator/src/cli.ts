@@ -1,31 +1,68 @@
 /* istanbul ignore file */ //todo not sure how to test and cover this
 import {generate, collectClients, GeneratedClientInfo} from "./init";
-import {Command} from 'commander';
+import {Command, Option} from 'commander';
 import {exportList} from "./list";
 import {extractAvailableOptions, pickOptions} from "./common/cli-options";
+import * as path from "path";
 
 export const ownVersion = require('../package').version;
 
-/**
- * @alpha
- */
-export function createAndLaunchCli() {
-  const clients: GeneratedClientInfo[] = collectClients();
-  const program: Command = createCli(ownVersion, clients);
-  launchCli(program);
+interface CustomGeneratorConfig {
+  customizeClient?: string;
+  customGeneratorPaths?: string[];
+  customTemplatePaths?: string[];
+  allowGroups?: string[]
 }
 
-/**
- * @alpha
- */
+export function createAndLaunchCli() {
+  const {program}: {program: Command} = require('commander');
+
+  // Add options that configure which generators to use
+  program
+    .addOption(new Option(
+      '--template-override <pathToCustomTemplate>',
+      'Use provided template with the currently invoked generator.'
+    ))
+    .addOption(new Option(
+      '--customize-client <clientName>',
+      'Selected client will use custom generators and/or stock generators with custom templates.'
+    ))
+    .addOption(new Option(
+      '--custom-generator-paths <paths...>',
+      'Use custom generators from the filesystem.'
+    ))
+    .addOption(new Option(
+      '--custom-template-paths <paths...>',
+      'Use templates from the filesystem to override templates in stock generators.'
+    ))
+    .addOption(new Option(
+      '--allow-groups <groups...>',
+      'Only allow given groups of generators.'
+    ))
+    .allowUnknownOption(true); // Otherwise program.parse below will fail when any other (command-specific) options are provided. We set allowUnknownOption back to false once we know the full list of options.
+
+  const {customizeClient, customGeneratorPaths, customTemplatePaths, allowGroups} = program.parse().opts<CustomGeneratorConfig>();
+
+  const expandRelativePath = (p: string) => path.resolve(p);
+
+  const clients: GeneratedClientInfo[] = collectClients(undefined, {
+    clientToCustomize: customizeClient,
+    customGeneratorPaths: customGeneratorPaths?.map(expandRelativePath),
+    customTemplatePaths: customTemplatePaths?.map(expandRelativePath),
+    allowGroups
+  });
+
+  const cli: Command = createCli(ownVersion, clients, undefined, undefined, program);
+  launchCli(cli);
+}
+
 export function createCli(
   version: string,
   clients: GeneratedClientInfo[],
   customClientNames?: string[],
-  customClientsBaseDir?: string
+  customClientsBaseDir?: string,
+  program: Command = require('commander'),
 ): Command {
-  const program: Command = require('commander');
-
   program.version(version, '-v, --version')
     .usage('[command] [options]');
 
@@ -46,10 +83,10 @@ export function createCli(
         generationCommand.option(pattern, description);
       });
 
-      const baseDir = customClientNames?.includes(client.name) ? customClientsBaseDir : undefined;
+      program.allowUnknownOption(false);
 
       generationCommand.action(function (cmd) {
-        return generate(client.name, generator.name, pickOptions(cmd, generator.options), baseDir);
+        return generate(generator.path, pickOptions(cmd, generator.options), generator.templateOverride);
       })
 
     })
@@ -58,9 +95,6 @@ export function createCli(
   return program;
 }
 
-/**
- * @alpha
- */
 export function launchCli(program: Command) {
   program.parse(process.argv); // invokes provided command
 

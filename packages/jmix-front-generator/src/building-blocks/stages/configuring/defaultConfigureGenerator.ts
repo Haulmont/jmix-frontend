@@ -13,7 +13,8 @@ export const defaultConfigureGenerator = <O extends CommonGenerationOptions>(tem
     gen.destinationRoot(path.isAbsolute(dest) ? dest : path.join(gen.destinationRoot(), dest));
   }
 
-  gen.sourceRoot(templateDir);
+  const {templateOverride} = options;
+  gen.sourceRoot(templateOverride ?? templateDir);
 
   // @ts-ignore this.env.adapter is missing in the typings
   gen.env.adapter

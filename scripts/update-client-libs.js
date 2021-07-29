@@ -4,7 +4,8 @@ const dirNames = {
   rest: 'jmix-rest',
   'react-core': 'jmix-react-core',
   'react-ui': 'jmix-react-ui',
-  'react-ide-toolbox': 'react-ide-toolbox'
+  'react-ide-toolbox': 'react-ide-toolbox',
+  'front-generator': 'jmix-front-generator'
 };
 
 const updateClientLibs = async (clientDir, libs, updateCubaLibsOnly, packagesDir = '../packages') => {

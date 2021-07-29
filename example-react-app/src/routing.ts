@@ -15,6 +15,7 @@ import "./app/int-identity-id-browser-list/IntIdentityIdBrowserList";
 import "./app/int-identity-id-browser-cards/IntIdentityIdBrowserCards";
 import "./app/int-identity-id-browser-table/IntIdentityIdBrowserTable";
 import "./app/int-identity-id-editer/IntIdentityIdEditor";
+import "./app/int-id-cards/IntIdentityIdCards";
 import "./app/int-id-browser-list/IntIdBrowserList";
 import "./app/int-id-browser-cards/IntIdBrowserCards";
 import "./app/int-id-browser-table/IntIdBrowserTable";

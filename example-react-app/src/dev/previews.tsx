@@ -16,6 +16,7 @@ import IntIdentityIdBrowserList from "../app/int-identity-id-browser-list/IntIde
 import IntIdentityIdBrowserCards from "../app/int-identity-id-browser-cards/IntIdentityIdBrowserCards";
 import IntIdentityIdBrowserTable from "../app/int-identity-id-browser-table/IntIdentityIdBrowserTable";
 import IntIdentityIdEditor from "../app/int-identity-id-editer/IntIdentityIdEditor";
+import { IntIdentityIdCards } from "../app/int-id-cards/IntIdentityIdCards";
 import IntIdBrowserList from "../app/int-id-browser-list/IntIdBrowserList";
 import IntIdBrowserCards from "../app/int-id-browser-cards/IntIdBrowserCards";
 import IntIdBrowserTable from "../app/int-id-browser-table/IntIdBrowserTable";
@@ -160,6 +161,9 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/IntIdBrowserList">
         <IntIdBrowserList />
+      </ComponentPreview>
+      <ComponentPreview path="/intIdentityIdCards">
+        <IntIdentityIdCards />
       </ComponentPreview>
       <ComponentPreview path="/IntIdentityIdEditor">
         <IntIdentityIdEditor />

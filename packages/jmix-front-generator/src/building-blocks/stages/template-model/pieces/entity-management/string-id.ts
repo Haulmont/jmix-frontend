@@ -3,7 +3,7 @@ import {isStringIdEntity} from "../../../../../generators/react-typescript/commo
 import {collectAttributesFromHierarchy} from "../../../../../common/model/cuba-model-utils";
 import {EntityWithPath} from "../entity";
 
-export interface StringIdAnswers {
+export interface StringIdAnswersWithEntity {
   entity: EntityWithPath;
   listShowIdAttr?: boolean;
   listIdAttrPos?: number;
@@ -14,7 +14,7 @@ export interface StringIdAnswers {
 // Moved (almost) unchanged from src/common
 
 export function deriveStringIdAnswers<
-  A extends StringIdAnswers,
+  A extends StringIdAnswersWithEntity,
   E extends EntityAttribute[] | undefined,
   R = E extends EntityAttribute[] ? EntityAttribute[] : undefined
   >(
