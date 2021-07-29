@@ -95,8 +95,8 @@ describe('JmixRestConnection', () => {
       };
 
       return app
-        .commitEntity('scr$Car', car)
-        .then(createdEntity => app.loadEntity('scr$Car', createdEntity.id))
+        .commitEntity('scr_Car', car)
+        .then(createdEntity => app.loadEntity('scr_Car', createdEntity.id))
         .then((entity) => {
           assert.strictEqual(entity.model, car.model);
           assert(entity.id != null);
@@ -113,16 +113,16 @@ describe('JmixRestConnection', () => {
         commitMode: 'edit'
       }
 
-      return app.commitEntity('scr$Car', car, fetchOptions)
-        .then(() => app.loadEntity('scr$Car', car.id))
+      return app.commitEntity('scr_Car', car, fetchOptions)
+        .then(() => app.loadEntity('scr_Car', car.id))
         .then((updatedCar) => assert(updatedCar.model === '2122'));
     });
   });
 
   describe('.deleteEntity()', () => {
     it('should delete entity', done => {
-      app.commitEntity('scr$Car', {manufacturer: "VAZ", carType: 'SEDAN'}).then(car => {
-        app.deleteEntity('scr$Car', car.id)
+      app.commitEntity('scr_Car', {manufacturer: "VAZ", carType: 'SEDAN'}).then(car => {
+        app.deleteEntity('scr_Car', car.id)
           .then(() => {
             done();
           })
@@ -140,7 +140,7 @@ describe('JmixRestConnection', () => {
         view: '_instance_name',
         limit: 1,
       };
-      app.loadEntities('scr$Car', options)
+      app.loadEntities('scr_Car', options)
         .then(cars => {
           assert.strictEqual(cars.length, 1);
           assert.ok(!cars[0].hasOwnProperty('price'));
@@ -229,12 +229,12 @@ describe('JmixRestConnection', () => {
   xdescribe('.query()', () => {
 
     it('should load query results', () => app
-      .query('scr$Car', 'allCars')
+      .query('scr_Car', 'allCars')
       .then((cars) => assert(cars.length > 0)));
 
     it('should work with params', () => {
       return app
-        .query('scr$Car', 'carsByType', {carType: 'SEDAN'})
+        .query('scr_Car', 'carsByType', {carType: 'SEDAN'})
         .then(cars => {
           assert(cars.length > 0);
           cars.forEach(c => assert(c.carType === 'SEDAN'))
