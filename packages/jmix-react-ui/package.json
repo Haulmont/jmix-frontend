@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "@ant-design/icons": "^4.0.0",
-    "@apollo/client": "^3.3.15",
+    "@apollo/client": "^3.4.0",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@testing-library/jest-dom": "^5.14.1",
