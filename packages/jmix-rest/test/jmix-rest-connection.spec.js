@@ -225,8 +225,7 @@ describe('JmixRestConnection', () => {
     })
   });
 
-  // todo https://github.com/Haulmont/jmix-frontend/issues/102
-  xdescribe('.query()', () => {
+  describe('.query()', () => {
 
     it('should load query results', () => app
       .query('scr_Car', 'allCars')
@@ -259,32 +258,34 @@ describe('JmixRestConnection', () => {
     })
   });
 
-  xdescribe('.loadEntityView()', () => {
+  describe('.loadEntityView()', () => {
     it('should load particular view', async () => {
-      const view = await app.loadEntityView('sec$User', 'user.browse');
+      const view = await app.loadEntityView('scr_User', '_instance_name');
       assert(typeof view === 'object');
     })
   });
 
-  xdescribe('.setSessionLocale()', () => {
-    it('should set session locale', () => app.setSessionLocale());
-  });
+  // todo need to check that methods above are exist in new backend rest
 
-  xdescribe('.getApiVersion()', () => {
-    it('should get API version', async () => {
-      const version = await app.getApiVersion();
-      assert(version);
-      assert(version.length);
-      assert(version.length > 0);
-    });
-  });
+  // describe('.setSessionLocale()', () => {
+  //   it('should set session locale', () => app.setSessionLocale());
+  // });
 
-  xdescribe('.refreshApiVersion()', () => {
-    it('should refresh API version', async () => {
-      const version = await app.refreshApiVersion();
-      assert.equal(version, app.apiVersion);
-    })
-  });
+  // describe('.getApiVersion()', () => {
+  //   it('should get API version', async () => {
+  //     const version = await app.getApiVersion();
+  //     assert(version);
+  //     assert(version.length);
+  //     assert(version.length > 0);
+  //   });
+  // });
+  //
+  // describe('.refreshApiVersion()', () => {
+  //   it('should refresh API version', async () => {
+  //     const version = await app.refreshApiVersion();
+  //     assert.equal(version, app.apiVersion);
+  //   })
+  // });
 
   describe('.onLocaleChange()', () => {
     it('invokes a callback on locale change', done => {

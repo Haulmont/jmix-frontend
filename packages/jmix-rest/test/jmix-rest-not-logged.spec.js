@@ -3,9 +3,8 @@
 const {initApp} = require('./common');
 global.fetch = require('node-fetch');
 
-xdescribe('Jmix not logged in', function() {
-  describe('.setSessionLocale()', function() {
-    it('should fail if not logged in', function(done) {
+describe('Jmix not logged in', function() {
+    it('.setSessionLocale() should fail if not logged in', function(done) {
       const app = initApp();
       app.setSessionLocale()
         .then(() => {
@@ -14,6 +13,5 @@ xdescribe('Jmix not logged in', function() {
         .catch(() => {
           done();
         })
-    });
   });
 });
