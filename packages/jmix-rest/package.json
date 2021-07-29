@@ -10,7 +10,7 @@
   ],
   "scripts": {
     "lint": "tslint -c tslint.json src/**/*.ts",
-    "test": "jest",
+    "test": "jest --runInBand",
     "coverage": "tsc && npm run test -- --coverage",
     "prepare-browser-test": "browserify test/jmix.test.js > test/jmix-browser.test.js",
     "compile": "tsc",
@@ -24,6 +24,7 @@
     "url": "https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest"
   },
   "devDependencies": {
+    "@haulmont/jmix-server-mock": "^1.0.0",
     "babel-jest": "^25.1.0",
     "browserify": "^16.2.3",
     "jest": "^25.1.0",
