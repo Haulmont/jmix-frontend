@@ -1,19 +1,30 @@
 "use strict";
 
-const {initApp} = require('./common');
+const assert = require("assert");
+const {initApp, mockServer} = require('./common');
 global.fetch = require('node-fetch');
+const {Router} = require('express');
+let backend;
 
-xdescribe('Jmix not logged in', function() {
-  describe('.setSessionLocale()', function() {
-    it('should fail if not logged in', function(done) {
+beforeAll(async () => {
+  await mockServer(Router()
+    .get('/rest/permissions',
+      (req, res) => res.status(401).send("Unauthorized")))
+    .then(result => backend = result);
+});
+
+afterAll(async () => await backend.server.close())
+
+describe('Jmix not logged in', function() {
+    it('.getEffectivePermissions() should fail if not logged in', function(done) {
       const app = initApp();
-      app.setSessionLocale()
+      app.getEffectivePermissions()
         .then(() => {
-          done('did not fail');
+          assert(false);
         })
-        .catch(() => {
+        .catch(e => {
+          assert(e.message === 'Unauthorized')
           done();
         })
-    });
   });
 });
