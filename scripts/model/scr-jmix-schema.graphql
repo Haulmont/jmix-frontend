@@ -3,9 +3,20 @@
 schema {
     query: Query
     mutation: Mutation
+    subscription: Subscription
 }
 
+type CarDto {
+    garage: scr_Garage
+    id: UUID
+    manufacturer: String
+    model: String
+    price: BigDecimal
+}
+
+"Mutation root"
 type Mutation {
+    createProduct(manufacturer: String!, model: String, price: BigDecimal): scr_Product
     delete_scr_AssociationM2MTestEntity(id: String!): Void
     delete_scr_AssociationM2OTestEntity(id: String!): Void
     delete_scr_AssociationO2MTestEntity(id: String!): Void
@@ -19,8 +30,12 @@ type Mutation {
     delete_scr_DatatypesTestEntity(id: String!): Void
     delete_scr_DatatypesTestEntity2(id: String!): Void
     delete_scr_DatatypesTestEntity3(id: String!): Void
+    delete_scr_DeeplyNestedO2MTestEntity(id: String!): Void
     delete_scr_DeeplyNestedTestEntity(id: String!): Void
     delete_scr_FavoriteCar(id: String!): Void
+    delete_scr_FormWizardAssociationO2OTestEntity(id: String!): Void
+    delete_scr_FormWizardCompositionO2OTestEntity(id: String!): Void
+    delete_scr_FormWizardTestEntity(id: String!): Void
     delete_scr_Garage(id: String!): Void
     delete_scr_IntIdentityIdTestEntity(id: String!): Void
     delete_scr_IntegerIdTestEntity(id: String!): Void
@@ -54,8 +69,12 @@ type Mutation {
     upsert_scr_DatatypesTestEntity(datatypesTestEntity: inp_scr_DatatypesTestEntity!): scr_DatatypesTestEntity
     upsert_scr_DatatypesTestEntity2(datatypesTestEntity2: inp_scr_DatatypesTestEntity2!): scr_DatatypesTestEntity2
     upsert_scr_DatatypesTestEntity3(datatypesTestEntity3: inp_scr_DatatypesTestEntity3!): scr_DatatypesTestEntity3
+    upsert_scr_DeeplyNestedO2MTestEntity(deeplyNestedO2MTestEntity: inp_scr_DeeplyNestedO2MTestEntity!): scr_DeeplyNestedO2MTestEntity
     upsert_scr_DeeplyNestedTestEntity(deeplyNestedTestEntity: inp_scr_DeeplyNestedTestEntity!): scr_DeeplyNestedTestEntity
     upsert_scr_FavoriteCar(favoriteCar: inp_scr_FavoriteCar!): scr_FavoriteCar
+    upsert_scr_FormWizardAssociationO2OTestEntity(formWizardAssociationO2OTestEntity: inp_scr_FormWizardAssociationO2OTestEntity!): scr_FormWizardAssociationO2OTestEntity
+    upsert_scr_FormWizardCompositionO2OTestEntity(formWizardCompositionO2OTestEntity: inp_scr_FormWizardCompositionO2OTestEntity!): scr_FormWizardCompositionO2OTestEntity
+    upsert_scr_FormWizardTestEntity(formWizardTestEntity: inp_scr_FormWizardTestEntity!): scr_FormWizardTestEntity
     upsert_scr_Garage(garage: inp_scr_Garage!): scr_Garage
     upsert_scr_IntIdentityIdTestEntity(intIdentityIdTestEntity: inp_scr_IntIdentityIdTestEntity!): scr_IntIdentityIdTestEntity
     upsert_scr_IntegerIdTestEntity(integerIdTestEntity: inp_scr_IntegerIdTestEntity!): scr_IntegerIdTestEntity
@@ -78,12 +97,18 @@ type Mutation {
     upsert_ui_TablePresentation(uiTablePresentation: inp_ui_TablePresentation!): ui_TablePresentation
 }
 
+"Query root"
 type Query {
-    userInfo: userInfo
-    entityMessages: [entityMessages]
+    carDtoList: [CarDto]
+    entityMessages(className: String, locale: String): [gql_MessageDetail]
+    enumMessages(className: String, locale: String): [gql_MessageDetail]
+    orders(order: String = "amount"): [scr_Order]
     permissions: sec_PermissionConfig
     scr_AssociationM2MTestEntityById(id: String!): scr_AssociationM2MTestEntity
-    scr_AssociationM2MTestEntityCount: Long
+    scr_AssociationM2MTestEntityCount(
+        "expressions to compare scr_AssociationM2MTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_AssociationM2MTestEntityFilterCondition]
+    ): Long
     scr_AssociationM2MTestEntityList(
         "expressions to compare scr_AssociationM2MTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_AssociationM2MTestEntityFilterCondition],
@@ -95,7 +120,10 @@ type Query {
         orderBy: inp_scr_AssociationM2MTestEntityOrderBy
     ): [scr_AssociationM2MTestEntity]
     scr_AssociationM2OTestEntityById(id: String!): scr_AssociationM2OTestEntity
-    scr_AssociationM2OTestEntityCount: Long
+    scr_AssociationM2OTestEntityCount(
+        "expressions to compare scr_AssociationM2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_AssociationM2OTestEntityFilterCondition]
+    ): Long
     scr_AssociationM2OTestEntityList(
         "expressions to compare scr_AssociationM2OTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_AssociationM2OTestEntityFilterCondition],
@@ -107,7 +135,10 @@ type Query {
         orderBy: inp_scr_AssociationM2OTestEntityOrderBy
     ): [scr_AssociationM2OTestEntity]
     scr_AssociationO2MTestEntityById(id: String!): scr_AssociationO2MTestEntity
-    scr_AssociationO2MTestEntityCount: Long
+    scr_AssociationO2MTestEntityCount(
+        "expressions to compare scr_AssociationO2MTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_AssociationO2MTestEntityFilterCondition]
+    ): Long
     scr_AssociationO2MTestEntityList(
         "expressions to compare scr_AssociationO2MTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_AssociationO2MTestEntityFilterCondition],
@@ -119,7 +150,10 @@ type Query {
         orderBy: inp_scr_AssociationO2MTestEntityOrderBy
     ): [scr_AssociationO2MTestEntity]
     scr_AssociationO2OTestEntityById(id: String!): scr_AssociationO2OTestEntity
-    scr_AssociationO2OTestEntityCount: Long
+    scr_AssociationO2OTestEntityCount(
+        "expressions to compare scr_AssociationO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_AssociationO2OTestEntityFilterCondition]
+    ): Long
     scr_AssociationO2OTestEntityList(
         "expressions to compare scr_AssociationO2OTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_AssociationO2OTestEntityFilterCondition],
@@ -131,7 +165,10 @@ type Query {
         orderBy: inp_scr_AssociationO2OTestEntityOrderBy
     ): [scr_AssociationO2OTestEntity]
     scr_BoringStringIdTestEntityById(id: String!): scr_BoringStringIdTestEntity
-    scr_BoringStringIdTestEntityCount: Long
+    scr_BoringStringIdTestEntityCount(
+        "expressions to compare scr_BoringStringIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_BoringStringIdTestEntityFilterCondition]
+    ): Long
     scr_BoringStringIdTestEntityList(
         "expressions to compare scr_BoringStringIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_BoringStringIdTestEntityFilterCondition],
@@ -143,7 +180,10 @@ type Query {
         orderBy: inp_scr_BoringStringIdTestEntityOrderBy
     ): [scr_BoringStringIdTestEntity]
     scr_CarById(id: String!): scr_Car
-    scr_CarCount: Long
+    scr_CarCount(
+        "expressions to compare scr_Car objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_CarFilterCondition]
+    ): Long
     scr_CarList(
         "expressions to compare scr_Car objects, all items are combined with logical 'AND'"
         filter: [inp_scr_CarFilterCondition],
@@ -155,7 +195,10 @@ type Query {
         orderBy: inp_scr_CarOrderBy
     ): [scr_Car]
     scr_CarRentById(id: String!): scr_CarRent
-    scr_CarRentCount: Long
+    scr_CarRentCount(
+        "expressions to compare scr_CarRent objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_CarRentFilterCondition]
+    ): Long
     scr_CarRentList(
         "expressions to compare scr_CarRent objects, all items are combined with logical 'AND'"
         filter: [inp_scr_CarRentFilterCondition],
@@ -167,7 +210,10 @@ type Query {
         orderBy: inp_scr_CarRentOrderBy
     ): [scr_CarRent]
     scr_CompositionO2MTestEntityById(id: String!): scr_CompositionO2MTestEntity
-    scr_CompositionO2MTestEntityCount: Long
+    scr_CompositionO2MTestEntityCount(
+        "expressions to compare scr_CompositionO2MTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_CompositionO2MTestEntityFilterCondition]
+    ): Long
     scr_CompositionO2MTestEntityList(
         "expressions to compare scr_CompositionO2MTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_CompositionO2MTestEntityFilterCondition],
@@ -179,7 +225,10 @@ type Query {
         orderBy: inp_scr_CompositionO2MTestEntityOrderBy
     ): [scr_CompositionO2MTestEntity]
     scr_CompositionO2OTestEntityById(id: String!): scr_CompositionO2OTestEntity
-    scr_CompositionO2OTestEntityCount: Long
+    scr_CompositionO2OTestEntityCount(
+        "expressions to compare scr_CompositionO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_CompositionO2OTestEntityFilterCondition]
+    ): Long
     scr_CompositionO2OTestEntityList(
         "expressions to compare scr_CompositionO2OTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_CompositionO2OTestEntityFilterCondition],
@@ -191,7 +240,10 @@ type Query {
         orderBy: inp_scr_CompositionO2OTestEntityOrderBy
     ): [scr_CompositionO2OTestEntity]
     scr_CustomerById(id: String!): scr_Customer
-    scr_CustomerCount: Long
+    scr_CustomerCount(
+        "expressions to compare scr_Customer objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_CustomerFilterCondition]
+    ): Long
     scr_CustomerList(
         "expressions to compare scr_Customer objects, all items are combined with logical 'AND'"
         filter: [inp_scr_CustomerFilterCondition],
@@ -203,7 +255,10 @@ type Query {
         orderBy: inp_scr_CustomerOrderBy
     ): [scr_Customer]
     scr_DatatypesTestEntity2ById(id: String!): scr_DatatypesTestEntity2
-    scr_DatatypesTestEntity2Count: Long
+    scr_DatatypesTestEntity2Count(
+        "expressions to compare scr_DatatypesTestEntity2 objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DatatypesTestEntity2FilterCondition]
+    ): Long
     scr_DatatypesTestEntity2List(
         "expressions to compare scr_DatatypesTestEntity2 objects, all items are combined with logical 'AND'"
         filter: [inp_scr_DatatypesTestEntity2FilterCondition],
@@ -215,7 +270,10 @@ type Query {
         orderBy: inp_scr_DatatypesTestEntity2OrderBy
     ): [scr_DatatypesTestEntity2]
     scr_DatatypesTestEntity3ById(id: String!): scr_DatatypesTestEntity3
-    scr_DatatypesTestEntity3Count: Long
+    scr_DatatypesTestEntity3Count(
+        "expressions to compare scr_DatatypesTestEntity3 objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DatatypesTestEntity3FilterCondition]
+    ): Long
     scr_DatatypesTestEntity3List(
         "expressions to compare scr_DatatypesTestEntity3 objects, all items are combined with logical 'AND'"
         filter: [inp_scr_DatatypesTestEntity3FilterCondition],
@@ -227,7 +285,10 @@ type Query {
         orderBy: inp_scr_DatatypesTestEntity3OrderBy
     ): [scr_DatatypesTestEntity3]
     scr_DatatypesTestEntityById(id: String!): scr_DatatypesTestEntity
-    scr_DatatypesTestEntityCount: Long
+    scr_DatatypesTestEntityCount(
+        "expressions to compare scr_DatatypesTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DatatypesTestEntityFilterCondition]
+    ): Long
     scr_DatatypesTestEntityList(
         "expressions to compare scr_DatatypesTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_DatatypesTestEntityFilterCondition],
@@ -238,8 +299,26 @@ type Query {
         "sort the items by one or more fields"
         orderBy: inp_scr_DatatypesTestEntityOrderBy
     ): [scr_DatatypesTestEntity]
+    scr_DeeplyNestedO2MTestEntityById(id: String!): scr_DeeplyNestedO2MTestEntity
+    scr_DeeplyNestedO2MTestEntityCount(
+        "expressions to compare scr_DeeplyNestedO2MTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition]
+    ): Long
+    scr_DeeplyNestedO2MTestEntityList(
+        "expressions to compare scr_DeeplyNestedO2MTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition],
+        "limit the number of items returned"
+        limit: Int,
+        "skip the first n items"
+        offset: Int,
+        "sort the items by one or more fields"
+        orderBy: inp_scr_DeeplyNestedO2MTestEntityOrderBy
+    ): [scr_DeeplyNestedO2MTestEntity]
     scr_DeeplyNestedTestEntityById(id: String!): scr_DeeplyNestedTestEntity
-    scr_DeeplyNestedTestEntityCount: Long
+    scr_DeeplyNestedTestEntityCount(
+        "expressions to compare scr_DeeplyNestedTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_DeeplyNestedTestEntityFilterCondition]
+    ): Long
     scr_DeeplyNestedTestEntityList(
         "expressions to compare scr_DeeplyNestedTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_DeeplyNestedTestEntityFilterCondition],
@@ -251,7 +330,10 @@ type Query {
         orderBy: inp_scr_DeeplyNestedTestEntityOrderBy
     ): [scr_DeeplyNestedTestEntity]
     scr_FavoriteCarById(id: String!): scr_FavoriteCar
-    scr_FavoriteCarCount: Long
+    scr_FavoriteCarCount(
+        "expressions to compare scr_FavoriteCar objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FavoriteCarFilterCondition]
+    ): Long
     scr_FavoriteCarList(
         "expressions to compare scr_FavoriteCar objects, all items are combined with logical 'AND'"
         filter: [inp_scr_FavoriteCarFilterCondition],
@@ -262,8 +344,56 @@ type Query {
         "sort the items by one or more fields"
         orderBy: inp_scr_FavoriteCarOrderBy
     ): [scr_FavoriteCar]
+    scr_FormWizardAssociationO2OTestEntityById(id: String!): scr_FormWizardAssociationO2OTestEntity
+    scr_FormWizardAssociationO2OTestEntityCount(
+        "expressions to compare scr_FormWizardAssociationO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardAssociationO2OTestEntityFilterCondition]
+    ): Long
+    scr_FormWizardAssociationO2OTestEntityList(
+        "expressions to compare scr_FormWizardAssociationO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardAssociationO2OTestEntityFilterCondition],
+        "limit the number of items returned"
+        limit: Int,
+        "skip the first n items"
+        offset: Int,
+        "sort the items by one or more fields"
+        orderBy: inp_scr_FormWizardAssociationO2OTestEntityOrderBy
+    ): [scr_FormWizardAssociationO2OTestEntity]
+    scr_FormWizardCompositionO2OTestEntityById(id: String!): scr_FormWizardCompositionO2OTestEntity
+    scr_FormWizardCompositionO2OTestEntityCount(
+        "expressions to compare scr_FormWizardCompositionO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardCompositionO2OTestEntityFilterCondition]
+    ): Long
+    scr_FormWizardCompositionO2OTestEntityList(
+        "expressions to compare scr_FormWizardCompositionO2OTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardCompositionO2OTestEntityFilterCondition],
+        "limit the number of items returned"
+        limit: Int,
+        "skip the first n items"
+        offset: Int,
+        "sort the items by one or more fields"
+        orderBy: inp_scr_FormWizardCompositionO2OTestEntityOrderBy
+    ): [scr_FormWizardCompositionO2OTestEntity]
+    scr_FormWizardTestEntityById(id: String!): scr_FormWizardTestEntity
+    scr_FormWizardTestEntityCount(
+        "expressions to compare scr_FormWizardTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardTestEntityFilterCondition]
+    ): Long
+    scr_FormWizardTestEntityList(
+        "expressions to compare scr_FormWizardTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_FormWizardTestEntityFilterCondition],
+        "limit the number of items returned"
+        limit: Int,
+        "skip the first n items"
+        offset: Int,
+        "sort the items by one or more fields"
+        orderBy: inp_scr_FormWizardTestEntityOrderBy
+    ): [scr_FormWizardTestEntity]
     scr_GarageById(id: String!): scr_Garage
-    scr_GarageCount: Long
+    scr_GarageCount(
+        "expressions to compare scr_Garage objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_GarageFilterCondition]
+    ): Long
     scr_GarageList(
         "expressions to compare scr_Garage objects, all items are combined with logical 'AND'"
         filter: [inp_scr_GarageFilterCondition],
@@ -275,7 +405,10 @@ type Query {
         orderBy: inp_scr_GarageOrderBy
     ): [scr_Garage]
     scr_IntIdentityIdTestEntityById(id: String!): scr_IntIdentityIdTestEntity
-    scr_IntIdentityIdTestEntityCount: Long
+    scr_IntIdentityIdTestEntityCount(
+        "expressions to compare scr_IntIdentityIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_IntIdentityIdTestEntityFilterCondition]
+    ): Long
     scr_IntIdentityIdTestEntityList(
         "expressions to compare scr_IntIdentityIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_IntIdentityIdTestEntityFilterCondition],
@@ -287,7 +420,10 @@ type Query {
         orderBy: inp_scr_IntIdentityIdTestEntityOrderBy
     ): [scr_IntIdentityIdTestEntity]
     scr_IntegerIdTestEntityById(id: String!): scr_IntegerIdTestEntity
-    scr_IntegerIdTestEntityCount: Long
+    scr_IntegerIdTestEntityCount(
+        "expressions to compare scr_IntegerIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_IntegerIdTestEntityFilterCondition]
+    ): Long
     scr_IntegerIdTestEntityList(
         "expressions to compare scr_IntegerIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_IntegerIdTestEntityFilterCondition],
@@ -299,9 +435,15 @@ type Query {
         orderBy: inp_scr_IntegerIdTestEntityOrderBy
     ): [scr_IntegerIdTestEntity]
     scr_OrderById(id: String!): scr_Order
-    scr_OrderCount: Long
+    scr_OrderCount(
+        "expressions to compare scr_Order objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_OrderFilterCondition]
+    ): Long
     scr_OrderLineById(id: String!): scr_OrderLine
-    scr_OrderLineCount: Long
+    scr_OrderLineCount(
+        "expressions to compare scr_OrderLine objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_OrderLineFilterCondition]
+    ): Long
     scr_OrderLineList(
         "expressions to compare scr_OrderLine objects, all items are combined with logical 'AND'"
         filter: [inp_scr_OrderLineFilterCondition],
@@ -323,7 +465,10 @@ type Query {
         orderBy: inp_scr_OrderOrderBy
     ): [scr_Order]
     scr_ProductById(id: String!): scr_Product
-    scr_ProductCount: Long
+    scr_ProductCount(
+        "expressions to compare scr_Product objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_ProductFilterCondition]
+    ): Long
     scr_ProductList(
         "expressions to compare scr_Product objects, all items are combined with logical 'AND'"
         filter: [inp_scr_ProductFilterCondition],
@@ -335,7 +480,10 @@ type Query {
         orderBy: inp_scr_ProductOrderBy
     ): [scr_Product]
     scr_SparePartById(id: String!): scr_SparePart
-    scr_SparePartCount: Long
+    scr_SparePartCount(
+        "expressions to compare scr_SparePart objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_SparePartFilterCondition]
+    ): Long
     scr_SparePartList(
         "expressions to compare scr_SparePart objects, all items are combined with logical 'AND'"
         filter: [inp_scr_SparePartFilterCondition],
@@ -347,7 +495,10 @@ type Query {
         orderBy: inp_scr_SparePartOrderBy
     ): [scr_SparePart]
     scr_StringIdTestEntityById(id: String!): scr_StringIdTestEntity
-    scr_StringIdTestEntityCount: Long
+    scr_StringIdTestEntityCount(
+        "expressions to compare scr_StringIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_StringIdTestEntityFilterCondition]
+    ): Long
     scr_StringIdTestEntityList(
         "expressions to compare scr_StringIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_StringIdTestEntityFilterCondition],
@@ -359,7 +510,10 @@ type Query {
         orderBy: inp_scr_StringIdTestEntityOrderBy
     ): [scr_StringIdTestEntity]
     scr_TechnicalCertificateById(id: String!): scr_TechnicalCertificate
-    scr_TechnicalCertificateCount: Long
+    scr_TechnicalCertificateCount(
+        "expressions to compare scr_TechnicalCertificate objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_TechnicalCertificateFilterCondition]
+    ): Long
     scr_TechnicalCertificateList(
         "expressions to compare scr_TechnicalCertificate objects, all items are combined with logical 'AND'"
         filter: [inp_scr_TechnicalCertificateFilterCondition],
@@ -371,7 +525,10 @@ type Query {
         orderBy: inp_scr_TechnicalCertificateOrderBy
     ): [scr_TechnicalCertificate]
     scr_TrickyIdTestEntityById(id: String!): scr_TrickyIdTestEntity
-    scr_TrickyIdTestEntityCount: Long
+    scr_TrickyIdTestEntityCount(
+        "expressions to compare scr_TrickyIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_TrickyIdTestEntityFilterCondition]
+    ): Long
     scr_TrickyIdTestEntityList(
         "expressions to compare scr_TrickyIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_TrickyIdTestEntityFilterCondition],
@@ -383,7 +540,10 @@ type Query {
         orderBy: inp_scr_TrickyIdTestEntityOrderBy
     ): [scr_TrickyIdTestEntity]
     scr_UserById(id: String!): scr_User
-    scr_UserCount: Long
+    scr_UserCount(
+        "expressions to compare scr_User objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_UserFilterCondition]
+    ): Long
     scr_UserList(
         "expressions to compare scr_User objects, all items are combined with logical 'AND'"
         filter: [inp_scr_UserFilterCondition],
@@ -395,7 +555,10 @@ type Query {
         orderBy: inp_scr_UserOrderBy
     ): [scr_User]
     scr_WeirdStringIdTestEntityById(id: String!): scr_WeirdStringIdTestEntity
-    scr_WeirdStringIdTestEntityCount: Long
+    scr_WeirdStringIdTestEntityCount(
+        "expressions to compare scr_WeirdStringIdTestEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_scr_WeirdStringIdTestEntityFilterCondition]
+    ): Long
     scr_WeirdStringIdTestEntityList(
         "expressions to compare scr_WeirdStringIdTestEntity objects, all items are combined with logical 'AND'"
         filter: [inp_scr_WeirdStringIdTestEntityFilterCondition],
@@ -407,7 +570,10 @@ type Query {
         orderBy: inp_scr_WeirdStringIdTestEntityOrderBy
     ): [scr_WeirdStringIdTestEntity]
     sec_ResourcePolicyEntityById(id: String!): sec_ResourcePolicyEntity
-    sec_ResourcePolicyEntityCount: Long
+    sec_ResourcePolicyEntityCount(
+        "expressions to compare sec_ResourcePolicyEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_sec_ResourcePolicyEntityFilterCondition]
+    ): Long
     sec_ResourcePolicyEntityList(
         "expressions to compare sec_ResourcePolicyEntity objects, all items are combined with logical 'AND'"
         filter: [inp_sec_ResourcePolicyEntityFilterCondition],
@@ -419,7 +585,10 @@ type Query {
         orderBy: inp_sec_ResourcePolicyEntityOrderBy
     ): [sec_ResourcePolicyEntity]
     sec_ResourceRoleEntityById(id: String!): sec_ResourceRoleEntity
-    sec_ResourceRoleEntityCount: Long
+    sec_ResourceRoleEntityCount(
+        "expressions to compare sec_ResourceRoleEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_sec_ResourceRoleEntityFilterCondition]
+    ): Long
     sec_ResourceRoleEntityList(
         "expressions to compare sec_ResourceRoleEntity objects, all items are combined with logical 'AND'"
         filter: [inp_sec_ResourceRoleEntityFilterCondition],
@@ -431,7 +600,10 @@ type Query {
         orderBy: inp_sec_ResourceRoleEntityOrderBy
     ): [sec_ResourceRoleEntity]
     sec_RoleAssignmentEntityById(id: String!): sec_RoleAssignmentEntity
-    sec_RoleAssignmentEntityCount: Long
+    sec_RoleAssignmentEntityCount(
+        "expressions to compare sec_RoleAssignmentEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_sec_RoleAssignmentEntityFilterCondition]
+    ): Long
     sec_RoleAssignmentEntityList(
         "expressions to compare sec_RoleAssignmentEntity objects, all items are combined with logical 'AND'"
         filter: [inp_sec_RoleAssignmentEntityFilterCondition],
@@ -443,7 +615,10 @@ type Query {
         orderBy: inp_sec_RoleAssignmentEntityOrderBy
     ): [sec_RoleAssignmentEntity]
     sec_RowLevelPolicyEntityById(id: String!): sec_RowLevelPolicyEntity
-    sec_RowLevelPolicyEntityCount: Long
+    sec_RowLevelPolicyEntityCount(
+        "expressions to compare sec_RowLevelPolicyEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_sec_RowLevelPolicyEntityFilterCondition]
+    ): Long
     sec_RowLevelPolicyEntityList(
         "expressions to compare sec_RowLevelPolicyEntity objects, all items are combined with logical 'AND'"
         filter: [inp_sec_RowLevelPolicyEntityFilterCondition],
@@ -455,7 +630,10 @@ type Query {
         orderBy: inp_sec_RowLevelPolicyEntityOrderBy
     ): [sec_RowLevelPolicyEntity]
     sec_RowLevelRoleEntityById(id: String!): sec_RowLevelRoleEntity
-    sec_RowLevelRoleEntityCount: Long
+    sec_RowLevelRoleEntityCount(
+        "expressions to compare sec_RowLevelRoleEntity objects, all items are combined with logical 'AND'"
+        filter: [inp_sec_RowLevelRoleEntityFilterCondition]
+    ): Long
     sec_RowLevelRoleEntityList(
         "expressions to compare sec_RowLevelRoleEntity objects, all items are combined with logical 'AND'"
         filter: [inp_sec_RowLevelRoleEntityFilterCondition],
@@ -467,7 +645,10 @@ type Query {
         orderBy: inp_sec_RowLevelRoleEntityOrderBy
     ): [sec_RowLevelRoleEntity]
     ui_FilterConfigurationById(id: String!): ui_FilterConfiguration
-    ui_FilterConfigurationCount: Long
+    ui_FilterConfigurationCount(
+        "expressions to compare ui_FilterConfiguration objects, all items are combined with logical 'AND'"
+        filter: [inp_ui_FilterConfigurationFilterCondition]
+    ): Long
     ui_FilterConfigurationList(
         "expressions to compare ui_FilterConfiguration objects, all items are combined with logical 'AND'"
         filter: [inp_ui_FilterConfigurationFilterCondition],
@@ -479,7 +660,10 @@ type Query {
         orderBy: inp_ui_FilterConfigurationOrderBy
     ): [ui_FilterConfiguration]
     ui_SettingById(id: String!): ui_Setting
-    ui_SettingCount: Long
+    ui_SettingCount(
+        "expressions to compare ui_Setting objects, all items are combined with logical 'AND'"
+        filter: [inp_ui_SettingFilterCondition]
+    ): Long
     ui_SettingList(
         "expressions to compare ui_Setting objects, all items are combined with logical 'AND'"
         filter: [inp_ui_SettingFilterCondition],
@@ -491,7 +675,10 @@ type Query {
         orderBy: inp_ui_SettingOrderBy
     ): [ui_Setting]
     ui_TablePresentationById(id: String!): ui_TablePresentation
-    ui_TablePresentationCount: Long
+    ui_TablePresentationCount(
+        "expressions to compare ui_TablePresentation objects, all items are combined with logical 'AND'"
+        filter: [inp_ui_TablePresentationFilterCondition]
+    ): Long
     ui_TablePresentationList(
         "expressions to compare ui_TablePresentation objects, all items are combined with logical 'AND'"
         filter: [inp_ui_TablePresentationFilterCondition],
@@ -502,6 +689,22 @@ type Query {
         "sort the items by one or more fields"
         orderBy: inp_ui_TablePresentationOrderBy
     ): [ui_TablePresentation]
+    userInfo: UserInfo
+}
+
+"Subscription root"
+type Subscription {
+    newCarAdded(manufacturer: String): scr_Car
+}
+
+type UserInfo {
+    locale: String
+    username: String
+}
+
+type gql_MessageDetail {
+    key: String
+    value: String
 }
 
 type scr_AssociationM2MTestEntity {
@@ -534,13 +737,13 @@ type scr_AssociationO2OTestEntity {
 
 type scr_BoringStringIdTestEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     uuid: UUID
     version: Int
@@ -556,7 +759,7 @@ type scr_Car {
     id: UUID
     lastModifiedBy: String
     lastModifiedDate: Date
-    manufactureDate: Date
+    manufactureDate: DateTime
     manufacturer: String
     maxPassengers: Int
     mileage: Float
@@ -570,26 +773,19 @@ type scr_Car {
     wheelOnRight: Boolean
 }
 
-type scr_CarDto {
-    _instanceName: String
-    id: UUID
-    manufacturer: String
-    model: String
-    price: BigDecimal
-}
-
 type scr_CarRent {
     _instanceName: String
     car: scr_Car
     fromDate: Date
-    fromDateTime: Date
-    fromTime: Date
+    fromDateTime: DateTime
+    fromTime: Time
     id: UUID
 }
 
 type scr_CompositionO2MTestEntity {
     _instanceName: String
     datatypesTestEntity: scr_DatatypesTestEntity
+    deeplyNestedO2Mattr: [scr_DeeplyNestedO2MTestEntity]
     id: UUID
     name: String
     quantity: Int
@@ -618,29 +814,30 @@ type scr_DatatypesTestEntity {
     associationO2Oattr: scr_AssociationO2OTestEntity
     bigDecimalAttr: BigDecimal
     booleanAttr: Boolean
+    charAttr: Char
     compositionO2Mattr: [scr_CompositionO2MTestEntity]
     compositionO2Oattr: scr_CompositionO2OTestEntity
     datatypesTestEntity3: scr_DatatypesTestEntity3
     dateAttr: Date
-    dateTimeAttr: Date
+    dateTimeAttr: DateTime
     doubleAttr: Float
     enumAttr: TestEnum
     id: UUID
     intIdentityIdTestEntityAssociationO2OAttr: scr_IntIdentityIdTestEntity
     integerAttr: Int
     integerIdTestEntityAssociationM2MAttr: [scr_IntegerIdTestEntity]
-    localDateAttr: String
+    localDateAttr: LocalDate
     localDateTimeAttr: LocalDateTime
-    localTimeAttr: String
+    localTimeAttr: LocalTime
     longAttr: Long
     name: String
-    offsetDateTimeAttr: String
-    offsetTimeAttr: String
+    offsetDateTimeAttr: OffsetDateTime
+    offsetTimeAttr: OffsetTime
     readOnlyStringAttr: String
     stringAttr: String
     stringIdTestEntityAssociationM2O: scr_StringIdTestEntity
     stringIdTestEntityAssociationO2O: scr_StringIdTestEntity
-    timeAttr: Date
+    timeAttr: Time
     uuidAttr: UUID
 }
 
@@ -665,6 +862,13 @@ type scr_DatatypesTestEntity3 {
     weirdStringIdTestEntityAttr: [scr_WeirdStringIdTestEntity]
 }
 
+type scr_DeeplyNestedO2MTestEntity {
+    _instanceName: String
+    compositionO2MTestEntity: scr_CompositionO2MTestEntity
+    id: UUID
+    name: String
+}
+
 type scr_DeeplyNestedTestEntity {
     _instanceName: String
     associationO2Oattr: scr_AssociationO2OTestEntity
@@ -680,6 +884,30 @@ type scr_FavoriteCar {
     user: scr_User
 }
 
+type scr_FormWizardAssociationO2OTestEntity {
+    _instanceName: String
+    formWizardTestEntity: scr_FormWizardTestEntity
+    id: UUID
+    name: String
+}
+
+type scr_FormWizardCompositionO2OTestEntity {
+    _instanceName: String
+    id: UUID
+    name: String
+}
+
+type scr_FormWizardTestEntity {
+    _instanceName: String
+    associationO2O: scr_FormWizardAssociationO2OTestEntity
+    compositionO2O: scr_FormWizardCompositionO2OTestEntity
+    date: Date
+    id: UUID
+    integer: Int
+    notNull: String
+    time: Time
+}
+
 type scr_Garage {
     _instanceName: String
     address: String
@@ -690,36 +918,36 @@ type scr_Garage {
     name: String
     personnel: [scr_User]
     vanEntry: Boolean
-    workingHoursFrom: String
-    workingHoursTo: String
+    workingHoursFrom: LocalTime
+    workingHoursTo: LocalTime
 }
 
 type scr_IntIdentityIdTestEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity: scr_DatatypesTestEntity
     datatypesTestEntity3: scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: Int
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
 
 type scr_IntegerIdTestEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntities: [scr_DatatypesTestEntity]
     datatypesTestEntity3: scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: Int
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -758,16 +986,16 @@ type scr_SparePart {
 
 type scr_StringIdTestEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity: scr_DatatypesTestEntity
     datatypesTestEntity3: scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     identifier: String
     productCode: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -800,15 +1028,15 @@ type scr_User {
 
 type scr_WeirdStringIdTestEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity3: scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: String
     identifier: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -821,14 +1049,15 @@ type sec_Permission {
 type sec_PermissionConfig {
     entities: [sec_Permission]
     entityAttributes: [sec_Permission]
+    specifics: [sec_Permission]
 }
 
 type sec_ResourcePolicyEntity {
     _instanceName: String
     action: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     effect: String
     id: UUID
@@ -836,7 +1065,7 @@ type sec_ResourcePolicyEntity {
     resource: String
     role: sec_ResourceRoleEntity
     type: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -845,9 +1074,9 @@ type sec_ResourceRoleEntity {
     _instanceName: String
     childRoles: String
     code: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: UUID
@@ -855,21 +1084,21 @@ type sec_ResourceRoleEntity {
     resourcePolicies: [sec_ResourcePolicyEntity]
     scopes: String
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
 
 type sec_RoleAssignmentEntity {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     id: UUID
     roleCode: String
     roleType: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     username: String
     version: Int
@@ -878,9 +1107,9 @@ type sec_RoleAssignmentEntity {
 type sec_RowLevelPolicyEntity {
     _instanceName: String
     action: RowLevelPolicyAction
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     entityName: String
     id: UUID
@@ -888,7 +1117,7 @@ type sec_RowLevelPolicyEntity {
     role: sec_RowLevelRoleEntity
     script: String
     type: RowLevelPolicyType
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
     whereClause: String
@@ -898,16 +1127,16 @@ type sec_RowLevelRoleEntity {
     _instanceName: String
     childRoles: String
     code: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: UUID
     name: String
     rowLevelPolicies: [sec_RowLevelPolicyEntity]
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -927,7 +1156,7 @@ type ui_FilterConfiguration {
 
 type ui_Setting {
     _instanceName: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     id: UUID
     name: String
@@ -939,26 +1168,16 @@ type ui_TablePresentation {
     _instanceName: String
     autoSave: Boolean
     componentId: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     id: UUID
     isDefault: Boolean
     name: String
     settings: String
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     username: String
-}
-
-type userInfo {
-    username: String
-    locale: String
-}
-
-type entityMessages {
-    key: String
-    value: String
 }
 
 enum CarType {
@@ -995,38 +1214,8 @@ enum TestEnum {
     NEW_VALUE2
 }
 
-"BigDecimal"
-scalar BigDecimal
-
-"BigInteger"
-scalar BigInteger
-
-"Byte"
-scalar Byte
-
-"Char"
-scalar Char
-
-"Date"
-scalar Date
-
-"LocalDateTime"
-scalar LocalDateTime
-
-"Long"
-scalar Long
-
-"Short"
-scalar Short
-
-"UUID"
-scalar UUID
-
-"Void"
-scalar Void
-
 "expression to compare columns of type BigDecimal. All fields are combined with logical 'AND'"
-input inp_bigDecimalFilterCondition {
+input inp_BigDecimalFilterCondition {
     "equals"
     _eq: BigDecimal
     "greater than"
@@ -1048,7 +1237,7 @@ input inp_bigDecimalFilterCondition {
 }
 
 "expression to compare columns of type BigInteger. All fields are combined with logical 'AND'"
-input inp_bigIntegerFilterCondition {
+input inp_BigIntegerFilterCondition {
     "equals"
     _eq: BigInteger
     "greater than"
@@ -1070,7 +1259,7 @@ input inp_bigIntegerFilterCondition {
 }
 
 "expression to compare columns of type Boolean. All fields are combined with logical 'AND'"
-input inp_booleanFilterCondition {
+input inp_BooleanFilterCondition {
     "equals"
     _eq: Boolean
     "is null"
@@ -1080,11 +1269,7 @@ input inp_booleanFilterCondition {
 }
 
 "expression to compare columns of type Char. All fields are combined with logical 'AND'"
-input inp_charFilterCondition {
-    "contains substring"
-    _contains: Char
-    "ends with substring"
-    _endsWith: Char
+input inp_CharFilterCondition {
     "equals"
     _eq: Char
     "in list"
@@ -1093,16 +1278,12 @@ input inp_charFilterCondition {
     _isNull: Boolean
     "not equals"
     _neq: Char
-    "not contains substring"
-    _notContains: Char
     "not in list"
     _notIn: [Char]
-    "starts with substring"
-    _startsWith: Char
 }
 
 "expression to compare columns of type Date. All fields are combined with logical 'AND'"
-input inp_dateFilterCondition {
+input inp_DateFilterCondition {
     "equals"
     _eq: Date
     "greater than"
@@ -1123,8 +1304,30 @@ input inp_dateFilterCondition {
     _notIn: [Date]
 }
 
+"expression to compare columns of type DateTime. All fields are combined with logical 'AND'"
+input inp_DateTimeFilterCondition {
+    "equals"
+    _eq: DateTime
+    "greater than"
+    _gt: DateTime
+    "greater than or equals"
+    _gte: DateTime
+    "in list"
+    _in: [DateTime]
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: DateTime
+    "less than or equals"
+    _lte: DateTime
+    "not equals"
+    _neq: DateTime
+    "not in list"
+    _notIn: [DateTime]
+}
+
 "expression to compare columns of type Float. All fields are combined with logical 'AND'"
-input inp_floatFilterCondition {
+input inp_FloatFilterCondition {
     "equals"
     _eq: Float
     "greater than"
@@ -1146,7 +1349,7 @@ input inp_floatFilterCondition {
 }
 
 "expression to compare columns of type Int. All fields are combined with logical 'AND'"
-input inp_intFilterCondition {
+input inp_IntFilterCondition {
     "equals"
     _eq: Int
     "greater than"
@@ -1167,8 +1370,30 @@ input inp_intFilterCondition {
     _notIn: [Int]
 }
 
+"expression to compare columns of type LocalDate. All fields are combined with logical 'AND'"
+input inp_LocalDateFilterCondition {
+    "equals"
+    _eq: LocalDate
+    "greater than"
+    _gt: LocalDate
+    "greater than or equals"
+    _gte: LocalDate
+    "in list"
+    _in: [LocalDate]
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: LocalDate
+    "less than or equals"
+    _lte: LocalDate
+    "not equals"
+    _neq: LocalDate
+    "not in list"
+    _notIn: [LocalDate]
+}
+
 "expression to compare columns of type LocalDateTime. All fields are combined with logical 'AND'"
-input inp_localDateTimeFilterCondition {
+input inp_LocalDateTimeFilterCondition {
     "equals"
     _eq: LocalDateTime
     "greater than"
@@ -1189,8 +1414,26 @@ input inp_localDateTimeFilterCondition {
     _notIn: [LocalDateTime]
 }
 
+"expression to compare columns of type LocalTime. All fields are combined with logical 'AND'"
+input inp_LocalTimeFilterCondition {
+    "equals"
+    _eq: LocalTime
+    "greater than"
+    _gt: LocalTime
+    "greater than or equals"
+    _gte: LocalTime
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: LocalTime
+    "less than or equals"
+    _lte: LocalTime
+    "not equals"
+    _neq: LocalTime
+}
+
 "expression to compare columns of type Long. All fields are combined with logical 'AND'"
-input inp_longFilterCondition {
+input inp_LongFilterCondition {
     "equals"
     _eq: Long
     "greater than"
@@ -1211,6 +1454,122 @@ input inp_longFilterCondition {
     _notIn: [Long]
 }
 
+"expression to compare columns of type OffsetDateTime. All fields are combined with logical 'AND'"
+input inp_OffsetDateTimeFilterCondition {
+    "equals"
+    _eq: OffsetDateTime
+    "greater than"
+    _gt: OffsetDateTime
+    "greater than or equals"
+    _gte: OffsetDateTime
+    "in list"
+    _in: [OffsetDateTime]
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: OffsetDateTime
+    "less than or equals"
+    _lte: OffsetDateTime
+    "not equals"
+    _neq: OffsetDateTime
+    "not in list"
+    _notIn: [OffsetDateTime]
+}
+
+"expression to compare columns of type OffsetTime. All fields are combined with logical 'AND'"
+input inp_OffsetTimeFilterCondition {
+    "equals"
+    _eq: OffsetTime
+    "greater than"
+    _gt: OffsetTime
+    "greater than or equals"
+    _gte: OffsetTime
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: OffsetTime
+    "less than or equals"
+    _lte: OffsetTime
+    "not equals"
+    _neq: OffsetTime
+}
+
+"expression to compare columns of type Short. All fields are combined with logical 'AND'"
+input inp_ShortFilterCondition {
+    "equals"
+    _eq: Short
+    "greater than"
+    _gt: Short
+    "greater than or equals"
+    _gte: Short
+    "in list"
+    _in: [Short]
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: Short
+    "less than or equals"
+    _lte: Short
+    "not equals"
+    _neq: Short
+    "not in list"
+    _notIn: [Short]
+}
+
+"expression to compare columns of type String. All fields are combined with logical 'AND'"
+input inp_StringFilterCondition {
+    "contains substring"
+    _contains: String
+    "ends with substring"
+    _endsWith: String
+    "equals"
+    _eq: String
+    "in list"
+    _in: [String]
+    "is null"
+    _isNull: Boolean
+    "not equals"
+    _neq: String
+    "not contains substring"
+    _notContains: String
+    "not in list"
+    _notIn: [String]
+    "starts with substring"
+    _startsWith: String
+}
+
+"expression to compare columns of type Time. All fields are combined with logical 'AND'"
+input inp_TimeFilterCondition {
+    "equals"
+    _eq: Time
+    "greater than"
+    _gt: Time
+    "greater than or equals"
+    _gte: Time
+    "is null"
+    _isNull: Boolean
+    "less that"
+    _lt: Time
+    "less than or equals"
+    _lte: Time
+    "not equals"
+    _neq: Time
+}
+
+"expression to compare columns of type UUID. All fields are combined with logical 'AND'"
+input inp_UUIDFilterCondition {
+    "equals"
+    _eq: UUID
+    "in list"
+    _in: [UUID]
+    "is null"
+    _isNull: Boolean
+    "not equals"
+    _neq: UUID
+    "not in list"
+    _notIn: [UUID]
+}
+
 input inp_scr_AssociationM2MTestEntity {
     datatypesTestEntities: [inp_scr_DatatypesTestEntity]
     id: UUID
@@ -1222,8 +1581,8 @@ input inp_scr_AssociationM2MTestEntityFilterCondition {
     OR: [inp_scr_AssociationM2MTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_AssociationM2MTestEntityOrderBy {
@@ -1241,8 +1600,8 @@ input inp_scr_AssociationM2OTestEntityFilterCondition {
     OR: [inp_scr_AssociationM2OTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_AssociationM2OTestEntityOrderBy {
@@ -1262,8 +1621,8 @@ input inp_scr_AssociationO2MTestEntityFilterCondition {
     "is null"
     _isNull: Boolean
     datatypesTestEntity: [inp_scr_DatatypesTestEntityFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_AssociationO2MTestEntityOrderBy {
@@ -1286,8 +1645,8 @@ input inp_scr_AssociationO2OTestEntityFilterCondition {
     _isNull: Boolean
     datatypesTestEntity: [inp_scr_DatatypesTestEntityFilterCondition]
     deeplyNestedTestEntity: [inp_scr_DeeplyNestedTestEntityFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_AssociationO2OTestEntityOrderBy {
@@ -1298,13 +1657,13 @@ input inp_scr_AssociationO2OTestEntityOrderBy {
 }
 
 input inp_scr_BoringStringIdTestEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     uuid: UUID
     version: Int
@@ -1315,16 +1674,16 @@ input inp_scr_BoringStringIdTestEntityFilterCondition {
     OR: [inp_scr_BoringStringIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    uuid: [inp_uUIDFilterCondition]
-    version: [inp_intFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    uuid: [inp_UUIDFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_BoringStringIdTestEntityOrderBy {
@@ -1349,7 +1708,7 @@ input inp_scr_Car {
     id: UUID
     lastModifiedBy: String
     lastModifiedDate: Date
-    manufactureDate: Date
+    manufactureDate: DateTime
     manufacturer: String
     maxPassengers: Int
     mileage: Float
@@ -1363,45 +1722,38 @@ input inp_scr_Car {
     wheelOnRight: Boolean
 }
 
-input inp_scr_CarDto {
-    id: UUID
-    manufacturer: String
-    model: String
-    price: BigDecimal
-}
-
 input inp_scr_CarFilterCondition {
     AND: [inp_scr_CarFilterCondition]
     OR: [inp_scr_CarFilterCondition]
     "is null"
     _isNull: Boolean
     carType: [String]
-    createdBy: [inp_stringFilterCondition]
-    createdDate: [inp_dateFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    createdDate: [inp_DateFilterCondition]
     ecoRank: [String]
     garage: [inp_scr_GarageFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    lastModifiedBy: [inp_stringFilterCondition]
-    lastModifiedDate: [inp_dateFilterCondition]
-    manufactureDate: [inp_dateFilterCondition]
-    manufacturer: [inp_stringFilterCondition]
-    maxPassengers: [inp_intFilterCondition]
-    mileage: [inp_floatFilterCondition]
-    model: [inp_stringFilterCondition]
-    photo: [inp_stringFilterCondition]
-    price: [inp_bigDecimalFilterCondition]
-    purchaseDate: [inp_dateFilterCondition]
-    regNumber: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    lastModifiedBy: [inp_StringFilterCondition]
+    lastModifiedDate: [inp_DateFilterCondition]
+    manufactureDate: [inp_DateTimeFilterCondition]
+    manufacturer: [inp_StringFilterCondition]
+    maxPassengers: [inp_IntFilterCondition]
+    mileage: [inp_FloatFilterCondition]
+    model: [inp_StringFilterCondition]
+    photo: [inp_StringFilterCondition]
+    price: [inp_BigDecimalFilterCondition]
+    purchaseDate: [inp_DateFilterCondition]
+    regNumber: [inp_StringFilterCondition]
     technicalCertificate: [inp_scr_TechnicalCertificateFilterCondition]
-    version: [inp_intFilterCondition]
-    wheelOnRight: [inp_booleanFilterCondition]
+    version: [inp_IntFilterCondition]
+    wheelOnRight: [inp_BooleanFilterCondition]
 }
 
 input inp_scr_CarOrderBy {
-    carType: [String]
+    carType: String
     createdBy: SortOrder
     createdDate: SortOrder
-    ecoRank: [String]
+    ecoRank: String
     garage: inp_scr_GarageOrderBy
     id: SortOrder
     lastModifiedBy: SortOrder
@@ -1423,8 +1775,8 @@ input inp_scr_CarOrderBy {
 input inp_scr_CarRent {
     car: inp_scr_Car
     fromDate: Date
-    fromDateTime: Date
-    fromTime: Date
+    fromDateTime: DateTime
+    fromTime: Time
     id: UUID
 }
 
@@ -1434,10 +1786,10 @@ input inp_scr_CarRentFilterCondition {
     "is null"
     _isNull: Boolean
     car: [inp_scr_CarFilterCondition]
-    fromDate: [inp_dateFilterCondition]
-    fromDateTime: [inp_dateFilterCondition]
-    fromTime: [inp_dateFilterCondition]
-    id: [inp_uUIDFilterCondition]
+    fromDate: [inp_DateFilterCondition]
+    fromDateTime: [inp_DateTimeFilterCondition]
+    fromTime: [inp_TimeFilterCondition]
+    id: [inp_UUIDFilterCondition]
 }
 
 input inp_scr_CarRentOrderBy {
@@ -1450,6 +1802,7 @@ input inp_scr_CarRentOrderBy {
 
 input inp_scr_CompositionO2MTestEntity {
     datatypesTestEntity: inp_scr_DatatypesTestEntity
+    deeplyNestedO2Mattr: [inp_scr_DeeplyNestedO2MTestEntity]
     id: UUID
     name: String
     quantity: Int
@@ -1461,9 +1814,9 @@ input inp_scr_CompositionO2MTestEntityFilterCondition {
     "is null"
     _isNull: Boolean
     datatypesTestEntity: [inp_scr_DatatypesTestEntityFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    quantity: [inp_intFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    quantity: [inp_IntFilterCondition]
 }
 
 input inp_scr_CompositionO2MTestEntityOrderBy {
@@ -1485,10 +1838,10 @@ input inp_scr_CompositionO2OTestEntityFilterCondition {
     OR: [inp_scr_CompositionO2OTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
     nestedComposition: [inp_scr_DeeplyNestedTestEntityFilterCondition]
-    quantity: [inp_intFilterCondition]
+    quantity: [inp_IntFilterCondition]
 }
 
 input inp_scr_CompositionO2OTestEntityOrderBy {
@@ -1509,9 +1862,9 @@ input inp_scr_CustomerFilterCondition {
     OR: [inp_scr_CustomerFilterCondition]
     "is null"
     _isNull: Boolean
-    email: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    email: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_CustomerOrderBy {
@@ -1527,29 +1880,30 @@ input inp_scr_DatatypesTestEntity {
     associationO2Oattr: inp_scr_AssociationO2OTestEntity
     bigDecimalAttr: BigDecimal
     booleanAttr: Boolean
+    charAttr: Char
     compositionO2Mattr: [inp_scr_CompositionO2MTestEntity]
     compositionO2Oattr: inp_scr_CompositionO2OTestEntity
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3
     dateAttr: Date
-    dateTimeAttr: Date
+    dateTimeAttr: DateTime
     doubleAttr: Float
     enumAttr: TestEnum
     id: UUID
     intIdentityIdTestEntityAssociationO2OAttr: inp_scr_IntIdentityIdTestEntity
     integerAttr: Int
     integerIdTestEntityAssociationM2MAttr: [inp_scr_IntegerIdTestEntity]
-    localDateAttr: String
+    localDateAttr: LocalDate
     localDateTimeAttr: LocalDateTime
-    localTimeAttr: String
+    localTimeAttr: LocalTime
     longAttr: Long
     name: String
-    offsetDateTimeAttr: String
-    offsetTimeAttr: String
+    offsetDateTimeAttr: OffsetDateTime
+    offsetTimeAttr: OffsetTime
     readOnlyStringAttr: String
     stringAttr: String
     stringIdTestEntityAssociationM2O: inp_scr_StringIdTestEntity
     stringIdTestEntityAssociationO2O: inp_scr_StringIdTestEntity
-    timeAttr: Date
+    timeAttr: Time
     uuidAttr: UUID
 }
 
@@ -1568,7 +1922,7 @@ input inp_scr_DatatypesTestEntity2FilterCondition {
     "is null"
     _isNull: Boolean
     datatypesTestEntityAttr: [inp_scr_DatatypesTestEntityFilterCondition]
-    id: [inp_uUIDFilterCondition]
+    id: [inp_UUIDFilterCondition]
     intIdentityIdTestEntityAttr: [inp_scr_IntIdentityIdTestEntityFilterCondition]
     integerIdTestEntityAttr: [inp_scr_IntegerIdTestEntityFilterCondition]
     stringIdTestEntityAttr: [inp_scr_StringIdTestEntityFilterCondition]
@@ -1599,8 +1953,8 @@ input inp_scr_DatatypesTestEntity3FilterCondition {
     OR: [inp_scr_DatatypesTestEntity3FilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_DatatypesTestEntity3OrderBy {
@@ -1615,30 +1969,31 @@ input inp_scr_DatatypesTestEntityFilterCondition {
     _isNull: Boolean
     associationM2Oattr: [inp_scr_AssociationM2OTestEntityFilterCondition]
     associationO2Oattr: [inp_scr_AssociationO2OTestEntityFilterCondition]
-    bigDecimalAttr: [inp_bigDecimalFilterCondition]
-    booleanAttr: [inp_booleanFilterCondition]
+    bigDecimalAttr: [inp_BigDecimalFilterCondition]
+    booleanAttr: [inp_BooleanFilterCondition]
+    charAttr: [inp_CharFilterCondition]
     compositionO2Oattr: [inp_scr_CompositionO2OTestEntityFilterCondition]
     datatypesTestEntity3: [inp_scr_DatatypesTestEntity3FilterCondition]
-    dateAttr: [inp_dateFilterCondition]
-    dateTimeAttr: [inp_dateFilterCondition]
-    doubleAttr: [inp_floatFilterCondition]
+    dateAttr: [inp_DateFilterCondition]
+    dateTimeAttr: [inp_DateTimeFilterCondition]
+    doubleAttr: [inp_FloatFilterCondition]
     enumAttr: [String]
-    id: [inp_uUIDFilterCondition]
+    id: [inp_UUIDFilterCondition]
     intIdentityIdTestEntityAssociationO2OAttr: [inp_scr_IntIdentityIdTestEntityFilterCondition]
-    integerAttr: [inp_intFilterCondition]
-    localDateAttr: [inp_stringFilterCondition]
-    localDateTimeAttr: [inp_localDateTimeFilterCondition]
-    localTimeAttr: [inp_stringFilterCondition]
-    longAttr: [inp_longFilterCondition]
-    name: [inp_stringFilterCondition]
-    offsetDateTimeAttr: [inp_stringFilterCondition]
-    offsetTimeAttr: [inp_stringFilterCondition]
-    readOnlyStringAttr: [inp_stringFilterCondition]
-    stringAttr: [inp_stringFilterCondition]
+    integerAttr: [inp_IntFilterCondition]
+    localDateAttr: [inp_LocalDateFilterCondition]
+    localDateTimeAttr: [inp_LocalDateTimeFilterCondition]
+    localTimeAttr: [inp_LocalTimeFilterCondition]
+    longAttr: [inp_LongFilterCondition]
+    name: [inp_StringFilterCondition]
+    offsetDateTimeAttr: [inp_OffsetDateTimeFilterCondition]
+    offsetTimeAttr: [inp_OffsetTimeFilterCondition]
+    readOnlyStringAttr: [inp_StringFilterCondition]
+    stringAttr: [inp_StringFilterCondition]
     stringIdTestEntityAssociationM2O: [inp_scr_StringIdTestEntityFilterCondition]
     stringIdTestEntityAssociationO2O: [inp_scr_StringIdTestEntityFilterCondition]
-    timeAttr: [inp_dateFilterCondition]
-    uuidAttr: [inp_uUIDFilterCondition]
+    timeAttr: [inp_TimeFilterCondition]
+    uuidAttr: [inp_UUIDFilterCondition]
 }
 
 input inp_scr_DatatypesTestEntityOrderBy {
@@ -1646,12 +2001,13 @@ input inp_scr_DatatypesTestEntityOrderBy {
     associationO2Oattr: inp_scr_AssociationO2OTestEntityOrderBy
     bigDecimalAttr: SortOrder
     booleanAttr: SortOrder
+    charAttr: SortOrder
     compositionO2Oattr: inp_scr_CompositionO2OTestEntityOrderBy
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3OrderBy
     dateAttr: SortOrder
     dateTimeAttr: SortOrder
     doubleAttr: SortOrder
-    enumAttr: [String]
+    enumAttr: String
     id: SortOrder
     intIdentityIdTestEntityAssociationO2OAttr: inp_scr_IntIdentityIdTestEntityOrderBy
     integerAttr: SortOrder
@@ -1670,6 +2026,28 @@ input inp_scr_DatatypesTestEntityOrderBy {
     uuidAttr: SortOrder
 }
 
+input inp_scr_DeeplyNestedO2MTestEntity {
+    compositionO2MTestEntity: inp_scr_CompositionO2MTestEntity
+    id: UUID
+    name: String
+}
+
+input inp_scr_DeeplyNestedO2MTestEntityFilterCondition {
+    AND: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition]
+    OR: [inp_scr_DeeplyNestedO2MTestEntityFilterCondition]
+    "is null"
+    _isNull: Boolean
+    compositionO2MTestEntity: [inp_scr_CompositionO2MTestEntityFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+}
+
+input inp_scr_DeeplyNestedO2MTestEntityOrderBy {
+    compositionO2MTestEntity: inp_scr_CompositionO2MTestEntityOrderBy
+    id: SortOrder
+    name: SortOrder
+}
+
 input inp_scr_DeeplyNestedTestEntity {
     associationO2Oattr: inp_scr_AssociationO2OTestEntity
     id: UUID
@@ -1682,8 +2060,8 @@ input inp_scr_DeeplyNestedTestEntityFilterCondition {
     "is null"
     _isNull: Boolean
     associationO2Oattr: [inp_scr_AssociationO2OTestEntityFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
 }
 
 input inp_scr_DeeplyNestedTestEntityOrderBy {
@@ -1705,8 +2083,8 @@ input inp_scr_FavoriteCarFilterCondition {
     "is null"
     _isNull: Boolean
     car: [inp_scr_CarFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    notes: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    notes: [inp_StringFilterCondition]
     user: [inp_scr_UserFilterCondition]
 }
 
@@ -1715,6 +2093,81 @@ input inp_scr_FavoriteCarOrderBy {
     id: SortOrder
     notes: SortOrder
     user: inp_scr_UserOrderBy
+}
+
+input inp_scr_FormWizardAssociationO2OTestEntity {
+    formWizardTestEntity: inp_scr_FormWizardTestEntity
+    id: UUID
+    name: String
+}
+
+input inp_scr_FormWizardAssociationO2OTestEntityFilterCondition {
+    AND: [inp_scr_FormWizardAssociationO2OTestEntityFilterCondition]
+    OR: [inp_scr_FormWizardAssociationO2OTestEntityFilterCondition]
+    "is null"
+    _isNull: Boolean
+    formWizardTestEntity: [inp_scr_FormWizardTestEntityFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+}
+
+input inp_scr_FormWizardAssociationO2OTestEntityOrderBy {
+    formWizardTestEntity: inp_scr_FormWizardTestEntityOrderBy
+    id: SortOrder
+    name: SortOrder
+}
+
+input inp_scr_FormWizardCompositionO2OTestEntity {
+    id: UUID
+    name: String
+}
+
+input inp_scr_FormWizardCompositionO2OTestEntityFilterCondition {
+    AND: [inp_scr_FormWizardCompositionO2OTestEntityFilterCondition]
+    OR: [inp_scr_FormWizardCompositionO2OTestEntityFilterCondition]
+    "is null"
+    _isNull: Boolean
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+}
+
+input inp_scr_FormWizardCompositionO2OTestEntityOrderBy {
+    id: SortOrder
+    name: SortOrder
+}
+
+input inp_scr_FormWizardTestEntity {
+    associationO2O: inp_scr_FormWizardAssociationO2OTestEntity
+    compositionO2O: inp_scr_FormWizardCompositionO2OTestEntity
+    date: Date
+    id: UUID
+    integer: Int
+    notNull: String
+    time: Time
+}
+
+input inp_scr_FormWizardTestEntityFilterCondition {
+    AND: [inp_scr_FormWizardTestEntityFilterCondition]
+    OR: [inp_scr_FormWizardTestEntityFilterCondition]
+    "is null"
+    _isNull: Boolean
+    associationO2O: [inp_scr_FormWizardAssociationO2OTestEntityFilterCondition]
+    compositionO2O: [inp_scr_FormWizardCompositionO2OTestEntityFilterCondition]
+    date: [inp_DateFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    integer: [inp_IntFilterCondition]
+    notNull: [inp_StringFilterCondition]
+    time: [inp_TimeFilterCondition]
+}
+
+input inp_scr_FormWizardTestEntityOrderBy {
+    associationO2O: inp_scr_FormWizardAssociationO2OTestEntityOrderBy
+    compositionO2O: inp_scr_FormWizardCompositionO2OTestEntityOrderBy
+    date: SortOrder
+    id: SortOrder
+    integer: SortOrder
+    notNull: SortOrder
+    time: SortOrder
 }
 
 input inp_scr_Garage {
@@ -1726,8 +2179,8 @@ input inp_scr_Garage {
     name: String
     personnel: [inp_scr_User]
     vanEntry: Boolean
-    workingHoursFrom: String
-    workingHoursTo: String
+    workingHoursFrom: LocalTime
+    workingHoursTo: LocalTime
 }
 
 input inp_scr_GarageFilterCondition {
@@ -1735,13 +2188,13 @@ input inp_scr_GarageFilterCondition {
     OR: [inp_scr_GarageFilterCondition]
     "is null"
     _isNull: Boolean
-    address: [inp_stringFilterCondition]
-    capacity: [inp_intFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    vanEntry: [inp_booleanFilterCondition]
-    workingHoursFrom: [inp_stringFilterCondition]
-    workingHoursTo: [inp_stringFilterCondition]
+    address: [inp_StringFilterCondition]
+    capacity: [inp_IntFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    vanEntry: [inp_BooleanFilterCondition]
+    workingHoursFrom: [inp_LocalTimeFilterCondition]
+    workingHoursTo: [inp_LocalTimeFilterCondition]
 }
 
 input inp_scr_GarageOrderBy {
@@ -1755,15 +2208,15 @@ input inp_scr_GarageOrderBy {
 }
 
 input inp_scr_IntIdentityIdTestEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity: inp_scr_DatatypesTestEntity
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: Int
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -1773,17 +2226,17 @@ input inp_scr_IntIdentityIdTestEntityFilterCondition {
     OR: [inp_scr_IntIdentityIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
     datatypesTestEntity: [inp_scr_DatatypesTestEntityFilterCondition]
     datatypesTestEntity3: [inp_scr_DatatypesTestEntity3FilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_intFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_IntFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_IntIdentityIdTestEntityOrderBy {
@@ -1801,15 +2254,15 @@ input inp_scr_IntIdentityIdTestEntityOrderBy {
 }
 
 input inp_scr_IntegerIdTestEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntities: [inp_scr_DatatypesTestEntity]
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: Int
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -1819,16 +2272,16 @@ input inp_scr_IntegerIdTestEntityFilterCondition {
     OR: [inp_scr_IntegerIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
     datatypesTestEntity3: [inp_scr_DatatypesTestEntity3FilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_intFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_IntFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_IntegerIdTestEntityOrderBy {
@@ -1857,10 +2310,10 @@ input inp_scr_OrderFilterCondition {
     OR: [inp_scr_OrderFilterCondition]
     "is null"
     _isNull: Boolean
-    amount: [inp_bigDecimalFilterCondition]
+    amount: [inp_BigDecimalFilterCondition]
     customer: [inp_scr_CustomerFilterCondition]
-    date: [inp_localDateTimeFilterCondition]
-    id: [inp_uUIDFilterCondition]
+    date: [inp_LocalDateTimeFilterCondition]
+    id: [inp_UUIDFilterCondition]
 }
 
 input inp_scr_OrderLine {
@@ -1875,10 +2328,10 @@ input inp_scr_OrderLineFilterCondition {
     OR: [inp_scr_OrderLineFilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
+    id: [inp_UUIDFilterCondition]
     order: [inp_scr_OrderFilterCondition]
     product: [inp_scr_ProductFilterCondition]
-    quantity: [inp_intFilterCondition]
+    quantity: [inp_IntFilterCondition]
 }
 
 input inp_scr_OrderLineOrderBy {
@@ -1908,9 +2361,9 @@ input inp_scr_ProductFilterCondition {
     "is null"
     _isNull: Boolean
     car: [inp_scr_CarFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    price: [inp_bigDecimalFilterCondition]
-    special: [inp_booleanFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    price: [inp_BigDecimalFilterCondition]
+    special: [inp_BooleanFilterCondition]
 }
 
 input inp_scr_ProductOrderBy {
@@ -1931,8 +2384,8 @@ input inp_scr_SparePartFilterCondition {
     OR: [inp_scr_SparePartFilterCondition]
     "is null"
     _isNull: Boolean
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
     spareParts: [inp_scr_SparePartFilterCondition]
 }
 
@@ -1943,16 +2396,16 @@ input inp_scr_SparePartOrderBy {
 }
 
 input inp_scr_StringIdTestEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity: inp_scr_DatatypesTestEntity
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     identifier: String
     productCode: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -1962,18 +2415,18 @@ input inp_scr_StringIdTestEntityFilterCondition {
     OR: [inp_scr_StringIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
     datatypesTestEntity: [inp_scr_DatatypesTestEntityFilterCondition]
     datatypesTestEntity3: [inp_scr_DatatypesTestEntity3FilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    identifier: [inp_stringFilterCondition]
-    productCode: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    identifier: [inp_StringFilterCondition]
+    productCode: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_StringIdTestEntityOrderBy {
@@ -2003,8 +2456,8 @@ input inp_scr_TechnicalCertificateFilterCondition {
     "is null"
     _isNull: Boolean
     car: [inp_scr_CarFilterCondition]
-    certNumber: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
+    certNumber: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
 }
 
 input inp_scr_TechnicalCertificateOrderBy {
@@ -2023,8 +2476,8 @@ input inp_scr_TrickyIdTestEntityFilterCondition {
     OR: [inp_scr_TrickyIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    otherAttr: [inp_stringFilterCondition]
-    trickyId: [inp_longFilterCondition]
+    otherAttr: [inp_StringFilterCondition]
+    trickyId: [inp_LongFilterCondition]
 }
 
 input inp_scr_TrickyIdTestEntityOrderBy {
@@ -2049,15 +2502,15 @@ input inp_scr_UserFilterCondition {
     OR: [inp_scr_UserFilterCondition]
     "is null"
     _isNull: Boolean
-    email: [inp_stringFilterCondition]
-    enabled: [inp_booleanFilterCondition]
-    firstName: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    lastName: [inp_stringFilterCondition]
-    password: [inp_stringFilterCondition]
-    phone: [inp_stringFilterCondition]
-    username: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    email: [inp_StringFilterCondition]
+    enabled: [inp_BooleanFilterCondition]
+    firstName: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    lastName: [inp_StringFilterCondition]
+    password: [inp_StringFilterCondition]
+    phone: [inp_StringFilterCondition]
+    username: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_UserOrderBy {
@@ -2073,15 +2526,15 @@ input inp_scr_UserOrderBy {
 }
 
 input inp_scr_WeirdStringIdTestEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     datatypesTestEntity3: inp_scr_DatatypesTestEntity3
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: String
     identifier: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -2091,17 +2544,17 @@ input inp_scr_WeirdStringIdTestEntityFilterCondition {
     OR: [inp_scr_WeirdStringIdTestEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
     datatypesTestEntity3: [inp_scr_DatatypesTestEntity3FilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_stringFilterCondition]
-    identifier: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_StringFilterCondition]
+    identifier: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_scr_WeirdStringIdTestEntityOrderBy {
@@ -2120,9 +2573,9 @@ input inp_scr_WeirdStringIdTestEntityOrderBy {
 
 input inp_sec_ResourcePolicyEntity {
     action: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     effect: String
     id: UUID
@@ -2130,7 +2583,7 @@ input inp_sec_ResourcePolicyEntity {
     resource: String
     role: inp_sec_ResourceRoleEntity
     type: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -2140,20 +2593,20 @@ input inp_sec_ResourcePolicyEntityFilterCondition {
     OR: [inp_sec_ResourcePolicyEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    action: [inp_stringFilterCondition]
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    effect: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    policyGroup: [inp_stringFilterCondition]
-    resource: [inp_stringFilterCondition]
+    action: [inp_StringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    effect: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    policyGroup: [inp_StringFilterCondition]
+    resource: [inp_StringFilterCondition]
     role: [inp_sec_ResourceRoleEntityFilterCondition]
-    type: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    type: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_sec_ResourcePolicyEntityOrderBy {
@@ -2176,9 +2629,9 @@ input inp_sec_ResourcePolicyEntityOrderBy {
 input inp_sec_ResourceRoleEntity {
     childRoles: String
     code: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: UUID
@@ -2186,7 +2639,7 @@ input inp_sec_ResourceRoleEntity {
     resourcePolicies: [inp_sec_ResourcePolicyEntity]
     scopes: String
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -2196,20 +2649,20 @@ input inp_sec_ResourceRoleEntityFilterCondition {
     OR: [inp_sec_ResourceRoleEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    childRoles: [inp_stringFilterCondition]
-    code: [inp_stringFilterCondition]
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    scopes: [inp_stringFilterCondition]
-    sysTenantId: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    childRoles: [inp_StringFilterCondition]
+    code: [inp_StringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    scopes: [inp_StringFilterCondition]
+    sysTenantId: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_sec_ResourceRoleEntityOrderBy {
@@ -2230,14 +2683,14 @@ input inp_sec_ResourceRoleEntityOrderBy {
 }
 
 input inp_sec_RoleAssignmentEntity {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     id: UUID
     roleCode: String
     roleType: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     username: String
     version: Int
@@ -2248,17 +2701,17 @@ input inp_sec_RoleAssignmentEntityFilterCondition {
     OR: [inp_sec_RoleAssignmentEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    roleCode: [inp_stringFilterCondition]
-    roleType: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    username: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    roleCode: [inp_StringFilterCondition]
+    roleType: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    username: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_sec_RoleAssignmentEntityOrderBy {
@@ -2277,9 +2730,9 @@ input inp_sec_RoleAssignmentEntityOrderBy {
 
 input inp_sec_RowLevelPolicyEntity {
     action: RowLevelPolicyAction
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     entityName: String
     id: UUID
@@ -2287,7 +2740,7 @@ input inp_sec_RowLevelPolicyEntity {
     role: inp_sec_RowLevelRoleEntity
     script: String
     type: RowLevelPolicyType
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
     whereClause: String
@@ -2299,24 +2752,24 @@ input inp_sec_RowLevelPolicyEntityFilterCondition {
     "is null"
     _isNull: Boolean
     action: [String]
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    entityName: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    joinClause: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    entityName: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    joinClause: [inp_StringFilterCondition]
     role: [inp_sec_RowLevelRoleEntityFilterCondition]
-    script: [inp_stringFilterCondition]
+    script: [inp_StringFilterCondition]
     type: [String]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
-    whereClause: [inp_stringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
+    whereClause: [inp_StringFilterCondition]
 }
 
 input inp_sec_RowLevelPolicyEntityOrderBy {
-    action: [String]
+    action: String
     createTs: SortOrder
     createdBy: SortOrder
     deleteTs: SortOrder
@@ -2326,7 +2779,7 @@ input inp_sec_RowLevelPolicyEntityOrderBy {
     joinClause: SortOrder
     role: inp_sec_RowLevelRoleEntityOrderBy
     script: SortOrder
-    type: [String]
+    type: String
     updateTs: SortOrder
     updatedBy: SortOrder
     version: SortOrder
@@ -2336,16 +2789,16 @@ input inp_sec_RowLevelPolicyEntityOrderBy {
 input inp_sec_RowLevelRoleEntity {
     childRoles: String
     code: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
-    deleteTs: Date
+    deleteTs: DateTime
     deletedBy: String
     description: String
     id: UUID
     name: String
     rowLevelPolicies: [inp_sec_RowLevelPolicyEntity]
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     version: Int
 }
@@ -2355,19 +2808,19 @@ input inp_sec_RowLevelRoleEntityFilterCondition {
     OR: [inp_sec_RowLevelRoleEntityFilterCondition]
     "is null"
     _isNull: Boolean
-    childRoles: [inp_stringFilterCondition]
-    code: [inp_stringFilterCondition]
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    deleteTs: [inp_dateFilterCondition]
-    deletedBy: [inp_stringFilterCondition]
-    description: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    sysTenantId: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    version: [inp_intFilterCondition]
+    childRoles: [inp_StringFilterCondition]
+    code: [inp_StringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    deleteTs: [inp_DateTimeFilterCondition]
+    deletedBy: [inp_StringFilterCondition]
+    description: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    sysTenantId: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    version: [inp_IntFilterCondition]
 }
 
 input inp_sec_RowLevelRoleEntityOrderBy {
@@ -2384,64 +2837,6 @@ input inp_sec_RowLevelRoleEntityOrderBy {
     updateTs: SortOrder
     updatedBy: SortOrder
     version: SortOrder
-}
-
-"expression to compare columns of type Short. All fields are combined with logical 'AND'"
-input inp_shortFilterCondition {
-    "equals"
-    _eq: Short
-    "greater than"
-    _gt: Short
-    "greater than or equals"
-    _gte: Short
-    "in list"
-    _in: [Short]
-    "is null"
-    _isNull: Boolean
-    "less that"
-    _lt: Short
-    "less than or equals"
-    _lte: Short
-    "not equals"
-    _neq: Short
-    "not in list"
-    _notIn: [Short]
-}
-
-"expression to compare columns of type String. All fields are combined with logical 'AND'"
-input inp_stringFilterCondition {
-    "contains substring"
-    _contains: String
-    "ends with substring"
-    _endsWith: String
-    "equals"
-    _eq: String
-    "in list"
-    _in: [String]
-    "is null"
-    _isNull: Boolean
-    "not equals"
-    _neq: String
-    "not contains substring"
-    _notContains: String
-    "not in list"
-    _notIn: [String]
-    "starts with substring"
-    _startsWith: String
-}
-
-"expression to compare columns of type UUID. All fields are combined with logical 'AND'"
-input inp_uUIDFilterCondition {
-    "equals"
-    _eq: UUID
-    "in list"
-    _in: [UUID]
-    "is null"
-    _isNull: Boolean
-    "not equals"
-    _neq: UUID
-    "not in list"
-    _notIn: [UUID]
 }
 
 input inp_ui_FilterConfiguration {
@@ -2461,15 +2856,15 @@ input inp_ui_FilterConfigurationFilterCondition {
     OR: [inp_ui_FilterConfigurationFilterCondition]
     "is null"
     _isNull: Boolean
-    componentId: [inp_stringFilterCondition]
-    configurationId: [inp_stringFilterCondition]
-    defaultForAll: [inp_booleanFilterCondition]
-    defaultForMe: [inp_booleanFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    rootCondition: [inp_stringFilterCondition]
-    sysTenantId: [inp_stringFilterCondition]
-    username: [inp_stringFilterCondition]
+    componentId: [inp_StringFilterCondition]
+    configurationId: [inp_StringFilterCondition]
+    defaultForAll: [inp_BooleanFilterCondition]
+    defaultForMe: [inp_BooleanFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    rootCondition: [inp_StringFilterCondition]
+    sysTenantId: [inp_StringFilterCondition]
+    username: [inp_StringFilterCondition]
 }
 
 input inp_ui_FilterConfigurationOrderBy {
@@ -2484,7 +2879,7 @@ input inp_ui_FilterConfigurationOrderBy {
 }
 
 input inp_ui_Setting {
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     id: UUID
     name: String
@@ -2497,12 +2892,12 @@ input inp_ui_SettingFilterCondition {
     OR: [inp_ui_SettingFilterCondition]
     "is null"
     _isNull: Boolean
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    name: [inp_stringFilterCondition]
-    username: [inp_stringFilterCondition]
-    value: [inp_stringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    name: [inp_StringFilterCondition]
+    username: [inp_StringFilterCondition]
+    value: [inp_StringFilterCondition]
 }
 
 input inp_ui_SettingOrderBy {
@@ -2517,14 +2912,14 @@ input inp_ui_SettingOrderBy {
 input inp_ui_TablePresentation {
     autoSave: Boolean
     componentId: String
-    createTs: Date
+    createTs: DateTime
     createdBy: String
     id: UUID
     isDefault: Boolean
     name: String
     settings: String
     sysTenantId: String
-    updateTs: Date
+    updateTs: DateTime
     updatedBy: String
     username: String
 }
@@ -2534,18 +2929,18 @@ input inp_ui_TablePresentationFilterCondition {
     OR: [inp_ui_TablePresentationFilterCondition]
     "is null"
     _isNull: Boolean
-    autoSave: [inp_booleanFilterCondition]
-    componentId: [inp_stringFilterCondition]
-    createTs: [inp_dateFilterCondition]
-    createdBy: [inp_stringFilterCondition]
-    id: [inp_uUIDFilterCondition]
-    isDefault: [inp_booleanFilterCondition]
-    name: [inp_stringFilterCondition]
-    settings: [inp_stringFilterCondition]
-    sysTenantId: [inp_stringFilterCondition]
-    updateTs: [inp_dateFilterCondition]
-    updatedBy: [inp_stringFilterCondition]
-    username: [inp_stringFilterCondition]
+    autoSave: [inp_BooleanFilterCondition]
+    componentId: [inp_StringFilterCondition]
+    createTs: [inp_DateTimeFilterCondition]
+    createdBy: [inp_StringFilterCondition]
+    id: [inp_UUIDFilterCondition]
+    isDefault: [inp_BooleanFilterCondition]
+    name: [inp_StringFilterCondition]
+    settings: [inp_StringFilterCondition]
+    sysTenantId: [inp_StringFilterCondition]
+    updateTs: [inp_DateTimeFilterCondition]
+    updatedBy: [inp_StringFilterCondition]
+    username: [inp_StringFilterCondition]
 }
 
 input inp_ui_TablePresentationOrderBy {
@@ -2562,3 +2957,51 @@ input inp_ui_TablePresentationOrderBy {
     updatedBy: SortOrder
     username: SortOrder
 }
+
+
+scalar BigDecimal
+
+"Built-in java.math.BigInteger"
+scalar BigInteger
+
+"Built-in Byte as Int"
+scalar Byte
+
+"Built-in Char as Character"
+scalar Char
+
+"Date type"
+scalar Date
+
+"Date type with time"
+scalar DateTime
+
+"Date type"
+scalar LocalDate
+
+"Date type"
+scalar LocalDateTime
+
+"Date type"
+scalar LocalTime
+
+scalar Long
+
+"Date type"
+scalar OffsetDateTime
+
+"Date type"
+scalar OffsetTime
+
+"Built-in Short as Int"
+scalar Short
+
+"Time type"
+scalar Time
+
+"Use SPQR's SchemaPrinter to remove this from SDL"
+scalar UNREPRESENTABLE
+
+scalar UUID
+
+scalar Void
