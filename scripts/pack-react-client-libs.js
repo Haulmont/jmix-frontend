@@ -9,6 +9,7 @@ packClientLibs(
         '@haulmont/react-ide-toolbox'
     ],
     [
+        '@haulmont/jmix-front-generator',
         '@haulmont/jmix-rest',
         '@haulmont/jmix-react-core',
         '@haulmont/jmix-react-ui',

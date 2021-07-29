@@ -1,10 +1,11 @@
-import {ComponentOptions, CommonGenerationOptions, commonGenerationOptionsConfig} from "../../../common/cli-options";
+import {CommonGenerationOptions, commonGenerationOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Answers, getAnswersFromPrompt, allQuestions} from "./answers";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import { ComponentOptions } from "src/building-blocks/stages/options/pieces/component";
 
 export class SdkAllGenerator extends YeomanGenerator {
 

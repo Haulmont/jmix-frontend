@@ -1,4 +1,4 @@
-import {ComponentOptions, componentOptionsConfig} from "../../../common/cli-options";
+import {componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
 import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
@@ -6,6 +6,8 @@ import { Options } from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import { ComponentOptions } from "../../../building-blocks/stages/options/pieces/component";
+import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class EntityCardsGenerator extends YeomanGenerator {
 
@@ -33,5 +35,6 @@ export {
   componentOptionsConfig as options,
   allQuestions as params,
   description,
-  icon
+  icon,
+  DEFAULT_GROUP as group
 }

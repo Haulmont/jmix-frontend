@@ -134,8 +134,6 @@ export interface RestServiceMethod {
   params: RestParam[];
 }
 
-export const FILE_DESCRIPTOR_FQN = 'com.haulmont.cuba.core.entity.FileDescriptor';
-
 export function getEntitiesArray(entities: Entity[] | { [entityName: string]: Entity } | undefined): Entity[] {
   if (!entities) {
     return [];

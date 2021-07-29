@@ -175,7 +175,13 @@ export const AppMenu = (props: AppMenuProps) => {
         screenId={"IntIdBrowserList"}
         icon={<BarsOutlined />}
         caption={"screen.IntIdBrowserList"}
-        key={"93090744-1a2f-4c49-ae2e-1ff4383876f7"}
+        key={"e071d691-c0a3-4ec2-a667-1d4db96209b2"}
+      />
+      <MenuItem
+        screenId={"IntIdentityIdCards"}
+        icon={<BarsOutlined />}
+        caption={"screen.IntIdentityIdCards"}
+        key={"e5bcf7ac-2f09-45a7-adf8-f5af5714da3e"}
       />
       <MenuItem
         screenId={"IntIdentityIdBrowserTable"}

@@ -2,10 +2,10 @@ import { expect } from "chai";
 import {stringIdAnswersToModel, getEntityFromAnswers, stringIdPrompts} from '../../../../../generators/react-typescript/common/base-entity-screen-generator';
 import {MappingType, Entity} from '../../../../../common/model/cuba-model';
 import {StudioTemplateProperty, StudioTemplatePropertyType} from '../../../../../common/studio/studio-model';
-import {ComponentOptions} from '../../../../../common/cli-options';
 import { expectRejectedPromise } from "../../../../common/test-utils";
 import sinon = require("sinon");
 import {BaseGenerator} from '../../../../../common/base-generator';
+import {ComponentOptions} from "../../../../../building-blocks/stages/options/pieces/component";
 
 const projectModel = require('../../../../fixtures/project-model--scr.json');
 const projectModelNoIdAttr = require('../../../../fixtures/project-model--scr-no-id-attr.json');
@@ -146,7 +146,7 @@ describe('BaseEntityScreenGenerator', () => {
   let gen: TestEntityScreenGenerator;
 
   beforeEach(() => {
-    gen = new TestEntityScreenGenerator([], {});
+    gen = new TestEntityScreenGenerator([], {dirShift: '../../'});
   });
 
   it('getEntityFromAnswers() - no entity name', async () => {

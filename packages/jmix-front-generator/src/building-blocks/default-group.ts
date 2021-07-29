@@ -1,0 +1,1 @@
+export const DEFAULT_GROUP = 'com.haulmont/antd';

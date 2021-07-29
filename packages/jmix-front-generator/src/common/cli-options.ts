@@ -45,6 +45,7 @@ export interface CommonGenerationOptions {
   model?: string;
   answers?: string;
   verbose?: boolean;
+  templateOverride?: string;
 }
 
 /**
@@ -69,15 +70,6 @@ export const commonGenerationOptionsConfig: OptionsConfig = {
 };
 
 export interface PolymerElementOptions extends CommonGenerationOptions {
-  dirShift?: string;
-}
-
-/**
- * Same as PolymerElementOptions but with a neutral name. To be used in non-Polymer generators.
- *
- * @deprecated use ComponentOptions from building-blocks
- */
-export interface ComponentOptions extends CommonGenerationOptions {
   dirShift?: string;
 }
 
