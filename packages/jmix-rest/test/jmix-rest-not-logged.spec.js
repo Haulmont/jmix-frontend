@@ -11,7 +11,8 @@ describe('Jmix not logged in', function() {
         .then(() => {
           assert(false);
         })
-        .catch(() => {
+        .catch(e => {
+          assert(e.message === 'Unauthorized')
           done();
         })
   });
