@@ -117,7 +117,7 @@ export const Field = observer((props: FieldProps) => {
 
 });
 
-function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
+export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
     label: <Msg entityName={entityName} propertyName={propertyName}/>
