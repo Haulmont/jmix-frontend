@@ -7,7 +7,7 @@ import {IMultiScreenItem} from "@haulmont/jmix-react-core";
 export function usePaginationChangeCallback<TEntity>(
   entityListState: EntityListState<TEntity>,
   routingPath: string,
-  currentScreen: IMultiScreenItem
+  currentScreen: IMultiScreenItem | null
 ) {
   return useCallback(
     action((current?: number, pageSize?: number) => {
@@ -17,17 +17,20 @@ export function usePaginationChangeCallback<TEntity>(
       };
       saveHistory(routingPath, entityListState.pagination);
 
-      if (currentScreen.params === undefined) {
-        currentScreen.params = {}
-      }
+      if(currentScreen != null) {
 
-      if (current && pageSize) {
-        currentScreen.params.pagination = {
-          pageSize,
-          page: current,
+        if (currentScreen.params === undefined) {
+          currentScreen.params = {}
         }
-      } else  {
-        currentScreen.params = undefined;
+  
+        if (current && pageSize) {
+          currentScreen.params.pagination = {
+            pageSize,
+            page: current,
+          }
+        } else  {
+          currentScreen.params = undefined;
+        }
       }
 
     }),
