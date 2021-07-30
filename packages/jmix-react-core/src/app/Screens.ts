@@ -147,10 +147,10 @@ export class Screens {
   });
 
   getUrl(): string {
-    const pagination = this.currentScreen.params?.pagination;
-    const entityId = this.currentScreen.params?.entityId;
+    const pagination = this.currentScreen?.params?.pagination;
+    const entityId = this.currentScreen?.params?.entityId;
 
-    let url = this.currentRootPageData.menuPath;
+    let url = this.currentRootPageData?.menuPath;
 
     if (pagination) {
       url = (this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
