@@ -16,8 +16,6 @@ import {gql} from '@apollo/client';
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= routingPath %>';
 
-const COLUMN_NAMES = <%- include(includesPath('RenderValue'), {data: attributes.map(attr => attr.name)}) %>;
-
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
     <%= dollarsToUnderscores(entity.name) %>Count(filter: $filter)
@@ -117,7 +115,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       error={error}
       enableFiltersOnColumns={entityList != null ? [] : undefined}
       enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={COLUMN_NAMES}
+      columnDefinitions={<%- include(includesPath('RenderValue'), {data: attributes.map(attr => attr.name)}) %>}
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
