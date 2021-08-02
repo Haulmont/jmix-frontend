@@ -16,22 +16,6 @@ import { gql } from "@apollo/client";
 const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carMasterDetail";
 
-const COLUMN_NAMES = [
-  "manufacturer",
-  "model",
-  "regNumber",
-  "purchaseDate",
-  "manufactureDate",
-  "wheelOnRight",
-  "carType",
-  "ecoRank",
-  "maxPassengers",
-  "price",
-  "mileage",
-  "garage",
-  "technicalCertificate"
-];
-
 const SCR_CAR_LIST = gql`
   query scr_CarList(
     $limit: Int
@@ -181,7 +165,21 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
       error={error}
       enableFiltersOnColumns={entityList != null ? [] : undefined}
       enableSortingOnColumns={entityList != null ? [] : undefined}
-      columnDefinitions={COLUMN_NAMES}
+      columnDefinitions={[
+        "manufacturer",
+        "model",
+        "regNumber",
+        "purchaseDate",
+        "manufactureDate",
+        "wheelOnRight",
+        "carType",
+        "ecoRank",
+        "maxPassengers",
+        "price",
+        "mileage",
+        "garage",
+        "technicalCertificate"
+      ]}
       onRowSelectionChange={handleSelectionChange}
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
