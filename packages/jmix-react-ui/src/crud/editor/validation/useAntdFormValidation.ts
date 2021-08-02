@@ -38,7 +38,7 @@ export function useAntdFormValidation(form: FormInstance, errorInfo?: JmixServer
 function addChildEntityError(fieldsPartial: FieldData[], path: string, intl: IntlShape) {
   const childErrorMessage = intl.formatMessage({id: 'jmix.form.validation.childError'});
 
-  const fieldName = path.split('.')[0];
+  const fieldName = path.split(/\.|\[/)[0];
 
   if (!fieldsPartial.some(f => f.name === fieldName)) {
     fieldsPartial.push({
