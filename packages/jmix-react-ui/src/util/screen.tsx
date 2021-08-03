@@ -1,4 +1,4 @@
-import {EntityInstance, MayHaveId, redirect, Screens, ScreensContext} from "@haulmont/jmix-react-core";
+import {EntityInstance, MayHaveId, redirect, Screens, ScreensContext, tabs, useCurrentTab} from "@haulmont/jmix-react-core";
 import {useCallback, useContext} from "react";
 import {MultiScreenContext} from "../ui/MultiScreen";
 import { IntlShape } from "react-intl";
@@ -150,11 +150,16 @@ export function openEntityListScreen(
 export const useParentScreen = (routingPath: string): (() => void) => {
   const screens = useContext(ScreensContext);
   const multiScreen = useContext(MultiScreenContext);
+  const currentTab = useCurrentTab();
 
   return useCallback(() => {
     if (screens.currentScreenIndex === 1) {
       redirect(routingPath);
     }
-    screens.setActiveScreen(multiScreen.parent!, true);
+    if (multiScreen.parent) {
+      screens.setActiveScreen(multiScreen.parent, true);
+    } else {
+      tabs.close(currentTab);
+    }
   }, [screens, routingPath, multiScreen]);
 };

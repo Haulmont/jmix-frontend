@@ -6,7 +6,7 @@ import {menuItems, openScreen} from '../../screen-registration/screen-registrati
 import { CloseOutlined } from '@ant-design/icons';
 import './styles.less';
 import {FormattedMessage} from 'react-intl';
-import {isDevModeEnabled} from "@haulmont/jmix-react-core";
+import {isDevModeEnabled, CurrentTabContext} from "@haulmont/jmix-react-core";
 
 const {TabPane} = Tabs;
 
@@ -41,7 +41,9 @@ export const MultiTabs = observer(() => {
           }
           key={item.key}
         >
-          <Content item={item} />
+          <CurrentTabContext.Provider value={item}>
+            <Content item={item} />
+          </CurrentTabContext.Provider>
         </TabPane>
       ))}
     </Tabs>
