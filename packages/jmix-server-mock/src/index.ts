@@ -25,6 +25,7 @@ export async function createServer(schemaPath, mockRest = true) {
   await apolloServer.start();
 
   apolloServer.applyMiddleware({app: expressApp});
+  expressApp.use(express.urlencoded({extended: false}), express.json())
   expressApp.use(oauthRouter)
   if (mockRest) {
     expressApp.use(restRouter)
