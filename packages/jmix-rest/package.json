@@ -4,6 +4,10 @@
   "description": "JavaScript library for working with Jmix REST API",
   "main": "dist-node/jmix.js",
   "typings": "dist-node/jmix.d.ts",
+  "files": [
+    "dist-browser/",
+    "dist-node/"
+  ],
   "scripts": {
     "lint": "tslint -c tslint.json src/**/*.ts",
     "test": "jest",
