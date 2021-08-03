@@ -17,33 +17,41 @@ describe('interactive CLI question helpers', () => {
     expect(question.choices).to.exist;
     expect(question.choices).to.be.an('Array');
 
-    const expectedEntityNames = ["MpgUserInfo", "mpg$SparePart", "mpg$Car", "mpg$FavoriteCar", "mpg$TechnicalCertificate",
-      "mpg$Garage", "mpg$CarRent"];
+    const expectedEntityNames = [
+      "scr_Car",
+      "scr_CarDto",
+      "scr_CarRent",
+      "scr_FavoriteCar",
+      "scr_Garage",
+      "ScrUserInfo",
+      "scr_SparePart",
+      "scr_TechnicalCertificate",
+      "scr_User",
+      "scr_Customer",
+      "scr_Order",
+      "scr_OrderLine",
+      "scr_Product",
+      "scr_AssociationM2MTestEntity",
+      "scr_AssociationM2OTestEntity",
+      "scr_AssociationO2MTestEntity",
+      "scr_AssociationO2OTestEntity",
+      "scr_BoringStringIdTestEntity",
+      "scr_CompositionO2MTestEntity",
+      "scr_CompositionO2OTestEntity",
+      "scr_DatatypesTestEntity",
+      "scr_DatatypesTestEntity2",
+      "scr_DatatypesTestEntity3",
+      "scr_DeeplyNestedO2MTestEntity",
+      "scr_DeeplyNestedTestEntity",
+      "scr_IntIdentityIdTestEntity",
+      "scr_IntegerIdTestEntity",
+      "scr_StringIdTestEntity",
+      "scr_WeirdStringIdTestEntity",
+      "scr_TrickyIdTestEntity",
+      "scr_Order_1",
+    ];
     const actualEntityNames = (question.choices! as ObjectChoice[]).map((choice: ObjectChoice) => choice.name);
     expect(actualEntityNames).to.deep.equal(expectedEntityNames);
   });
 
-  it('correctly creates choices for a View', () => {
-    const prop = {
-      code: 'test',
-      caption: 'test',
-      propertyType: StudioTemplatePropertyType.VIEW,
-    };
-
-    const previousAnswers = {
-      entity: {
-        name: 'mpg$FavoriteCar'
-      }
-    };
-
-    // @ts-ignore TODO VP Replace enums with string union types in ProjectModel https://github.com/cuba-platform/front-generator/issues/46
-    const question = fromStudioProperty(prop, projectModel);
-
-    expect(question.choices).to.exist;
-    expect(question.choices).to.be.a('Function');
-
-    const expectedViewNames = ["_minimal", "_local", "_base", "favoriteCar-view", "favoriteCar-edit"];
-    const actualViewNames = (question.choices as Function)(previousAnswers).map((choice: ObjectChoice) => choice.name);
-    expect(actualViewNames).to.deep.equal(expectedViewNames);
-  });
 });

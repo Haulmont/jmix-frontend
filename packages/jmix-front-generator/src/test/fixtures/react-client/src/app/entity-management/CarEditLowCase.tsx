@@ -1,426 +1,265 @@
-import React from "react";
-import { Form, Alert, Button, Card, message } from "antd";
-import { FormInstance } from "antd/es/form";
+import React, { useContext } from "react";
+import { Form, Alert, Button, Card } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
-import { CarManagementLowCase } from "./CarManagementLowCase";
-import { Link, Redirect } from "react-router-dom";
+import { toJS } from "mobx";
+import { FormattedMessage } from "react-intl";
 import {
-  IReactionDisposer,
-  observable,
-  action,
-  reaction,
-  toJS,
-  makeObservable
-} from "mobx";
-import {
-  FormattedMessage,
-  injectIntl,
-  WrappedComponentProps
-} from "react-intl";
-import {
-  defaultHandleFinish,
-  createAntdFormValidationMessages
+  createAntdFormValidationMessages,
+  createUseAntdForm,
+  createUseAntdFormValidation,
+  RetryDialog,
+  Field,
+  GlobalErrorsAlert,
+  Spinner,
+  useEntityEditor,
+  EntityEditorProps,
+  registerEntityEditor
 } from "@haulmont/jmix-react-ui";
+import { gql } from "@apollo/client";
+import { Car } from "jmix/entities/scr_Car";
 
-import {
-  loadAssociationOptions,
-  DataCollectionStore,
-  instance,
-  MainStoreInjected,
-  injectMainStore
-} from "@haulmont/jmix-react-core";
+const ENTITY_NAME = "scr_Car";
+const ROUTING_PATH = "/carEditLowCase";
 
-import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
+const LOAD_SCR_CAR = gql`
+  query scr_CarById($id: String = "", $loadItem: Boolean!) {
+    scr_CarById(id: $id) @include(if: $loadItem) {
+      id
+      _instanceName
+      manufacturer
+      model
+      regNumber
+      purchaseDate
+      manufactureDate
+      wheelOnRight
+      carType
+      ecoRank
+      maxPassengers
+      price
+      mileage
+      garage {
+        id
+        _instanceName
+      }
+      technicalCertificate {
+        id
+        _instanceName
+      }
 
-import "app/App.css";
+      version
+      createdBy
+      createdDate
+      lastModifiedBy
+      lastModifiedDate
+    }
 
-import { Car } from "jmix/entities/mpg$Car";
-import { Garage } from "jmix/entities/mpg$Garage";
-import { TechnicalCertificate } from "jmix/entities/mpg$TechnicalCertificate";
-import { FileDescriptor } from "jmix/entities/base/sys$FileDescriptor";
+    scr_GarageList {
+      id
+      _instanceName
+    }
 
-type Props = EditorProps & MainStoreInjected;
+    scr_TechnicalCertificateList {
+      id
+      _instanceName
+    }
+  }
+`;
 
-type EditorProps = {
-  entityId: string;
-};
+const UPSERT_SCR_CAR = gql`
+  mutation Upsert_scr_Car($car: inp_scr_Car!) {
+    upsert_scr_Car(car: $car) {
+      id
+    }
+  }
+`;
 
-class CarEditLowCaseComponent extends React.Component<
-  Props & WrappedComponentProps
-> {
-  dataInstance = instance<Car>(Car.NAME, {
-    view: "car-edit",
-    loadImmediately: false
+const CarEditLowCase = observer((props: EntityEditorProps<Car>) => {
+  const {
+    onCommit,
+    entityInstance,
+    submitBtnCaption = "common.submit"
+  } = props;
+
+  const [form] = useForm();
+
+  const {
+    relationOptions,
+    executeLoadQuery,
+    loadQueryResult: { loading: queryLoading, error: queryError },
+    upsertMutationResult: { loading: upsertLoading },
+    serverValidationErrors,
+    intl,
+    handleSubmit,
+    handleSubmitFailed,
+    handleCancelBtnClick
+  } = useEntityEditor<Car>({
+    loadQuery: LOAD_SCR_CAR,
+    upsertMutation: UPSERT_SCR_CAR,
+    entityName: ENTITY_NAME,
+    routingPath: ROUTING_PATH,
+    onCommit,
+    entityInstance,
+    useEntityEditorForm: createUseAntdForm(form),
+    useEntityEditorFormValidation: createUseAntdFormValidation(form)
   });
 
-  garagesDc: DataCollectionStore<Garage> | null = null;
-
-  technicalCertificatesDc: DataCollectionStore<
-    TechnicalCertificate
-  > | null = null;
-
-  photosDc: DataCollectionStore<FileDescriptor> | null = null;
-
-  updated = false;
-  formRef: React.MutableRefObject<FormInstance | null> = { current: null };
-  reactionDisposers: IReactionDisposer[] = [];
-
-  fields = [
-    "manufacturer",
-    "model",
-    "regNumber",
-    "purchaseDate",
-    "manufactureDate",
-    "wheelOnRight",
-    "carType",
-    "ecoRank",
-    "maxPassengers",
-    "price",
-    "mileage",
-    "garage",
-    "technicalCertificate",
-    "photo"
-  ];
-
-  globalErrors: string[] = [];
-
-  /**
-   * This method should be called after the user permissions has been loaded
-   */
-  loadAssociationOptions = () => {
-    // MainStore should exist at this point
-    if (this.props.mainStore != null) {
-      const { getAttributePermission } = this.props.mainStore.security;
-
-      this.garagesDc =
-        loadAssociationOptions(
-          Car.NAME,
-          "garage",
-          Garage.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.technicalCertificatesDc =
-        loadAssociationOptions(
-          Car.NAME,
-          "technicalCertificate",
-          TechnicalCertificate.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-
-      this.photosDc =
-        loadAssociationOptions(
-          Car.NAME,
-          "photo",
-          FileDescriptor.NAME,
-          getAttributePermission,
-          { view: "_minimal" }
-        ) ?? null;
-    }
-  };
-
-  handleFinishFailed = () => {
-    const { intl } = this.props;
-    message.error(
-      intl.formatMessage({ id: "management.editor.validationError" })
-    );
-  };
-
-  handleFinish = (values: { [field: string]: any }) => {
-    const { intl } = this.props;
-
-    if (this.formRef.current != null) {
-      defaultHandleFinish(
-        values,
-        this.dataInstance,
-        intl,
-        this.formRef.current,
-        this.isNewEntity() ? "create" : "edit"
-      ).then(
-        action(({ success, globalErrors }) => {
-          if (success) {
-            this.updated = true;
-          } else {
-            this.globalErrors = globalErrors;
-          }
-        })
-      );
-    }
-  };
-
-  isNewEntity = () => {
-    return this.props.entityId === CarManagementLowCase.NEW_SUBPATH;
-  };
-
-  constructor(props: Props & WrappedComponentProps) {
-    super(props);
-
-    makeObservable(this, {
-      garagesDc: observable,
-
-      technicalCertificatesDc: observable,
-
-      photosDc: observable,
-
-      updated: observable,
-      formRef: observable,
-      globalErrors: observable,
-
-      loadAssociationOptions: action
-    });
+  if (queryLoading) {
+    return <Spinner />;
   }
 
-  render() {
-    if (this.updated) {
-      return <Redirect to={CarManagementLowCase.PATH} />;
-    }
+  if (queryError != null) {
+    console.error(queryError);
+    return <RetryDialog onRetry={executeLoadQuery} />;
+  }
 
-    const { status, lastError, load } = this.dataInstance;
-    const { mainStore, entityId, intl } = this.props;
-    if (mainStore == null || !mainStore.isEntityDataLoaded()) {
-      return <Spinner />;
-    }
+  return (
+    <Card className="narrow-layout">
+      <Form
+        onFinish={handleSubmit}
+        onFinishFailed={handleSubmitFailed}
+        layout="vertical"
+        form={form}
+        validateMessages={createAntdFormValidationMessages(intl)}
+      >
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="manufacturer"
+          formItemProps={{
+            style: { marginBottom: "12px" },
+            rules: [{ required: true }]
+          }}
+        />
 
-    // do not stop on "COMMIT_ERROR" - it could be bean validation, so we should show fields with errors
-    if (status === "ERROR" && lastError === "LOAD_ERROR") {
-      return (
-        <>
-          <FormattedMessage id="common.requestFailed" />.
-          <br />
-          <br />
-          <Button htmlType="button" onClick={() => load(entityId)}>
-            <FormattedMessage id="common.retry" />
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="model"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="regNumber"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="purchaseDate"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="manufactureDate"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="wheelOnRight"
+          formItemProps={{
+            style: { marginBottom: "12px" },
+            valuePropName: "checked"
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="carType"
+          formItemProps={{
+            style: { marginBottom: "12px" },
+            rules: [{ required: true }]
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="ecoRank"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="maxPassengers"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="price"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="mileage"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="garage"
+          associationOptions={relationOptions?.get("scr_Garage")}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <Field
+          entityName={ENTITY_NAME}
+          propertyName="technicalCertificate"
+          associationOptions={relationOptions?.get("scr_TechnicalCertificate")}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
+
+        <Form.Item style={{ textAlign: "center" }}>
+          <Button htmlType="button" onClick={handleCancelBtnClick}>
+            <FormattedMessage id="common.cancel" />
           </Button>
-        </>
-      );
-    }
+          <Button
+            type="primary"
+            htmlType="submit"
+            loading={upsertLoading}
+            style={{ marginLeft: "8px" }}
+          >
+            <FormattedMessage id={submitBtnCaption} />
+          </Button>
+        </Form.Item>
+      </Form>
+    </Card>
+  );
+});
 
-    return (
-      <Card className="narrow-layout">
-        <Form
-          onFinish={this.handleFinish}
-          onFinishFailed={this.handleFinishFailed}
-          layout="vertical"
-          ref={action(
-            (ref: FormInstance | null) => (this.formRef.current = ref)
-          )}
-          validateMessages={createAntdFormValidationMessages(intl)}
-        >
-          <Field
-            entityName={Car.NAME}
-            propertyName="manufacturer"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              rules: [{ required: true }]
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="model"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="regNumber"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="purchaseDate"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="manufactureDate"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="wheelOnRight"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              valuePropName: "checked"
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="carType"
-            formItemProps={{
-              style: { marginBottom: "12px" },
-              rules: [{ required: true }]
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="ecoRank"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="maxPassengers"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="price"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="mileage"
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="garage"
-            optionsContainer={this.garagesDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="technicalCertificate"
-            optionsContainer={this.technicalCertificatesDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          <Field
-            entityName={Car.NAME}
-            propertyName="photo"
-            optionsContainer={this.photosDc ?? undefined}
-            formItemProps={{
-              style: { marginBottom: "12px" }
-            }}
-          />
-
-          {this.globalErrors.length > 0 && (
-            <Alert
-              message={<MultilineText lines={toJS(this.globalErrors)} />}
-              type="error"
-              style={{ marginBottom: "24px" }}
-            />
-          )}
-
-          <Form.Item style={{ textAlign: "center" }}>
-            <Link to={CarManagementLowCase.PATH}>
-              <Button htmlType="button">
-                <FormattedMessage id="common.cancel" />
-              </Button>
-            </Link>
-            <Button
-              type="primary"
-              htmlType="submit"
-              disabled={status !== "DONE" && status !== "ERROR"}
-              loading={status === "LOADING"}
-              style={{ marginLeft: "8px" }}
-            >
-              <FormattedMessage id="common.submit" />
-            </Button>
-          </Form.Item>
-        </Form>
-      </Card>
-    );
+registerEntityEditor({
+  component: CarEditLowCase,
+  caption: "screen.CarEditLowCase",
+  screenId: "CarEditLowCase",
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
   }
+});
 
-  componentDidMount() {
-    if (this.isNewEntity()) {
-      this.dataInstance.setItem(new Car());
-    } else {
-      this.dataInstance.load(this.props.entityId);
-    }
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.dataInstance.status,
-        () => {
-          const { intl } = this.props;
-          if (
-            this.dataInstance.lastError != null &&
-            this.dataInstance.lastError !== "COMMIT_ERROR"
-          ) {
-            message.error(intl.formatMessage({ id: "common.requestFailed" }));
-          }
-        }
-      )
-    );
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.props.mainStore?.security.isDataLoaded,
-        (isDataLoaded, _prevIsDataLoaded, permsReaction) => {
-          if (isDataLoaded === true) {
-            // User permissions has been loaded.
-            // We can now load association options.
-            this.loadAssociationOptions(); // Calls REST API
-            permsReaction.dispose();
-          }
-        },
-        { fireImmediately: true }
-      )
-    );
-
-    this.reactionDisposers.push(
-      reaction(
-        () => this.formRef.current,
-        (formRefCurrent, _prevFormRefCurrent, formRefReaction) => {
-          if (formRefCurrent != null) {
-            // The Form has been successfully created.
-            // It is now safe to set values on Form fields.
-            this.reactionDisposers.push(
-              reaction(
-                () => this.dataInstance.item,
-                () => {
-                  formRefCurrent.setFieldsValue(
-                    this.dataInstance.getFieldValues(this.fields)
-                  );
-                },
-                { fireImmediately: true }
-              )
-            );
-            formRefReaction.dispose();
-          }
-        },
-        { fireImmediately: true }
-      )
-    );
-  }
-
-  componentWillUnmount() {
-    this.reactionDisposers.forEach(dispose => dispose());
-  }
-}
-
-export default injectIntl(injectMainStore(observer(CarEditLowCaseComponent)));
+export default CarEditLowCase;

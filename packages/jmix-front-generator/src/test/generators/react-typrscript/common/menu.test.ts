@@ -1,6 +1,7 @@
 import {getNewMenuItem, updateAppMenuContent} from "../../../../generators/react-typescript/common/menu"
 import uuid from "uuid";
 import {assert} from 'chai'
+import {stripNewLines} from "../../../test-commons";
 
 describe ('AppMenu generation', () => {
   describe('new menu item generation', () => {
@@ -16,7 +17,7 @@ describe ('AppMenu generation', () => {
       key={'${key}'}
     />`;
 
-      assert.equal(getNewMenuItem(componentName, key), expectedMenuItem);
+      assert.equal(stripNewLines(getNewMenuItem(componentName, key)), stripNewLines(expectedMenuItem));
     });
   });
 
@@ -42,7 +43,7 @@ describe ('AppMenu generation', () => {
               /></VerticalMenu>\r
         `;
     
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, menuNode, key), expectedUpdatedMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, menuNode, key)), stripNewLines(expectedUpdatedMenuContent));
       });
 
       it('adding new menu item to custom node', () => {
@@ -77,7 +78,7 @@ describe ('AppMenu generation', () => {
         </VerticalMenu>\r
         `;
 
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, menuNode, key), expectedUpdatedMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, menuNode, key)), stripNewLines(expectedUpdatedMenuContent));
       });
 
       it("updating doesn't happen when menu node is null", () => {
@@ -95,7 +96,7 @@ describe ('AppMenu generation', () => {
         </VerticalMenu>
         `;
 
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, null, key), appMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, null, key)), stripNewLines(appMenuContent));
       })
     })
 
@@ -120,7 +121,7 @@ describe ('AppMenu generation', () => {
               /></HorizontalMenu>\r
         `;
     
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, menuNode, key), expectedUpdatedMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, menuNode, key)), stripNewLines(expectedUpdatedMenuContent));
       });
 
       it('adding new menu item to custom node', () => {
@@ -155,7 +156,7 @@ describe ('AppMenu generation', () => {
         </HorizontalMenu>\r
         `;
 
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, menuNode, key), expectedUpdatedMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, menuNode, key)), stripNewLines(expectedUpdatedMenuContent));
       });
 
       it("updating doesn't happen when menu node is null", () => {
@@ -173,7 +174,7 @@ describe ('AppMenu generation', () => {
         </HorizontalMenu>
         `;
 
-        assert.equal(updateAppMenuContent(appMenuContent, componentName, null, key), appMenuContent);
+        assert.equal(stripNewLines(updateAppMenuContent(appMenuContent, componentName, null, key)), stripNewLines(appMenuContent));
       })
     })
   })
