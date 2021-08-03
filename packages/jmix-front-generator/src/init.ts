@@ -53,21 +53,47 @@ export function collectClients(generatorFileName?: string, opts?: GeneratorDisco
     allowGroups
   } = opts ?? {};
 
-  const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
-
-  // Get stock generators
-  const clients: GeneratedClientInfo[] = readClientDir(clientsDirPath, generatorFileName, allowGroups);
-
-  // Get custom generators
-  includeCustomGenerators(clients, clientToCustomize, customGeneratorPaths, allowGroups);
-
-  // Customize templates
-  includeCustomTemplates(clients, clientToCustomize, customTemplatePaths);
+  const clients: GeneratedClientInfo[] = collectBundledGenerators(generatorFileName, allowGroups);
+  collectGeneratorsFromProject(clients);
+  collectGeneratorsFromCustomPaths(clients, clientToCustomize, customGeneratorPaths, allowGroups);
+  collectTemplatesFromCustomPaths(clients, clientToCustomize, customTemplatePaths);
 
   return clients;
 }
 
-function includeCustomTemplates(
+function collectBundledGenerators(
+  generatorFileName?: string,
+  allowGroups?: string[],
+) {
+  const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
+  return readClientDir(clientsDirPath, generatorFileName, allowGroups);
+}
+
+function collectGeneratorsFromProject(
+  clients: GeneratedClientInfo[]
+) {
+  const PROJECT_CLIENTS_RELATIVE_PATH = '../../../../generators';
+  const projectClientsPath = path.join(__dirname, PROJECT_CLIENTS_RELATIVE_PATH);
+
+  if (!fs.existsSync(projectClientsPath)) {
+    return;
+  }
+
+  const projectClientArray = readClientDir(projectClientsPath);
+
+  for (const projectClient of projectClientArray) {
+    const clientIndex = clients.findIndex(c => c.name === projectClient.name);
+    if (clientIndex > -1) {
+      // We already have such client, so we merge generators
+      clients[clientIndex].generators.push(...projectClient.generators);
+      continue;
+    }
+    // We don't already have such client, so we push it
+    clients.push(projectClient);
+  }
+}
+
+function collectTemplatesFromCustomPaths(
   clients: GeneratedClientInfo[],
   clientToCustomize?: string,
   customTemplatePaths?: string[],
@@ -109,7 +135,7 @@ function includeCustomTemplates(
   return customizedGenerators;
 }
 
-function includeCustomGenerators(
+function collectGeneratorsFromCustomPaths(
   clients: GeneratedClientInfo[],
   clientToCustomize?: string,
   customGeneratorPaths?: string[],
