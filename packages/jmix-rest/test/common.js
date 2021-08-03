@@ -11,7 +11,7 @@ exports.mockServer = async function mockServer(router) {
     .then(({expressApp, apolloServer}) => {
       const port = 8080;
       const server = expressApp.listen({port});
-      expressApp.use(router);
+      if (router != null) expressApp.use(router);
       console.log(`Mock server ready at http://localhost:${port}${apolloServer.graphqlPath}`);
       return {server, apolloServer};
     })
