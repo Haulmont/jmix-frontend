@@ -5,21 +5,39 @@ import { ComponentPreviews } from "./dev/previews";
 import { useDevLogin } from "./dev/hooks";
 import { DevSupport } from "@haulmont/react-ide-toolbox";
 // import registerServiceWorker from './registerServiceWorker';
-import { JmixAppProvider } from "@haulmont/jmix-react-core";
-import { I18nProvider } from "@haulmont/jmix-react-ui";
-import { HashRouter, Route } from "react-router-dom";
+import {
+  JmixAppProvider,
+  initializeApolloClient,
+  Screens,
+  ScreensContext
+} from "@haulmont/jmix-react-core";
+import { I18nProvider, Modals } from "@haulmont/jmix-react-ui";
 import { initializeApp } from "@haulmont/jmix-rest";
-import { JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET } from "./config";
+import {
+  JMIX_REST_URL,
+  REST_CLIENT_ID,
+  REST_CLIENT_SECRET,
+  GRAPHQL_URI
+} from "./config";
 import "mobx-react-lite/batchingForReactDom";
-
+import metadata from "./jmix/metadata.json";
 import "antd/dist/antd.min.css";
 import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
 import "dayjs/locale/ru";
+import { ApolloProvider } from "@apollo/client";
+
+// Define types of plugins used by dayjs
+import "dayjs/plugin/customParseFormat";
+import "dayjs/plugin/advancedFormat";
+import "dayjs/plugin/weekday";
+import "dayjs/plugin/localeData";
+import "dayjs/plugin/weekOfYear";
+import "dayjs/plugin/weekYear";
 
 export const jmixREST = initializeApp({
-  name: "mpg",
+  name: "scr-jmix",
   apiUrl: JMIX_REST_URL,
   restClientId: REST_CLIENT_ID,
   restClientSecret: REST_CLIENT_SECRET,
@@ -27,29 +45,44 @@ export const jmixREST = initializeApp({
   defaultLocale: "en"
 });
 
+const client = initializeApolloClient({
+  graphqlEndpoint: GRAPHQL_URI,
+  tokenStorageKey: "scr-jmix_jmixRestAccessToken",
+  localeStorageKey: "scr-jmix_jmixLocale"
+});
+
+const devScreens = new Screens();
+
 ReactDOM.render(
   <JmixAppProvider
+    apolloClient={client}
     jmixREST={jmixREST}
     config={{
-      appName: "mpg",
+      appName: "scr-jmix",
       clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
       secret: REST_CLIENT_SECRET,
       locale: "en"
     }}
+    metadata={metadata}
+    Modals={Modals}
   >
-    <I18nProvider
-      messagesMapping={messagesMapping}
-      antdLocaleMapping={antdLocaleMapping}
-    >
-      <HashRouter>
+    <ApolloProvider client={client}>
+      <I18nProvider
+        messagesMapping={messagesMapping}
+        antdLocaleMapping={antdLocaleMapping}
+      >
         <DevSupport
-          ComponentPreviews={<Route component={ComponentPreviews} />}
+          ComponentPreviews={
+            <ScreensContext.Provider value={devScreens}>
+              <ComponentPreviews />
+            </ScreensContext.Provider>
+          }
           useInitialHook={useDevLogin}
         >
-          <Route component={App} />
+          <App />
         </DevSupport>
-      </HashRouter>
-    </I18nProvider>
+      </I18nProvider>
+    </ApolloProvider>
   </JmixAppProvider>,
   document.getElementById("root") as HTMLElement
 );

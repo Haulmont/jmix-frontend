@@ -34,7 +34,7 @@ describe('sdk generator test', () => {
       assert.ok(fs.existsSync(`services.ts`));
       assert.ok(fs.existsSync(`queries.ts`));
       assert.ok(fs.existsSync(`enums/enums.ts`));
-      assert.ok(fs.existsSync(`entities/base`));
+      assert.ok(!fs.existsSync(`entities/base`));
     }));
 
   it('should generate sdk:model', () => rimraf(`${SDK_MODEL_DIR}/*`)
@@ -46,7 +46,7 @@ describe('sdk generator test', () => {
     )
     .then(() => {
       assert.ok(fs.existsSync(`enums/enums.ts`));
-      assert.ok(fs.existsSync(`entities/base`));
+      assert.ok(!fs.existsSync(`entities/base`));
       //services and queries should NOT be generated for sdk:model mode
       assert.ok(!fs.existsSync(`services.ts`));
       assert.ok(!fs.existsSync(`queries.ts`));
@@ -58,7 +58,7 @@ describe('sdk generator test', () => {
 
   it('should fail generate if model file does not exist', (done) => {
     const notExistingModelPath = 'not/existing/model/path.json';
-    const absoluteModelPath = path.join(SDK_ALL_DIR, notExistingModelPath)
+    const absoluteModelPath = path.join(process.cwd(), notExistingModelPath)
     const gerOptions = {
       model: notExistingModelPath,
       dest: SDK_ALL_DIR,
@@ -68,42 +68,49 @@ describe('sdk generator test', () => {
 
     const Gen = class extends SdkAllGenerator {
       constructor(){
-        super('', gerOptions);
+        super(['--model', notExistingModelPath], gerOptions);
       }
       // noinspection JSUnusedGlobalSymbols
-      testing() {
-        this.generate();
+      async testing() {
+        try {
+          await this.generate();
+        } catch (e) {
+          expect(e.message).eq('Specified model file does not exist ' + absoluteModelPath);
+          done();
+        }
+
       }
     };
 
-    runGenerator(Gen, e => {
-      expect(e.message).eq('Specified model file does not exist ' + absoluteModelPath);
-      done();
-    });
+    runGenerator(Gen);
   });
 
   it('should fail if CUBA not connected', (done) => {
 
     const Gen = class extends SdkAllGenerator {
       // noinspection JSUnusedGlobalSymbols
-      testing() {
-        this.generate();
+      async testing() {
+        try {
+          await this.generate();
+        } catch (e) {
+          expect(e).eq(ERR_STUDIO_NOT_CONNECTED);
+          done();
+        }
       }
     };
 
-    runGenerator(Gen, e => {
-      expect(e.message).eq(ERR_STUDIO_NOT_CONNECTED);
-      done();
-    });
+    runGenerator(Gen);
   });
 });
 
-function runGenerator(genClass: any, onError: (e: Error) => void) {
+function runGenerator(genClass: any, onError?: (e: Error) => void) {
   const env = new YeomanEnvironment();
   env.registerStub(genClass, 'Gen');
   // @ts-ignore
   env.on('error', e => {
-    onError(e);
+    if (onError != null) {
+      onError(e);
+    }
   });
   env.run('Gen');
 }

@@ -193,7 +193,7 @@ describe('export client list', function () {
     exportList(clients, {save: SAVE_CLIENTS_DIR + '/available-clients.json'});
 
     const res = fs.readFileSync(`${SAVE_CLIENTS_DIR}/available-clients.json`, 'utf8');
-    expect(res.length).to.eq(3085);
+    expect(res.length).to.eq(3082);
   });
 
 });

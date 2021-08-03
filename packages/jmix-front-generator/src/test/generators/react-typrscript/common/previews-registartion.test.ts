@@ -1,5 +1,6 @@
 import { addComponent, getNewComponentPreview } from "../../../../generators/react-typescript/common/previews-registartion"
 import { assert } from 'chai';
+import {stripNewLines} from "../../../test-commons";
 
 describe('previws generation', () => {
   const path = "testedPath";
@@ -13,7 +14,7 @@ describe('previws generation', () => {
     <${componentName} />
   </ComponentPreview>`;
 
-    assert.equal(getNewComponentPreview(path, componentName), expectedMenuItem);
+    assert.equal(stripNewLines(getNewComponentPreview(path, componentName)), stripNewLines(expectedMenuItem));
   });
 
   it('test addComponent with default import', () => {
@@ -40,7 +41,7 @@ describe('previws generation', () => {
       componentFileName: ""
     }, true);
 
-    assert.equal(expectedPreviewsContent, actualPreviewsContent);
+    assert.equal(stripNewLines(expectedPreviewsContent), stripNewLines(actualPreviewsContent));
   });
 
   it('test addComponent with named import', () => {
@@ -67,6 +68,6 @@ describe('previws generation', () => {
       componentFileName: ""
     }, false);
 
-    assert.equal(expectedPreviewsContent, actualPreviewsContent);
+    assert.equal(stripNewLines(expectedPreviewsContent), stripNewLines(actualPreviewsContent));
   });
 });

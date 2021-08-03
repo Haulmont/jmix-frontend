@@ -189,26 +189,31 @@ describe('i18n generation - project locales', () => {
   });
 });
 
+// TODO
 describe('i18n message packs', async () => {
   it('has the same keys', async () => {
     for (const locale of SUPPORTED_CLIENT_LOCALES) {
       const appMessagePack =
         await import(`../../../../generators/react-typescript/app/template/i18n-message-packs/${locale.name}.json`);
-      const entityManagementMessagePack =
-        await import(`../../../../building-blocks/stages/writing/pieces/entity-management/entity-management-${locale.name}.json`);
-      const mergedMessagePack = {...appMessagePack, ...entityManagementMessagePack};
-      const keys = Object.keys(mergedMessagePack);
-      if (locale.strict) {
-        expect(keys.length).to.equal(ALL_I18N_KEYS.length, `Number of keys is mismatched for locale ${locale.name}`);
-      }
-      keys.forEach((key) => {
-        expect(ALL_I18N_KEYS.includes(key), `${locale.name} does not include key ${key}`).to.be.true;
-      });
+      const entityBrowserMessagePack =
+        await import(`../../../../generators/react-typescript/entity-browser/template/browser-i18n-messages/${locale.name}.json`);
+      const entityEditorMessagePack =
+        await import(`../../../../generators/react-typescript/entity-editor/template/editor-i18n-messages/${locale.name}.json`);
+      const masterDetailMessagePack =
+        await import(`../../../../generators/react-typescript/entity-master-detail/template/master-detail-i18n-messages/${locale.name}.json`);
+      const mergedMessagePack = {
+        ...appMessagePack,
+        ...entityBrowserMessagePack,
+        ...entityEditorMessagePack,
+        ...masterDetailMessagePack
+      };
+      const actualKeys = Object.keys(mergedMessagePack);
+      expect(actualKeys.sort()).to.deep.equal(EXPECTED_I18N_KEYS.sort());
     }
   });
 });
 
-const ALL_I18N_KEYS = [
+const EXPECTED_I18N_KEYS = [
   // Main message pack
   "common.ok",
   "common.cancel",
@@ -221,6 +226,9 @@ const ALL_I18N_KEYS = [
   "common.unsavedEntity",
   "common.requestFailed",
   "common.retry",
+  "common.back",
+  "default",
+  "editor.doesNotExist",
   "home.welcome",
   "screen.home",
   "login.failed",
@@ -237,14 +245,14 @@ const ALL_I18N_KEYS = [
   "jmix.dataTable.validation.uuid",
   "jmix.dataTable.failedToLoadNestedEntities",
   "jmix.dataTable.loading",
-  "jmix.dataTable.operator.startsWith",
-  "jmix.dataTable.operator.endsWith",
-  "jmix.dataTable.operator.contains",
-  "jmix.dataTable.operator.doesNotContain",
-  "jmix.dataTable.operator.in",
-  "jmix.dataTable.operator.notIn",
-  "jmix.dataTable.operator.notEmpty",
-  "jmix.dataTable.operator.inInterval",
+  "jmix.dataTable.operator.__inInterval",
+  "jmix.dataTable.operator._contains",
+  "jmix.dataTable.operator._doesNotContain",
+  "jmix.dataTable.operator._endsWith",
+  "jmix.dataTable.operator._in",
+  "jmix.dataTable.operator._isNull",
+  "jmix.dataTable.operator._notIn",
+  "jmix.dataTable.operator._startsWith",
   "jmix.dataTable.yes",
   "jmix.dataTable.no",
   "jmix.dataTable.ok",
@@ -270,6 +278,7 @@ const ALL_I18N_KEYS = [
   "jmix.fileUpload.replace",
   "jmix.fileUpload.upload",
   "jmix.fileUpload.uploadFailed",
+  "jmix.form.validation.childError",
   "jmix.imagePreview.title",
   "jmix.imagePreview.alt",
   "jmix.imagePreview.close",
@@ -277,6 +286,9 @@ const ALL_I18N_KEYS = [
   "jmix.nestedEntityField.create",
   "jmix.nestedEntityField.delete.areYouSure",
   "jmix.nestedEntitiesTableField.delete.areYouSure",
+  "jmix.nestedEntityField.addEntities",
+  "jmix.nestedEntityField.andXMore",
+  "list.doesNotExist",
   "cubaRest.error.serverNotResponded",
   "cubaRest.error.serverError",
   "cubaRest.error.badRequest",
@@ -324,4 +336,7 @@ const ALL_I18N_KEYS = [
   "management.editor.validationError",
   "management.editor.created",
   "management.editor.updated",
+
+  "masterDetail.create.ifEntitySelected",
+  "masterDetail.entityUnselected",
 ];

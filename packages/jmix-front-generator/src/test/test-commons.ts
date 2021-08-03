@@ -67,3 +67,12 @@ export function assertFilesPlain(filePath: string, clientDir: string, fixturesDi
   const expect = fs.readFileSync(path.join(fixturesDir, filePath), 'utf8');
   strictEqual(actual, expect);
 }
+
+/**
+ * Test can fail when result and fixture contain different line separators (e.g. LF vs CRLF)
+ *
+ * @param str
+ */
+export function stripNewLines(str: string): string {
+  return str.replace(/\r\n|\n/g, '');
+}

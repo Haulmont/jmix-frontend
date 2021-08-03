@@ -36,7 +36,7 @@ const generatorParams: StudioTemplateProperty[] = [
 
 
 const model = require.resolve('../fixtures/mpg-projectModel.json');
-const answers = require('../fixtures/answers.json');
+const answers = require('../fixtures/answers.js');
 
 const optsConfig: OptionsConfig = {
   ...commonGenerationOptionsConfig,
