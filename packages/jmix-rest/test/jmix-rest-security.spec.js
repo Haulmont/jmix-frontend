@@ -1,6 +1,6 @@
 "use strict";
 
-const {initApp, mockServer} = require('./common');
+const {initApp, mockServer, loginOpts} = require('./common');
 const {Router} = require('express');
 let backend;
 
@@ -77,7 +77,6 @@ afterAll(async () => await backend.server.close())
 describe('JmixRestConnection security methods', () => {
 
   let app;
-  const loginOpts = {tokenEndpoint: 'http://localhost:8080/oauth/token'};
 
   it('should load effective perms for admin', async () => {
     app = initApp();

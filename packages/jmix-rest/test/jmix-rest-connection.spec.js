@@ -15,61 +15,7 @@ beforeAll(() => {
   return app.login('admin', 'admin', loginOpts);
 });
 
-xdescribe('JmixRestConnection', () => {
-
-  let app;
-  describe('.login()', () => {
-    it('shouldn\'t work with bad credentials', done => {
-      const newApp = initApp();
-      newApp.login('admin', 'admin2', loginOpts)
-        .then(() => {
-          done('works with bad credentials');
-        })
-        .catch(() => {
-          done()
-        });
-    });
-    it('should not work with empty credentials', done => {
-      const newApp = initApp();
-      newApp.login(null, null, loginOpts)
-        .then(() => {
-          done('works with empty credentials');
-        })
-        .catch(() => {
-          done();
-        });
-    });
-    it('should work with right credentials', () => {
-      const newApp = initApp();
-      return newApp.login('admin', 'admin', loginOpts);
-    });
-  });
-
-  describe('.logout()', () => {
-
-    afterEach(() => {
-      return app.login('admin', 'admin', loginOpts);
-    });
-
-    it('Logout dosent work with wrong endpoint from options', done => {
-      app.logout({revokeEndpoint: "wrongEndpoint"})
-      .then(() => {
-        done('works with wrong endpoint from options');
-      })
-      .catch(() => {
-        done();
-      });
-    });
-
-    it('Logout works with right endpoint', () => {
-      return app.logout(loginOpts);
-    });
-  });
-
-  beforeAll(() => {
-    app = initApp();
-    return app.login('admin', 'admin', loginOpts);
-  });
+describe('JmixRestConnection', () => {
 
   it('.loadMessages()', () => app.loadEntitiesMessages());
 

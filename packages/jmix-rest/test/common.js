@@ -16,3 +16,9 @@ exports.mockServer = async function mockServer(router) {
       return {server, apolloServer};
     })
 }
+
+exports.loginOpts = {
+  tokenEndpoint: 'http://localhost:8080/oauth/token',
+  revokeEndpoint: 'http://localhost:8080/oauth/revoke',
+};
+
