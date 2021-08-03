@@ -6,11 +6,13 @@ exports.initApp = function initApp(initApiVersion) {
 };
 
 exports.mockServer = async function mockServer(router) {
-  await require('@haulmont/jmix-server-mock').createServer('../../scripts/model/scr-jmix-schema.graphql', false)
+  return require('@haulmont/jmix-server-mock')
+    .createServer('../../scripts/model/scr-jmix-schema.graphql', false)
     .then(({expressApp, apolloServer}) => {
       const port = 8080;
-      expressApp.listen({port});
+      const server = expressApp.listen({port});
       expressApp.use(router);
       console.log(`Mock server ready at http://localhost:${port}${apolloServer.graphqlPath}`);
+      return {server, apolloServer};
     })
 }

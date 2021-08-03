@@ -15,7 +15,7 @@ beforeAll(() => {
   return app.login('admin', 'admin', loginOpts);
 });
 
-describe('JmixRestConnection', () => {
+xdescribe('JmixRestConnection', () => {
 
   let app;
   describe('.login()', () => {
