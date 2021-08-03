@@ -1,5 +1,5 @@
-import {action, makeObservable, observable, reaction} from 'mobx';
-import React from 'react';
+import {action, makeObservable, reaction, observable} from 'mobx';
+import React, { createContext, useContext } from 'react';
 import {Screens} from './Screens';
 import {redirect} from './Router';
 
@@ -131,3 +131,9 @@ export class Tabs {
  * See {@link Tabs}
  */
 export const tabs = new Tabs();
+
+export const CurrentTabContext = createContext<IMultiTabItem>(null!);
+
+export const useCurrentTab = () => {
+  return useContext(CurrentTabContext);
+}
