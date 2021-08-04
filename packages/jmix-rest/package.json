@@ -6,7 +6,7 @@
   "typings": "dist-node/jmix.d.ts",
   "scripts": {
     "lint": "tslint -c tslint.json src/**/*.ts",
-    "test": "jest",
+    "test": "jest --runInBand",
     "coverage": "tsc && npm run test -- --coverage",
     "prepare-browser-test": "browserify test/jmix.test.js > test/jmix-browser.test.js",
     "compile": "tsc",
