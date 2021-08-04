@@ -7,7 +7,6 @@ import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { ComponentOptions } from "../../../building-blocks/stages/options/pieces/component";
-import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class EntityCardsGenerator extends YeomanGenerator {
 
@@ -36,5 +35,4 @@ export {
   allQuestions as params,
   description,
   icon,
-  DEFAULT_GROUP as group
 }

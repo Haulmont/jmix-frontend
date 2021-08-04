@@ -8,7 +8,7 @@ describe('init', function () {
     expect(clients.length).to.eq(3);
 
     const genCountOfClient: Map<string, number> = new Map();
-    genCountOfClient.set('react-typescript', 12);
+    genCountOfClient.set('react-typescript', 11);
     genCountOfClient.set('react-native', 1);
     genCountOfClient.set('sdk', 2);
 

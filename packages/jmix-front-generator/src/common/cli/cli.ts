@@ -9,5 +9,4 @@ export interface GeneratorExports {
   description?: string;
   icon?: string;
   index?: number;
-  group?: string;
 }

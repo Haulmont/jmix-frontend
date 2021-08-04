@@ -6,7 +6,6 @@ import path from "path";
 import {EntityEditorTemplateModel, deriveEditorTemplateModel} from "./template-model";
 import {writeEditor} from "./write";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class ReactEntityManagementGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -39,5 +38,4 @@ export {
   description,
   icon,
   index,
-  DEFAULT_GROUP as group
 }
