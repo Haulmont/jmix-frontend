@@ -24,13 +24,13 @@ export interface MultiScreenItemParams {
  * Screens API
  */
 export class Screens {
-  props: IMultiScreenProps = null!;
+  props: IMultiScreenProps | undefined = undefined;
   currentRootPageData = {
     title: '',
     menuPath: '',
   };
   @observable.ref screens: IMultiScreenItem[] = [];
-  @observable.ref currentScreen: IMultiScreenItem = null!;
+  @observable.ref currentScreen: IMultiScreenItem | undefined = undefined;
 
   constructor() {
     makeObservable(this);
@@ -49,7 +49,7 @@ export class Screens {
   get content() {
     const {screens: screensList, currentScreen, props} = this;
     if (screensList.length === 0) {
-      return props.children;
+      return props?.children;
     }
 
     for (const screen of screensList) {
@@ -58,7 +58,7 @@ export class Screens {
       }
     }
 
-    return props.children;
+    return props?.children;
   }
 
   /**
@@ -84,7 +84,7 @@ export class Screens {
    */
   closeAll = action(() => {
     this.screens = [];
-    this.currentScreen = null!;
+    this.currentScreen = undefined;
   });
 
   /**
