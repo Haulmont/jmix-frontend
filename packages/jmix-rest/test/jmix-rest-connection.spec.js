@@ -2,22 +2,65 @@
 
 const assert = require('assert');
 global.fetch = require('node-fetch');
-const {initApp} = require('./common');
+const {initApp, mockServer, loginOpts} = require('./common');
+const {Router} = require('express');
 
-let app;
-const loginOpts = {
-  tokenEndpoint: 'http://localhost:8080/oauth/token',
-  revokeEndpoint: 'http://localhost:8080/oauth/revoke',
-};
+let backend, app, newCar, updateCar;
 
-beforeAll(() => {
+beforeEach(() => {newCar = null; updateCar = null})
+
+beforeAll(async () => {
+  await mockServer(Router()
+    .get('/rest/userInfo', (req, res) => res.send({}))
+    .get('/rest/messages/entities', (req, res) => res.send({}))
+    .get('/rest/entities/scr_User/60885987-1b61-4247-94c7-dff348347f93',
+      (req, res) => res.send(
+        {_instanceName: "not empty"}
+        ))
+    .post('/rest/entities/scr_Car', (req, res) => {
+      newCar = req.body;
+      newCar.id = '3fe34bbc-979a-44c1-a23a-8ad8a3d61c4b';
+      return res.send(newCar);
+    })
+    .put('/rest/entities/scr_Car/3da61043-aaad-7e30-c7f5-c1f1328d3980', (req, res) => {
+      updateCar = req.body
+      return res.send(updateCar);
+    })
+    .get('/rest/entities/scr_Car/3fe34bbc-979a-44c1-a23a-8ad8a3d61c4b', (req, res) => {
+      res.send(newCar)
+    })
+    .get('/rest/entities/scr_Car/3da61043-aaad-7e30-c7f5-c1f1328d3980', (req, res) => {
+      res.send(updateCar)
+    })
+    .delete('/rest/entities/scr_Car/3fe34bbc-979a-44c1-a23a-8ad8a3d61c4b', (req, res) => {
+      return res.send({});
+    })
+    .get('/rest/entities/scr_Car', (req, res) => {
+      res.send([{_instanceName: 'not empty'}])
+    })
+    .get('/rest/entities/scr_User', (req, res) => {
+      res.header('X-Total-Count', 3).send([{}, {}, {}])
+    })
+    .get('/rest/entities/scr_User/search', (req, res) => {
+      if (req.query.filter.indexOf('"group":"OR"') > -1) {
+        res.header('X-Total-Count', 2).send([{_instanceName: 'not empty'}, {_instanceName: 'not empty'}])
+      }
+      res.header('X-Total-Count', 1).send([{_instanceName: 'not empty'}])
+    })
+
+
+  ).then(result => backend = result);
+
   app = initApp();
-  return app.login('admin', 'admin', loginOpts);
-});
+  await app.login('admin', 'admin', loginOpts);
+})
 
-xdescribe('JmixRestConnection', () => {
+afterAll(async () => await backend.server.close())
 
-  it('.loadMessages()', () => app.loadEntitiesMessages());
+
+describe('JmixRestConnection', () => {
+
+  it('.loadEntitiesMessages()', () => app.loadEntitiesMessages());
 
   it('.getUserInfo()', () => app.getUserInfo());
 
@@ -32,42 +75,41 @@ xdescribe('JmixRestConnection', () => {
       });
   });
 
-  describe('.commitEntity()', () => {
-    it('should create new entity and pass persisted one in promise', () => {
-      const car = {
-        model: 'car-' + Math.random(),
-        manufacturer: 'Manufacturer',
-        carType: "SEDAN"
-      };
+  it('should create and return new entity', () => {
+    const car = {
+      model: 'car-' + Math.random(),
+      manufacturer: 'Manufacturer',
+      carType: "SEDAN"
+    };
 
-      return app
-        .commitEntity('scr_Car', car)
-        .then(createdEntity => app.loadEntity('scr_Car', createdEntity.id))
-        .then((entity) => {
-          assert.strictEqual(entity.model, car.model);
-          assert(entity.id != null);
-        });
-    });
+    return app
+      .commitEntity('scr_Car', car)
+      .then(createdEntity => app.loadEntity('scr_Car', createdEntity.id))
+      .then((entity) => {
+        assert.strictEqual(entity.model, car.model);
+        assert(entity.id != null);
+      });
+  });
 
-    it('should update existing entity', async () => {
-      const car = {
-        id: '3da61043-aaad-7e30-c7f5-c1f1328d3980',
-        model: '2122'
-      };
+  it('should update existing entity', async () => {
+    const car = {
+      id: '3da61043-aaad-7e30-c7f5-c1f1328d3980',
+      model: '2122'
+    };
 
-      const fetchOptions = {
-        commitMode: 'edit'
-      }
+    const fetchOptions = {
+      commitMode: 'edit'
+    }
 
-      return app.commitEntity('scr_Car', car, fetchOptions)
-        .then(() => app.loadEntity('scr_Car', car.id))
-        .then((updatedCar) => assert(updatedCar.model === '2122'));
-    });
+    return app.commitEntity('scr_Car', car, fetchOptions)
+      .then(() => app.loadEntity('scr_Car', car.id))
+      .then((updatedCar) => assert(updatedCar.model === '2122'));
   });
 
   describe('.deleteEntity()', () => {
     it('should delete entity', done => {
-      app.commitEntity('scr_Car', {manufacturer: "VAZ", carType: 'SEDAN'}).then(car => {
+      app.commitEntity('scr_Car', {manufacturer: "VAZ", carType: 'SEDAN'})
+        .then(car => {
         app.deleteEntity('scr_Car', car.id)
           .then(() => {
             done();
@@ -171,20 +213,6 @@ xdescribe('JmixRestConnection', () => {
     })
   });
 
-  describe('.loadEntityViews()', () => {
-    it('should load entity views', async () => {
-      const views = await app.loadEntityViews('scr_User');
-      assert(Array.isArray(views));
-    })
-  });
-
-  describe('.loadEntityView()', () => {
-    it('should load particular view', async () => {
-      const view = await app.loadEntityView('scr_User', '_instance_name');
-      assert(typeof view === 'object');
-    })
-  });
-
   // todo need to check that methods above are exist in new backend rest
 
   // describe('.setSessionLocale()', () => {
@@ -206,13 +234,5 @@ xdescribe('JmixRestConnection', () => {
   //     assert.equal(version, app.apiVersion);
   //   })
   // });
-
-  describe('.onLocaleChange()', () => {
-    it('invokes a callback on locale change', done => {
-      const callback = () => done();
-      app.onLocaleChange(callback);
-      app.locale = 'en';
-    });
-  });
 
 });
