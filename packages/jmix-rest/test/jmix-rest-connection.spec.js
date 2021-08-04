@@ -15,7 +15,7 @@ beforeAll(() => {
   return app.login('admin', 'admin', loginOpts);
 });
 
-describe('JmixRestConnection', () => {
+xdescribe('JmixRestConnection', () => {
 
   it('.loadMessages()', () => app.loadEntitiesMessages());
 
@@ -169,32 +169,6 @@ describe('JmixRestConnection', () => {
           done(e)
         });
     })
-  });
-
-  describe('.query()', () => {
-
-    it('should load query results', () => app
-      .query('scr_Car', 'allCars')
-      .then((cars) => assert(cars.length > 0)));
-
-    it('should work with params', () => {
-      return app
-        .query('scr_Car', 'carsByType', {carType: 'SEDAN'})
-        .then(cars => {
-          assert(cars.length > 0);
-          cars.forEach(c => assert(c.carType === 'SEDAN'))
-        });
-    })
-  });
-
-  describe('.invokeService()', () => {
-    it('should invoke service without params and void result', () => app.invokeService('scr_FavoriteService', 'refreshCache'));
-
-    it('should invoke service with params', () => app
-      .invokeService('scr_FavoriteService', 'getFavoritesByType', {carType: 'SEDAN'})
-      .then(favCars => assert(favCars.length > 0)));
-
-    it('should not fail if null passed as params', () => app.invokeService('scr_FavoriteService', 'refreshCache', null))
   });
 
   describe('.loadEntityViews()', () => {

@@ -7,7 +7,7 @@ exports.initApp = function initApp(initApiVersion) {
 
 exports.mockServer = async function mockServer(router) {
   return require('@haulmont/jmix-server-mock')
-    .createServer('../../scripts/model/scr-jmix-schema.graphql', false)
+    .createServer('../../scripts/model/scr-jmix-schema.graphql', false, false)
     .then(({expressApp, apolloServer}) => {
       const port = 8080;
       const server = expressApp.listen({port});

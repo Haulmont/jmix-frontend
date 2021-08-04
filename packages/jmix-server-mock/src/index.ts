@@ -3,10 +3,10 @@ import {ApolloServer, gql} from "apollo-server-express";
 import {readFileSync} from "fs";
 import {mocks, mockedResolvers} from "./mocks";
 import {restRouter} from "./rest";
-import {oauthRouter} from "./oauth";
+import {createOauthRouter} from "./oauth";
 
 
-export async function createServer(schemaPath, mockRest = true) {
+export async function createServer(schemaPath, mockRest = true, allowInvalidCreds = true) {
   let typeDefs
   try {
     typeDefs = await readFileSync(schemaPath).toString('utf-8');
@@ -26,7 +26,7 @@ export async function createServer(schemaPath, mockRest = true) {
 
   apolloServer.applyMiddleware({app: expressApp});
   expressApp.use(express.urlencoded({extended: false}), express.json())
-  expressApp.use(oauthRouter)
+  expressApp.use(createOauthRouter(allowInvalidCreds))
   if (mockRest) {
     expressApp.use(restRouter)
   }

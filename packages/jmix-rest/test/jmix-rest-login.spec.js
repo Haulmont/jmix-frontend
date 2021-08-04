@@ -1,10 +1,15 @@
 "use strict";
 
 global.fetch = require('node-fetch');
-const {initApp, loginOpts} = require('./common');
+const {initApp, mockServer, loginOpts} = require('./common');
+let backend;
+
+beforeAll(async () => await mockServer().then(result => backend = result));
+
+afterAll(async () => await backend.server.close())
 
 describe('JmixRestConnection .login()', () => {
-  it('shouldn\'t work with bad credentials', done => {
+  it('should not work with bad credentials', done => {
     const newApp = initApp();
     newApp.login('admin', 'admin2', loginOpts)
       .then(() => {
@@ -25,7 +30,7 @@ describe('JmixRestConnection .login()', () => {
         done();
       });
   });
-  it('should work with right credentials', () => {
+  it('should work with valid credentials', () => {
     const newApp = initApp();
     return newApp.login('admin', 'admin', loginOpts);
   });
