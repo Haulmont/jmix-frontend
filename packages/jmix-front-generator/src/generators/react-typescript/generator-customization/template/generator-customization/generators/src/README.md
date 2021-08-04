@@ -1,1 +1,0 @@
-`src` directory contains the source code of generators. Each generator should reside in a separate folder, the name of the folder will be the name of the generator. Names should be unique and should not match any of the stock generators.

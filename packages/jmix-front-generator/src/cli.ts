@@ -8,10 +8,7 @@ import * as path from "path";
 export const ownVersion = require('../package').version;
 
 interface CustomGeneratorConfig {
-  customizeClient?: string;
   customGeneratorPaths?: string[];
-  customTemplatePaths?: string[];
-  allowGroups?: string[]
 }
 
 export function createAndLaunchCli() {
@@ -20,36 +17,17 @@ export function createAndLaunchCli() {
   // Add options that configure which generators to use
   program
     .addOption(new Option(
-      '--template-override <pathToCustomTemplate>',
-      'Use provided template with the currently invoked generator.'
-    ))
-    .addOption(new Option(
-      '--customize-client <clientName>',
-      'Selected client will use custom generators and/or stock generators with custom templates.'
-    ))
-    .addOption(new Option(
       '--custom-generator-paths <paths...>',
       'Use custom generators from the filesystem.'
     ))
-    .addOption(new Option(
-      '--custom-template-paths <paths...>',
-      'Use templates from the filesystem to override templates in stock generators.'
-    ))
-    .addOption(new Option(
-      '--allow-groups <groups...>',
-      'Only allow given groups of generators.'
-    ))
     .allowUnknownOption(true); // Otherwise program.parse below will fail when any other (command-specific) options are provided. We set allowUnknownOption back to false once we know the full list of options.
 
-  const {customizeClient, customGeneratorPaths, customTemplatePaths, allowGroups} = program.parse().opts<CustomGeneratorConfig>();
+  const {customGeneratorPaths} = program.parse().opts<CustomGeneratorConfig>();
 
   const expandRelativePath = (p: string) => path.resolve(p);
 
   const clients: GeneratedClientInfo[] = collectClients(undefined, {
-    clientToCustomize: customizeClient,
     customGeneratorPaths: customGeneratorPaths?.map(expandRelativePath),
-    customTemplatePaths: customTemplatePaths?.map(expandRelativePath),
-    allowGroups
   });
 
   const cli: Command = createCli(ownVersion, clients, undefined, undefined, program);

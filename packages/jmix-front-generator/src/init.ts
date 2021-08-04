@@ -39,34 +39,26 @@ export interface GeneratorInfo {
 }
 
 export interface GeneratorDiscoveryOptions {
-  clientToCustomize?: string;
   customGeneratorPaths?: string[];
-  customTemplatePaths?: string[];
-  allowGroups?: string[];
 }
 
 export function collectClients(generatorFileName?: string, opts?: GeneratorDiscoveryOptions): GeneratedClientInfo[] {
   const {
-    clientToCustomize,
     customGeneratorPaths,
-    customTemplatePaths,
-    allowGroups
   } = opts ?? {};
 
-  const clients: GeneratedClientInfo[] = collectBundledGenerators(generatorFileName, allowGroups);
+  const clients: GeneratedClientInfo[] = collectBundledGenerators(generatorFileName);
   collectGeneratorsFromProject(clients);
-  collectGeneratorsFromCustomPaths(clients, clientToCustomize, customGeneratorPaths, allowGroups);
-  collectTemplatesFromCustomPaths(clients, clientToCustomize, customTemplatePaths);
+  collectGeneratorsFromCustomPaths(clients, customGeneratorPaths);
 
   return clients;
 }
 
 function collectBundledGenerators(
   generatorFileName?: string,
-  allowGroups?: string[],
 ) {
   const clientsDirPath = path.join(__dirname, GENERATORS_DIR_NAME);
-  return readClientDir(clientsDirPath, generatorFileName, allowGroups);
+  return readClientDir(clientsDirPath, generatorFileName);
 }
 
 function collectGeneratorsFromProject(
@@ -79,101 +71,58 @@ function collectGeneratorsFromProject(
     return;
   }
 
-  const projectClientArray = readClientDir(projectClientsPath);
+  collectFromPath(clients, projectClientsPath);
+}
 
-  for (const projectClient of projectClientArray) {
-    const clientIndex = clients.findIndex(c => c.name === projectClient.name);
+function collectFromPath(
+  clients: GeneratedClientInfo[],
+  customPath: string
+) {
+  const customClientArray = readClientDir(customPath);
+
+  for (const customClient of customClientArray) {
+    const clientIndex = clients.findIndex(c => c.name === customClient.name);
     if (clientIndex > -1) {
       // We already have such client, so we merge generators
-      clients[clientIndex].generators.push(...projectClient.generators);
+      clients[clientIndex].generators.push(...customClient.generators);
       continue;
     }
     // We don't already have such client, so we push it
-    clients.push(projectClient);
+    clients.push(customClient);
   }
-}
-
-function collectTemplatesFromCustomPaths(
-  clients: GeneratedClientInfo[],
-  clientToCustomize?: string,
-  customTemplatePaths?: string[],
-): string[] {
-  if (customTemplatePaths == null || clientToCustomize == null) {
-    // No custom templates to be added
-    return [];
-  }
-
-  const customizedGenerators: string[] = [];
-
-  for (const templatePath of customTemplatePaths) {
-    const dirs = readdirSync(templatePath);
-    customizedGenerators.push(...dirs);
-
-    for (const dir of dirs) {
-      if (fs.statSync(path.join(templatePath, dir)).isFile()) {
-        continue;
-      }
-
-      const templateLocation = path.resolve(templatePath, dir);
-      const generatorName = path.basename(dir);
-
-      const clientIndex = clients.findIndex(c => c.name === clientToCustomize);
-      if (clientIndex === -1) {
-        throw new Error(`Tried to customize client "${clientToCustomize}", but there is no such client.`);
-      }
-      const generatorIndex = clients[clientIndex]
-        ?.generators
-        ?.findIndex(g => g.name === generatorName);
-      if (generatorIndex === -1) {
-        throw new Error(`Tried to use a custom template for generator "${generatorName}" in client "${clientToCustomize}", but there is no such generator. Did you mean to create a custom generator instead? Failed on custom template path "${templateLocation}".`);
-      }
-      clients[clientIndex].generators[generatorIndex].templateOverride = templateLocation;
-    }
-
-  }
-
-  return customizedGenerators;
 }
 
 function collectGeneratorsFromCustomPaths(
   clients: GeneratedClientInfo[],
-  clientToCustomize?: string,
   customGeneratorPaths?: string[],
-  allowGroups?: string[]
 ) {
-  if (customGeneratorPaths == null || clientToCustomize == null) {
+  if (customGeneratorPaths == null) {
     // No custom generators to be added
     return;
   }
 
-  const customGenerators = customGeneratorPaths.reduce((generators: GeneratorInfo[], generatorPath: string) => {
-    return generators.concat(collectGenerators(generatorPath, undefined, allowGroups));
-  }, []);
-
-  const clientObject = clients.find(client => client.name === clientToCustomize);
-  if (clientObject == null) {
-    throw new Error(`Attempted to customize client ${clientToCustomize} but was not able to find it`);
+  for (const customPath of customGeneratorPaths) {
+    collectFromPath(clients, customPath);
   }
-  clientObject.generators = clientObject.generators.concat(customGenerators);
 }
 
-function readClientDir(clientsDirPath: string, generatorFileName?: string, allowGroups?: string[]): GeneratedClientInfo[] {
+function readClientDir(clientsDirPath: string, generatorFileName?: string): GeneratedClientInfo[] {
   return readdirSync(clientsDirPath).map((clientDirName): GeneratedClientInfo => {
-    return readClient(clientsDirPath, clientDirName, generatorFileName, allowGroups);
+    return readClient(clientsDirPath, clientDirName, generatorFileName);
   });
 }
 
 /**
  * @alpha
  */
-export function readClient(clientsDirPath: string, clientDirName: string, generatorFileName?: string, allowGroups?: string[]): GeneratedClientInfo {
+export function readClient(clientsDirPath: string, clientDirName: string, generatorFileName?: string): GeneratedClientInfo {
   const info:ProvidedClientInfo = require(path.join(clientsDirPath, clientDirName, INFO_FILE_NAME));
   return {
     bundled: true,
     name: clientDirName,
     bower: info.bower,
     clientBaseTech: info.clientBaseTech,
-    generators: collectGenerators(path.join(clientsDirPath, clientDirName), generatorFileName, allowGroups),
+    generators: collectGenerators(path.join(clientsDirPath, clientDirName), generatorFileName),
   }
 }
 
@@ -192,7 +141,7 @@ export async function generate(
   });
 }
 
-function collectGenerators(generatorsDir: string, genFileName: string = GENERATOR_FILE_NAME, allowGroups?: string[]): GeneratorInfo[] {
+function collectGenerators(generatorsDir: string, genFileName: string = GENERATOR_FILE_NAME): GeneratorInfo[] {
   const dirs = readdirSync(generatorsDir);
   return sortGenerators(dirs.reduce((generators: GeneratorInfo[], name: string) => {
     const generatorPath = path.join(generatorsDir, name);
@@ -201,22 +150,16 @@ function collectGenerators(generatorsDir: string, genFileName: string = GENERATO
       if (generatorExports.generator == null) {
         return generators;
       }
-      const skipGenerator = allowGroups != null
-        && (generatorExports.group == null || !allowGroups.includes(generatorExports.group));
-      if (skipGenerator) {
-        return generators;
-      }
       const options = generatorExports.options;
       const params = generatorExports.params;
       const description = generatorExports.description;
       const index = generatorExports.index ?? dirs.length; // will be pushed to a tail if no index
-      const group = generatorExports.group;
 
       const iconPath = generatorExports.icon
         ? path.relative(process.cwd(), path.join(generatorPath, generatorExports.icon))
         : undefined;
 
-      generators.push({name, options, params, description, iconPath, index, path: generatorPath, group});
+      generators.push({name, options, params, description, iconPath, index, path: generatorPath});
       return generators;
     } else {
       return generators;

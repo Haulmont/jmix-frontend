@@ -6,7 +6,6 @@ import path from "path";
 import {EntityBrowserTemplateModel, deriveBrowserTemplateModel} from "./template-model";
 import {writeBrowser} from "./write";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class ReactEntityBrowserGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -39,5 +38,4 @@ export {
   description,
   icon,
   index,
-  DEFAULT_GROUP as group
 }

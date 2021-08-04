@@ -6,7 +6,6 @@ import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class ReactTSAppGenerator extends YeomanGenerator {
 
@@ -34,5 +33,4 @@ export {
   appOptionsConfig as options,
   allQuestions as params,
   index,
-  DEFAULT_GROUP as group
 };

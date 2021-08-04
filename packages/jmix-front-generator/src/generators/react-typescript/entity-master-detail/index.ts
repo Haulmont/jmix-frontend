@@ -6,7 +6,6 @@ import path from "path";
 import {MasterDetailTemplateModel, deriveMasterDetailTemplateModel} from "./template-model";
 import {writeMasterDetail} from "./write";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { DEFAULT_GROUP } from "../../../building-blocks/default-group";
 
 export class ReactEntityMasterDetailGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -38,5 +37,4 @@ export {
   allQuestions as params,
   description,
   icon,
-  DEFAULT_GROUP as group
 }
