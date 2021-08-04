@@ -46,15 +46,15 @@ describe('Screen registration', () => {
         () => openScreen('screenId', 'menuLink' )
       ).not.toThrow();
 
-      expect(tabs.currentTab.title).toEqual('screenCaption');
-      expect(tabs.currentTab.key).toEqual('menuLink__0');
+      expect(tabs.currentTab?.title).toEqual('screenCaption');
+      expect(tabs.currentTab?.key).toEqual('menuLink__0');
 
       expect(
         () => openScreen('screenId', 'menuLink' )
       ).not.toThrow();
 
-      expect(tabs.currentTab.title).toEqual('screenCaption');
-      expect(tabs.currentTab.key).toEqual('menuLink__0');
+      expect(tabs.currentTab?.title).toEqual('screenCaption');
+      expect(tabs.currentTab?.key).toEqual('menuLink__0');
       expect(tabs.tabs.length).toEqual(1);
       expect(tabs.tabs[0].title).toEqual('screenCaption');
 
@@ -77,15 +77,15 @@ describe('Screen registration', () => {
         () => openScreen('screenId', 'menuLink' )
       ).not.toThrow();
 
-      expect(tabs.currentTab.title).toEqual('screenCaption');
-      expect(tabs.currentTab.key).toEqual('menuLink__0');
+      expect(tabs.currentTab?.title).toEqual('screenCaption');
+      expect(tabs.currentTab?.key).toEqual('menuLink__0');
 
       expect(
         () => openScreen('screenId', 'menuLink' )
       ).not.toThrow();
 
-      expect(tabs.currentTab.title).toEqual('screenCaption');
-      expect(tabs.currentTab.key).toEqual('menuLink__1');
+      expect(tabs.currentTab?.title).toEqual('screenCaption');
+      expect(tabs.currentTab?.key).toEqual('menuLink__1');
       expect(tabs.tabs.length).toEqual(2);
       expect(tabs.tabs[0].title).toEqual('screenCaption');
       expect(tabs.tabs[0].key).toEqual('menuLink__0');

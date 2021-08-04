@@ -30,7 +30,7 @@ export const MultiTabs = observer(() => {
   }
 
   return (
-    <Tabs activeKey={tabs.currentTab.key} onChange={onTabChange}>
+    <Tabs activeKey={tabs.currentTab?.key} onChange={onTabChange}>
       {tabs.tabs.map((item) => (
         <TabPane
           tab={

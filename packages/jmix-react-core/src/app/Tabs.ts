@@ -16,7 +16,7 @@ export interface IMultiTabItem {
  */
 export class Tabs {
   @observable.ref tabs: IMultiTabItem[] = [];
-  @observable.ref currentTab: IMultiTabItem = null!;
+  @observable.ref currentTab: IMultiTabItem | undefined = undefined;
   tabsIndex = 0;
 
   constructor() {
@@ -25,7 +25,7 @@ export class Tabs {
     reaction(
       () => [this.currentTab],
       () => {
-        const {screensInTab} = this.currentTab;
+        const screensInTab = this.currentTab?.screensInTab;
         const url = screensInTab?.getUrl();
         if (url != null) {
           redirect(url);

@@ -68,14 +68,14 @@ describe('Tabs core API', () => {
     tabs.push(tab1);
     expect(tabs.tabs[0]).toEqual(tab1);
     expect(tabs.currentTab).toEqual(tab1);
-    expect(tabs.currentTab.key).toEqual('tab1__0');
+    expect(tabs.currentTab?.key).toEqual('tab1__0');
     expect(scrollSpy).toHaveBeenCalledWith(0, 0);
 
     tabs.push(tab2);
     expect(tabs.tabs[0]).toEqual(tab1);
     expect(tabs.tabs[1]).toEqual(tab2);
     expect(tabs.currentTab).toEqual(tab2);
-    expect(tabs.currentTab.key).toEqual('tab2__1');
+    expect(tabs.currentTab?.key).toEqual('tab2__1');
     expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   });
 
