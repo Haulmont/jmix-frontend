@@ -11,6 +11,7 @@ const pickMetadataFromProjectModel = (projectModel: ProjectModel) => ({
     name: entity.name,
     className: entity.className,
     persistentEntity: entity.persistentEntity,
+    idAttributeName: entity.idAttributeName,
     attributes: entity.attributes.map(attr => ({
       name: attr.name,
       type: attr.type,
