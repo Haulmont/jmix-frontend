@@ -291,6 +291,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'test',
     className: 'test',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -408,6 +409,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_CompositionO2OTestEntity',
     className: 'CompositionO2OTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -425,6 +427,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_CompositionO2MTestEntity',
     className: 'CompositionO2MTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -442,6 +445,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationO2OTestEntity',
     className: 'AssociationO2OTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -459,6 +463,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationO2MTestEntity',
     className: 'AssociationO2MTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -476,6 +481,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationM2OTestEntity',
     className: 'AssociationM2OTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {
@@ -493,6 +499,7 @@ const MOCK_METADATA: MetaClassInfo[] = [
   {
     entityName: 'scr_AssociationM2MTestEntity',
     className: 'AssociationM2MTestEntity',
+    idAttributeName: "id",
     persistentEntity: true,
     properties: [
       {

@@ -4,6 +4,7 @@
       "name": "scr_Car",
       "className": "Car",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -275,6 +276,7 @@
       "name": "scr_CarDto",
       "className": "CarDto",
       "persistentEntity": false,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -334,6 +336,7 @@
       "name": "scr_CarRent",
       "className": "CarRent",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -408,6 +411,7 @@
       "name": "scr_FavoriteCar",
       "className": "FavoriteCar",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -471,6 +475,7 @@
       "name": "scr_Garage",
       "className": "Garage",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -614,6 +619,7 @@
       "name": "ScrUserInfo",
       "className": "ScrUserInfo",
       "persistentEntity": false,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -675,6 +681,7 @@
       "name": "scr_SparePart",
       "className": "SparePart",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -723,6 +730,7 @@
       "name": "scr_TechnicalCertificate",
       "className": "TechnicalCertificate",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -771,6 +779,7 @@
       "name": "scr_User",
       "className": "User",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -895,6 +904,7 @@
       "name": "scr_Customer",
       "className": "Customer",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -941,6 +951,7 @@
       "name": "scr_Order",
       "className": "Order",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1017,6 +1028,7 @@
       "name": "scr_OrderLine",
       "className": "OrderLine",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1080,6 +1092,7 @@
       "name": "scr_Product",
       "className": "Product",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1141,6 +1154,7 @@
       "name": "scr_AssociationM2MTestEntity",
       "className": "AssociationM2MTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1189,6 +1203,7 @@
       "name": "scr_AssociationM2OTestEntity",
       "className": "AssociationM2OTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1222,6 +1237,7 @@
       "name": "scr_AssociationO2MTestEntity",
       "className": "AssociationO2MTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1270,6 +1286,7 @@
       "name": "scr_AssociationO2OTestEntity",
       "className": "AssociationO2OTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1333,6 +1350,7 @@
       "name": "scr_BoringStringIdTestEntity",
       "className": "BoringStringIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1470,6 +1488,7 @@
       "name": "scr_CompositionO2MTestEntity",
       "className": "CompositionO2MTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1546,6 +1565,7 @@
       "name": "scr_CompositionO2OTestEntity",
       "className": "CompositionO2OTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -1607,6 +1627,7 @@
       "name": "scr_DatatypesTestEntity",
       "className": "DatatypesTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2039,6 +2060,7 @@
       "name": "scr_DatatypesTestEntity2",
       "className": "DatatypesTestEntity2",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2134,6 +2156,7 @@
       "name": "scr_DatatypesTestEntity3",
       "className": "DatatypesTestEntity3",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2242,6 +2265,7 @@
       "name": "scr_DeeplyNestedO2MTestEntity",
       "className": "DeeplyNestedO2MTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2290,6 +2314,7 @@
       "name": "scr_DeeplyNestedTestEntity",
       "className": "DeeplyNestedTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2338,6 +2363,7 @@
       "name": "scr_FormWizardAssociationO2OTestEntity",
       "className": "FormWizardAssociationO2OTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2386,6 +2412,7 @@
       "name": "scr_FormWizardCompositionO2OTestEntity",
       "className": "FormWizardCompositionO2OTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2419,6 +2446,7 @@
       "name": "scr_FormWizardTestEntity",
       "className": "FormWizardTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2521,6 +2549,7 @@
       "name": "scr_IntIdentityIdTestEntity",
       "className": "IntIdentityIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2675,6 +2704,7 @@
       "name": "scr_IntegerIdTestEntity",
       "className": "IntegerIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",
@@ -2829,6 +2859,7 @@
       "name": "scr_StringIdTestEntity",
       "className": "StringIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "identifier",
       "attributes": [
         {
           "name": "identifier",
@@ -2996,6 +3027,7 @@
       "name": "scr_WeirdStringIdTestEntity",
       "className": "WeirdStringIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "identifier",
       "attributes": [
         {
           "name": "identifier",
@@ -3148,6 +3180,7 @@
       "name": "scr_TrickyIdTestEntity",
       "className": "TrickyIdTestEntity",
       "persistentEntity": true,
+      "idAttributeName": "trickyId",
       "attributes": [
         {
           "name": "trickyId",
@@ -3181,6 +3214,7 @@
       "name": "scr_Order_1",
       "className": "Order",
       "persistentEntity": false,
+      "idAttributeName": "id",
       "attributes": [
         {
           "name": "id",

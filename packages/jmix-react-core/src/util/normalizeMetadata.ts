@@ -26,6 +26,7 @@ export interface ProjectModelEntityAttr {
 export interface ProjectModelEntity {
     name?: string;
     className: string;
+    idAttributeName: string;
     persistentEntity: boolean;
     attributes: ProjectModelEntityAttr[];
 }
@@ -78,6 +79,7 @@ const transformEntitiesToMetaClasseses = (entities: ProjectModelEntity[]): MetaC
     return entities.map(entity => ({
         entityName: entity.name || 'UnknownEntityName',
         className: entity.className || 'UnknownClassName',
+        idAttributeName: entity.idAttributeName,
         persistentEntity: entity.persistentEntity,
         properties: entity.attributes.map(transformAttrToProperty)
     }))
