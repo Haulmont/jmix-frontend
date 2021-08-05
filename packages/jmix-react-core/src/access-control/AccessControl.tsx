@@ -1,7 +1,7 @@
 import * as React from "react";
 import {useMainStore, MainStore} from '../app/MainStore';
 import { EntityOperationType, EntityAttrPermissionValue } from "@haulmont/jmix-rest";
-import { useObserver } from "mobx-react";
+import {observer} from "mobx-react";
 
 export interface AccessControlProps {
   /**
@@ -77,34 +77,32 @@ export interface AttributePermissionRequirement {
  *
  * @param props
  */
-export const AccessControl = (props: React.PropsWithChildren<AccessControlProps>) => {
+export const AccessControl = observer((props: React.PropsWithChildren<AccessControlProps>) => {
   const {displayReqs, modifyReqs, disabledPropName = 'disabled', disabledPropValue = true, render, children } = props;
 
   const mainStore = useMainStore();
 
-  return useObserver(() => {
-    if (!mainStore.security.isDataLoaded) {
-      return null;
-    }
+  if (!mainStore.security.isDataLoaded) {
+    return null;
+  }
 
-    const shouldDisplay = areAllRequirementsSatisfied(mainStore, displayReqs);
-    const shouldAllowModification = areAllRequirementsSatisfied(mainStore, modifyReqs);
+  const shouldDisplay = areAllRequirementsSatisfied(mainStore, displayReqs);
+  const shouldAllowModification = areAllRequirementsSatisfied(mainStore, modifyReqs);
 
-    if (!shouldDisplay) {
-      return null;
-    }
+  if (!shouldDisplay) {
+    return null;
+  }
 
-    if (render != null) {
-      return <>{render(!shouldAllowModification)}</>;
-    }
+  if (render != null) {
+    return <>{render(!shouldAllowModification)}</>;
+  }
 
-    if (shouldAllowModification) {
-      return <>{children}</>;
-    }
+  if (shouldAllowModification) {
+    return <>{children}</>;
+  }
 
-    return <>{injectDisabledProp(children, disabledPropName, disabledPropValue)}</>;
-  });
-};
+  return <>{injectDisabledProp(children, disabledPropName, disabledPropValue)}</>;
+});
 
 function injectDisabledProp(
   children: React.ReactNode, disabledPropName: string, disabledPropValue: any

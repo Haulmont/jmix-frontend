@@ -317,7 +317,7 @@ export class MainStore {
       }));
   }
 
-  private handleLocaleChange = (locale: string) => {
+  private handleLocaleChange = action((locale: string) => {
     this.locale = locale;
 
     if (this.initialized && (this.authenticated || this.usingAnonymously)) {
@@ -327,7 +327,7 @@ export class MainStore {
     if (this.initialized && this.authenticated) {
       this.setSessionLocale();
     }
-  };
+  });
 
   private setSessionLocale = () => {
     this.jmixREST

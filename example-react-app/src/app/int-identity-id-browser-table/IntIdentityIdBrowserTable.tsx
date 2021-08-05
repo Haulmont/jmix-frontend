@@ -150,7 +150,7 @@ const IntIdentityIdBrowserTable = observer(
 
     if (entityList != null) {
       buttons.unshift(
-        <Tooltip title={<FormattedMessage id="common.back" />}>
+        <Tooltip title={<FormattedMessage id="common.back" />} key="back">
           <Button
             htmlType="button"
             style={{ margin: "0 12px 12px 0" }}

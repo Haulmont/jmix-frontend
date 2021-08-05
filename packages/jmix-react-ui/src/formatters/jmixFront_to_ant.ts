@@ -41,6 +41,10 @@ export function jmixFront_to_ant(
     const propInfo = getPropertyInfo(metadata.entities, entityName, attrName);
 
     if (propInfo == null) {
+      if (attrName === '_instanceName') {
+        return;
+      }
+
       console.error(`Cannot find property info for attribute ${attrName} of entity ${entityName}`);
       fields[attrName] = value;
       return;

@@ -6,11 +6,13 @@ describe('Screens', () => {
   const Component1 = () => 'Component1';
   const screen1 = {
     title: 'screen1',
+    key: 'screen1',
     content: Component1
   };
   const Component2 = () => 'Component2';
   const screen2 = {
     title: 'screen2',
+    key: 'screen2',
     content: Component2
   };
 
