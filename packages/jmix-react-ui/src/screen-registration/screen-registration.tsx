@@ -126,6 +126,7 @@ function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens,
   screens.push({
     title: screen.caption,
     content: createScreenElement<TProps>(screen, props),
+    key: screen.caption,
     params: screenParams
   });
 }

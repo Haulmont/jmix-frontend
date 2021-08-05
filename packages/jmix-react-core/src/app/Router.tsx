@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { observer } from 'mobx-react';
-import { makeObservable, observable, reaction } from 'mobx';
+import {action, makeObservable, observable, reaction} from 'mobx';
 import pathToRegexp from 'path-to-regexp';
 import { EventEmitter } from './EventEmitter';
 
@@ -97,6 +97,7 @@ export class CurrentRoute {
   /**
    * Parse current window.location and make routing navigation
    */
+  @action
   setCurrentRoute = () => {
     const windowLocation = JSON.parse(JSON.stringify(window.location));
 
@@ -154,6 +155,7 @@ class RouterState {
     this.disposer!();
   };
 
+  @action
   navigate = () => {
     const { routes } = this;
     let result = routes[''] || routes['*'] || null;

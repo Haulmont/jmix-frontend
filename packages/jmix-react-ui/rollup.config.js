@@ -45,7 +45,7 @@ export default {
     'react-router',
     'react-router-dom',
     'react-testing-library',
-    'query-string'
+    'query-string',
   ],
   plugins: [
     resolve(),
