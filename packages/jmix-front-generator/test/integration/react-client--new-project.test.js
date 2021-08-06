@@ -7,7 +7,7 @@ const assert = require('assert');
 
 const NEW_PRJ_APP_DIR = 'test/integration/generated/react-client-new-project';
 
-xdescribe('test:integration:react:new-project', () => {
+describe('test:integration:react:new-project', () => {
 
   before(() => init());
 
