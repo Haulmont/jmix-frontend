@@ -1,4 +1,4 @@
-import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
@@ -9,7 +9,7 @@ import {
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../common/entity";
-import { BrowserTypes, browserTypeQuestion } from "../entity-browser/answers";
+import { BrowserTypes, createBrowserTypeQuestion } from "../entity-browser/answers";
 import {
   createComponentNameQuestion,
   entityQuestion,
@@ -33,30 +33,50 @@ StringIdAnswers {
 
 export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
   entityQuestion,
+  menuItemQuestion,
+  createComponentNameQuestion({
+    code: 'browserComponentName',
+    caption: 'Browser component name',
+    defaultValue: "List",
+    step: {
+      name: "Entity Browser",
+      order: "1"
+    }
+  }),
+  createBrowserTypeQuestion({
+    step: {
+      name: "Entity Browser",
+      order: "1"
+    }
+  }),
+  createQueryQuestion({
+    code: 'browserQuery',
+    caption: 'GraphQL query for entity browser',
+    relatedProperty: "entity",
+    step: {
+      name: "Entity Browser",
+      order: "1"
+    }
+  }),
   createComponentNameQuestion({
     code: 'editorComponentName',
     caption: 'Editor component name',
-    defaultValue: 'Editor'
+    defaultValue: 'Editor',
+    step: {
+      name: "Entity Editor",
+      order: "2"
+    }
   }),
   createQueryQuestion({
     code: 'editorQuery',
     // Subject to change, in future we might want to get the full query from Studio
     caption: 'GraphQL query for entity editor',
     relatedProperty: "entity",
+    step: {
+      name: "Entity Editor",
+      order: "2"
+    }
   }),
-  createComponentNameQuestion({
-    code: 'browserComponentName',
-    caption: 'Browser component name',
-    defaultValue: "List",
-  }),
-  browserTypeQuestion,
-  createQueryQuestion({
-    code: 'browserQuery',
-    caption: 'GraphQL query for entity browser',
-    relatedProperty: "entity",
-
-  }),
-  menuItemQuestion,
 ];
 
 

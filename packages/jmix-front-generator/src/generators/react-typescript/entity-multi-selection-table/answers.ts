@@ -21,7 +21,7 @@ import {
 
 export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
   entityQuestion,
-  createComponentNameQuestion({defaultValue: 'List'}),
+  createComponentNameQuestion({defaultValue: 'MultiSelectionTable'}),
   createQueryQuestion(),
   menuItemQuestion,
 ];

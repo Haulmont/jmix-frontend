@@ -18,18 +18,23 @@ import {
   QueryAnswer,
   menuItemQuestion,
   MenuItemAnswer,
+  StepQuestionParam,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
 export type BrowserTypes = 'table' | 'list' | 'cards';
 
-export const browserTypeQuestion = {
+interface BrowserTypeQuestionOptons {
+  step?: StepQuestionParam;
+}
+export const createBrowserTypeQuestion = (options?: BrowserTypeQuestionOptons): StudioTemplateProperty => ({
   code: 'browserType',
   caption: 'Browser type',
   propertyType: StudioTemplatePropertyType.OPTION,
   defaultValue: "Cards",
   required: true,
-  options: ['table', 'cards', 'list']
-};
+  options: ['table', 'cards', 'list'],
+  step: options?.step
+});
 
 export interface EntityBrowserAnswers extends 
 EntityAnswer,
@@ -43,7 +48,7 @@ StringIdAnswers {
 export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
   entityQuestion,
   createComponentNameQuestion({defaultValue: 'List'}),
-  browserTypeQuestion,
+  createBrowserTypeQuestion(),
   createQueryQuestion(),
   menuItemQuestion,
 ];
