@@ -11,7 +11,10 @@ export type MvpEntityBrowserTemplateModel =
   CommonTemplateModel
   & UtilTemplateModel
   & {
-  test: string
+  entityName: string,
+  queryName: string,
+  queryString: string,
+
 };
 
 export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
@@ -20,6 +23,55 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    test: schema.astNode?.kind ?? 'test'
+    entityName: getEntityName(answers.queryName, schema),
+    queryName: answers.queryName,
+    queryString: `
+        query scr_CarList(
+          $limit: Int
+          $offset: Int
+          $orderBy: inp_scr_CarOrderBy
+          $filter: [inp_scr_CarFilterCondition]
+        ) {
+          scr_CarCount(filter: $filter)
+          scr_CarList(
+            limit: $limit
+            offset: $offset
+            orderBy: $orderBy
+            filter: $filter
+          ) {
+            id
+            _instanceName
+            manufacturer
+            model
+            regNumber
+            purchaseDate
+            manufactureDate
+            wheelOnRight
+            carType
+            ecoRank
+            maxPassengers
+            price
+            mileage
+            garage {
+              id
+              _instanceName
+            }
+            technicalCertificate {
+              id
+              _instanceName
+            }
+      
+            version
+            createdBy
+            createdDate
+            lastModifiedBy
+            lastModifiedDate
+          }
+        }
+    `
   };
 };
+
+function getEntityName(queryName: string, schema: GraphQLSchema): string {
+  return '[HARDCODED ENTITY NAME]';
+}

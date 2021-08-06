@@ -1,19 +1,19 @@
 import {
   ComponentNameAnswer,
-  createComponentNameQuestion, MenuItemAnswer, QueryAnswer
+  createComponentNameQuestion,
+  MenuItemAnswer
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
-export type MvpEntityBrowserAnswers =
+export type MvpEntityEditorAnswers =
   ComponentNameAnswer
   & MenuItemAnswer
   & {
     queryName: string;
   };
 
-
-export const mvpEntityBrowserQuestions = [
-  createComponentNameQuestion({defaultValue: 'List'}),
+export const mvpEntityEditorQuestions = [
+  createComponentNameQuestion({defaultValue: 'Editor'}),
   {
     caption: "Menu item",
     code: "menuItem",

@@ -1,5 +1,84 @@
 import React from "react";
+import {observer} from "mobx-react";
+import {gql, useQuery} from '@apollo/client';
+import {registerEntityList, openEntityEditorScreen, useScreens} from "@haulmont/jmix-react-ui";
+import {DeleteOutlined, EditOutlined, PlusOutlined, LeftOutlined} from '@ant-design/icons';
+import {Button, Card, Tooltip, List} from "antd";
+import {FormattedMessage} from "react-intl";
 
-const MvpEntityBrowser = () => {
-    return <div><%= test %></div>;
-};
+const ENTITY_NAME = '<%= entityName %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= toFatSnakeCase(queryName) %> = gql`
+  <%= queryString %>
+`;
+
+const <%= className %> = observer(() => {
+  const screens = useScreens();
+
+  const {loading, error, data} = useQuery(<%= toFatSnakeCase(queryName) %>);
+
+  if (loading) {
+    return <>'Loading...'</>;
+  }
+
+  if (error) {
+    return <>'Error :('</>;
+  }
+
+  const items = data?.['<%= queryName %>'];
+
+  if (items == null || items.length === 0) {
+    return <p><FormattedMessage id='management.browser.noItems'/></p>;
+  }
+
+  return (
+    <div className="narrow-layout">
+      <div style={{marginBottom: '12px'}}>
+        <Button htmlType='button'
+                type='primary'
+                icon={<PlusOutlined />}
+                onClick={() => alert('not implemented')}
+        >
+          <span><FormattedMessage id='common.create'/></span>
+        </Button>
+      </div>
+
+      // TODO: entity instance typing
+      {items.map((e: any) =>
+        // TODO: id name field
+        <Card key={e.id}
+              style={{marginBottom: '12px'}}
+              actions={[
+                <DeleteOutlined key='delete'
+                                onClick={(event?: React.MouseEvent) => alert(`delete ${e.id}`)}
+                />,
+                <EditOutlined key="edit"
+                              onClick={(event?: React.MouseEvent) => {
+                                openEntityEditorScreen(
+                                  screens,
+
+                                );
+                              }}
+                />
+              ]}
+        >
+          {Object.keys(e).map(p => <>e[p]</>)}
+        </Card>
+      )}
+    </div>
+  );
+});
+
+registerEntityList({
+  component: <%= className %>,
+  caption: 'screen.<%= className %>',
+  screenId: '<%= className %>',
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
+
+export default <%= className %>;

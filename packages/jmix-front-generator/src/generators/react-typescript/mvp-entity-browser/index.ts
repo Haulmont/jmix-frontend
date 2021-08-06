@@ -27,8 +27,6 @@ const description = 'Read-only set of entities displayed as cards.';
 const icon = 'mvp-entity-browser.svg'
 const index = 100;
 
-
-
 export {
   MvpEntityBrowser as generator,
   mvpComponentOptionsConfig as options,

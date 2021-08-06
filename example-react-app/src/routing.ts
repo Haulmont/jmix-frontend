@@ -1,3 +1,5 @@
+import "./app/mvp/Cards";
+import "./app/mvp/Editor";
 import "./app/tricky-id-browser-table/TrickyIdBrowserTable";
 import "./app/tricky-id-editor/TrickyIdEditor";
 import "./app/boring-string-id-browser-table/BoringStringIdBrowserTable";

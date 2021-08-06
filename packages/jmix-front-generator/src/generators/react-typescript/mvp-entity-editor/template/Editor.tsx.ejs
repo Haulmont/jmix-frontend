@@ -1,0 +1,90 @@
+import React from "react";
+import { gql, useQuery, useMutation } from "@apollo/client";
+import {Form, Button, Card, Input} from "antd";
+import {observer} from "mobx-react";
+import {FormattedMessage} from 'react-intl';
+import {useMultiScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
+
+
+const ENTITY_NAME = '<%= entityName %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= toFatSnakeCase(queryName) %> = gql`
+  <%= queryString %>
+`;
+
+const <%= toFatSnakeCase(mutationName) %> = gql`
+  <%= mutationString %>
+`;
+
+const <%= className %> = observer(() => {
+  const multiScreen = useMultiScreen();
+  const id = multiScreen?.params?.entityId;
+
+  // TODO: id variable name
+  const {loading: queryLoading, error: queryError, data} = useQuery(<%= toFatSnakeCase(queryName) %>, {
+    variables: {
+      id
+    }
+  });
+
+  if (queryLoading) {
+    return <>'Loading...'</>;
+  }
+
+  if (queryError) {
+    return <>'Error :('</>;
+  }
+
+  const item = data?.['<%= queryName %>'];
+
+  if (item == null) {
+    return <p>No data</p>;
+  }
+
+  return (
+    <Card className="narrow-layout">
+        <Form onFinish={() => alert('onFinish')}
+              onFinishFailed={() => alert('onFinishFailed')}
+              layout="vertical"
+        >
+
+          {Object.keys(item).map(attrName => (
+            <Form.Item>
+              <Input addonBefore={attrName} />
+            </Form.Item>
+          ))}
+
+          <Form.Item style={{textAlign: 'center'}}>
+            <Button htmlType="button"
+                    onClick={() => alert('onCancel')}
+            >
+              <FormattedMessage id='common.cancel'/>
+            </Button>
+            <Button type="primary"
+                    htmlType="submit"
+                    loading={false} // TODO
+                    style={{marginLeft: '8px'}}
+            >
+              <FormattedMessage id={'common.submit'}/>
+            </Button>
+          </Form.Item>
+
+        </Form>
+    </Card>
+  );
+});
+
+registerEntityEditor({
+  component: <%= className %>,
+  caption: 'screen.<%= className %>',
+  screenId: '<%= className %>',
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
+
+export default <%= className %>;
+
