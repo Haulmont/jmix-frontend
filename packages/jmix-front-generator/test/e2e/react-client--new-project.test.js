@@ -7,7 +7,7 @@ const assert = require('assert');
 
 const NEW_PRJ_APP_DIR = 'test/e2e/generated/react-client-new-project';
 
-describe('test:e2e:react:new-project', () => {
+xdescribe('test:e2e:react:new-project', () => {
 
   before(() => init());
 
