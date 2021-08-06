@@ -1,6 +1,6 @@
 .tmp
 .idea
-test/e2e/generated
+test/integration/generated
 src/test/generated
 lib
 node_modules

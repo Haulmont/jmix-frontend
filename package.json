@@ -53,7 +53,7 @@
     "react-native-all": "npm run bootstrap-react-native-app && npm run bootstrap-jmix-app && npm run start-jmix-app && npm run start-react-native-app",
     "test:all": "npm run test:coverage && npm run test:integration && npm run test:e2e",
     "test:coverage": "echo 'UNIT TESTS AND COVERAGE' && lerna run coverage --ignore @haulmont/jmix-rest",
-    "test:integration": "echo 'INTEGRATION TESTS ON GENERATED APP' && lerna run test:e2e --scope @haulmont/jmix-front-generator",
+    "test:integration": "echo 'INTEGRATION TESTS' && lerna run test:integration",
     "test:e2e": "echo 'PUPPETEER E2E TESTS' && npm test example-react-app/ --prefix test-pup",
     "snyk": "snyk",
     "snyk:auth": "snyk auth",

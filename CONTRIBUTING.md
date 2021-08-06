@@ -263,19 +263,19 @@ Integration tests use compiled version of front-generator. To apply your code ch
 <br>
 Generated Apps and SDK are placed into ```./test/e2e/generated``` directory.
 
-##### Run All E2E Tests
+##### Run All Integration Tests
 ```bash
-npm run test:e2e
+npm run test:integration
 ```
 
-##### E2E Tests for Generators
+##### Integration Tests for Generators
 SDK
 ```bash
-npm run test:e2e:sdk
+npm run test:integration:sdk
 ```
 React client
 ```bash
-npm run test:e2e:react
+npm run test:integration:react
 ```
 
 <a name="commits"/>
