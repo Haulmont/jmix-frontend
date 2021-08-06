@@ -6,8 +6,8 @@ const fs = require('fs');
 const prettier = require('prettier');
 const updateClientLibs = require('../../../../scripts/update-client-libs')
 
-const EXPECT_DIR = path.join('test', 'e2e', 'expect');
-const GENERATED_DIR = path.join('test', 'e2e', 'generated');
+const EXPECT_DIR = path.join('test', 'integration', 'expect');
+const GENERATED_DIR = path.join('test', 'integration', 'generated');
 const LOG_DIR = path.join(GENERATED_DIR, 'logs');
 
 module.exports = function (generatorName, logFileSuffix) {
@@ -38,7 +38,7 @@ module.exports = function (generatorName, logFileSuffix) {
 
   //todo problems with projectModel path
   function runGenerator(moduleName, dest, answersJSONString, dirShift, modelFile = 'projectModel-scr.json') {
-    const pathToModel = path.join(process.cwd(), 'test/e2e/fixtures', modelFile);
+    const pathToModel = path.join(process.cwd(), 'test/integration/fixtures', modelFile);
 
     let command = `node bin/gen-jmix-front ${generatorName}:${moduleName} --model ${pathToModel}`;
     if (dest) {
@@ -53,8 +53,8 @@ module.exports = function (generatorName, logFileSuffix) {
     }
 
     return cmd(command,
-      `e2e:test: start generator '${generatorName}' by running '${command}'`,
-      `e2e:test: generation ${generatorName} - DONE`);
+      `integration:test: start generator '${generatorName}' by running '${command}'`,
+      `integration:test: generation ${generatorName} - DONE`);
   }
 
   function cmd(command, startMessage, doneMessage) {
@@ -86,11 +86,11 @@ module.exports = function (generatorName, logFileSuffix) {
         .replace(/\r\n/g, '\n'); //normalise cross platform 'end of line'
 
     assert.strictEqual(fs.readFileSync(actualFilePath, 'utf8'), expected);
-    logInfo(`e2e: assert file ${actualFilePath} with expect gauge ${expectFilePath} - PASSED`);
+    logInfo(`integration: assert file ${actualFilePath} with expect gauge ${expectFilePath} - PASSED`);
   }
 
   async function installAndBuild(suffix, appDir) {
-    const logCaption = `e2e:react-client:${suffix}:`;
+    const logCaption = `integration:react-client:${suffix}:`;
     console.log(`${logCaption} generation complete, start compilation`);
 
     // Do not use the libs from npm as it may lead to compatibility issues.
