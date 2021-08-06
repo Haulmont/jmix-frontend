@@ -28,7 +28,7 @@ StringIdAnswers {}
 
 export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
   entityQuestion,
-  createComponentNameQuestion({defaultValue: 'Edit'}),
+  createComponentNameQuestion({defaultValue: 'Editor'}),
   createQueryQuestion(),
   menuItemQuestion,
 ];

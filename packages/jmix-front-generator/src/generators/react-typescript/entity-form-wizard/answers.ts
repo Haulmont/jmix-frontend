@@ -2,45 +2,41 @@ import {CommonGenerationOptions} from "../../../common/cli-options";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
-import {EntityWithPath} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {askStringIdQuestions, StringIdAnswers, stringIdQuestions} from "../../../building-blocks/stages/answers/pieces/stringId";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import { isStringIdEntity } from "../common/entity";
+import {
+  ComponentNameAnswer,
+  createComponentNameQuestion,
+  EntityAnswer,
+  entityQuestion,
+  QueryAnswer,
+  createQueryQuestion,
+  MenuItemAnswer,
+  menuItemQuestion
+} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
 export interface FormStepConfig {
   name: string;
   fieldNames: string[];
 }
 
-export interface Answers extends StringIdAnswers {
-  entity: EntityWithPath;
-  componentName: string;
-  query: string;
+export interface Answers extends
+StringIdAnswers,
+EntityAnswer,
+ComponentNameAnswer,
+QueryAnswer,
+MenuItemAnswer {
   steps: Array<FormStepConfig>;
-  menuItem: null;
 }
 
 const questionsToBeAsked = [
-  {
-    code: 'entity',
-    caption: 'Entity',
-    propertyType: StudioTemplatePropertyType.ENTITY,
-    required: true
-  },
-  {
-    code: 'componentName',
-    caption: 'Component name',
-    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
-    defaultValue: 'Edit',
-    required: true
-  },
-  {
-    code: 'query',
-    caption: 'GraphQL query',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
-    relatedProperty: "entity",
-    required: true
-  }
+  entityQuestion,
+  createComponentNameQuestion({
+    defaultValue: 'FormWizard',
+  }),
+  createQueryQuestion(),
+  menuItemQuestion
 ]
 
 export const allQuestions: StudioTemplateProperty[] = [

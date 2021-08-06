@@ -1,3 +1,4 @@
+import { StepQuestionParam } from "../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {RestService, RestServiceMethod} from "../model/cuba-model";
 
 export const enum StudioTemplatePropertyType {
@@ -25,6 +26,7 @@ export interface StudioTemplateProperty {
   required?: boolean;
   relatedProperty?: string;
   options?: string[];
+  step?: StepQuestionParam;
   // --not supported
   //advanced: boolean;
   //filterScript: string;

@@ -15,7 +15,9 @@ import {
   menuItemQuestion,
   MenuItemAnswer,
   createComponentNameQuestion,
+  createQueryQuestion,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
+import { createBrowserTypeQuestion } from "../entity-browser/answers";
 
 export interface EntityMasterDetailAnswers extends
 EntityAnswer,
@@ -32,38 +34,56 @@ StringIdAnswers {
 
 export const commonEntityMasterDetailQuestions: StudioTemplateProperty[] = [
   entityQuestion,
+  menuItemQuestion,
   createComponentNameQuestion({
     code: 'masterDetailComponentName',
     caption: 'Master Detail component name',
     defaultValue: 'MasterDetail',
+    step: {
+      name: "Master Detail",
+      order: "1"
+    }
+  }),
+  createComponentNameQuestion({
+    code: 'browserComponentName',
+    caption: 'Browser component name',
+    defaultValue: "List",
+    step: {
+      name: "Entity Browser",
+      order: "2"
+    }
+  }),
+  createQueryQuestion({
+    code: 'browserQuery',
+    // Subject to change, in future we might want to get the full query from Studio
+    caption: 'GraphQL query for entity browser',
+    relatedProperty: "entity",
+    required: true,
+    step: {
+      name: "Entity Browser",
+      order: "2"
+    }
   }),
   createComponentNameQuestion({
     code: 'editorComponentName',
     caption: 'Editor component name',
     defaultValue: 'Editor',
+    step: {
+      name: "Entity Editor",
+      order: "3"
+    }
   }),
-  {
+  createQueryQuestion({
     code: 'editorQuery',
     // Subject to change, in future we might want to get the full query from Studio
     caption: 'GraphQL query for entity editor',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     relatedProperty: "entity",
-    required: true
-  },
-  createComponentNameQuestion({
-    code: 'browserComponentName',
-    caption: 'Browser component name',
-    defaultValue: "List"
+    required: true,
+    step: {
+      name: "Entity Editor",
+      order: "3"
+    }
   }),
-  {
-    code: 'browserQuery',
-    // Subject to change, in future we might want to get the full query from Studio
-    caption: 'GraphQL query for entity browser',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
-    relatedProperty: "entity",
-    required: true
-  },
-  menuItemQuestion,
 ];
 
 
