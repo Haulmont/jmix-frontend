@@ -8,7 +8,7 @@ export type MvpEntityBrowserAnswers =
   ComponentNameAnswer
   & MenuItemAnswer
   & {
-    queryName: string;
+    query: string;
   };
 
 
@@ -21,8 +21,8 @@ export const mvpEntityBrowserQuestions = [
     required: false
   },
   {
-    caption: 'Query name',
-    code: 'queryName',
+    caption: 'Query to load items',
+    code: 'query',
     propertyType: StudioTemplatePropertyType.STRING,
     required: true
   }

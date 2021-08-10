@@ -14,7 +14,8 @@ export type MvpEntityBrowserTemplateModel =
   entityName: string,
   queryName: string,
   queryString: string,
-
+  deleteMutationName: string,
+  deleteMutationString: string,
 };
 
 export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
@@ -23,8 +24,9 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    entityName: getEntityName(answers.queryName, schema),
-    queryName: answers.queryName,
+    entityName: 'scr_Car', // TODO
+    queryName: 'scr_CarList', // TODO
+    deleteMutationName: 'delete_scr_Car', // TODO
     queryString: `
         query scr_CarList(
           $limit: Int
@@ -68,10 +70,11 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
             lastModifiedDate
           }
         }
+    `,
+    deleteMutationString: `
+      mutation Delete_scr_Car($id: String!) {
+        delete_scr_Car(id: $id)
+      }
     `
   };
 };
-
-function getEntityName(queryName: string, schema: GraphQLSchema): string {
-  return '[HARDCODED ENTITY NAME]';
-}

@@ -30,14 +30,14 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    // TODO get from answers:
-    entityName: 'Car',
-    queryName: 'scr_CarById',
-    mutationName: 'scr_CarEdit',
+    entityName: 'scr_Car', // TODO
+    queryName: 'scr_CarById', // TODO
+    mutationName: 'scr_CarEdit', // TODO
     // TODO problem with $id: String = "", quotation marks get messed up
+    // TODO @include $loadItem - add support
     queryString: `
-      query scr_CarById($id: String, $loadItem: Boolean!) {
-        scr_CarById(id: $id) @include(if: $loadItem) {
+      query scr_CarById($id: String!) {
+        scr_CarById(id: $id) {
           id
           _instanceName
           manufacturer

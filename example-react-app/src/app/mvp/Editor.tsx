@@ -3,14 +3,14 @@ import { gql, useQuery, useMutation } from "@apollo/client";
 import { Form, Button, Card, Input } from "antd";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
-import { registerEntityEditor } from "@haulmont/jmix-react-ui";
+import { useMultiScreen, registerEntityEditor } from "@haulmont/jmix-react-ui";
 
-const ENTITY_NAME = "Car";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/mvpScreenEditor";
 
 const SCR__CAR_BY_ID = gql`
-  query scr_CarById($id: String, $loadItem: Boolean!) {
-    scr_CarById(id: $id) @include(if: $loadItem) {
+  query scr_CarById($id: String!) {
+    scr_CarById(id: $id) {
       id
       _instanceName
       manufacturer

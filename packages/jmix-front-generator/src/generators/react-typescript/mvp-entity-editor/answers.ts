@@ -9,7 +9,8 @@ export type MvpEntityEditorAnswers =
   ComponentNameAnswer
   & MenuItemAnswer
   & {
-    queryName: string;
+    query: string;
+    mutation: string;
   };
 
 export const mvpEntityEditorQuestions = [
@@ -21,8 +22,14 @@ export const mvpEntityEditorQuestions = [
     required: false
   },
   {
-    caption: 'Query name',
-    code: 'queryName',
+    caption: 'Query to load item',
+    code: 'query',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: true
+  },
+  {
+    caption: 'Mutation to create or update item',
+    code: 'mutation',
     propertyType: StudioTemplatePropertyType.STRING,
     required: true
   }

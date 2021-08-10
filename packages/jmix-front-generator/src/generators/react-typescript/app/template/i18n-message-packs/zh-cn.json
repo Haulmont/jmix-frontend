@@ -133,5 +133,7 @@
   "antd.form.validation.array.max":  "%s 不能多于 %s 个元素",
   "antd.form.validation.array.range": "%s 需要有 %s 至 %s 个元素",
 
-  "antd.form.validation.pattern.mismatch":  "%s 的值 %s 不匹配需要的格式： %s"
+  "antd.form.validation.pattern.mismatch":  "%s 的值 %s 不匹配需要的格式： %s",
+
+  "mvp.management.browser.delete.areYouSure": "mvp.management.browser.delete.areYouSure [TRANSLATION NOT AVAILABLE]"
 }

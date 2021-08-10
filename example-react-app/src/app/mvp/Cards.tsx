@@ -1,17 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { observer } from "mobx-react";
-import { gql, useQuery } from "@apollo/client";
-import { registerEntityList } from "@haulmont/jmix-react-ui";
+import {
+  gql,
+  useQuery,
+  useMutation,
+  ApolloCache,
+  Reference
+} from "@apollo/client";
+import {
+  registerEntityList,
+  openEntityEditorScreen
+} from "@haulmont/jmix-react-ui";
+import { useScreens } from "@haulmont/jmix-react-core";
 import {
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
   LeftOutlined
 } from "@ant-design/icons";
-import { Button, Card, Tooltip, List } from "antd";
-import { FormattedMessage } from "react-intl";
+import { Button, Card, Tooltip, List, Modal } from "antd";
+import { FormattedMessage, useIntl } from "react-intl";
 
-const ENTITY_NAME = "[HARDCODED ENTITY NAME]";
+const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/mvpScreen";
 
 const SCR__CAR_LIST = gql`
@@ -59,8 +69,18 @@ const SCR__CAR_LIST = gql`
   }
 `;
 
+const DELETE_SCR__CAR = gql`
+  mutation Delete_scr_Car($id: String!) {
+    delete_scr_Car(id: $id)
+  }
+`;
+
 const MvpScreen = observer(() => {
+  const screens = useScreens();
+  const intl = useIntl();
+
   const { loading, error, data } = useQuery(SCR__CAR_LIST);
+  const [executeDeleteMutation] = useMutation(DELETE_SCR__CAR);
 
   if (loading) {
     return <>'Loading...'</>;
@@ -87,14 +107,20 @@ const MvpScreen = observer(() => {
           htmlType="button"
           type="primary"
           icon={<PlusOutlined />}
-          onClick={() => alert("not implemented")}
+          onClick={() => {
+            openEntityEditorScreen({
+              screens,
+              entityName: ENTITY_NAME,
+              intl
+            });
+          }}
         >
           <span>
             <FormattedMessage id="common.create" />
           </span>
         </Button>
       </div>
-      // TODO: entity instance typing
+
       {items.map((e: any) => (
         // TODO: id name field
         <Card
@@ -103,25 +129,72 @@ const MvpScreen = observer(() => {
           actions={[
             <DeleteOutlined
               key="delete"
-              onClick={(event?: React.MouseEvent) => alert(`delete ${e.id}`)}
+              onClick={() => {
+                Modal.confirm({
+                  content: intl.formatMessage({
+                    id: "mvp.management.browser.delete.areYouSure"
+                  }),
+                  okText: intl.formatMessage({
+                    id: "management.browser.delete.ok"
+                  }),
+                  cancelText: intl.formatMessage({ id: "common.cancel" }),
+                  onOk: () => {
+                    executeDeleteMutation({
+                      variables: {
+                        id: e.id,
+                        // TODO we should probably not use cache by default for simplicity
+                        update(cache: ApolloCache<any>) {
+                          cache.modify({
+                            fields: {
+                              ["scr_CarList"](existingRefs, { readField }) {
+                                return existingRefs.filter(
+                                  (ref: Reference) =>
+                                    e.id !== readField("id", ref)
+                                );
+                              }
+                            }
+                          });
+                        }
+                      }
+                    });
+                  }
+                });
+              }}
             />,
             <EditOutlined
               key="edit"
-              onClick={(event?: React.MouseEvent) => alert(`edit ${e.id}`)}
+              onClick={() => {
+                openEntityEditorScreen({
+                  screens,
+                  entityName: ENTITY_NAME,
+                  intl,
+                  entityIdToLoad: e.id,
+                  routingPath: ROUTING_PATH // TODO: can we get rid of it?
+                });
+              }}
             />
           ]}
         >
-          {Object.keys(e).map(p => (
-            <div>
-              <strong>{p}: </strong>
-              {typeof e[p] === 'object' ? JSON.stringify(e[p]) : e[p]}
-            </div>
-          ))}
+          {renderFields(e)}
         </Card>
       ))}
     </div>
   );
 });
+
+function renderFields(entity: any) {
+  return Object.keys(entity).map(p => (
+    <div>
+      <strong>{p}:</strong> {renderFieldValue(entity, p)}
+    </div>
+  ));
+}
+
+function renderFieldValue(entity: any, property: string): string {
+  return typeof entity[property] === "object"
+    ? JSON.stringify(entity[property])
+    : (entity[property] as string);
+}
 
 registerEntityList({
   component: MvpScreen,
