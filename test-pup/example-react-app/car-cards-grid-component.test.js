@@ -11,7 +11,7 @@ describe('car cards grid component', () => {
     await login(page);
   });
 
-  it('should check that car cards are loaded', async () => {
+  it('should check that car cards grid is loaded', async () => {
     await page.goto(`http://localhost:3000/${url}`);
     await page.waitFor('div.ant-card');
     const carCards = await page.$$('div.ant-card');

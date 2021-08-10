@@ -15,6 +15,7 @@ describe('car editor security', () => {
     pageMan = await (await puppeteer.launch()).newPage();
   });
 
+  // todo at this moment editor screen doesn't work for non-admin users https://github.com/Haulmont/jmix-frontend/issues/423
   xit('should check that security shows only allowed car fields on editor for mechanic', async () => {
 
     await login(pageMech, 'mechanic', '1');
@@ -35,6 +36,7 @@ describe('car editor security', () => {
   });
 
 
+  // todo at this moment editor screen doesn't work for non-admin users https://github.com/Haulmont/jmix-frontend/issues/423
   xit('should check that security shows only allowed car fields on editor for manager', async () => {
 
     await login(pageMan, 'manager', '2');

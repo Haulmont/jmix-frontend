@@ -1,6 +1,8 @@
 const {login} = require("../common/login-to-scr");
 const puppeteer = require("puppeteer");
 
+// todo add tests for non-admin users
+
 describe('car master detail security', () => {
 
   let pageAdmin;

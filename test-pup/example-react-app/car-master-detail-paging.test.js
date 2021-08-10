@@ -17,7 +17,8 @@ describe('car master detail paging', () => {
     await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page', null]]);
   });
 
-  it('should use only allowed page size url param', async () => {
+  // todo https://github.com/Haulmont/jmix-frontend/issues/548
+  xit('should use only allowed page size url param', async () => {
     await checkCarsPaging(page, `${url}?page=5&pageSize=23`, [22, ['Previous Page', '1', 'Next Page', null]]);
     const activePageButtonTitle = await page
       .$eval('ul.ant-pagination li.ant-pagination-item-active', el => el.getAttribute('title'));
