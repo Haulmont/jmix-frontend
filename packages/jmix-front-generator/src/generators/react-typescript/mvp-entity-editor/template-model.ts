@@ -1,21 +1,30 @@
 import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
 import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
 import {MvpEntityEditorAnswers} from "./answers";
-import {GraphQLSchema} from "graphql";
+import {GraphQLScalarType, GraphQLSchema} from "graphql";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 
+export interface AttributeModel {
+  type: 'Int' | 'Float' | 'String' | 'Boolean' | 'ID';
+}
+
+export interface EntityModel {
+  name: string;
+  attributes: Record<string, AttributeModel>
+}
+
 export type MvpEntityEditorTemplateModel =
   CommonTemplateModel
   & UtilTemplateModel
   & {
-    entityName: string,
     queryName: string,
     queryString: string,
     mutationName: string,
-    mutationString: string
+    mutationString: string,
+    entityModel: EntityModel,
   };
 
 export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
@@ -30,7 +39,17 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    entityName: 'scr_Car', // TODO
+    entityModel: {
+      name: 'scr_Car',
+      attributes: {
+        price: {
+          type: 'Int'
+        },
+        wheelOnRight: {
+          type: 'Boolean'
+        }
+      }
+    },
     queryName: 'scr_CarById', // TODO
     mutationName: 'scr_CarEdit', // TODO
     // TODO problem with $id: String = "", quotation marks get messed up

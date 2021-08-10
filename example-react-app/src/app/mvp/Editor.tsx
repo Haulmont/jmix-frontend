@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import { Form, Button, Card, Input } from "antd";
+import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
 import { useMultiScreen, registerEntityEditor } from "@haulmont/jmix-react-ui";
@@ -62,6 +63,8 @@ const SCR__CAR_EDIT = gql`
 
 const MvpScreenEditor = observer(() => {
   const multiScreen = useMultiScreen();
+  const [form] = useForm();
+
   const id = multiScreen?.params?.entityId;
 
   // TODO: id variable name
@@ -74,6 +77,14 @@ const MvpScreenEditor = observer(() => {
     }
   );
 
+  const item = data?.["scr_CarById"];
+
+  useEffect(() => {
+    if (item != null) {
+      form.setFieldsValue(item);
+    }
+  }, [item, form]);
+
   if (queryLoading) {
     return <>'Loading...'</>;
   }
@@ -81,8 +92,6 @@ const MvpScreenEditor = observer(() => {
   if (queryError) {
     return <>'Error :('</>;
   }
-
-  const item = data?.["scr_CarById"];
 
   if (item == null) {
     return <p>No data</p>;
@@ -94,10 +103,11 @@ const MvpScreenEditor = observer(() => {
         onFinish={() => alert("onFinish")}
         onFinishFailed={() => alert("onFinishFailed")}
         layout="vertical"
+        form={form}
       >
         {Object.keys(item).map(attrName => (
-          <Form.Item>
-            <Input addonBefore={attrName} />
+          <Form.Item name={attrName} label={attrName}>
+            <Input/>
           </Form.Item>
         ))}
 

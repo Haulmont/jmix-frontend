@@ -1,0 +1,14 @@
+<%- if (attr?.type === 'Int' || attr?.type === 'Float') { %>
+    <InputNumber />
+<%- } %>
+<%- if (attr?.type === 'String') { %>
+    <Input />
+<%- } %>
+<%- if (attr?.type === 'Boolean') { %>
+    <Checkbox />
+<%- } %>
+<%- if (attr?.type === 'ID') { %>
+<%- } %>
+<%- if (attr == null) { %>
+    <Input />
+<%- } %>

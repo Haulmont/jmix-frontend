@@ -1,12 +1,13 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import {Form, Button, Card, Input} from "antd";
+import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {FormattedMessage} from 'react-intl';
 import {useMultiScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 
 
-const ENTITY_NAME = '<%= entityName %>';
+const ENTITY_NAME = '<%= entityModel.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= toFatSnakeCase(queryName) %> = gql`
@@ -19,6 +20,8 @@ const <%= toFatSnakeCase(mutationName) %> = gql`
 
 const <%= className %> = observer(() => {
   const multiScreen = useMultiScreen();
+  const [form] = useForm();
+
   const id = multiScreen?.params?.entityId;
 
   // TODO: id variable name
@@ -28,6 +31,14 @@ const <%= className %> = observer(() => {
     }
   });
 
+  const item = data?.['<%= queryName %>'];
+
+  useEffect(() => {
+    if (item != null) {
+      form.setFieldsValue(item);
+    }
+  }, [item, form]);
+
   if (queryLoading) {
     return <>'Loading...'</>;
   }
@@ -35,8 +46,6 @@ const <%= className %> = observer(() => {
   if (queryError) {
     return <>'Error :('</>;
   }
-
-  const item = data?.['<%= queryName %>'];
 
   if (item == null) {
     return <p>No data</p>;
@@ -47,11 +56,14 @@ const <%= className %> = observer(() => {
         <Form onFinish={() => alert('onFinish')}
               onFinishFailed={() => alert('onFinishFailed')}
               layout="vertical"
+              form={form}
         >
 
           {Object.keys(item).map(attrName => (
-            <Form.Item>
-              <Input addonBefore={attrName} />
+            <Form.Item name={attrName}
+                       label={attrName}
+            >
+              <%- include(includesPath('MvpFormField'), {attr: entityModel.attributes[attrName]}) %>
             </Form.Item>
           ))}
 
