@@ -1,11 +1,11 @@
 @import 'antd/es/style/themes/default';
 @import '../style/palette';
 
-._cuba-file-upload-full-width-enabled .ant-upload.ant-upload-select {
+.fileUploadFullWidth :global(.ant-upload.ant-upload-select) {
   display: block;
 }
 
-.cuba-file-drop-area {
+.fileDropErea {
   background-color: @mono-tint-90;
   border: dashed @border-width-base @mono-tint-30;
   cursor: pointer;
@@ -18,26 +18,26 @@
     border-color: @primary-color;
   }
 
-  > .uploadicon {
+  > .uploadIcon {
     font-size: 48px;
     margin-bottom: 8px;
   }
 
-  > .replaceicon {
+  > .replaceIcon {
     margin-right: 8px;
   }
 
-  > .uploadtext {
+  > .uploadText {
     color: @mono-shade-70;
   }
 
-  > .replacetext {
+  > .replaceText {
     color: @mono-shade-30;
     font-size: @font-size-sm;
   }
 }
 
-.no-file-message {
+.noFileMessage {
   color: @mono-shade-30;
   font-size: @font-size-sm;
 }

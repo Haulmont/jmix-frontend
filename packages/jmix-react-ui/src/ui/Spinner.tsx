@@ -1,11 +1,11 @@
 import React from 'react';
 import {Spin} from "antd";
-import './Spinner.less';
+import styles from './Spinner.module.less';
 
 export function Spinner() {
 
   return (
-    <div className='spinner-component'>
+    <div className={styles.spinner}>
       <Spin size="large"/>
     </div>
   );

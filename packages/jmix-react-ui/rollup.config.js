@@ -57,8 +57,6 @@ export default {
     json(),
     postcss({
       extensions: ['.less'],
-      extract: 'dist/index.min.css',
-      minimize: true,
       use: [
         ['less', {javascriptEnabled: true}],
         'resolveNodeImportsInLess',

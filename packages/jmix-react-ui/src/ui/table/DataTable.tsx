@@ -14,7 +14,7 @@ import {
 } from 'mobx';
 import {observer} from 'mobx-react';
 import {CustomFilterInputValue} from './DataTableCustomFilter';
-import './DataTable.less';
+import styles from './DataTable.module.less';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
   graphqlFilterToTableFilters,
@@ -457,7 +457,7 @@ class DataTableComponent<
 
     if (mainStore?.isEntityDataLoaded() !== true) {
       return (
-        <div className='cuba-data-table-loader'>
+        <div className={styles.loader}>
           <Spin size='large'/>
         </div>
       );
@@ -501,8 +501,8 @@ class DataTableComponent<
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
 
     return (
-      <div className='cuba-data-table'>
-        <div className='buttons'>
+      <div className={styles.dataTable}>
+        <div className={styles.buttons}>
           {this.props.buttons}
           {this.props.hideClearFilters ? null : this.clearFiltersButton}
         </div>
@@ -515,7 +515,7 @@ class DataTableComponent<
     if (this.isClearFiltersShown) {
       return (
         <Button htmlType='button'
-                className='cuba-data-table-clear-filters'
+                className={styles.clearFilters}
                 onClick={this.clearFilters}
                 type='link'>
           <FilterOutlined />

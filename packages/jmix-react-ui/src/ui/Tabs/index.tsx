@@ -4,7 +4,7 @@ import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
 import {menuItems, openScreen} from '../../screen-registration/screen-registration';
 import { CloseOutlined } from '@ant-design/icons';
-import './styles.less';
+import styles from './styles.module.less';
 import {FormattedMessage} from 'react-intl';
 import {isDevModeEnabled, CurrentTabContext} from "@haulmont/jmix-react-core";
 
@@ -36,7 +36,7 @@ export const MultiTabs = observer(() => {
           tab={
             <>
               <FormattedMessage id={item.title} />
-              <CloseOutlined className="jmix-tab-icon" onClick={(e) => handleCloseClick(e, item)} />
+              <CloseOutlined className={styles.icon} onClick={(e) => handleCloseClick(e, item)} />
             </>
           }
           key={item.key}

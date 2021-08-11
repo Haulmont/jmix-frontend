@@ -13,7 +13,7 @@ import {
 import {DeleteOutlined, PlusOutlined} from "@ant-design/icons";
 import {FormattedMessage, useIntl} from "react-intl";
 import {openEntityEditorScreen} from "../../util/screen";
-import './CompositionFields.less';
+import styles from './CompositionFields.module.less';
 import {ant_to_jmixFront} from "../../formatters/ant_to_jmixFront";
 import {showDeleteEntityDialog} from "../../crud/common/showDeleteEntityDialog";
 
@@ -73,10 +73,10 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
   );
 
   return (
-    <span className='jmix-composition-field'>
+    <span className={styles.compositionField}>
       <Button type='link'
               onClick={handleUpsertBtnClick}
-              className='jmix-composition-field-upsert-btn'
+              className={styles.upsertBtn}
       >
         <UpsertBtnTitle value={value}
                         dirty={dirty}

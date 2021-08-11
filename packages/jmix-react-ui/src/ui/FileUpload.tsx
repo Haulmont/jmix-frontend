@@ -1,12 +1,13 @@
 import { UploadOutlined } from '@ant-design/icons';
 import { message, Upload, Spin } from 'antd';
+import classNames from "classnames";
 import * as React from 'react';
 import {UploadChangeParam} from 'antd/es/upload';
 import {IReactionDisposer, observable, reaction, makeObservable, action, runInAction} from 'mobx';
 import {observer} from 'mobx-react';
 import {UploadProps} from 'antd/es/upload';
 import {UploadFile} from 'antd/es/upload/interface';
-import './FileUpload.less';
+import styles from './FileUpload.module.less';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import {
   getJmixREST,
@@ -197,7 +198,7 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
     if (!mainStore.security.canUploadFiles() && this.fileList.length === 0) {
       // To avoid empty field
       return (
-        <div className="no-file-message">
+        <div className={styles.noFileMessage}>
           <FormattedMessage id="file.noFile"/>
         </div>
       );
@@ -216,7 +217,9 @@ class FileUploadComponent extends React.Component<FileUploadProps & WrappedCompo
         showPreviewIcon: true,
         showRemoveIcon: true,
       },
-      className: enableFullWidth ? '_cuba-file-upload-full-width-enabled' : '',
+      className: classNames({
+       [styles.fileUploadFullWidth]: enableFullWidth
+      })
     };
 
     const mergedUploadProps: UploadProps = { ...defaultUploadProps, ...passedUploadProps };
@@ -247,17 +250,17 @@ interface FileUploadDropAreaProps {
 function FileUploadDropArea(props: FileUploadDropAreaProps) {
   return props.fileRef
     ? (
-      <div className='cuba-file-drop-area'>
-        <UploadOutlined className='replaceicon' />
-        <span className='replacetext'>
+      <div className={styles.fileDropArea}>
+        <UploadOutlined className={styles.replaceIcon} />
+        <span className={styles.replaceText}>
           <FormattedMessage id='jmix.fileUpload.replace'/>
         </span>
       </div>
     )
     : (
-      <div className='cuba-file-drop-area'>
-        <UploadOutlined className='uploadicon' />
-        <div className='uploadtext'>
+      <div className={styles.fileDropArea}>
+        <UploadOutlined className={styles.uploadIcon} />
+        <div className={styles.uploadText}>
           <FormattedMessage id='jmix.fileUpload.upload'/>
         </div>
       </div>

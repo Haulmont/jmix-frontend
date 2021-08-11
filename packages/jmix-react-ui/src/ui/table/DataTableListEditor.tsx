@@ -22,9 +22,10 @@ import {
 } from '@haulmont/jmix-react-core';
 import {InputNumberProps} from 'antd/es/input-number';
 import {LabeledValue} from 'antd/es/select';
-import './DataTableListEditor.less';
+import styles from './DataTableFilter.module.less';
 import {DatePicker} from "../DatePicker";
 import {TimePicker} from "../TimePicker";
+import classNames from "classnames";
 
 interface DataTableListEditorProps {
   onChange: (items: string[] | number []) => void,
@@ -213,7 +214,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
 
   render() {
     return (
-      <div className='cuba-table-filter-list'>
+      <div className={styles.filterList}>
         {
           this.items.map((item: CaptionValuePair) => {
             return item.value != null
@@ -222,14 +223,17 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
           })
         }
         {this.inputVisible && (
-          <Form.Item className='cuba-table-filter-list-input filtercontrol'>
+          <Form.Item className={classNames(
+            styles.filterListInput,
+            styles.filterControl
+          )}>
             {this.input}
           </Form.Item>
         )}
         {!this.inputVisible && (
           <Tag onClick={this.showInput}
              color='blue'
-             className='cuba-table-filter-list-new'
+             className={styles.filterListNew}
           >
             <PlusOutlined />
             &nbsp;
@@ -328,7 +332,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
           <div>
             <Select dropdownMatchSelectWidth={false}
                     dropdownClassName={`cuba-value-dropdown-${this.props.id}`}
-                    className='cuba-filter-select'
+                    className={styles.filterSelect}
                     onSelect={this.onSelect}>
               {this.selectFieldOptions}
             </Select>

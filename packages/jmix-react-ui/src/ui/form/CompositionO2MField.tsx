@@ -8,11 +8,12 @@ import {
   isTempId
 } from "@haulmont/jmix-react-core";
 import {Button} from "antd";
-import './CompositionFields.less';
+import styles from './CompositionFields.module.less';
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
 import {PlusOutlined} from "@ant-design/icons";
 import {openEntityListScreen} from "../../util/screen";
 import {ant_to_jmixFront} from "../../formatters/ant_to_jmixFront";
+import classNames from "classnames";
 
 export interface CompositionO2MFieldProps {
   value?: EntityInstance[];
@@ -42,7 +43,10 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
   return (
     <Button type='link'
             onClick={handleClick}
-            className='jmix-composition-field jmix-composition-field-upsert-btn'
+            className={classNames(
+              styles.compositionField,
+              styles.upsertBtn
+            )}
     >
       <BtnTitle value={value} />
     </Button>
