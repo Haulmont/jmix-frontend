@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { AssociationM2MTestEntity } from "../../jmix/entities/scr_AssociationM2MTestEntity";
 
 const ENTITY_NAME = "scr_AssociationM2MTestEntity";
@@ -87,7 +88,7 @@ const AssociationM2MEditor = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

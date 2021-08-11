@@ -13,6 +13,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 
 const ENTITY_NAME = "scr_FavoriteCar";
 const ROUTING_PATH = "/favoriteCars";
@@ -72,7 +73,7 @@ export const FavoriteCars = observer(() => {
   const pagesTotal = data?.scr_FavoriteCarCount ?? 0;
 
   return (
-    <div className="narrow-layout">
+    <div className={styles.narrowLayout}>
       {dataSource.map(e => (
         <Card
           title={e._instanceName}

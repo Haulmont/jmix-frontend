@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { DeeplyNestedTestEntity } from "../../jmix/entities/scr_DeeplyNestedTestEntity";
 
 const ENTITY_NAME = "scr_DeeplyNestedTestEntity";
@@ -84,7 +85,7 @@ const DeeplyNestedTestEntityEditor = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

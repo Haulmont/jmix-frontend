@@ -24,6 +24,7 @@ import {
 import { Car } from "../../jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 
 const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carBrowserList";
@@ -105,7 +106,7 @@ const CarBrowserList = observer((props: EntityListProps<Car>) => {
   }
 
   return (
-    <div className="narrow-layout">
+    <div className={styles.narrowLayout}>
       <div style={{ marginBottom: "12px" }}>
         {entityList != null && (
           <Tooltip title={<FormattedMessage id="common.back" />}>

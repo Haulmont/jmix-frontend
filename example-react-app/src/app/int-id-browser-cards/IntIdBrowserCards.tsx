@@ -25,6 +25,7 @@ import {
 import { IntegerIdTestEntity } from "../../jmix/entities/scr_IntegerIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 
 const ENTITY_NAME = "scr_IntegerIdTestEntity";
 const ROUTING_PATH = "/intIdBrowserCards";
@@ -83,7 +84,7 @@ const IntIdBrowserCards = observer(
     }
 
     return (
-      <div className="narrow-layout">
+      <div className={styles.narrowLayout}>
         <div style={{ marginBottom: "12px" }}>
           {entityList != null && (
             <Tooltip title={<FormattedMessage id="common.back" />}>
