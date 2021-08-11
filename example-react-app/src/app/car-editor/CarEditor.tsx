@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { Car } from "../../jmix/entities/scr_Car";
 
 const ENTITY_NAME = "scr_Car";
@@ -114,7 +115,7 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
   }
 
   return (
-    <Card className="narrow-layout">
+    <Card className={styles.narrowLayout}>
       <Form
         onFinish={handleSubmit}
         onFinishFailed={handleSubmitFailed}

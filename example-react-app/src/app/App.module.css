@@ -1,25 +1,25 @@
-.main-layout {
+.mainLayout {
   height: 100%;
 }
 
-.layout-container.ant-layout {
+.layoutContainer:global(.ant-layout) {
   min-height: initial;
 }
 
-.layout-sider {
+.layoutSider {
   background: #ffffff;
 }
 
-.layout-content {
+.layoutContent {
   padding: 24px 24px 24px;
 }
 
-.narrow-layout {
+.narrowLayout {
   max-width: 1024px;
   margin: auto;
 }
 
-.narrow-layout.ant-card {
+.narrowLayout:global(.ant-card) {
   max-width: 1024px;
   margin: auto;
 }

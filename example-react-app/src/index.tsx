@@ -21,7 +21,6 @@ import {
 } from "./config";
 import metadata from "./jmix/metadata.json";
 import "antd/dist/antd.min.css";
-import "@haulmont/jmix-react-ui/dist/index.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
 import "dayjs/locale/ru";

@@ -2,7 +2,7 @@ import { LogoutOutlined } from "@ant-design/icons";
 import { Button, Space } from "antd";
 import React, { useCallback } from "react";
 import { observer } from "mobx-react";
-import "./AppHeader.css";
+import styles from "./AppHeader.module.css";
 import { useMainStore } from "@haulmont/jmix-react-core";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
 import { useIntl } from "react-intl";
@@ -23,17 +23,17 @@ const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
   }, [mainStore, intl]);
 
   return (
-    <div className="app-header">
-      <JmixLightIcon className="app-header__icon" />
+    <div className={styles.header}>
+      <JmixLightIcon className={styles.icon} />
 
-      <div className="app-header__content">{children}</div>
+      <div className={styles.content}>{children}</div>
 
-      <Space className="app-header__user-panel">
-        <LanguageSwitcher className="language-switcher -header" />
+      <Space className={styles.userPanel}>
+        <LanguageSwitcher className={styles.languageSwitcher} />
         <span>{mainStore.userName}</span>
         <Button
           id="button_logout"
-          className="app-header__user-panel__logout-btn"
+          className={styles.logoutBtn}
           type="text"
           icon={<LogoutOutlined />}
           onClick={showLogoutConfirm}

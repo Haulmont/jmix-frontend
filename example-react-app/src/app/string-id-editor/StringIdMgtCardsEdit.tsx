@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 
 const ENTITY_NAME = "scr_StringIdTestEntity";
@@ -111,7 +112,7 @@ const StringIdMgtCardsEdit = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

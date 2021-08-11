@@ -6,7 +6,7 @@ import { Button, Input, message } from "antd";
 import { observer } from "mobx-react";
 import { action } from "mobx";
 import { useMainStore, JmixServerError } from "@haulmont/jmix-react-core";
-import "./Login.css";
+import styles from "./Login.module.css";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
 import { FormattedMessage, useIntl } from "react-intl";
 import JmixDarkIcon from "../icons/JmixDarkIcon";
@@ -50,10 +50,10 @@ const Login = observer(() => {
   }, [setPerformingLoginRequest, mainStore, intl, login, password]);
 
   return (
-    <div className="login-form">
-      <JmixDarkIcon className="logo" />
+    <div className={styles.loginForm}>
+      <JmixDarkIcon className={styles.logo} />
 
-      <div className="title">scr-jmix</div>
+      <div className={styles.title}>scr-jmix</div>
 
       <Form layout="vertical" onFinish={doLogin}>
         <Form.Item>
@@ -80,8 +80,8 @@ const Login = observer(() => {
           />
         </Form.Item>
         <Form.Item>
-          <div className="language-switcher-container">
-            <LanguageSwitcher/>
+          <div className={styles.languageSwitcherContainer}>
+            <LanguageSwitcher />
           </div>
         </Form.Item>
         <Form.Item>

@@ -18,6 +18,7 @@ import { Card } from "antd";
 import { observer } from "mobx-react";
 import React, { useContext } from "react";
 import gql from "graphql-tag";
+import styles from "../../app/App.module.css";
 import { FormWizardTestEntity } from "../../jmix/entities/scr_FormWizardTestEntity";
 
 const ENTITY_NAME = "scr_FormWizardTestEntity";
@@ -99,7 +100,7 @@ const FormWizardEditor = withFormWizardProvider(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <FormWizardManager
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

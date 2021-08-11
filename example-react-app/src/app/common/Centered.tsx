@@ -1,12 +1,12 @@
 import React, { ReactNode } from "react";
-import "./Centered.css";
+import styles from "./Centered.module.css";
 
 interface CenteredProps {
   children?: ReactNode;
 }
 
 const Centered = ({ children }: CenteredProps) => {
-  return <div className="_centered">{children}</div>;
+  return <div className={styles.centered}>{children}</div>;
 };
 
 export default Centered;

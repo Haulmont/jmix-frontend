@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { TrickyIdTestEntity } from "../../jmix/entities/scr_TrickyIdTestEntity";
 
 const ENTITY_NAME = "scr_TrickyIdTestEntity";
@@ -82,7 +83,7 @@ const TrickyIdEditor = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

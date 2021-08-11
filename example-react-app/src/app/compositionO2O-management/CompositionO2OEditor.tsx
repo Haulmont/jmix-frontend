@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { CompositionO2OTestEntity } from "../../jmix/entities/scr_CompositionO2OTestEntity";
 
 const ENTITY_NAME = "scr_CompositionO2OTestEntity";
@@ -93,7 +94,7 @@ const CompositionO2OEditor = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}

@@ -17,6 +17,7 @@ import {
   registerEntityEditor
 } from "@haulmont/jmix-react-ui";
 import { gql } from "@apollo/client";
+import styles from "../../app/App.module.css";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
 
 const ENTITY_NAME = "scr_BoringStringIdTestEntity";
@@ -87,7 +88,7 @@ const BoringStringIdEditor = observer(
     }
 
     return (
-      <Card className="narrow-layout">
+      <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
           onFinishFailed={handleSubmitFailed}
