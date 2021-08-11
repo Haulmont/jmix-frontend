@@ -1,7 +1,8 @@
-import { dollarsToUnderscores, LoadQueryVars } from "@haulmont/jmix-react-core";
+import { LoadQueryVars } from "@haulmont/jmix-react-core";
 import { useCallback, useEffect } from "react";
 import { useSubmitCallback } from "../../crud/editor/ui-callbacks/useSubmitCallback";
 import { useEntityEditor, EntityEditorHookOptions, EntityEditorHookResult } from "../../crud/editor/useEntityEditor";
+import { useMessageSuccessPersisted } from "../../crud/editor/util/usePersistEntity";
 import { useMasterDetailStore } from "./MasterDetailContext";
 
 export interface EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
@@ -21,6 +22,7 @@ export function useMasterDetailEditor<
     options: EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
 ): EntityMasterDetailEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
     const {
+        entityId,
         entityName,
         entityInstance,
         onCommit,
@@ -29,12 +31,9 @@ export function useMasterDetailEditor<
 
     const entityEditorData = useEntityEditor<TEntity, TData, TQueryVars, TMutationVars>(options);
 
-    const {executeLoadQuery, executeUpsertMutation} = entityEditorData;
+    const {executeLoadQuery, persistEntity} = entityEditorData;
 
     const masterDetailStore = useMasterDetailStore();
-
-    const updateResultName = `upsert_${dollarsToUnderscores(entityName)}`;
-    const listQueryName = `${dollarsToUnderscores(entityName)}List`;
     
     // Watch at masterDetailStore.selectedEntityId changes. If masterDetailStore.selectedEntityId exists, then load the entity. Otherwise reset the form
     useEffect(() => {
@@ -50,25 +49,26 @@ export function useMasterDetailEditor<
         }
     }, [executeLoadQuery, masterDetailStore.selectedEntityId]);
 
-    const goToParentScreen = useCallback(() => {
+    const messageSuccessPersisted = useMessageSuccessPersisted(entityId);
+
+    const cancelEditor = useCallback(() => {
         masterDetailStore.setIsOpenEditor(false);
         masterDetailStore.setSelectedEntityId(undefined);
+        messageSuccessPersisted();
     }, [masterDetailStore]);
 
-    const handleSubmit = useSubmitCallback({
-        executeUpsertMutation,
-        updateResultName,
-        listQueryName,
+    const handleSubmit = useSubmitCallback<TEntity>({
         entityName,
-        goToParentScreen,
         entityId: masterDetailStore.selectedEntityId,
         entityInstance,
         onCommit,
+        persistEntity,
+        onSuccessPersist: cancelEditor
     });
 
     return {
         ...entityEditorData,
         handleSubmit,
-        handleCancelBtnClick: goToParentScreen,
+        handleCancelBtnClick: cancelEditor,
     };
 }

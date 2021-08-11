@@ -1,6 +1,8 @@
 import {useLocalObservable} from "mobx-react";
+import {useMemo, useCallback} from 'react';
 import {
   DocumentNode,
+  FetchResult,
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions,
@@ -18,13 +20,14 @@ import {
   Metadata
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import { useParentScreen } from "../../util/screen";
 import { useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
 import { useSubmitFailedCallback } from "./ui-callbacks/useSubmitFailedCallback";
 import {useMultiScreen} from "../../ui/MultiScreen";
 import {extractBeanValidationErrors} from "./validation/extractBeanValidationErrors";
 import {JmixServerValidationErrors} from "../../common/JmixServerValidationErrors";
 import { useNoop } from "../../util/useNoop";
+import { useParentScreen } from "../../util/screen";
+import { usePersistEntity, useMessageSuccessPersisted } from "./util/usePersistEntity";
 
 export type EntityEditorState = {
   globalErrors: string[];
@@ -158,6 +161,16 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    */
   intl: IntlShape;
   /**
+   * A callback that will be used for return to the parent screen.
+   */
+  goToParentScreen: () => void;
+  /**
+   * A callback that will be executed when the entity is persisted.
+   * @param upsertInputName
+   * @param updatedEntity
+   */
+  persistEntity: (updatedEntity: TEntity) => Promise<FetchResult<TData, Record<string, any>, Record<string, any>>>;
+  /**
    * A callback that will be executed when the editor is submitted.
    * @param entityInstance
    */
@@ -171,6 +184,11 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    * A callback that will be executed when the editor is closed without submitting.
    */
   handleCancelBtnClick: () => void;
+  /**
+   * A callback that will be executed when the editor is submitted.
+   * @param entityInstance
+   */
+  handleCommit?: (entityInstance: EntityInstance<TEntity>) => void;
 }
 
 export function useEntityEditor<
@@ -191,8 +209,8 @@ export function useEntityEditor<
     entityId = multiScreen?.params?.entityId,
     entityName,
     routingPath,
-    onCommit,
     entityInstance,
+    onCommit,
     useEntityEditorForm = useNoop,
     useEntityEditorFormValidation = useNoop
   } = options;
@@ -226,17 +244,42 @@ export function useEntityEditor<
 
   const goToParentScreen = useParentScreen(routingPath);
 
+  const handleCommit = useMemo(() => {
+    return onCommit != null
+      ? (entityInstance: EntityInstance<TEntity>) => {
+        onCommit(entityInstance);
+        goToParentScreen();
+      }
+      : undefined
+  }, [onCommit, goToParentScreen]);
+
   const handleCancelBtnClick = goToParentScreen;
 
-  const handleSubmit = useSubmitCallback({
-    executeUpsertMutation,
+  const messageSuccessPersisted = useMessageSuccessPersisted(entityId);
+
+  const handleSuccessPersisted = useCallback(
+    () => {
+      messageSuccessPersisted();
+      goToParentScreen();
+    },
+    [entityId, intl, goToParentScreen]
+  );
+
+  const persistEntity = usePersistEntity({
+    upsertItem: executeUpsertMutation,
     updateResultName,
     listQueryName,
     entityName,
-    goToParentScreen,
+    entityId,
+  });
+
+  const handleSubmit = useSubmitCallback<TEntity>({
+    entityName,
     entityId,
     entityInstance,
-    onCommit,
+    persistEntity,
+    onSuccessPersist: handleSuccessPersisted,
+    onCommit: handleCommit,
   });
 
   const handleSubmitFailed = useSubmitFailedCallback();
@@ -251,8 +294,11 @@ export function useEntityEditor<
     upsertMutationResult,
     entityEditorState,
     intl,
+    persistEntity,
     handleSubmit,
     handleSubmitFailed,
     handleCancelBtnClick,
+    handleCommit,
+    goToParentScreen,
   };
 }
