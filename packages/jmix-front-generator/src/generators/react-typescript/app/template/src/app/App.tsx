@@ -9,7 +9,7 @@ import {useMainStore, Router } from '@haulmont/jmix-react-core';
 import CenteredLoader from "./CenteredLoader";
 import {AppMenu} from "./AppMenu";
 import "../routing";
-import "./App.css";
+import styles from "./App.module.css";
 
 const routes = {
   '/': <ContentArea />,
@@ -34,7 +34,7 @@ const App = observer(() => {
   }
 
   return (
-    <Layout className="main-layout">
+    <Layout className={styles.mainLayout}>
       <Layout.Header>
         <% if (menuType === 'vertical') { %>
           <AppHeader />
@@ -44,18 +44,18 @@ const App = observer(() => {
           </AppHeader>
         <% } %>
       </Layout.Header>
-      <Layout className="layout-container">
+      <Layout className={styles.layoutContainer}>
         <% if (menuType === 'vertical') { %>
           <Layout.Sider
             width={200}
             breakpoint="sm"
             collapsedWidth={0}
-            className="layout-sider"
+            className={styles.layoutSider}
           >
             <AppMenu/>
           </Layout.Sider>
         <% } %>
-        <Layout className="layout-content">
+        <Layout className={styles.layoutContent}>
           <Layout.Content>
             <Router global routes={routes} />
           </Layout.Content>

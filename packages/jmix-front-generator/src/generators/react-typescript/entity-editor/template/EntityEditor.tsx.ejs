@@ -19,6 +19,7 @@ import {
   registerEntityEditor,
 } from '@haulmont/jmix-react-ui';
 import { gql } from "@apollo/client";
+import styles from "<%= relDirShift %>app/App.module.css";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
@@ -89,7 +90,7 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   }
 
   return (
-    <Card className="narrow-layout">
+    <Card className={styles.narrowLayout}>
       <Form
         onFinish={handleSubmit}
         onFinishFailed={handleSubmitFailed}
