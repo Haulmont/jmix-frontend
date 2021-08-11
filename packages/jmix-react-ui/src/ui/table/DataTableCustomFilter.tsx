@@ -7,8 +7,7 @@ import { action, computed, makeObservable } from 'mobx';
 import {Dayjs} from 'dayjs';
 import {DataTableListEditor} from './DataTableListEditor';
 import {DataTableIntervalEditor, TemporalInterval} from './DataTableIntervalEditor';
-import './DataTableCustomFilter.less';
-import './DataTableFilterControlLayout.less';
+import styles from './DataTableFilter.module.less';
 import {injectIntl, WrappedComponentProps, FormattedMessage} from 'react-intl';
 import {
   MainStoreInjected,
@@ -42,6 +41,7 @@ import {wrapInFormItem, getDefaultFilterFormItemProps} from './DataTableCustomFi
 import { FormInstance, FormItemProps } from 'antd/es/form';
 import {DatePicker} from '../DatePicker';
 import {TimePicker} from '../TimePicker';
+import classNames from 'classnames';
 
 export interface CaptionValuePair {
   caption: string;
@@ -271,13 +271,16 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
   render() {
     return (
       <Form layout='inline' onFinish={this.handleFinish} ref={this.setFormRef}>
-        <div className='cuba-table-filter'>
-          <div className='settings'>
-            <div className='cuba-filter-controls-layout'>
-              <Form.Item className='filtercontrol -property-caption'>
+        <div className={styles.tableFilter}>
+          <div className={styles.settings}>
+            <div className={styles.controlsLayout}>
+              <Form.Item className={classNames(
+                styles.filterControl, 
+                styles.propertyCaption)
+              }>
                 {this.propertyCaption}
               </Form.Item>
-              <Form.Item className='filtercontrol'
+              <Form.Item className={styles.filterControl}
                          initialValue={this.getDefaultOperator()}
                          name={`${this.props.entityProperty}_operatorsDropdown`}
               >
@@ -293,8 +296,8 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
             </div>
             {this.complexFilterEditor}
           </div>
-          <Divider className='divider' />
-          <div className='footer'>
+          <Divider className={styles.divider} />
+          <div className={styles.footer}>
             <Button htmlType='submit'
                     type='link'>
               <FormattedMessage id='jmix.dataTable.ok'/>
@@ -597,7 +600,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     return this.createFilterInput(
       <Select dropdownMatchSelectWidth={false}
               dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
-              className='cuba-filter-select'
+              className={styles.filterSelect}
               onSelect={this.onSelectChange}>
         {this.selectFieldOptions}
       </Select>
@@ -626,7 +629,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
     const component = (
       <Select dropdownMatchSelectWidth={false}
               dropdownClassName={`cuba-value-dropdown-${this.props.entityProperty}`}
-              className='cuba-filter-select'
+              className={styles.filterSelect}
               onSelect={this.onYesNoSelectChange}>
         <Select.Option value='true'
                        className='cuba-filter-value-true'
@@ -650,7 +653,10 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   get listEditor(): ReactNode {
     return (
-      <Form.Item className='filtercontrol -complex-editor'>
+      <Form.Item className={classNames(
+        styles.filterControl,
+        styles.complexEditor
+      )}>
         <DataTableListEditor onChange={(value: string[] | number[]) => this.value = value}
                                id={this.props.entityProperty}
                                propertyInfo={this.propertyInfoNN}
@@ -662,7 +668,10 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   get intervalEditor(): ReactNode {
     return (
-      <Form.Item className='filtercontrol -complex-editor'>
+      <Form.Item className={classNames(
+        styles.filterControl,
+        styles.complexEditor
+      )}>
         <DataTableIntervalEditor onChange={(value: TemporalInterval) => this.value = value}
                                    id={this.props.entityProperty}
                                    propertyType={this.propertyInfoNN.type as PropertyType}

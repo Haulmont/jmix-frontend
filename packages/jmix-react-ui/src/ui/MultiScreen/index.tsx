@@ -1,8 +1,8 @@
 import React, { useContext } from 'react';
 import { observer } from "mobx-react";
 import { ScreensContext, IMultiScreenItem } from '@haulmont/jmix-react-core';
-import "./styles.less";
 import { FormattedMessage } from 'react-intl';
+import styles from "./styles.module.less";
 
 
 export const MultiScreenContext = React.createContext<IMultiScreenItem>(null!);
@@ -60,7 +60,7 @@ const Breadcrumbs = observer(() => {
   if (screens.screens.length <= 1) return null;
 
   return (
-    <div className="jmix-multi-screen--breadcrumbs">
+    <div className={styles.breadcrumbs}>
       {Array.from(screens.screens).map(screen => (
         <Breadcrumb screen={screen} key={screen.key} />
       ))}
@@ -83,7 +83,7 @@ const Breadcrumb = observer((props: IBreadcrumbProps) => {
   return (
     <span
       onClick={handleClick}
-      className="jmix-multi-screen--breadcrumb"
+      className={styles.breadcrumb}
       data-active={screens.currentScreen === screen}
     >
       <FormattedMessage id={screen.title} />

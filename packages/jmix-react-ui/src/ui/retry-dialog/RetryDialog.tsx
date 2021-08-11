@@ -1,7 +1,7 @@
 import * as React from "react";
 import {FormattedMessage} from "react-intl";
 import {Button} from "antd";
-import './RetryDialog.less';
+import styles from './RetryDialog.module.less';
 import {RedoOutlined} from "@ant-design/icons";
 
 export interface RetryDialogProps {
@@ -19,7 +19,7 @@ export const RetryDialog = (props: RetryDialogProps) => {
     <>
       <FormattedMessage id={messageId} />.
       <Button htmlType="button"
-              className='retry-dialog-btn'
+              className={styles.retryBtn}
               icon={ <RedoOutlined/> }
               onClick={onRetry}>
         <span>

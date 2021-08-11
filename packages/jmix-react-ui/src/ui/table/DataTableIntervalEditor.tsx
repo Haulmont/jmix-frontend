@@ -6,10 +6,11 @@ import { Checkbox, InputNumber, Radio, Select } from 'antd';
 import {RadioChangeEvent} from 'antd/es/radio';
 import {CheckboxChangeEvent} from 'antd/es/checkbox';
 import {determineLastNextXInterval, determinePredefinedInterval} from './DataTableIntervalFunctions';
-import './DataTableIntervalEditor.less';
-import './DataTableFilterControlLayout.less';
+import intervalStyles from './DataTableIntervalEditor.module.less';
+import filterStyles from './DataTableFilter.module.less';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
 import { PropertyType } from '@haulmont/jmix-react-core';
+import classNames from 'classnames';
 
 export interface TemporalInterval {
   minDate: string,
@@ -93,7 +94,10 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
 
   render() {
     return (
-      <div className='cuba-filter-controls-layout cuba-table-filter-interval'>
+      <div className={classNames(
+        filterStyles.controlsLayout,
+        filterStyles.filterInterval)
+      }>
         {this.modeSelect}
         {(this.mode === 'predefined') ? this.predefinedIntervals : this.intervalInput}
       </div>
@@ -103,7 +107,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
   get modeSelect(): ReactNode {
     return (
       <Radio.Group
-          className='cuba-interval-mode-select'
+          className={intervalStyles.intervalModeSelect}
           onChange={this.onModeChanged}
           value={this.mode}>
         <Radio value={'last'}>
@@ -121,7 +125,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
 
   get predefinedIntervals(): ReactNode {
     return (
-      <Form.Item className='filtercontrol'
+      <Form.Item className={filterStyles.filterControl}
                  name={`${this.props.id}_predefined`}
                  initialValue={this.option}
                  rules={[{
@@ -131,7 +135,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
       >
         <Select onChange={this.onPredefinedIntervalOptionChanged}
                 dropdownMatchSelectWidth={false}
-                className='cuba-interval-predefined-select'
+                className={intervalStyles.intervalPredefinedSelect}
         >
           <Select.Option value={'today'}>
             <FormattedMessage id='jmix.dataTable.intervalEditor.today' />
@@ -158,9 +162,9 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
 
   get intervalInput(): ReactNode {
     return (
-      <div className='cuba-filter-controls-layout'>
+      <div className={filterStyles.controlsLayout}>
         <Form.Item key={`${this.props.id}.wrap.number`}
-                   className='filtercontrol'
+                   className={filterStyles.filterControl}
                    name={`${this.props.id}_number`}
                    initialValue={this.numberOfUnits}
                    rules={[{
@@ -170,7 +174,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
         >
           <InputNumber onChange={this.onIntervalNumberChanged}/>
         </Form.Item>
-        <Form.Item key={`${this.props.id}.wrap.unit`} className='filtercontrol'>
+        <Form.Item key={`${this.props.id}.wrap.unit`} className={filterStyles.filterControl}>
           <Select defaultValue={this.timeUnit}
                   onChange={this.onIntervalUnitChanged}
                   dropdownMatchSelectWidth={false}>
@@ -188,9 +192,9 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
             </Select.Option>
           </Select>
         </Form.Item>
-        <Form.Item key={`${this.props.id}.wrap.includeCurrent`} className='filtercontrol'>
+        <Form.Item key={`${this.props.id}.wrap.includeCurrent`} className={filterStyles.filterControl}>
           <Checkbox onChange={this.onIncludeCurrentChanged}
-                    className='cuba-interval-include-current'
+                    className={intervalStyles.intervalIncludeCurrent}
                     defaultChecked={this.includeCurrent}>
             <FormattedMessage id='jmix.dataTable.intervalEditor.includingCurrent' />
           </Checkbox>

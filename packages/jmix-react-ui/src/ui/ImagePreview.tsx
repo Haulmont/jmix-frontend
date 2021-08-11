@@ -2,7 +2,7 @@ import React from 'react';
 import {Modal} from 'antd';
 import {injectIntl, WrappedComponentProps} from 'react-intl';
 import {Spinner} from './Spinner';
-import './ImagePreview.less';
+import styles from './ImagePreview.module.less';
 import {saveFile} from '../util/files';
 import {ButtonProps} from 'antd/es/button';
 import {DownloadOutlined} from '@ant-design/icons';
@@ -63,18 +63,18 @@ class ImagePreviewComponent extends React.Component<ImagePreviewProps> {
              width='80vw'
       >
         {isLoading && (
-          <div className='cuba-image-preview-spinner'>
+          <div className={styles.spinner}>
             <Spinner/>
           </div>
         )}
         {!isLoading && objectUrl != null && fileName != null && (
-          <div className='cuba-image-preview'>
-            <div className='title'>
+          <div className={styles.imagePreview}>
+            <div className={styles.title}>
               {fileName}
             </div>
             <img src={objectUrl}
                  alt={intl.formatMessage({id: 'jmix.imagePreview.alt'})}
-                 className='image'
+                 className={styles.image}
             />
           </div>
         )}

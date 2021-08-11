@@ -1,7 +1,8 @@
 import {Input} from "antd";
 import {InputProps} from "antd/lib/input";
 import React, {forwardRef, Ref} from "react";
-import "./CharInput.less";
+import styles from "./CharInput.module.less";
+import classNames from "classnames";
 
 export const CharInput = forwardRef((props: InputProps, ref: Ref<Input>) => {
   const {className = '', ...rest} = props;
@@ -10,7 +11,10 @@ export const CharInput = forwardRef((props: InputProps, ref: Ref<Input>) => {
       {...rest}
       ref={ref}
       maxLength={1}
-      className={`charinput-field ${className}`}  
+      className={classNames(
+        className,
+        styles.charInputField
+      )} 
     />
   );
 });

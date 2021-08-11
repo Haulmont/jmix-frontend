@@ -1,0 +1,79 @@
+@import "antd/es/style/themes/default";
+
+.tableFilter {
+  > .settings {
+    max-width: 550px;
+    padding: @padding-sm;
+
+    > .filterControl {
+      &.complexEditor {
+        margin-right: 0;
+      }
+    }
+  }
+  > .divider {
+    margin: 0;
+  }
+  > .footer {
+    display: flex;
+    justify-content: left;
+
+    &:first-child {
+      margin-right: 12px;
+    }
+  }
+}
+
+.loader {
+  margin: 12px;
+}
+
+.filterInterval {
+  margin-top: 12px;
+}
+
+.controlsLayout {
+  display: flex;
+
+  > .filterControl {
+    &.propertyCaption {
+      white-space: nowrap;
+    }
+  }
+
+  &.noWrap {
+    white-space: nowrap;
+  }
+}
+
+.filterSelect {
+  min-width: 60px;
+}
+
+.filterList {
+  line-height: 32px;
+  margin-top: 8px;
+}
+
+.filterListNew {
+  border-style: dashed;
+}
+
+.filterListInput:global(.ant-row) {
+  display: inline-block;
+}
+
+@media screen and (max-width: @screen-xs-max) {
+  .controlsLayout {
+    flex-direction: column;
+
+    > .filterControl :global(.ant-time-picker),
+    > .filterControl :global(.ant-calendar-picker),
+    > .filterControl :global(.ant-input-number),
+    > .filterControl :global(.ant-form-item-control),
+    > .filterControl:global(.ant-row.ant-form-item) {
+      width: 100%;
+      margin-right: 0;
+    }
+  }
+}
