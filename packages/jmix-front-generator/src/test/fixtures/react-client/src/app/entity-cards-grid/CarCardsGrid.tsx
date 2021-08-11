@@ -14,6 +14,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
+import styles from "app/App.module.css";
 
 const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/carCardsGrid";
@@ -89,7 +90,7 @@ export const CarCardsGrid = observer(() => {
   const pagesTotal = data?.scr_CarCount ?? 0;
 
   return (
-    <div className="narrow-layout">
+    <div className={styles.narrowLayout}>
       <Row gutter={[12, 12]}>
         {dataSource.map(e => (
           <Col key={e.id ? getStringId(e.id) : undefined} xl={8} sm={24}>

@@ -20,6 +20,7 @@ import {Card} from 'antd';
 import { observer } from 'mobx-react';
 import React, { useContext } from 'react';
 import gql from 'graphql-tag';
+import styles from "<%= relDirShift %>app/App.module.css";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
@@ -83,7 +84,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
     }
 
     return (
-        <Card className="narrow-layout">
+        <Card className={styles.narrowLayout}>
             <FormWizardManager
                 onFinish={handleSubmit}
                 onFinishFailed={handleSubmitFailed}

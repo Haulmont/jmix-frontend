@@ -1,11 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
 import Centered from './common/Centered';
 import React from 'react';
-import './CenteredLoader.css';
+import styles from './CenteredLoader.module.css';
 
 const CenteredLoader = () => (
   <Centered>
-    <LoadingOutlined className='centered-loader-icon' spin={true} />
+    <LoadingOutlined className={styles.icon} spin={true} />
   </Centered>
 );
 

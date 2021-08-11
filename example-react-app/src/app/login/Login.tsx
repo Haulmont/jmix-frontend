@@ -81,7 +81,7 @@ const Login = observer(() => {
         </Form.Item>
         <Form.Item>
           <div className="language-switcher-container">
-            <LanguageSwitcher className="language-switcher" />
+            <LanguageSwitcher/>
           </div>
         </Form.Item>
         <Form.Item>

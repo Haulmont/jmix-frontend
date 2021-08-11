@@ -1,5 +1,5 @@
 import React, {ReactNode} from "react";
-import './Centered.css';
+import styles from './Centered.module.css';
 
 interface CenteredProps {
   children?: ReactNode;
@@ -7,7 +7,7 @@ interface CenteredProps {
 
 const Centered = ({children}: CenteredProps) => {
   return (
-    <div className='_centered'>
+    <div className={styles.centered}>
       {children}
     </div>
   )

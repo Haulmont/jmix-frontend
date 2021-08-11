@@ -13,6 +13,7 @@ import {
 } from "@haulmont/jmix-react-ui";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
+import styles from "<%= relDirShift %>app/App.module.css";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
@@ -49,7 +50,7 @@ export const <%= className %> = observer(() => {
   const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
-    <div className='narrow-layout'>
+    <div className={styles.narrowLayout}>
       {dataSource.map(e => (
         <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
         <Card

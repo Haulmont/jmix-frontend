@@ -1,29 +1,38 @@
-.app-header {
+.header {
   display: flex;
   align-items: center;
   color: #CCCCCC;
 }
 
-.app-header__icon {
+.icon {
   width: 32px;
   height: 32px;
   line-height: 0px;
 }
 
-.app-header__content {
+.content {
   margin-left: 12px;
   flex-grow: 1;
   overflow: hidden;
 }
 
-.app-header__user-panel {
+.userPanel {
   margin-left: 12px;
 }
 
-.app-header__user-panel__logout-btn {
+.logoutBtn {
   color: #CCCCCC !important;
 }
 
-.app-header__user-panel__logout-btn:hover {
+.logoutBtn:hover {
   color: #FFF !important;
+}
+
+.languageSwitcher:global(.ant-select) {
+  background: none;
+  color: #CCCCCC;
+}
+
+.languageSwitcher :global(.ant-select-arrow) {
+  color: #CCCCCC;
 }

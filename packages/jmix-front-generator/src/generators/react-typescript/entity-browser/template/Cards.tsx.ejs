@@ -15,6 +15,7 @@ import {
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
+import styles from "<%= relDirShift %>app/App.module.css";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
@@ -59,7 +60,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   }
 
   return (
-    <div className='narrow-layout'>
+    <div className={styles.narrowLayout}>
       <div style={{marginBottom: '12px'}}>
 
         {entityList != null && (
