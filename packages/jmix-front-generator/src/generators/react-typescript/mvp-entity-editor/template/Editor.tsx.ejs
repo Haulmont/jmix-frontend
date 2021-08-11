@@ -1,13 +1,20 @@
 import React, {useEffect} from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import {Form, Button, Card, Input} from "antd";
+import {
+  Form,
+  Button,
+  Card,
+  Input,
+  InputNumber,
+  Checkbox
+} from "antd";
 import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {FormattedMessage} from 'react-intl';
 import {useMultiScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 
 
-const ENTITY_NAME = '<%= entityModel.name %>';
+const ENTITY_NAME = '<%= entityName %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= toFatSnakeCase(queryName) %> = gql`
@@ -59,13 +66,13 @@ const <%= className %> = observer(() => {
               form={form}
         >
 
-          {Object.keys(item).map(attrName => (
-            <Form.Item name={attrName}
-                       label={attrName}
+          <% attributes.forEach((attr) => { %>
+            <Form.Item name={'<%= attr.name %>'}
+                       label={'<%= attr.name %>'}
             >
-              <%- include(includesPath('MvpFormField'), {attr: entityModel.attributes[attrName]}) %>
+              <%- include(includesPath('MvpFormField'), {attr: attr}) %>
             </Form.Item>
-          ))}
+          <% }) %>
 
           <Form.Item style={{textAlign: 'center'}}>
             <Button htmlType="button"

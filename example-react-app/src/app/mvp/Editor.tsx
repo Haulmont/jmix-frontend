@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { Form, Button, Card, Input } from "antd";
+import { Form, Button, Card, Input, InputNumber, Checkbox } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
@@ -105,11 +105,89 @@ const MvpScreenEditor = observer(() => {
         layout="vertical"
         form={form}
       >
-        {Object.keys(item).map(attrName => (
-          <Form.Item name={attrName} label={attrName}>
-            <Input/>
-          </Form.Item>
-        ))}
+        <Form.Item name={"_instanceName"} label={"_instanceName"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"carType"} label={"carType"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"createdBy"} label={"createdBy"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"createdDate"} label={"createdDate"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"ecoRank"} label={"ecoRank"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"garage"} label={"garage"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"id"} label={"id"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"lastModifiedBy"} label={"lastModifiedBy"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"lastModifiedDate"} label={"lastModifiedDate"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"manufactureDate"} label={"manufactureDate"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"manufacturer"} label={"manufacturer"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"maxPassengers"} label={"maxPassengers"}>
+          <InputNumber precision={0} />
+        </Form.Item>
+
+        <Form.Item name={"mileage"} label={"mileage"}>
+          <InputNumber />
+        </Form.Item>
+
+        <Form.Item name={"model"} label={"model"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"photo"} label={"photo"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"price"} label={"price"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"purchaseDate"} label={"purchaseDate"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"regNumber"} label={"regNumber"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"technicalCertificate"} label={"technicalCertificate"}>
+          <Input />
+        </Form.Item>
+
+        <Form.Item name={"version"} label={"version"}>
+          <InputNumber precision={0} />
+        </Form.Item>
+
+        <Form.Item name={"wheelOnRight"} label={"wheelOnRight"}>
+          <Checkbox />
+        </Form.Item>
 
         <Form.Item style={{ textAlign: "center" }}>
           <Button htmlType="button" onClick={() => alert("onCancel")}>

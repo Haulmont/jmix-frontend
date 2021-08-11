@@ -1,19 +1,23 @@
 import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
 import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
 import {MvpEntityEditorAnswers} from "./answers";
-import {GraphQLScalarType, GraphQLSchema} from "graphql";
+import {
+  DocumentNode,
+  GraphQLEnumType,
+  GraphQLScalarType,
+  GraphQLSchema,
+  GraphQLUnionType,
+} from "graphql";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
+import gql from "graphql-tag";
+import {GraphQLOutputType} from "graphql/type/definition";
 
 export interface AttributeModel {
-  type: 'Int' | 'Float' | 'String' | 'Boolean' | 'ID';
-}
-
-export interface EntityModel {
   name: string;
-  attributes: Record<string, AttributeModel>
+  type: string;
 }
 
 export type MvpEntityEditorTemplateModel =
@@ -24,7 +28,8 @@ export type MvpEntityEditorTemplateModel =
     queryString: string,
     mutationName: string,
     mutationString: string,
-    entityModel: EntityModel,
+    entityName: string,
+    attributes: AttributeModel[],
   };
 
 export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
@@ -36,25 +41,85 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   gen: YeomanGenerator,
   questions?: StudioTemplateProperty[]
 ): Promise<MvpEntityEditorTemplateModel>  => {
+  // const queryString = answers.query;
+  const queryString = MOCK_QUERY_STRING;
+  // const mutationString = answers.upsertMutation;
+  const mutationString = MOCK_MUTATION_STRING;
+
+  const queryNode = gql(queryString);
+
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    entityModel: {
-      name: 'scr_Car',
-      attributes: {
-        price: {
-          type: 'Int'
-        },
-        wheelOnRight: {
-          type: 'Boolean'
-        }
-      }
-    },
-    queryName: 'scr_CarById', // TODO
+    ...deriveQueryModel(queryNode, schema),
     mutationName: 'scr_CarEdit', // TODO
     // TODO problem with $id: String = "", quotation marks get messed up
     // TODO @include $loadItem - add support
-    queryString: `
+    queryString,
+    mutationString
+  }
+};
+
+export function deriveQueryModel(
+  queryNode: DocumentNode, schema: GraphQLSchema
+): {queryName: string, attributes: AttributeModel[], entityName: string} {
+  const operationDefinition = queryNode.definitions[0];
+  if (!('selectionSet' in operationDefinition)) {
+    throw new Error('Selection set is not found in operation definition');
+  }
+
+  const queryName = operationDefinition.name?.value;
+  if (queryName == null) {
+    throw new Error('Query name not found');
+  }
+
+  const queryField = operationDefinition.selectionSet.selections[0];
+  if (!('selectionSet' in queryField) || queryField.selectionSet == null) {
+    throw new Error('Selection set is not found in query');
+  }
+
+  const queryType = schema.getQueryType();
+  if (queryType == null) {
+    throw new Error('Query type not found');
+  }
+
+  const outputType: GraphQLOutputType = queryType.getFields()[queryName].type;
+  if (!('name' in outputType)) {
+    throw new Error('Output type name not found');
+  }
+
+  const outputTypeName = outputType.name;
+
+  const typeMap = schema.getTypeMap();
+  if (typeMap == null) {
+    throw new Error('Type map not found');
+  }
+
+  const namedType = typeMap[outputTypeName];
+  if (namedType instanceof GraphQLScalarType
+      || namedType instanceof GraphQLUnionType
+      || namedType instanceof GraphQLEnumType
+  ) {
+    throw new Error('Unexpected type');
+  }
+
+  const attributes = Object.values(namedType.getFields()).map((field: any) => {
+    return {
+      name: field.name,
+      type: field.type.name
+    }
+  });
+
+  console.log(attributes);
+
+  return {
+    queryName,
+    attributes,
+    entityName: outputTypeName
+  };
+}
+
+const MOCK_QUERY_STRING = `
       query scr_CarById($id: String!) {
         scr_CarById(id: $id) {
           id
@@ -96,13 +161,12 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
           _instanceName
         }
       }
-    `,
-    mutationString: `
+    `;
+
+const MOCK_MUTATION_STRING = `
         mutation Upsert_scr_Car($car: inp_scr_Car!) {
           upsert_scr_Car(car: $car) {
             id
           }
         }
-    `
-  }
-};
+    `;

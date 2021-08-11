@@ -1,14 +1,17 @@
-<%- if (attr?.type === 'Int' || attr?.type === 'Float') { %>
+<% if (attr?.type === 'Int') { %>
+    <InputNumber precision={0} />
+<% } %>
+<% if (attr?.type === 'Float') { %>
     <InputNumber />
-<%- } %>
-<%- if (attr?.type === 'String') { %>
+<% } %>
+<% if (attr?.type === 'String') { %>
     <Input />
-<%- } %>
-<%- if (attr?.type === 'Boolean') { %>
+<% } %>
+<% if (attr?.type === 'Boolean') { %>
     <Checkbox />
-<%- } %>
-<%- if (attr?.type === 'ID') { %>
-<%- } %>
-<%- if (attr == null) { %>
+<% } %>
+<% if (attr?.type === 'ID') { %>
+<% } %>
+<% if (!['Int', 'Float', 'String', 'Boolean', 'ID'].includes(attr?.type)) { %>
     <Input />
-<%- } %>
+<% } %>
