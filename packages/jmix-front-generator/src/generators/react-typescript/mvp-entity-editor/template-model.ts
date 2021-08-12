@@ -3,7 +3,7 @@ import {MvpComponentOptions} from "../../../building-blocks/stages/options/piece
 import {MvpEntityEditorAnswers} from "./answers";
 import {
   DocumentNode,
-  GraphQLEnumType,
+  GraphQLEnumType, GraphQLEnumValue,
   GraphQLScalarType,
   GraphQLSchema,
   GraphQLUnionType,
@@ -18,6 +18,7 @@ import {GraphQLOutputType} from "graphql/type/definition";
 export interface AttributeModel {
   name: string;
   type: string;
+  enumOptions?: Array<GraphQLEnumValue>;
 }
 
 export type MvpEntityEditorTemplateModel =
@@ -73,11 +74,6 @@ export function deriveQueryModel(
     throw new Error('Query name not found');
   }
 
-  const queryField = operationDefinition.selectionSet.selections[0];
-  if (!('selectionSet' in queryField) || queryField.selectionSet == null) {
-    throw new Error('Selection set is not found in query');
-  }
-
   const queryType = schema.getQueryType();
   if (queryType == null) {
     throw new Error('Query type not found');
@@ -104,13 +100,17 @@ export function deriveQueryModel(
   }
 
   const attributes = Object.values(namedType.getFields()).map((field: any) => {
-    return {
+    const attr: AttributeModel = {
       name: field.name,
       type: field.type.name
-    }
-  });
+    };
 
-  console.log(attributes);
+    if (field.type instanceof GraphQLEnumType) {
+      attr.enumOptions = field.type.getValues();
+    }
+
+    return attr;
+  });
 
   return {
     queryName,

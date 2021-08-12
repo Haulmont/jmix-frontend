@@ -1,6 +1,6 @@
 import React, { useEffect } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { Form, Button, Card, Input, InputNumber, Checkbox } from "antd";
+import { Form, Button, Card, Input, InputNumber, Checkbox, Select } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
@@ -110,7 +110,11 @@ const MvpScreenEditor = observer(() => {
         </Form.Item>
 
         <Form.Item name={"carType"} label={"carType"}>
-          <Input />
+          <Select>
+            <Select.Option value="HATCHBACK">HATCHBACK</Select.Option>
+
+            <Select.Option value="SEDAN">SEDAN</Select.Option>
+          </Select>
         </Form.Item>
 
         <Form.Item name={"createdBy"} label={"createdBy"}>
@@ -122,7 +126,13 @@ const MvpScreenEditor = observer(() => {
         </Form.Item>
 
         <Form.Item name={"ecoRank"} label={"ecoRank"}>
-          <Input />
+          <Select>
+            <Select.Option value="EURO1">EURO1</Select.Option>
+
+            <Select.Option value="EURO2">EURO2</Select.Option>
+
+            <Select.Option value="EURO3">EURO3</Select.Option>
+          </Select>
         </Form.Item>
 
         <Form.Item name={"garage"} label={"garage"}>
