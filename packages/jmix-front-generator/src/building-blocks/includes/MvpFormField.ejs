@@ -1,18 +1,18 @@
-<% if (attr?.type === 'Int') { %>
+<% if (attr?.type === 'Int') { -%>
   <InputNumber precision={0} />
-<% } else if (attr?.type === 'Float') { %>
+<% } else if (attr?.type === 'Float') { -%>
   <InputNumber />
-<% } else if (attr?.type === 'String') { %>
+<% } else if (attr?.type === 'String') { -%>
   <Input />
-<% } else if (attr?.type === 'Boolean') { %>
+<% } else if (attr?.type === 'Boolean') { -%>
   <Checkbox />
-<% } else if (attr?.type === 'ID') { %>
-<% } else if (attr?.enumOptions != null) { %>
+<% } else if (attr?.type === 'ID') { -%>
+<% } else if (attr?.enumOptions != null) { -%>
   <Select>
-    <% attr.enumOptions.forEach(opt => { %>
+    <% attr.enumOptions.forEach(opt => { -%>
       <Select.Option value="<%= opt.value %>"><%= opt.name %></Select.Option>
-    <% }) %>
+    <% }) -%>
   </Select>
-<% } else { %>
+<% } else { -%>
   <Input />
-<% } %>
+<% } -%>

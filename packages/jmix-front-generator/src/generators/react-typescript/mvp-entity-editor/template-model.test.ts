@@ -1,5 +1,5 @@
 import { loadSchema } from "@graphql-tools/load";
-import {deriveQueryModel} from "./template-model";
+import {deriveMutationModel, deriveQueryModel} from "./template-model";
 import * as fs from "fs";
 import {GraphQLSchema} from "graphql";
 import * as path from "path";
@@ -17,10 +17,18 @@ describe('deriveEntityModel()', () => {
   });
 
   it('derives entity model', () => {
-    deriveQueryModel(gql(QUERY_STRING), schema);
+    deriveMutationModel(gql(MUTATION_STRING), schema);
     fail();
   });
 });
+
+const MUTATION_STRING = `
+  mutation Upsert_scr_Car($car: inp_scr_Car!) {
+    upsert_scr_Car(car: $car) {
+      id
+    }
+  }
+`;
 
 const QUERY_STRING = `
       query scr_CarById($id: String!) {

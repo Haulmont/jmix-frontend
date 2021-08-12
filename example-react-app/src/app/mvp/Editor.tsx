@@ -1,10 +1,23 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useCallback } from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
-import { Form, Button, Card, Input, InputNumber, Checkbox, Select } from "antd";
+import {
+  Form,
+  Button,
+  Card,
+  message,
+  Input,
+  InputNumber,
+  Checkbox,
+  Select
+} from "antd";
 import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
-import { FormattedMessage } from "react-intl";
-import { useMultiScreen, registerEntityEditor } from "@haulmont/jmix-react-ui";
+import { FormattedMessage, useIntl } from "react-intl";
+import {
+  useMultiScreen,
+  useParentScreen,
+  registerEntityEditor
+} from "@haulmont/jmix-react-ui";
 
 const ENTITY_NAME = "scr_Car";
 const ROUTING_PATH = "/mvpScreenEditor";
@@ -64,6 +77,7 @@ const SCR__CAR_EDIT = gql`
 const MvpScreenEditor = observer(() => {
   const multiScreen = useMultiScreen();
   const [form] = useForm();
+  const intl = useIntl();
 
   const id = multiScreen?.params?.entityId;
 
@@ -77,6 +91,23 @@ const MvpScreenEditor = observer(() => {
     }
   );
 
+  const [executeUpsertMutation] = useMutation(SCR__CAR_EDIT);
+  const handleSubmit = useCallback(
+    values => {
+      executeUpsertMutation({
+        variables: {
+          car: values
+        }
+      });
+    },
+    [executeUpsertMutation]
+  );
+  const handleSubmitFailed = useCallback(() => {
+    message.error(
+      intl.formatMessage({ id: "management.editor.validationError" })
+    );
+  }, [intl]);
+
   const item = data?.["scr_CarById"];
 
   useEffect(() => {
@@ -84,6 +115,12 @@ const MvpScreenEditor = observer(() => {
       form.setFieldsValue(item);
     }
   }, [item, form]);
+
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleCancel = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
 
   if (queryLoading) {
     return <>'Loading...'</>;
@@ -100,8 +137,8 @@ const MvpScreenEditor = observer(() => {
   return (
     <Card className="narrow-layout">
       <Form
-        onFinish={() => alert("onFinish")}
-        onFinishFailed={() => alert("onFinishFailed")}
+        onFinish={handleSubmit}
+        onFinishFailed={handleSubmitFailed}
         layout="vertical"
         form={form}
       >
@@ -112,7 +149,6 @@ const MvpScreenEditor = observer(() => {
         <Form.Item name={"carType"} label={"carType"}>
           <Select>
             <Select.Option value="HATCHBACK">HATCHBACK</Select.Option>
-
             <Select.Option value="SEDAN">SEDAN</Select.Option>
           </Select>
         </Form.Item>
@@ -128,9 +164,7 @@ const MvpScreenEditor = observer(() => {
         <Form.Item name={"ecoRank"} label={"ecoRank"}>
           <Select>
             <Select.Option value="EURO1">EURO1</Select.Option>
-
             <Select.Option value="EURO2">EURO2</Select.Option>
-
             <Select.Option value="EURO3">EURO3</Select.Option>
           </Select>
         </Form.Item>
@@ -200,7 +234,7 @@ const MvpScreenEditor = observer(() => {
         </Form.Item>
 
         <Form.Item style={{ textAlign: "center" }}>
-          <Button htmlType="button" onClick={() => alert("onCancel")}>
+          <Button htmlType="button" onClick={handleCancel}>
             <FormattedMessage id="common.cancel" />
           </Button>
           <Button

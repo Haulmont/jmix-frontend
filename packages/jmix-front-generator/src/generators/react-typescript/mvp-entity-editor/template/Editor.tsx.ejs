@@ -1,18 +1,27 @@
-import React, {useEffect} from "react";
+import React, {useEffect, useCallback} from "react";
 import { gql, useQuery, useMutation } from "@apollo/client";
 import {
   Form,
   Button,
   Card,
-  Input,
-  InputNumber,
-  Checkbox,
-  Select,
+  message,
+  <% if (hasStringScalars || hasCustomScalars) { %>
+    Input,
+  <% } %>
+  <% if (hasIntScalars || hasFloatScalars) { %>
+    InputNumber,
+  <% } %>
+  <% if (hasBooleanScalars) { %>
+    Checkbox,
+  <% } %>
+  <% if (hasEnumScalars) { %>
+    Select,
+  <% } %>
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
-import {FormattedMessage} from 'react-intl';
-import {useMultiScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
+import {FormattedMessage, useIntl} from 'react-intl';
+import {useMultiScreen, useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 
 
 const ENTITY_NAME = '<%= entityName %>';
@@ -29,6 +38,7 @@ const <%= toFatSnakeCase(mutationName) %> = gql`
 const <%= className %> = observer(() => {
   const multiScreen = useMultiScreen();
   const [form] = useForm();
+  const intl = useIntl();
 
   const id = multiScreen?.params?.entityId;
 
@@ -39,6 +49,18 @@ const <%= className %> = observer(() => {
     }
   });
 
+  const [executeUpsertMutation] = useMutation(<%= toFatSnakeCase(mutationName) %>);
+  const handleSubmit = useCallback((values) => {
+    executeUpsertMutation({
+      variables: {
+        <%= inputVariableName %>: values
+      }
+    });
+  }, [executeUpsertMutation]);
+  const handleSubmitFailed = useCallback(() => {
+    message.error(intl.formatMessage({id: 'management.editor.validationError'}));
+  }, [intl]);
+
   const item = data?.['<%= queryName %>'];
 
   useEffect(() => {
@@ -46,6 +68,12 @@ const <%= className %> = observer(() => {
       form.setFieldsValue(item);
     }
   }, [item, form]);
+
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleCancel = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
 
   if (queryLoading) {
     return <>'Loading...'</>;
@@ -61,8 +89,8 @@ const <%= className %> = observer(() => {
 
   return (
     <Card className="narrow-layout">
-        <Form onFinish={() => alert('onFinish')}
-              onFinishFailed={() => alert('onFinishFailed')}
+        <Form onFinish={handleSubmit}
+              onFinishFailed={handleSubmitFailed}
               layout="vertical"
               form={form}
         >
@@ -77,7 +105,7 @@ const <%= className %> = observer(() => {
 
           <Form.Item style={{textAlign: 'center'}}>
             <Button htmlType="button"
-                    onClick={() => alert('onCancel')}
+                    onClick={handleCancel}
             >
               <FormattedMessage id='common.cancel'/>
             </Button>

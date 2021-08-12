@@ -3,7 +3,7 @@ import {MvpComponentOptions} from "../../../building-blocks/stages/options/piece
 import {MvpEntityEditorAnswers} from "./answers";
 import {
   DocumentNode,
-  GraphQLEnumType, GraphQLEnumValue,
+  GraphQLEnumType, GraphQLEnumValue, GraphQLInputType,
   GraphQLScalarType,
   GraphQLSchema,
   GraphQLUnionType,
@@ -14,6 +14,7 @@ import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import gql from "graphql-tag";
 import {GraphQLOutputType} from "graphql/type/definition";
+import {TypeMap} from "graphql/type/schema";
 
 export interface AttributeModel {
   name: string;
@@ -24,14 +25,32 @@ export interface AttributeModel {
 export type MvpEntityEditorTemplateModel =
   CommonTemplateModel
   & UtilTemplateModel
+  & QueryModel
+  & MutationModel
   & {
-    queryName: string,
     queryString: string,
     mutationName: string,
     mutationString: string,
-    entityName: string,
-    attributes: AttributeModel[],
   };
+
+export type MutationModel = {
+  inputVariableName: string;
+};
+
+export type QueryModel = {
+  queryName: string,
+  entityName: string,
+  attributes: AttributeModel[],
+
+  // We need these in order to have correct imports in the templates
+  hasStringScalars: boolean;
+  hasIntScalars: boolean;
+  hasFloatScalars: boolean;
+  hasIDScalars: boolean;
+  hasBooleanScalars: boolean;
+  hasEnumScalars: boolean;
+  hasCustomScalars: boolean;
+};
 
 export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   MvpComponentOptions, MvpEntityEditorAnswers, MvpEntityEditorTemplateModel
@@ -39,8 +58,6 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   options: MvpComponentOptions,
   answers: MvpEntityEditorAnswers,
   schema: GraphQLSchema,
-  gen: YeomanGenerator,
-  questions?: StudioTemplateProperty[]
 ): Promise<MvpEntityEditorTemplateModel>  => {
   // const queryString = answers.query;
   const queryString = MOCK_QUERY_STRING;
@@ -48,11 +65,13 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   const mutationString = MOCK_MUTATION_STRING;
 
   const queryNode = gql(queryString);
+  const mutationNode = gql(mutationString);
 
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
     ...deriveQueryModel(queryNode, schema),
+    ...deriveMutationModel(mutationNode, schema),
     mutationName: 'scr_CarEdit', // TODO
     // TODO problem with $id: String = "", quotation marks get messed up
     // TODO @include $loadItem - add support
@@ -61,18 +80,22 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   }
 };
 
-export function deriveQueryModel(
-  queryNode: DocumentNode, schema: GraphQLSchema
-): {queryName: string, attributes: AttributeModel[], entityName: string} {
-  const operationDefinition = queryNode.definitions[0];
-  if (!('selectionSet' in operationDefinition)) {
-    throw new Error('Selection set is not found in operation definition');
+export function deriveMutationModel(mutationNode: DocumentNode, schema: GraphQLSchema): MutationModel {
+  const operationDefinition = mutationNode.definitions[0];
+  if (!('variableDefinitions' in operationDefinition) || operationDefinition.variableDefinitions == null) {
+    throw new Error('Variable definitions not found in mutation');
   }
 
-  const queryName = operationDefinition.name?.value;
-  if (queryName == null) {
-    throw new Error('Query name not found');
-  }
+  // TODO: what if more than one variable is required?
+  const inputVariableName = operationDefinition.variableDefinitions[0].variable.name.value;
+
+  return {
+    inputVariableName
+  };
+}
+
+export function deriveQueryModel(queryNode: DocumentNode, schema: GraphQLSchema): QueryModel {
+  const queryName = getOperationName(queryNode);
 
   const queryType = schema.getQueryType();
   if (queryType == null) {
@@ -99,14 +122,43 @@ export function deriveQueryModel(
     throw new Error('Unexpected type');
   }
 
+  let hasStringScalars: boolean = false;
+  let hasIntScalars: boolean = false;
+  let hasFloatScalars: boolean = false;
+  let hasIDScalars: boolean = false;
+  let hasBooleanScalars: boolean = false;
+  let hasEnumScalars: boolean = false;
+  let hasCustomScalars: boolean = false;
+
   const attributes = Object.values(namedType.getFields()).map((field: any) => {
     const attr: AttributeModel = {
       name: field.name,
       type: field.type.name
     };
 
-    if (field.type instanceof GraphQLEnumType) {
-      attr.enumOptions = field.type.getValues();
+    switch(attr.type) {
+      case 'Int':
+        hasIntScalars = true;
+        break;
+      case 'Float':
+        hasFloatScalars = true;
+        break;
+      case 'String':
+        hasStringScalars = true;
+        break;
+      case 'ID':
+        hasIntScalars = true;
+        break;
+      case 'Boolean':
+        hasBooleanScalars = true;
+        break;
+      default:
+        if (field.type instanceof GraphQLEnumType) {
+          attr.enumOptions = field.type.getValues();
+          hasEnumScalars = true;
+        } else {
+          hasCustomScalars = true;
+        }
     }
 
     return attr;
@@ -115,9 +167,31 @@ export function deriveQueryModel(
   return {
     queryName,
     attributes,
-    entityName: outputTypeName
+    entityName: outputTypeName,
+    hasStringScalars,
+    hasIntScalars,
+    hasFloatScalars,
+    hasIDScalars,
+    hasBooleanScalars,
+    hasEnumScalars,
+    hasCustomScalars
   };
 }
+
+function getOperationName(node: DocumentNode): string {
+  const operationDefinition = node.definitions[0];
+  if (!('selectionSet' in operationDefinition)) {
+    throw new Error('Selection set is not found in operation definition');
+  }
+
+  const selection = operationDefinition.selectionSet.selections[0];
+  if (!('name' in selection)) {
+    throw new Error('Name not found');
+  }
+
+  return selection.name.value;
+}
+
 
 const MOCK_QUERY_STRING = `
       query scr_CarById($id: String!) {
