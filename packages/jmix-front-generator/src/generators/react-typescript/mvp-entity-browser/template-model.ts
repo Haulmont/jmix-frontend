@@ -6,6 +6,8 @@ import {MvpEntityBrowserAnswers} from "./answers";
 import {GraphQLSchema} from "graphql";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
+import gql from "graphql-tag";
+import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
 
 export type MvpEntityBrowserTemplateModel =
   CommonTemplateModel
@@ -21,60 +23,22 @@ export type MvpEntityBrowserTemplateModel =
 export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
   options: MvpComponentOptions, answers: MvpEntityBrowserAnswers, schema: GraphQLSchema, gen: YeomanGenerator, questions?: StudioTemplateProperty[]
 ): Promise<MvpEntityBrowserTemplateModel> => {
+  const queryString = answers.query;
+  const deleteMutationString = answers.mutation;
+
+  const queryNode = gql(queryString);
+  const mutationNode = gql(deleteMutationString);
+
+  const queryName = getOperationName(queryNode);
+  const deleteMutationName = getOperationName(mutationNode);
+
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
     entityName: 'scr_Car', // TODO
-    queryName: 'scr_CarList', // TODO
-    deleteMutationName: 'delete_scr_Car', // TODO
-    queryString: `
-        query scr_CarList(
-          $limit: Int
-          $offset: Int
-          $orderBy: inp_scr_CarOrderBy
-          $filter: [inp_scr_CarFilterCondition]
-        ) {
-          scr_CarCount(filter: $filter)
-          scr_CarList(
-            limit: $limit
-            offset: $offset
-            orderBy: $orderBy
-            filter: $filter
-          ) {
-            id
-            _instanceName
-            manufacturer
-            model
-            regNumber
-            purchaseDate
-            manufactureDate
-            wheelOnRight
-            carType
-            ecoRank
-            maxPassengers
-            price
-            mileage
-            garage {
-              id
-              _instanceName
-            }
-            technicalCertificate {
-              id
-              _instanceName
-            }
-      
-            version
-            createdBy
-            createdDate
-            lastModifiedBy
-            lastModifiedDate
-          }
-        }
-    `,
-    deleteMutationString: `
-      mutation Delete_scr_Car($id: String!) {
-        delete_scr_Car(id: $id)
-      }
-    `
+    queryName,
+    deleteMutationName,
+    queryString,
+    deleteMutationString
   };
 };

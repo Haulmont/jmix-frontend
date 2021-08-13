@@ -1,5 +1,5 @@
 import { loadSchema } from "@graphql-tools/load";
-import {deriveMutationModel, deriveQueryModel} from "./template-model";
+import {deriveGraphQLEditorModel} from "./template-model";
 import * as fs from "fs";
 import {GraphQLSchema} from "graphql";
 import * as path from "path";
@@ -17,7 +17,7 @@ describe('deriveEntityModel()', () => {
   });
 
   it('derives entity model', () => {
-    deriveMutationModel(gql(MUTATION_STRING), schema);
+    deriveGraphQLEditorModel(gql(QUERY_STRING), gql(MUTATION_STRING), schema);
     fail();
   });
 });

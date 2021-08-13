@@ -15,6 +15,7 @@ import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/sta
 import gql from "graphql-tag";
 import {GraphQLOutputType} from "graphql/type/definition";
 import {TypeMap} from "graphql/type/schema";
+import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
 
 export interface AttributeModel {
   name: string;
@@ -25,22 +26,18 @@ export interface AttributeModel {
 export type MvpEntityEditorTemplateModel =
   CommonTemplateModel
   & UtilTemplateModel
-  & QueryModel
-  & MutationModel
+  & GraphQLEditorModel
   & {
     queryString: string,
-    mutationName: string,
     mutationString: string,
   };
 
-export type MutationModel = {
-  inputVariableName: string;
-};
-
-export type QueryModel = {
+type GraphQLEditorModel = {
   queryName: string,
+  mutationName: string,
   entityName: string,
   attributes: AttributeModel[],
+  inputVariableName: string;
 
   // We need these in order to have correct imports in the templates
   hasStringScalars: boolean;
@@ -59,10 +56,8 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   answers: MvpEntityEditorAnswers,
   schema: GraphQLSchema,
 ): Promise<MvpEntityEditorTemplateModel>  => {
-  // const queryString = answers.query;
-  const queryString = MOCK_QUERY_STRING;
-  // const mutationString = answers.upsertMutation;
-  const mutationString = MOCK_MUTATION_STRING;
+  const queryString = answers.query;
+  const mutationString = answers.mutation;
 
   const queryNode = gql(queryString);
   const mutationNode = gql(mutationString);
@@ -70,9 +65,7 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    ...deriveQueryModel(queryNode, schema),
-    ...deriveMutationModel(mutationNode, schema),
-    mutationName: 'scr_CarEdit', // TODO
+    ...deriveGraphQLEditorModel(queryNode, mutationNode, schema),
     // TODO problem with $id: String = "", quotation marks get messed up
     // TODO @include $loadItem - add support
     queryString,
@@ -80,7 +73,11 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   }
 };
 
-export function deriveMutationModel(mutationNode: DocumentNode, schema: GraphQLSchema): MutationModel {
+export function deriveGraphQLEditorModel(
+  queryNode: DocumentNode,
+  mutationNode: DocumentNode,
+  schema: GraphQLSchema
+): GraphQLEditorModel {
   const operationDefinition = mutationNode.definitions[0];
   if (!('variableDefinitions' in operationDefinition) || operationDefinition.variableDefinitions == null) {
     throw new Error('Variable definitions not found in mutation');
@@ -89,13 +86,17 @@ export function deriveMutationModel(mutationNode: DocumentNode, schema: GraphQLS
   // TODO: what if more than one variable is required?
   const inputVariableName = operationDefinition.variableDefinitions[0].variable.name.value;
 
-  return {
-    inputVariableName
-  };
-}
+  const inputType = operationDefinition.variableDefinitions[0].type;
+  if (!('type' in inputType) || !('name' in inputType.type)) {
+    throw new Error('Input type name not found');
+  }
 
-export function deriveQueryModel(queryNode: DocumentNode, schema: GraphQLSchema): QueryModel {
+  const inputTypeName = inputType.type.name.value;
+
+
+
   const queryName = getOperationName(queryNode);
+  const mutationName = getOperationName(mutationNode);
 
   const queryType = schema.getQueryType();
   if (queryType == null) {
@@ -109,12 +110,14 @@ export function deriveQueryModel(queryNode: DocumentNode, schema: GraphQLSchema)
 
   const outputTypeName = outputType.name;
 
+
+
   const typeMap = schema.getTypeMap();
   if (typeMap == null) {
     throw new Error('Type map not found');
   }
 
-  const namedType = typeMap[outputTypeName];
+  const namedType = typeMap[inputTypeName];
   if (namedType instanceof GraphQLScalarType
       || namedType instanceof GraphQLUnionType
       || namedType instanceof GraphQLEnumType
@@ -166,6 +169,7 @@ export function deriveQueryModel(queryNode: DocumentNode, schema: GraphQLSchema)
 
   return {
     queryName,
+    mutationName,
     attributes,
     entityName: outputTypeName,
     hasStringScalars,
@@ -174,73 +178,7 @@ export function deriveQueryModel(queryNode: DocumentNode, schema: GraphQLSchema)
     hasIDScalars,
     hasBooleanScalars,
     hasEnumScalars,
-    hasCustomScalars
+    hasCustomScalars,
+    inputVariableName
   };
 }
-
-function getOperationName(node: DocumentNode): string {
-  const operationDefinition = node.definitions[0];
-  if (!('selectionSet' in operationDefinition)) {
-    throw new Error('Selection set is not found in operation definition');
-  }
-
-  const selection = operationDefinition.selectionSet.selections[0];
-  if (!('name' in selection)) {
-    throw new Error('Name not found');
-  }
-
-  return selection.name.value;
-}
-
-
-const MOCK_QUERY_STRING = `
-      query scr_CarById($id: String!) {
-        scr_CarById(id: $id) {
-          id
-          _instanceName
-          manufacturer
-          model
-          regNumber
-          purchaseDate
-          manufactureDate
-          wheelOnRight
-          carType
-          ecoRank
-          maxPassengers
-          price
-          mileage
-          garage {
-            id
-            _instanceName
-          }
-          technicalCertificate {
-            id
-            _instanceName
-          }
-    
-          version
-          createdBy
-          createdDate
-          lastModifiedBy
-          lastModifiedDate
-        }
-    
-        scr_GarageList {
-          id
-          _instanceName
-        }
-    
-        scr_TechnicalCertificateList {
-          id
-          _instanceName
-        }
-      }
-    `;
-
-const MOCK_MUTATION_STRING = `
-        mutation Upsert_scr_Car($car: inp_scr_Car!) {
-          upsert_scr_Car(car: $car) {
-            id
-          }
-        }
-    `;

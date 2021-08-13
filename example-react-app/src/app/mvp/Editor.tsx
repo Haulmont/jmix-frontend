@@ -66,7 +66,7 @@ const SCR__CAR_BY_ID = gql`
   }
 `;
 
-const SCR__CAR_EDIT = gql`
+const UPSERT_SCR__CAR = gql`
   mutation Upsert_scr_Car($car: inp_scr_Car!) {
     upsert_scr_Car(car: $car) {
       id
@@ -91,7 +91,14 @@ const MvpScreenEditor = observer(() => {
     }
   );
 
-  const [executeUpsertMutation] = useMutation(SCR__CAR_EDIT);
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleCancel = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
+
+  const [executeUpsertMutation] = useMutation(UPSERT_SCR__CAR);
+
   const handleSubmit = useCallback(
     values => {
       executeUpsertMutation({
@@ -99,9 +106,13 @@ const MvpScreenEditor = observer(() => {
           car: values
         }
       });
+      goToParentScreen();
+      window.scrollTo(0, 0);
+      message.success("Saved successfully"); // TODO i18n
     },
     [executeUpsertMutation]
   );
+
   const handleSubmitFailed = useCallback(() => {
     message.error(
       intl.formatMessage({ id: "management.editor.validationError" })
@@ -115,12 +126,6 @@ const MvpScreenEditor = observer(() => {
       form.setFieldsValue(item);
     }
   }, [item, form]);
-
-  const goToParentScreen = useParentScreen(ROUTING_PATH);
-  const handleCancel = useCallback(() => {
-    goToParentScreen();
-    window.scrollTo(0, 0);
-  }, [goToParentScreen]);
 
   if (queryLoading) {
     return <>'Loading...'</>;
@@ -142,10 +147,6 @@ const MvpScreenEditor = observer(() => {
         layout="vertical"
         form={form}
       >
-        <Form.Item name={"_instanceName"} label={"_instanceName"}>
-          <Input />
-        </Form.Item>
-
         <Form.Item name={"carType"} label={"carType"}>
           <Select>
             <Select.Option value="HATCHBACK">HATCHBACK</Select.Option>

@@ -49,14 +49,25 @@ const <%= className %> = observer(() => {
     }
   });
 
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleCancel = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
+
   const [executeUpsertMutation] = useMutation(<%= toFatSnakeCase(mutationName) %>);
+
   const handleSubmit = useCallback((values) => {
     executeUpsertMutation({
       variables: {
         <%= inputVariableName %>: values
       }
     });
+    goToParentScreen();
+    window.scrollTo(0, 0);
+    message.success('Saved successfully'); // TODO i18n
   }, [executeUpsertMutation]);
+
   const handleSubmitFailed = useCallback(() => {
     message.error(intl.formatMessage({id: 'management.editor.validationError'}));
   }, [intl]);
@@ -68,12 +79,6 @@ const <%= className %> = observer(() => {
       form.setFieldsValue(item);
     }
   }, [item, form]);
-
-  const goToParentScreen = useParentScreen(ROUTING_PATH);
-  const handleCancel = useCallback(() => {
-    goToParentScreen();
-    window.scrollTo(0, 0);
-  }, [goToParentScreen]);
 
   if (queryLoading) {
     return <>'Loading...'</>;
