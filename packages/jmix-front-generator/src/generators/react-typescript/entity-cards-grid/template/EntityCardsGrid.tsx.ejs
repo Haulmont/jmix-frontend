@@ -12,9 +12,7 @@ import {
 import {
   Paging, 
   Spinner, 
-  RetryDialog, 
-  useOpenScreenErrorCallback,
-  useEntityDeleteCallback, 
+  RetryDialog,
   saveHistory
 } from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
@@ -32,11 +30,11 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
 `;
 
 export const <%= className %> = observer(() => {
-  const onOpenScreenError = useOpenScreenErrorCallback();
-  const onEntityDelete = useEntityDeleteCallback();
   const {
+    items,
+    count,
     executeListQuery,
-    listQueryResult: { loading, error, data },
+    listQueryResult: { loading, error },
     handlePaginationChange,
     entityListState
   } = useEntityList<<%= entity.className %>>({
@@ -45,8 +43,6 @@ export const <%= className %> = observer(() => {
     routingPath: ROUTING_PATH,
     paginationConfig: defaultGridPaginationConfig,
     onPagination: saveHistory,
-    onEntityDelete,
-    onOpenScreenError
   });
 
   if (error != null) {
@@ -54,33 +50,30 @@ export const <%= className %> = observer(() => {
     return <RetryDialog onRetry={executeListQuery} />;
   }
 
-  if (loading || data == null) {
+  if (loading || items == null) {
     return <Spinner />;
   }
-
-  const dataSource = data?.<%= dollarsToUnderscores(entity.name) %>List ?? [];
-  const pagesTotal = data?.<%= dollarsToUnderscores(entity.name) %>Count ?? 0;
 
   return (
     <div className={styles.narrowLayout}>
       <Row gutter={[12, 12]}>
-        {dataSource.map(e => (
+        {items.map(item => (
           <Col 
-            key={e.id ? getStringId(e.id) : undefined}  
+            key={item.id ? getStringId(item.id) : undefined}  
             xl={<%= 24 / cardsInRow %>}
             sm={24}
           >
-            <% /* todo null check of e.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
+            <% /* todo null check of item.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
             <Card 
-              title={e._instanceName}
+              title={item._instanceName}
               style={{height: '100%'}}
             >
-              {getFields(e).map(p =>
+              {getFields(item).map(fieldName =>
                 <EntityProperty
                   entityName={<%= entity.className %>.NAME}
-                  propertyName={p}
-                  value={e[p]}
-                  key={p}
+                  propertyName={fieldName}
+                  value={item[fieldName]}
+                  key={fieldName}
                 />
               )}
             </Card>
@@ -92,7 +85,7 @@ export const <%= className %> = observer(() => {
         <Paging
           paginationConfig={entityListState.pagination ?? {}}
           onPagingChange={handlePaginationChange}
-          total={pagesTotal}
+          total={count}
         />
       </div>
     </div>

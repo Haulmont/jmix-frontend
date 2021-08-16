@@ -45,6 +45,7 @@ import CarMultiSelectionTable from "../app/car-multi-selection-table/CarMultiSel
 import FormWizardBrowserTable from "../app/form-wizard-browser/FormWizardBrowserTable";
 import FormWizardCompositionO2O from "../app/form-wizard-compositionO2O-editor/FormWizardCompositionO2O";
 import CarMasterDetail from "../app/car-master-detail/CarMasterDetail";
+import CarCardsWithDetails from "../app/car-cards-with-details/CarCardsWithDetails";
 import { FavoriteCars } from "../app/entity-cards/FavoriteCars";
 import CarBrowserTable from "../app/car-browser-table/CarBrowserTable";
 import CarBrowserList from "../app/car-browser-list/CarBrowserList";
@@ -77,6 +78,9 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/favoriteCars">
         <FavoriteCars />
+      </ComponentPreview>
+      <ComponentPreview path="/CarCardsWithDetails">
+        <CarCardsWithDetails />
       </ComponentPreview>
       <ComponentPreview path="/CarMasterDetail">
         <CarMasterDetail />
