@@ -7,7 +7,7 @@ import { useMainStore } from "@haulmont/jmix-react-core";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
 import { useIntl } from "react-intl";
 import JmixLightIcon from "../icons/JmixLightIcon";
-import {modals} from "@haulmont/jmix-react-ui";
+import {modals} from "@haulmont/jmix-react-antd";
 
 const AppHeader = observer(({children}: {children?: React.ReactNode}) => {
   const intl = useIntl();

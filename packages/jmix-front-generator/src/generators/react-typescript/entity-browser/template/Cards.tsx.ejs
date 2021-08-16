@@ -5,13 +5,18 @@ import {Button, Card, Tooltip} from "antd";
 import {EntityInstance, getFields, EntityPermAccessControl, toIdString} from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  Spinner,
-  RetryDialog,
   useEntityList,
   EntityListProps,
-  registerEntityList,
-} from "@haulmont/jmix-react-ui";
+  registerEntityList
+} from "@haulmont/jmix-react-web";
+import {
+  Paging, 
+  Spinner, 
+  RetryDialog, 
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback, 
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 import {FormattedMessage} from "react-intl";
 import {gql} from '@apollo/client';
@@ -29,7 +34,8 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
   const {entityList, onEntityListChange} = props;
-
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     items,
     count,
@@ -47,6 +53,9 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     routingPath: ROUTING_PATH,
     entityList,
     onEntityListChange,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

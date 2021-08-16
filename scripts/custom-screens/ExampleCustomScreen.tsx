@@ -1,7 +1,7 @@
 import {ContentDisplayMode, useMainStore} from "@haulmont/jmix-react-core";
 import {Divider, Radio, RadioChangeEvent, Space} from "antd";
 import React, {useCallback, useState} from "react";
-import {registerScreen} from "@haulmont/jmix-react-ui";
+import {registerScreen} from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = "/exampleCustomScreen";
 

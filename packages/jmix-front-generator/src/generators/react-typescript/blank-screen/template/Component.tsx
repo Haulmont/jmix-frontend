@@ -1,5 +1,5 @@
 import React from "react";
-import {registerScreen} from "@haulmont/jmix-react-ui";
+import {registerScreen} from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = '/<%= nameLiteral %>';
 

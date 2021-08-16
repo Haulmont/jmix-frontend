@@ -5,12 +5,17 @@ import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entit
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
-  registerScreen,
-} from "@haulmont/jmix-react-ui";
+  registerScreen
+} from "@haulmont/jmix-react-web";
+import {
+  Paging, 
+  Spinner, 
+  RetryDialog, 
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback, 
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "<%= relDirShift %>app/App.module.css";
@@ -26,6 +31,8 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
 `;
 
 export const <%= className %> = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -35,6 +42,9 @@ export const <%= className %> = observer(() => {
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {
