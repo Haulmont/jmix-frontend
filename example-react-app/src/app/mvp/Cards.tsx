@@ -31,7 +31,6 @@ const SCR__CAR_LIST = gql`
     $orderBy: inp_scr_CarOrderBy
     $filter: [inp_scr_CarFilterCondition]
   ) {
-    scr_CarCount(filter: $filter)
     scr_CarList(
       limit: $limit
       offset: $offset
@@ -124,7 +123,8 @@ const MvpScreen = observer(() => {
       {items.map((e: any) => (
         // TODO: id name field
         <Card
-          key={e.id}
+          key={e["id"]}
+          title={e["_instanceName"]}
           style={{ marginBottom: "12px" }}
           actions={[
             <DeleteOutlined
@@ -141,20 +141,20 @@ const MvpScreen = observer(() => {
                   onOk: () => {
                     executeDeleteMutation({
                       variables: {
-                        id: e.id,
-                        // TODO we should probably not use cache by default for simplicity
-                        update(cache: ApolloCache<any>) {
-                          cache.modify({
-                            fields: {
-                              ["scr_CarList"](existingRefs, { readField }) {
-                                return existingRefs.filter(
-                                  (ref: Reference) =>
-                                    e.id !== readField("id", ref)
-                                );
-                              }
+                        id: e.id
+                      },
+                      // TODO we should probably not use cache by default for simplicity
+                      update(cache: ApolloCache<any>) {
+                        cache.modify({
+                          fields: {
+                            ["scr_CarList"](existingRefs, { readField }) {
+                              return existingRefs.filter(
+                                (ref: Reference) =>
+                                  e["id"] !== readField("id", ref)
+                              );
                             }
-                          });
-                        }
+                          }
+                        });
                       }
                     });
                   }
@@ -175,20 +175,31 @@ const MvpScreen = observer(() => {
             />
           ]}
         >
-          {renderFields(e)}
+          <Fields entity={e} />
         </Card>
       ))}
     </div>
   );
 });
 
-function renderFields(entity: any) {
-  return Object.keys(entity).map(p => (
-    <div>
-      <strong>{p}:</strong> {renderFieldValue(entity, p)}
-    </div>
-  ));
+interface FieldsProps {
+  entity: any;
 }
+
+const Fields = (props: FieldsProps) => {
+  const { entity } = props;
+  return (
+    <>
+      {Object.keys(entity)
+        .filter(p => p !== "id" && p !== "_instanceName" && entity[p] != null)
+        .map(p => (
+          <div>
+            <strong>{p}:</strong> {renderFieldValue(entity, p)}
+          </div>
+        ))}
+    </>
+  );
+};
 
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === "object"

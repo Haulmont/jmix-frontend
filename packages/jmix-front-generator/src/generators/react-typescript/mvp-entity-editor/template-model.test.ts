@@ -22,6 +22,8 @@ describe('deriveEntityModel()', () => {
   });
 });
 
+
+
 const MUTATION_STRING = `
   mutation Upsert_scr_Car($car: inp_scr_Car!) {
     upsert_scr_Car(car: $car) {

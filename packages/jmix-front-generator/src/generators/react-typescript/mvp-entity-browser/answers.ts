@@ -1,6 +1,7 @@
 import {
   ComponentNameAnswer,
-  createComponentNameQuestion, MenuItemAnswer, QueryAnswer
+  createComponentNameQuestion,
+  MenuItemAnswer,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
@@ -9,6 +10,9 @@ export type MvpEntityBrowserAnswers =
   & MenuItemAnswer
   & {
     query: string;
+    mutation: string;
+    idField?: string;
+    nameField?: string;
   };
 
 
@@ -25,5 +29,23 @@ export const mvpEntityBrowserQuestions = [
     code: 'query',
     propertyType: StudioTemplatePropertyType.STRING,
     required: true
+  },
+  {
+    caption: 'Mutation to delete an item',
+    code: 'query',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: true
+  },
+  {
+    caption: 'Name of the id attribute',
+    code: 'idField',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: false
+  },
+  {
+    caption: 'Name of the name attribute',
+    code: 'nameField',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: false
   }
 ];

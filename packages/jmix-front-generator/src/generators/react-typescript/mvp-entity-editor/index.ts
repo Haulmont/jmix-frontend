@@ -5,6 +5,7 @@ import path from "path";
 import { mvpEntityEditorQuestions } from "./answers";
 import { deriveMvpEditorTemplateModel } from "./template-model";
 import { mvpComponentOptionsConfig } from "../../../building-blocks/stages/options/pieces/mvp";
+import {mvpComponentWrite} from "../../../building-blocks/stages/writing/mvpComponentWrite";
 
 export class MvpEntityEditor extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -17,6 +18,7 @@ export class MvpEntityEditor extends YeomanGenerator {
       questions: mvpEntityEditorQuestions,
       stages: {
         deriveTemplateModel: deriveMvpEditorTemplateModel,
+        write: mvpComponentWrite
       }
     }, this);
   }

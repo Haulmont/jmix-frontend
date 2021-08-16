@@ -60,34 +60,38 @@ const <%= className %> = observer(() => {
       <%# TODO: entity instance typing %>
       {items.map((e: any) =>
         // TODO: id name field
-        <Card key={e.id}
+        <Card key={e['<%= idField %>']}
+              <% if (nameField != null) { -%>
+                title={e['<%= nameField %>']}
+              <% } -%>
               style={{marginBottom: '12px'}}
               actions={[
                 <DeleteOutlined key='delete'
                                 onClick={() => {
                                   Modal.confirm({
                                     content: intl.formatMessage(
-                                      {id: "mvp.management.browser.delete.areYouSure"},
+                                      {id: "management.browser.delete.areYouSure"},
+                                      {instanceName: e['<%= nameField %>']}
                                     ),
                                     okText: intl.formatMessage({id: "management.browser.delete.ok"}),
                                     cancelText: intl.formatMessage({id: "common.cancel"}),
                                     onOk: () => {
                                       executeDeleteMutation({
                                         variables: {
-                                          id: e.id,
-                                          // TODO we should probably not use cache by default for simplicity
-                                          update(cache: ApolloCache<any>) {
-                                            cache.modify({
-                                              fields: {
-                                                ['<%= queryName %>'](existingRefs, { readField }) {
-                                                  return existingRefs.filter(
-                                                    (ref: Reference) => e.id !== readField("id", ref)
-                                                  );
-                                                }
-                                              }
-                                            });
-                                          }
+                                          id: e.id
                                         },
+                                        // TODO we should probably not use cache by default for simplicity
+                                        update(cache: ApolloCache<any>) {
+                                          cache.modify({
+                                            fields: {
+                                              ['<%= queryName %>'](existingRefs, { readField }) {
+                                                return existingRefs.filter(
+                                                  (ref: Reference) => e['<%= idField %>'] !== readField("<%= idField %>", ref)
+                                                );
+                                              }
+                                            }
+                                          });
+                                        }
                                       });
                                     }
                                   });
@@ -106,16 +110,28 @@ const <%= className %> = observer(() => {
                 />
               ]}
         >
-          {renderFields(e)}
+          <Fields entity={e} />
         </Card>
       )}
     </div>
   );
 });
 
-function renderFields(entity: any) {
-  return Object.keys(entity).map(p => <div><strong>{p}:</strong> {renderFieldValue(entity, p)}</div>);
-}
+interface FieldsProps {
+  entity: any;
+};
+
+const Fields = (props: FieldsProps) => {
+  const {entity} = props;
+  return (
+    <>
+      {Object.keys(entity)
+        .filter(p => p !== '<%= idField %>' && p !== '<%= nameField%>' && entity[p] != null)
+        .map(p => <div><strong>{p}:</strong> {renderFieldValue(entity, p)}</div>)
+      }
+    </>
+  );
+};
 
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === 'object'

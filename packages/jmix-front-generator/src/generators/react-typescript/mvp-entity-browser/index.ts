@@ -5,7 +5,7 @@ import {mvpPipeline} from "../../../building-blocks/pipelines/mvpPipeline";
 import path from "path";
 import { mvpEntityBrowserQuestions } from "./answers";
 import {deriveMvpBrowserTemplateModel} from "./template-model";
-// import {mvpEntityBrowserWrite} from "./write";
+import {mvpComponentWrite} from "../../../building-blocks/stages/writing/mvpComponentWrite";
 
 export class MvpEntityBrowser extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -18,6 +18,7 @@ export class MvpEntityBrowser extends YeomanGenerator {
       questions: mvpEntityBrowserQuestions,
       stages: {
         deriveTemplateModel: deriveMvpBrowserTemplateModel,
+        write: mvpComponentWrite
       }
     }, this);
   }
