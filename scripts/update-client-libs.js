@@ -3,7 +3,8 @@ const {runCmdSync} = require('./common');
 const dirNames = {
   rest: 'jmix-rest',
   'react-core': 'jmix-react-core',
-  'react-ui': 'jmix-react-ui',
+  'react-antd': 'jmix-react-antd',
+  'react-web': 'jmix-react-web',
   'react-ide-toolbox': 'react-ide-toolbox',
   'front-generator': 'jmix-front-generator'
 };
