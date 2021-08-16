@@ -1,8 +1,11 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
-import { Card } from "antd";
-import { Car } from "jmix/entities/scr_Car";
-import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
+import { Card, Space, Collapse } from "antd";
+import {
+  EntityInstance,
+  getFields,
+  toIdString
+} from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   useEntityList,
@@ -14,12 +17,14 @@ import {
   RetryDialog,
   saveHistory
 } from "@haulmont/jmix-react-antd";
-import { getStringId } from "@haulmont/jmix-rest";
+import { Car } from "../../jmix/entities/scr_Car";
 import { gql } from "@apollo/client";
-import styles from "app/App.module.css";
+import styles from "../../app/App.module.css";
 
 const ENTITY_NAME = "scr_Car";
-const ROUTING_PATH = "/carBrowserCards";
+const ROUTING_PATH = "/carCardsWithDetails";
+
+const MAIN_FIELDS = ["model", "manufacturer", "carType"];
 
 const SCR_CAR_LIST = gql`
   query scr_CarList(
@@ -66,7 +71,7 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-export const CarBrowserCards = observer(() => {
+const CarCardsWithDetails = observer(() => {
   const {
     items,
     count,
@@ -92,20 +97,41 @@ export const CarBrowserCards = observer(() => {
 
   return (
     <div className={styles.narrowLayout}>
-      {items.map(item => (
+      {items.map((item: EntityInstance<Car>) => (
         <Card
           title={item._instanceName}
-          key={item.id ? getStringId(item.id) : undefined}
+          key={item.id ? toIdString(item.id) : undefined}
           style={{ marginBottom: "12px" }}
         >
-          {getFields(item).map(fieldName => (
-            <EntityProperty
-              entityName={Car.NAME}
-              propertyName={fieldName}
-              value={item[fieldName]}
-              key={fieldName}
-            />
-          ))}
+          <Space direction="vertical" size="large">
+            <Space direction="vertical">
+              {getFields(item)
+                .filter(fieldName => MAIN_FIELDS.includes(fieldName))
+                .map(fieldName => (
+                  <EntityProperty
+                    entityName={ENTITY_NAME}
+                    propertyName={fieldName}
+                    value={item[fieldName]}
+                    key={fieldName}
+                  />
+                ))}
+            </Space>
+
+            <Collapse ghost style={{ marginLeft: -16, marginRight: -16 }}>
+              <Collapse.Panel header="Show details" key="1">
+                {getFields(item)
+                  .filter(fieldName => !MAIN_FIELDS.includes(fieldName))
+                  .map(fieldName => (
+                    <EntityProperty
+                      entityName={ENTITY_NAME}
+                      propertyName={fieldName}
+                      value={item[fieldName]}
+                      key={fieldName}
+                    />
+                  ))}
+              </Collapse.Panel>
+            </Collapse>
+          </Space>
         </Card>
       ))}
 
@@ -121,11 +147,13 @@ export const CarBrowserCards = observer(() => {
 });
 
 registerScreen({
-  component: CarBrowserCards,
-  caption: "screen.CarBrowserCards",
-  screenId: "CarBrowserCards",
+  component: CarCardsWithDetails,
+  caption: "screen.CarCardsWithDetails",
+  screenId: "CarCardsWithDetails",
   menuOptions: {
     pathPattern: ROUTING_PATH,
     menuLink: ROUTING_PATH
   }
 });
+
+export default CarCardsWithDetails;

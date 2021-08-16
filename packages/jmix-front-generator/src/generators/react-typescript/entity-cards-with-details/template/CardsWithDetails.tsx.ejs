@@ -1,8 +1,7 @@
-import React, { useContext } from "react";
-import { observer } from "mobx-react";
-import { Card } from "antd";
-import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entity.name %>";
-import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
+import React from "react";
+import {observer} from "mobx-react";
+import {Card, Space, Collapse} from "antd";
+import {EntityInstance, getFields, toIdString} from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   useEntityList,
@@ -14,12 +13,14 @@ import {
   RetryDialog,
   saveHistory
 } from "@haulmont/jmix-react-antd";
-import { getStringId } from "@haulmont/jmix-rest";
-import { gql } from "@apollo/client";
+import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
+import {gql} from '@apollo/client';
 import styles from "<%= relDirShift %>app/App.module.css";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const MAIN_FIELDS = <%- include(includesPath('RenderValue'), {data: mainFields}) %>;
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
@@ -28,12 +29,12 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   }
 `;
 
-export const <%= className %> = observer(() => {
+const <%= className %> = observer(() => {
   const {
     items,
     count,
     executeListQuery,
-    listQueryResult: { loading, error },
+    listQueryResult: {loading, error},
     handlePaginationChange,
     entityListState
   } = useEntityList<<%= entity.className %>>({
@@ -48,29 +49,56 @@ export const <%= className %> = observer(() => {
     return <RetryDialog onRetry={executeListQuery} />;
   }
 
+  <%# TODO Spinner is not properly centered -%>
   if (loading || items == null) {
-    return <Spinner />;
+    return <Spinner/>;
   }
 
   return (
     <div className={styles.narrowLayout}>
-      {items.map(item => (
+      {items.map((item: EntityInstance<<%= entity.className %>>) =>
         <% /* todo null check of item.id will be removed after we strict id type in https://github.com/cuba-platform/frontend/issues/119 */ %>
         <Card
           title={item._instanceName}
-          key={item.id ? getStringId(item.id) : undefined}
+          key={item.id ? toIdString(item.id) : undefined}
           style={{marginBottom: '12px'}}
         >
-          {getFields(item).map(fieldName =>
-            <EntityProperty
-              entityName={<%= entity.className %>.NAME}
-              propertyName={fieldName}
-              value={item[fieldName]}
-              key={fieldName}
-            />
-          )}
+            <Space direction="vertical" size="large">
+              <Space direction="vertical">
+                {getFields(item)
+                  .filter(fieldName => MAIN_FIELDS.includes(fieldName))
+                  .map(fieldName =>(
+                    <EntityProperty
+                      entityName={ENTITY_NAME}
+                      propertyName={fieldName}
+                      value={item[fieldName]}
+                      key={fieldName}
+                    />
+                  ))
+                }
+              </Space>
+
+              <Collapse ghost style={{marginLeft: -16, marginRight: -16}}>
+                <Collapse.Panel
+                  header="Show details"
+                  key="1"
+                >
+                  {getFields(item)
+                    .filter(fieldName => !MAIN_FIELDS.includes(fieldName))
+                    .map(fieldName => (
+                      <EntityProperty
+                        entityName={ENTITY_NAME}
+                        propertyName={fieldName}
+                        value={item[fieldName]}
+                        key={fieldName}
+                      />
+                    ))
+                  }
+                </Collapse.Panel>
+              </Collapse>
+            </Space>
         </Card>
-      ))}
+      )}
 
       <div style={{ margin: "12px 0 12px 0", float: "right" }}>
         <Paging
@@ -80,7 +108,7 @@ export const <%= className %> = observer(() => {
         />
       </div>
     </div>
-  )
+  );
 });
 
 registerScreen({
@@ -92,3 +120,5 @@ registerScreen({
     menuLink: ROUTING_PATH,
   }
 });
+
+export default <%= className %>;

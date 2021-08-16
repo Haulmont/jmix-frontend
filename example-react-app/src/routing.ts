@@ -45,6 +45,7 @@ import "./app/form-wizard-browser/FormWizardBrowserTable";
 import "./app/form-wizard-editor/FormWizardEditor";
 import "./app/form-wizard-compositionO2O-editor/FormWizardCompositionO2O";
 import "./app/car-master-detail/CarMasterDetail";
+import "./app/car-cards-with-details/CarCardsWithDetails";
 import "./app/entity-cards/FavoriteCars";
 import "./app/car-cards-grid/CarCardsGrid";
 import "./app/car-browser-table/CarBrowserTable";
