@@ -5,17 +5,22 @@ import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
-  createAntdFormValidationMessages,
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
   Field,
   GlobalErrorsAlert,
   Spinner,
+  useEntityPersistCallbacks,
+  useSubmitFailedCallback,
+  ant_to_jmixFront
+} from "@haulmont/jmix-react-antd";
+import {
+  createAntdFormValidationMessages,
   useEntityEditor,
   EntityEditorProps,
   registerEntityEditor
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
 import { gql } from "@apollo/client";
 import styles from "app/App.module.css";
 import { Car } from "jmix/entities/scr_Car";
@@ -81,9 +86,8 @@ const CarEditLowCase = observer((props: EntityEditorProps<Car>) => {
     entityInstance,
     submitBtnCaption = "common.submit"
   } = props;
-
   const [form] = useForm();
-
+  const onSubmitFailed = useSubmitFailedCallback();
   const {
     relationOptions,
     executeLoadQuery,
@@ -92,7 +96,6 @@ const CarEditLowCase = observer((props: EntityEditorProps<Car>) => {
     serverValidationErrors,
     intl,
     handleSubmit,
-    handleSubmitFailed,
     handleCancelBtnClick
   } = useEntityEditor<Car>({
     loadQuery: LOAD_SCR_CAR,
@@ -101,6 +104,8 @@ const CarEditLowCase = observer((props: EntityEditorProps<Car>) => {
     routingPath: ROUTING_PATH,
     onCommit,
     entityInstance,
+    persistEntityCallbacks: useEntityPersistCallbacks(),
+    uiKit_to_jmixFront: ant_to_jmixFront,
     useEntityEditorForm: createUseAntdForm(form),
     useEntityEditorFormValidation: createUseAntdFormValidation(form)
   });
@@ -118,7 +123,7 @@ const CarEditLowCase = observer((props: EntityEditorProps<Car>) => {
     <Card className={styles.narrowLayout}>
       <Form
         onFinish={handleSubmit}
-        onFinishFailed={handleSubmitFailed}
+        onFinishFailed={onSubmitFailed}
         layout="vertical"
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}

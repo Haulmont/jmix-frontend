@@ -7,15 +7,20 @@ import {
     FormWizardStepStatus,
     Spinner,
     RetryDialog,
-    EntityEditorProps,
-    MultiScreenContext,
     GlobalErrorsAlert,
     useEntityEditorFromWizard,
-    registerEntityEditor,
     withFormWizardProvider,
-    createAntdFormValidationMessages,
     FormWizardButtons,
-} from '@haulmont/jmix-react-ui';
+    useEntityPersistCallbacks,
+    useSubmitFailedCallback,
+    ant_to_jmixFront
+} from '@haulmont/jmix-react-antd';
+import {
+  createAntdFormValidationMessages,
+  EntityEditorProps,
+  registerEntityEditor,
+  MultiScreenContext
+} from '@haulmont/jmix-react-web';
 import {Card} from 'antd';
 import { observer } from 'mobx-react';
 import React, { useContext } from 'react';
@@ -49,7 +54,7 @@ const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
 const <%= className %> = withFormWizardProvider(observer((props: EntityEditorProps<<%= entity.className %>>) => {
     const {entityInstance} = props;
     const multiScreen = useContext(MultiScreenContext);
-
+    const onSubmitFailed = useSubmitFailedCallback();
     const {
         intl,
         executeLoadQuery,
@@ -57,7 +62,6 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
         handleSubmit,
         handleSubmitBtn,
         serverValidationErrors,
-        handleSubmitFailed,
         handleCancelBtnClick,
         handleNextStep,
         handlePreviousStep,
@@ -71,7 +75,9 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
         entityId: multiScreen?.params?.entityId,
         entityName: ENTITY_NAME,
         routingPath: ROUTING_PATH,
-        entityInstance
+        entityInstance,
+        persistEntityCallbacks: useEntityPersistCallbacks(),
+        uiKit_to_jmixFront: ant_to_jmixFront
     });
 
     if (queryLoading) {
@@ -87,7 +93,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
         <Card className={styles.narrowLayout}>
             <FormWizardManager
                 onFinish={handleSubmit}
-                onFinishFailed={handleSubmitFailed}
+                onFinishFailed={onSubmitFailed}
                 validateMessages={createAntdFormValidationMessages(intl)}
             >
                 <FormWizardStepStatus onSelectStep={handleSelectStep} />

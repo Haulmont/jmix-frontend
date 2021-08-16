@@ -4,14 +4,19 @@ import { Row, Col, Card } from "antd";
 import {<%= entity.className %>} from "<%= relDirShift %>jmix/entities/<%= entity.name %>";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
-  defaultGridPaginationConfig,
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
   registerScreen,
-} from "@haulmont/jmix-react-ui";
+  defaultGridPaginationConfig
+} from "@haulmont/jmix-react-web";
+import {
+  Paging, 
+  Spinner, 
+  RetryDialog, 
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback, 
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "<%= relDirShift %>app/App.module.css";
@@ -27,6 +32,8 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
 `;
 
 export const <%= className %> = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -37,6 +44,9 @@ export const <%= className %> = observer(() => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     paginationConfig: defaultGridPaginationConfig,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

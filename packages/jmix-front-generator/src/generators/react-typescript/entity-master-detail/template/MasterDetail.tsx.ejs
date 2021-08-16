@@ -1,7 +1,8 @@
 import React from "react";
 import <%= editorClassName %> from "./<%= editorClassName %>";
 import <%= browserClassName %> from "./<%= browserClassName %>";
-import { registerEntityList, MasterDetailManager } from "@haulmont/jmix-react-ui";
+import { MasterDetailManager } from "@haulmont/jmix-react-antd";
+import { registerEntityList } from '@haulmont/jmix-react-web';
 import { observer } from "mobx-react";
 
 const ENTITY_NAME = '<%= entity.name %>';

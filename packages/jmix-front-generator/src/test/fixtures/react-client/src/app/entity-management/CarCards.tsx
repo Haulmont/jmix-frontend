@@ -15,13 +15,18 @@ import {
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  Spinner,
-  RetryDialog,
   useEntityList,
   EntityListProps,
   registerEntityList
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { Car } from "jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -77,7 +82,8 @@ const SCR_CAR_LIST = gql`
 
 const CarCards = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
-
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     items,
     count,
@@ -94,7 +100,10 @@ const CarCards = observer((props: EntityListProps<Car>) => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange
+    onEntityListChange,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

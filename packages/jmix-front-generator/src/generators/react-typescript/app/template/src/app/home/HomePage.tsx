@@ -1,6 +1,6 @@
 import React from "react";
 import {FormattedMessage} from 'react-intl';
-import {registerScreen} from '@haulmont/jmix-react-ui';
+import {registerScreen} from '@haulmont/jmix-react-web';
 
 const ROUTING_PATH = "/";
 

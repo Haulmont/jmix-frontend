@@ -1,6 +1,6 @@
 import {MenuProps} from "antd";
 import React from "react";
-import { <%= menuType === 'vertical' ? 'VerticalMenu' : 'HorizontalMenu' %>, MenuItem, SubMenuItem } from "@haulmont/jmix-react-ui";
+import { <%= menuType === 'vertical' ? 'VerticalMenu' : 'HorizontalMenu' %>, MenuItem, SubMenuItem } from "@haulmont/jmix-react-antd";
 import { BarsOutlined, HomeOutlined } from "@ant-design/icons";
 import {tabs} from '@haulmont/jmix-react-core';
 
