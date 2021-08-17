@@ -4,7 +4,7 @@ import App from "./App";
 import { IntlProvider } from "react-intl";
 import { JmixAppProvider } from "@haulmont/jmix-react-core";
 import { initializeApp } from "@haulmont/jmix-rest";
-import { Modals } from "@haulmont/jmix-react-ui";
+import { Modals } from "@haulmont/jmix-react-antd";
 
 const jmixREST = initializeApp();
 

@@ -14,13 +14,18 @@ import {
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  Spinner,
-  RetryDialog,
   useEntityList,
   EntityListProps,
   registerEntityList
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { IntIdentityIdTestEntity } from "../../jmix/entities/scr_IntIdentityIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -70,7 +75,8 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
 const IntIdentityIdBrowserList = observer(
   (props: EntityListProps<IntIdentityIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
-
+    const onOpenScreenError = useOpenScreenErrorCallback();
+    const onEntityDelete = useEntityDeleteCallback();
     const {
       items,
       count,
@@ -87,7 +93,10 @@ const IntIdentityIdBrowserList = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      onPagination: saveHistory,
+      onEntityDelete,
+      onOpenScreenError
     });
 
     if (error != null) {

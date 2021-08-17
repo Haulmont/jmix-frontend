@@ -5,15 +5,20 @@ import {
   FormWizardStepStatus,
   Spinner,
   RetryDialog,
-  EntityEditorProps,
-  MultiScreenContext,
   GlobalErrorsAlert,
   useEntityEditorFromWizard,
-  registerEntityEditor,
   withFormWizardProvider,
+  FormWizardButtons,
+  useEntityPersistCallbacks,
+  useSubmitFailedCallback,
+  ant_to_jmixFront
+} from "@haulmont/jmix-react-antd";
+import {
   createAntdFormValidationMessages,
-  FormWizardButtons
-} from "@haulmont/jmix-react-ui";
+  EntityEditorProps,
+  registerEntityEditor,
+  MultiScreenContext
+} from "@haulmont/jmix-react-web";
 import { Card } from "antd";
 import { observer } from "mobx-react";
 import React, { useContext } from "react";
@@ -67,7 +72,7 @@ const FormWizardEditor = withFormWizardProvider(
   observer((props: EntityEditorProps<FormWizardTestEntity>) => {
     const { entityInstance } = props;
     const multiScreen = useContext(MultiScreenContext);
-
+    const onSubmitFailed = useSubmitFailedCallback();
     const {
       intl,
       executeLoadQuery,
@@ -75,7 +80,6 @@ const FormWizardEditor = withFormWizardProvider(
       handleSubmit,
       handleSubmitBtn,
       serverValidationErrors,
-      handleSubmitFailed,
       handleCancelBtnClick,
       handleNextStep,
       handlePreviousStep,
@@ -87,7 +91,9 @@ const FormWizardEditor = withFormWizardProvider(
       entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
-      entityInstance
+      entityInstance,
+      persistEntityCallbacks: useEntityPersistCallbacks(),
+      uiKit_to_jmixFront: ant_to_jmixFront
     });
 
     if (queryLoading) {
@@ -103,7 +109,7 @@ const FormWizardEditor = withFormWizardProvider(
       <Card className={styles.narrowLayout}>
         <FormWizardManager
           onFinish={handleSubmit}
-          onFinishFailed={handleSubmitFailed}
+          onFinishFailed={onSubmitFailed}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <FormWizardStepStatus onSelectStep={handleSelectStep} />

@@ -10,7 +10,7 @@ import styles from "./Login.module.css";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
 import { FormattedMessage, useIntl } from "react-intl";
 import JmixDarkIcon from "../icons/JmixDarkIcon";
-import { loginMapJmixRestErrorToIntlId } from "@haulmont/jmix-react-ui";
+import { loginMapJmixRestErrorToIntlId } from "@haulmont/jmix-react-web";
 
 const Login = observer(() => {
   const intl = useIntl();

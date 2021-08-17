@@ -4,12 +4,17 @@ import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
-  DataTable,
-  RetryDialog,
   useEntityList,
   EntityListProps,
   registerEntityList
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  DataTable,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -134,7 +139,8 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
 const DatatypesTestBrowserTable = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
     const { entityList, onEntityListChange } = props;
-
+    const onOpenScreenError = useOpenScreenErrorCallback();
+    const onEntityDelete = useEntityDeleteCallback();
     const {
       items,
       count,
@@ -155,7 +161,10 @@ const DatatypesTestBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      onPagination: saveHistory,
+      onEntityDelete,
+      onOpenScreenError
     });
 
     if (error != null) {

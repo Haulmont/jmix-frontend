@@ -4,14 +4,19 @@ import { Row, Col, Card } from "antd";
 import { Car } from "../../jmix/entities/scr_Car";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
-  defaultGridPaginationConfig,
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
-  registerScreen
-} from "@haulmont/jmix-react-ui";
+  registerScreen,
+  defaultGridPaginationConfig
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
@@ -65,6 +70,8 @@ const SCR_CAR_LIST = gql`
 `;
 
 export const CarCardsGrid = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -74,7 +81,10 @@ export const CarCardsGrid = observer(() => {
     listQuery: SCR_CAR_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    paginationConfig: defaultGridPaginationConfig
+    paginationConfig: defaultGridPaginationConfig,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

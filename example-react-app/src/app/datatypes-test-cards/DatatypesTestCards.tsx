@@ -5,12 +5,17 @@ import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
   registerScreen
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
@@ -108,6 +113,8 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
 `;
 
 export const DatatypesTestCards = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -116,7 +123,10 @@ export const DatatypesTestCards = observer(() => {
   } = useEntityList<DatatypesTestEntity>({
     listQuery: SCR_DATATYPESTESTENTITY_LIST,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

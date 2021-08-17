@@ -4,12 +4,17 @@ import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
-  DataTable,
-  RetryDialog,
   useEntityList,
   EntityListProps,
   registerEntityList
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  DataTable,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { AssociationO2OTestEntity } from "../../jmix/entities/scr_AssociationO2OTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -41,7 +46,8 @@ const SCR_ASSOCIATIONO2OTESTENTITY_LIST = gql`
 const AssociationO2OBrowserTable = observer(
   (props: EntityListProps<AssociationO2OTestEntity>) => {
     const { entityList, onEntityListChange } = props;
-
+    const onOpenScreenError = useOpenScreenErrorCallback();
+    const onEntityDelete = useEntityDeleteCallback();
     const {
       items,
       count,
@@ -62,7 +68,10 @@ const AssociationO2OBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      onPagination: saveHistory,
+      onEntityDelete,
+      onOpenScreenError
     });
 
     if (error != null) {

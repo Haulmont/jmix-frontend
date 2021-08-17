@@ -7,9 +7,11 @@ import {
   DataTable,
   RetryDialog,
   useMultiSelectionTable,
-  EntityListProps,
-  registerEntityList
-} from "@haulmont/jmix-react-ui";
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
+import { EntityListProps, registerEntityList } from "@haulmont/jmix-react-web";
 import { Car } from "../../jmix/entities/scr_Car";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -74,7 +76,8 @@ const SCR_CAR_LIST = gql`
 
 const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
   const { entityList, onEntityListChange } = props;
-
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     items,
     count,
@@ -94,7 +97,10 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
-    onEntityListChange
+    onEntityListChange,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

@@ -1,10 +1,8 @@
 import React from "react";
 import CarMasterDetailEditor from "./CarMasterDetailEditor";
 import CarMasterDetailBrowser from "./CarMasterDetailBrowser";
-import {
-  registerEntityList,
-  MasterDetailManager
-} from "@haulmont/jmix-react-ui";
+import { MasterDetailManager } from "@haulmont/jmix-react-antd";
+import { registerEntityList } from "@haulmont/jmix-react-web";
 import { observer } from "mobx-react";
 
 const ENTITY_NAME = "scr_Car";
