@@ -1,4 +1,6 @@
 import React from "react";
+import MvpScreenEditor from "../app/mvp/MvpScreenEditor";
+import MvpScreen from "../app/mvp/MvpScreen";
 import TrickyIdBrowserTable from "../app/tricky-id-browser-table/TrickyIdBrowserTable";
 import TrickyIdEditor from "../app/tricky-id-editor/TrickyIdEditor";
 import BoringStringIdBrowserTable from "../app/boring-string-id-browser-table/BoringStringIdBrowserTable";
@@ -215,6 +217,12 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/TrickyIdBrowserTable">
         <TrickyIdBrowserTable />
+      </ComponentPreview>
+      <ComponentPreview path="/MvpScreen">
+        <MvpScreen />
+      </ComponentPreview>
+      <ComponentPreview path="/MvpScreenEditor">
+        <MvpScreenEditor />
       </ComponentPreview>
     </Previews>
   );

@@ -251,15 +251,15 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
   );
 });
 
-// registerEntityEditor({
-//   component: CarEditor,
-//   caption: "screen.CarEditor",
-//   screenId: "CarEditor",
-//   entityName: ENTITY_NAME,
-//   menuOptions: {
-//     pathPattern: ROUTING_PATH,
-//     menuLink: ROUTING_PATH
-//   }
-// });
+registerEntityEditor({
+  component: CarEditor,
+  caption: "screen.CarEditor",
+  screenId: "CarEditor",
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: ROUTING_PATH,
+    menuLink: ROUTING_PATH
+  }
+});
 
 export default CarEditor;

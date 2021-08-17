@@ -132,7 +132,5 @@
     "antd.form.validation.array.max": "${name} ne doit pas avoir plus de ${max} éléments.",
     "antd.form.validation.array.range": "${name} doit avoir entre ${min} à ${max} éléments.",
 
-    "antd.form.validation.pattern.mismatch": "${name} n’est pas conforme à l’expression régulière ${pattern}.",
-
-    "mvp.management.browser.delete.areYouSure": "mvp.management.browser.delete.areYouSure [TRANSLATION NOT AVAILABLE]"
+    "antd.form.validation.pattern.mismatch": "${name} n’est pas conforme à l’expression régulière ${pattern}."
 }

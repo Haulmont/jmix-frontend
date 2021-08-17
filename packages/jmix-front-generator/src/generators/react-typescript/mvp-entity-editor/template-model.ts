@@ -16,10 +16,12 @@ import gql from "graphql-tag";
 import {GraphQLOutputType} from "graphql/type/definition";
 import {TypeMap} from "graphql/type/schema";
 import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
+import {capitalizeFirst, splitByCapitalLetter} from "../../../common/utils";
 
 export interface AttributeModel {
   name: string;
   type: string;
+  displayName: string;
   enumOptions?: Array<GraphQLEnumValue>;
 }
 
@@ -30,6 +32,8 @@ export type MvpEntityEditorTemplateModel =
   & {
     queryString: string,
     mutationString: string,
+    idField: string,
+    listQueryName: string,
   };
 
 type GraphQLEditorModel = {
@@ -56,8 +60,12 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   answers: MvpEntityEditorAnswers,
   schema: GraphQLSchema,
 ): Promise<MvpEntityEditorTemplateModel>  => {
-  const queryString = answers.query;
-  const mutationString = answers.mutation;
+  const {
+    query: queryString,
+    mutation: mutationString,
+    idField = 'id',
+    listQueryName
+  } = answers;
 
   const queryNode = gql(queryString);
   const mutationNode = gql(mutationString);
@@ -69,7 +77,9 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
     // TODO problem with $id: String = "", quotation marks get messed up
     // TODO @include $loadItem - add support
     queryString,
-    mutationString
+    mutationString,
+    idField,
+    listQueryName
   }
 };
 
@@ -136,7 +146,8 @@ export function deriveGraphQLEditorModel(
   const attributes = Object.values(namedType.getFields()).map((field: any) => {
     const attr: AttributeModel = {
       name: field.name,
-      type: field.type.name
+      type: field.type.name,
+      displayName: capitalizeFirst(splitByCapitalLetter(field.name)) // TODO: results in capitalization that might not conform to English capitalization rules (e.g. "Wheel On Right")
     };
 
     switch(attr.type) {

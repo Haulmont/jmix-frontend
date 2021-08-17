@@ -11,6 +11,8 @@ export type MvpEntityEditorAnswers =
   & {
     query: string;
     mutation: string;
+    listQueryName: string;
+    idField?: string; // TODO https://github.com/Haulmont/jmix-frontend/issues/554
   };
 
 export const mvpEntityEditorQuestions = [
@@ -32,5 +34,11 @@ export const mvpEntityEditorQuestions = [
     code: 'mutation',
     propertyType: StudioTemplatePropertyType.STRING,
     required: true
-  }
+  },
+  {
+    caption: 'Name of the id attribute',
+    code: 'idField',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: false
+  },
 ];

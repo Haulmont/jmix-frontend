@@ -18,7 +18,7 @@ import {
   PlusOutlined,
   LeftOutlined
 } from "@ant-design/icons";
-import { Button, Card, Tooltip, List, Modal } from "antd";
+import { Button, Card, Tooltip, List, Modal, Spin, Empty, Result } from "antd";
 import { FormattedMessage, useIntl } from "react-intl";
 
 const ENTITY_NAME = "scr_Car";
@@ -82,21 +82,17 @@ const MvpScreen = observer(() => {
   const [executeDeleteMutation] = useMutation(DELETE_SCR__CAR);
 
   if (loading) {
-    return <>'Loading...'</>;
+    return <Spin />;
   }
 
   if (error) {
-    return <>'Error :('</>;
+    return <Result status="error" title="Query failed" />;
   }
 
   const items = data?.["scr_CarList"];
 
   if (items == null || items.length === 0) {
-    return (
-      <p>
-        <FormattedMessage id="management.browser.noItems" />
-      </p>
-    );
+    return <Empty />;
   }
 
   return (
@@ -112,6 +108,7 @@ const MvpScreen = observer(() => {
               entityName: ENTITY_NAME,
               intl
             });
+            window.scrollTo(0, 0);
           }}
         >
           <span>
@@ -131,12 +128,8 @@ const MvpScreen = observer(() => {
               key="delete"
               onClick={() => {
                 Modal.confirm({
-                  content: intl.formatMessage({
-                    id: "mvp.management.browser.delete.areYouSure"
-                  }),
-                  okText: intl.formatMessage({
-                    id: "management.browser.delete.ok"
-                  }),
+                  content: "Are you sure you want to delete this record?",
+                  okText: "OK",
                   cancelText: intl.formatMessage({ id: "common.cancel" }),
                   onOk: () => {
                     executeDeleteMutation({
@@ -171,6 +164,7 @@ const MvpScreen = observer(() => {
                   entityIdToLoad: e.id,
                   routingPath: ROUTING_PATH // TODO: can we get rid of it?
                 });
+                window.scrollTo(0, 0);
               }}
             />
           ]}
@@ -194,7 +188,7 @@ const Fields = (props: FieldsProps) => {
         .filter(p => p !== "id" && p !== "_instanceName" && entity[p] != null)
         .map(p => (
           <div>
-            <strong>{p}:</strong> {renderFieldValue(entity, p)}
+            <strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}
           </div>
         ))}
     </>
@@ -204,7 +198,12 @@ const Fields = (props: FieldsProps) => {
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === "object"
     ? JSON.stringify(entity[property])
-    : (entity[property] as string);
+    : entity[property].toString();
+}
+
+function renderLabel(property: string): string {
+  const split = property.replace(/([^A-Z])([A-Z])/g, "$1 $2");
+  return split[0].toUpperCase() + split.slice(1);
 }
 
 registerEntityList({

@@ -132,7 +132,5 @@
   "antd.form.validation.array.max":  "Поле ${name} должно содержать не более ${max} элементов.",
   "antd.form.validation.array.range": "Поле ${name} должно содержать от ${min} до ${max} элементов.",
 
-  "antd.form.validation.pattern.mismatch":  "Поле ${name} не подходящее под паттерн ${pattern}.",
-
-  "mvp.management.browser.delete.areYouSure": "Удалить запись?"
+  "antd.form.validation.pattern.mismatch":  "Поле ${name} не подходящее под паттерн ${pattern}."
 }

@@ -1,10 +1,13 @@
-import React, {useEffect, useCallback} from "react";
-import { gql, useQuery, useMutation } from "@apollo/client";
+import React, {useEffect, useCallback, useState} from "react";
+import { gql, useLazyQuery, useMutation, FetchResult, ApolloError, ApolloCache } from "@apollo/client";
 import {
   Form,
   Button,
   Card,
   message,
+  Alert,
+  Spin,
+  Result,
   <% if (hasStringScalars || hasCustomScalars) { %>
     Input,
   <% } %>
@@ -43,7 +46,7 @@ const <%= className %> = observer(() => {
   const id = multiScreen?.params?.entityId;
 
   // TODO: id variable name
-  const {loading: queryLoading, error: queryError, data} = useQuery(<%= toFatSnakeCase(queryName) %>, {
+  const [loadItem, {loading: queryLoading, error: queryError, data}] = useLazyQuery(<%= toFatSnakeCase(queryName) %>, {
     variables: {
       id
     }
@@ -57,20 +60,62 @@ const <%= className %> = observer(() => {
 
   const [executeUpsertMutation] = useMutation(<%= toFatSnakeCase(mutationName) %>);
 
+  const [formError, setFormError] = useState<string | undefined>();
+
   const handleSubmit = useCallback((values) => {
     executeUpsertMutation({
       variables: {
-        <%= inputVariableName %>: values
+        <%= inputVariableName %>: {
+          ...values,
+          id
+        }
+      },
+      update(cache: ApolloCache<any>, result: FetchResult) {
+        const updateResult = result.data?.['<%= mutationName %>'];
+        // Reflect the update in Apollo cache
+        cache.modify({
+          fields: {
+            ['<%= listQueryName %>'](existingRefs = []) {
+              const updatedItemRef = cache.writeFragment({
+                id: `<%= entityName %>:${updateResult.id}`,
+                data: values,
+                fragment: gql(`
+                  fragment New_<%= entityName %> on <%= entityName %> {
+                    id
+                  }
+                `)
+              });
+              return [...existingRefs, updatedItemRef];
+            }
+          }
+        });
       }
+    }).then(({errors}: FetchResult) => {
+      if (errors == null || errors.length === 0) {
+        goToParentScreen();
+        window.scrollTo(0, 0);
+        message.success('Saved successfully');
+        return;
+      }
+      setFormError(errors.join('\n'));
+      console.log(errors);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+    }).catch((e: Error | ApolloError) => {
+      setFormError(e.message);
+      console.log(e);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
     });
-    goToParentScreen();
-    window.scrollTo(0, 0);
-    message.success('Saved successfully'); // TODO i18n
   }, [executeUpsertMutation]);
 
   const handleSubmitFailed = useCallback(() => {
-    message.error(intl.formatMessage({id: 'management.editor.validationError'}));
-  }, [intl]);
+    message.error('Validation Error. Please check the data you entered.');
+  }, []);
+
+  useEffect(() => {
+    if (id != null) {
+      loadItem();
+    }
+  }, [loadItem]);
 
   const item = data?.['<%= queryName %>'];
 
@@ -81,15 +126,12 @@ const <%= className %> = observer(() => {
   }, [item, form]);
 
   if (queryLoading) {
-    return <>'Loading...'</>;
+    return <Spin/>;
   }
 
   if (queryError) {
-    return <>'Error :('</>;
-  }
-
-  if (item == null) {
-    return <p>No data</p>;
+    return <Result status="error"
+                   title="Query failed" />;
   }
 
   return (
@@ -101,12 +143,16 @@ const <%= className %> = observer(() => {
         >
 
           <% attributes.forEach((attr) => { %>
-            <Form.Item name={'<%= attr.name %>'}
-                       label={'<%= attr.name %>'}
-            >
+            <% if (attr.name !== idField) { %>
               <%- include(includesPath('MvpFormField'), {attr: attr}) %>
-            </Form.Item>
+            <% } %>
           <% }) %>
+
+          {formError && <Alert message={formError}
+                               type="error"
+                               style={{marginBottom: '18px'}}
+                        />
+          }
 
           <Form.Item style={{textAlign: 'center'}}>
             <Button htmlType="button"
