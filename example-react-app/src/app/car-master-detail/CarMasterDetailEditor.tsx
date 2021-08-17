@@ -4,7 +4,6 @@ import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
 import {
-  createAntdFormValidationMessages,
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
@@ -12,9 +11,15 @@ import {
   GlobalErrorsAlert,
   Spinner,
   useMasterDetailEditor,
-  EntityEditorProps,
-  useCreateAntdResetForm
-} from "@haulmont/jmix-react-ui";
+  useCreateAntdResetForm,
+  useEntityPersistCallbacks,
+  useSubmitFailedCallback,
+  ant_to_jmixFront
+} from "@haulmont/jmix-react-antd";
+import {
+  createAntdFormValidationMessages,
+  EntityEditorProps
+} from "@haulmont/jmix-react-web";
 import { gql } from "@apollo/client";
 import { Car } from "../../jmix/entities/scr_Car";
 
@@ -79,9 +84,8 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
     entityInstance,
     submitBtnCaption = "common.submit"
   } = props;
-
   const [form] = useForm();
-
+  const onSubmitFailed = useSubmitFailedCallback();
   const {
     relationOptions,
     executeLoadQuery,
@@ -90,7 +94,6 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
     serverValidationErrors,
     intl,
     handleSubmit,
-    handleSubmitFailed,
     handleCancelBtnClick
   } = useMasterDetailEditor<Car>({
     loadQuery: LOAD_SCR_CAR,
@@ -101,7 +104,9 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
     entityInstance,
     useEntityEditorForm: createUseAntdForm(form),
     useEntityEditorFormValidation: createUseAntdFormValidation(form),
-    resetEntityEditorForm: useCreateAntdResetForm(form)
+    resetEntityEditorForm: useCreateAntdResetForm(form),
+    persistEntityCallbacks: useEntityPersistCallbacks(),
+    uiKit_to_jmixFront: ant_to_jmixFront
   });
 
   if (queryLoading) {
@@ -116,7 +121,7 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
   return (
     <Form
       onFinish={handleSubmit}
-      onFinishFailed={handleSubmitFailed}
+      onFinishFailed={onSubmitFailed}
       layout="vertical"
       form={form}
       validateMessages={createAntdFormValidationMessages(intl)}

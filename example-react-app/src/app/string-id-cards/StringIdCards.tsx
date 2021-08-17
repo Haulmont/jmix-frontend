@@ -5,12 +5,17 @@ import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
   registerScreen
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
@@ -58,6 +63,8 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
 `;
 
 export const StringIdCards = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -66,7 +73,10 @@ export const StringIdCards = observer(() => {
   } = useEntityList<StringIdTestEntity>({
     listQuery: SCR_STRINGIDTESTENTITY_LIST,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

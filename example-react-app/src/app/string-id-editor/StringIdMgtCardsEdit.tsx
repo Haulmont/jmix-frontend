@@ -5,17 +5,22 @@ import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
-  createAntdFormValidationMessages,
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
   Field,
   GlobalErrorsAlert,
   Spinner,
+  useEntityPersistCallbacks,
+  useSubmitFailedCallback,
+  ant_to_jmixFront
+} from "@haulmont/jmix-react-antd";
+import {
+  createAntdFormValidationMessages,
   useEntityEditor,
   EntityEditorProps,
   registerEntityEditor
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
 import { StringIdTestEntity } from "../../jmix/entities/scr_StringIdTestEntity";
@@ -78,9 +83,8 @@ const StringIdMgtCardsEdit = observer(
       entityInstance,
       submitBtnCaption = "common.submit"
     } = props;
-
     const [form] = useForm();
-
+    const onSubmitFailed = useSubmitFailedCallback();
     const {
       relationOptions,
       executeLoadQuery,
@@ -89,7 +93,6 @@ const StringIdMgtCardsEdit = observer(
       serverValidationErrors,
       intl,
       handleSubmit,
-      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<StringIdTestEntity>({
       loadQuery: LOAD_SCR_STRINGIDTESTENTITY,
@@ -98,6 +101,8 @@ const StringIdMgtCardsEdit = observer(
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,
+      persistEntityCallbacks: useEntityPersistCallbacks(),
+      uiKit_to_jmixFront: ant_to_jmixFront,
       useEntityEditorForm: createUseAntdForm(form),
       useEntityEditorFormValidation: createUseAntdFormValidation(form)
     });
@@ -115,7 +120,7 @@ const StringIdMgtCardsEdit = observer(
       <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
-          onFinishFailed={handleSubmitFailed}
+          onFinishFailed={onSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}

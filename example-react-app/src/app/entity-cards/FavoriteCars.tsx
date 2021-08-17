@@ -5,12 +5,17 @@ import { FavoriteCar } from "../../jmix/entities/scr_FavoriteCar";
 import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  RetryDialog,
-  Spinner,
   useEntityList,
   registerScreen
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { getStringId } from "@haulmont/jmix-rest";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
@@ -49,6 +54,8 @@ const SCR_FAVORITECAR_LIST = gql`
 `;
 
 export const FavoriteCars = observer(() => {
+  const onOpenScreenError = useOpenScreenErrorCallback();
+  const onEntityDelete = useEntityDeleteCallback();
   const {
     executeListQuery,
     listQueryResult: { loading, error, data },
@@ -57,7 +64,10 @@ export const FavoriteCars = observer(() => {
   } = useEntityList<FavoriteCar>({
     listQuery: SCR_FAVORITECAR_LIST,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    onPagination: saveHistory,
+    onEntityDelete,
+    onOpenScreenError
   });
 
   if (error != null) {

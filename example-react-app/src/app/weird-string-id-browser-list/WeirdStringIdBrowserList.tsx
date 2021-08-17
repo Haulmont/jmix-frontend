@@ -14,13 +14,18 @@ import {
 } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
-  Paging,
-  Spinner,
-  RetryDialog,
   useEntityList,
   EntityListProps,
   registerEntityList
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
+import {
+  Paging,
+  Spinner,
+  RetryDialog,
+  useOpenScreenErrorCallback,
+  useEntityDeleteCallback,
+  saveHistory
+} from "@haulmont/jmix-react-antd";
 import { WeirdStringIdTestEntity } from "../../jmix/entities/scr_WeirdStringIdTestEntity";
 import { FormattedMessage } from "react-intl";
 import { gql } from "@apollo/client";
@@ -54,7 +59,8 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
 const WeirdStringIdBrowserList = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
     const { entityList, onEntityListChange } = props;
-
+    const onOpenScreenError = useOpenScreenErrorCallback();
+    const onEntityDelete = useEntityDeleteCallback();
     const {
       items,
       count,
@@ -71,7 +77,10 @@ const WeirdStringIdBrowserList = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      onPagination: saveHistory,
+      onEntityDelete,
+      onOpenScreenError
     });
 
     if (error != null) {

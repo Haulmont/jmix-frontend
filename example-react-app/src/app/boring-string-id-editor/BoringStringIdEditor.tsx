@@ -5,17 +5,22 @@ import { observer } from "mobx-react";
 import { toJS } from "mobx";
 import { FormattedMessage } from "react-intl";
 import {
-  createAntdFormValidationMessages,
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
   Field,
   GlobalErrorsAlert,
   Spinner,
+  useEntityPersistCallbacks,
+  useSubmitFailedCallback,
+  ant_to_jmixFront
+} from "@haulmont/jmix-react-antd";
+import {
+  createAntdFormValidationMessages,
   useEntityEditor,
   EntityEditorProps,
   registerEntityEditor
-} from "@haulmont/jmix-react-ui";
+} from "@haulmont/jmix-react-web";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
 import { BoringStringIdTestEntity } from "../../jmix/entities/scr_BoringStringIdTestEntity";
@@ -55,9 +60,8 @@ const BoringStringIdEditor = observer(
       entityInstance,
       submitBtnCaption = "common.submit"
     } = props;
-
     const [form] = useForm();
-
+    const onSubmitFailed = useSubmitFailedCallback();
     const {
       executeLoadQuery,
       loadQueryResult: { loading: queryLoading, error: queryError },
@@ -65,7 +69,6 @@ const BoringStringIdEditor = observer(
       serverValidationErrors,
       intl,
       handleSubmit,
-      handleSubmitFailed,
       handleCancelBtnClick
     } = useEntityEditor<BoringStringIdTestEntity>({
       loadQuery: LOAD_SCR_BORINGSTRINGIDTESTENTITY,
@@ -74,6 +77,8 @@ const BoringStringIdEditor = observer(
       routingPath: ROUTING_PATH,
       onCommit,
       entityInstance,
+      persistEntityCallbacks: useEntityPersistCallbacks(),
+      uiKit_to_jmixFront: ant_to_jmixFront,
       useEntityEditorForm: createUseAntdForm(form),
       useEntityEditorFormValidation: createUseAntdFormValidation(form)
     });
@@ -91,7 +96,7 @@ const BoringStringIdEditor = observer(
       <Card className={styles.narrowLayout}>
         <Form
           onFinish={handleSubmit}
-          onFinishFailed={handleSubmitFailed}
+          onFinishFailed={onSubmitFailed}
           layout="vertical"
           form={form}
           validateMessages={createAntdFormValidationMessages(intl)}

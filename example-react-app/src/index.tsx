@@ -11,7 +11,7 @@ import {
   Screens,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { I18nProvider, Modals } from "@haulmont/jmix-react-ui";
+import { I18nProvider, Modals } from "@haulmont/jmix-react-antd";
 import { initializeApp } from "@haulmont/jmix-rest";
 import {
   JMIX_REST_URL,
