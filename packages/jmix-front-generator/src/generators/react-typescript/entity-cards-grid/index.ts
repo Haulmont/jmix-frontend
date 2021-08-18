@@ -1,7 +1,7 @@
 import {componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
+import {entityCardsGridQuestions, Answers, getAnswersFromPrompt} from "./answers";
 import { Options } from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
@@ -17,7 +17,7 @@ export class EntityCardsGenerator extends YeomanGenerator {
   async generate() {
     await defaultPipeline<Options, Answers, TemplateModel>({
       templateDir: path.join(__dirname, 'template'),
-      questions: allQuestions, // Used when refining answers
+      questions: entityCardsGridQuestions, // Used when refining answers
       stages: { // Using custom implementations for some of the stages
         getAnswersFromPrompt,
         deriveTemplateModel,
@@ -29,10 +29,13 @@ export class EntityCardsGenerator extends YeomanGenerator {
 
 const description = 'Read-only list of entities displayed as a grid with 2, 3 or 4 columns in a row.';
 const icon = 'entity-cards-grid.svg';
+const index = 8;
+
 export {
   EntityCardsGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  entityCardsGridQuestions as params,
   description,
   icon,
+  index
 }

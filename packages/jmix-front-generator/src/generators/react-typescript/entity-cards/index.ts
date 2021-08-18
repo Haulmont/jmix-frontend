@@ -1,7 +1,7 @@
 import {componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {allQuestions, Answers, getAnswersFromPrompt} from "./answers";
+import {entityCardsQuestions, Answers, getAnswersFromPrompt} from "./answers";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
@@ -16,7 +16,7 @@ export class EntityCardsGenerator extends YeomanGenerator {
   async generate() {
     await defaultPipeline<ComponentOptions, Answers, TemplateModel>({
       templateDir: path.join(__dirname, 'template'),
-      questions: allQuestions, // Used when refining answers
+      questions: entityCardsQuestions, // Used when refining answers
       stages: { // Using custom implementations for some of the stages
         getAnswersFromPrompt,
         deriveTemplateModel,
@@ -28,11 +28,12 @@ export class EntityCardsGenerator extends YeomanGenerator {
 
 const description = 'Read-only list of entities displayed as cards.';
 const icon = 'entity-cards.svg';
-const index = 3;
+const index = 7;
+
 export {
   EntityCardsGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  entityCardsQuestions as params,
   description,
   icon,
   index,

@@ -33,11 +33,6 @@ export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
   menuItemQuestion,
 ];
 
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityEditorQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
-];
-
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<EntityEditorAnswers> => {

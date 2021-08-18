@@ -10,18 +10,9 @@ export interface Answers extends
 ComponentNameAnswer,
 MenuItemAnswer {};
 
-const blankComponentQuestions: StudioTemplateProperty[] = [
+export const blankComponentQuestions: StudioTemplateProperty[] = [
   createComponentNameQuestion({
     defaultValue: 'BlankComponent',
   }),
   menuItemQuestion,
 ];
-  
-const questionsToBeAskedInCLI = [
-  ...blankComponentQuestions
-];
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...questionsToBeAskedInCLI
-];
-

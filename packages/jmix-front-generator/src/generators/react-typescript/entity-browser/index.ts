@@ -1,7 +1,7 @@
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {componentOptionsConfig} from "../../../common/cli-options";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {getAnswersFromPrompt, allQuestions, EntityBrowserAnswers } from "./answers";
+import {getAnswersFromPrompt, commonEntityBrowserQuestions, EntityBrowserAnswers } from "./answers";
 import path from "path";
 import {EntityBrowserTemplateModel, deriveBrowserTemplateModel} from "./template-model";
 import {writeBrowser} from "./write";
@@ -16,7 +16,7 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
     await defaultPipeline<ComponentOptions, EntityBrowserAnswers, EntityBrowserTemplateModel>(
       {
         templateDir: path.join(__dirname, 'template'),
-        questions: allQuestions,
+        questions: commonEntityBrowserQuestions,
         stages: {
           getAnswersFromPrompt,
           deriveTemplateModel: deriveBrowserTemplateModel,
@@ -30,11 +30,12 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
 
 const description = 'Read-only set of entities displayed as table, cards or list.';
 const icon = 'entity-browser.svg'
-const index = 2;
+const index = 4;
+
 export {
   ReactEntityBrowserGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  commonEntityBrowserQuestions as params,
   description,
   icon,
   index,

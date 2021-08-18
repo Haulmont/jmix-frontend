@@ -23,7 +23,7 @@ QueryAnswer,
 MenuItemAnswer,
 StringIdAnswers {}
 
-const entityCardsQuestions: StudioTemplateProperty[] = [
+export const entityCardsQuestions: StudioTemplateProperty[] = [
   entityQuestion,
   createComponentNameQuestion({defaultValue: 'Cards'}),
   createQueryQuestion(),
@@ -32,10 +32,6 @@ const entityCardsQuestions: StudioTemplateProperty[] = [
 
 const questionsToBeAskedInCLI = [
   ...entityCardsQuestions
-];
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...questionsToBeAskedInCLI
 ];
 
 export const getAnswersFromPrompt = async (

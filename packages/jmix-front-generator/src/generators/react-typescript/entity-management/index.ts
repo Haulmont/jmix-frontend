@@ -1,7 +1,7 @@
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {componentOptionsConfig} from "../../../common/cli-options";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {getAnswersFromPrompt, allQuestions, EntityManagementAnswers } from "./answers";
+import {getAnswersFromPrompt, commonEntityManagementQuestions, EntityManagementAnswers } from "./answers";
 import path from "path";
 import {EntityManagementTemplateModel, deriveManagementTemplateModel} from "./template-model";
 import {writeManagement} from "./write";
@@ -16,7 +16,7 @@ export class ReactEntityManagementGenerator extends YeomanGenerator {
     await defaultPipeline<ComponentOptions, EntityManagementAnswers, EntityManagementTemplateModel>(
       {
         templateDir: path.join(__dirname, 'template'),
-        questions: allQuestions,
+        questions: commonEntityManagementQuestions,
         stages: {
           getAnswersFromPrompt,
           deriveTemplateModel: deriveManagementTemplateModel,
@@ -30,10 +30,13 @@ export class ReactEntityManagementGenerator extends YeomanGenerator {
 
 const description = 'Standard entity editor and browser screens created at once. The best choice for CRUD operations.';
 const icon = 'entity-management.svg';
+const index = 5;
+
 export {
   ReactEntityManagementGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  commonEntityManagementQuestions as params,
   description,
   icon,
+  index
 }
