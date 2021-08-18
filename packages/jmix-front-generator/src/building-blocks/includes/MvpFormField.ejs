@@ -1,0 +1,26 @@
+<Form.Item name='<%= attr.name %>'
+           label='<%= attr.displayName %>'
+           style={{marginBottom: "12px"}}
+           <% if (attr?.type === 'Boolean') { -%>
+             valuePropName='checked'
+           <% } -%>
+>
+  <% if (attr.type === 'Int') { -%>
+    <InputNumber precision={0} />
+  <% } else if (attr.type === 'Float') { -%>
+    <InputNumber />
+  <% } else if (attr.type === 'String') { -%>
+    <Input />
+  <% } else if (attr.type === 'Boolean') { -%>
+    <Checkbox />
+  <% } else if (attr.type === 'ID') { -%>
+  <% } else if (attr.enumOptions != null) { -%>
+    <Select>
+      <% attr.enumOptions.forEach(opt => { -%>
+        <Select.Option value="<%= opt.value %>"><%= opt.name %></Select.Option>
+      <% }) -%>
+    </Select>
+  <% } else { -%>
+    <Input />
+  <% } -%>
+</Form.Item>

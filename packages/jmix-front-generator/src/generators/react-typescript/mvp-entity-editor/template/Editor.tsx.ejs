@@ -1,0 +1,189 @@
+import React, {useEffect, useCallback, useState} from "react";
+import { gql, useLazyQuery, useMutation, FetchResult, ApolloError, ApolloCache } from "@apollo/client";
+import {
+  Form,
+  Button,
+  Card,
+  message,
+  Alert,
+  Spin,
+  Result,
+  <% if (hasStringScalars || hasCustomScalars) { %>
+    Input,
+  <% } %>
+  <% if (hasIntScalars || hasFloatScalars) { %>
+    InputNumber,
+  <% } %>
+  <% if (hasBooleanScalars) { %>
+    Checkbox,
+  <% } %>
+  <% if (hasEnumScalars) { %>
+    Select,
+  <% } %>
+} from "antd";
+import { useForm } from "antd/es/form/Form";
+import {observer} from "mobx-react";
+import {FormattedMessage, useIntl} from 'react-intl';
+import {useMultiScreen, useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
+
+
+const ENTITY_NAME = '<%= entityName %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= toFatSnakeCase(queryName) %> = gql`
+  <%= queryString %>
+`;
+
+const <%= toFatSnakeCase(mutationName) %> = gql`
+  <%= mutationString %>
+`;
+
+const <%= className %> = observer(() => {
+  const multiScreen = useMultiScreen();
+  const [form] = useForm();
+  const intl = useIntl();
+
+  const id = multiScreen?.params?.entityId;
+
+  // TODO: id variable name
+  const [loadItem, {loading: queryLoading, error: queryError, data}] = useLazyQuery(<%= toFatSnakeCase(queryName) %>, {
+    variables: {
+      id
+    }
+  });
+
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleCancel = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
+
+  const [executeUpsertMutation] = useMutation(<%= toFatSnakeCase(mutationName) %>);
+
+  const [formError, setFormError] = useState<string | undefined>();
+
+  const handleSubmit = useCallback((values) => {
+    executeUpsertMutation({
+      variables: {
+        <%= inputVariableName %>: {
+          ...values,
+          id
+        }
+      },
+      update(cache: ApolloCache<any>, result: FetchResult) {
+        const updateResult = result.data?.['<%= mutationName %>'];
+        // Reflect the update in Apollo cache
+        cache.modify({
+          fields: {
+            ['<%= listQueryName %>'](existingRefs = []) {
+              const updatedItemRef = cache.writeFragment({
+                id: `<%= entityName %>:${updateResult.id}`,
+                data: values,
+                fragment: gql(`
+                  fragment New_<%= entityName %> on <%= entityName %> {
+                    id
+                  }
+                `)
+              });
+              return [...existingRefs, updatedItemRef];
+            }
+          }
+        });
+      }
+    }).then(({errors}: FetchResult) => {
+      if (errors == null || errors.length === 0) {
+        goToParentScreen();
+        window.scrollTo(0, 0);
+        message.success('Saved successfully');
+        return;
+      }
+      setFormError(errors.join('\n'));
+      console.log(errors);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+    }).catch((e: Error | ApolloError) => {
+      setFormError(e.message);
+      console.log(e);
+      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+    });
+  }, [executeUpsertMutation]);
+
+  const handleSubmitFailed = useCallback(() => {
+    message.error('Validation Error. Please check the data you entered.');
+  }, []);
+
+  useEffect(() => {
+    if (id != null) {
+      loadItem();
+    }
+  }, [loadItem]);
+
+  const item = data?.['<%= queryName %>'];
+
+  useEffect(() => {
+    if (item != null) {
+      form.setFieldsValue(item);
+    }
+  }, [item, form]);
+
+  if (queryLoading) {
+    return <Spin/>;
+  }
+
+  if (queryError) {
+    return <Result status="error"
+                   title="Query failed" />;
+  }
+
+  return (
+    <Card className="narrow-layout">
+        <Form onFinish={handleSubmit}
+              onFinishFailed={handleSubmitFailed}
+              layout="vertical"
+              form={form}
+        >
+
+          <% attributes.forEach((attr) => { %>
+            <% if (attr.name !== idField) { %>
+              <%- include(includesPath('MvpFormField'), {attr: attr}) %>
+            <% } %>
+          <% }) %>
+
+          {formError && <Alert message={formError}
+                               type="error"
+                               style={{marginBottom: '18px'}}
+                        />
+          }
+
+          <Form.Item style={{textAlign: 'center'}}>
+            <Button htmlType="button"
+                    onClick={handleCancel}
+            >
+              <FormattedMessage id='common.cancel'/>
+            </Button>
+            <Button type="primary"
+                    htmlType="submit"
+                    loading={false} // TODO
+                    style={{marginLeft: '8px'}}
+            >
+              <FormattedMessage id={'common.submit'}/>
+            </Button>
+          </Form.Item>
+
+        </Form>
+    </Card>
+  );
+});
+
+registerEntityEditor({
+  component: <%= className %>,
+  caption: 'screen.<%= className %>',
+  screenId: '<%= className %>',
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
+
+export default <%= className %>;
+

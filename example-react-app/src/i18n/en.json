@@ -181,5 +181,7 @@
   "antd.form.validation.array.min": "${name} shall have no less than ${min} elements.",
   "antd.form.validation.array.max": "${name} shall have no more than ${max} elements.",
   "antd.form.validation.array.range": "${name} shall have from ${min} to ${max} elements.",
-  "antd.form.validation.pattern.mismatch": "${name} does not match pattern ${pattern}."
+  "antd.form.validation.pattern.mismatch": "${name} does not match pattern ${pattern}.",
+  "screen.MvpScreen": "Mvp Screen",
+  "screen.MvpScreenEditor": "Mvp Screen Editor"
 }

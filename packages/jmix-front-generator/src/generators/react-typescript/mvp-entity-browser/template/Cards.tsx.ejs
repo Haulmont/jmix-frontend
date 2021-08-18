@@ -1,0 +1,157 @@
+import React, {useCallback} from "react";
+import {observer} from "mobx-react";
+import {gql, useQuery, useMutation, ApolloCache, Reference} from '@apollo/client';
+import {registerEntityList, openEntityEditorScreen} from "@haulmont/jmix-react-ui";
+import {useScreens} from "@haulmont/jmix-react-core";
+import {DeleteOutlined, EditOutlined, PlusOutlined, LeftOutlined} from '@ant-design/icons';
+import {Button, Card, Tooltip, List, Modal, Spin, Empty, Result} from "antd";
+import {FormattedMessage, useIntl} from "react-intl";
+
+const ENTITY_NAME = '<%= entityName %>';
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= toFatSnakeCase(queryName) %> = gql`
+  <%= queryString %>
+`;
+
+const <%= toFatSnakeCase(deleteMutationName) %> = gql`
+  <%= deleteMutationString %>
+`;
+
+const <%= className %> = observer(() => {
+  const screens = useScreens();
+  const intl = useIntl();
+
+  const {loading, error, data} = useQuery(<%= toFatSnakeCase(queryName) %>);
+  const [executeDeleteMutation] = useMutation(<%= toFatSnakeCase(deleteMutationName) %>);
+
+  if (loading) {
+    return <Spin/>;
+  }
+
+  if (error) {
+    return <Result status="error"
+                   title="Query failed" />;
+  }
+
+  const items = data?.['<%= queryName %>'];
+
+  if (items == null || items.length === 0) {
+    return <Empty />;
+  }
+
+  return (
+    <div className="narrow-layout">
+      <div style={{marginBottom: '12px'}}>
+        <Button htmlType='button'
+                type='primary'
+                icon={<PlusOutlined />}
+                onClick={() => {
+                  openEntityEditorScreen({
+                    screens,
+                    entityName: ENTITY_NAME,
+                    intl,
+                  });
+                  window.scrollTo(0, 0);
+                }}
+        >
+          <span><FormattedMessage id='common.create'/></span>
+        </Button>
+      </div>
+
+      <%# TODO: entity instance typing %>
+      {items.map((e: any) =>
+        <Card key={e['<%= idField %>']}
+              <% if (nameField != null) { -%>
+                title={e['<%= nameField %>']}
+              <% } -%>
+              style={{marginBottom: '12px'}}
+              actions={[
+                <DeleteOutlined key='delete'
+                                onClick={() => {
+                                  Modal.confirm({
+                                    content: 'Are you sure you want to delete this record?',
+                                    okText: 'OK',
+                                    cancelText: intl.formatMessage({id: "common.cancel"}),
+                                    onOk: () => {
+                                      executeDeleteMutation({
+                                        variables: {
+                                          id: e.id
+                                        },
+                                        // TODO we should probably not use cache by default for simplicity
+                                        update(cache: ApolloCache<any>) {
+                                          cache.modify({
+                                            fields: {
+                                              ['<%= queryName %>'](existingRefs, { readField }) {
+                                                return existingRefs.filter(
+                                                  (ref: Reference) => e['<%= idField %>'] !== readField("<%= idField %>", ref)
+                                                );
+                                              }
+                                            }
+                                          });
+                                        }
+                                      });
+                                    }
+                                  });
+                                }}
+                />,
+                <EditOutlined key="edit"
+                              onClick={() => {
+                                openEntityEditorScreen({
+                                  screens,
+                                  entityName: ENTITY_NAME,
+                                  intl,
+                                  entityIdToLoad: e.id,
+                                  routingPath: ROUTING_PATH // TODO: can we get rid of it?
+                                });
+                                window.scrollTo(0, 0);
+                              }}
+                />
+              ]}
+        >
+          <Fields entity={e} />
+        </Card>
+      )}
+    </div>
+  );
+});
+
+interface FieldsProps {
+  entity: any;
+};
+
+const Fields = (props: FieldsProps) => {
+  const {entity} = props;
+  return (
+    <>
+      {Object.keys(entity)
+        .filter(p => p !== '<%= idField %>' && p !== '<%= nameField%>' && entity[p] != null)
+        .map(p => <div><strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
+      }
+    </>
+  );
+};
+
+function renderFieldValue(entity: any, property: string): string {
+  return typeof entity[property] === 'object'
+    ? JSON.stringify(entity[property])
+    : entity[property].toString();
+}
+
+function renderLabel(property: string): string {
+  const split = property.replace(/([^A-Z])([A-Z])/g, '$1 $2');
+  return split[0].toUpperCase() + split.slice(1);
+}
+
+registerEntityList({
+  component: <%= className %>,
+  caption: 'screen.<%= className %>',
+  screenId: '<%= className %>',
+  entityName: ENTITY_NAME,
+  menuOptions: {
+    pathPattern: `${ROUTING_PATH}/:entityId?`,
+    menuLink: ROUTING_PATH
+  }
+});
+
+export default <%= className %>;

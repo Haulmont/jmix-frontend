@@ -56,3 +56,5 @@ import "./app/blank-screen/TestBlankScreen";
 import "./app/example-custom-screen/ExampleCustomScreen";
 import { menuItems } from "@haulmont/jmix-react-ui";
 import "./app/home/HomePage";
+import "./app/mvp/MvpScreenEditor";
+import "./app/mvp/MvpScreen";
