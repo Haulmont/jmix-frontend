@@ -86,11 +86,6 @@ export const commonEntityMasterDetailQuestions: StudioTemplateProperty[] = [
   }),
 ];
 
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityMasterDetailQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
-];
-
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<EntityMasterDetailAnswers> => {

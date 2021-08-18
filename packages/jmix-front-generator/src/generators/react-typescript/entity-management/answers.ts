@@ -31,7 +31,7 @@ StringIdAnswers {
   browserQuery: string;
 }
 
-export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
+export const commonEntityManagementQuestions: StudioTemplateProperty[] = [
   entityQuestion,
   menuItemQuestion,
   createComponentNameQuestion({
@@ -79,16 +79,11 @@ export const commonEntityEditorQuestions: StudioTemplateProperty[] = [
   }),
 ];
 
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityEditorQuestions // TODO merge with commonEntityManagementQuestions once REST API is removed
-];
-
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<EntityManagementAnswers> => {
   const initialQuestions = [
-    ...commonEntityEditorQuestions
+    ...commonEntityManagementQuestions
   ];
 
   const answers: EntityManagementAnswers = await askQuestions<EntityManagementAnswers>(initialQuestions, projectModel, gen);

@@ -1,6 +1,6 @@
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
-import {Answers, ColumnLayoutTypes} from "./answers";
+import {StructureAnswers, ColumnLayoutTypes} from "./answers";
 import {Options} from "./options";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 
@@ -36,7 +36,7 @@ export interface TemplateModel extends CommonTemplateModel {
 }
 
 export async function deriveTemplateModel(
-  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
+  answers: StructureAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
 ): Promise<TemplateModel> {
   const columnOptions = mapperStructureTypeToColumnOptions[answers.structureType];
 

@@ -21,7 +21,7 @@ export interface FormStepConfig {
   fieldNames: string[];
 }
 
-export interface Answers extends
+export interface FormWizardAnswers extends
 StringIdAnswers,
 EntityAnswer,
 ComponentNameAnswer,
@@ -30,33 +30,31 @@ MenuItemAnswer {
   steps: Array<FormStepConfig>;
 }
 
-const questionsToBeAsked = [
+const formWizardStepsQuestion = {
+  code: 'steps',
+  caption: 'Steps',
+  propertyType: StudioTemplatePropertyType.FORM_WIZARD_STEPS,
+  required: true
+}
+
+export const formWizardQuestions: StudioTemplateProperty[] = [
   entityQuestion,
+  formWizardStepsQuestion,
   createComponentNameQuestion({
     defaultValue: 'FormWizard',
   }),
   createQueryQuestion(),
   menuItemQuestion
-]
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...questionsToBeAsked,
-  {
-    code: 'steps',
-    caption: 'Steps',
-    propertyType: StudioTemplatePropertyType.FORM_WIZARD_STEPS,
-    required: true
-  }
 ];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
-): Promise<Answers> => {
+): Promise<FormWizardAnswers> => {
   const initialQuestions = [
-    ...questionsToBeAsked,
+    ...formWizardQuestions,
   ];
 
-  const answers: Answers = await askQuestions<Answers>(initialQuestions, projectModel, gen);
+  const answers: FormWizardAnswers = await askQuestions<FormWizardAnswers>(initialQuestions, projectModel, gen);
 
   if (isStringIdEntity(projectModel, answers.entity)) {
     const stringIdAnswers = await askStringIdQuestions(

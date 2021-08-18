@@ -40,7 +40,7 @@ StringIdAnswers {
   cardsInRow: CardsInRowOption;
 };
 
-const entityCardsGridQuestions: StudioTemplateProperty[] = [
+export const entityCardsGridQuestions: StudioTemplateProperty[] = [
   entityQuestion,
   createComponentNameQuestion({defaultValue: 'CardsGrid'}),
   cardsInRowAnswer,
@@ -50,10 +50,6 @@ const entityCardsGridQuestions: StudioTemplateProperty[] = [
 
 const questionsToBeAskedInCLI = [
   ...entityCardsGridQuestions
-];
-
-export const allQuestions: StudioTemplateProperty[] = [
-  ...questionsToBeAskedInCLI,
 ];
 
 export const getAnswersFromPrompt = async (

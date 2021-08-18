@@ -1,7 +1,7 @@
 import {componentOptionsConfig} from "../../../common/cli-options";
 import path from "path";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {allQuestions, Answers} from "./answers";
+import {blankComponentQuestions, Answers} from "./answers";
 import {Options} from "./options";
 import {TemplateModel, deriveTemplateModel} from "./template-model";
 import {write} from "./write";
@@ -17,7 +17,7 @@ export class ReactComponentGenerator extends YeomanGenerator {
   async generate() {
     await defaultPipeline<Options, Answers, TemplateModel>({
       templateDir: path.join(__dirname, 'template'),
-      questions: allQuestions,
+      questions: blankComponentQuestions,
       stages: {
         deriveTemplateModel,
         write
@@ -29,10 +29,11 @@ export class ReactComponentGenerator extends YeomanGenerator {
 const description = 'Empty screen template.';
 const icon = "blank.svg"
 const index = 0;
+
 export {
   ReactComponentGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  blankComponentQuestions as params,
   description,
   icon,
   index,

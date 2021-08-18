@@ -30,12 +30,12 @@ const structureTypeAnswer: StudioTemplateProperty = {
   options: columnLayoutTypeOptions,
 }
 
-export interface Answers extends
+export interface StructureAnswers extends
 ComponentNameAnswer,
 StructureTypeAnswer,
 MenuItemAnswer {}
 
-export const allQuestions: StudioTemplateProperty[] = [
+export const StructureQuestions: StudioTemplateProperty[] = [
   createComponentNameQuestion({defaultValue: 'Structure'}),
   structureTypeAnswer,
   menuItemQuestion,

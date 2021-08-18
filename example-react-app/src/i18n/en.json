@@ -61,6 +61,7 @@
   "screen.CarMasterDetail": "Car Master Detail",
   "screen.CarMasterDetailBrowser": "Car Master Detail Browser",
   "screen.CarMasterDetailEditor": "Car Master Detail Editor",
+  "screen.CarTableWithFilters": "Car Table With Filters",
   "screen.CarCardsWithDetails": "Car Cards With Details",
   "screen.FavoriteCars": "Favorite Cars",
   "screen.CarCardsGrid": "Car Cards Grid",

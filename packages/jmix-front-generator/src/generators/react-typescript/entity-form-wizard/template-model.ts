@@ -4,7 +4,7 @@ import {
   deriveEntity,
   EntityWithPath
 } from "../../../building-blocks/stages/template-model/pieces/entity";
-import {Answers, FormStepConfig} from "./answers";
+import {FormWizardAnswers, FormStepConfig} from "./answers";
 import {Options} from "./options";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
@@ -31,7 +31,7 @@ FormEditorTemplateModel {
 };
 
 export const deriveTemplateModel = async (
-  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
+  answers: FormWizardAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
 ): Promise<TemplateModel> => {
 
   const displayedAttributes = getDisplayedAttributesFromQuery({
@@ -69,7 +69,7 @@ export const deriveTemplateModel = async (
 }
 
 const deriveSteps = (
-  answers: Answers, projectModel: ProjectModel, attributes: EntityAttribute[]
+  answers: FormWizardAnswers, projectModel: ProjectModel, attributes: EntityAttribute[]
 ): {steps: Array<FormStepConfig & FormEditorTemplateModel>} => {
   return {
     steps: answers.steps.map((step) => {

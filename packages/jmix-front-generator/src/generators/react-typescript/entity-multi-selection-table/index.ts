@@ -1,7 +1,7 @@
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {componentOptionsConfig} from "../../../common/cli-options";
 import {defaultPipeline} from "../../../building-blocks/pipelines/defaultPipeline";
-import {getAnswersFromPrompt, allQuestions, MultiSelectionTableAnswers } from "./answers";
+import {getAnswersFromPrompt, commonEntityBrowserQuestions, MultiSelectionTableAnswers } from "./answers";
 import path from "path";
 import {MultiSelectionTableTemplateModel, deriveMultiSelectionTableTemplateModel} from "./template-model";
 import {writeMultiSelectionTable} from "./write";
@@ -16,7 +16,7 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
     await defaultPipeline<ComponentOptions, MultiSelectionTableAnswers, MultiSelectionTableTemplateModel>(
       {
         templateDir: path.join(__dirname, 'template'),
-        questions: allQuestions,
+        questions: commonEntityBrowserQuestions,
         stages: {
           getAnswersFromPrompt,
           deriveTemplateModel: deriveMultiSelectionTableTemplateModel,
@@ -29,10 +29,14 @@ export class ReactEntityBrowserGenerator extends YeomanGenerator {
 }
 
 const description = 'Makes it possible to select several entities and perform various actions with them.';
+const icon = 'entity-multi-selection-table.svg';
+const index = 9;
 
 export {
   ReactEntityBrowserGenerator as generator,
   componentOptionsConfig as options,
-  allQuestions as params,
+  commonEntityBrowserQuestions as params,
   description,
+  icon,
+  index,
 }

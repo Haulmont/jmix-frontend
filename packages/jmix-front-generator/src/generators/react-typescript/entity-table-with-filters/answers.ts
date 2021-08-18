@@ -1,4 +1,4 @@
-import {StudioTemplateProperty} from "../../../common/studio/studio-model";
+import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
@@ -19,28 +19,38 @@ import {
   MenuItemAnswer,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
-  entityQuestion,
-  createComponentNameQuestion({defaultValue: 'MultiSelectionTable'}),
-  createQueryQuestion(),
-  menuItemQuestion,
-];
-
-export interface MultiSelectionTableAnswers extends
+export interface TableWithFiltersAnswers extends 
 EntityAnswer,
 ComponentNameAnswer,
 QueryAnswer,
 MenuItemAnswer,
-StringIdAnswers {}
+StringIdAnswers {
+  filterableFields: string[];
+}
+
+const filterableFieldsQuestion: StudioTemplateProperty = {
+  code: 'filterableFields',
+  caption: 'Filterable Fields',
+  propertyType: StudioTemplatePropertyType.ATTRIBUTES_ARRAY,
+  required: true
+}
+
+export const tableWithFiltersQuestions: StudioTemplateProperty[] = [
+  entityQuestion,
+  createComponentNameQuestion({defaultValue: 'TableWithFilters'}),
+  createQueryQuestion(),
+  filterableFieldsQuestion,  
+  menuItemQuestion,
+];
 
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
-): Promise<MultiSelectionTableAnswers> => {
+): Promise<TableWithFiltersAnswers> => {
   const initialQuestions = [
-    ...commonEntityBrowserQuestions
+    ...tableWithFiltersQuestions
   ];
 
-  const answers: MultiSelectionTableAnswers = await askQuestions<MultiSelectionTableAnswers>(initialQuestions, projectModel, gen);
+  const answers: TableWithFiltersAnswers = await askQuestions<TableWithFiltersAnswers>(initialQuestions, projectModel, gen);
 
   if (isStringIdEntity(projectModel, answers.entity)) {
     const stringIdAnswers = await askStringIdQuestions(

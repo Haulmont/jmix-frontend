@@ -33,6 +33,7 @@ const formWizardCompositionO2O = require('./screens/form-wizard-composition-o2o'
 const formWizardBrowser = require('./screens/form-wizard-browser.js');
 const dirShift = '../../';
 const carCardsWithDetailsConfig = require('./screens/car-cards-with-details');
+const carTableWithFiltersConfig = require('./screens/car-table-with-filters')
 
 gen(
     'React client SCR',
@@ -105,6 +106,12 @@ gen(
         dirShift,
         dest: 'src/app/car-cards-with-details',
         answers: carCardsWithDetailsConfig
+      },
+      {
+        command: 'react-typescript:entity-table-with-filters',
+        dirShift,
+        dest: 'src/app/car-table-with-filters',
+        answers: carTableWithFiltersConfig
       },
       {
         command: 'react-typescript:entity-master-detail',

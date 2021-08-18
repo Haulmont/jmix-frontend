@@ -53,10 +53,6 @@ export const commonEntityBrowserQuestions: StudioTemplateProperty[] = [
   menuItemQuestion,
 ];
 
-export const allQuestions: StudioTemplateProperty[] = [
-  ...commonEntityBrowserQuestions,
-];
-
 export const getAnswersFromPrompt = async (
   projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<EntityBrowserAnswers> => {
