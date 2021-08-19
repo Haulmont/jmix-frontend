@@ -115,10 +115,7 @@ const MvpScreenEditor = observer(() => {
     values => {
       executeUpsertMutation({
         variables: {
-          car: {
-            ...values,
-            id
-          }
+          car: formValuesToData(values, id)
         },
         update(cache: ApolloCache<any>, result: FetchResult) {
           const updateResult = result.data?.["upsert_scr_Car"];
@@ -175,7 +172,7 @@ const MvpScreenEditor = observer(() => {
 
   useEffect(() => {
     if (item != null) {
-      form.setFieldsValue(item);
+      form.setFieldsValue(dataToFormValues(item));
     }
   }, [item, form]);
 
@@ -368,6 +365,17 @@ const MvpScreenEditor = observer(() => {
     </Card>
   );
 });
+
+function formValuesToData(values: any, id?: string): any {
+  return {
+    ...values,
+    id
+  };
+}
+
+function dataToFormValues(data: any): any {
+  return data;
+}
 
 registerEntityEditor({
   component: MvpScreenEditor,

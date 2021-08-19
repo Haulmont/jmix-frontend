@@ -65,10 +65,7 @@ const <%= className %> = observer(() => {
   const handleSubmit = useCallback((values) => {
     executeUpsertMutation({
       variables: {
-        <%= inputVariableName %>: {
-          ...values,
-          id
-        }
+        <%= inputVariableName %>: formValuesToData(values, id)
       },
       update(cache: ApolloCache<any>, result: FetchResult) {
         const updateResult = result.data?.['<%= mutationName %>'];
@@ -121,7 +118,7 @@ const <%= className %> = observer(() => {
 
   useEffect(() => {
     if (item != null) {
-      form.setFieldsValue(item);
+      form.setFieldsValue(dataToFormValues(item));
     }
   }, [item, form]);
 
@@ -173,6 +170,17 @@ const <%= className %> = observer(() => {
     </Card>
   );
 });
+
+function formValuesToData(values: any, id?: string): any {
+  return {
+    ...values,
+    id
+  };
+}
+
+function dataToFormValues(data: any): any {
+  return data;
+}
 
 registerEntityEditor({
   component: <%= className %>,
