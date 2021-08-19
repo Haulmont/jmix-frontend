@@ -93,11 +93,17 @@ export function deriveGraphQLEditorModel(
   const inputVariableName = operationDefinition.variableDefinitions[0].variable.name.value;
 
   const inputType = operationDefinition.variableDefinitions[0].type;
-  if (!('type' in inputType) || !('name' in inputType.type)) {
+
+  let inputTypeName: string | undefined;
+  if ('name' in inputType) {
+    inputTypeName = inputType.name.value;
+  }
+  if ('type' in inputType && 'name' in inputType.type) {
+    inputTypeName = inputType.type.name.value;
+  }
+  if (inputTypeName == null) {
     throw new Error('Input type name not found');
   }
-
-  const inputTypeName = inputType.type.name.value;
 
   const queryName = getOperationName(queryNode);
   const mutationName = getOperationName(mutationNode);

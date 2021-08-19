@@ -1,7 +1,7 @@
 import { loadSchema } from "@graphql-tools/load";
 import {deriveGraphQLEditorModel} from "./template-model";
 import * as fs from "fs";
-import {GraphQLSchema} from "graphql";
+import {buildClientSchema, GraphQLSchema} from "graphql";
 import * as path from "path";
 import gql from "graphql-tag";
 import { fail } from "assert";
@@ -10,9 +10,13 @@ describe('deriveEntityModel()', () => {
   let schema: GraphQLSchema;
 
   before(async () => {
-    schema = await loadSchema(
-      fs.readFileSync(path.join(__dirname, '../../../test/common/schema.graphql'), 'utf-8'),
-      {loaders: []}
+    // schema = await loadSchema(
+    //   fs.readFileSync(path.join(__dirname, '../../../test/common/schema.graphql'), 'utf-8'),
+    //   {loaders: []}
+    // );
+
+    schema = buildClientSchema(
+      JSON.parse(fs.readFileSync(path.join(__dirname, '../../../test/common/schema.json'), 'utf-8')).data
     );
   });
 
@@ -25,53 +29,9 @@ describe('deriveEntityModel()', () => {
 
 
 const MUTATION_STRING = `
-  mutation Upsert_scr_Car($car: inp_scr_Car!) {
-    upsert_scr_Car(car: $car) {
-      id
-    }
-  }
+  mutation Update_Owner($input: OwnerInputDTOInput) {\r\n  update_Owner(input: $input) {\r\n    id\r\n  }\r\n}
 `;
 
 const QUERY_STRING = `
-      query scr_CarById($id: String!) {
-        scr_CarById(id: $id) {
-          id
-          _instanceName
-          manufacturer
-          model
-          regNumber
-          purchaseDate
-          manufactureDate
-          wheelOnRight
-          carType
-          ecoRank
-          maxPassengers
-          price
-          mileage
-          garage {
-            id
-            _instanceName
-          }
-          technicalCertificate {
-            id
-            _instanceName
-          }
-    
-          version
-          createdBy
-          createdDate
-          lastModifiedBy
-          lastModifiedDate
-        }
-    
-        scr_GarageList {
-          id
-          _instanceName
-        }
-    
-        scr_TechnicalCertificateList {
-          id
-          _instanceName
-        }
-      }
+  query Get_Owner($id: Long) {\r\n  owner(id: $id) {\r\n    id\r\n\t\tfirstName\r\n    lastName\r\n  }\r\n}
     `;
