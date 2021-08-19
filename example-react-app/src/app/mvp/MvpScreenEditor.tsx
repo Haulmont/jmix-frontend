@@ -117,26 +117,7 @@ const MvpScreenEditor = observer(() => {
         variables: {
           car: formValuesToData(values, id)
         },
-        update(cache: ApolloCache<any>, result: FetchResult) {
-          const updateResult = result.data?.["upsert_scr_Car"];
-          // Reflect the update in Apollo cache
-          cache.modify({
-            fields: {
-              ["scr_CarList"](existingRefs = []) {
-                const updatedItemRef = cache.writeFragment({
-                  id: `scr_Car:${updateResult.id}`,
-                  data: values,
-                  fragment: gql(`
-                  fragment New_scr_Car on scr_Car {
-                    id
-                  }
-                `)
-                });
-                return [...existingRefs, updatedItemRef];
-              }
-            }
-          });
-        }
+        update: getUpdateFn(values)
       })
         .then(({ errors }: FetchResult) => {
           if (errors == null || errors.length === 0) {
@@ -375,6 +356,29 @@ function formValuesToData(values: any, id?: string): any {
 
 function dataToFormValues(data: any): any {
   return data;
+}
+
+function getUpdateFn(values: any) {
+  return (cache: ApolloCache<any>, result: FetchResult) => {
+    const updateResult = result.data?.["upsert_scr_Car"];
+    // Reflect the update in Apollo cache
+    cache.modify({
+      fields: {
+        ["scr_CarList"](existingRefs = []) {
+          const updatedItemRef = cache.writeFragment({
+            id: `scr_Car:${updateResult.id}`,
+            data: values,
+            fragment: gql(`
+              fragment New_scr_Car on scr_Car {
+                id
+              }
+            `)
+          });
+          return [...existingRefs, updatedItemRef];
+        }
+      }
+    });
+  };
 }
 
 registerEntityEditor({

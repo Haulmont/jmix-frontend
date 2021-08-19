@@ -118,7 +118,6 @@ const MvpScreen = observer(() => {
       </div>
 
       {items.map((e: any) => (
-        // TODO: id name field
         <Card
           key={e["id"]}
           title={e["_instanceName"]}
@@ -136,19 +135,7 @@ const MvpScreen = observer(() => {
                       variables: {
                         id: e.id
                       },
-                      // TODO we should probably not use cache by default for simplicity
-                      update(cache: ApolloCache<any>) {
-                        cache.modify({
-                          fields: {
-                            ["scr_CarList"](existingRefs, { readField }) {
-                              return existingRefs.filter(
-                                (ref: Reference) =>
-                                  e["id"] !== readField("id", ref)
-                              );
-                            }
-                          }
-                        });
-                      }
+                      update: getUpdateFn(e)
                     });
                   }
                 });
@@ -204,6 +191,20 @@ function renderFieldValue(entity: any, property: string): string {
 function renderLabel(property: string): string {
   const split = property.replace(/([^A-Z])([A-Z])/g, "$1 $2");
   return split[0].toUpperCase() + split.slice(1);
+}
+
+function getUpdateFn(e: any) {
+  return (cache: ApolloCache<any>) => {
+    cache.modify({
+      fields: {
+        ["scr_CarList"](existingRefs, { readField }) {
+          return existingRefs.filter(
+            (ref: Reference) => e["id"] !== readField("id", ref)
+          );
+        }
+      }
+    });
+  };
 }
 
 registerEntityList({

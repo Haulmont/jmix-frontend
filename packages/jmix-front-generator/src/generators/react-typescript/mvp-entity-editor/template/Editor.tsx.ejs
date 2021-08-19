@@ -67,26 +67,7 @@ const <%= className %> = observer(() => {
       variables: {
         <%= inputVariableName %>: formValuesToData(values, id)
       },
-      update(cache: ApolloCache<any>, result: FetchResult) {
-        const updateResult = result.data?.['<%= mutationName %>'];
-        // Reflect the update in Apollo cache
-        cache.modify({
-          fields: {
-            ['<%= listQueryName %>'](existingRefs = []) {
-              const updatedItemRef = cache.writeFragment({
-                id: `<%= entityName %>:${updateResult.id}`,
-                data: values,
-                fragment: gql(`
-                  fragment New_<%= entityName %> on <%= entityName %> {
-                    id
-                  }
-                `)
-              });
-              return [...existingRefs, updatedItemRef];
-            }
-          }
-        });
-      }
+      update: getUpdateFn(values)
     }).then(({errors}: FetchResult) => {
       if (errors == null || errors.length === 0) {
         goToParentScreen();
@@ -180,6 +161,29 @@ function formValuesToData(values: any, id?: string): any {
 
 function dataToFormValues(data: any): any {
   return data;
+}
+
+function getUpdateFn(values: any) {
+  return (cache: ApolloCache<any>, result: FetchResult) => {
+    const updateResult = result.data?.['<%= mutationName %>'];
+    // Reflect the update in Apollo cache
+    cache.modify({
+      fields: {
+        ['<%= listQueryName %>'](existingRefs = []) {
+          const updatedItemRef = cache.writeFragment({
+            id: `<%= entityName %>:${updateResult.id}`,
+            data: values,
+            fragment: gql(`
+              fragment New_<%= entityName %> on <%= entityName %> {
+                id
+              }
+            `)
+          });
+          return [...existingRefs, updatedItemRef];
+        }
+      }
+    });
+  }
 }
 
 registerEntityEditor({
