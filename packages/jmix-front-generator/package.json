@@ -28,7 +28,9 @@
     "url": "https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator"
   },
   "dependencies": {
+    "@types/jscodeshift": "^0.11.0",
     "@types/prettier": "~1.19.0",
+    "@types/yeoman-generator": "^2.0.3",
     "commander": "~8.0.0",
     "graphql": "^15.4.0",
     "graphql-tag": "^2.11.0",
@@ -46,7 +48,6 @@
     "@istanbuljs/nyc-config-typescript": "^1.0.1",
     "@types/chai": "^4.2.3",
     "@types/ejs": "^2.5.1",
-    "@types/jscodeshift": "^0.11.0",
     "@types/mocha": "^2.2.48",
     "@types/nock": "^11.1.0",
     "@types/node": "^10.17.0",
@@ -55,7 +56,6 @@
     "@types/sinon-chai": "^3.2.3",
     "@types/through2": "^2.0.33",
     "@types/uuid": "^8.3.0",
-    "@types/yeoman-generator": "^2.0.3",
     "chai": "^4.2.0",
     "mocha": "^6.2.3",
     "nock": "^12.0.3",
