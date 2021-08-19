@@ -1,6 +1,6 @@
 import {MvpCommonOptions} from "../options/pieces/mvp";
 import {YeomanGenerator} from "../../YeomanGenerator";
-import {GraphQLSchema} from "graphql";
+import {buildClientSchema, GraphQLSchema} from "graphql";
 import * as path from "path";
 import * as fs from "fs";
 import {loadSchema} from "@graphql-tools/load";
@@ -30,7 +30,19 @@ export const mvpGetGraphQLSchema = async <O extends MvpCommonOptions>(
 
   const schemaString: string = fs.readFileSync(schemaPath, 'utf-8');
 
-  return await loadSchema(schemaString, {loaders: []});
+  let isSdlFormat = false;
+  let introspection;
+  try {
+    introspection = JSON.parse(schemaString);
+  } catch (e) {
+    isSdlFormat = true;
+  }
+
+  if (isSdlFormat) {
+    return await loadSchema(schemaString, {loaders: []});
+  }
+
+  return buildClientSchema(introspection.data);
 }
 
 function getSchemaPath(invocationDir: string, schemaArg?: string): string {
