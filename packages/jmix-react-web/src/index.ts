@@ -17,9 +17,11 @@ export * from "./util/files";
 export * from "./util/mapJmixRestErrorToIntlId"
 
 export * from "./ui/single-content-area/SingleContentArea";
+export * from "./ui/Menu/useMenuItem";
 export * from "./ui/MultiScreen";
 export * from "./ui/MultilineText";
 export * from "./ui/Msg";
+export * from "./ui/Tabs/Content";
 export * from "./ui/paging/pagingConfig";
 export * from "./ui/EntityProperty";
 
