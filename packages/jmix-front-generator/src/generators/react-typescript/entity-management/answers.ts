@@ -8,7 +8,7 @@ import {
   stringIdQuestions
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
-import {isStringIdEntity} from "../common/entity";
+import {isStringIdEntity} from "../../../common/entity";
 import { BrowserTypes, createBrowserTypeQuestion } from "../entity-browser/answers";
 import {
   createComponentNameQuestion,

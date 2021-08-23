@@ -4,7 +4,7 @@ import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {askStringIdQuestions, StringIdAnswers} from "../../../building-blocks/stages/answers/pieces/stringId";
-import { isStringIdEntity } from "../common/entity";
+import { isStringIdEntity } from "../../../common/entity";
 import {
   entityQuestion,
   EntityAnswer,
