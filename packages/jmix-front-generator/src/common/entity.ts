@@ -1,6 +1,6 @@
-import {Entity, EntityAttribute, ProjectModel, ViewProperty} from "../../../common/model/cuba-model";
-import {collectAttributesFromHierarchy, composeParentFqn, findEntityByFqn} from "../../../common/model/cuba-model-utils";
-import {EntityTemplateModel, getEntityPath} from "./template-model";
+import {Entity, EntityAttribute, ProjectModel, ViewProperty} from "./model/cuba-model";
+import {collectAttributesFromHierarchy, composeParentFqn, findEntityByFqn} from "./model/cuba-model-utils";
+import {EntityTemplateModel, getEntityPath} from "../generators/react-typescript/common/template-model";
 
 export enum ScreenType {
   BROWSER = 'browser',

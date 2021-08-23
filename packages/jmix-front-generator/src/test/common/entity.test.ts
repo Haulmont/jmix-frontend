@@ -2,7 +2,7 @@ import {
   getDisplayedAttributes,
   isStringIdEntity,
   ScreenType
-} from "../../../../generators/react-typescript/common/entity";
+} from "../../common/entity";
 import {expect} from "chai";
 import {fail} from "assert";
 

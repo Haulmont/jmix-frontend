@@ -6,7 +6,7 @@ import {deriveEntityCommon} from "../../../building-blocks/stages/template-model
 import {stringIdAnswersToModel} from '../common/base-entity-screen-generator';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
-import { ScreenType } from "../../../generators/react-typescript/common/entity";
+import { ScreenType } from "../../../common/entity";
 import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
 
 export interface TemplateModel extends

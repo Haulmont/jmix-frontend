@@ -8,7 +8,7 @@ import {Answers, FormStepConfig} from "./answers";
 import {Options} from "./options";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
-import { ScreenType } from "../common/entity";
+import { ScreenType } from "../../../common/entity";
 import { EntityEditorTemplateModel, deriveEditorTemplateModel } from "../../../building-blocks/stages/template-model/pieces/editor";
 // import {deriveEditAssociatedEntityClassNames} from '../entity-management/template-model'
 import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";

@@ -1,5 +1,5 @@
 import { EntityAttribute, ProjectModel } from "../../../../common/model/cuba-model";
-import { getDisplayedAttributes, ScreenType } from "../../../../generators/react-typescript/common/entity";
+import { getDisplayedAttributes, ScreenType } from "../../../../common/entity";
 import { EntityWithPath } from "./entity";
 import { getTopAttributesFromQuery } from "./getTopAttributesFromQuery";
 
