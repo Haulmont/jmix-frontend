@@ -1,5 +1,9 @@
-import {addRoute, addToMenu, RouteInfo, addToAppMenu, addAddonToMenu, addAppMenuItem, AppMenuItemInfo, MenuItemTypes, addAddonRoute, AddonInfo} from "../../../../generators/react-typescript/common/menu";
+import {
+  addRoute, addToMenu, RouteInfo, addAddonToMenu, addAppMenuItem,
+  AppMenuItemInfo, MenuItemTypes, addAddonRoute, AddonInfo, AddMenuItemConfig
+} from "../../../../generators/react-typescript/common/menu";
 import {YeomanGenerator} from "../../../YeomanGenerator";
+import path from "path";
 
 export function addMenuItem(
   gen: YeomanGenerator,
@@ -50,27 +54,36 @@ export function addAddomMenuItem(
 export function addAppMenu(
   gen: YeomanGenerator,
   dirShift: string,
-  className: string,
-  menuItem: string | null,
+  componentClassName: string,
+  menuNode: string | null,
   menuItemType: MenuItemTypes = MenuItemTypes.MenuItem,
   key: string | null = null,
   addAppMenuCallback: (
     appMenuContents: string,
     appMenuItemInfo: AppMenuItemInfo,
+    config: AddMenuItemConfig
   ) => string = addAppMenuItem,
+  config: AddMenuItemConfig | null = null
 ) {
-  if (!addToAppMenu(gen.fs, {
-      componentClassName: className,
-      dirShift: dirShift,
-      destRoot: gen.destinationRoot(),
-      menuNode: menuItem,
-      menuItemType,
-      key
-    },
-    addAppMenuCallback
-  )) {
+  const {fs} = gen
+  const destRoot = gen.destinationRoot()
+  const appMenuDir = path.join(destRoot, dirShift ? dirShift : '');
+  const appMenuPath = path.join(appMenuDir, 'app', 'AppMenu.tsx');
+  
+  if (!fs.exists(appMenuPath)) {
     gen.log('Unable to add component to menu: route registry not found');
+    return;
   }
+
+  const appMenuContents = fs.read(appMenuPath);
+  fs.write(
+    appMenuPath,
+    addAppMenuCallback(
+      appMenuContents,
+      {componentClassName, menuNode, key, menuItemType},
+      config ?? {}
+    )
+  );
 }
 
 export function addEntityMenuItem(
