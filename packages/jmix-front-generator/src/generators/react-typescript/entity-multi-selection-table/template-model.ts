@@ -11,7 +11,7 @@ import {
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {MultiSelectionTableAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { ScreenType } from "../common/entity";
+import { ScreenType } from "../../../common/entity";
 import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
 import { deriveRelations, RelationsTemplateModel } from "../../../building-blocks/stages/template-model/pieces/deriveRelations";
 

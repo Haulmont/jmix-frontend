@@ -1,4 +1,4 @@
-import { StudioTemplateProperty, StudioTemplatePropertyType } from "src/common/studio/studio-model"
+import { StudioTemplateProperty, StudioTemplatePropertyType } from "../../../../common/studio/studio-model"
 import { EntityWithPath } from "../../template-model/pieces/entity";
 
 export interface StepQuestionParam {

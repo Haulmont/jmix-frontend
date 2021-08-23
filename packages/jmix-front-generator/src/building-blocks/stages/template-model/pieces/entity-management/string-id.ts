@@ -1,5 +1,5 @@
 import {EntityAttribute, ProjectModel} from "../../../../../common/model/cuba-model";
-import {isStringIdEntity} from "../../../../../generators/react-typescript/common/entity";
+import {isStringIdEntity} from "../../../../../common/entity";
 import {collectAttributesFromHierarchy} from "../../../../../common/model/cuba-model-utils";
 import {EntityWithPath} from "../entity";
 
