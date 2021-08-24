@@ -11,7 +11,7 @@ import {
     useEntityEditorFromWizard,
     withFormWizardProvider,
     FormWizardButtons,
-    useEntityPersistCallbacks,
+    useEntityEditorCallbacks,
     useSubmitFailedCallback,
     ant_to_jmixFront
 } from '@haulmont/jmix-react-antd';
@@ -52,7 +52,7 @@ const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
 `;
 
 const <%= className %> = withFormWizardProvider(observer((props: EntityEditorProps<<%= entity.className %>>) => {
-    const {entityInstance} = props;
+    const {entityInstance, onCommit} = props;
     const multiScreen = useContext(MultiScreenContext);
     const onSubmitFailed = useSubmitFailedCallback();
     const {
@@ -74,9 +74,11 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
         upsertMutation: UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %>,
         entityId: multiScreen?.params?.entityId,
         entityName: ENTITY_NAME,
-        routingPath: ROUTING_PATH,
         entityInstance,
-        persistEntityCallbacks: useEntityPersistCallbacks(),
+        callbacks: useEntityEditorCallbacks({
+          routingPath: ROUTING_PATH,
+          onCommit,
+        }),
         uiKit_to_jmixFront: ant_to_jmixFront
     });
 

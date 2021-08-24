@@ -9,7 +9,7 @@ import {
   useEntityEditorFromWizard,
   withFormWizardProvider,
   FormWizardButtons,
-  useEntityPersistCallbacks,
+  useEntityEditorCallbacks,
   useSubmitFailedCallback,
   ant_to_jmixFront
 } from "@haulmont/jmix-react-antd";
@@ -70,7 +70,7 @@ const UPSERT_SCR_FORMWIZARDTESTENTITY = gql`
 
 const FormWizardEditor = withFormWizardProvider(
   observer((props: EntityEditorProps<FormWizardTestEntity>) => {
-    const { entityInstance } = props;
+    const { entityInstance, onCommit } = props;
     const multiScreen = useContext(MultiScreenContext);
     const onSubmitFailed = useSubmitFailedCallback();
     const {
@@ -90,9 +90,11 @@ const FormWizardEditor = withFormWizardProvider(
       upsertMutation: UPSERT_SCR_FORMWIZARDTESTENTITY,
       entityId: multiScreen?.params?.entityId,
       entityName: ENTITY_NAME,
-      routingPath: ROUTING_PATH,
       entityInstance,
-      persistEntityCallbacks: useEntityPersistCallbacks(),
+      callbacks: useEntityEditorCallbacks({
+        routingPath: ROUTING_PATH,
+        onCommit
+      }),
       uiKit_to_jmixFront: ant_to_jmixFront
     });
 

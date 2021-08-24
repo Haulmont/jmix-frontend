@@ -136,7 +136,6 @@ describe('useEntityEditor()', () => {
       loadQuery: LOAD_SCR_CAR,
       upsertMutation: UPSERT_SCR_CAR,
       entityName: 'scr_Car',
-      routingPath: 'car',
       entityId: '1',
       uiKit_to_jmixFront: uiKit_to_jmixFront_mock
     }), {wrapper});
@@ -152,7 +151,6 @@ describe('useEntityEditor()', () => {
       loadQuery: LOAD_SCR_CAR,
       upsertMutation: UPSERT_SCR_CAR,
       entityName: 'scr_Car',
-      routingPath: 'car',
       entityId: '1',
       uiKit_to_jmixFront: uiKit_to_jmixFront_mock
     }), {wrapper});
@@ -179,7 +177,6 @@ describe('useEntityEditor()', () => {
       loadQuery: LOAD_SCR_CAR,
       upsertMutation: UPSERT_SCR_CAR,
       entityName: 'scr_Car',
-      routingPath: 'car',
       entityId: '1',
       upsertMutationOptions: {
         onCompleted: spy
@@ -208,7 +205,6 @@ describe('useEntityEditor()', () => {
       loadQuery: LOAD_SCR_CAR,
       upsertMutation: UPSERT_SCR_CAR,
       entityName: 'scr_Car',
-      routingPath: 'car',
       entityId: '1',
       useEntityEditorForm: spy,
       uiKit_to_jmixFront: uiKit_to_jmixFront_mock

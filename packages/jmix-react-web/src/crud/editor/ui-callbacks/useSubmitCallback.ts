@@ -2,45 +2,49 @@ import {useCallback} from "react";
 import {
   addIdIfExistingEntity,
   EntityInstance,
-  findEntityMetadata,
-  GraphQLMutationFn,
   Metadata,
   toIdString,
   useMetadata,
-  unCapitalizeFirst,
-  MetaClassInfo
 } from "@haulmont/jmix-react-core";
-import { PersistEntityCallbacks, persistEntity } from "../util/persistEntity";
+import { ApolloError, FetchResult } from "@apollo/client";
+import {GraphQLError} from 'graphql';
 
-export interface SubmitCallbackHookOptions<TEntity, TData, TMutationVars> {
-  executeUpsertMutation: GraphQLMutationFn<TData, TMutationVars>;
-  updateResultName: string;
-  listQueryName: string;
+export interface SubmitCallbackCallbacks<TEntity, TData> {
+  onCommit?: (entityInstance: EntityInstance<TEntity>) => void;
+  onCreate?: (data?: TData | null) => void;
+  onEdit?: (data?: TData | null) => void;
+  onError?: (errors?: readonly GraphQLError[]) => void;
+  onApolloError?: (error: Error | ApolloError) => void;
+}
+
+export interface SubmitCallbackHookOptions<TEntity, TData> {
+  persistEntity: (updatedEntity: TEntity) => Promise<FetchResult<TData, Record<string, any>, Record<string, any>>>;
   entityName: string;
-  goToParentScreen: () => void;
   entityId?: string;
   entityInstance?: EntityInstance<TEntity>;
   onCommit?: (value: EntityInstance<TEntity>) => void;
+  onCreate?: (data?: TData | null) => void;
+  onEdit?: (data?: TData | null) => void;
+  onError?: (errors?: readonly GraphQLError[]) => void;
+  onApolloError?: (error: Error | ApolloError) => void;
   uiKit_to_jmixFront: (item: any, entityName: string, metadata: Metadata, stringIdName?: string) => Record<string, any>;
-  persistEntityCallbacks?: PersistEntityCallbacks
 }
 
 export function useSubmitCallback<
   TEntity = unknown,
-  TData extends Record<string, any> = Record<string, any>,
-  TMutationVars = unknown
+  TData extends Record<string, any> = Record<string, any>
 >({
-  executeUpsertMutation,
-  updateResultName,
-  listQueryName,
+  persistEntity,
   entityName,
-  goToParentScreen,
   entityId,
   entityInstance,
   onCommit,
-  persistEntityCallbacks,
-  uiKit_to_jmixFront
-}: SubmitCallbackHookOptions<TEntity, TData, TMutationVars>) {
+  uiKit_to_jmixFront,
+  onCreate,
+  onEdit,
+  onError,
+  onApolloError,
+}: SubmitCallbackHookOptions<TEntity, TData>) {
   const metadata = useMetadata();
   const isNewEntity = (entityId == null);
 
@@ -58,32 +62,36 @@ export function useSubmitCallback<
             ...addIdIfExistingEntity(id)
           };
           onCommit(updatedEntity as TEntity);
-          goToParentScreen();
         } else {
           const updatedEntity = {
             ...uiKit_to_jmixFront(values, entityName, metadata),
             ...addIdIfExistingEntity(entityId)
           };
 
-          const entityMetadata: MetaClassInfo | undefined = findEntityMetadata(entityName, metadata);
-          if (entityMetadata == null) {
-            console.error('Cannot find entity metadata for ' + entityName);
-            return;
-          }
-          const upsertInputName = unCapitalizeFirst(entityMetadata.className);
+          persistEntity(updatedEntity as TEntity)
+            .then(({errors}: FetchResult<TData, Record<string, any>, Record<string, any>>) => {
+              if (errors == null || errors.length === 0) {
+                if (isNewEntity) {
+                  onCreate?.();
+                } else {
+                  onEdit?.();
+                }
+              } else {
+                onError?.();
+              }
+            })
+            .catch((error: Error | ApolloError) => {
+              const constraintViolations = (error as ApolloError)
+                ?.graphQLErrors
+                ?.[0]
+                ?.extensions
+                ?.constraintViolations;
+              if (constraintViolations != null) {
+                return; // Bean validation error
+              }
 
-          persistEntity(
-            executeUpsertMutation,
-            upsertInputName,
-            updatedEntity,
-            updateResultName,
-            listQueryName,
-            entityName,
-            isNewEntity,
-            goToParentScreen,
-            metadata,
-            persistEntityCallbacks
-          );
+              onApolloError?.(error);
+            });
         }
       }
     },
@@ -92,14 +100,9 @@ export function useSubmitCallback<
       onCommit,
       entityInstance,
       entityName,
-      goToParentScreen,
-      executeUpsertMutation,
-      updateResultName,
-      listQueryName,
       entityName,
       isNewEntity,
-      goToParentScreen,
-      metadata
+      metadata,
     ]
   );
 }

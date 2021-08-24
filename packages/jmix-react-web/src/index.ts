@@ -6,7 +6,7 @@ export * from "./crud/editor/ui-callbacks/useSubmitCallback";
 export * from "./crud/list/util/createDeleteMutation";
 export * from "./crud/editor/useEntityEditor";
 export * from "./crud/editor/EntityEditorProps";
-export * from "./crud/editor/util/persistEntity";
+export * from "./crud/editor/util/usePersistEntity";
 export * from "./crud/list/useEntityList";
 export * from "./crud/list/EntityListProps";
 

@@ -11,7 +11,7 @@ import {
   Field,
   GlobalErrorsAlert,
   Spinner,
-  useEntityPersistCallbacks,
+  useEntityEditorCallbacks,
   useSubmitFailedCallback,
   ant_to_jmixFront
 } from "@haulmont/jmix-react-antd";
@@ -74,10 +74,11 @@ const AssociationM2OEditor = observer(
       loadQuery: LOAD_SCR_ASSOCIATIONM2OTESTENTITY,
       upsertMutation: UPSERT_SCR_ASSOCIATIONM2OTESTENTITY,
       entityName: ENTITY_NAME,
-      routingPath: ROUTING_PATH,
-      onCommit,
       entityInstance,
-      persistEntityCallbacks: useEntityPersistCallbacks(),
+      callbacks: useEntityEditorCallbacks({
+        routingPath: ROUTING_PATH,
+        onCommit
+      }),
       uiKit_to_jmixFront: ant_to_jmixFront,
       useEntityEditorForm: createUseAntdForm(form),
       useEntityEditorFormValidation: createUseAntdFormValidation(form)

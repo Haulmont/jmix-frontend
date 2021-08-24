@@ -1,13 +1,11 @@
-import { dollarsToUnderscores, LoadQueryVars } from "@haulmont/jmix-react-core";
-import { useCallback, useEffect } from "react";
+import { LoadQueryVars } from "@haulmont/jmix-react-core";
+import { useEffect } from "react";
 import { 
     useEntityEditor, 
     EntityEditorHookOptions, 
     EntityEditorHookResult,
-    useSubmitCallback 
 } from "@haulmont/jmix-react-web";
 import { useMasterDetailStore } from "./MasterDetailContext";
-import { ant_to_jmixFront } from "../../formatters/ant_to_jmixFront";
 
 export interface EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
 extends EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
@@ -25,22 +23,17 @@ export function useMasterDetailEditor<
 >(
     options: EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
 ): EntityMasterDetailEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
-    const {
-        entityName,
-        entityInstance,
-        onCommit,
-        resetEntityEditorForm,
-    } = options;
-
-    const entityEditorData = useEntityEditor<TEntity, TData, TQueryVars, TMutationVars>(options);
-
-    const {executeLoadQuery, executeUpsertMutation} = entityEditorData;
+    const {resetEntityEditorForm} = options;
 
     const masterDetailStore = useMasterDetailStore();
 
-    const updateResultName = `upsert_${dollarsToUnderscores(entityName)}`;
-    const listQueryName = `${dollarsToUnderscores(entityName)}List`;
-    
+    const entityEditorData = useEntityEditor<TEntity, TData, TQueryVars, TMutationVars>({
+        ...options,
+        entityId: masterDetailStore.selectedEntityId
+    });
+
+    const {executeLoadQuery} = entityEditorData;
+
     // Watch at masterDetailStore.selectedEntityId changes. If masterDetailStore.selectedEntityId exists, then load the entity. Otherwise reset the form
     useEffect(() => {
         if (masterDetailStore.selectedEntityId != null) {
@@ -55,26 +48,5 @@ export function useMasterDetailEditor<
         }
     }, [executeLoadQuery, masterDetailStore.selectedEntityId]);
 
-    const goToParentScreen = useCallback(() => {
-        masterDetailStore.setIsOpenEditor(false);
-        masterDetailStore.setSelectedEntityId(undefined);
-    }, [masterDetailStore]);
-
-    const handleSubmit = useSubmitCallback({
-        executeUpsertMutation,
-        updateResultName,
-        listQueryName,
-        entityName,
-        goToParentScreen,
-        entityId: masterDetailStore.selectedEntityId,
-        entityInstance,
-        uiKit_to_jmixFront: ant_to_jmixFront,
-        onCommit,
-    });
-
-    return {
-        ...entityEditorData,
-        handleSubmit,
-        handleCancelBtnClick: goToParentScreen,
-    };
+    return entityEditorData;
 }

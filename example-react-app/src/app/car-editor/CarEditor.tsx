@@ -11,7 +11,7 @@ import {
   Field,
   GlobalErrorsAlert,
   Spinner,
-  useEntityPersistCallbacks,
+  useEntityEditorCallbacks,
   useSubmitFailedCallback,
   ant_to_jmixFront
 } from "@haulmont/jmix-react-antd";
@@ -101,10 +101,11 @@ const CarEditor = observer((props: EntityEditorProps<Car>) => {
     loadQuery: LOAD_SCR_CAR,
     upsertMutation: UPSERT_SCR_CAR,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH,
-    onCommit,
     entityInstance,
-    persistEntityCallbacks: useEntityPersistCallbacks(),
+    callbacks: useEntityEditorCallbacks({
+      routingPath: ROUTING_PATH,
+      onCommit
+    }),
     uiKit_to_jmixFront: ant_to_jmixFront,
     useEntityEditorForm: createUseAntdForm(form),
     useEntityEditorFormValidation: createUseAntdFormValidation(form)

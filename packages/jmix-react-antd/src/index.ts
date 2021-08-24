@@ -11,6 +11,7 @@ export * from "./formatters/jmixFront_to_ant";
 
 export * from './ui/MasterDetail/useMasterDetailList';
 export * from './ui/MasterDetail/useMasterDetailEditor';
+export * from './ui/MasterDetail/useMasterDetailEditorCallbacks';
 export * from './ui/MasterDetail/MasterDetailStore';
 export * from './ui/MasterDetail/MasterDetailManager';
 export * from './ui/MasterDetail/MasterDetailContext';
@@ -19,7 +20,7 @@ export * from './crud/common/showDeleteEntityDialog'
 export * from './crud/editor/form/createUseAntdForm';
 export * from './crud/editor/form/useCreateAntdResetForm';
 export * from './crud/editor/ui-callbacks/useSubmitFailedCallback';
-export * from './crud/editor/ui-callbacks/useEntityPersistCallbacks';
+export * from './crud/editor/ui-callbacks/useEntityEditorCallbacks';
 export * from './crud/editor/validation/createUseAntdFormValidation';
 export * from './crud/list/ui-callbacks/useEntityDeleteCallback';
 export * from './crud/list/ui-callbacks/useOpenScreenErrorCallback';

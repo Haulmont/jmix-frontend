@@ -1,6 +1,7 @@
 import {useLocalObservable} from "mobx-react";
 import {
   DocumentNode,
+  FetchResult,
   LazyQueryHookOptions,
   LazyQueryResult,
   MutationHookOptions,
@@ -18,13 +19,13 @@ import {
   Metadata
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
-import { useParentScreen } from "../../util/screen";
-import { useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
+import { SubmitCallbackCallbacks, useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
 import {useMultiScreen} from "../../ui/MultiScreen";
 import {extractBeanValidationErrors} from "./validation/extractBeanValidationErrors";
 import {JmixServerValidationErrors} from "../../common/JmixServerValidationErrors";
 import { useNoop } from "../../util/useNoop";
-import { PersistEntityCallbacks } from "./util/persistEntity";
+import { usePersistEntity } from "./util/usePersistEntity";
+import { useCallback } from "react";
 
 export type EntityEditorState = {
   globalErrors: string[];
@@ -35,6 +36,10 @@ export const useEntityEditorStore = () => {
     globalErrors: [],
   }));
 };
+
+export interface EntityEditorCallbacks<TEntity, TData> extends SubmitCallbackCallbacks<TEntity, TData> {
+  onCloseForm?: () => void;
+}
 
 export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   /**
@@ -63,10 +68,6 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    * Name of the entity being edited.
    */
   entityName: string;
-  /**
-   * Base route path.
-   */
-  routingPath: string;
   /**
    * A callback that will be executed when the editor is submitted.
    * @param entityInstance
@@ -114,7 +115,7 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    * @param stringIdName when entity has a String `id` - name of the `id` attribute.
    */
   uiKit_to_jmixFront: (item: any, entityName: string, metadata: Metadata, stringIdName?: string) => Record<string, any>;
-  persistEntityCallbacks?: PersistEntityCallbacks
+  callbacks?: EntityEditorCallbacks<TEntity, TData>;
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -159,6 +160,12 @@ export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVar
    */
   intl: IntlShape;
   /**
+   * A callback that will be executed when the entity is persisted.
+   * @param upsertInputName
+   * @param updatedEntity
+   */
+  persistEntity: (updatedEntity: TEntity) => Promise<FetchResult<TData, Record<string, any>, Record<string, any>>>;
+  /**
    * A callback that will be executed when the editor is submitted.
    * @param entityInstance
    */
@@ -186,13 +193,11 @@ export function useEntityEditor<
     upsertMutationOptions,
     entityId = multiScreen?.params?.entityId,
     entityName,
-    routingPath,
-    onCommit,
     entityInstance,
     useEntityEditorForm = useNoop,
     useEntityEditorFormValidation = useNoop,
     uiKit_to_jmixFront,
-    persistEntityCallbacks
+    callbacks
   } = options;
 
   const intl = useIntl();
@@ -220,24 +225,32 @@ export function useEntityEditor<
   const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
   const serverValidationErrors = extractBeanValidationErrors(upsertMutationResult.error);
+
   useEntityEditorFormValidation(serverValidationErrors);
 
-  const goToParentScreen = useParentScreen(routingPath);
-
-  const handleCancelBtnClick = goToParentScreen;
+  const persistEntity = usePersistEntity({
+    upsertItem: executeUpsertMutation,
+    updateResultName,
+    entityName,
+    listQueryName,
+  });
 
   const handleSubmit = useSubmitCallback({
-    executeUpsertMutation,
-    updateResultName,
-    listQueryName,
+    persistEntity,
     entityName,
-    goToParentScreen,
     entityId,
     entityInstance,
-    onCommit,
     uiKit_to_jmixFront,
-    persistEntityCallbacks
+    onCommit: callbacks?.onCommit,
+    onCreate: callbacks?.onCreate,
+    onEdit: callbacks?.onEdit,
+    onError: callbacks?.onError,
+    onApolloError: callbacks?.onApolloError,
   });
+
+  const handleCancelBtnClick = useCallback(() => {
+    callbacks?.onCloseForm?.()
+  }, [callbacks?.onCloseForm]);
 
   return {
     item,
@@ -249,6 +262,7 @@ export function useEntityEditor<
     upsertMutationResult,
     entityEditorState,
     intl,
+    persistEntity,
     handleSubmit,
     handleCancelBtnClick,
   };
