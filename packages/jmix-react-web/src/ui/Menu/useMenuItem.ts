@@ -13,7 +13,7 @@ interface Props<T> {
 export const useMenuItem = <T extends (info: any) => void>({ screenId, caption, onClick, children }: Props<T>): [
   string,
   React.ReactNode,
-  (info: any) => void
+  T
 ] => {
   const [currentMenuItem, setCurrentMenuItem] = useState<RouteItem | SubMenu | null>(null);
   const {formatMessage, locale} = useIntl();
@@ -52,6 +52,6 @@ export const useMenuItem = <T extends (info: any) => void>({ screenId, caption, 
   return [
     formattedCaption,
     childrenWithCaption,
-    menuItemOnClick
+    (menuItemOnClick as T)
   ]
 }
