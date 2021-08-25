@@ -114,7 +114,7 @@ const Fields = (props: FieldsProps) => {
   return (
     <>
       {Object.keys(entity)
-        .filter(p => p !== '<%= idField %>' && p !== '<%= nameField%>' && entity[p] != null)
+        .filter(p => p !== '<%= idField %>' && entity[p] != null)
         .map(p => <div><strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
       }
     </>

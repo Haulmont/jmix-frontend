@@ -1,5 +1,5 @@
 import {MenuProps} from "antd";
-import {HomeOutlined} from "@ant-design/icons";
+import {HomeOutlined, BarsOutlined} from "@ant-design/icons";
 import {MenuItem, VerticalMenu } from "@haulmont/jmix-react-ui";
 
 export interface AppMenuProps extends MenuProps {}
