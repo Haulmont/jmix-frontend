@@ -26,13 +26,13 @@ export const mvpEntityBrowserQuestions = [
   {
     caption: 'Query to load items',
     code: 'query',
-    propertyType: StudioTemplatePropertyType.STRING,
+    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
     required: true
   },
   {
     caption: 'Mutation to delete an item',
     code: 'mutation',
-    propertyType: StudioTemplatePropertyType.STRING,
+    propertyType: StudioTemplatePropertyType.GRAPHQL_MUTATION,
     required: true
   },
   {
