@@ -44,7 +44,7 @@ export const allQuestions: StudioTemplateProperty[] = [
   {
     code: 'steps',
     caption: 'Steps',
-    propertyType: StudioTemplatePropertyType.OPTION,
+    propertyType: StudioTemplatePropertyType.FORM_WIZARD_STEPS,
     required: true
   }
 ];
