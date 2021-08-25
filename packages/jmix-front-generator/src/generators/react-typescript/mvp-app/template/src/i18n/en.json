@@ -1,0 +1,12 @@
+{
+  "common.ok": "OK",
+  "common.cancel": "Cancel",
+  "common.create": "Create",
+  "common.edit": "Edit",
+  "common.remove": "Remove",
+  "common.submit": "Submit",
+  "common.next": "Next",
+  "common.previous": "Previous",
+  "editor.doesNotExist": "Editor does not exist",
+  "screen.home": "Home"
+}

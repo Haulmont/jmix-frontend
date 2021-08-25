@@ -1,0 +1,57 @@
+.main-layout {
+    height: 100%;
+}
+
+.layout-container.ant-layout {
+    min-height: initial;
+}
+
+.layout-sider.ant-layout-sider {
+    background: #ffffff;
+}
+
+.layout-content {
+    padding: 24px 24px 24px;
+}
+
+.narrow-layout {
+    max-width: 1024px;
+    margin: auto;
+}
+
+.narrow-layout.ant-card {
+    max-width: 1024px;
+    margin: auto;
+}
+
+
+/* Needed for screen breadcrumbs */
+
+.jmix-multi-screen--breadcrumbs {
+    margin-bottom: 20px;
+    display: flex;
+    overflow-x: auto;
+}
+
+.jmix-multi-screen--breadcrumb {
+    white-space: nowrap;
+    margin-right: 20px;
+    position: relative;
+    cursor: pointer;
+    color: #197de1;
+}
+
+.jmix-multi-screen--breadcrumb:hover {
+    text-decoration: underline;
+}
+
+.jmix-multi-screen--breadcrumb:last-child {
+    margin-right: 0;
+}
+
+.jmix-multi-screen--breadcrumb:not(:last-child).jmix-multi-screen--breadcrumb:after {
+    content: ">";
+    position: absolute;
+    right: -14px;
+    top: 0;
+}
