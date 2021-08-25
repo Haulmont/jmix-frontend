@@ -6,9 +6,8 @@ import { MvpCommonOptions } from "../options/pieces/mvp";
 export const mvpDeriveTemplateModel = async <O extends MvpCommonOptions, A, T>(
   options: O,
   answers: A,
-  schema: GraphQLSchema,
-  gen: YeomanGenerator,
+  schema?: GraphQLSchema,
   questions?: StudioTemplateProperty[]
 ): Promise<T> => {
-  return {} as T;
+  return answers as unknown as T;
 }

@@ -20,8 +20,12 @@ import {loadSchema} from "@graphql-tools/load";
 const DEFAULT_SCHEMA_PATH = '../../../../../schema.graphql';
 
 export const mvpGetGraphQLSchema = async <O extends MvpCommonOptions>(
-  options: O, invocationDir: string, gen: YeomanGenerator
-): Promise<GraphQLSchema> => {
+  options: O, invocationDir: string
+): Promise<GraphQLSchema | undefined> => {
+  if (options.schema == null) {
+    return;
+  }
+
   const schemaPath = getSchemaPath(invocationDir, options.schema);
 
   if (!fs.existsSync(schemaPath)) {

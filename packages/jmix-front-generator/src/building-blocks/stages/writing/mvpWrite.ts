@@ -8,6 +8,8 @@ export const mvpWrite = async <T>(
   gen.fs.copyTpl(
     gen.templatePath() + '/**',
     gen.destinationPath('.'),
-    templateModel
+    templateModel,
+    undefined,
+    { globOptions: { dot: true } }
   );
 }

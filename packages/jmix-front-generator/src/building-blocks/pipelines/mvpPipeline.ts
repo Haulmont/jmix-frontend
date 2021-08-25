@@ -35,9 +35,9 @@ export interface MvpPipelineInput<O extends MvpCommonOptions, A, T> {
 // - write stage only depends on templateModel, does not depend on options or GraphQL schema directly
 // - answers stage does not "refine" answers anymore as it is the job for templateModel stage
 
-export type MvpSchemaStage<O extends MvpCommonOptions> = (options: O, invocationDir: string, gen: YeomanGenerator) => Promise<GraphQLSchema>;
+export type MvpSchemaStage<O extends MvpCommonOptions> = (options: O, invocationDir: string) => Promise<GraphQLSchema | undefined>;
 export type MvpAnswersStage<O extends MvpCommonOptions, A> = (options: O, gen: YeomanGenerator, questions?: StudioTemplateProperty[]) => Promise<A>;
-export type MvpTemplateModelStage<O extends MvpCommonOptions,  A, T> = (options: O, answers: A, schema: GraphQLSchema, gen: YeomanGenerator, questions?: StudioTemplateProperty[]) => Promise<T>;
+export type MvpTemplateModelStage<O extends MvpCommonOptions,  A, T> = (options: O, answers: A, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]) => Promise<T>;
 export type MvpWriteStage<T> = (templateModel: T, gen: YeomanGenerator) => Promise<void>;
 
 export interface MvpPipelineStages<O extends MvpCommonOptions, A, T> {
@@ -77,11 +77,11 @@ export async function mvpPipeline<O extends MvpCommonOptions, A, M>(
   // Apply default configuration to the Yeoman generator
   await configureGenerator(templateDir, gen, options);
   // Obtain GraphQL schema
-  const schema = await getGraphQLSchema(options, invocationDir, gen);
+  const schema = await getGraphQLSchema(options, invocationDir);
   // Obtain answers
   const answers = await getAnswers(options, gen, questions);
   // // Derive template model from options, answers and GraphQL schema
-  const templateModel = await deriveTemplateModel(options, answers, schema, gen);
+  const templateModel = await deriveTemplateModel(options, answers, schema);
   // Write files to disk, performing interpolations using the template model
   await write(templateModel, gen);
 }

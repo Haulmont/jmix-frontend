@@ -28,8 +28,12 @@ type GraphQLBrowserModel = {
 };
 
 export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
-  options: MvpComponentOptions, answers: MvpEntityBrowserAnswers, schema: GraphQLSchema, gen: YeomanGenerator, questions?: StudioTemplateProperty[]
+  options: MvpComponentOptions, answers: MvpEntityBrowserAnswers, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]
 ): Promise<MvpEntityBrowserTemplateModel> => {
+  if (schema == null) {
+    throw new Error('Schema is required for this generator');
+  }
+
   const {
     query: queryString,
     mutation: deleteMutationString,

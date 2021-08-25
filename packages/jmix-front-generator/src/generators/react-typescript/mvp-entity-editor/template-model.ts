@@ -55,7 +55,7 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
 > = async (
   options: MvpComponentOptions,
   answers: MvpEntityEditorAnswers,
-  schema: GraphQLSchema,
+  schema?: GraphQLSchema,
 ): Promise<MvpEntityEditorTemplateModel>  => {
   const {
     query: queryString,
@@ -82,8 +82,12 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
 export function deriveGraphQLEditorModel(
   queryNode: DocumentNode,
   mutationNode: DocumentNode,
-  schema: GraphQLSchema
+  schema?: GraphQLSchema
 ): GraphQLEditorModel {
+  if (schema == null) {
+    throw new Error('Schema is required for this generator');
+  }
+
   const operationDefinition = mutationNode.definitions[0];
   if (!('variableDefinitions' in operationDefinition) || operationDefinition.variableDefinitions == null) {
     throw new Error('Variable definitions not found in mutation');
