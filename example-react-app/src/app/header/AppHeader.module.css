@@ -20,12 +20,31 @@
   margin-left: 12px;
 }
 
-.logoutBtn {
-  color: #CCCCCC !important;
+.logoutBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only) {
+  color: #CCCCCC;
 }
 
-.logoutBtn:hover {
-  color: #FFF !important;
+.logoutBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
+  color: #FFF;
+}
+
+.settingsBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only) {
+  color: #CCCCCC;
+}
+
+.settingsBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
+  color: #FFF;
+}
+
+.settingsBtnActive:global(.ant-btn.ant-btn-text.ant-btn-icon-only) {
+  color: #CCCCCC;
+  border-radius: 10px;
+  background-color: #197de1;
+}
+
+.settingsBtnActive:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
+  color: #FFF;
+  background-color: #197de1;
 }
 
 .languageSwitcher:global(.ant-select) {
@@ -34,5 +53,14 @@
 }
 
 .languageSwitcher :global(.ant-select-arrow) {
+  color: #CCCCCC;
+}
+
+.themeSwitcher:global(.ant-select) {
+  background: none;
+  color: #CCCCCC;
+}
+
+.themeSwitcher :global(.ant-select-arrow) {
   color: #CCCCCC;
 }
