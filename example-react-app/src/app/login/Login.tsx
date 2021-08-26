@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import { ChangeEvent } from "react";
-import { Form } from "antd";
+import { Card, Form } from "antd";
 import { UserOutlined, LockOutlined } from "@ant-design/icons";
 import { Button, Input, message } from "antd";
 import { observer } from "mobx-react";
@@ -50,7 +50,7 @@ const Login = observer(() => {
   }, [setPerformingLoginRequest, mainStore, intl, login, password]);
 
   return (
-    <div className={styles.loginForm}>
+    <Card className={styles.loginForm}>
       <JmixDarkIcon className={styles.logo} />
 
       <div className={styles.title}>scr-jmix</div>
@@ -62,7 +62,7 @@ const Login = observer(() => {
             placeholder={intl.formatMessage({ id: "login.placeholder.login" })}
             onChange={changeLogin}
             value={login}
-            prefix={<UserOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<UserOutlined style={{ margin: "0 11px 0 0" }} />}
             size="large"
           />
         </Form.Item>
@@ -75,7 +75,7 @@ const Login = observer(() => {
             onChange={changePassword}
             value={password}
             type="password"
-            prefix={<LockOutlined style={{ color: "rgba(0,0,0,.25)" }} />}
+            prefix={<LockOutlined style={{ margin: "0 11px 0 0" }} />}
             size="large"
           />
         </Form.Item>
@@ -96,7 +96,7 @@ const Login = observer(() => {
           </Button>
         </Form.Item>
       </Form>
-    </div>
+    </Card>
   );
 });
 

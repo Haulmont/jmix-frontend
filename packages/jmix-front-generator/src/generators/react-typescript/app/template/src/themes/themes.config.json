@@ -1,0 +1,20 @@
+{
+  "pathToThemesDir": "/static/css",
+  "idThemePresetLink": "jmix-antd-theme-link",
+  "storageThemeAttr": "jmixAntdActiveTheme",
+  "defaultThemePreset": {
+    "themeName": "light", 
+    "sizeName": null
+  },
+  "themes": [
+    {
+      "name": "light",
+      "caption": "themes.light"
+    },
+    {
+      "name": "dark",
+      "caption": "themes.dark"
+    }
+  ],
+  "sizes": []
+}

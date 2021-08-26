@@ -1,6 +1,10 @@
 {
   "addons.Addons": "Аддоны",
 
+  "themes.light": "Светлая тема",
+  "themes.dark": "Темная тема",
+  "themes.sizes.defaultSize": "Стандартный размер",
+
   "common.ok": "OK",
   "common.cancel": "Отмена",
   "common.create": "Создать",

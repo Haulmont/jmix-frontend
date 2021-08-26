@@ -4,6 +4,7 @@ import App from "./app/App";
 import { ComponentPreviews } from "./dev/previews";
 import { useDevLogin } from "./dev/hooks";
 import { DevSupport } from "@haulmont/react-ide-toolbox";
+import { initializeTheme } from "./themes/themes.core";
 // import registerServiceWorker from './registerServiceWorker';
 import {
   JmixAppProvider,
@@ -20,7 +21,6 @@ import {
   GRAPHQL_URI
 } from "./config";
 import metadata from "./jmix/metadata.json";
-import "antd/dist/antd.min.css";
 import "./index.css";
 import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
 import "dayjs/locale/ru";
@@ -33,6 +33,8 @@ import "dayjs/plugin/weekday";
 import "dayjs/plugin/localeData";
 import "dayjs/plugin/weekOfYear";
 import "dayjs/plugin/weekYear";
+
+initializeTheme();
 
 export const jmixREST = initializeApp({
   name: "scr-jmix",
