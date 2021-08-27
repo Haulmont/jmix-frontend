@@ -6,11 +6,11 @@ import {
 import {expect} from "chai";
 import {fail} from "assert";
 
-const dtViewProperties = require('../../../fixtures/view-properties--datatypes-test-entity.json');
-const o2oViewProperties = require('../../../fixtures/view-properties--association-o2o.json');
-const dtEntityModel = require('../../../fixtures/entity-model--datatypes-test-entity.json');
-const o2oEntityModel = require('../../../fixtures/entity-model--association-o2o.json');
-const projectModel = require('../../../fixtures/project-model--scr.json');
+const dtViewProperties = require('../fixtures/view-properties--datatypes-test-entity.json');
+const o2oViewProperties = require('../fixtures/view-properties--association-o2o.json');
+const dtEntityModel = require('../fixtures/entity-model--datatypes-test-entity.json');
+const o2oEntityModel = require('../fixtures/entity-model--association-o2o.json');
+const projectModel = require('../fixtures/project-model--scr.json');
 
 describe('getDisplayedAttributes()', () => {
   let dtBrowserDisplayedFields: string[];
