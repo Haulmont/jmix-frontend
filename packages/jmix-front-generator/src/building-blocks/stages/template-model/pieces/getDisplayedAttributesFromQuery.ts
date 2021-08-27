@@ -1,6 +1,5 @@
 import { EntityAttribute, ProjectModel } from "../../../../common/model/cuba-model";
-import { getDisplayedAttributes, ScreenType } from "../../../../common/entity";
-import { EntityWithPath } from "./entity";
+import { EntityWithPath, getDisplayedAttributes, ScreenType } from "./entity";
 import { getTopAttributesFromQuery } from "./getTopAttributesFromQuery";
 
 interface GetDisplayedAttributesFromQueryOptions {

@@ -2,7 +2,6 @@ export * from './common/model/cuba-model';
 export * from './common/model/cuba-model-utils';
 export * from './common/studio/studio-model';
 export * from './common/studio/studio-integration';
-export * from './common/entity'
 
 export * from './common/cli-options';
 
