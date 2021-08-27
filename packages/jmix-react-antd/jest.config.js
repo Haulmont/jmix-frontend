@@ -34,6 +34,7 @@ module.exports = {
   // apparently because the test transitively imports MainStore, which declares a custom hook.
   "moduleNameMapper": {
     "^react$": "<rootDir>/../jmix-react-core/node_modules/react",
+    "^react-intl$": "<rootDir>/../jmix-react-web/node_modules/react-intl",
     "^mobx-react$": "<rootDir>/../jmix-react-core/node_modules/mobx-react",
     "^@apollo/client$": "<rootDir>/../jmix-react-core/node_modules/@apollo/client",
     "^@apollo/client/testing$": "<rootDir>/../jmix-react-core/node_modules/@apollo/client/testing",
