@@ -15,7 +15,7 @@ import {
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {EntityEditorAnswers} from "./answers";
 import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/component";
-import { ScreenType } from "../../../common/entity";
+import { ScreenType } from "../../../building-blocks/stages/template-model/pieces/entity";
 import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
 
 export type EntityEditorTemplateModel =

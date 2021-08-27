@@ -7,7 +7,7 @@ import {stringIdAnswersToModel} from '../common/base-entity-screen-generator';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
 import { getDisplayedAttributesFromQuery } from "../../../building-blocks/stages/template-model/pieces/getDisplayedAttributesFromQuery";
-import { ScreenType } from "../../../common/entity";
+import { ScreenType } from "../../../building-blocks/stages/template-model/pieces/entity";
 
 export interface TemplateModel extends
 CommonTemplateModel,

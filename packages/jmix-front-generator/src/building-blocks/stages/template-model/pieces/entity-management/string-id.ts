@@ -1,5 +1,5 @@
 import {EntityAttribute, ProjectModel} from "../../../../../common/model/cuba-model";
-import {isStringIdEntity} from "../../../../../common/entity";
+import {isStringIdEntity} from "../entity";
 import {collectAttributesFromHierarchy} from "../../../../../common/model/cuba-model-utils";
 import {EntityWithPath} from "../entity";
 

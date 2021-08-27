@@ -4,7 +4,7 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {askStringIdQuestions, StringIdAnswers, stringIdQuestions} from "../../../building-blocks/stages/answers/pieces/stringId";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
-import { isStringIdEntity } from "../../../common/entity";
+import { isStringIdEntity } from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
   ComponentNameAnswer,
   createComponentNameQuestion,
