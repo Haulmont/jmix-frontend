@@ -7,7 +7,7 @@ import {
   StringIdAnswers,
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
-import {isStringIdEntity} from "../common/entity";
+import { isStringIdEntity } from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
   entityQuestion,
   EntityAnswer,
