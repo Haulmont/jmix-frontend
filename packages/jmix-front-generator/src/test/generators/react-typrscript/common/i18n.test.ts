@@ -194,19 +194,8 @@ describe('i18n message packs', async () => {
   it('has the same keys', async () => {
     for (const locale of SUPPORTED_CLIENT_LOCALES) {
       const appMessagePack =
-        await import(`../../../../generators/react-typescript/app/template/i18n-message-packs/${locale.name}.json`);
-      const entityBrowserMessagePack =
-        await import(`../../../../generators/react-typescript/entity-browser/template/browser-i18n-messages/${locale.name}.json`);
-      const entityEditorMessagePack =
-        await import(`../../../../generators/react-typescript/entity-editor/template/editor-i18n-messages/${locale.name}.json`);
-      const masterDetailMessagePack =
-        await import(`../../../../generators/react-typescript/entity-master-detail/template/master-detail-i18n-messages/${locale.name}.json`);
-      const mergedMessagePack = {
-        ...appMessagePack,
-        ...entityBrowserMessagePack,
-        ...entityEditorMessagePack,
-        ...masterDetailMessagePack
-      };
+        await import(`../../../../generators/react-typescript/app/template/i18n-message-packs/${locale.localeName}.json`);
+      const mergedMessagePack = {...appMessagePack};
       const actualKeys = Object.keys(mergedMessagePack);
       expect(actualKeys.sort()).to.deep.equal(EXPECTED_I18N_KEYS.sort());
     }
@@ -216,6 +205,7 @@ describe('i18n message packs', async () => {
 const EXPECTED_I18N_KEYS = [
   // Main message pack
   "addons.Addons",
+  "common.alt.logo",
   "common.ok",
   "common.cancel",
   "common.create",
@@ -343,4 +333,11 @@ const EXPECTED_I18N_KEYS = [
 
   "masterDetail.create.ifEntitySelected",
   "masterDetail.entityUnselected",
+
+  "formWizard.currectStepValidationError",
+  "formWizard.serverValidationError",
+
+  "multiSelectionTable.delete.areYouSure",
+  "multiSelectionTable.delete.error",
+  "multiSelectionTable.delete.success"
 ];

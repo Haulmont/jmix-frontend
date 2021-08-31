@@ -7,15 +7,38 @@ import {Locale} from '../../../common/model/cuba-model';
 /**
  * @property strict - if true then all i18n keys must be filled
  */
-interface SupportClientLocation {
-  name: string,
+export interface SupportClientLocation {
+  localeName: string,
+  antdLocaleName: string,
+  caption: string,
   strict: boolean,
 }
 
 export const SUPPORTED_CLIENT_LOCALES: SupportClientLocation[] = [
-  {name: 'en', strict: true },
-  {name: 'ru', strict: true },
-  {name: 'fr', strict: false },
+  {
+    localeName: 'en',
+    antdLocaleName: 'en_US',
+    caption: 'English',
+    strict: true 
+  },
+  {
+    localeName: 'ru',
+    antdLocaleName: 'ru_RU',
+    caption: 'Русский',
+    strict: false 
+  },
+  {
+    localeName: 'fr',
+    antdLocaleName: 'fr_FR',
+    caption: 'Français',
+    strict: false 
+  },
+  {
+    localeName: 'zh_cn',
+    antdLocaleName: 'zh_CN',
+    caption: '中文',
+    strict: false
+  }
 ];
 
 /**

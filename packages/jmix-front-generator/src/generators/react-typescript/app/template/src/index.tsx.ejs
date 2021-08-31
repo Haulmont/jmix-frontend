@@ -17,7 +17,6 @@ import {initializeApp} from "@haulmont/jmix-rest";
 import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./config";
 import metadata from './jmix/metadata.json'
 import './index.css';
-import {antdLocaleMapping, messagesMapping} from './i18n/i18nMappings';
 <% if (isLocaleUsed('ru')) { -%>
   import 'dayjs/locale/ru';
 <% } -%>
@@ -25,6 +24,7 @@ import {antdLocaleMapping, messagesMapping} from './i18n/i18nMappings';
   import 'dayjs/locale/fr';
 <% } -%>
 import { ApolloProvider } from "@apollo/client";
+import { initializeLocales } from "./i18n/i18nInit";
 
 // Define types of plugins used by dayjs
 import "dayjs/plugin/customParseFormat";
@@ -34,6 +34,7 @@ import "dayjs/plugin/localeData";
 import "dayjs/plugin/weekOfYear";
 import "dayjs/plugin/weekYear";
 
+initializeLocales();
 initializeTheme();
 
 export const jmixREST = initializeApp({
@@ -42,7 +43,7 @@ export const jmixREST = initializeApp({
   restClientId: REST_CLIENT_ID,
   restClientSecret: REST_CLIENT_SECRET,
   storage: window.localStorage,
-  defaultLocale: '<%= clientLocales.length > 0 ? clientLocales[0] : 'en' %>'
+  defaultLocale: '<%= clientLocales.length > 0 ? clientLocales[0].localeName : 'en' %>'
 });
 
 const client = initializeApolloClient({
@@ -60,14 +61,13 @@ ReactDOM.render(
                      appName: '<%=project.namespace%>',
                      clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
                      secret: REST_CLIENT_SECRET,
-                     locale: '<%= clientLocales.length > 0 ? clientLocales[0] : 'en' %>'
+                     locale: '<%= clientLocales.length > 0 ? clientLocales[0].localeName : 'en' %>'
                    }}
                    metadata={metadata}
                    Modals={Modals}
   >
     <ApolloProvider client={client}>
-      <I18nProvider messagesMapping={messagesMapping}
-                    antdLocaleMapping={antdLocaleMapping}>
+      <I18nProvider>
         <DevSupport ComponentPreviews={
                       <ScreensContext.Provider value={devScreens}>
                           <ComponentPreviews />

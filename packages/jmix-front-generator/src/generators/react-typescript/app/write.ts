@@ -1,7 +1,7 @@
 import {WriteStage} from "../../../building-blocks/pipelines/defaultPipeline";
 import {Options} from "./options";
 import {TemplateModel} from "./template-model";
-import {SUPPORTED_CLIENT_LOCALES} from '../common/i18n';
+import {SUPPORTED_CLIENT_LOCALES, SupportClientLocation} from '../common/i18n';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
 import {ProjectModel} from '../../../common/model/cuba-model';
@@ -16,25 +16,27 @@ export const write: WriteStage<Options, TemplateModel> = async (
     throw new Error('Model is not provided');
   }
 
-  let clientLocales: string[];
+  let clientLocales: Omit<SupportClientLocation, 'strict'>[];
   const modelHasLocalesInfo = (templateModel.project.locales != null);
-  const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(location => location.name);
+  const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(({localeName, antdLocaleName, caption}) => {
+   return {localeName, antdLocaleName, caption}
+  });
 
   if (!modelHasLocalesInfo) {
     gen.log('Project model does not contain project locales info. I18n messages will be added for all supported locales.');
     clientLocales = supportedClientLocaleNames;
   } else {
     const projectLocales = templateModel.project.locales.map(locale => locale.code);
-    clientLocales = projectLocales.filter(locale => supportedClientLocaleNames.includes(locale));
+    clientLocales = supportedClientLocaleNames.filter(({localeName}) => projectLocales.includes(localeName));
     if (clientLocales.length === 0) {
       gen.log('WARNING. None of the project locales are supported by Frontend Generator.'
         + ` Project locales: ${JSON.stringify(projectLocales)}. Supported locales: ${JSON.stringify(supportedClientLocaleNames)}.`);
     }
   }
-  clientLocales.forEach(locale => {
+  clientLocales.forEach(({localeName}) => {
     gen.fs.copy(
-      gen.templatePath() + `/i18n-message-packs/${locale}.json`,
-      gen.destinationPath(`src/i18n/${locale}.json`)
+      gen.templatePath() + `/i18n-message-packs/${localeName}.json`,
+      gen.destinationPath(`src/i18n/${localeName}.json`)
     );
   });
 
@@ -44,7 +46,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     isLocaleUsed: (locale: string) => {
       // If project model doesn't contain locales info (could be if old Studio is used)
       // then we add all supported locales.
-      return !modelHasLocalesInfo || clientLocales.includes(locale);
+      return !modelHasLocalesInfo || clientLocales.find(({localeName}) => locale === localeName);
     },
     clientLocales
   });

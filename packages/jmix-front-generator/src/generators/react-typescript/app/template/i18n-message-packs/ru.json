@@ -5,6 +5,7 @@
   "themes.dark": "Темная тема",
   "themes.sizes.defaultSize": "Стандартный размер",
 
+  "common.alt.logo": "Logo",
   "common.ok": "OK",
   "common.cancel": "Отмена",
   "common.create": "Создать",
@@ -31,6 +32,23 @@
   "file.noFile": "Нет файла",
 
   "list.doesNotExist": "Отсутствует экран списка для сущности {entityName}",
+
+  "management.browser.delete.areYouSure":  "Вы уверены, что хотите удалить {instanceName}?",
+  "management.browser.delete.ok": "Удалить",
+  "management.browser.noItems":  "Нет данных",
+  "management.editor.validationError": "Ошибка валидации. Пожалуйста, проверьте введенные данные.",
+  "management.editor.created": "Сущность успешно создана",
+  "management.editor.updated": "Сущность успешно обновлена",
+
+  "formWizard.currectStepValidationError": "Ошибка валидации на текущем шаге. Пожалуйста, проверьте введенные данные.",
+  "formWizard.serverValidationError": "Ошибка валидации на сервера.",
+
+  "masterDetail.entityUnselected": "Выберете сущность для редактирования",
+  "masterDetail.create.ifEntitySelected": "Вы уверены, что не хотите сохранить сущность?",
+
+  "multiSelectionTable.delete.success": "Выбранные сущности успешно удалены",
+  "multiSelectionTable.delete.error": "Произошла ошибка во время удаления выбранных сущностей",
+  "multiSelectionTable.delete.areYouSure": "Вы уверены, что хотите удалить выбранные сущности?",
 
   "editor.doesNotExist": "Отсутствует экран редактирования для сущности {entityName}",
 
