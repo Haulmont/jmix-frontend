@@ -1,0 +1,22 @@
+import { localesStore } from "@haulmont/jmix-react-web";
+import { antdLocalesStore } from "@haulmont/jmix-react-antd";
+<% clientLocales.forEach(({localeName, antdLocaleName})=> { -%>
+  import <%=localeName%> from './<%=localeName%>.json';
+  import <%=antdLocaleName%> from 'antd/es/locale/<%=antdLocaleName%>';
+<% }) -%>
+
+
+export function initializeLocales() {
+  <% clientLocales.forEach(({localeName, antdLocaleName, caption})=> { %>
+    localesStore.addLocale({
+      locale: '<%=localeName%>',
+      caption: "<%=caption%>",
+      messages: <%=localeName%>
+    });
+
+    antdLocalesStore.addAntdLocale({
+      localeName: '<%=localeName%>',
+      antdLocale: <%=antdLocaleName%>
+    });
+  <% }) %>
+}

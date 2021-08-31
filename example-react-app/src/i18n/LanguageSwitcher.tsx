@@ -3,14 +3,12 @@ import { observer } from "mobx-react";
 import { action } from "mobx";
 import { Select } from "antd";
 import { useMainStore } from "@haulmont/jmix-react-core";
-import localeCaptions from "./localeCaptions";
+import { localesStore } from "@haulmont/jmix-react-web";
 
 export interface LanguageSwitcherProps {
   className?: string;
   style?: CSSProperties;
 }
-
-const localeOptions: string[] = ["en", "ru"];
 
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
@@ -22,7 +20,7 @@ export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
     [mainStore]
   );
 
-  if (localeOptions.length === 1) {
+  if (localesStore.localesInfo.length === 1) {
     return null; // Do not show LanguageSwitcher if there is only a single locale option
   }
 
@@ -36,9 +34,9 @@ export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
       className={props.className}
       dropdownMatchSelectWidth={false}
     >
-      {localeOptions.map(locale => (
+      {localesStore.localesInfo.map(({ locale, caption }) => (
         <Select.Option key={locale} value={locale}>
-          {localeCaptions[locale]}
+          {caption}
         </Select.Option>
       ))}
     </Select>

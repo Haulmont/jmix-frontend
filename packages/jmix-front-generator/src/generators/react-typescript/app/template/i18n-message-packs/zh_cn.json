@@ -33,6 +33,23 @@
 
   "list.doesNotExist": "list.doesNotExist [TRANSLATION NOT AVAILABLE]",
 
+  "management.browser.delete.areYouSure": "management.browser.delete.areYouSure [TRANSLATION IS NOT AVAILABLE]",
+  "management.browser.delete.ok": "management.browser.delete.ok [TRANSLATION IS NOT AVAILABLE]",
+  "management.browser.noItems": "management.browser.noItems [TRANSLATION IS NOT AVAILABLE]",
+  "management.editor.validationError": "management.editor.validationError [TRANSLATION IS NOT AVAILABLE]",
+  "management.editor.created": "management.editor.created [TRANSLATION IS NOT AVAILABLE]",
+  "management.editor.updated": "management.editor.updated [TRANSLATION IS NOT AVAILABLE]",
+
+  "formWizard.currectStepValidationError": "formWizard.currectStepValidationError [TRANSLATION IS NOT AVAILABLE]",
+  "formWizard.serverValidationError": "formWizard.serverValidationError [TRANSLATION IS NOT AVAILABLE]",
+
+  "masterDetail.entityUnselected": "masterDetail.entityUnselected [TRANSLATION IS NOT AVAILABLE]",
+  "masterDetail.create.ifEntitySelected": "masterDetail.create.ifEntitySelected [TRANSLATION IS NOT AVAILABLE]",
+
+  "multiSelectionTable.delete.success": "multiSelectionTable.delete.success [TRANSLATION IS NOT AVAILABLE]",
+  "multiSelectionTable.delete.error": "multiSelectionTable.delete.error [TRANSLATION IS NOT AVAILABLE]",
+  "multiSelectionTable.delete.areYouSure": "multiSelectionTable.delete.areYouSure [TRANSLATION IS NOT AVAILABLE]",
+
   "editor.doesNotExist": "editor.doesNotExist [TRANSLATION NOT AVAILABLE]",
 
   "jmix.dataTable.clearAllFilters": "清空过滤器",

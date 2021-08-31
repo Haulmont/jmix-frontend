@@ -5,6 +5,7 @@
     "themes.dark": "themes.dark [TRANSLATION NOT AVAILABLE]",
     "themes.sizes.defaultSize": "themes.sizes.defaultSize [TRANSLATION NOT AVAILABLE]",
 
+    "common.alt.logo": "Logo",
     "common.ok": "OK",
     "common.cancel": "Annuler",
     "common.create": "Créer",
@@ -31,6 +32,23 @@
     "file.noFile": "file.noFile [TRANSLATION NOT AVAILABLE]",
 
     "list.doesNotExist": "list.doesNotExist [TRANSLATION NOT AVAILABLE]",
+
+    "management.browser.delete.areYouSure": "Êtes-vous sûr de vouloir supprimer {instanceName}?",
+    "management.browser.delete.ok": "Supprimer",
+    "management.browser.noItems": "Aucune donnée",
+    "management.editor.validationError": "Erreur de validation. Veuillez vérifier votre saisie.",
+    "management.editor.created": "management.editor.created [TRANSLATION IS NOT AVAILABLE]",
+    "management.editor.updated": "management.editor.updated [TRANSLATION IS NOT AVAILABLE]",
+
+    "formWizard.currectStepValidationError": "formWizard.currectStepValidationError [TRANSLATION IS NOT AVAILABLE]",
+    "formWizard.serverValidationError": "formWizard.serverValidationError [TRANSLATION IS NOT AVAILABLE]",
+
+    "masterDetail.entityUnselected": "masterDetail.entityUnselected [TRANSLATION IS NOT AVAILABLE]",
+    "masterDetail.create.ifEntitySelected": "masterDetail.create.ifEntitySelected [TRANSLATION IS NOT AVAILABLE]",
+
+    "multiSelectionTable.delete.success": "multiSelectionTable.delete.success [TRANSLATION IS NOT AVAILABLE]",
+    "multiSelectionTable.delete.error": "multiSelectionTable.delete.error [TRANSLATION IS NOT AVAILABLE]",
+    "multiSelectionTable.delete.areYouSure": "multiSelectionTable.delete.areYouSure [TRANSLATION IS NOT AVAILABLE]",
 
     "editor.doesNotExist": "editor.doesNotExist [TRANSLATION NOT AVAILABLE]",
 

@@ -28,3 +28,4 @@ export * from "./ui/EntityProperty";
 export * from './screen-registration/screen-registration';
 
 export * from "./i18n/validation";
+export * from "./i18n/LocalesStore";

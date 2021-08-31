@@ -22,9 +22,9 @@ import {
 } from "./config";
 import metadata from "./jmix/metadata.json";
 import "./index.css";
-import { antdLocaleMapping, messagesMapping } from "./i18n/i18nMappings";
 import "dayjs/locale/ru";
 import { ApolloProvider } from "@apollo/client";
+import { initializeLocales } from "./i18n/i18nInit";
 
 // Define types of plugins used by dayjs
 import "dayjs/plugin/customParseFormat";
@@ -34,6 +34,7 @@ import "dayjs/plugin/localeData";
 import "dayjs/plugin/weekOfYear";
 import "dayjs/plugin/weekYear";
 
+initializeLocales();
 initializeTheme();
 
 export const jmixREST = initializeApp({
@@ -67,10 +68,7 @@ ReactDOM.render(
     Modals={Modals}
   >
     <ApolloProvider client={client}>
-      <I18nProvider
-        messagesMapping={messagesMapping}
-        antdLocaleMapping={antdLocaleMapping}
-      >
+      <I18nProvider>
         <DevSupport
           ComponentPreviews={
             <ScreensContext.Provider value={devScreens}>
