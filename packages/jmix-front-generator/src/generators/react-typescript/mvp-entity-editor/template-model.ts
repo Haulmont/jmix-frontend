@@ -3,7 +3,7 @@ import {MvpComponentOptions} from "../../../building-blocks/stages/options/piece
 import {MvpEntityEditorAnswers} from "./answers";
 import {
   DocumentNode,
-  GraphQLEnumType, GraphQLEnumValue,
+  GraphQLEnumType, GraphQLEnumValue, GraphQLInputObjectType,
   GraphQLScalarType,
   GraphQLSchema,
   GraphQLUnionType,
@@ -20,6 +20,7 @@ export interface AttributeModel {
   type: string;
   displayName: string;
   enumOptions?: Array<GraphQLEnumValue>;
+  isRelationField: boolean;
 }
 
 export type MvpEntityEditorTemplateModel =
@@ -149,7 +150,8 @@ export function deriveGraphQLEditorModel(
     const attr: AttributeModel = {
       name: field.name,
       type: field.type.name,
-      displayName: capitalizeFirst(splitByCapitalLetter(field.name)) // TODO: results in capitalization that might not conform to English capitalization rules (e.g. "Wheel On Right")
+      displayName: capitalizeFirst(splitByCapitalLetter(field.name)), // TODO: results in capitalization that might not conform to English capitalization rules (e.g. "Wheel On Right")
+      isRelationField: false,
     };
 
     switch(attr.type) {
@@ -172,7 +174,9 @@ export function deriveGraphQLEditorModel(
         if (field.type instanceof GraphQLEnumType) {
           attr.enumOptions = field.type.getValues();
           hasEnumScalars = true;
-        } else {
+        } else if (field.type instanceof GraphQLInputObjectType) {
+          attr.isRelationField = true;
+        } else if (field.type instanceof GraphQLScalarType) {
           hasCustomScalars = true;
         }
     }

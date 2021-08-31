@@ -29,9 +29,22 @@ describe('deriveEntityModel()', () => {
 
 
 const MUTATION_STRING = `
-  mutation Update_Owner($input: OwnerInputDTOInput) {\r\n  update_Owner(input: $input) {\r\n    id\r\n  }\r\n}
+mutation Update_Pet($input: PetInputDTOInput) {
+  update_Pet(input: $input) {
+    id
+  }
+}
 `;
 
 const QUERY_STRING = `
-  query Get_Owner($id: Long) {\r\n  owner(id: $id) {\r\n    id\r\n\t\tfirstName\r\n    lastName\r\n  }\r\n}
-    `;
+query Get_Pet($id: Long) {
+  pet(id: $id) {
+    id
+    identificationNumber
+    owner {
+      firstName
+      lastName
+    }
+  }
+}
+`;
