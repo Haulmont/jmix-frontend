@@ -119,10 +119,11 @@ export interface EntityListScreenOptions {
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
   intl: IntlShape;
+  screenProps?: any;
 }
 
 export function openEntityListScreen(
-  {entityName, entityList, onEntityListChange, screens, intl}: EntityListScreenOptions
+  {entityName, entityList, onEntityListChange, screens, intl, screenProps}: EntityListScreenOptions
 ) {
   try {
     openCrudScreen({
@@ -131,7 +132,8 @@ export function openEntityListScreen(
       screens,
       props: {
         entityList,
-        onEntityListChange
+        onEntityListChange,
+        ...screenProps
       }
     });
   } catch (e) {

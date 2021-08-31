@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-ui",
-  "version": "1.0.3-next.0",
+  "version": "0.0.0-experimental.0",
   "description": "Jmix utilities and components for React",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
