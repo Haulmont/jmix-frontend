@@ -5,7 +5,6 @@ import {CommonGenerationOptions} from "../../../common/cli-options";
 import {
   askStringIdQuestions,
   StringIdAnswers,
-  stringIdQuestions
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../../../building-blocks/stages/template-model/pieces/entity";

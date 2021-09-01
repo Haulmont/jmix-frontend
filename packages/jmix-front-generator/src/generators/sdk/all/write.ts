@@ -4,7 +4,7 @@ import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sd
 import { CommonGenerationOptions } from "../../../common/cli-options";
 
 export const write: WriteStage<CommonGenerationOptions, TemplateModel> = async (
-  projectModel, templateModel, gen, options
+  projectModel, templateModel, gen, _options
 ) => {
     gen.log(`Generating sdk:Model to ${gen.destinationPath()}`);
     writeSdkAll(gen, templateModel); 

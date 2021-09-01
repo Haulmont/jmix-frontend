@@ -8,7 +8,7 @@ import {
 
 export interface Answers extends
 ComponentNameAnswer,
-MenuItemAnswer {};
+MenuItemAnswer {}
 
 export const blankComponentQuestions: StudioTemplateProperty[] = [
   createComponentNameQuestion({

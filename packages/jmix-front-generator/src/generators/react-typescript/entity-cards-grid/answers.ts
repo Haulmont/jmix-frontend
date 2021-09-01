@@ -38,7 +38,7 @@ QueryAnswer,
 MenuItemAnswer,
 StringIdAnswers {
   cardsInRow: CardsInRowOption;
-};
+}
 
 export const entityCardsGridQuestions: StudioTemplateProperty[] = [
   entityQuestion,
@@ -53,7 +53,7 @@ const questionsToBeAskedInCLI = [
 ];
 
 export const getAnswersFromPrompt = async (
-  projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
+  projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<Answers> => {  
   const answers = await askQuestions<Answers>(questionsToBeAskedInCLI, projectModel, gen);
   

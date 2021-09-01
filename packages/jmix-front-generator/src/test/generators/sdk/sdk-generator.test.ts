@@ -106,6 +106,7 @@ describe('sdk generator test', () => {
 function runGenerator(genClass: any, onError?: (e: Error) => void) {
   const env = new YeomanEnvironment();
   env.registerStub(genClass, 'Gen');
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   env.on('error', e => {
     if (onError != null) {

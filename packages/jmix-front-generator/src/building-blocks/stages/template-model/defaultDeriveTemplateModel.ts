@@ -11,7 +11,7 @@ import {YeomanGenerator} from "../../YeomanGenerator";
  * @param options
  */
 export const defaultDeriveTemplateModel = async <O extends CommonGenerationOptions, A, M>(
-    answers: A, projectModel: ProjectModel, gen?: YeomanGenerator, options?: O
+  _answers: A, _projectModel: ProjectModel, _gen?: YeomanGenerator, _options?: O
 ): Promise<M> => {
   return {} as M;
 };

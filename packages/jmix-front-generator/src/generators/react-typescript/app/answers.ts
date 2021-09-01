@@ -4,7 +4,6 @@ import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
-import { askQuestions } from '../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt';
 
 export type MenuType = "vertical" | "horizontal";
 
@@ -24,9 +23,7 @@ const menuTypeQuestion = {
 export const allQuestions: StudioTemplateProperty[] = [menuTypeQuestion];
 
 export const getAnswersFromPrompt = async (
-  projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
+  _projectModel: ProjectModel, _gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<Answers> => {
-  const initialQuestions: StudioTemplateProperty[] = [];
-
   return { menuType: "vertical" } as Answers;
 }

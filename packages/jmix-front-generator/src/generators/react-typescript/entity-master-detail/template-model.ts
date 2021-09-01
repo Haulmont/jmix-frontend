@@ -14,7 +14,7 @@ export interface MasterDetailTemplateModel {
   browserTemplateModel: MasterDetailBrowserTemplateModel;
   editorTemplateModel: MasterDetailEditorTemplateModel;
   masterDetailTemplateModel: MasterDetailComponentTemplateModel;
-};
+}
 
 export const deriveMasterDetailTemplateModel = async (
   answers: EntityMasterDetailAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions
@@ -74,7 +74,7 @@ export type MasterDetailBrowserTemplateModel = Omit<EntityBrowserTemplateModel, 
 export const deriveMasterDetailBrowserTemplateModel = async (
   answers: MasterDetailBrowserAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions, routingPath: string
 ): Promise<MasterDetailBrowserTemplateModel> => {
-  const {browserType, ...masterDetailBrowserTemplateModel} = await deriveBrowserTemplateModel({...answers, browserType: 'table'}, projectModel, gen, options)
+  const masterDetailBrowserTemplateModel = await deriveBrowserTemplateModel({...answers, browserType: 'table'}, projectModel, gen, options)
   return {
     routingPath,
     ...masterDetailBrowserTemplateModel

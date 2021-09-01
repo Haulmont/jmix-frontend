@@ -28,7 +28,7 @@ FormEditorTemplateModel {
   steps: Array<FormStepConfig & FormEditorTemplateModel>
   associatedEntityClassNames: string[];
   stringIdName?: string;
-};
+}
 
 export const deriveTemplateModel = async (
   answers: FormWizardAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options

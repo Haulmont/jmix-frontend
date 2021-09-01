@@ -1,6 +1,6 @@
 import {
   addRoute, addToMenu, RouteInfo, addAddonToMenu, addAppMenuItem,
-  AppMenuItemInfo, MenuItemTypes, addAddonRoute, AddonInfo, AddMenuItemConfig
+  AppMenuItemInfo, MenuItemTypes, addAddonRoute, AddMenuItemConfig
 } from "../../../../generators/react-typescript/common/menu";
 import {YeomanGenerator} from "../../../YeomanGenerator";
 import path from "path";

@@ -8,7 +8,7 @@ import {ComponentOptions} from "../../../building-blocks/stages/options/pieces/c
 export interface EntityManagementTemplateModel {
   browserTemplateModel: EntityBrowserTemplateModel;
   editorTemplateModel: EntityEditorTemplateModel;
-};
+}
 
 export const deriveManagementTemplateModel = async (
   answers: EntityManagementAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions

@@ -8,7 +8,6 @@ import {
 import {EntityWithPath} from "../../../../building-blocks/stages/template-model/pieces/entity";
 
 const projectModel = require('../../../fixtures/mpg-projectModel.json');
-const projectModelScr = require('../../../fixtures/project-model--scr.json');
 
 describe('entity management generation test', function () {
 

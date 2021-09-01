@@ -16,7 +16,7 @@ export interface TemplateModel {
 }
 
 export async function deriveTemplateModel(
-  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: Options
+  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, _options: Options
 ): Promise<TemplateModel> {
   if (projectModel != null) {
     return createModel(answers, projectModel.project);

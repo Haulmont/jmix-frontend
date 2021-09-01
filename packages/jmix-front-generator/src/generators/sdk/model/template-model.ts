@@ -7,7 +7,7 @@ import {throwError} from '../../../common/utils';
 export type TemplateModel = ProjectModel;
 
 export const deriveTemplateModel = async (
-  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
+  answers: Answers, projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<TemplateModel> => {
     if (projectModel != null) {
         return projectModel;

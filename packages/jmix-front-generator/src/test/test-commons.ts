@@ -5,7 +5,6 @@ import {collectModelContext, ModelContext} from "../building-blocks/stages/writi
 import fs from "fs";
 import prettier = require('prettier');
 import path from "path";
-import {deprecate} from "util";
 import {strictEqual} from "assert";
 
 const enumsModel: Enum[] = require('./fixtures/enums-model.json');

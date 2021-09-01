@@ -17,7 +17,7 @@ export const defaultGetAnswersFromOptions = <O extends CommonGenerationOptions, 
   return refineAnswers(projectModel, questions, rawAnswers);
 }
 
-function parseBase64Object<O extends CommonGenerationOptions>(base64EncodedObject: string) {
+function parseBase64Object(base64EncodedObject: string) {
     return JSON.parse(
       Buffer.from(base64EncodedObject, 'base64')
         .toString('utf8')

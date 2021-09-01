@@ -43,6 +43,7 @@ function generateMockProps(listType: BrowserTypes): any {
 
   return {
     paginationConfig: {},
+    // eslint-disable-next-line @typescript-eslint/no-empty-function
     onPagingChange: () => {}
   }
 }
