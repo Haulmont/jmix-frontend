@@ -96,7 +96,7 @@ module.exports = function (generatorName, logFileSuffix) {
     // Do not use the libs from npm as it may lead to compatibility issues.
     await updateClientLibs(
       appDir, 
-      ['rest', 'react-core', 'react-web', 'react-antd', 'react-ide-toolbox', 'front-generator'],
+      ['rest', 'react-core', 'react-web', 'react-antd', 'front-generator'],
       false, 
       path.join(process.cwd(), '..')
     );
