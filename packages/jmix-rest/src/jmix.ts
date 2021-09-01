@@ -497,7 +497,7 @@ export class JmixRestConnection {
    * @param requestCallback
    * @private
    */
-  private async requestIfSupported<T>(minVersion: string, requestCallback: () => Promise<unknown>): Promise<any> {
+  private async requestIfSupported(minVersion: string, requestCallback: () => Promise<unknown>): Promise<any> {
     if (await this.isFeatureSupported(minVersion)) {
       return requestCallback();
     } else {

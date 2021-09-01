@@ -33,6 +33,7 @@ class EventEmitter {
 
     public once<K extends EventKeys>(eventName: K, fn: IRestEvents[K]): () => void {
         const unsubscribe = this.on(eventName, (...args: any[]) => {
+            // eslint-disable-next-line prefer-spread
             fn.apply(null, args);
             unsubscribe();
         });
