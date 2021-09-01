@@ -37,6 +37,7 @@ describe('Screen registration', () => {
         component: () => <div>Component</div>
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       getMainStore.mockReturnValue({
         contentDisplayMode: ContentDisplayMode.ActivateExistingTab
@@ -68,6 +69,7 @@ describe('Screen registration', () => {
         component: () => <div>Component</div>
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       getMainStore.mockReturnValue({
         contentDisplayMode: ContentDisplayMode.AlwaysNewTab
@@ -108,6 +110,7 @@ describe('Screen registration', () => {
         component: Component2
       });
 
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       getMainStore.mockReturnValue({
         contentDisplayMode: ContentDisplayMode.NoTabs

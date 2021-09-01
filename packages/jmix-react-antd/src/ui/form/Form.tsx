@@ -154,7 +154,7 @@ export type FormFieldProps = MainStoreInjected & {
 export const FormField = injectMainStore(observer(React.forwardRef((props: FormFieldProps, _ref: any) => {
 
   const {
-    entityName, propertyName, optionsContainer, associationOptions, mainStore, nestedEntityView, parentEntityInstanceId,
+    entityName, propertyName, optionsContainer, associationOptions, mainStore,
     ...rest
   } = props;
 
@@ -175,10 +175,11 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
   switch (propertyInfo.attributeType) {
     case 'ENUM':
       return <EnumField enumClass={propertyInfo.type} allowClear={getAllowClear(propertyInfo)} {...rest as SelectProps<SelectValue> & MainStoreInjected}/>;
-    case 'ASSOCIATION':
+    case 'ASSOCIATION': {
       const mode = getSelectMode(propertyInfo.cardinality);
       return <EntitySelectField {...{mode, optionsContainer, associationOptions}} allowClear={getAllowClear(propertyInfo)} {...rest}/>;
-    case 'COMPOSITION':
+    }
+    case 'COMPOSITION': {
       const nestedEntityName = metadata.entities
         .find((metaClass: MetaClassInfo) => metaClass.entityName === entityName) // Find parent entity
         ?.properties
@@ -200,6 +201,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       }
 
       return null;
+    }
   }
   switch (propertyInfo.type as PropertyType) {
     case 'Boolean':

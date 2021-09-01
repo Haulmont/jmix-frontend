@@ -66,7 +66,7 @@ export class Tabs {
    */
   closeAll = action(() => {
     this.tabs = [];
-    this.currentTab = null!;
+    this.currentTab = undefined;
   });
 
   /**

@@ -21,9 +21,9 @@ export class EventEmitter<Events extends IKeyFuncVal, Key extends keyof Events =
       this.listeners.set(eventName, new Set());
     }
 
-    const events = this.listeners.get(eventName)!;
+    const events = this.listeners.get(eventName);
 
-    events.add(fn);
+    events?.add(fn);
 
     // or use unsubscribe function
     return () => {
@@ -32,6 +32,7 @@ export class EventEmitter<Events extends IKeyFuncVal, Key extends keyof Events =
   }
 
   once<K extends Key>(eventName: K, fn: Events[K]): () => void {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const unsubscribe = this.on(eventName, (...args: any[]) => {
       fn(...args);

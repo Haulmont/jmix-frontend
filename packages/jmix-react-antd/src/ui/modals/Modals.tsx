@@ -92,12 +92,12 @@ function useInitReducer<BasicOptions>(): ModalsReducer<BasicOptions> {
     switch (action.type) {
       case ActionTypes.ADD: {
         return new Set<ModalOptions<BasicOptions>>(state).add(action.payload!);
-      };
+      }
       case ActionTypes.DELETE: {
         const updatedState = new Set<ModalOptions<BasicOptions>>(state);
         updatedState.delete(action.payload!);
         return updatedState;
-      };
+      }
       case ActionTypes.DELETE_ALL: {
         return new Set<ModalOptions<BasicOptions>>();
       }

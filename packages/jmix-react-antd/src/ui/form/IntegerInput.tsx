@@ -10,6 +10,7 @@ export const IntegerInput = forwardRef((props: InputNumberProps, ref: Ref<typeof
                  max={JAVA_INTEGER_MAX_VALUE}
                  precision={0}
                  className={styles.inputNumberField}
+                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                  // @ts-ignore ref is missing in typings, but it does actually work
                  ref={ref}
                  {...props}

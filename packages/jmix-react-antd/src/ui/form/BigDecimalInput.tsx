@@ -8,6 +8,7 @@ import {InputNumberProps} from 'antd/es/input-number';
 export const BigDecimalInput = forwardRef((props: InputNumberProps, ref: Ref<typeof InputNumber>) => {
   return (
     <InputNumber className={styles.inputNumberField}
+                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                  // @ts-ignore ref is missing in typings, but it does actually work
                  ref={ref}
                  stringMode={true}

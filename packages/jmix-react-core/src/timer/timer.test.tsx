@@ -15,7 +15,7 @@ interface TestedProps {
   autostart?: boolean, 
   repeating?: boolean
 }
-const TestedCompWithUseTimer: React.FC<TestedProps> = ({delay, callback, autostart, repeating}) => {
+const TestedCompWithUseTimer = ({delay, callback, autostart, repeating}: TestedProps) => {
   const {start, stop} = useTimer({delay, callback, autostart, repeating});
   closureTimerStart = start;
   closureTimerStop = stop;

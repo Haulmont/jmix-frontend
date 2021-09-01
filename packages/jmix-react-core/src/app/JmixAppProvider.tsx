@@ -105,7 +105,7 @@ export interface JmixAppProviderProps {
   config?: JmixAppConfig;
 }
 
-export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
+export const JmixAppProvider = ({
   apolloClient,
   jmixREST,
   children,
@@ -113,7 +113,7 @@ export const JmixAppProvider: React.FC<JmixAppProviderProps> = ({
   config,
   metadata,
   Modals
-}) => {
+}: JmixAppProviderProps) => {
   const JmixRestConnectionContext = getContext();
   return (
     <JmixRestConnectionContext.Consumer>

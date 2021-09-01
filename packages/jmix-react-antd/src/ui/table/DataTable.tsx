@@ -293,7 +293,7 @@ class DataTableComponent<
       return columnDefinitions.reduce((accumulatedFields: string[], columnDefinition: string | ColumnDefinition<TEntity>) => {
         if (typeof columnDefinition === 'string') {
           accumulatedFields.push(columnDefinition);
-        } else if (typeof (columnDefinition.field === 'string')) {
+        } else if (typeof columnDefinition.field === 'string') {
           accumulatedFields.push(columnDefinition.field!);
         }
         return accumulatedFields;
@@ -378,7 +378,7 @@ class DataTableComponent<
       let newSelectedRowKeys = this.selectedRowKeys.slice();
 
       switch (this.props.rowSelectionMode) {
-        case 'multi':
+        case 'multi': {
           const clickedRowKeyIndex = this.selectedRowKeys.indexOf(clickedRowKey);
           if (clickedRowKeyIndex > -1) {
             // Deselect row in 'multi' mode
@@ -388,7 +388,8 @@ class DataTableComponent<
             newSelectedRowKeys.push(clickedRowKey);
           }
           break;
-        case 'single':
+        }
+        case 'single': {
           if (this.selectedRowKeys.length > 0 && this.selectedRowKeys[0] === clickedRowKey) {
             // Deselect row in 'single' mode
             newSelectedRowKeys = [];
@@ -397,6 +398,7 @@ class DataTableComponent<
             newSelectedRowKeys[0] = clickedRowKey;
           }
           break;
+        }
       }
 
       this.selectedRowKeys = newSelectedRowKeys;
@@ -581,7 +583,7 @@ class DataTableComponent<
 
         throw new Error(`Neither field name nor columnProps were provided`);
     });
-  };
+  }
 
   isFilterForColumnEnabled(propertyName: string): boolean {
     return this.props.enableFiltersOnColumns

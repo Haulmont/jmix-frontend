@@ -82,12 +82,14 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
           return defaultCompare(valA, valB, sortOrderModifier);
         }
         return defaultCompare(valA, valB, sortOrderModifier);
-      case 'object':
+      case 'object': {
         const nameA = valA._instanceName != null ? valA._instanceName : '';
         const nameB = valB._instanceName != null ? valB._instanceName : '';
 
         return defaultCompare(nameA, nameB, sortOrderModifier);
-      case 'string':
+      }
+
+      case 'string': {
         // Imitate REST API behavior for consistency
         const nonAlphaNumericRegex = /[^0-9a-zA-Z]/g;
         const nonAlphaNumericCharsA = valA.match(nonAlphaNumericRegex)?.join('') || '';
@@ -102,6 +104,7 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
           return result
         }
         return defaultCompare(nonAlphaNumericCharsA, nonAlphaNumericCharsB, sortOrderModifier);
+      }
       case 'boolean':
         return defaultCompare(valA, valB, sortOrderModifier);
     }

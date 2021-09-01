@@ -1,0 +1,3 @@
+{
+    "extends": "../eslint-config-jmix-react/.eslintrc.json"
+}
