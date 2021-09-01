@@ -41,9 +41,9 @@ export function redirect(to: string, replace = false, title = '') {
   if (currentRoute.hashMode) to = '#' + to;
 
   if (replace) {
-    history.replaceState({}, title, to);
+    window.history.replaceState({}, title, to);
   } else {
-    history.pushState({}, title, to);
+    window.history.pushState({}, title, to);
   }
 
   currentRoute.setCurrentRoute();
@@ -152,7 +152,7 @@ class RouterState {
   }
 
   onUnmount = () => {
-    this.disposer!();
+    this.disposer?.();
   };
 
   @action
@@ -165,7 +165,7 @@ class RouterState {
     const { path } = currentRoute.currentLocation;
 
     for (const route in routes) {
-      if (!routes.hasOwnProperty(route)) continue;
+      if (!Object.prototype.hasOwnProperty.call(routes, route)) continue;
       if (route === '' || route === '*') continue;
       const component = routes[route];
 

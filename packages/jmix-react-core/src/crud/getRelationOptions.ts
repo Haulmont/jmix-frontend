@@ -17,7 +17,7 @@ export function getRelationOptions<
       return queryName !== getListQueryName(entityName)
         && queryName !== getByIdQueryName(entityName);
     })
-    .map(queryName => {
+    .forEach(queryName => {
       const relatedEntityName = extractEntityName(queryName, 'List');
       map.set(relatedEntityName, data[queryName] ?? []);
     });

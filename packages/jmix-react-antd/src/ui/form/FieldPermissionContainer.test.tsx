@@ -8,6 +8,7 @@ describe('FieldPermissionContainer', function () {
   it('FieldPermissionContainer is rendered as null if renderField is empty', async () => {
     const mainStore = {
       security: {
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         getAttributePermission: () => {}
       }
     };

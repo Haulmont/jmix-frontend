@@ -217,6 +217,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
       // According to the typings this field expects any[] | undefined
       // However, in reality undefined makes the filter icon to be highlighted.
       // If we want the icon to not be highlighted we need to pass null instead.
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       filteredValue: (filters && filters[propertyName])
         ? toJS(filters[propertyName])
@@ -332,7 +333,7 @@ export function setFilters(
   // Now we modify API filters based on the state of table filters
   if (tableFilters) {
     fields.forEach((propertyName: string) => {
-      if (tableFilters.hasOwnProperty(propertyName)
+      if (Object.prototype.hasOwnProperty.call(tableFilters, propertyName)
           && tableFilters[propertyName] != null
           && tableFilters[propertyName]!.length > 0) {
 

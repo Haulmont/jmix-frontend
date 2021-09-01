@@ -7,9 +7,8 @@ describe('Form', () => {
   let fieldTestRenderer: ReactTestRenderer;
   const mainStore = {
     security: {
-      // tslint:disable-next-line:no-empty
-      getAttributePermission: () => {
-      }
+      // eslint-disable-next-line @typescript-eslint/no-empty-function
+      getAttributePermission: () => {}
     }
   };
   describe('Field component', () => {

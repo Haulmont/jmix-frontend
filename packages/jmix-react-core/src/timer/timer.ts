@@ -3,7 +3,7 @@ import { useState, useEffect, useCallback } from "react";
 interface TimerHookControls {
   start: () => void, 
   stop: () => void
-};
+}
 
 type TimerId = ReturnType<typeof setTimeout | typeof setInterval>;
 

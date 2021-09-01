@@ -45,7 +45,7 @@ const useSetupStep = ({
     }, [formWizardStore, formWizardStore.currentStep])
 
     const stepServerValidation = useMemo(() => {
-        let stepFieldErrors = new Map<string, string[]>();
+        const stepFieldErrors = new Map<string, string[]>();
         
         formWizardStore.serverValidationErrors?.fieldErrors?.forEach(
             (fieldErrorValue, fieldErrorKey) => {

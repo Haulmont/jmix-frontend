@@ -8,6 +8,7 @@ export const LongInput = forwardRef((props: InputNumberProps, ref: Ref<typeof In
   return (
     <InputNumber className={styles.inputNumberField}
                  precision={0}
+                 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
                  // @ts-ignore ref is missing in typings, but it does actually work
                  ref={ref}
                  stringMode={true}

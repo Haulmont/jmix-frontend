@@ -31,7 +31,7 @@ class DataContext<T extends Containers> {
 
   save = () => {
     for (const containerName in this.containers) {
-      if (!this.containers.hasOwnProperty(containerName)) {
+      if (!Object.prototype.hasOwnProperty.call(this.containers, containerName)) {
         continue;
       }
       const container = this.containers[containerName];
@@ -46,7 +46,7 @@ class DataContext<T extends Containers> {
       return false;
     }
     for (const containerName in this.containers) {
-      if (!this.containers.hasOwnProperty(containerName)) {
+      if (!Object.prototype.hasOwnProperty.call(this.containers, containerName)) {
         continue;
       }
       if (this.containers[containerName].changedItems != null && this.containers[containerName].changedItems.length > 0) {

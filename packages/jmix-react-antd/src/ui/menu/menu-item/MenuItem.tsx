@@ -18,8 +18,9 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
     <Menu.Item
       {...menuItemProps}
       title={title ?? formattedCaption}
-      children={childrenWithCaption}
       onClick={menuItemOnClick}
-    />
+    >
+      {childrenWithCaption}
+    </Menu.Item>
   )
 }

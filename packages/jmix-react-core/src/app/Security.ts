@@ -46,7 +46,7 @@ export class Security {
    */
   get isDataLoaded(): boolean {
     return this.effectivePermissions != null;
-  };
+  }
 
   /**
    * Returns current user permissions.

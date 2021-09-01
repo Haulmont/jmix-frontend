@@ -678,7 +678,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
         />
       </Form.Item>
     );
-  };
+  }
 
   get datePickerField(): ReactNode {
     const component = (

@@ -158,7 +158,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
         </Select>
       </Form.Item>
     );
-  };
+  }
 
   get intervalInput(): ReactNode {
     return (
@@ -201,7 +201,7 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
         </Form.Item>
       </div>
     );
-  };
+  }
 
 }
 
