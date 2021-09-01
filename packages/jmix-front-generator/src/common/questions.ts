@@ -1,4 +1,4 @@
-import {EntityInfo, StudioTemplateProperty, StudioTemplatePropertyType, ViewInfo} from "./studio/studio-model";
+import {EntityInfo, StudioTemplateProperty, StudioTemplatePropertyType} from "./studio/studio-model";
 import {Answers, Question as YeomanQuestion} from "yeoman-generator";
 import {getEntitiesArray, ProjectModel} from './model/cuba-model';
 import {findViewsForEntity} from './model/cuba-model-utils';
@@ -76,7 +76,7 @@ export function fromStudioProperty(prop: StudioTemplateProperty, projectModel?: 
           }));
       };
       break;
-    case StudioTemplatePropertyType.NESTED_ENTITY_VIEW:
+    case StudioTemplatePropertyType.NESTED_ENTITY_VIEW: {
       if (!projectModel) {
         throw new Error('Project model is required to determine choices for property of type ' + StudioTemplatePropertyType.NESTED_ENTITY_VIEW);
       }
@@ -91,6 +91,7 @@ export function fromStudioProperty(prop: StudioTemplateProperty, projectModel?: 
           value: {[propertyName]: view.name}
         }));
       break;
+    }
     case StudioTemplatePropertyType.OPTION:
       if (!prop.options) {
         throw new Error('Options are missing');

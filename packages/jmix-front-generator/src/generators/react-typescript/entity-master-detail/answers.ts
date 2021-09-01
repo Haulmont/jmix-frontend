@@ -1,11 +1,10 @@
-import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {CommonGenerationOptions} from "../../../common/cli-options";
 import {
   askStringIdQuestions,
   StringIdAnswers,
-  stringIdQuestions
 } from "../../../building-blocks/stages/answers/pieces/stringId";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
 import {isStringIdEntity} from "../../../building-blocks/stages/template-model/pieces/entity";
@@ -17,7 +16,6 @@ import {
   createComponentNameQuestion,
   createQueryQuestion,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
-import { createBrowserTypeQuestion } from "../entity-browser/answers";
 
 export interface EntityMasterDetailAnswers extends
 EntityAnswer,

@@ -1,6 +1,5 @@
 import {collectClients} from "../init";
 import {expect} from "chai";
-import fs from "fs";
 
 describe('init', function () {
   it('should collect clients', function () {

@@ -2,7 +2,7 @@ import {CommonGenerationOptions} from "../../../common/cli-options";
 import {ProjectModel} from "../../../common/model/cuba-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {askQuestions} from "../../../building-blocks/stages/answers/defaultGetAnswersFromPrompt";
-import {askStringIdQuestions, StringIdAnswers, stringIdQuestions} from "../../../building-blocks/stages/answers/pieces/stringId";
+import {askStringIdQuestions, StringIdAnswers} from "../../../building-blocks/stages/answers/pieces/stringId";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 import { isStringIdEntity } from "../../../building-blocks/stages/template-model/pieces/entity";
 import {
@@ -48,7 +48,7 @@ export const formWizardQuestions: StudioTemplateProperty[] = [
 ];
 
 export const getAnswersFromPrompt = async (
-  projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
+  projectModel: ProjectModel, gen: YeomanGenerator, _options: CommonGenerationOptions
 ): Promise<FormWizardAnswers> => {
   const initialQuestions = [
     ...formWizardQuestions,

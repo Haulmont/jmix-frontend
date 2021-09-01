@@ -77,8 +77,6 @@ export async function askStringIdQuestions(
     editIdPositionQuestion = questionIdPositionInEdit
   } = questions;
 
-  let stringIdAnswers = {};
-
   let idAttrNameAnswers = {};
   if (entity.idAttributeName == null) {
     // Seems that the project model was created with an older version of Studio.

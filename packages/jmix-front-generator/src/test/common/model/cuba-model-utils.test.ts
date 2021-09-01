@@ -1,13 +1,10 @@
 import {
-  collectAttributesFromHierarchy,
   findEntity,
   findQuery,
   findServiceMethod,
-  findView
 } from "../../../common/model/cuba-model-utils";
 import {RestServiceMethodInfo} from "../../../common/studio/studio-model";
 import {expect} from "chai";
-import {Entity, EntityAttribute} from "../../../common/model/cuba-model";
 
 const projectModel = require('../../fixtures/mpg-projectModel.json');
 

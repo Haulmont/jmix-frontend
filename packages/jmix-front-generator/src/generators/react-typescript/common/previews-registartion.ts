@@ -22,7 +22,7 @@ interface ComponentInfo {
   pathPattern: string;
 }
 
-export function registerComponentPreviews<T>(
+export function registerComponentPreviews(
   fs: Generator.MemFsEditor,
   {
     destRoot,

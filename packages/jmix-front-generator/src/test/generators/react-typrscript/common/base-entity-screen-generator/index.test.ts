@@ -1,6 +1,6 @@
 import { expect } from "chai";
 import {stringIdAnswersToModel, getEntityFromAnswers, stringIdPrompts} from '../../../../../generators/react-typescript/common/base-entity-screen-generator';
-import {MappingType, Entity} from '../../../../../common/model/cuba-model';
+import {MappingType} from '../../../../../common/model/cuba-model';
 import {StudioTemplateProperty, StudioTemplatePropertyType} from '../../../../../common/studio/studio-model';
 import { expectRejectedPromise } from "../../../../common/test-utils";
 import sinon = require("sinon");
@@ -139,6 +139,7 @@ class TestEntityScreenGenerator extends BaseGenerator<any, any, any> {
 
   entity: any;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   writing(): void {}
 }
 
@@ -200,6 +201,7 @@ describe('BaseEntityScreenGenerator', () => {
     // tslint:disable-next-line:no-unused-expression
     expect(answers.editIdAttrPos).to.be.undefined;
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore unwrap the spy
     gen.prompt.restore();
     sinon.stub(gen, 'prompt').callsFake(createPromptFake({

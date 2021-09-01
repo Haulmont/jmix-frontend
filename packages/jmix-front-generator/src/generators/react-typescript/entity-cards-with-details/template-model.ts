@@ -24,7 +24,7 @@ RelationsTemplateModel {
   attributes: EntityAttribute[];
   entity: EntityWithPath;
   stringIdName?: string;
-};
+}
 
 export const deriveCardsWithDetailsTemplateModel = async (
   answers: CardsWithDetailsAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions

@@ -6,14 +6,14 @@ import {CommonGenerationOptions} from "../../../common/cli-options";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 
 export interface Answers {
-    projectInfo: StudioProjectInfo;
+  projectInfo: StudioProjectInfo;
 }
 
 export const allQuestions: StudioTemplateProperty[] = [];
 
 export const getAnswersFromPrompt = async (
-    projectModel: ProjectModel, gen: YeomanGenerator, options: CommonGenerationOptions
-  ): Promise<Answers> => {
- 
-    return {} as Answers;
+  _projectModel: ProjectModel, _gen: YeomanGenerator, _options: CommonGenerationOptions
+): Promise<Answers> => {
+
+  return {} as Answers;
 }

@@ -14,7 +14,7 @@ export function exportList(clients: GeneratedClientInfo[], {save}: { save?: stri
 
 /* istanbul ignore next */ //todo update node to v 10.x and user fs.mkdirSync({recursive: true})
 function ensureDir(filePath: string) {
-  var dirname = path.dirname(filePath);
+  const dirname = path.dirname(filePath);
   if (fs.existsSync(dirname)) {
     return true;
   }

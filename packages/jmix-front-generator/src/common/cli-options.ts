@@ -29,7 +29,7 @@ export function pickOptions(cmd: {[key:string]: any}, availableOptions?: Options
   const passedOptions: { [key: string]: any } = {};
   if (availableOptions) {
     Object.keys(availableOptions).forEach(optionFullName => {
-      if (cmd.hasOwnProperty(optionFullName)) {
+      if (Object.prototype.hasOwnProperty.call(cmd, optionFullName)) {
         passedOptions[optionFullName] = cmd[optionFullName] as string | boolean;
       }
     })

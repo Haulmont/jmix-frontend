@@ -16,6 +16,7 @@ export const defaultConfigureGenerator = <O extends CommonGenerationOptions>(tem
   const {templateOverride} = options;
   gen.sourceRoot(templateOverride ?? templateDir);
 
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore this.env.adapter is missing in the typings
   gen.env.adapter
     .promptModule.registerPrompt('autocomplete',  AutocompletePrompt);

@@ -4,7 +4,7 @@ import {TemplateModel} from "./template-model";
 import {writeSdkModel} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
 
 export const write: WriteStage<CommonGenerationOptions, TemplateModel> = async (
-  projectModel, templateModel, gen, options
+  projectModel, templateModel, gen, _options
 ) => {
     gen.log(`Generating sdk:Model to ${gen.destinationPath()}`);
     writeSdkModel(gen, templateModel); 

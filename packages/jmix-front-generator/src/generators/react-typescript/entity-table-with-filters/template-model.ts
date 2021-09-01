@@ -24,7 +24,7 @@ RelationsTemplateModel {
   attributes: EntityAttribute[];
   entity: EntityWithPath;
   stringIdName?: string;
-};
+}
 
 export const deriveTableWithFiltersTemplateModel = async (
   answers: TableWithFiltersAnswers, projectModel: ProjectModel, gen: YeomanGenerator, options: ComponentOptions

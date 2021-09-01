@@ -11,6 +11,7 @@ describe('interactive CLI question helpers', () => {
       propertyType: StudioTemplatePropertyType.ENTITY,
     };
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore TODO VP Replace enums with string union types in ProjectModel https://github.com/cuba-platform/front-generator/issues/46
     const question = fromStudioProperty(prop, projectModel);
 

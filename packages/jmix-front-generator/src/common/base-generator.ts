@@ -56,6 +56,7 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
     this.destinationRoot(this._getDestRoot());
     this.modelFilePath = this._composeModelFilePath(this.options, executionDir);
 
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore this.env.adapter is missing in the typings
     this.env.adapter
       .promptModule.registerPrompt('autocomplete',  AutocompletePrompt);
@@ -221,11 +222,12 @@ export function refineAnswers<T>(projectModel: ProjectModel, generatorParams: St
       case StudioTemplatePropertyType.REST_SERVICE_METHOD:
         refinedAnswers[key] = findServiceMethod(projectModel, (answers[key] as RestServiceMethodInfo));
         return;
-      case StudioTemplatePropertyType.INTEGER:
+      case StudioTemplatePropertyType.INTEGER: {
         const value = answers[key];
         if (!Number.isInteger(value)) throw new Error(`Question with code '${key}' has INTEGER type and can't contain '${value}' as answer`);
         refinedAnswers[key] = value;
         return;
+      }
       default:
         refinedAnswers[key] = answers[key];
     }

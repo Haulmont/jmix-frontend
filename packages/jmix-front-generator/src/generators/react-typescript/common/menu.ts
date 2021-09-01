@@ -1,7 +1,7 @@
 import path from "path";
 import Generator from "yeoman-generator";
 import uuid from 'uuid'
-import {convertToUnixPath, unCapitalizeFirst} from "../../../common/utils";
+import {convertToUnixPath} from "../../../common/utils";
 import jscodeshift, {JSXElement, JSXAttribute, stringLiteral, Collection } from 'jscodeshift'
 
 export interface AddMenuItemConfig {
@@ -42,7 +42,7 @@ export enum MenuItemTypes {
   SubMenuItem = "SubMenuItem"
 }
 
-export function addToMenu<T>(
+export function addToMenu(
   fs: Generator.MemFsEditor,
   {
     destRoot,
@@ -115,20 +115,22 @@ export type RouteInfo = ComponentInfo & {
   pathPattern: string
 }
 
-export const addRoute = (routingContents: string,
-                  {
-                    caption,
-                    pathPattern,
-                    menuLink,
-                    componentClassName,
-                    componentPath
-                  }: RouteInfo) => `` +
+export const addRoute = (
+  routingContents: string,
+  {
+    caption: _caption,
+    pathPattern: _pathPattern,
+    menuLink: _menuLink,
+    componentClassName: _componentClassName,
+    componentPath
+  }: RouteInfo
+) => `` +
 `import '${componentPath}';
 ${routingContents}`;
 
 export const addAddonRoute = (routingContents: string,
   {
-    addonName, 
+    addonName: _addonName, 
     pathToAddon
   }: AddonInfo) => {
     const uodatedRoutingContent = `

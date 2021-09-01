@@ -11,7 +11,7 @@
     "node": ">=12"
   },
   "scripts": {
-    "build": "rimraf lib && tsc && tsc --project tsconfig.declarations.json && node scripts/copy-templates.js",
+    "build": "rimraf lib && npm run lint && tsc && tsc --project tsconfig.declarations.json && node scripts/copy-templates.js",
     "watch": "tsc -w",
     "test": "mocha",
     "coverage": "nyc npm run test",
@@ -21,7 +21,8 @@
     "test:integration:react": "mocha 'test/integration/react-client--*.test.js' -g 'test:integration:react' --timeout 0",
     "test:integration:react:empty-model": "mocha 'test/integration/react-client--empty-model.test.js' -g 'test:integration:react:empty-model' --timeout 0",
     "test:integration:react:new-project": "mocha 'test/integration/react-client--new-project.test.js' -g 'test:integration:react:new-project' --timeout 0",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
@@ -56,7 +57,10 @@
     "@types/sinon-chai": "^3.2.3",
     "@types/through2": "^2.0.33",
     "@types/uuid": "^8.3.0",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
     "chai": "^4.2.0",
+    "eslint": "^7.32.0",
     "mocha": "^6.2.3",
     "nock": "^12.0.3",
     "nyc": "^15.0.0",
