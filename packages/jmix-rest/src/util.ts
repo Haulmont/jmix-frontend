@@ -1,4 +1,3 @@
-declare const Buffer;
 declare const global;
 
 export function base64encode(str: string): string {
@@ -61,7 +60,7 @@ export function matchesVersion(testVersion: string, minimumVersion: string): boo
   return true;
 }
 
-export function encodeGetParams(data): string {
+export function encodeGetParams(data: any): string {
   return Object
     .keys(data)
     .map((key) => {

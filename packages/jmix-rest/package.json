@@ -9,15 +9,15 @@
     "dist-node/"
   ],
   "scripts": {
-    "lint": "tslint -c tslint.json src/**/*.ts",
     "test": "jest --runInBand",
     "coverage": "tsc && npm run test -- --coverage",
     "prepare-browser-test": "browserify test/jmix.test.js > test/jmix-browser.test.js",
-    "compile": "tsc",
+    "compile": "npm run lint && tsc",
     "types:browser": "tsc --declarationDir dist-browser --emitDeclarationOnly true",
     "dist": "npm run compile && mkdirp dist-browser && browserify --standalone jmix dist-node/jmix.js > dist-browser/jmix.js",
     "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-rest src",
-    "prepublishOnly": "npm run dist"
+    "prepublishOnly": "npm run dist",
+    "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
@@ -25,8 +25,11 @@
   },
   "devDependencies": {
     "@haulmont/jmix-server-mock": "^1.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
     "babel-jest": "^25.1.0",
     "browserify": "^16.2.3",
+    "eslint": "^7.32.0",
     "jest": "^25.1.0",
     "node-fetch": "^2.6.0",
     "source-map-support": "^0.5.16",

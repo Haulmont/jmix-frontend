@@ -20,7 +20,7 @@ export class DefaultStorage implements Storage {
   /**
    * @deprecated operation not supported
    */
-  public key(index: number): string | any {
+  public key(_index: number): string | any {
     throw new Error('Unsupported operation');
   }
 

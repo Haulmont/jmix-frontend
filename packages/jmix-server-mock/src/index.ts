@@ -6,7 +6,7 @@ import {restRouter} from "./rest";
 import {createOauthRouter} from "./oauth";
 
 
-export async function createServer(schemaPath, mockRest = true, allowInvalidCreds = true) {
+export async function createServer(schemaPath: any, mockRest = true, allowInvalidCreds = true) {
   let typeDefs
   try {
     typeDefs = await readFileSync(schemaPath).toString('utf-8');
