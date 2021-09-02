@@ -5,7 +5,6 @@ const dirNames = {
   'react-core': 'jmix-react-core',
   'react-antd': 'jmix-react-antd',
   'react-web': 'jmix-react-web',
-  'react-ide-toolbox': 'react-ide-toolbox',
   'front-generator': 'jmix-front-generator'
 };
 
