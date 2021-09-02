@@ -7,7 +7,6 @@ packClientLibs(
         '@haulmont/jmix-react-core',
         '@haulmont/jmix-react-antd',
         '@haulmont/jmix-react-web',
-        '@haulmont/react-ide-toolbox',
     ],
     [
         '@haulmont/jmix-front-generator',
@@ -15,7 +14,6 @@ packClientLibs(
         '@haulmont/jmix-react-core',
         '@haulmont/jmix-react-antd',
         '@haulmont/jmix-react-web',
-        '@haulmont/react-ide-toolbox'
     ]
 );
 
