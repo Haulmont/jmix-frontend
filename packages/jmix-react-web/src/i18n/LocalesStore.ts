@@ -3,6 +3,7 @@ import {makeObservable, action, observable, computed} from "mobx";
 type LocalesInfo = {
   locale: string;
   caption: string;
+  isRtlLayout?: boolean;
 }
 
 type LocaleData = LocalesInfo & {
@@ -27,9 +28,9 @@ class LocalesStore {
     });
   }
 
-  addLocale({locale, caption, messages}: LocaleData) {
-    this._messagesMapping[locale] = messages;
-    this._localesInfo.push({locale, caption});
+  addLocale({messages, ...localeInfo}: LocaleData) {
+    this._messagesMapping[localeInfo.locale] = messages;
+    this._localesInfo.push(localeInfo);
   }
 
   get messagesMapping() {
@@ -38,6 +39,12 @@ class LocalesStore {
 
   get localesInfo() {
     return this._localesInfo as readonly LocalesInfo[];
+  }
+
+  readonly isRtlLayout = (localeName: string | null) => {
+    return this._localesInfo.find(({locale}) => {
+      return localeName === locale;
+    })?.isRtlLayout;
   }
 }
 

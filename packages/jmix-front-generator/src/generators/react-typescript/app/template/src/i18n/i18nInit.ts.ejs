@@ -7,11 +7,14 @@ import { antdLocalesStore } from "@haulmont/jmix-react-antd";
 
 
 export function initializeLocales() {
-  <% clientLocales.forEach(({localeName, antdLocaleName, caption})=> { %>
+  <% clientLocales.forEach(({localeName, antdLocaleName, caption, isRtlLayout})=> { %>
     localesStore.addLocale({
       locale: '<%=localeName%>',
       caption: "<%=caption%>",
-      messages: <%=localeName%>
+      messages: <%=localeName%>,
+      <% if (isRtlLayout) { -%>
+        isRtlLayout: <%=isRtlLayout%>
+      <% } -%>
     });
 
     antdLocalesStore.addAntdLocale({

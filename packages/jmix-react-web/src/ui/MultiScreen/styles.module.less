@@ -4,26 +4,25 @@
   overflow-x: auto;
 
   .breadcrumb {
+    display: inline-flex;
     white-space: nowrap;
-    margin-right: 20px;
-    position: relative;
     cursor: pointer;
     color: #197de1;
 
+    .separator {
+      min-width: 20px;
+      text-align: center;
+    }
+
     &:hover {
-      text-decoration: underline;
+      .caption {
+        text-decoration: underline;
+      }
     }
 
     &:last-child {
-      margin-right: 0;
-    }
-
-    &:not(:last-child) {
-      &:after {
-        content: ">";
-        position: absolute;
-        right: -14px;
-        top: 0;
+      .separator {
+        display: none;
       }
     }
 
