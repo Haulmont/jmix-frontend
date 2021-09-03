@@ -66,6 +66,12 @@
   "jmix.dataTable.operator._notIn": "not in",
   "jmix.dataTable.operator._isNull": "is empty",
   "jmix.dataTable.operator.__inInterval": "in interval",
+  "jmix.dataTable.operator._eq": "equal",
+  "jmix.dataTable.operator._neq": "not equal",
+  "jmix.dataTable.operator._gt": "greater than",
+  "jmix.dataTable.operator._gte": "greater than or equal",
+  "jmix.dataTable.operator._lt": "less than",
+  "jmix.dataTable.operator._lte": "less than or equal",
 
   "jmix.dataTable.yes": "Yes",
   "jmix.dataTable.no": "No",

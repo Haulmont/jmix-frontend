@@ -367,22 +367,16 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   getOperatorCaption = (operator: ComparisonType): string => {
     switch (operator) {
+      // case '_doesNotContain':
       case '_eq':
-        return '=';
-      case '_gt':
-        return '>';
-      case '_gte':
-        return '>=';
-      case '_lt':
-        return '<';
-      case '_lte':
-        return '<=';
       case '_neq':
-        return '<>';
+      case '_gt':
+      case '_gte':
+      case '_lt':
+      case '_lte':
       case '_startsWith':
       case '_endsWith':
       case '_contains':
-      // case '_doesNotContain':
       case '_in':
       case '_notIn':
       case '_isNull':
@@ -510,8 +504,8 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
       case 'String':
         switch (this.operator as TextComparisonType) {
-          case '_contains':
           // case '_doesNotContain':
+          case '_contains':
           case '_eq':
           case '_neq':
           case '_startsWith':
@@ -762,21 +756,21 @@ function getAvailableOperators(propertyInfo: MetaPropertyInfo): ComparisonType[]
     case 'DateTime':
     case 'LocalDateTime':
     case 'OffsetDateTime':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull', '__inInterval'];
+      return ['_eq', '_neq', '_in', '_notIn', '_gt', '_gte', '_lt', '_lte', '_isNull', '__inInterval'];
     case 'Time':
     case 'LocalTime':
     case 'OffsetTime':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
+      return ['_eq', '_neq', '_in', '_notIn', '_gt', '_gte', '_lt', '_lte', '_isNull'];
     case 'Integer':
     case 'Double':
     case 'Long':
     case 'BigDecimal':
-      return ['_eq', '_in', '_notIn', '_neq', '_gt', '_gte', '_lt', '_lte', '_isNull'];
+      return ['_eq', '_neq', '_in', '_notIn', '_gt', '_gte', '_lt', '_lte', '_isNull'];
     case 'String':
-      return ['_contains', '_eq', '_in', '_notIn', '_neq', /* TODO 'doesNotContain', */ '_isNull', '_startsWith', '_endsWith'];
+      return ['_contains', /* TODO 'doesNotContain', */ '_eq', '_neq', '_in', '_notIn', '_isNull', '_startsWith', '_endsWith'];
     case 'UUID':
     case 'Character':
-      return ['_eq', '_in', '_notIn', '_neq', '_isNull'];
+      return ['_eq', '_neq', '_in', '_notIn', '_isNull'];
     default:
       throw new Error(`Could not determine available condition operators for property ${propertyInfo.name} with attribute type ${propertyInfo.attributeType} and type ${propertyInfo.type}`);
   }
