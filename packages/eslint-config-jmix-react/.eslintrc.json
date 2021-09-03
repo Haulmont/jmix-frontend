@@ -49,7 +49,6 @@
               ]
             }
         ],
-        "no-fallthrough": "off", // don't work correctly with comments
 
         // Need to turn on
         "@typescript-eslint/no-non-null-assertion": "off",

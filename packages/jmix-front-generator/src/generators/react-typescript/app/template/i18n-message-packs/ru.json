@@ -66,6 +66,12 @@
   "jmix.dataTable.operator._notIn": "не в списке",
   "jmix.dataTable.operator._isNull": "пустой",
   "jmix.dataTable.operator.__inInterval": "в интервале",
+  "jmix.dataTable.operator._eq": "равно",
+  "jmix.dataTable.operator._neq": "не равно",
+  "jmix.dataTable.operator._gt": "больше",
+  "jmix.dataTable.operator._gte": "больше или равно",
+  "jmix.dataTable.operator._lt": "меньше",
+  "jmix.dataTable.operator._lte": "меньше или равно",
 
   "jmix.dataTable.yes": "Да",
   "jmix.dataTable.no": "Нет",

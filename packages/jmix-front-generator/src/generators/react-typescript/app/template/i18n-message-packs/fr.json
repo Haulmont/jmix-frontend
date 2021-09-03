@@ -66,7 +66,13 @@
     "jmix.dataTable.operator._notIn": "en dehors de",
     "jmix.dataTable.operator._isNull": "jmix.dataTable.operator._isNull [TRANSLATION NOT AVAILABLE]",
     "jmix.dataTable.operator.__inInterval": "dans l’intervalle",
-  
+    "jmix.dataTable.operator._eq": "jmix.dataTable.operator._eq [TRANSLATION NOT AVAILABLE]",
+    "jmix.dataTable.operator._neq": "jmix.dataTable.operator._neq [TRANSLATION NOT AVAILABLE]",
+    "jmix.dataTable.operator._gt": "jmix.dataTable.operator._gt [TRANSLATION NOT AVAILABLE]",
+    "jmix.dataTable.operator._gte": "jmix.dataTable.operator._gte [TRANSLATION NOT AVAILABLE]",
+    "jmix.dataTable.operator._lt": "jmix.dataTable.operator._lt [TRANSLATION NOT AVAILABLE]",
+    "jmix.dataTable.operator._lte": "jmix.dataTable.operator._lte [TRANSLATION NOT AVAILABLE]",
+
     "jmix.dataTable.yes": "Oui",
     "jmix.dataTable.no": "Non",
     "jmix.dataTable.ok": "OK",
