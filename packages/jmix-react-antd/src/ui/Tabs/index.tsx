@@ -1,7 +1,7 @@
 import React from 'react';
 import { IMultiTabItem, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
-import { Tabs } from 'antd';
+import { Tabs, Space } from 'antd';
 import {TabContent} from '@haulmont/jmix-react-web';
 
 import { CloseOutlined } from '@ant-design/icons';
@@ -34,10 +34,10 @@ export const MultiTabs = observer(() => {
       {tabs.tabs.map((item) => (
         <TabPane
           tab={
-            <>
+            <Space size={10}>
               <FormattedMessage id={item.title} />
               <CloseOutlined className={styles.icon} onClick={(e) => handleCloseClick(e, item)} />
-            </>
+            </Space>
           }
           key={item.key}
         >

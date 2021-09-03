@@ -11,6 +11,7 @@ export interface SupportClientLocation {
   localeName: string,
   antdLocaleName: string,
   caption: string,
+  isRtlLayout?: boolean;
   strict: boolean,
 }
 

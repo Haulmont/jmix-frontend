@@ -9,7 +9,8 @@ import {
   MainStoreInjected,
   MetaPropertyInfo
 } from "@haulmont/jmix-react-core";
-import {toDisplayValue} from '../util/formatting';
+import {toDisplayValue} from '../../util/formatting';
+import styles from "./EntityPropery.module.less";
 
 export interface EntityPropertyProps extends MainStoreInjected {
   entityName: string;
@@ -69,7 +70,9 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
     : toDisplayValue(toJS(value), propertyInfo);
 
   return label != null
-    ? <div><strong>{label}:</strong> {formatValue(displayValue)}</div>
+    ? <div className={styles.propertyContainer}>
+        <strong>{label}:&nbsp;</strong> {formatValue(displayValue)}
+      </div>
     : <div>{formatValue(displayValue)}</div>
 });
 

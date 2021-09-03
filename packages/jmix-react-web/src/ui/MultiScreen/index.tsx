@@ -86,7 +86,10 @@ const Breadcrumb = observer((props: IBreadcrumbProps) => {
       className={styles.breadcrumb}
       data-active={screens.currentScreen === screen}
     >
-      <FormattedMessage id={screen.title} />
+      <span className={styles.caption}>
+        <FormattedMessage id={screen.title} />
+      </span>
+      <span className={styles.separator}>{">"}</span>
     </span>
   );
 });

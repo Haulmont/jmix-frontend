@@ -1,4 +1,9 @@
-.icon {
-  margin-left: 10px;
-  margin-right: 0 !important;
+@closeIcon: .icon:global(.anticon-close.anticon);
+@rtlCloseIcon: :global(.ant-tabs-rtl .ant-tabs-nav .ant-tabs-tab) @{closeIcon};
+
+@{closeIcon} {
+  margin-right: 0;
+}
+@{rtlCloseIcon} {
+  margin-left: 0;
 }

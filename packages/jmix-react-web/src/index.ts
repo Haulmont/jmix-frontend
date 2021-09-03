@@ -23,7 +23,7 @@ export * from "./ui/MultilineText";
 export * from "./ui/Msg";
 export * from "./ui/Tabs/Content";
 export * from "./ui/paging/pagingConfig";
-export * from "./ui/EntityProperty";
+export * from "./ui/entity-property/EntityProperty";
 
 export * from './screen-registration/screen-registration';
 

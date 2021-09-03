@@ -18,8 +18,8 @@ export const write: WriteStage<Options, TemplateModel> = async (
 
   let clientLocales: Omit<SupportClientLocation, 'strict'>[];
   const modelHasLocalesInfo = (templateModel.project.locales != null);
-  const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(({localeName, antdLocaleName, caption}) => {
-   return {localeName, antdLocaleName, caption}
+  const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(({localeName, antdLocaleName, caption, isRtlLayout}) => {
+   return {localeName, antdLocaleName, caption, isRtlLayout}
   });
 
   if (!modelHasLocalesInfo) {
