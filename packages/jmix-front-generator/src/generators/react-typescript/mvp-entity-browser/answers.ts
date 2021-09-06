@@ -10,9 +10,9 @@ export type MvpEntityBrowserAnswers =
   & MenuItemAnswer
   & {
     query: string;
-    mutation: string;
+    mutation?: string;
+    enableEdit: boolean;
     idField?: string;
-    nameField?: string;
   };
 
 export const mvpEntityBrowserQuestions = [
@@ -30,10 +30,16 @@ export const mvpEntityBrowserQuestions = [
     required: true
   },
   {
+    caption: 'Allow creating and editing items',
+    code: 'enableEdit',
+    propertyType: StudioTemplatePropertyType.BOOLEAN,
+    required: true
+  },
+  {
     caption: 'Mutation to delete an item',
     code: 'mutation',
     propertyType: StudioTemplatePropertyType.GRAPHQL_MUTATION,
-    required: true
+    required: false
   },
   {
     caption: 'Name of the id attribute',

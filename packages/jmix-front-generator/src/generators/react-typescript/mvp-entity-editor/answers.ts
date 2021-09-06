@@ -10,7 +10,7 @@ export type MvpEntityEditorAnswers =
   & MenuItemAnswer
   & {
     query: string;
-    mutation: string;
+    mutation?: string;
     listQueryName: string;
     idField?: string; // TODO https://github.com/Haulmont/jmix-frontend/issues/554
   };
@@ -33,7 +33,7 @@ export const mvpEntityEditorQuestions = [
     caption: 'Mutation to create or update item',
     code: 'mutation',
     propertyType: StudioTemplatePropertyType.GRAPHQL_MUTATION,
-    required: true
+    required: false
   },
   {
     caption: 'Name of the id attribute',

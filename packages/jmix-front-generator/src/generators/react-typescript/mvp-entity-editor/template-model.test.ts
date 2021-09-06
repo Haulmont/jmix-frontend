@@ -21,7 +21,7 @@ describe('deriveEntityModel()', () => {
   });
 
   it('derives entity model', () => {
-    deriveGraphQLEditorModel(gql(QUERY_STRING), gql(MUTATION_STRING), schema);
+    deriveGraphQLEditorModel(gql(QUERY_STRING), schema, gql(MUTATION_STRING));
     fail();
   });
 });

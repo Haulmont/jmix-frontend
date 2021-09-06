@@ -6,5 +6,10 @@ import path from "path";
 export async function writeMvpEditor(
   templateModel: MvpEntityEditorTemplateModel, gen: YeomanGenerator
 ) {
-  await writeMvpComponent(templateModel, gen, path.join(__dirname, 'template', 'Editor.tsx.ejs'));
+  if (templateModel.mutationName != null && templateModel.mutationString != null) {
+    await writeMvpComponent(templateModel, gen, path.join(__dirname, 'template', 'EntityEditor.tsx.ejs'));
+    return;
+  }
+
+  await writeMvpComponent(templateModel, gen, path.join(__dirname, 'template', 'EntityDetails.tsx.ejs'));
 }

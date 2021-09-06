@@ -16,15 +16,18 @@ export type MvpEntityBrowserTemplateModel =
   & GraphQLBrowserModel
   & {
   queryString: string,
-  deleteMutationString: string,
+  deleteMutationString?: string,
   idField: string,
-  nameField?: string
+  enableEdit: boolean;
 };
 
 type GraphQLBrowserModel = {
+  /**
+   * @deprecated
+   */
   entityName: string,
   queryName: string,
-  deleteMutationName: string,
+  deleteMutationName?: string,
 };
 
 export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
@@ -37,27 +40,27 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
   const {
     query: queryString,
     mutation: deleteMutationString,
+    enableEdit,
     idField = 'id',
-    nameField
   } = answers;
 
   const queryNode = gql(queryString);
-  const mutationNode = gql(deleteMutationString);
+  const mutationNode = deleteMutationString != null ? gql(deleteMutationString) : undefined;
 
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    ...deriveGraphQLBrowserModel(queryNode, mutationNode, schema),
+    ...deriveGraphQLBrowserModel(queryNode, schema, mutationNode),
     queryString,
     deleteMutationString,
     idField,
-    nameField
+    enableEdit
   };
 };
 
-export function deriveGraphQLBrowserModel(queryNode: DocumentNode, mutationNode: DocumentNode, schema: GraphQLSchema): GraphQLBrowserModel {
+export function deriveGraphQLBrowserModel(queryNode: DocumentNode, schema: GraphQLSchema, mutationNode?: DocumentNode,): GraphQLBrowserModel {
   const queryName = getOperationName(queryNode);
-  const deleteMutationName = getOperationName(mutationNode);
+  const deleteMutationName = mutationNode != null ? getOperationName(mutationNode) : undefined;
 
   const queryType = schema.getQueryType();
   if (queryType == null) {

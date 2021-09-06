@@ -17,7 +17,7 @@ describe('deriveEntityModel()', () => {
   });
 
   it('derives entity model', () => {
-    deriveGraphQLBrowserModel(gql(QUERY_STRING), gql(MUTATION_STRING), schema);
+    deriveGraphQLBrowserModel(gql(QUERY_STRING), schema, gql(MUTATION_STRING));
     fail();
   });
 });

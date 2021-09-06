@@ -1,12 +1,19 @@
 {
   "common.ok": "OK",
   "common.cancel": "Cancel",
+  "common.close": "Close",
   "common.create": "Create",
   "common.edit": "Edit",
   "common.remove": "Remove",
   "common.submit": "Submit",
   "common.next": "Next",
   "common.previous": "Previous",
-  "editor.doesNotExist": "Editor does not exist",
+  "common.requestFailed": "Request failed",
+
+  "EntityListScreen.deleteConfirmation": "Are you sure you want to delete this record?",
+  "EntityDetailsScreen.savedSuccessfully": "Saved successfully",
+  "EntityDetailsScreen.validationError": "Validation Error. Please check the data you entered.",
+  "EntityLookupField.selectEntityInstance": "Select entity instance",
+
   "screen.home": "Home"
 }

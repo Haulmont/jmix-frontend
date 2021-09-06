@@ -1,4 +1,4 @@
-import React, {useEffect, useCallback, useState} from "react";
+import {useEffect, useCallback, useState} from "react";
 import { gql, useLazyQuery, useMutation, FetchResult, ApolloError, ApolloCache } from "@apollo/client";
 import {
   Form,
@@ -24,11 +24,9 @@ import {
 import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {FormattedMessage, useIntl} from 'react-intl';
-import {useMultiScreen, useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
+import {useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
+import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
 
-
-const ENTITY_NAME = '<%= entityName %>';
-const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= toFatSnakeCase(queryName) %> = gql`
   <%= queryString %>
@@ -38,12 +36,9 @@ const <%= toFatSnakeCase(mutationName) %> = gql`
   <%= mutationString %>
 `;
 
-const <%= className %> = observer(() => {
-  const multiScreen = useMultiScreen();
+const <%= className %> = observer(({id}: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
-
-  const id = multiScreen?.params?.entityId;
 
   // TODO: id variable name
   const [loadItem, {loading: queryLoading, error: queryError, data}] = useLazyQuery(<%= toFatSnakeCase(queryName) %>, {
@@ -58,7 +53,7 @@ const <%= className %> = observer(() => {
     window.scrollTo(0, 0);
   }, [goToParentScreen]);
 
-  const [executeUpsertMutation] = useMutation(<%= toFatSnakeCase(mutationName) %>);
+  const [executeUpsertMutation, {loading: upsertInProcess}] = useMutation(<%= toFatSnakeCase(mutationName) %>);
 
   const [formError, setFormError] = useState<string | undefined>();
 
@@ -72,21 +67,21 @@ const <%= className %> = observer(() => {
       if (errors == null || errors.length === 0) {
         goToParentScreen();
         window.scrollTo(0, 0);
-        message.success('Saved successfully');
+        message.success(<FormattedMessage id='EntityDetailsScreen.savedSuccessfully' />);
         return;
       }
       setFormError(errors.join('\n'));
-      console.log(errors);
-      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+      console.error(errors);
+      message.error(<FormattedMessage id='common.requestFailed'/>);
     }).catch((e: Error | ApolloError) => {
       setFormError(e.message);
-      console.log(e);
-      message.error(intl.formatMessage({ id: "common.requestFailed" }));
+      console.error(e);
+      message.error(<FormattedMessage id='common.requestFailed'/>);
     });
   }, [executeUpsertMutation]);
 
   const handleSubmitFailed = useCallback(() => {
-    message.error('Validation Error. Please check the data you entered.');
+    message.error(<FormattedMessage id='EntityDetailsScreen.validationError'/>);
   }, []);
 
   useEffect(() => {
@@ -109,7 +104,8 @@ const <%= className %> = observer(() => {
 
   if (queryError) {
     return <Result status="error"
-                   title="Query failed" />;
+                   title={<FormattedMessage id='common.requestFailed' />}
+    />;
   }
 
   return (
@@ -140,7 +136,7 @@ const <%= className %> = observer(() => {
             </Button>
             <Button type="primary"
                     htmlType="submit"
-                    loading={false} // TODO
+                    loading={upsertInProcess}
                     style={{marginLeft: '8px'}}
             >
               <FormattedMessage id={'common.submit'}/>
@@ -186,16 +182,4 @@ function getUpdateFn(values: any) {
   }
 }
 
-registerEntityEditor({
-  component: <%= className %>,
-  caption: 'screen.<%= className %>',
-  screenId: '<%= className %>',
-  entityName: ENTITY_NAME,
-  menuOptions: {
-    pathPattern: `${ROUTING_PATH}/:entityId?`,
-    menuLink: ROUTING_PATH
-  }
-});
-
 export default <%= className %>;
-

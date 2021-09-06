@@ -29,15 +29,15 @@ export type MvpEntityEditorTemplateModel =
   & GraphQLEditorModel
   & {
     queryString: string,
-    mutationString: string,
+    mutationString?: string,
     idField: string,
     listQueryName: string,
   };
 
 type GraphQLEditorModel = {
   queryName: string,
-  mutationName: string,
-  entityName: string,
+  mutationName?: string,
+  entityName?: string,
   attributes: AttributeModel[],
   inputVariableName: string;
 
@@ -66,12 +66,14 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
   } = answers;
 
   const queryNode = gql(queryString);
-  const mutationNode = gql(mutationString);
+  const mutationNode = mutationString != null
+    ? gql(mutationString)
+    : undefined;
 
   return {
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
-    ...deriveGraphQLEditorModel(queryNode, mutationNode, schema),
+    ...deriveGraphQLEditorModel(queryNode, schema, mutationNode),
     // TODO problem with $id: String = "", quotation marks get messed up
     queryString,
     mutationString,
@@ -82,14 +84,20 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
 
 export function deriveGraphQLEditorModel(
   queryNode: DocumentNode,
-  mutationNode: DocumentNode,
-  schema?: GraphQLSchema
+  schema?: GraphQLSchema,
+  mutationNode?: DocumentNode,
 ): GraphQLEditorModel {
   if (schema == null) {
     throw new Error('Schema is required for this generator');
   }
 
-  const operationDefinition = mutationNode.definitions[0];
+  const queryName = getOperationName(queryNode);
+
+  if (mutationNode == null) {
+    throw new Error('Not implemented yet');
+  }
+
+  const operationDefinition =  mutationNode.definitions[0];
   if (!('variableDefinitions' in operationDefinition) || operationDefinition.variableDefinitions == null) {
     throw new Error('Variable definitions not found in mutation');
   }
@@ -110,7 +118,6 @@ export function deriveGraphQLEditorModel(
     throw new Error('Input type name not found');
   }
 
-  const queryName = getOperationName(queryNode);
   const mutationName = getOperationName(mutationNode);
 
   const queryType = schema.getQueryType();
