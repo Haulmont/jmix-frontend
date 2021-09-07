@@ -33,7 +33,7 @@ export const useMenuItem = <T extends (info: any) => void>({ screenId, caption, 
 
   const menuItemDefaultHandler = useCallback(() => {
     if (currentMenuItem != null && screenId != null) {
-      const { menuLink } = { ...currentMenuItem };
+      const { menuLink } = { ...currentMenuItem } as any;
       if (menuLink != null) {
         openScreen(screenId, menuLink);
       }

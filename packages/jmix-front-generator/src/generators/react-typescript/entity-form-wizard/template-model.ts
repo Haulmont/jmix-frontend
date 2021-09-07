@@ -61,7 +61,6 @@ export const deriveTemplateModel = async (
     readOnlyFields,
     relationImports,
     nestedEntityInfo,
-    menuItem: null,
     ...deriveEntity(answers, projectModel),
     ...deriveEntityCommon(options, answers),
     ...templateUtilities
