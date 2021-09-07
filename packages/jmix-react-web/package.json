@@ -56,7 +56,7 @@
     "typescript": "^4.4.2"
   },
   "scripts": {
-    "compile": "npm run clean && npm run lint && rollup -c",
+    "compile": "npm run clean && rollup -c",
     "clean": "rimraf dist",
     "test": "jest",
     "coverage": "npm test -- --coverage",
