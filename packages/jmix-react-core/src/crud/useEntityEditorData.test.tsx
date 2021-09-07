@@ -93,7 +93,7 @@ const APOLLO_MOCKS = [
 
 const wrapper = ({children}: {children: ReactNode}) => <MockedProvider mocks={APOLLO_MOCKS} addTypename={false}>{children}</MockedProvider>;
 
-describe('useEntityEditorData()', async () => {
+describe('useEntityEditorData()', () => {
   it('loads entity', async () => {
     const {result, waitForValueToChange} = renderHook(() => useEntityEditorData({
       loadQuery: LOAD_SCR_CAR,

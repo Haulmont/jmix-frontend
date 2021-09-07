@@ -39,7 +39,8 @@ describe('extractBeanValidationErrors()', () => {
             ]
           }
         }
-      ]
+      ],
+      clientErrors: []
     };
     const errors = extractBeanValidationErrors(apolloError);
     expect(errors?.fieldErrors?.size).toEqual(2);
@@ -62,7 +63,8 @@ describe('extractBeanValidationErrors()', () => {
             ]
           }
         }
-      ]
+      ],
+      clientErrors: []
     };
 
     const errors = extractBeanValidationErrors(apolloError);
@@ -92,7 +94,8 @@ describe('extractBeanValidationErrors()', () => {
             ]
           }
         }
-      ]
+      ],
+      clientErrors: []
     };
 
     const errors = extractBeanValidationErrors(apolloError);
@@ -125,7 +128,8 @@ describe('extractBeanValidationErrors()', () => {
             ]
           }
         }
-      ]
+      ],
+      clientErrors: []
     };
 
     const errors = extractBeanValidationErrors(apolloError);
@@ -141,7 +145,8 @@ describe('extractBeanValidationErrors()', () => {
           ...graphQLErrorPartial,
           extensions: {}
         }
-      ]
+      ],
+      clientErrors: []
     };
 
     expect(extractBeanValidationErrors(apolloError)).toBeUndefined();

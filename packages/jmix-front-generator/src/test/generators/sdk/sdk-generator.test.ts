@@ -74,7 +74,7 @@ describe('sdk generator test', () => {
       async testing() {
         try {
           await this.generate();
-        } catch (e) {
+        } catch (e: any) {
           expect(e.message).eq('Specified model file does not exist ' + absoluteModelPath);
           done();
         }
