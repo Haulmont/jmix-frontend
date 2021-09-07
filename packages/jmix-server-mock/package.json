@@ -15,7 +15,7 @@
   },
   "scripts": {
     "clean": "rimraf dist",
-    "compile": "npm run clean && npm run lint && tsc",
+    "compile": "npm run clean && tsc",
     "start": "npm run compile && node bin/index.js -s ../../scripts/model/scr-jmix-schema.graphql",
     "dev": "nodemon --watch src -e ts --exec npm start",
     "prepublishOnly": "npm run compile",

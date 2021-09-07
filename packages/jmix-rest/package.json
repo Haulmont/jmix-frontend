@@ -12,7 +12,7 @@
     "test": "jest --runInBand",
     "coverage": "tsc && npm run test -- --coverage",
     "prepare-browser-test": "browserify test/jmix.test.js > test/jmix-browser.test.js",
-    "compile": "npm run lint && tsc",
+    "compile": "tsc",
     "types:browser": "tsc --declarationDir dist-browser --emitDeclarationOnly true",
     "dist": "npm run compile && mkdirp dist-browser && browserify --standalone jmix dist-node/jmix.js > dist-browser/jmix.js",
     "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-rest src",
