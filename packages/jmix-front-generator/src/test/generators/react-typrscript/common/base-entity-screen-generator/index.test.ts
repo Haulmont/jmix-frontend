@@ -188,7 +188,6 @@ describe('BaseEntityScreenGenerator', () => {
     const entity = projectModel.entities.find((e: any) => e.name === 'scr_StringIdTestEntity');
     sinon.stub(gen, 'prompt').callsFake(createPromptFake());
     const answers = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion);
-    // tslint:disable-next-line:no-unused-expression
     expect(answers.idAttrName).to.be.undefined;
   });
 
@@ -198,7 +197,6 @@ describe('BaseEntityScreenGenerator', () => {
     const answers = await stringIdPrompts(gen, entity, projectModel, listShowIdQuestions, listIdPositionQuestion);
     expect(answers.listShowIdAttr).to.equal(true);
     expect(answers.listIdAttrPos).to.equal(42);
-    // tslint:disable-next-line:no-unused-expression
     expect(answers.editIdAttrPos).to.be.undefined;
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -210,7 +208,6 @@ describe('BaseEntityScreenGenerator', () => {
     const answers2 = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion);
     expect(answers2.listShowIdAttr).to.equal(false);
     expect(answers2.listIdAttrPos).to.equal(undefined);
-    // tslint:disable-next-line:no-unused-expression
     expect(answers.editIdAttrPos).to.be.undefined;
   });
 
@@ -269,7 +266,6 @@ describe('stringIdAnswersToModel()', () => {
       editAttrsIntId
     );
 
-    // tslint:disable-next-line:no-unused-expression
     expect(stringIdName).to.be.undefined;
     expect(listAttributes.length).to.equal(1);
     expect(listAttributes[0].name).to.equal('description');

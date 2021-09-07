@@ -50,7 +50,6 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
     }
 
     if (typeof valA !== typeof valB) {
-      // tslint:disable-next-line:no-console
       console.warn('Unexpected value encountered when performing client-side sorting of entity instances.' +
         ' The types of the values being compared differ and neither value is null or undefined.' +
         ' This might indicate a bug in the application. Sort order is not guaranteed to be correct.');
@@ -60,7 +59,6 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
     switch (typeof valA) {
       case 'number':
         if (!isFinite(valA) || !isFinite(valB)) {
-          // tslint:disable-next-line:no-console
           console.warn('Unexpected value encountered when performing client-side sorting of entity instances.' +
             ' A numeric field contains a value that is NaN, positive or negative Infinity.' +
             ' This might indicate a bug in the application.');
@@ -109,7 +107,6 @@ export function sortEntityInstances<T>(items: Array<SerializedEntity<T>>, sort: 
         return defaultCompare(valA, valB, sortOrderModifier);
     }
 
-    // tslint:disable-next-line:no-console
     console.warn('Unexpected value encountered when performing client-side sorting of entity instances.' +
       ` Value ${valA} of type ${typeof valA} is being compared to value ${valB} of type ${typeof valB}.` +
       ' Sort order is not guaranteed to be correct.');
