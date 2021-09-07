@@ -1,5 +1,4 @@
 export function base64encode(str: string): string {
-  /* tslint:disable:no-string-literal */
   /* istanbul ignore else */
   if (typeof btoa === 'function') {
     return btoa(str);
@@ -8,5 +7,4 @@ export function base64encode(str: string): string {
   } else {
     throw new Error('Unable to encode to base64');
   }
-  /* tslint:enable:no-string-literal */
 }
