@@ -17,8 +17,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import { FormItemProps } from 'antd/es/form';
 import {observer} from 'mobx-react';
-import {Msg, uuidPattern} from "@haulmont/jmix-react-web";
-import {FieldPermissionContainer} from './FieldPermssionContainer';
+import {Msg, uuidPattern, FieldPermissionContainer} from "@haulmont/jmix-react-web";
 import {
   Checkbox,
   Input,

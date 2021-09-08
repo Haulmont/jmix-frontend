@@ -34,7 +34,6 @@ export * from './ui/content-area/ContentArea';
 export * from './ui/form/Form';
 export * from './ui/form/validation/GlobalErrorsAlert';
 export * from './ui/form/validation/passthroughRule';
-export * from './ui/form/FieldPermssionContainer';
 export * from './ui/table/DataTable';
 export * from './ui/table/DataTableHelpers';
 export * from './ui/table/DataTableCustomFilter';

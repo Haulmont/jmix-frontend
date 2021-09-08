@@ -25,7 +25,7 @@ import {
 import {IntlShape, useIntl} from "react-intl";
 import {useState} from "react";
 import {useLocalObservable} from "mobx-react";
-import {defaultPaginationConfig} from "../../ui/paging/pagingConfig";
+import {defaultPaginationConfig} from "../../ui/paging/config";
 import {useParentScreen} from "../../util/screen";
 import {useDeleteBtnCallback} from "./ui-callbacks/useDeleteBtnCallback";
 import {useCreateBtnCallback} from "./ui-callbacks/useCreateBtnCallback";
