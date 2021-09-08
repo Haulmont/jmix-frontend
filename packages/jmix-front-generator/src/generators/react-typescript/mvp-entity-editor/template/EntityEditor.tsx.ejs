@@ -8,16 +8,16 @@ import {
   Alert,
   Spin,
   Result,
-  <% if (hasStringScalars || hasCustomScalars) { -%>
+  <% if (locals.hasStringScalars || locals.hasCustomScalars) { -%>
     Input,
   <% } -%>
-  <% if (hasIntScalars || hasFloatScalars) { -%>
+  <% if (locals.hasIntScalars || locals.hasFloatScalars) { -%>
     InputNumber,
   <% } -%>
-  <% if (hasBooleanScalars) { -%>
+  <% if (locals.hasBooleanScalars) { -%>
     Checkbox,
   <% } -%>
-  <% if (hasEnumScalars) { -%>
+  <% if (locals.hasEnumScalars) { -%>
     Select,
   <% } -%>
 } from "antd";
@@ -26,7 +26,7 @@ import {observer} from "mobx-react";
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
-<% if (hasRelationFields) { -%>
+<% if (locals.hasRelationFields) { -%>
   import {EntityLookupField} from '<%= relDirShift %>framework/components/entity-lookup-field/EntityLookupField';
   import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
 <% } -%>
@@ -45,7 +45,6 @@ const <%= className %> = observer(({id}: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
 
-  // TODO: id variable name
   const [loadItem, {loading: queryLoading, error: queryError, data}] = useLazyQuery(<%= toFatSnakeCase(queryName) %>, {
     variables: {
       id
@@ -65,7 +64,7 @@ const <%= className %> = observer(({id}: EntityDetailsScreenProps) => {
   const handleSubmit = useCallback((values) => {
     executeUpsertMutation({
       variables: {
-        <%= inputVariableName %>: formValuesToData(values, id)
+        <%= locals.inputVariableName %>: formValuesToData(values, id)
       },
       update: getUpdateFn(values)
     }).then(({errors}: FetchResult) => {

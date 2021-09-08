@@ -6,7 +6,12 @@ import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
-  EditOutlined,
+  <% if (mode === 'viewWithDetails') { -%>
+    EnterOutlined,
+  <% } -%>
+  <% if (mode === 'edit') { -%>
+    EditOutlined,
+  <% } -%>
   PlusOutlined,
 } from '@ant-design/icons';
 import {
@@ -23,6 +28,7 @@ import {FetchResult} from "@apollo/client/link/core";
 import {EntityListScreenProps} from "<%= relDirShift %>framework/components/entity-list-screen/EntityListScreenProps";
 import {openBreadcrumb} from "<%= relDirShift %>framework/screen-api/openBreadcrumb";
 import {guessDisplayName} from "<%= relDirShift %>framework/util/guessDisplayName";
+import {guessLabel} from "<%= relDirShift %>framework/util/guessLabel";
 
 const ENTITY_NAME = '<%= entityName %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
@@ -137,7 +143,7 @@ const Fields = ({entity}: {entity: any}) => (
   <>
     {Object.keys(entity)
       .filter(p => p !== '<%= idField %>' && entity[p] != null)
-      .map(p => <div><strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
+      .map(p => <div><strong>{guessLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
     }
   </>
 );
@@ -145,12 +151,7 @@ const Fields = ({entity}: {entity: any}) => (
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === 'object'
     ? guessDisplayName(entity[property])
-    : entity[property].toString();
-}
-
-function renderLabel(property: string): string {
-  const split = property.replace(/([^A-Z])([A-Z])/g, '$1 $2');
-  return split[0].toUpperCase() + split.slice(1);
+    : String(entity[property]);
 }
 
 interface CardActionsInput {
@@ -180,7 +181,7 @@ function getCardActions(input: CardActionsInput) {
     goToParentScreen,
   } = input;
 
-  <% if ((locals.deleteMutationString != null && locals.deleteMutationName != null) || mode === 'edit') { %>
+  <% if ((locals.deleteMutationString != null && locals.deleteMutationName != null) || mode === 'edit' || mode === 'viewWithDetails') { %>
     if (onSelect == null) {
       return [
         <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
@@ -220,6 +221,24 @@ function getCardActions(input: CardActionsInput) {
                   //   screens,
                   // });
                 }}
+          />
+        <% } -%>
+        <% if (mode === 'viewWithDetails') { -%>
+          <EnterOutlined
+                  key="details"
+                  title={intl.formatMessage({id: "common.viewDetails"})}
+                  onClick={() => {
+                    // TODO Uncomment the code, specify the entity details component and remove the alert
+                    alert('Please specify the entity details component');
+                    // openBreadcrumb({
+                    //   component: YourEntityDetailsComponentName,
+                    //   props: {
+                    //     id: entityInstance.id
+                    //   },
+                    //   title: 'Entity Details Component Title',
+                    //   screens,
+                    // });
+                  }}
           />
         <% } -%>
       ];

@@ -39,17 +39,17 @@ type GraphQLEditorModel = {
   mutationName?: string,
   entityName?: string,
   attributes: AttributeModel[],
-  inputVariableName: string;
+  inputVariableName?: string;
 
   // We need these in order to have correct imports in the templates
-  hasStringScalars: boolean;
-  hasIntScalars: boolean;
-  hasFloatScalars: boolean;
-  hasIDScalars: boolean;
-  hasBooleanScalars: boolean;
-  hasEnumScalars: boolean;
-  hasCustomScalars: boolean;
-  hasRelationFields: boolean;
+  hasStringScalars?: boolean;
+  hasIntScalars?: boolean;
+  hasFloatScalars?: boolean;
+  hasIDScalars?: boolean;
+  hasBooleanScalars?: boolean;
+  hasEnumScalars?: boolean;
+  hasCustomScalars?: boolean;
+  hasRelationFields?: boolean;
 };
 
 export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
@@ -93,6 +93,13 @@ export function deriveGraphQLEditorModel(
   }
 
   const queryName = getOperationName(queryNode);
+
+  if (mutationNode == null) {
+    return {
+      queryName,
+      attributes: []
+    }
+  }
 
   if (mutationNode == null) {
     throw new Error('Not implemented yet');

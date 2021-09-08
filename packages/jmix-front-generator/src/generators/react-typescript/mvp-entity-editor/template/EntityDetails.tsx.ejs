@@ -1,3 +1,71 @@
-export const <%= className %> = () => {
-  return <div>TODO</div>;
+import {useCallback} from 'react';
+import {Card, Spin, Result, Empty, Descriptions, Button} from 'antd';
+import {useQuery, gql} from '@apollo/client';
+import {useParentScreen} from '@haulmont/jmix-react-ui';
+import {FormattedMessage} from 'react-intl';
+import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
+import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
+import {guessLabel} from "<%= relDirShift %>framework/util/guessLabel";
+
+const ROUTING_PATH = '/<%= nameLiteral %>';
+
+const <%= toFatSnakeCase(queryName) %> = gql`
+<%= queryString %>
+`;
+
+export const <%= className %> = ({id}: EntityDetailsScreenProps) => {
+  const {loading: queryLoading, error: queryError, data} = useQuery(<%= toFatSnakeCase(queryName) %>, {
+    variables: {
+      id
+    }
+  });
+
+  const goToParentScreen = useParentScreen(ROUTING_PATH);
+  const handleClose = useCallback(() => {
+    goToParentScreen();
+    window.scrollTo(0, 0);
+  }, [goToParentScreen]);
+
+  const item = data?.['<%= queryName %>'];
+
+  if (queryLoading) {
+    return <Spin/>;
+  }
+
+  if (queryError) {
+    return <Result status="error"
+                   title={<FormattedMessage id='common.requestFailed' />}
+    />;
+  }
+
+  if (item == null) {
+    return <Empty/>;
+  }
+
+  return (
+    <Card className="narrow-layout">
+      <Descriptions layout="horizontal"
+                    title={guessDisplayName(item)}
+                    column={1}
+      >
+        {Object.keys(item)
+               .filter(p => p != <%= idField %>)
+               .map((propertyName: string) => (
+          <Descriptions.Item label={<strong>{guessLabel(propertyName)}</strong>}>
+            {typeof item[propertyName] === 'object'
+              ? guessDisplayName(item[propertyName])
+              : String(item[propertyName])
+            }
+          </Descriptions.Item>
+        ))}
+      </Descriptions>
+      <Button htmlType="button"
+              onClick={handleClose}
+      >
+        <FormattedMessage id="common.close" />
+      </Button>
+    </Card>
+  );
 };
+
+export default <%= className %>;

@@ -126,8 +126,13 @@ function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens,
   screens.push({
     title: screen.caption,
     content: createScreenElement<TProps>(screen, props),
-    params: screenParams
+    params: screenParams,
+    key: generateKey()
   });
+}
+
+function generateKey(): string {
+  return String(window.crypto.getRandomValues(new Uint32Array(1))[0]);
 }
 
 function createScreenElement<TProps = any>(screen: RegisteredScreen, props?: TProps) {
