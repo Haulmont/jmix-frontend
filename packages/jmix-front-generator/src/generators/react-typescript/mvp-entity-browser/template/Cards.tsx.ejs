@@ -10,12 +10,19 @@ import {
   PlusOutlined,
   SelectOutlined
 } from '@ant-design/icons';
-import {Button, Card, Tooltip, List, Modal, Spin, Empty, Result} from "antd";
+import {
+  Button,
+  Card,
+  Tooltip,
+  List,
+  Modal,
+  Spin,
+  Empty,
+  Result,
+} from "antd";
 import {FormattedMessage, IntlShape, useIntl} from "react-intl";
-import {FetchResult} from "@apollo/client/link/core";
 import {MutationFunctionOptions} from "@apollo/client/react/types/types";
 import {FetchResult} from "@apollo/client/link/core";
-import {MutationFunctionOptions} from "@apollo/client/react/types/types";
 import {EntityListScreenProps} from "<%= relDirShift %>framework/components/entity-list-screen/EntityListScreenProps";
 import {openBreadcrumb} from "<%= relDirShift %>framework/screen-api/openBreadcrumb";
 import {guessDisplayName} from "<%= relDirShift %>framework/util/guessDisplayName";
@@ -27,7 +34,7 @@ const <%= toFatSnakeCase(queryName) %> = gql`
   <%= queryString %>
 `;
 
-<% if (deleteMutationName != null) { -%>
+<% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
 const <%= toFatSnakeCase(deleteMutationName) %> = gql`
   <%= deleteMutationString %>
 `;
@@ -41,7 +48,7 @@ const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
 
   const {loading, error, data} = useQuery(<%= toFatSnakeCase(queryName) %>);
 
-  <% if (deleteMutationName != null) { -%>
+  <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
     const [executeDeleteMutation] = useMutation(<%= toFatSnakeCase(deleteMutationName) %>);
   <% } -%>
 
@@ -67,26 +74,31 @@ const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
 
   return (
     <div className="narrow-layout">
-      <div style={{marginBottom: '12px'}}>
+      <% if (mode === 'edit') { -%>
         {!isSelectMode && (
-          <Button htmlType='button'
-                  key='create'
-                  title='intl.formatMessage({id: "common.create"})'
-                  type='primary'
-                  icon={<PlusOutlined />}
-                  onClick={() => {
-                    openEntityEditorScreen({
-                      screens,
-                      entityName: ENTITY_NAME,
-                      intl,
-                    });
-                    window.scrollTo(0, 0);
-                  }}
-          >
-            <span><FormattedMessage id='common.create'/></span>
-          </Button>
+          <div style={{marginBottom: '12px'}}>
+            <Button htmlType='button'
+                    key='create'
+                    title='intl.formatMessage({id: "common.create"})'
+                    type='primary'
+                    icon={<PlusOutlined />}
+                    onClick={() => {
+                      // TODO Uncomment the code, specify the editor component and remove the alert
+                      alert('Please specify the editor component');
+                      // openBreadcrumb({
+                      //   component: EntityEditorComponent,
+                      //   title: 'Entity Editor Component Title',
+                      //   screens,
+                      // });
+                    }}
+            >
+              <span><FormattedMessage id='common.create'/></span>
+            </Button>
+          </div>
         )}
-        {isSelectMode && (
+      <% } -%>
+      {isSelectMode && (
+        <div style={{marginBottom: '12px'}}>
           <Button
                   htmlType="button"
                   key='close'
@@ -97,25 +109,25 @@ const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
           >
             <span><FormattedMessage id='common.close' /></span>
           </Button>
-        )}
-      </div>
+        </div>
+      )}
 
-      <%# TODO: entity instance typing %>
       {items.map((e: any) =>
         <Card key={e['<%= idField %>']}
               title={guessDisplayName(e)}
               style={{marginBottom: '12px'}}
               actions={getCardActions({
-                isSelectMode,
-                <% if (executeDeleteMutation != null) { -%>
-                  executeDeleteMutation,
-                <% } -%>
-                intl,
-                entityInstance: e,
-                screens,
-                onSelect,
-                goToParentScreen
-              })}
+                        entityInstance: e,
+                        onSelect,
+                        <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
+                          executeDeleteMutation,
+                        <% } -%>
+                        <% if (mode === 'edit' || mode === 'viewWithDetails') { -%>
+                          screens,
+                        <% } -%>
+                        intl,
+                        goToParentScreen,
+                       })}
         >
           <Fields entity={e} />
         </Card>
@@ -124,21 +136,14 @@ const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
   );
 });
 
-interface FieldsProps {
-  entity: any;
-};
-
-const Fields = (props: FieldsProps) => {
-  const {entity} = props;
-  return (
-    <>
-      {Object.keys(entity)
-        .filter(p => p !== '<%= idField %>' && entity[p] != null)
-        .map(p => <div><strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
-      }
-    </>
-  );
-};
+const Fields = ({entity}: {entity: any}) => (
+  <>
+    {Object.keys(entity)
+      .filter(p => p !== '<%= idField %>' && entity[p] != null)
+      .map(p => <div><strong>{renderLabel(p)}:</strong> {renderFieldValue(entity, p)}</div>)
+    }
+  </>
+);
 
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === 'object'
@@ -152,71 +157,83 @@ function renderLabel(property: string): string {
 }
 
 interface CardActionsInput {
-  isSelectMode: boolean,
-  <% if (executeDeleteMutation != null) { -%>
-    executeDeleteMutation: ((options?: MutationFunctionOptions) => Promise<FetchResult>),
+  entityInstance: any;
+  onSelect?: (entityInstance: this['entityInstance']) => void;
+  <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
+    executeDeleteMutation: ((options?: MutationFunctionOptions) => Promise<FetchResult>);
   <% } -%>
-  intl: IntlShape,
-  entityInstance: any,
-  screens: Screens,
-  onSelect?: (entityInstance: this['entityInstance']) => void,
-  goToParentScreen?: () => void;
+  <% if (mode === 'edit' || mode === 'viewWithDetails') { -%>
+    screens: Screens;
+  <% } -%>
+  intl: IntlShape;
+  goToParentScreen: () => void;
 }
+  
+function getCardActions(input: CardActionsInput) {
+  const {
+    entityInstance,
+    onSelect,
+    <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
+      executeDeleteMutation,
+    <% } -%>,
+    <% if (mode === 'edit' || mode === 'viewWithDetails') { -%>
+      screens,
+    <% } -%>
+    intl,
+    goToParentScreen,
+  } = input;
 
-function getCardActions({
-  isSelectMode,
-  <% if (executeDeleteMutation != null) { -%>
-    executeDeleteMutation,
+  <% if ((locals.deleteMutationString != null && locals.deleteMutationName != null) || mode === 'edit') { %>
+    if (onSelect == null) {
+      return [
+        <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
+          <DeleteOutlined
+                key="delete"
+                title={intl.formatMessage({id: "common.remove"})}
+                onClick={() => {
+                  Modal.confirm({
+                    content: intl.formatMessage({id: "EntityListScreen.deleteConfirmation"}),
+                    okText: intl.formatMessage({id: "common.ok"}),
+                    cancelText: intl.formatMessage({ id: "common.cancel" }),
+                    onOk: () => {
+                      executeDeleteMutation({
+                        variables: {
+                          id: entityInstance.id
+                        },
+                        update: getUpdateFn(entityInstance)
+                      });
+                    }
+                  });
+                }}
+          />,
+        <% } -%>
+        <% if (mode === 'edit') { -%>
+          <EditOutlined
+                key="edit"
+                title={intl.formatMessage({id: "common.edit"})}
+                onClick={() => {
+                  // TODO Uncomment the code, specify the editor component and remove the alert
+                  alert('Please specify the editor component');
+                  // openBreadcrumb({
+                  //   component: EntityEditorComponent,
+                  //   props: {
+                  //     id: entityInstance.id
+                  //   },
+                  //   title: 'Entity Editor Component Title',
+                  //   screens,
+                  // });
+                }}
+          />
+        <% } -%>
+      ];
+    }
+  <% } else { -%>
+    if (onSelect == null) {
+      return [];
+    }
   <% } -%>
-  intl,
-  entityInstance,
-  screens,
-  onSelect,
-  goToParentScreen
-}: CardActionsInput) {
-  if (!isSelectMode) {
-    return [
-      <% if (executeDeleteMutation != null) { -%>
-        <DeleteOutlined
-              key="delete"
-              title={intl.formatMessage({id: "common.remove"})}
-              onClick={() => {
-                Modal.confirm({
-                  content: intl.formatMessage({id: "EntityListScreen.deleteConfirmation"}),
-                  okText: intl.formatMessage({id: "common.ok"}),
-                  cancelText: intl.formatMessage({ id: "common.cancel" }),
-                  onOk: () => {
-                    executeDeleteMutation({
-                      variables: {
-                        id: entityInstance.id
-                      },
-                      update: getUpdateFn(entityInstance)
-                    });
-                  }
-                });
-              }}
-        />,
-      <% } -%>
-      <EditOutlined
-            key="edit"
-            title={intl.formatMessage({id: "common.edit"})}
-            onClick={() => {
-              // TODO Uncomment the code, specify the editor component and remove the alert
-              notifications.warning('Please specify the editor component');
-              // openBreadcrumb({
-              //   component: EntityDetailsComponent,
-              //   props: {
-              //     id: entityInstance.id
-              //   },
-              //   title: 'Entity Details Component Title',
-              //   screens,
-              // });
-            }}
-      />
-    ];
-  }
 
-  if (isSelectMode) {
+  if (onSelect != null) {
     return [
       <CheckOutlined
           key='select'

@@ -5,13 +5,15 @@ import {
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
+export type EntityListMode = 'edit' | 'view' | 'viewWithDetails';
+
 export type MvpEntityBrowserAnswers =
   ComponentNameAnswer
   & MenuItemAnswer
   & {
     query: string;
     mutation?: string;
-    enableEdit: boolean;
+    mode?: EntityListMode;
     idField?: string;
   };
 
@@ -30,10 +32,15 @@ export const mvpEntityBrowserQuestions = [
     required: true
   },
   {
-    caption: 'Allow creating and editing items',
-    code: 'enableEdit',
-    propertyType: StudioTemplatePropertyType.BOOLEAN,
-    required: true
+    caption: 'Entity list mode: ' +
+      '"edit" (there will be buttons to create and edit entity), ' +
+      '"view" (read-only, there will be no action buttons), ' +
+      '"viewWithDetails" (read-only, there will be a button to view entity details). ' +
+      'Presence of delete button depends on whether delete mutation has been provided.',
+    code: 'mode',
+    propertyType: StudioTemplatePropertyType.OPTION,
+    defaultValue: 'edit',
+    options: ['readOnly', 'edit', 'details'],
   },
   {
     caption: 'Mutation to delete an item',
@@ -44,12 +51,6 @@ export const mvpEntityBrowserQuestions = [
   {
     caption: 'Name of the id attribute',
     code: 'idField',
-    propertyType: StudioTemplatePropertyType.STRING,
-    required: false
-  },
-  {
-    caption: 'Name of the name attribute',
-    code: 'nameField',
     propertyType: StudioTemplatePropertyType.STRING,
     required: false
   }

@@ -2,7 +2,7 @@ import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
 import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
-import {MvpEntityBrowserAnswers} from "./answers";
+import {EntityListMode, MvpEntityBrowserAnswers} from "./answers";
 import {DocumentNode, GraphQLSchema} from "graphql";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
@@ -18,7 +18,7 @@ export type MvpEntityBrowserTemplateModel =
   queryString: string,
   deleteMutationString?: string,
   idField: string,
-  enableEdit: boolean;
+  mode: EntityListMode;
 };
 
 type GraphQLBrowserModel = {
@@ -40,7 +40,7 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
   const {
     query: queryString,
     mutation: deleteMutationString,
-    enableEdit,
+    mode = 'edit',
     idField = 'id',
   } = answers;
 
@@ -54,7 +54,7 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
     queryString,
     deleteMutationString,
     idField,
-    enableEdit
+    mode
   };
 };
 

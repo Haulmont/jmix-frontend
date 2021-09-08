@@ -27,6 +27,7 @@ import {FormattedMessage, useIntl} from 'react-intl';
 import {useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
 
+const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= toFatSnakeCase(queryName) %> = gql`
   <%= queryString %>
