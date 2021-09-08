@@ -20,6 +20,12 @@
         <Select.Option value="<%= opt.value %>"><%= opt.name %></Select.Option>
       <% }) -%>
     </Select>
+  <% } else if (attr.isRelationField) { %>
+    <EntityLookupField getDisplayName={(value: Record<string, unknown>) => guessDisplayName(value)}
+                       label="<%= attr.displayName %>"
+                       // TODO Uncomment the code, specify the list component and remove the alert
+                       // listComponent={YourEntityListComponentName}
+    />
   <% } else { -%>
     <Input />
   <% } -%>

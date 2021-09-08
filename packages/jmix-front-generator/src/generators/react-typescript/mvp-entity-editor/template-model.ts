@@ -49,6 +49,7 @@ type GraphQLEditorModel = {
   hasBooleanScalars: boolean;
   hasEnumScalars: boolean;
   hasCustomScalars: boolean;
+  hasRelationFields: boolean;
 };
 
 export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
@@ -152,6 +153,7 @@ export function deriveGraphQLEditorModel(
   let hasBooleanScalars: boolean = false;
   let hasEnumScalars: boolean = false;
   let hasCustomScalars: boolean = false;
+  let hasRelationFields: boolean = false;
 
   const attributes = Object.values(namedType.getFields()).map((field: any) => {
     const attr: AttributeModel = {
@@ -183,6 +185,7 @@ export function deriveGraphQLEditorModel(
           hasEnumScalars = true;
         } else if (field.type instanceof GraphQLInputObjectType) {
           attr.isRelationField = true;
+          hasRelationFields = true;
         } else if (field.type instanceof GraphQLScalarType) {
           hasCustomScalars = true;
         }
@@ -203,6 +206,7 @@ export function deriveGraphQLEditorModel(
     hasBooleanScalars,
     hasEnumScalars,
     hasCustomScalars,
+    hasRelationFields,
     inputVariableName
   };
 }

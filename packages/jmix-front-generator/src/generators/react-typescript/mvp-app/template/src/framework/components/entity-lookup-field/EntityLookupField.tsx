@@ -1,7 +1,6 @@
 import {Input, notification} from "antd";
 import {LinkOutlined} from "@ant-design/icons";
 import {useCallback} from "react";
-import { openEntityListScreen } from "@haulmont/jmix-react-ui";
 import {useScreens} from "@haulmont/jmix-react-core";
 import {useIntl} from "react-intl";
 import {ReactComponent} from "../../screen-api/ReactComponent";

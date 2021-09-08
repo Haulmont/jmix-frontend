@@ -83,7 +83,7 @@ const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
                       // TODO Uncomment the code, specify the editor component and remove the alert
                       alert('Please specify the editor component');
                       // openBreadcrumb({
-                      //   component: EntityEditorComponent,
+                      //   component: YourEntityEditorComponentName,
                       //   title: 'Entity Editor Component Title',
                       //   screens,
                       // });
@@ -144,7 +144,7 @@ const Fields = ({entity}: {entity: any}) => (
 
 function renderFieldValue(entity: any, property: string): string {
   return typeof entity[property] === 'object'
-    ? JSON.stringify(entity[property])
+    ? guessDisplayName(entity[property])
     : entity[property].toString();
 }
 
@@ -212,7 +212,7 @@ function getCardActions(input: CardActionsInput) {
                   // TODO Uncomment the code, specify the editor component and remove the alert
                   alert('Please specify the editor component');
                   // openBreadcrumb({
-                  //   component: EntityEditorComponent,
+                  //   component: YourEntityEditorComponentName,
                   //   props: {
                   //     id: entityInstance.id
                   //   },

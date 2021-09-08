@@ -8,24 +8,28 @@ import {
   Alert,
   Spin,
   Result,
-  <% if (hasStringScalars || hasCustomScalars) { %>
+  <% if (hasStringScalars || hasCustomScalars) { -%>
     Input,
-  <% } %>
-  <% if (hasIntScalars || hasFloatScalars) { %>
+  <% } -%>
+  <% if (hasIntScalars || hasFloatScalars) { -%>
     InputNumber,
-  <% } %>
-  <% if (hasBooleanScalars) { %>
+  <% } -%>
+  <% if (hasBooleanScalars) { -%>
     Checkbox,
-  <% } %>
-  <% if (hasEnumScalars) { %>
+  <% } -%>
+  <% if (hasEnumScalars) { -%>
     Select,
-  <% } %>
+  <% } -%>
 } from "antd";
 import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useParentScreen, registerEntityEditor} from '@haulmont/jmix-react-ui';
 import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
+<% if (hasRelationFields) { -%>
+  import {EntityLookupField} from '<%= relDirShift %>framework/components/entity-lookup-field/EntityLookupField';
+  import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
+<% } -%>
 
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
