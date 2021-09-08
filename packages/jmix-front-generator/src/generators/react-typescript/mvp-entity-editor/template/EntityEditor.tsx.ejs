@@ -68,21 +68,21 @@ const <%= className %> = observer(({id}: EntityDetailsScreenProps) => {
       if (errors == null || errors.length === 0) {
         goToParentScreen();
         window.scrollTo(0, 0);
-        message.success(<FormattedMessage id='EntityDetailsScreen.savedSuccessfully' />);
+        message.success(intl.formatMessage({id: 'EntityDetailsScreen.savedSuccessfully'}));
         return;
       }
       setFormError(errors.join('\n'));
       console.error(errors);
-      message.error(<FormattedMessage id='common.requestFailed'/>);
+      message.error(intl.formatMessage({id: 'common.requestFailed'}));
     }).catch((e: Error | ApolloError) => {
       setFormError(e.message);
       console.error(e);
-      message.error(<FormattedMessage id='common.requestFailed'/>);
+      message.error(intl.formatMessage({id: 'common.requestFailed'}));
     });
   }, [executeUpsertMutation]);
 
   const handleSubmitFailed = useCallback(() => {
-    message.error(<FormattedMessage id='EntityDetailsScreen.validationError'/>);
+    message.error(intl.formatMessage({id: 'EntityDetailsScreen.validationError'}));
   }, []);
 
   useEffect(() => {

@@ -1,20 +1,17 @@
 import {observer} from "mobx-react";
 import {gql, useQuery, useMutation, ApolloCache, Reference} from '@apollo/client';
 import {registerEntityList, useParentScreen} from "@haulmont/jmix-react-ui";
-import {useScreens} from "@haulmont/jmix-react-core";
+import {useScreens, Screens} from "@haulmont/jmix-react-core";
 import {
   CheckOutlined,
   CloseOutlined,
   DeleteOutlined,
   EditOutlined,
   PlusOutlined,
-  SelectOutlined
 } from '@ant-design/icons';
 import {
   Button,
   Card,
-  Tooltip,
-  List,
   Modal,
   Spin,
   Empty,
@@ -42,7 +39,7 @@ const <%= toFatSnakeCase(deleteMutationName) %> = gql`
 
 const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
 
-  const screens = useScreens();
+  const screens: Screens = useScreens();
   const intl = useIntl();
   const goToParentScreen = useParentScreen(ROUTING_PATH);
 
@@ -175,7 +172,7 @@ function getCardActions(input: CardActionsInput) {
     onSelect,
     <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
       executeDeleteMutation,
-    <% } -%>,
+    <% } -%>
     <% if (mode === 'edit' || mode === 'viewWithDetails') { -%>
       screens,
     <% } -%>
