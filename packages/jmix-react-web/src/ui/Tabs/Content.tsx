@@ -51,3 +51,7 @@ setTimeout(() => {
   checkItems(menuItems);
 }, 1);
 
+window.addEventListener('popstate', () => {
+  checkItems(menuItems)
+});
+
