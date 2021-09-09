@@ -3,6 +3,7 @@ import { observer } from 'mobx-react';
 import {action, makeObservable, observable, reaction} from 'mobx';
 import pathToRegexp from 'path-to-regexp';
 import { EventEmitter } from './EventEmitter';
+import { getMenuItems } from './MenuConfig';
 
 type anyObject = { [k: string]: any };
 
@@ -28,24 +29,48 @@ function exec(re: RegExp, str: string, keys: pathToRegexp.Key[]) {
   return result;
 }
 
+type TitleFormatter = (value: string) => string
+
+let titleFormatter: TitleFormatter | null = null
+export const registerTitleFormatter = (formatter: TitleFormatter) => {
+  titleFormatter = formatter
+}
+export const clearTitleFormatter = () => {
+  titleFormatter = null
+}
+export const setWindowTitle = (value: string) => {
+  if (titleFormatter == null) {
+    return
+  }
+
+  document.title = titleFormatter(value)
+}
+
 /**
  * Redirect. Example `redirect('/my_page', false, 'My page browser tab title');`
  * @param to - url to redirect
  * @param replace - use `history.replaceState(...)` instead of `history.pushState(...)`
  * @param title - browser tab title
  */
-export function redirect(to: string, replace = false, title = '') {
+export function redirect(to: string, replace = false, overrideTitle = '') {
   const currentFullPath = window.location.href.substr(window.location.origin.length);
   if (currentFullPath === to) return;
 
   if (currentRoute.hashMode) to = '#' + to;
 
   if (replace) {
-    window.history.replaceState({}, title, to);
+    window.history.replaceState({}, '', to);
   } else {
-    window.history.pushState({}, title, to);
+    window.history.pushState({}, '', to);
   }
 
+  if (overrideTitle) {
+    document.title = overrideTitle
+  } else {
+    const targetScreen = getMenuItems().find((x: any) => x.menuLink === to)
+    setWindowTitle(targetScreen?.caption || '')
+  }
+  
   currentRoute.setCurrentRoute();
 }
 

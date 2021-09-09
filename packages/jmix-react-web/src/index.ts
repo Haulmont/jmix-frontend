@@ -34,6 +34,7 @@ export * from "./ui/paging/config";
 export * from "./ui/paging/utils";
 export * from "./ui/entity-property/EntityProperty";
 export * from './ui/form/FieldPermssionContainer';
+export * from "./ui/IntlDocumentTitle";
 
 export * from './screen-registration/screen-registration';
 
