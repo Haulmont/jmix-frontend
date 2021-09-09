@@ -19,12 +19,6 @@ export function openBreadcrumb({component, props, title, screens}: OpenBreadcrum
   screens.push({
     title,
     content: React.createElement(component, props),
-    key: generateKey()
   });
   window.scrollTo(0, 0);
-}
-
-function generateKey() {
-  // TODO Consider replacing with uuid.v4()
-  return String(window.crypto.getRandomValues(new Uint32Array(10))[1]);
 }
