@@ -68,35 +68,6 @@ describe('Screens', () => {
       expect(screens.currentScreen).toEqual(screen1);
       expect(screens.screens).toEqual([screen1]);
     });
-
-    it('saves history', () => {
-      const historySpy = jest.spyOn(window.history, 'pushState');
-      screens.currentRootPageData.menuPath = 'car';
-
-      screens.setActiveScreen(screen1);
-      expect(historySpy).toHaveBeenCalledWith({}, '', 'car');
-
-      const screenA = {
-        ...screen1,
-        params: {
-          entityId: '00000000-0000-0000-0000-000000000000'
-        }
-      }
-      screens.setActiveScreen(screenA);
-      expect(historySpy).toHaveBeenCalledWith({}, '', 'car/00000000-0000-0000-0000-000000000000');
-
-      const screenB = {
-        ...screen1,
-        params: {
-          pagination: {
-            page: 1,
-            pageSize: 20
-          }
-        }
-      };
-      screens.setActiveScreen(screenB);
-      expect(historySpy).toHaveBeenCalledWith({}, '', 'car?page=1&pageSize=20');
-    });
   });
 
 });
