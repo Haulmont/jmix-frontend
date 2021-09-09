@@ -5,8 +5,8 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.3",
     "@apollo/client": "^3.4.8",
-    "@haulmont/jmix-react-core": "^1.0.2",
-    "@haulmont/jmix-react-ui": "^1.0.2",
+    "@haulmont/jmix-react-core": "0.0.0-experimental.1",
+    "@haulmont/jmix-react-ui": "0.0.0-experimental.1",
     "@testing-library/jest-dom": "^5.14.1",
     "@testing-library/react": "^11.2.7",
     "@testing-library/user-event": "^12.8.3",
