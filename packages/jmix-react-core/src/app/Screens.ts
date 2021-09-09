@@ -1,5 +1,6 @@
-import {action, makeObservable, observable} from 'mobx';
+import {action, makeObservable, observable, autorun} from 'mobx';
 import React, { useContext } from 'react';
+import { setWindowTitle } from './Router';
 
 export interface IMultiScreenProps {
   children?: React.ReactNode;
@@ -35,6 +36,11 @@ export class Screens {
 
   constructor() {
     makeObservable(this);
+    autorun(() => {
+      if (this.currentScreen?.title) {
+        setWindowTitle(this.currentScreen?.title)
+      }
+    })
   }
 
   setCurrentRootPageData(title: string, menuPath: string) {

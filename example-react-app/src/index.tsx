@@ -25,6 +25,7 @@ import "./index.css";
 import "dayjs/locale/ru";
 import { ApolloProvider } from "@apollo/client";
 import { initializeLocales } from "./i18n/i18nInit";
+import { IntlDocumentTitle } from "@haulmont/jmix-react-web";
 
 // Declare plugin types for dayjs
 import "dayjs/plugin/customParseFormat";
@@ -69,16 +70,18 @@ ReactDOM.render(
   >
     <ApolloProvider client={client}>
       <I18nProvider>
-        <DevSupport
-          ComponentPreviews={
-            <ScreensContext.Provider value={devScreens}>
-              <ComponentPreviews />
-            </ScreensContext.Provider>
-          }
-          useInitialHook={useDevLogin}
-        >
-          <App />
-        </DevSupport>
+        <IntlDocumentTitle>
+          <DevSupport
+            ComponentPreviews={
+              <ScreensContext.Provider value={devScreens}>
+                <ComponentPreviews />
+              </ScreensContext.Provider>
+            }
+            useInitialHook={useDevLogin}
+          >
+            <App />
+          </DevSupport>
+        </IntlDocumentTitle>
       </I18nProvider>
     </ApolloProvider>
   </JmixAppProvider>,
