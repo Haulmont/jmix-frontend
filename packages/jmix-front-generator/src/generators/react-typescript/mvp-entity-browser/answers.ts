@@ -5,7 +5,7 @@ import {
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
-export type EntityListMode = 'edit' | 'view' | 'viewWithDetails';
+export type EntityListMode = 'edit' | 'view' | 'view with details';
 
 export type MvpEntityBrowserAnswers =
   ComponentNameAnswer
@@ -32,15 +32,16 @@ export const mvpEntityBrowserQuestions = [
     required: true
   },
   {
-    caption: 'Entity list mode: ' +
-      '"edit" (there will be buttons to create and edit entity), ' +
-      '"view" (read-only, there will be no action buttons), ' +
-      '"viewWithDetails" (read-only, there will be a button to view entity details). ' +
-      'Presence of delete button depends on whether delete mutation has been provided.',
+    caption: 'Entity list mode',
+    // description: 'Possible values: ' +
+    //   '"edit" (there will be buttons to create and edit entity), ' +
+    //   '"view" (read-only, there will be no action buttons), ' +
+    //   '"view with details" (read-only, there will be a button to view entity details). ' +
+    //   'Presence of delete button depends on whether delete mutation has been provided.',
     code: 'mode',
     propertyType: StudioTemplatePropertyType.OPTION,
     defaultValue: 'edit',
-    options: ['readOnly', 'edit', 'details'],
+    options: ['edit', 'view', 'view with details'],
   },
   {
     caption: 'Mutation to delete an item',
