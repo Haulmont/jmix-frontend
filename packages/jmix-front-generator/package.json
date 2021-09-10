@@ -29,7 +29,7 @@
     "url": "https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator"
   },
   "dependencies": {
-    "@types/jscodeshift": "^0.11.0",
+    "@types/jscodeshift": "^0.11.2",
     "@types/prettier": "~1.19.0",
     "@types/yeoman-generator": "^2.0.3",
     "commander": "~8.0.0",
