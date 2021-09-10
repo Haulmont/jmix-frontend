@@ -33,7 +33,7 @@
     "@types/prettier": "~1.19.0",
     "@types/yeoman-generator": "^2.0.3",
     "commander": "~8.0.0",
-    "graphql": "^15.4.0",
+    "graphql": "^15.5.1",
     "graphql-tag": "^2.11.0",
     "inquirer-autocomplete-prompt": "^1.0.1",
     "jscodeshift": "^0.12.0",
