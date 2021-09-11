@@ -245,6 +245,7 @@ export function useEntityList<
     filter: undefined,
     sortOrder: undefined,
     pagination: {
+      ...paginationConfig,
       current: pagingDataFromUrl.page,
       pageSize: pagingDataFromUrl.pageSize,
     }

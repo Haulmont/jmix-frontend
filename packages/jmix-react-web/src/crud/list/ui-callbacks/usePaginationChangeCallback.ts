@@ -12,6 +12,7 @@ export function usePaginationChangeCallback<TEntity>(
   return useCallback(
     action((current?: number, pageSize?: number) => {
       entityListState.pagination = {
+        ...entityListState.pagination,
         current,
         pageSize
       };
