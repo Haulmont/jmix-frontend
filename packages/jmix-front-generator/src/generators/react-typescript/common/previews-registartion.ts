@@ -103,7 +103,7 @@ export function getNewComponentPreview(
   </ComponentPreview>`
 }
 
-function addComponentImport(
+export function addComponentImport(
   previewsAST: Collection<any>, 
   isDefaultExport: boolean, 
   componentClassName: string, 

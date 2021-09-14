@@ -8,6 +8,7 @@ import { capitalizeFirst } from "../../../common/utils";
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import { BrowserTypes } from "./answers";
 import * as path from "path";
+import {addToPalette} from "../../../building-blocks/stages/writing/pieces/palette";
 
 export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateModel> = async (
   projectModel, templateModel, gen, options
@@ -34,6 +35,7 @@ export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateMod
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true, generateMockProps(browserType));
+  addToPalette(gen, dirShift, className)
 };
 
 function generateMockProps(listType: BrowserTypes): any {
