@@ -19,6 +19,7 @@ import {
   applyDataTransferFormat,
   applyDisplayFormat,
   MetaPropertyInfo,
+  TemporalPropertyType,
 } from '@haulmont/jmix-react-core';
 import {InputNumberProps} from 'antd/es/input-number';
 import {LabeledValue} from 'antd/es/select';
@@ -141,7 +142,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   onDatePickerChange = (date: Dayjs | null): void => {
     if (date != null) {
       const normalizedDate = date.millisecond(0);
-      this.handleInputChange(applyDataTransferFormat(normalizedDate, this.props.propertyInfo.type as PropertyType));
+      this.handleInputChange(applyDataTransferFormat(normalizedDate, this.props.propertyInfo.type as TemporalPropertyType));
       this.handleInputConfirm();
     }
   };
@@ -149,7 +150,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   onDateTimePickerChange = (date: Dayjs | null): void => {
     if (date != null) {
       const {propertyInfo} = this.props;
-      const propertyType = propertyInfo.type as PropertyType;
+      const propertyType = propertyInfo.type as TemporalPropertyType;
       const normalizedDate = date.millisecond(0);
       this.handleInputChange(
         applyDataTransferFormat(normalizedDate, propertyType),
@@ -162,7 +163,7 @@ class DataTableListEditorComponent extends React.Component<DataTableListEditorPr
   onTimePickerChange = (time: Dayjs | null, _timeString: string): void => {
     if (time != null) {
       const normalizedTime = time.millisecond(0);
-      const timeParam = applyDataTransferFormat(normalizedTime, this.props.propertyInfo.type as PropertyType);
+      const timeParam = applyDataTransferFormat(normalizedTime, this.props.propertyInfo.type as TemporalPropertyType);
       this.handleInputChange(timeParam);
     }
   };

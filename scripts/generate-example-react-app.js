@@ -33,7 +33,8 @@ const formWizardCompositionO2O = require('./screens/form-wizard-composition-o2o'
 const formWizardBrowser = require('./screens/form-wizard-browser.js');
 const dirShift = '../../';
 const carCardsWithDetailsConfig = require('./screens/car-cards-with-details');
-const carTableWithFiltersConfig = require('./screens/car-table-with-filters')
+const carTableWithFiltersConfig = require('./screens/car-table-with-filters');
+const datatypesCalendar = require('./screens/datatypes-calendar');
 
 gen(
     'React client SCR',
@@ -142,6 +143,12 @@ gen(
         dirShift,
         dest: 'src/app/car-multi-selection-table',
         answers: answers.carMultiSelectionTable
+      },
+      {
+        command: 'react-typescript:entity-calendar',
+        dirShift,
+        dest: 'src/app/datatypes-calendar',
+        answers: datatypesCalendar
       },
 
       // All datatypes

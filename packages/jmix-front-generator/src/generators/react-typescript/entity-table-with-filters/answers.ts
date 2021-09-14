@@ -32,7 +32,8 @@ const filterableFieldsQuestion: StudioTemplateProperty = {
   code: 'filterableFields',
   caption: 'Filterable Fields',
   propertyType: StudioTemplatePropertyType.ATTRIBUTES_ARRAY,
-  required: true
+  required: true,
+  relatedProperty: 'query',
 }
 
 export const tableWithFiltersQuestions: StudioTemplateProperty[] = [

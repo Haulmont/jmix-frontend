@@ -6,7 +6,7 @@ import localeData from 'dayjs/plugin/localeData';
 import weekOfYear from 'dayjs/plugin/weekOfYear';
 import weekYear from 'dayjs/plugin/weekYear';
 
-// configure dayjs for the 'rc-picker' library in both packages: core and ui
+// configure dayjs for the 'rc-picker' library react packages: core, web and antd 
 dayjs.extend(customParseFormat);
 dayjs.extend(advancedFormat);
 dayjs.extend(weekday);
@@ -47,6 +47,7 @@ export * from './data/Collection';
 export * from './data/Instance';
 export * from './data/PropertyType';
 export * from './data/Association';
+export * from './data/getProperty';
 
 export * from './util/collation';
 export * from './util/dollars-to-underscores';

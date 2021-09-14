@@ -9,7 +9,7 @@ import {determineLastNextXInterval, determinePredefinedInterval} from './DataTab
 import intervalStyles from './DataTableIntervalEditor.module.less';
 import filterStyles from './DataTableFilter.module.less';
 import {FormattedMessage, injectIntl, WrappedComponentProps} from 'react-intl';
-import { PropertyType } from '@haulmont/jmix-react-core';
+import { PropertyType, TemporalPropertyType } from '@haulmont/jmix-react-core';
 import classNames from 'classnames';
 
 export interface TemporalInterval {
@@ -61,8 +61,8 @@ class DataTableIntervalEditorComponent extends React.Component<DataTableInterval
 
   get interval(): TemporalInterval {
     return (this.mode === 'predefined')
-      ? determinePredefinedInterval(this.option, this.props.propertyType)
-      : determineLastNextXInterval(this.mode, this.numberOfUnits, this.timeUnit, this.includeCurrent, this.props.propertyType);
+      ? determinePredefinedInterval(this.option, this.props.propertyType as TemporalPropertyType)
+      : determineLastNextXInterval(this.mode, this.numberOfUnits, this.timeUnit, this.includeCurrent, this.props.propertyType as TemporalPropertyType);
   }
 
   onModeChanged = (e: RadioChangeEvent) => {

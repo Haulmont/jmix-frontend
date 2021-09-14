@@ -1,3 +1,11 @@
+// Declare plugin types for dayjs
+import "dayjs/plugin/customParseFormat";
+import "dayjs/plugin/advancedFormat";
+import "dayjs/plugin/weekday";
+import "dayjs/plugin/localeData";
+import "dayjs/plugin/weekOfYear";
+import "dayjs/plugin/weekYear";
+
 export * from "./common/JmixServerValidationErrors";
 
 export * from "./formatters/jmixFront_to_jmixGraphQL";

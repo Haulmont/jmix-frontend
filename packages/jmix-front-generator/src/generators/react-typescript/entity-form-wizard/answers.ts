@@ -34,7 +34,8 @@ const formWizardStepsQuestion = {
   code: 'steps',
   caption: 'Steps',
   propertyType: StudioTemplatePropertyType.FORM_WIZARD_STEPS,
-  required: true
+  required: true,
+  relatedProperty: 'query',
 }
 
 export const formWizardQuestions: StudioTemplateProperty[] = [
