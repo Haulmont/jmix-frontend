@@ -1,6 +1,6 @@
 import dayjs, {Dayjs} from 'dayjs';
 import {TemporalInterval, DataTableIntervalEditorMode, PredefinedIntervalOption, TimeUnit} from './DataTableIntervalEditor';
-import {applyDataTransferFormat, PropertyType} from '@haulmont/jmix-react-core';
+import {applyDataTransferFormat, TemporalPropertyType} from '@haulmont/jmix-react-core';
 
 const selectMinDateForInterval = (
   mode: DataTableIntervalEditorMode,
@@ -77,7 +77,7 @@ export function determineLastNextXInterval(
   numberOfUnits: number,
   timeUnit: TimeUnit,
   includeCurrent: boolean,
-  propertyType: PropertyType
+  propertyType: TemporalPropertyType
 ): TemporalInterval {
   return {
     minDate: applyDataTransferFormat(
@@ -97,7 +97,7 @@ export function determineLastNextXInterval(
  * @param option see {@link PredefinedIntervalOption}
  * @param propertyType
  */
-export function determinePredefinedInterval(option: PredefinedIntervalOption, propertyType: PropertyType): TemporalInterval {
+export function determinePredefinedInterval(option: PredefinedIntervalOption, propertyType: TemporalPropertyType): TemporalInterval {
   let minDate: Dayjs;
   let maxDate: Dayjs;
 

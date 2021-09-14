@@ -32,7 +32,8 @@ const mainFieldsQuestion: StudioTemplateProperty = {
   code: 'mainFields',
   caption: 'Main Fields',
   propertyType: StudioTemplatePropertyType.ATTRIBUTES_ARRAY,
-  required: true
+  required: true,
+  relatedProperty: 'query',
 }
 
 const cardsWithDetailsQuestions: StudioTemplateProperty[] = [

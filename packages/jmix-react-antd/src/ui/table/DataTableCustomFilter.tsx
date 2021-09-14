@@ -27,7 +27,8 @@ import {
   NumberComparisonType,
   TemporalComparisonType,
   TextComparisonType,
-  UuidComparisonType
+  UuidComparisonType,
+  TemporalPropertyType
 } from '@haulmont/jmix-react-core';
 import {IntegerInput} from "../form/IntegerInput";
 import {BigDecimalInput} from "../form/BigDecimalInput";
@@ -256,7 +257,7 @@ class DataTableCustomFilterComponent extends React.Component<DataTableCustomFilt
 
   onTemporalPickerChange = (value: Dayjs | null) => {
     if (value != null) {
-      this.value = applyDataTransferFormat(value.millisecond(0), this.propertyInfoNN.type as PropertyType);
+      this.value = applyDataTransferFormat(value.millisecond(0), this.propertyInfoNN.type as TemporalPropertyType);
     }
   }
 

@@ -1,4 +1,4 @@
-// Define types of plugins used by dayjs
+// Declare plugin types for dayjs
 import "dayjs/plugin/customParseFormat";
 import "dayjs/plugin/advancedFormat";
 import "dayjs/plugin/weekday";
@@ -44,6 +44,8 @@ export * from './ui/paging/Paging';
 export * from './ui/retry-dialog/RetryDialog';
 export * from './ui/DatePicker';
 export * from './ui/TimePicker';
+export * from './ui/Calendar/Calendar';
+export * from './ui/Calendar/useCalendar';
 export * from './ui/FormWizard/FormWizardManager';
 export * from './ui/FormWizard/FormWizardStore';
 export * from './ui/FormWizard/FormWizardStep';

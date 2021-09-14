@@ -12,7 +12,7 @@ import {useChangeConfirm} from "./useChangeConfirm";
 import { notifications, NotificationType } from "../notifications";
 import { useIntl } from "react-intl";
 
-export interface EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
+export interface EntityMasterDetailEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars>
 extends EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars> {
   resetEntityEditorForm: () => void;
 }
@@ -26,7 +26,7 @@ export function useMasterDetailEditor<
     TQueryVars extends LoadQueryVars = LoadQueryVars,
     TMutationVars = unknown
 >(
-    options: EntityMasterDetailEditorookOptions<TEntity, TData, TQueryVars, TMutationVars>
+    options: EntityMasterDetailEditorHookOptions<TEntity, TData, TQueryVars, TMutationVars>
 ): EntityMasterDetailEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
     const {
         entityName,

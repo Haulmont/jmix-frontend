@@ -40,6 +40,7 @@ import "./app/datatypes-test-browser-table/DatatypesTestBrowserTable";
 import "./app/datatypes-test-browser-list/DatatypesTestBrowserList";
 import "./app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
 import "./app/datatypes-test-editor/DatatypesTestEditor";
+import "./app/datatypes-calendar/DatatypesCalendar";
 import "./app/car-multi-selection-table/CarMultiSelectionTable";
 import "./app/form-wizard-browser/FormWizardBrowserTable";
 import "./app/form-wizard-editor/FormWizardEditor";
