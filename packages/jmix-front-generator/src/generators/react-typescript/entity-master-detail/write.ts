@@ -6,6 +6,7 @@ import { EntityEditorTemplateModel } from "../entity-editor/template-model";
 import { addAppMenu, addEntityMenuItem } from "../../../building-blocks/stages/writing/pieces/menu";
 import { addComponentPreviews } from "../../../building-blocks/stages/writing/pieces/previews-registration";
 import { writeComponentI18nMessages } from "../../../building-blocks/stages/writing/pieces/i18n";
+import {addToPalette} from "../../../building-blocks/stages/writing/pieces/palette";
 
 const writeMasterDetailEditorComponent: WriteStage<ComponentOptions, EntityEditorTemplateModel> = async (
   projectModel, templateModel, gen, options
@@ -77,6 +78,7 @@ const writeMasterDetailComponent: WriteStage<ComponentOptions, MasterDetailCompo
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true);
+  addToPalette(gen, dirShift, className)
 }
 
 export const writeMasterDetail: WriteStage<ComponentOptions, MasterDetailTemplateModel> = async (

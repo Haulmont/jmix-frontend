@@ -6,6 +6,7 @@ import {addComponentPreviews} from "../../../building-blocks/stages/writing/piec
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import * as path from "path";
 import { writeComponentI18nMessages } from "../../../building-blocks/stages/writing/pieces/i18n";
+import {addToPalette} from "../../../building-blocks/stages/writing/pieces/palette";
 
 export const writeTableWithFilters: WriteStage<ComponentOptions, TableWithFiltersTemplateModel> = async (
   projectModel, templateModel, gen, options
@@ -31,6 +32,7 @@ export const writeTableWithFilters: WriteStage<ComponentOptions, TableWithFilter
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true);
+  addToPalette(gen, dirShift, className)
 };
 
 export function writeTableWithFiltersComponent<M extends { className: string}>(

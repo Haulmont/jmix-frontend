@@ -39,5 +39,6 @@ export * from './building-blocks/stages/template-model/pieces/entity-management/
 export * from './building-blocks/stages/writing/defaultWrite';
 export * from './building-blocks/stages/writing/pieces/i18n';
 export * from './building-blocks/stages/writing/pieces/menu';
+export * from './building-blocks/stages/writing/pieces/palette';
 export * from './building-blocks/stages/writing/pieces/previews-registration';
 export * from './building-blocks/stages/writing/pieces/sdk/sdk'

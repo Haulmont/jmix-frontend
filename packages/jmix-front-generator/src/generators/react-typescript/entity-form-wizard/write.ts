@@ -4,6 +4,7 @@ import {TemplateModel} from "./template-model";
 import {addAppMenu, addMenuItem} from "../../../building-blocks/stages/writing/pieces/menu";
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import { writeComponentI18nMessages } from "../../../building-blocks/stages/writing/pieces/i18n";
+import {addToPalette} from "../../../building-blocks/stages/writing/pieces/palette";
 
 export function writeFormWizardComponent<M extends {className: string}>(
   gen: YeomanGenerator,
@@ -43,4 +44,5 @@ export const write: WriteStage<Options, TemplateModel> = async (
     addAppMenu(gen, dirShift, className, menuItem);
   }
   addMenuItem(gen, dirShift, className, nameLiteral);
+  addToPalette(gen, dirShift, className)
 };

@@ -6,6 +6,7 @@ import {addEntityMenuItem, addAppMenu} from "../../../building-blocks/stages/wri
 import {addComponentPreviews} from "../../../building-blocks/stages/writing/pieces/previews-registration";
 import { YeomanGenerator } from "../../../building-blocks/YeomanGenerator";
 import * as path from "path";
+import {addToPalette} from "../../../building-blocks/stages/writing/pieces/palette";
 
 export const writeMultiSelectionTable: WriteStage<ComponentOptions, MultiSelectionTableTemplateModel> = async (
   projectModel, templateModel, gen, options
@@ -31,6 +32,7 @@ export const writeMultiSelectionTable: WriteStage<ComponentOptions, MultiSelecti
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
   addComponentPreviews(gen, dirShift, className, className, true);
+  addToPalette(gen, dirShift, className)
 };
 
 export function writeMultiSelectionTableComponent<M extends {className: string}>(
