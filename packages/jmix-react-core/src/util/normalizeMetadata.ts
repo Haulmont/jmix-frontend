@@ -48,6 +48,7 @@ const transformType = (type: any, mappingType: AttributeType): string => {
         case 'ENUM': return type.fqn;
         case 'ASSOCIATION': return type.entityName;
         case 'COMPOSITION': return type.entityName;
+        case 'EMBEDDED': return type.entityName;
         default: throw new Error(`Unknown mappingType: ${mappingType}`);
     }
 }

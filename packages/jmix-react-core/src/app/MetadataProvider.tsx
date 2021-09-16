@@ -2,7 +2,7 @@ import React, { createContext, useContext } from "react";
 
 export type Cardinality = 'NONE' | 'ONE_TO_ONE' | 'MANY_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_MANY';
 
-export type AttributeType = 'DATATYPE' | 'ENUM' | 'ASSOCIATION' | 'COMPOSITION';
+export type AttributeType = 'DATATYPE' | 'ENUM' | 'ASSOCIATION' | 'COMPOSITION' | 'EMBEDDED';
   
 export interface MetaPropertyInfo {
     // Same with the ProjectModelEntityAttr

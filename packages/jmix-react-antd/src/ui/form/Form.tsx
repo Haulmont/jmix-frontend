@@ -94,6 +94,13 @@ export const Field = observer((props: FieldProps) => {
   // Add a passthrough rule. This will clear server-side errors on `validateTrigger` without having to manually set errors on fields.
   combinedFormItemProps.rules.push(passthroughRule);
 
+  const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
+
+  // EMBEDDED fields aren't supported now
+  if (propertyInfo?.attributeType === 'EMBEDDED') {
+    return null;
+  }
+
   return (
     <FieldPermissionContainer entityName={entityName} propertyName={propertyName} renderField={(isReadOnly: boolean) => {
 
@@ -201,6 +208,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
 
       return null;
     }
+    case 'EMBEDDED': return null;
   }
   switch (propertyInfo.type as PropertyType) {
     case 'Boolean':

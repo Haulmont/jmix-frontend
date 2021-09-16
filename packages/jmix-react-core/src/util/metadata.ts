@@ -218,6 +218,10 @@ export function isOneToManyComposition(propertyInfo: MetaPropertyInfo): boolean 
   return isComposition(propertyInfo) && isOneToManyRelation(propertyInfo);
 }
 
+export function isEmbedded({attributeType}: MetaPropertyInfo): boolean {
+  return attributeType === 'EMBEDDED';
+}
+
 // Deprecated as "WithSomething" implies that "something" is mandatory rather than optional.
 // Also, "withSomething" is a standard convention for HOCs.
 // Use "HasSomething" or "MayHaveSomething" instead, unless the variable represents an entity instance,
