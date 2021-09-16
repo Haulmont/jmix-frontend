@@ -1,5 +1,6 @@
 import {
   getPropertyInfo,
+  isEmbedded,
   isOneToManyComposition,
   isOneToOneComposition,
   isTemporalProperty,
@@ -62,6 +63,10 @@ export function ant_to_jmixFront(
     if (propInfo && isTemporalProperty(propInfo) && value != null && dayjs.isDayjs(value)) {
       const normalizedValue = value.millisecond(0);
       result[attributeName] = applyDataTransferFormat(normalizedValue, propInfo.type as TemporalPropertyType)
+      return;
+    }
+
+    if (propInfo && isEmbedded(propInfo)) {
       return;
     }
 
