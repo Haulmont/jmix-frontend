@@ -77,7 +77,7 @@ const writeMasterDetailComponent: WriteStage<ComponentOptions, MasterDetailCompo
 
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
-  addComponentPreviews(gen, dirShift, className, className, true);
+  addComponentPreviews(gen, dirShift, className, className);
   addToPalette(gen, dirShift, className)
 }
 

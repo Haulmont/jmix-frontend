@@ -12,7 +12,7 @@ export function addToPalette(
   gen: YeomanGenerator,
   dirShift: string,
   componentFileName: string,
-  isDefaultExport: boolean = false
+  isDefaultExport: boolean = true
 ) {
   const destRoot = gen.destinationRoot()
   const componentPaletteDir = path.join(destRoot, dirShift ? dirShift : '')

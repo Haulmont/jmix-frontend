@@ -31,7 +31,7 @@ export const writeMultiSelectionTable: WriteStage<ComponentOptions, MultiSelecti
 
   addAppMenu(gen, dirShift, className, menuItem);
   addEntityMenuItem(gen, dirShift, className, nameLiteral);
-  addComponentPreviews(gen, dirShift, className, className, true);
+  addComponentPreviews(gen, dirShift, className, className);
   addToPalette(gen, dirShift, className)
 };
 

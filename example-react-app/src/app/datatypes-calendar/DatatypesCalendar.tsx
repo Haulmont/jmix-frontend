@@ -119,7 +119,7 @@ const CalendarItem = ({ item }: CalendarItemProps) => (
   </Tooltip>
 );
 
-export const DatatypesCalendar = observer(() => {
+const DatatypesCalendar = observer(() => {
   const {
     items,
     executeListQuery,
@@ -190,3 +190,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default DatatypesCalendar;

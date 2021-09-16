@@ -11,12 +11,12 @@ import StringIdBrowserTable from "../app/string-id-browser-table/StringIdBrowser
 import StringIdBrowserList from "../app/string-id-browser-list/StringIdBrowserList";
 import StringIdBrowserCards from "../app/string-id-browser-cards/StringIdBrowserCards";
 import StringIdMgtCardsEdit from "../app/string-id-editor/StringIdMgtCardsEdit";
-import { StringIdCards } from "../app/string-id-cards/StringIdCards";
+import StringIdCards from "../app/string-id-cards/StringIdCards";
 import IntIdentityIdBrowserList from "../app/int-identity-id-browser-list/IntIdentityIdBrowserList";
 import IntIdentityIdBrowserCards from "../app/int-identity-id-browser-cards/IntIdentityIdBrowserCards";
 import IntIdentityIdBrowserTable from "../app/int-identity-id-browser-table/IntIdentityIdBrowserTable";
 import IntIdentityIdEditor from "../app/int-identity-id-editer/IntIdentityIdEditor";
-import { IntIdentityIdCards } from "../app/int-id-cards/IntIdentityIdCards";
+import IntIdentityIdCards from "../app/int-id-cards/IntIdentityIdCards";
 import IntIdBrowserList from "../app/int-id-browser-list/IntIdBrowserList";
 import IntIdBrowserCards from "../app/int-id-browser-cards/IntIdBrowserCards";
 import IntIdBrowserTable from "../app/int-id-browser-table/IntIdBrowserTable";
@@ -36,7 +36,7 @@ import AssociationO2MBrowserTable from "../app/associationO2M-management/Associa
 import AssociationO2MEditor from "../app/associationO2M-management/AssociationO2MEditor";
 import AssociationO2OBrowserTable from "../app/associationO2O-management/AssociationO2OBrowserTable";
 import AssociationO2OEditor from "../app/associationO2O-management/AssociationO2OEditor";
-import { DatatypesTestCards } from "../app/datatypes-test-cards/DatatypesTestCards";
+import DatatypesTestCards from "../app/datatypes-test-cards/DatatypesTestCards";
 import DatatypesTestBrowserTable from "../app/datatypes-test-browser-table/DatatypesTestBrowserTable";
 import DatatypesTestBrowserList from "../app/datatypes-test-browser-list/DatatypesTestBrowserList";
 import DatatypesTestBrowserCards from "../app/datatypes-test-browser-cards/DatatypesTestBrowserCards";
@@ -47,13 +47,13 @@ import FormWizardCompositionO2O from "../app/form-wizard-compositionO2O-editor/F
 import CarMasterDetail from "../app/car-master-detail/CarMasterDetail";
 import CarTableWithFilters from "../app/car-table-with-filters/CarTableWithFilters";
 import CarCardsWithDetails from "../app/car-cards-with-details/CarCardsWithDetails";
-import { FavoriteCars } from "../app/entity-cards/FavoriteCars";
+import FavoriteCars from "../app/entity-cards/FavoriteCars";
 import CarBrowserTable from "../app/car-browser-table/CarBrowserTable";
 import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
-import { TestBlankScreen } from "../app/blank-screen/TestBlankScreen";
-import { ExampleCustomScreen } from "../app/example-custom-screen/ExampleCustomScreen";
+import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
+import ExampleCustomScreen from "../app/example-custom-screen/ExampleCustomScreen";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
 export const ComponentPreviews = () => {

@@ -5,7 +5,7 @@ import {registerScreen} from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = "/exampleCustomScreen";
 
-export const ExampleCustomScreen = () => {
+const ExampleCustomScreen = () => {
     const mainStore = useMainStore();
 
     const [contentDisplayMode, setContentDisplayMode] = useState(mainStore.contentDisplayMode);
@@ -52,3 +52,5 @@ registerScreen({
         menuLink: ROUTING_PATH
     }
 });
+
+export default ExampleCustomScreen

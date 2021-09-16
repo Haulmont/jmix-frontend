@@ -67,7 +67,7 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-export const CarCardsGrid = observer(() => {
+const CarCardsGrid = observer(() => {
   const {
     items,
     count,
@@ -131,3 +131,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default CarCardsGrid;

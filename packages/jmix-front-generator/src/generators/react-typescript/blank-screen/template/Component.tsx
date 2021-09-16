@@ -3,7 +3,7 @@ import {registerScreen} from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
-export const <%= className %> = () => (
+const <%= className %> = () => (
   <div>
     <%= className %>
   </div>
@@ -18,3 +18,5 @@ registerScreen({
     menuLink: ROUTING_PATH,
   }
 });
+
+export default <%= className %>;

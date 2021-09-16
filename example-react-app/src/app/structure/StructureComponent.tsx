@@ -4,7 +4,7 @@ import { registerScreen } from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = "/structureComponent";
 
-export const StructureComponent = () => (
+const StructureComponent = () => (
   <Row gutter={16}>
     <Col span={12}>
       <Card title="Column one header">Content</Card>
@@ -25,3 +25,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default StructureComponent;

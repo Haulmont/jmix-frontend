@@ -60,7 +60,7 @@ const SCR_STRINGIDTESTENTITY_LIST = gql`
   }
 `;
 
-export const StringIdCards = observer(() => {
+const StringIdCards = observer(() => {
   const {
     items,
     count,
@@ -123,3 +123,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default StringIdCards;

@@ -66,7 +66,7 @@ const SCR_CAR_LIST = gql`
   }
 `;
 
-export const CarBrowserCards = observer(() => {
+const CarBrowserCards = observer(() => {
   const {
     items,
     count,
@@ -129,3 +129,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default CarBrowserCards;

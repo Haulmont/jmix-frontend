@@ -59,7 +59,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
   }
 `;
 
-export const IntIdentityIdCards = observer(() => {
+const IntIdentityIdCards = observer(() => {
   const {
     items,
     count,
@@ -122,3 +122,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default IntIdentityIdCards;
