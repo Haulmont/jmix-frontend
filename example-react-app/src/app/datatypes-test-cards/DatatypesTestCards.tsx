@@ -110,7 +110,7 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
   }
 `;
 
-export const DatatypesTestCards = observer(() => {
+const DatatypesTestCards = observer(() => {
   const {
     items,
     count,
@@ -173,3 +173,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default DatatypesTestCards;

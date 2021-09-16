@@ -6,7 +6,7 @@ export function addComponentPreviews(
   dirShift: string,
   className: string,
   nameLiteral: string,
-  isDefaultExport: boolean = false,
+  isDefaultExport: boolean = true,
   componentProps?: any,
   registerComponentCallback: (
     routingContents: string,

@@ -28,7 +28,7 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   }
 `;
 
-export const <%= className %> = observer(() => {
+const <%= className %> = observer(() => {
   const {
     items,
     count,
@@ -92,3 +92,5 @@ registerScreen({
     menuLink: ROUTING_PATH,
   }
 });
+
+export default <%= className %>;

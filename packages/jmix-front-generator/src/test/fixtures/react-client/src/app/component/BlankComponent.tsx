@@ -3,7 +3,7 @@ import { registerScreen } from "@haulmont/jmix-react-web";
 
 const ROUTING_PATH = "/blankComponent";
 
-export const BlankComponent = () => <div>BlankComponent</div>;
+const BlankComponent = () => <div>BlankComponent</div>;
 
 registerScreen({
   component: BlankComponent,
@@ -14,3 +14,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default BlankComponent;

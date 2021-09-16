@@ -51,7 +51,7 @@ const SCR_FAVORITECAR_LIST = gql`
   }
 `;
 
-export const FavoriteCars = observer(() => {
+const FavoriteCars = observer(() => {
   const {
     items,
     count,
@@ -114,3 +114,5 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+export default FavoriteCars;
