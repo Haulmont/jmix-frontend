@@ -22,7 +22,6 @@ class ReactNativeAppGenerator extends BaseGenerator<ReactNativeAnswers, ReactNat
   // noinspection JSUnusedGlobalSymbols - yeoman runs all methods from class
   async prompting() {
     if (this.options.model) {
-      this.conflicter.force = true;
       this.log('Skipping prompts since model provided');
       this.cubaProjectModel = this._readProjectModel();
       return;

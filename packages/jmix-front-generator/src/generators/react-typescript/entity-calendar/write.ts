@@ -16,7 +16,7 @@ export const write: WriteStage<Options, CalendarTemplateModel> = async (
 
   writeCalendarComponent(gen, extension, templateModel);
   writeComponentI18nMessages(
-    gen.fs, 
+    gen, 
     className, 
     dirShift, 
     projectModel.project?.locales

@@ -41,9 +41,9 @@ function writeAddonI18nMessages(
 ) {
   const {addonName, screenNames, messages} = templateModel;
 
-  writeComponentI18nMessages(gen.fs, addonName, dirShift, projectModel.project?.locales, messages, ComponentType.Addon);
+  writeComponentI18nMessages(gen, addonName, dirShift, projectModel.project?.locales, messages, ComponentType.Addon);
 
   screenNames.forEach((screenName) => {
-    writeComponentI18nMessages(gen.fs, screenName, dirShift, projectModel.project?.locales);
+    writeComponentI18nMessages(gen, screenName, dirShift, projectModel.project?.locales);
   })
 }

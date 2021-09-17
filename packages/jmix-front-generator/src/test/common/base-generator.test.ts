@@ -4,7 +4,7 @@ import {ERR_STUDIO_NOT_CONNECTED, StudioProjectInfo} from "../../common/studio/s
 import {expect} from "chai";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../common/studio/studio-model";
 import {ProjectModel} from "../../common/model/cuba-model";
-import Generator from "yeoman-generator";
+import {Questions} from "yeoman-generator";
 import YeomanEnvironment = require("yeoman-environment");
 
 interface Answers {
@@ -74,7 +74,7 @@ class TestGenerator extends BaseGenerator<Answers, {}, CommonGenerationOptions> 
     return super._obtainCubaProjectModel();
   }
 
-  prompt(_questions: Generator.Questions): Promise<Answers> {
+  prompt<T>(_questions: Questions<T>): Promise<T> {
     // mock prompt answers
     return Promise.resolve({projectInfo: 'projectInfo'} as any);
   }

@@ -18,7 +18,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
       templateModel,
     );
     writeComponentI18nMessages(
-      gen.fs, 
+      gen, 
       className, 
       dirShift, 
       projectModel.project?.locales

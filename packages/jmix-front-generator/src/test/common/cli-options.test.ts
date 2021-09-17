@@ -8,12 +8,12 @@ describe('cli options', function () {
   });
 
   it('should return empty array if alias not set', function () {
-    const optsConfig: OptionsConfig = {option1: {}};
+    const optsConfig: OptionsConfig = {option1: { type: Boolean }};
     expect(extractAvailableOptions(optsConfig).length).eq(0);
   });
 
   it('should extract options from config', function () {
-    const optionConfig: OptionConfig = { alias: 'o1' };
+    const optionConfig: OptionConfig = { type: Boolean, alias: 'o1' };
 
     const optsConfig: OptionsConfig = {option1: optionConfig};
     let res = extractAvailableOptions(optsConfig);
@@ -27,7 +27,7 @@ describe('cli options', function () {
   });
 
   it('should pick options from cmd', function () {
-    const optionConfig: OptionConfig = { alias: 'o1' };
+    const optionConfig: OptionConfig = { type: Number, alias: 'o1' };
 
     const optsConfig: OptionsConfig = {option1: optionConfig};
     let res = pickOptions({opt: 123}, optsConfig);

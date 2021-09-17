@@ -1,4 +1,4 @@
-import Base from "yeoman-generator";
+import Base, { Answers } from "yeoman-generator";
 import {BaseEntityScreenAnswers} from './params';
 import {Entity, EntityAttribute, ProjectModel} from '../../../../common/model/cuba-model';
 import {collectAttributesFromHierarchy, findEntity} from '../../../../common/model/cuba-model-utils';
@@ -8,7 +8,10 @@ import {idAttrNameQuestions} from '../questions';
 import {EntityTemplateModel} from '../template-model';
 import {StudioTemplateProperty} from '../../../../common/studio/studio-model';
 
-export function getEntityFromAnswers<A extends BaseEntityScreenAnswers>(
+/**
+ * @deprecated
+ */
+function getEntityFromAnswers<A extends BaseEntityScreenAnswers>(
   answers: A,
   cubaProjectModel: ProjectModel
 ): Entity {
@@ -23,7 +26,10 @@ export function getEntityFromAnswers<A extends BaseEntityScreenAnswers>(
   return entity;
 }
 
-export async function stringIdPrompts<A extends BaseEntityScreenAnswers>(
+/**
+ * @deprecated
+ */
+async function stringIdPrompts<A extends BaseEntityScreenAnswers>(
   gen: Pick<Base, 'prompt'>,
   entity: Entity,
   cubaProjectModel: ProjectModel,
@@ -43,7 +49,7 @@ export async function stringIdPrompts<A extends BaseEntityScreenAnswers>(
     }
 
     // Ask whether to show the ID field in the List component
-    const showIdAnswers = await gen.prompt(fromStudioProperties(
+    const showIdAnswers = await gen.prompt<Answers>(fromStudioProperties(
       listShowIdQuestions, cubaProjectModel
     ));
 

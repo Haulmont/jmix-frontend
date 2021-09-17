@@ -12,7 +12,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
 
     writeBlankComponent(gen, extension, templateModel);
     writeComponentI18nMessages(
-      gen.fs, 
+      gen, 
       className, 
       dirShift, 
       projectModel.project?.locales

@@ -1,14 +1,8 @@
 import { expect } from "chai";
-import {stringIdAnswersToModel, getEntityFromAnswers, stringIdPrompts} from '../../../../../generators/react-typescript/common/base-entity-screen-generator';
+import {stringIdAnswersToModel} from '../../../../../generators/react-typescript/common/base-entity-screen-generator';
 import {MappingType} from '../../../../../common/model/cuba-model';
-import {StudioTemplateProperty, StudioTemplatePropertyType} from '../../../../../common/studio/studio-model';
-import { expectRejectedPromise } from "../../../../common/test-utils";
-import sinon = require("sinon");
-import {BaseGenerator} from '../../../../../common/base-generator';
-import {ComponentOptions} from "../../../../../building-blocks/stages/options/pieces/component";
 
 const projectModel = require('../../../../fixtures/project-model--scr.json');
-const projectModelNoIdAttr = require('../../../../fixtures/project-model--scr-no-id-attr.json');
 const stringIdAnswers = require('../../../../fixtures/answers/string-id-management-table.js');
 const stringIdAnswersExplicitIdName = require('../../../../fixtures/answers/string-id-management-table-explicit-id-name.json');
 const stringIdAnswersNoIdName = require('../../../../fixtures/answers/string-id-management-table-no-id-name.json');
@@ -107,118 +101,6 @@ const editAttrsImpostorId = [
   }
 ];
 
-const listIdPositionQuestion: StudioTemplateProperty = {
-  code: 'listIdAttrPos',
-  caption: 'Position of the ID attribute in the List component ' +
-      '(e.g. enter 1 for the ID to appear as the first row/column).',
-  propertyType: StudioTemplatePropertyType.INTEGER,
-  required: true
-};
-
-const listShowIdQuestions: StudioTemplateProperty[] = [
-  {
-    code: 'listShowIdAttr',
-    caption: 'Show ID attribute in the List component?',
-    propertyType: StudioTemplatePropertyType.BOOLEAN,
-    required: true
-  }
-];
-
-const editIdPositionQuestion: StudioTemplateProperty = {
-  code: 'editIdAttrPos',
-  caption: 'Position of the ID attribute in the Edit component ' +
-    '(e.g. enter 1 for the ID to appear as the first field of the form).',
-  propertyType: StudioTemplatePropertyType.INTEGER,
-  required: true
-};
-
-class TestEntityScreenGenerator extends BaseGenerator<any, any, any> {
-  constructor(args: string | string[], options: ComponentOptions) {
-    super(args, options);
-  }
-
-  entity: any;
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  writing(): void {}
-}
-
-describe('BaseEntityScreenGenerator', () => {
-  let gen: TestEntityScreenGenerator;
-
-  beforeEach(() => {
-    gen = new TestEntityScreenGenerator([], {dirShift: '../../'});
-  });
-
-  it('getEntityFromAnswers() - no entity name', async () => {
-    return expectRejectedPromise(
-      async () => getEntityFromAnswers({entity: {}} as any, projectModel),
-      'Additional prompt failed: cannot find entity name'
-    );
-  });
-
-  it('getEntityFromAnswers() - unexisting entity name', async () => {
-    return expectRejectedPromise(
-      async () => getEntityFromAnswers({entity: {name: 'Unexisting entity name'}} as any, projectModel),
-      'Additional prompt failed: cannot find entity'
-    );
-  });
-
-  it('getEntityFromAnswers() - entity found', async () => {
-    const entity = await getEntityFromAnswers({entity: {name: 'scr$Car'}} as any, projectModel);
-    expect(entity.name).to.equal('scr$Car');
-    expect(entity.fqn).to.equal('com.company.scr.entity.Car');
-  });
-
-  it('stringIdPrompts() - not a String ID entity', async () => {
-    const entity = projectModel.entities.find((e: any) => e.name === 'scr_IntegerIdTestEntity');
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake());
-    const answers = await stringIdPrompts(gen, entity, projectModel, listShowIdQuestions, listIdPositionQuestion);
-    expect(answers).to.deep.equal({});
-  });
-
-  it('stringIdPrompts() - String ID entity, no ID attribute name in project model (older Studio)', async () => {
-    const entity = projectModelNoIdAttr.entities.find((e: any) => e.name === 'scr_StringIdTestEntity');
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake());
-    const answers = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion);
-    expect(answers.idAttrName).to.equal('test_identifier');
-  });
-
-  it('stringIdPrompts() - String ID entity with ID attribute name in project model', async () => {
-    const entity = projectModel.entities.find((e: any) => e.name === 'scr_StringIdTestEntity');
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake());
-    const answers = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion);
-    expect(answers.idAttrName).to.be.undefined;
-  });
-
-  it('stringIdPrompts() - String ID entity, questions about showing ID', async () => {
-    const entity = projectModel.entities.find((e: any) => e.name === 'scr_StringIdTestEntity');
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake());
-    const answers = await stringIdPrompts(gen, entity, projectModel, listShowIdQuestions, listIdPositionQuestion);
-    expect(answers.listShowIdAttr).to.equal(true);
-    expect(answers.listIdAttrPos).to.equal(42);
-    expect(answers.editIdAttrPos).to.be.undefined;
-
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore unwrap the spy
-    gen.prompt.restore();
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake({
-      listShowIdAttr: false
-    }));
-    const answers2 = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion);
-    expect(answers2.listShowIdAttr).to.equal(false);
-    expect(answers2.listIdAttrPos).to.equal(undefined);
-    expect(answers.editIdAttrPos).to.be.undefined;
-  });
-
-  it('_stringIdPrompts() - String ID entity, with Edit component', async () => {
-    const entity = projectModel.entities.find((e: any) => e.name === 'scr_StringIdTestEntity');
-    sinon.stub(gen, 'prompt').callsFake(createPromptFake());
-    const answers = await stringIdPrompts(gen, entity,projectModel, listShowIdQuestions, listIdPositionQuestion, editIdPositionQuestion);
-    expect(answers.editIdAttrPos).to.equal(42);
-  });
-});
-
 describe('stringIdAnswersToModel()', () => {
   // TODO not supported yet
   xit('should return correct result for a String ID entity', () => {
@@ -313,27 +195,3 @@ describe('stringIdAnswersToModel()', () => {
     expect(editAttributes[1].name).to.equal('identifier');
   });
 });
-
-function createPromptFake(result: any = {}) {
-  return (questions: any) => {
-    const answers: any = {};
-    questions.forEach((question: any) => {
-      switch (question.name) {
-        case 'idAttrName':
-          answers.idAttrName = result.idAttrName ?? 'test_identifier';
-          break;
-        case 'listShowIdAttr':
-          answers.listShowIdAttr = result.listShowIdAttr ?? true;
-          break;
-        case 'listIdAttrPos':
-          answers.listIdAttrPos = result.listIdAttrPos ?? 42;
-          break;
-        case 'editIdAttrPos':
-          answers.editIdAttrPos = result.editIdAttrPos ?? 42;
-          break;
-      }
-    });
-    return Promise.resolve(answers)
-  };
-}
-

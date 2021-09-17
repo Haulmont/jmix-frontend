@@ -1,7 +1,8 @@
-import {MemFsEditor} from "yeoman-generator";
 import {Locale} from "../../../../common/model/cuba-model";
 import path from "path";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../../common/utils";
+import { JSONSchema7Type } from "json-schema";
+import Generator from "yeoman-generator";
 
 export enum ComponentType {
   Screen = 'screen',
@@ -28,7 +29,7 @@ export enum ComponentType {
  * are objects containing i18n key/value pairs for that locale.
  */
 export function writeComponentI18nMessages(
-  fs: MemFsEditor,
+  gen: Generator,
   className: string,
   dirShift: string = './',
   projectLocales?: Locale[],
@@ -37,12 +38,13 @@ export function writeComponentI18nMessages(
 ) {
   Object.entries(componentMessagesPerLocale).forEach(([localeCode, componentMessages]) => {
     if (projectLocales == null || projectLocales.some(projectLocale => projectLocale.code === localeCode)) {
-      const existingMessagesPath = path.join(dirShift, `i18n/${localeCode}.json`);
-      const existingMessages: Record<string, string> | null = fs.readJSON(existingMessagesPath);
+      const destRoot = gen.destinationRoot();
+      const existingMessagesPath = path.join(destRoot, dirShift, 'i18n', `${localeCode}.json`);
+      const existingMessages = gen.fs.readJSON(existingMessagesPath);
       const mergedMessages = mergeI18nMessages(existingMessages, componentMessages, className, localeCode, componentType);
 
       if (mergedMessages != null) {
-        fs.writeJSON(existingMessagesPath, mergedMessages);
+        gen.fs.writeJSON(existingMessagesPath, mergedMessages);
       }
     }
   });
@@ -61,12 +63,12 @@ export function writeComponentI18nMessages(
  * if not already present in `existingMessages`.
  */
 function mergeI18nMessages(
-  existingMessages: Record<string, string> | null,
+  existingMessages: JSONSchema7Type | undefined,
   componentMessages: Record<string, string>,
   className: string,
   localeCode: string,
   componentType: ComponentType
-): Record<string, string> | null {
+): JSONSchema7Type | undefined {
 
   const screenCaption = splitByCapitalLetter(capitalizeFirst(className));
 
@@ -78,11 +80,18 @@ function mergeI18nMessages(
   }
 
   return hasNewEntries(componentMessages, existingMessages)
-    ? {...componentMessages, ...existingMessages}
-    : null;
+    ? {
+      ...componentMessages,
+      ...(
+        typeof existingMessages === 'object'
+          ? existingMessages
+          : {}
+      )
+    }
+    : undefined;
 }
 
-function hasNewEntries(newVals: Record<string, string>, oldVals: Record<string, string> | null): boolean {
+function hasNewEntries(newVals: Record<string, string>, oldVals: JSONSchema7Type | undefined): boolean {
   const newKeys = Object.keys(newVals);
 
   if (newKeys.length === 0) { return false; }

@@ -34,7 +34,7 @@ export function writeSdkModel(
     model: ProjectModel,
     destination?: string
   ) {
-    return generateEntities(model, path.join(gen.destinationRoot(destination)), gen.fs);
+    return generateEntities(model, path.join(gen.destinationPath(), destination || ''), gen.fs);
 }
 
 export function writeSdkAll(
@@ -46,14 +46,14 @@ export function writeSdkAll(
     const ctx = writeSdkModel(gen, model, destination);
 
     const services = generateServices(restServices, ctx);
-    const pathToWriteServices = gen.destinationPath('services.ts');
+    const pathToWriteServices = path.join(gen.destinationPath(), destination || '', 'services.ts');
     gen.fs.write(pathToWriteServices, services);
 
     const queries = generateQueries(restQueries, ctx);
-    const pathToWriteQueriess = gen.destinationPath('queries.ts');
+    const pathToWriteQueriess = path.join(gen.destinationPath(), destination || '', 'queries.ts');
     gen.fs.write(pathToWriteQueriess, queries);
 
     const metadata = pickMetadataFromProjectModel(model);
-    const pathToWriteMetadata = gen.destinationPath('metadata.json');
+    const pathToWriteMetadata = path.join(gen.destinationPath(), destination || '', 'metadata.json');
     gen.fs.writeJSON(pathToWriteMetadata, metadata);
 }

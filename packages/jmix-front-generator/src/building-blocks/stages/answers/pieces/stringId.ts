@@ -87,7 +87,7 @@ export async function askStringIdQuestions(
   }
 
   // Ask whether to show the ID field in the List component
-  const showIdAnswers = await gen.prompt(fromStudioProperties(
+  const showIdAnswers: StringIdAnswers = await gen.prompt(fromStudioProperties(
     [listShowIdQuestion], projectModel
   ));
 

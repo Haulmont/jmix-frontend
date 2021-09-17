@@ -26,7 +26,7 @@ export const writeBrowser: WriteStage<ComponentOptions, EntityBrowserTemplateMod
   writeBrowserComponent(gen, extension, templateModel);
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales

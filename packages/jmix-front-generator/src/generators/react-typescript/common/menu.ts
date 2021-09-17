@@ -1,5 +1,5 @@
 import path from "path";
-import Generator from "yeoman-generator";
+import {Editor} from "mem-fs-editor";
 import uuid from 'uuid'
 import {convertToUnixPath} from "../../../common/utils";
 import jscodeshift, {JSXElement, JSXAttribute, stringLiteral, Collection } from 'jscodeshift'
@@ -43,7 +43,7 @@ export enum MenuItemTypes {
 }
 
 export function addToMenu(
-  fs: Generator.MemFsEditor,
+  fs: Editor,
   {
     destRoot,
     dirShift,
@@ -81,7 +81,7 @@ export function addToMenu(
 }
 
 export function addAddonToMenu (
-  fs: Generator.MemFsEditor,
+  fs: Editor,
   {
     addonName,
     pathToAddon,
