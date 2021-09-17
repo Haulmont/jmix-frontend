@@ -32,7 +32,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
   const extension = '.tsx.ejs';
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales,

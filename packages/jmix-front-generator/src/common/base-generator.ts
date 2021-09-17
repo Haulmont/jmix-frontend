@@ -22,6 +22,7 @@ import {
 import AutocompletePrompt from 'inquirer-autocomplete-prompt';
 import through2 = require('through2');
 import prettier = require('prettier');
+import {throwError} from './utils';
 
 /**
  * @deprecated
@@ -39,8 +40,6 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
   options: O = ({} as O);
   answers?: A;
   model?: M;
-
-  conflicter!: { force: boolean }; //patch missing in typings
 
   protected cubaProjectModel?: ProjectModel;
   protected modelFilePath?: string;
@@ -60,8 +59,8 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
     // @ts-ignore this.env.adapter is missing in the typings
     this.env.adapter
       .promptModule.registerPrompt('autocomplete',  AutocompletePrompt);
-    this.registerTransformStream(createEjsRenameTransform());
-    this.registerTransformStream(createFormatTransform());
+    this.queueTransformStream(createEjsRenameTransform());
+    this.queueTransformStream(createFormatTransform());
   }
 
   protected _composeModelFilePath(options: O, executionDir: string) : string | undefined {
@@ -74,12 +73,11 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
   protected async _obtainCubaProjectModel() {
     if (this.modelFilePath) {
       this.log('Skipping project model prompts since model is provided');
-      this.conflicter.force = true;
       this.cubaProjectModel = this._readProjectModel();
     } else {
       const openedCubaProjects = await getOpenedCubaProjects();
       if (!openedCubaProjects || openedCubaProjects.length < 1) {
-        this.env.error(Error(ERR_STUDIO_NOT_CONNECTED));
+        throwError(this, ERR_STUDIO_NOT_CONNECTED);
         return;
       }
 
@@ -112,7 +110,6 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
     let unrefinedAnswers: A;
     if (this.options.answers) {
       this.log('Skipping prompts since answers are provided');
-      this.conflicter.force = true;
       const answersBuffer = Buffer.from(this.options.answers, 'base64').toString('utf8');
       unrefinedAnswers = JSON.parse(answersBuffer);
     } else {
@@ -129,7 +126,6 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
     }
 
     if (this.options.model && this.options.answers) { // passed from studio
-      this.conflicter.force = true;
       const encodedAnswers = Buffer.from(this.options.answers, 'base64').toString('utf8');
       const parsedAnswers = JSON.parse(encodedAnswers);
 

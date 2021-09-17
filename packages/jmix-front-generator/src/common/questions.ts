@@ -6,9 +6,8 @@ import {findViewsForEntity} from './model/cuba-model-utils';
 export type ObjectChoice = {name: string, value: any, short?: string};
 export type Choice = string | ObjectChoice;
 
-interface Question extends YeomanQuestion {
+type Question = YeomanQuestion & {
   choices?: Choice[] | ((previousAnswers: Answers) => Choice[]), // Property is missing in yeoman typings
-  source?: (answers: Answers, input: string) => Promise<Choice[]>, // Added by autocomplete plugin
 }
 
 export const enum QuestionType {
@@ -22,7 +21,6 @@ export const enum QuestionType {
   editor = 'editor',
   autocomplete = 'autocomplete'
 }
-
 
 const matching: {[key: string]: QuestionType} = {
   [StudioTemplatePropertyType.BOOLEAN]: QuestionType.confirm,
@@ -41,10 +39,12 @@ const matching: {[key: string]: QuestionType} = {
 };
 
 export function fromStudioProperty(prop: StudioTemplateProperty, projectModel?: ProjectModel): Question {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore need many type guards for rewrite it typesafety
   const question: Question = {
     type: matching[prop.propertyType] || QuestionType.input,
     name: prop.code,
-    message: prop.caption
+    message: prop.caption,
   };
 
   switch (prop.propertyType) {
@@ -68,7 +68,7 @@ export function fromStudioProperty(prop: StudioTemplateProperty, projectModel?: 
       if (!projectModel) {
         throw new Error('Project model is required to determine choices for property of type ' + StudioTemplatePropertyType.VIEW);
       }
-      question.choices = (previousAnswers) => {
+      question.choices = (previousAnswers: any) => {
         return findViewsForEntity(projectModel, previousAnswers.entity.name)
           .map(view => ({
             name: view.name,
@@ -99,13 +99,13 @@ export function fromStudioProperty(prop: StudioTemplateProperty, projectModel?: 
       question.choices = prop.options;
       break;
   }
-
+  
   if (question.type === QuestionType.autocomplete) {
     if (!question.choices) {
       throw new Error('Question choices are not defined');
     }
 
-    question.source = (answers, input) => {
+    question.source = (answers: any, input: any) => {
       let choices: Choice[];
       if (typeof(question.choices) === 'function') {
         choices = question.choices(answers);

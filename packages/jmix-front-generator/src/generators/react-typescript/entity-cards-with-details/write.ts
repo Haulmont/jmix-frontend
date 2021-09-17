@@ -23,7 +23,7 @@ export const writeCardsWithDetails: WriteStage<ComponentOptions, CardsWithDetail
   writeCardsWithDetailsComponent(gen, extension, templateModel);
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales

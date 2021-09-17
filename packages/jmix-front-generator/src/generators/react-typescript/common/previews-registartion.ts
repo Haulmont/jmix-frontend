@@ -1,5 +1,5 @@
 import path from "path";
-import Generator from "yeoman-generator";
+import {Editor} from "mem-fs-editor";
 import { convertToUnixPath } from "../../../common/utils";
 import jscodeshift, {
   identifier,
@@ -23,7 +23,7 @@ interface ComponentInfo {
 }
 
 export function registerComponentPreviews(
-  fs: Generator.MemFsEditor,
+  fs: Editor,
   {
     destRoot,
     dirShift,

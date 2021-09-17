@@ -20,12 +20,8 @@ export const defaultConfigureGenerator = <O extends CommonGenerationOptions>(tem
   // @ts-ignore this.env.adapter is missing in the typings
   gen.env.adapter
     .promptModule.registerPrompt('autocomplete',  AutocompletePrompt);
-  gen.registerTransformStream(createEjsRenameTransform());
-  gen.registerTransformStream(createFormatTransform());
-
-  if (options.answers || options.model) {
-    gen.conflicter.force = true;
-  }
+  gen.queueTransformStream(createEjsRenameTransform());
+  gen.queueTransformStream(createFormatTransform());
 }
 
 /**

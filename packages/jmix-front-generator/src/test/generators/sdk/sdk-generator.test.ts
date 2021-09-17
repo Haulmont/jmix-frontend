@@ -7,6 +7,7 @@ import {SdkAllGenerator} from "../../../generators/sdk/all"
 import YeomanEnvironment from "yeoman-environment";
 import {expect} from "chai";
 import {ERR_STUDIO_NOT_CONNECTED} from "../../../common/studio/studio-integration";
+import { ComponentOptions } from "../../../building-blocks/stages/options/pieces/component";
 
 const modelPath = require.resolve('../../fixtures/mpg-projectModel.json');
 const rimraf = promisify(require('rimraf'));
@@ -31,10 +32,10 @@ describe('sdk generator test', () => {
       })
     )
     .then(() => {
-      assert.ok(fs.existsSync(`services.ts`));
-      assert.ok(fs.existsSync(`queries.ts`));
-      assert.ok(fs.existsSync(`enums/enums.ts`));
-      assert.ok(!fs.existsSync(`entities/base`));
+      assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `services.ts`)));
+      assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `queries.ts`)));
+      assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `enums/enums.ts`)));
+      assert.ok(!fs.existsSync(path.join(SDK_ALL_DIR, `entities/base`)));
     }));
 
   it('should generate sdk:model', () => rimraf(`${SDK_MODEL_DIR}/*`)
@@ -45,11 +46,11 @@ describe('sdk generator test', () => {
       })
     )
     .then(() => {
-      assert.ok(fs.existsSync(`enums/enums.ts`));
-      assert.ok(!fs.existsSync(`entities/base`));
+      assert.ok(fs.existsSync(path.join(SDK_MODEL_DIR, `enums/enums.ts`)));
+      assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `entities/base`)));
       //services and queries should NOT be generated for sdk:model mode
-      assert.ok(!fs.existsSync(`services.ts`));
-      assert.ok(!fs.existsSync(`queries.ts`));
+      assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `services.ts`)));
+      assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `queries.ts`)));
     }));
 
   it('should generates sdk for empty model', () => {
@@ -67,8 +68,8 @@ describe('sdk generator test', () => {
     }
 
     const Gen = class extends SdkAllGenerator {
-      constructor(){
-        super(['--model', notExistingModelPath], gerOptions);
+      constructor(args: string | string[], options: ComponentOptions){
+        super(['--model', notExistingModelPath, ...args], {...options, ...gerOptions});
       }
       // noinspection JSUnusedGlobalSymbols
       async testing() {
@@ -88,12 +89,15 @@ describe('sdk generator test', () => {
   it('should fail if CUBA not connected', (done) => {
 
     const Gen = class extends SdkAllGenerator {
+      constructor(args: string | string[], options: ComponentOptions){
+        super(args, options);
+      }
       // noinspection JSUnusedGlobalSymbols
       async testing() {
         try {
           await this.generate();
-        } catch (e) {
-          expect(e).eq(ERR_STUDIO_NOT_CONNECTED);
+        } catch (e: any) {
+          expect(e.message).eq(ERR_STUDIO_NOT_CONNECTED);
           done();
         }
       }
@@ -106,14 +110,13 @@ describe('sdk generator test', () => {
 function runGenerator(genClass: any, onError?: (e: Error) => void) {
   const env = new YeomanEnvironment();
   env.registerStub(genClass, 'Gen');
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   env.on('error', e => {
     if (onError != null) {
       onError(e);
     }
   });
-  env.run('Gen');
+  // callback in env.run method is deprecated. @types/yeoman-environment isn't updated to 3.0.0 yet
+  (env as any).run('Gen');
 }
 
 

@@ -47,7 +47,11 @@ describe('react generator template processing test', () => {
 
     const env = new YeomanEnvironment();
     env.registerStub(CopyTplGenerator, 'CopyTplGenerator');
-    await env.run('CopyTplGenerator', {});
+    // callback in env.run method is deprecated. @types/yeoman-environment isn't updated to 3.0.0 yet
+    await (env as any).run(
+      'CopyTplGenerator',
+      {}
+    );
 
     format(GENERATED_FILE);
 

@@ -1,5 +1,5 @@
 import {Entity, EntityAttribute, ProjectModel} from "../../../../../../common/model/cuba-model";
-import Generator from "yeoman-generator";
+import {Editor} from "mem-fs-editor";
 import path from "path";
 import ts from "typescript";
 import {EnumDeclaration} from "typescript";
@@ -26,10 +26,10 @@ export type ClassCreationContext = ModelContext & {
  *
  * @param projectModel project model entities generated from
  * @param destDir where created TS files should be placed, also need to compute correct imports in generated TS files
- * @param fs Yeoman MemFs editor
+ * @param fs Yeoman editor
  * @return model context contains entity and enum maps with fqn as key
  */
-export function generateEntities(projectModel: ProjectModel, destDir: string, fs: Generator.MemFsEditor): ModelContext {
+export function generateEntities(projectModel: ProjectModel, destDir: string, fs: Editor): ModelContext {
   const {entitiesMap, enumsMap} = collectModelContext(projectModel);
   for (const [, entityInfo] of entitiesMap) {
     const {entity} = entityInfo;

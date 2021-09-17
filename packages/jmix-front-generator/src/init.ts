@@ -128,17 +128,27 @@ export function readClient(clientsDirPath: string, clientDirName: string, genera
 
 export async function generate(
   generatorPath: string,
-  options?: {},
+  options?: Record<string, any>,
   templateOverride?: string,
 ): Promise<void> {
   const env = new YeomanEnvironment();
+  const defaultOptions = {
+    force: options?.answers != null || options?.model != null
+      ? true
+      : false
+    };
 
   const {generator} = await import(generatorPath);
   env.registerStub(generator, generator.name);
-  return env.run(generator.name, {
-    templateOverride,
-    ...options
-  });
+  // callback in env.run method is deprecated. @types/yeoman-environment isn't updated to 3.0.0 yet
+  return (env as any).run(
+    generator.name,
+    {
+      ...defaultOptions,
+      templateOverride,
+      ...options,
+    }
+  );
 }
 
 function collectGenerators(generatorsDir: string, genFileName: string = GENERATOR_FILE_NAME): GeneratorInfo[] {

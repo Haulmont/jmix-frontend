@@ -23,7 +23,7 @@ export const writeMultiSelectionTable: WriteStage<ComponentOptions, MultiSelecti
   writeMultiSelectionTableComponent(gen, extension, templateModel);
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales,

@@ -16,7 +16,7 @@ const writeMasterDetailEditorComponent: WriteStage<ComponentOptions, EntityEdito
   const extension = '.tsx.ejs';
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales
@@ -37,7 +37,7 @@ const writeMasterDetailBrowserComponent: WriteStage<ComponentOptions, MasterDeta
   const extension = '.tsx.ejs';
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales
@@ -69,7 +69,7 @@ const writeMasterDetailComponent: WriteStage<ComponentOptions, MasterDetailCompo
   );
 
   writeComponentI18nMessages(
-    gen.fs,
+    gen,
     templateModel.className,
     options.dirShift,
     projectModel.project?.locales

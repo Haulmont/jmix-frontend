@@ -17,7 +17,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
 
   writeCardsComponent(gen, extension, templateModel);
   writeComponentI18nMessages(
-    gen.fs, 
+    gen, 
     className, 
     dirShift, 
     projectModel.project?.locales

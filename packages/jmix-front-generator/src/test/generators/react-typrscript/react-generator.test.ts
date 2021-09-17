@@ -35,8 +35,8 @@ describe('react generator test', () => {
     await rimraf(`${REACT_DIR}/*`);
 
     await generate(path.join(GENERATORS_DIR, 'react-typescript', 'app'), opts(REACT_DIR, null, absoluteModelPath));
-    assert.ok(!fs.existsSync(`entities/base`));
-    assert.ok(fs.existsSync(`enums/enums.ts`));
+    assert.ok(!fs.existsSync(path.join(REACT_DIR, `src/jmix/entities/base`)));
+    assert.ok(fs.existsSync(path.join(REACT_DIR, `src/jmix/enums/enums.ts`)));
     assertFilesPlain('src/index.tsx', REACT_DIR, FIXTURES_DIR);
     assertFilesPlain('.env.development.local', REACT_DIR, FIXTURES_DIR);
     assertFilesPlain('.env.production.local', REACT_DIR, FIXTURES_DIR);

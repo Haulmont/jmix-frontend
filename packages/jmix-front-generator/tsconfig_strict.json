@@ -10,11 +10,7 @@
     "noUnusedParameters": true,
     "noImplicitReturns": true,
     "noFallthroughCasesInSwitch": true,
-    "baseUrl": ".",
-    "paths": {
-      "inquirer-autocomplete-prompt": ["custom_types/inquirer-autocomplete-prompt"],
-      "yeoman-environment": ["custom_types/yeoman-environment"]
-    }
+    "baseUrl": "."
   },
   "include": [
     "src/**/*.ts",
