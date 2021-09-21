@@ -212,6 +212,8 @@ const EXPECTED_I18N_KEYS = [
   "common.edit",
   "common.remove",
   "common.submit",
+  "common.unknownAppError",
+  "common.unknownTabError",
   "common.next",
   "common.previous",
   "common.unsavedEntity",
