@@ -18,6 +18,8 @@
     "common.requestFailed": "L'éxecution de l'opération demandée a échouée",
     "common.retry": "Recommencer",
     "common.back": "common.back [TRANSLATION NOT AVAILABLE]",
+    "common.unknownAppError": "common.unknownAppError [TRANSLATION NOT AVAILABLE]",
+    "common.unknownTabError": "common.unknownTabError [TRANSLATION NOT AVAILABLE]",
 
     "home.welcome": "Bienvenu à",
     "screen.home": "Accueil",

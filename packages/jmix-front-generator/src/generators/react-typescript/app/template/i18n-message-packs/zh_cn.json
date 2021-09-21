@@ -18,6 +18,8 @@
   "common.requestFailed": "请求的操作执行失败",
   "common.retry": "重试",
   "common.back": "common.back [TRANSLATION NOT AVAILABLE]",
+  "common.unknownAppError": "common.unknownAppError [TRANSLATION NOT AVAILABLE]",
+  "common.unknownTabError": "common.unknownTabError [TRANSLATION NOT AVAILABLE]",
 
   "home.welcome": "欢迎使用",
   "screen.home": "主界面",

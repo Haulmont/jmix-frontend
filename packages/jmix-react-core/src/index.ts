@@ -49,6 +49,8 @@ export * from './data/PropertyType';
 export * from './data/Association';
 export * from './data/getProperty';
 
+export * from "./errors/ErrorBoundary";
+
 export * from './util/collation';
 export * from './util/dollars-to-underscores';
 export * from './util/graphql';
