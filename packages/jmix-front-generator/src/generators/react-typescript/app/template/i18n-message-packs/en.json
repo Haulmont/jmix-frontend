@@ -18,6 +18,8 @@
   "common.requestFailed": "Failed to perform the requested operation",
   "common.retry": "Retry",
   "common.back": "Back",
+  "common.unknownAppError": "Something went wrong. Please refresh the page and try again.",
+  "common.unknownTabError": "Tab could not be loaded. Please refresh the page and try again.",
 
   "home.welcome": "Welcome to",
   "screen.home": "Home",
