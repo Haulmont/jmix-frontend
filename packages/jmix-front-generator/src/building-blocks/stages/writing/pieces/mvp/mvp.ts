@@ -1,38 +1,45 @@
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import path from "path";
-import {addAppMenu, addEntityMenuItem} from "../menu";
-import {addComponentPreviews} from "../previews-registration";
-import {CommonTemplateModel} from "../../../template-model/pieces/common";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../../../common/utils";
+import { addMvpAppMenu } from "./addMvpAppMenu";
 
-export async function writeMvpComponent<T extends CommonTemplateModel>(
+export interface MvpComponentTemplateModel {
+  componentName: string;
+  route: string;
+  relDirShift: string;
+  shouldAddToMenu: boolean;
+  includesPath: (...paths: string[]) => string;
+}
+
+export async function writeMvpComponent<T extends MvpComponentTemplateModel>(
   templateModel: T,
   gen: YeomanGenerator,
   srcPath: string
 ) {
-  const {relDirShift, className, menuItem, nameLiteral, shouldAddToMenu} = templateModel;
+  const {relDirShift, componentName, route, shouldAddToMenu} = templateModel;
 
   gen.log(`Generating to ${gen.destinationPath()}`);
 
   gen.fs.copyTpl(
     srcPath,
-    gen.destinationPath(className + '.tsx'),
+    gen.destinationPath(componentName + '.tsx'),
     templateModel
   );
 
   if (shouldAddToMenu) {
-    addAppMenu(gen, relDirShift, className, menuItem);
+    addMvpAppMenu(gen, relDirShift, route);
   }
-  addEntityMenuItem(gen, relDirShift, className, nameLiteral);
-  addComponentPreviews(gen, relDirShift, className, className, true, {
-    paginationConfig: {},
-    onPagingChange: () => {}
-  });
 
-  addScreenI18nKeyEn(className, relDirShift, gen);
+  // TODO Previews
+  // addComponentPreviews(gen, relDirShift, className, className, true, {
+  //   paginationConfig: {},
+  //   onPagingChange: () => {}
+  // });
+
+  addScreenI18nKeyEn(componentName, relDirShift, gen);
 }
 
-function addScreenI18nKeyEn(className: string, dirShift: string, gen: YeomanGenerator) {
+export function addScreenI18nKeyEn(className: string, dirShift: string, gen: YeomanGenerator) {
   const existingMessagesPath = path.join(dirShift, `i18n/en.json`);
   const existingMessages: Record<string, string> | null = gen.fs.readJSON(existingMessagesPath);
   if (existingMessages == null) {

@@ -4,7 +4,7 @@ import fs from "fs";
 import path from "path";
 import gql from "graphql-tag";
 import {fail} from "assert";
-import { deriveGraphQLBrowserModel } from "./template-model";
+import { deriveOperationNames } from "./template-model";
 
 describe('deriveEntityModel()', () => {
   let schema: GraphQLSchema;
@@ -17,7 +17,7 @@ describe('deriveEntityModel()', () => {
   });
 
   it('derives entity model', () => {
-    deriveGraphQLBrowserModel(gql(QUERY_STRING), schema, gql(MUTATION_STRING));
+    deriveOperationNames(gql(QUERY_STRING), schema, gql(MUTATION_STRING));
     fail();
   });
 });

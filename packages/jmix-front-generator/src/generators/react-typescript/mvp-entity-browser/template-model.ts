@@ -1,82 +1,74 @@
-import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
 import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
 import {EntityListMode, MvpEntityBrowserAnswers} from "./answers";
-import {DocumentNode, GraphQLSchema} from "graphql";
-import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
+import {GraphQLSchema} from "graphql";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import gql from "graphql-tag";
 import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
-import {GraphQLOutputType} from "graphql/type/definition";
+import {
+  baseTemplateModel,
+  BaseTemplateModel
+} from "../../../building-blocks/stages/template-model/pieces/mvp/BaseTemplateModel";
+import {
+  deriveScreenTemplateModel,
+  ScreenTemplateModel
+} from "../../../building-blocks/stages/template-model/pieces/mvp/ScreenTemplateModel";
+import {splitByCapitalLetter} from "../../../common/utils";
+import {toKebabCase} from "../../../building-blocks/util/to-kebab-case";
 
-export type MvpEntityBrowserTemplateModel =
-  CommonTemplateModel
+export type MvpEntityListTemplateModel =
+  BaseTemplateModel
   & UtilTemplateModel
-  & GraphQLBrowserModel
+  & ScreenTemplateModel
   & {
+  componentName: string,
+  caption: string,
+  route: string,
+  relDirShift: string,
+  shouldAddToMenu: boolean,
+  queryName: string,
   queryString: string,
+  deleteMutationName?: string,
   deleteMutationString?: string,
   idField: string,
   mode: EntityListMode;
 };
 
-type GraphQLBrowserModel = {
-  /**
-   * @deprecated
-   */
-  entityName: string,
-  queryName: string,
-  deleteMutationName?: string,
-};
-
-export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityBrowserTemplateModel> = async (
+export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityListTemplateModel> = async (
   options: MvpComponentOptions, answers: MvpEntityBrowserAnswers, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]
-): Promise<MvpEntityBrowserTemplateModel> => {
-  if (schema == null) {
-    throw new Error('Schema is required for this generator');
-  }
-
+): Promise<MvpEntityListTemplateModel> => {
   const {
+    componentName,
     query: queryString,
     mutation: deleteMutationString,
     mode = 'edit',
     idField = 'id',
+    addToMenu
   } = answers;
 
   const queryNode = gql(queryString);
   const mutationNode = deleteMutationString != null ? gql(deleteMutationString) : undefined;
+  const queryName = getOperationName(queryNode);
+  const deleteMutationName = mutationNode != null ? getOperationName(mutationNode) : undefined;
+
+  const route = toKebabCase(componentName);
+  const caption = splitByCapitalLetter(componentName);
 
   return {
-    ...deriveEntityCommon(options, answers),
+    ...baseTemplateModel,
     ...templateUtilities,
-    ...deriveGraphQLBrowserModel(queryNode, schema, mutationNode),
+    ...deriveScreenTemplateModel(options),
+    componentName,
+    route,
+    caption,
+    shouldAddToMenu: addToMenu,
+    queryName,
     queryString,
+    deleteMutationName,
     deleteMutationString,
     idField,
     mode
   };
 };
 
-export function deriveGraphQLBrowserModel(queryNode: DocumentNode, schema: GraphQLSchema, mutationNode?: DocumentNode,): GraphQLBrowserModel {
-  const queryName = getOperationName(queryNode);
-  const deleteMutationName = mutationNode != null ? getOperationName(mutationNode) : undefined;
-
-  const queryType = schema.getQueryType();
-  if (queryType == null) {
-    throw new Error('Query type not found');
-  }
-
-  const objectType: GraphQLOutputType = queryType.getFields()[queryName].type;
-  if (!('ofType' in objectType)) {
-    throw new Error('Type name not found');
-  }
-
-  const typeName = objectType.ofType.name;
-
-  return {
-    queryName,
-    deleteMutationName,
-    entityName: typeName
-  }
-}

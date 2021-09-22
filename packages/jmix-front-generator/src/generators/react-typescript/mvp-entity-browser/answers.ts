@@ -1,34 +1,22 @@
-import {
-  ComponentNameAnswer,
-  createComponentNameQuestion,
-  MenuItemAnswer,
-} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
 export type EntityListMode = 'edit' | 'view' | 'view with details';
 
-export type MvpEntityBrowserAnswers =
-  ComponentNameAnswer
-  & MenuItemAnswer
-  & {
-    query: string;
-    mutation?: string;
-    mode?: EntityListMode;
-    idField?: string;
-  };
+export type MvpEntityBrowserAnswers = {
+  componentName: string;
+  mode?: EntityListMode;
+  query: string;
+  mutation?: string;
+  idField?: string;
+  addToMenu: boolean;
+};
 
 export const mvpEntityBrowserQuestions = [
-  createComponentNameQuestion({defaultValue: 'List'}),
   {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
-  },
-  {
-    caption: 'Query to load items',
-    code: 'query',
-    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
+    caption: 'Component name',
+    code: 'componentName',
+    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
+    defaultValue: 'List',
     required: true
   },
   {
@@ -44,6 +32,12 @@ export const mvpEntityBrowserQuestions = [
     options: ['edit', 'view', 'view with details'],
   },
   {
+    caption: 'Query to load items',
+    code: 'query',
+    propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
+    required: true
+  },
+  {
     caption: 'Mutation to delete an item',
     code: 'mutation',
     propertyType: StudioTemplatePropertyType.GRAPHQL_MUTATION,
@@ -53,6 +47,13 @@ export const mvpEntityBrowserQuestions = [
     caption: 'Name of the id attribute',
     code: 'idField',
     propertyType: StudioTemplatePropertyType.STRING,
-    required: false
-  }
+    required: false,
+    defaultValue: 'id'
+  },
+  {
+    caption: "Add to menu",
+    code: "menuItem",
+    propertyType: StudioTemplatePropertyType.BOOLEAN,
+    required: true
+  },
 ];

@@ -19,5 +19,5 @@ export const templateUtilities: UtilTemplateModel = {
   unCapitalizeFirst,
   dollarsToUnderscores,
   splitByCapitalLetter,
-  capitalizeFirst
+  capitalizeFirst,
 };

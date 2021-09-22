@@ -43,7 +43,7 @@ const <%= toFatSnakeCase(deleteMutationName) %> = gql`
 `;
 <% } -%>
 
-const <%= className %> = observer(({onSelect}: EntityListScreenProps) => {
+const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
 
   const screens: Screens = useScreens();
   const intl = useIntl();
@@ -286,4 +286,4 @@ function getUpdateFn(e: any) {
   }
 }
 
-export default <%= className %>;
+export default <%= componentName %>;
