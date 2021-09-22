@@ -4,9 +4,11 @@ import {LockOutlined, UserOutlined} from "@ant-design/icons";
 import {observer} from "mobx-react";
 import "./Login.css";
 import {securityStore} from "../../index";
-import {LoginAttemptResult} from "../security/security";
+import { useIntl } from "react-intl";
 
 const Login = observer(() => {
+  const intl = useIntl();
+
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [performingLoginRequest, setPerformingLoginRequest] = useState(false);
@@ -22,18 +24,23 @@ const Login = observer(() => {
 
   const doLogin = useCallback(async () => {
     setPerformingLoginRequest(true);
-    const loginAttemptResult = await securityStore.login(username, password);
-    switch (loginAttemptResult) {
-      case LoginAttemptResult.SUCCESS:
-        return;
-      case LoginAttemptResult.UNAUTHORIZED:
-        notification.error({message: 'Login does not exist or incorrect password'});
-        return;
-      case LoginAttemptResult.UNKNOWN_ERRROR:
-        notification.error({message: 'Login failed'});
-        return;
-    }
-  }, [setPerformingLoginRequest, username, password]);
+    await securityStore.login(username, password, (status) => {
+      switch (status) {
+        case 200:
+          break;
+        case 401:
+          notification.error({
+            message: intl.formatMessage({id: "auth.login.unauthorized"})
+          });
+          break;
+        default:
+          notification.error({
+            message: intl.formatMessage({id: "auth.login.unknownError"})
+          });
+      }
+      setPerformingLoginRequest(false);
+    });
+  }, [setPerformingLoginRequest, username, password, intl]);
 
   return (
     <div className="login-form-container">

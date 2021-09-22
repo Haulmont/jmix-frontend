@@ -1,18 +1,66 @@
-import {MenuProps} from "antd";
-import {HomeOutlined, BarsOutlined} from "@ant-design/icons";
-import {MenuItem, VerticalMenu } from "@haulmont/jmix-react-ui";
+import {Menu } from "antd";
+import {HomeOutlined} from "@ant-design/icons";
+import {useIntl} from "react-intl";
+import {useCallback} from "react";
+import {observer} from "mobx-react";
+import {screenRegistry} from "./screenRegistry";
+import {Link, useLocation} from "react-router-dom";
+import {useScreens} from "../framework/screen-api/ScreenContext";
+import {getScreenKey} from "../framework/screen-api/getScreenKey";
 
-export interface AppMenuProps extends MenuProps {}
+export const AppMenu = observer(() => {
+  const intl = useIntl();
+  const screens = useScreens();
+  const location = useLocation();
 
-export const AppMenu = (props: AppMenuProps) => {
+  const handleClick = useCallback(({key}: {key: string}) => {
+    const menuItemInfo = screenRegistry[key];
+    if (menuItemInfo == null) {
+      // This might be a menu item that doesn't use Screen API
+      return;
+    }
+    const tabCaption = intl.formatMessage({id: menuItemInfo.captionKey});
+    const breadcrumbCaption = intl.formatMessage({
+      id: menuItemInfo.captionKey
+    });
+    const {component} = menuItemInfo;
+
+    screens.openInTab({tabCaption, breadcrumbCaption, component, tabKey: key});
+  }, [intl, screens]);
+
+  const getCaption = useCallback((key: string) => {
+    return intl.formatMessage({id: screenRegistry[key].captionKey});
+  }, [intl]);
+
+  const activeItem = getScreenKey(location.pathname);
+
   return (
-    <VerticalMenu {...props}>
-      <MenuItem
-        screenId="HomePage"
+    <Menu onClick={handleClick}
+          selectedKeys={activeItem ? [activeItem] : []}
+    >
+      <Menu.Item
         icon={<HomeOutlined />}
-        caption={"screen.home"}
-        key={"home"}
-      />
-    </VerticalMenu>
+        title={getCaption('home')}
+        key='home'
+      >
+        {getCaption('home')}
+      </Menu.Item>
+
+      {/*TODO: DELETE ME*/}
+      {/*<Menu.Item*/}
+      {/*  title={getCaption('owner-list')}*/}
+      {/*  key='owner-list'*/}
+      {/*>*/}
+      {/*  {getCaption('owner-list')}*/}
+      {/*</Menu.Item>*/}
+
+      {/*If you don't need Screen API (tabs / breadcrumbs) you can just use React Router components*/}
+      {/*<Menu.Item*/}
+      {/*  title='Component1'*/}
+      {/*  key='component1'*/}
+      {/*>*/}
+      {/*  <Link to='/component1'>Component 1</Link>*/}
+      {/*</Menu.Item>*/}
+    </Menu>
   );
-};
+});

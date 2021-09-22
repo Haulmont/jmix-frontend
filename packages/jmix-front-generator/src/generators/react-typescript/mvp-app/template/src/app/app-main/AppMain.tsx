@@ -4,14 +4,13 @@ import {Layout} from "antd";
 import { AppHeader } from "../app-header/AppHeader";
 import './AppMain.css';
 import {AppMenu} from "../AppMenu";
-import { Router } from "@haulmont/jmix-react-core";
-import { MultiTabs } from "@haulmont/jmix-react-ui";
-import "../../routing";
-
-const routes = {
-  "/": <MultiTabs />,
-  "/:entityName/:entityId?": <MultiTabs />
-};
+import {AppTabs} from "../app-tabs/AppTabs";
+import {Route, Switch} from "react-router-dom";
+import {Component1} from "../custom-routes/Component1";
+import { Component2 } from "../custom-routes/Component2";
+import {Page404} from "../../framework/components/page-404/Page404";
+import {getScreenPaths, screenRegistry} from "../screenRegistry";
+import {CloseAllTabs} from "../../framework/components/close-all-tabs/CloseAllTabs";
 
 export const AppMain = observer(() => {
   return (
@@ -31,7 +30,24 @@ export const AppMain = observer(() => {
 
         <Layout className="layout-content">
           <Layout.Content>
-            <Router global routes={routes} />
+            <Switch>
+              {/*You can create your own routes in addition to or instead of using the Screen API*/}
+              {/*<Route path='/component1'>*/}
+              {/*  <Component1/>*/}
+              {/*</Route>*/}
+              {/*<Route path='/component2'>*/}
+              {/*  <Component2/>*/}
+              {/*</Route>*/}
+              <Route path={getScreenPaths()}>
+                <AppTabs/>
+              </Route>
+              <Route path='/' exact>
+                <CloseAllTabs/>
+              </Route>
+              <Route>
+                <Page404/>
+              </Route>
+            </Switch>
           </Layout.Content>
         </Layout>
       </Layout>

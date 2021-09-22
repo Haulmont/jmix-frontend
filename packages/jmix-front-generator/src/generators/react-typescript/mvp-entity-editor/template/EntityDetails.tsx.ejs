@@ -1,30 +1,31 @@
 import {useCallback} from 'react';
 import {Card, Spin, Result, Empty, Descriptions, Button} from 'antd';
 import {useQuery, gql} from '@apollo/client';
-import {useParentScreen} from '@haulmont/jmix-react-ui';
 import {FormattedMessage} from 'react-intl';
+import {useHistory} from "react-router-dom";
+import {useScreens} from "<%= relDirShift %>framework/screen-api/ScreenContext";
 import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
 import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
 import {guessLabel} from "<%= relDirShift %>framework/util/guessLabel";
-
-const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= toFatSnakeCase(queryName) %> = gql`
 <%= queryString %>
 `;
 
 export const <%= className %> = ({id}: EntityDetailsScreenProps) => {
+  const screens = useScreens();
+  const history = useHistory();
+
   const {loading: queryLoading, error: queryError, data} = useQuery(<%= toFatSnakeCase(queryName) %>, {
     variables: {
       id
     }
   });
 
-  const goToParentScreen = useParentScreen(ROUTING_PATH);
-  const handleClose = useCallback(() => {
-    goToParentScreen();
-    window.scrollTo(0, 0);
-  }, [goToParentScreen]);
+  const goToParentScreen = useCallback(() => {
+    history.push('.'); // Remove entity id part from url
+    screens.closeActiveBreadcrumb();
+  }, [screens, history]);
 
   const item = data?.['<%= queryName %>'];
 
@@ -60,7 +61,7 @@ export const <%= className %> = ({id}: EntityDetailsScreenProps) => {
         ))}
       </Descriptions>
       <Button htmlType="button"
-              onClick={handleClose}
+              onClick={goToParentScreen}
       >
         <FormattedMessage id="common.close" />
       </Button>

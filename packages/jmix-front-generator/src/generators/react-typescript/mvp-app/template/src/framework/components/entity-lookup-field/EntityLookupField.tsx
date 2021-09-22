@@ -1,10 +1,9 @@
 import {Input, notification} from "antd";
 import {LinkOutlined} from "@ant-design/icons";
 import {useCallback} from "react";
-import {useScreens} from "@haulmont/jmix-react-core";
 import {useIntl} from "react-intl";
 import {ReactComponent} from "../../screen-api/ReactComponent";
-import {openBreadcrumb} from "../../screen-api/openBreadcrumb";
+import {useScreens} from "../../screen-api/ScreenContext";
 
 export interface EntityLookupFieldProps {
   value?: Record<string, unknown>;
@@ -35,14 +34,17 @@ export function EntityLookupField(props: EntityLookupFieldProps) {
       return;
     }
 
-    openBreadcrumb({
+    const caption = intl.formatMessage({
+      id: "EntityLookupField.selectEntityInstance"
+    });
+
+    screens.openInBreadcrumb({
+      breadcrumbCaption: caption,
       component: listComponent,
       props: {
         ...enableSelectModeProps,
         ...listComponentProps
-      },
-      title: intl.formatMessage({id: 'EntityLookupField.selectEntityInstance'}),
-      screens
+      }
     });
   }, [onChange, listComponent]);
 

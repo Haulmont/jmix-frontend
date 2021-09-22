@@ -6,13 +6,14 @@ import reportWebVitals from './reportWebVitals';
 import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from "@apollo/client";
 import "antd/dist/antd.min.css";
 import axios from "axios";
-import {SecurityStore} from "./app/security/security";
+import {HashRouter} from "react-router-dom";
 import {onError} from "@apollo/client/link/error";
 import { IntlProvider } from 'react-intl';
+import {SecurityStore} from "./app/security/security";
 import en from "./i18n/en.json";
-import {JmixAppProvider, MainStore} from "@haulmont/jmix-react-core";
-import {Modals} from "@haulmont/jmix-react-ui";
 import {GRAPHQL_URI} from "./config";
+import { ScreenContext } from "./framework/screen-api/ScreenContext";
+import { Screens } from "./framework/screen-api/Screens";
 
 export const securityStore = new SecurityStore();
 
@@ -54,19 +55,20 @@ const client = new ApolloClient({
   },
 });
 
+// To customize screens behavior, pass a config object to Screens constructor
+const screens = new Screens();
+
 ReactDOM.render(
   <React.StrictMode>
-    <JmixAppProvider apolloClient={client}
-                     Modals={Modals as any}
-                     jmixREST={{onLocaleChange: () => {}} as any}
-                     metadata={{entities: [], enums: []} as any}
-    >
-      <ApolloProvider client={client}>
-        <IntlProvider locale='en' messages={en}>
-          <App />
-        </IntlProvider>
-      </ApolloProvider>
-    </JmixAppProvider>
+    <ApolloProvider client={client}>
+      <IntlProvider locale='en' messages={en}>
+        <ScreenContext.Provider value={screens}>
+          <HashRouter>
+            <App />
+          </HashRouter>
+        </ScreenContext.Provider>
+      </IntlProvider>
+    </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
 );
