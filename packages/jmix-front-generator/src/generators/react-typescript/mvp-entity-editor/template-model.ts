@@ -8,12 +8,19 @@ import {
   GraphQLSchema,
   GraphQLUnionType,
 } from "graphql";
-import {CommonTemplateModel, deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import gql from "graphql-tag";
 import {GraphQLOutputType} from "graphql/type/definition";
 import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../common/utils";
+import {
+  deriveScreenTemplateModel,
+  ScreenTemplateModel
+} from "../../../building-blocks/stages/template-model/pieces/mvp/ScreenTemplateModel";
+import {
+  baseTemplateModel,
+  BaseTemplateModel
+} from "../../../building-blocks/stages/template-model/pieces/mvp/BaseTemplateModel";
 
 export interface AttributeModel {
   name: string;
@@ -24,7 +31,8 @@ export interface AttributeModel {
 }
 
 export type MvpEntityEditorTemplateModel =
-  CommonTemplateModel
+  & BaseTemplateModel
+  & ScreenTemplateModel
   & UtilTemplateModel
   & GraphQLEditorModel
   & {
@@ -72,8 +80,9 @@ export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
     : undefined;
 
   return {
-    ...deriveEntityCommon(options, answers),
+    ...baseTemplateModel,
     ...templateUtilities,
+    ...deriveScreenTemplateModel(options, answers),
     ...deriveGraphQLEditorModel(queryNode, schema, mutationNode),
     // TODO problem with $id: String = "", quotation marks get messed up
     queryString,
@@ -101,16 +110,11 @@ export function deriveGraphQLEditorModel(
     }
   }
 
-  if (mutationNode == null) {
-    throw new Error('Not implemented yet');
-  }
-
   const operationDefinition =  mutationNode.definitions[0];
   if (!('variableDefinitions' in operationDefinition) || operationDefinition.variableDefinitions == null) {
     throw new Error('Variable definitions not found in mutation');
   }
 
-  // TODO: what if more than one variable is required?
   const inputVariableName = operationDefinition.variableDefinitions[0].variable.name.value;
 
   const inputType = operationDefinition.variableDefinitions[0].type;
@@ -166,7 +170,7 @@ export function deriveGraphQLEditorModel(
     const attr: AttributeModel = {
       name: field.name,
       type: field.type.name,
-      displayName: capitalizeFirst(splitByCapitalLetter(field.name)), // TODO: results in capitalization that might not conform to English capitalization rules (e.g. "Wheel On Right")
+      displayName: capitalizeFirst(splitByCapitalLetter(field.name)),
       isRelationField: false,
     };
 

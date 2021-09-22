@@ -1,14 +1,14 @@
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {ScreenAnswers} from "../../../building-blocks/stages/answers/mvp/ScreenAnswers";
 
 export type EntityListMode = 'edit' | 'view' | 'view with details';
 
-export type MvpEntityBrowserAnswers = {
-  componentName: string;
+export type MvpEntityBrowserAnswers =
+  ScreenAnswers & {
   mode?: EntityListMode;
   query: string;
   mutation?: string;
   idField?: string;
-  addToMenu: boolean;
 };
 
 export const mvpEntityBrowserQuestions = [
@@ -52,7 +52,7 @@ export const mvpEntityBrowserQuestions = [
   },
   {
     caption: "Add to menu",
-    code: "menuItem",
+    code: "shouldAddToMenu",
     propertyType: StudioTemplatePropertyType.BOOLEAN,
     required: true
   },

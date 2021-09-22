@@ -14,19 +14,12 @@ import {
   deriveScreenTemplateModel,
   ScreenTemplateModel
 } from "../../../building-blocks/stages/template-model/pieces/mvp/ScreenTemplateModel";
-import {splitByCapitalLetter} from "../../../common/utils";
-import {toKebabCase} from "../../../building-blocks/util/to-kebab-case";
 
 export type MvpEntityListTemplateModel =
   BaseTemplateModel
   & UtilTemplateModel
   & ScreenTemplateModel
   & {
-  componentName: string,
-  caption: string,
-  route: string,
-  relDirShift: string,
-  shouldAddToMenu: boolean,
   queryName: string,
   queryString: string,
   deleteMutationName?: string,
@@ -44,7 +37,6 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
     mutation: deleteMutationString,
     mode = 'edit',
     idField = 'id',
-    addToMenu
   } = answers;
 
   const queryNode = gql(queryString);
@@ -52,17 +44,11 @@ export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOp
   const queryName = getOperationName(queryNode);
   const deleteMutationName = mutationNode != null ? getOperationName(mutationNode) : undefined;
 
-  const route = toKebabCase(componentName);
-  const caption = splitByCapitalLetter(componentName);
-
   return {
     ...baseTemplateModel,
     ...templateUtilities,
-    ...deriveScreenTemplateModel(options),
+    ...deriveScreenTemplateModel(options, answers),
     componentName,
-    route,
-    caption,
-    shouldAddToMenu: addToMenu,
     queryName,
     queryString,
     deleteMutationName,

@@ -6,8 +6,6 @@ import './AppMain.css';
 import {AppMenu} from "../AppMenu";
 import {AppTabs} from "../app-tabs/AppTabs";
 import {Route, Switch} from "react-router-dom";
-import {Component1} from "../custom-routes/Component1";
-import { Component2 } from "../custom-routes/Component2";
 import {Page404} from "../../framework/components/page-404/Page404";
 import {getScreenPaths, screenRegistry} from "../screenRegistry";
 import {CloseAllTabs} from "../../framework/components/close-all-tabs/CloseAllTabs";

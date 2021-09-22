@@ -1,27 +1,21 @@
-import {
-  ComponentNameAnswer,
-  createComponentNameQuestion,
-  MenuItemAnswer
-} from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
+import {ScreenAnswers} from "../../../building-blocks/stages/answers/mvp/ScreenAnswers";
 
 export type MvpEntityEditorAnswers =
-  ComponentNameAnswer
-  & MenuItemAnswer
-  & {
+  ScreenAnswers & {
     query: string;
     mutation?: string;
-    listQueryName: string;
-    idField?: string; // TODO https://github.com/Haulmont/jmix-frontend/issues/554
+    listQueryName: string; // TODO remove
+    idField?: string;
   };
 
 export const mvpEntityEditorQuestions = [
-  createComponentNameQuestion({defaultValue: 'Editor'}),
   {
-    caption: "Menu item",
-    code: "menuItem",
-    propertyType: StudioTemplatePropertyType.MENU_ITEM,
-    required: false
+    caption: 'Component name',
+    code: 'componentName',
+    propertyType: StudioTemplatePropertyType.POLYMER_COMPONENT_NAME,
+    defaultValue: 'Details',
+    required: true
   },
   {
     caption: 'Query to load item',
@@ -41,4 +35,10 @@ export const mvpEntityEditorQuestions = [
     propertyType: StudioTemplatePropertyType.STRING,
     required: false
   },
+  {
+    caption: "Add to menu",
+    code: "shouldAddToMenu",
+    propertyType: StudioTemplatePropertyType.BOOLEAN,
+    required: true
+  }
 ];

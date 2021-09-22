@@ -4,7 +4,7 @@ import {useIntl} from "react-intl";
 import {useCallback} from "react";
 import {observer} from "mobx-react";
 import {screenRegistry} from "./screenRegistry";
-import {Link, useLocation} from "react-router-dom";
+import {useLocation} from "react-router-dom";
 import {useScreens} from "../framework/screen-api/ScreenContext";
 import {getScreenKey} from "../framework/screen-api/getScreenKey";
 
