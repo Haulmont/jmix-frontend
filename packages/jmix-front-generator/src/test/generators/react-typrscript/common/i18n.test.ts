@@ -3,11 +3,12 @@ import {expect, use} from 'chai';
 import sinon from 'sinon';
 import sinonChai from 'sinon-chai';
 import {Locale} from '../../../../common/model/cuba-model';
+import * as path from 'path';
 
 use(sinonChai);
 
-const expectEnPath = 'directory/shift/i18n/en.json';
-const expectRuPath = 'directory/shift/i18n/ru.json';
+const expectEnPath = path.join('directory/shift/i18n/en.json');
+const expectRuPath = path.join('directory/shift/i18n/ru.json');
 
 const enExisting = {
   'key1': 'predefined value 1',
