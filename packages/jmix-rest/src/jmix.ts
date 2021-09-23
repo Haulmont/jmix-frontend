@@ -11,7 +11,7 @@ import {
 } from './model';
 import {DefaultStorage} from "./storage";
 import {EntityFilter} from "./filter";
-import {base64encode, encodeGetParams, matchesVersion, getStringId} from "./util";
+import {base64encode, encodeGetParams, matchesVersion, getStringId, EntityId} from "./util";
 import { restEventEmitter } from './event_emitter';
 
 export * from './error';
@@ -249,18 +249,18 @@ export class JmixRestConnection {
 
   public loadEntity<T>(
     entityName: string,
-    id : string | object,
+    id : EntityId,
     options?: { view?: string },
     fetchOptions?: FetchOptions
   ): Promise<SerializedEntity<T>> {
     return this.fetch('GET', 'entities/' + entityName + '/' + getStringId(id), options, {handleAs: 'json', ...fetchOptions});
   }
 
-  public deleteEntity(entityName: string, id: string | object, fetchOptions?: FetchOptions): Promise<void> {
+  public deleteEntity(entityName: string, id: EntityId, fetchOptions?: FetchOptions): Promise<void> {
     return this.fetch('DELETE', 'entities/' + entityName + '/' + getStringId(id), null, fetchOptions);
   }
 
-  public commitEntity<T extends {id?: string | object}>(
+  public commitEntity<T extends {id?: EntityId}>(
     entityName: string,
     entity: T,
     fetchOptions?: FetchOptions
