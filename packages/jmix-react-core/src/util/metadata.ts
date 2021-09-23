@@ -222,6 +222,8 @@ export function isEmbedded({attributeType}: MetaPropertyInfo): boolean {
   return attributeType === 'EMBEDDED';
 }
 
+export type EntityId = string | object | number
+
 // Deprecated as "WithSomething" implies that "something" is mandatory rather than optional.
 // Also, "withSomething" is a standard convention for HOCs.
 // Use "HasSomething" or "MayHaveSomething" instead, unless the variable represents an entity instance,
@@ -229,14 +231,14 @@ export function isEmbedded({attributeType}: MetaPropertyInfo): boolean {
 /**
  * @deprecated use {@link MayHaveId}
  */
-export type WithId = {id?: string | object};
+export type WithId = {id?: EntityId};
 /**
  * @deprecated use {@link MayHaveName}
  */
 export type WithName = {name?: string};
 
-export type HasId = {id: string | object};
-export type MayHaveId = {id?: string | object};
+export type HasId = {id: EntityId};
+export type MayHaveId = {id?: EntityId};
 
 export type HasInstanceName = {_instanceName: string};
 export type MayHaveInstanceName = {_instanceName?: string};

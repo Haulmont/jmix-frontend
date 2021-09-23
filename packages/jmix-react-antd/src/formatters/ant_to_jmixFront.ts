@@ -50,7 +50,11 @@ export function ant_to_jmixFront(
       return;
     }
 
-    if (propInfo && isToOneAssociation(propInfo) && (typeof value === 'string' || typeof value === 'number')) {
+    if (propInfo && isToOneAssociation(propInfo) && (
+      typeof value === 'string' ||
+      typeof value === 'number' ||
+      typeof value === 'object'
+    )) {
       result[attributeName] = {id: value};
       return;
     }

@@ -77,11 +77,17 @@ function serialize(rawParam): string {
   return rawParam;
 }
 
+export type EntityId = string | object | number
+
 /**
  * @deprecated use toIdString() from jmix-react-core
  *
  * @param id
  */
-export function getStringId(id: string | object) : string {
-  return typeof id === "object" ? base64encode(JSON.stringify(id)) : id;
+export function getStringId(id: EntityId) : string {
+  switch (typeof id) {
+    case "object": return base64encode(JSON.stringify(id))
+    case "number": return String(id)
+    default: return id
+  }
 }
