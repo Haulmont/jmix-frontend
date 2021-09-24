@@ -1,22 +1,27 @@
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import path from "path";
-import jscodeshift, {literal, objectProperty, stringLiteral} from "jscodeshift";
-// @ts-ignore missing typings
-import {describe} from 'jscodeshift-helper';
+import jscodeshift, {identifier, literal, objectProperty, stringLiteral} from "jscodeshift";
+import {convertToUnixPath} from "../../../../../common/utils";
 
 const j = jscodeshift;
 
-// TODO convert arguments to object
-export function addMvpAppMenu(
-  gen: YeomanGenerator,
-  dirShift: string,
-  route: string,
-  caption: string,
-  componentName: string,
-  componentPath: string
-) {
+export interface AddAppMenuInput {
+  gen: YeomanGenerator;
+  dirShift: string;
+  route: string;
+  componentName: string;
+}
+
+export function addMvpAppMenu({
+  gen,
+  dirShift,
+  route,
+  componentName,
+}: AddAppMenuInput) {
+
   const destRoot = gen.destinationRoot();
   const srcDir = path.join(destRoot, dirShift ? dirShift : '');
+  const componentPath = `./${getRelativePath(path.join(srcDir, 'app'), destRoot)}/${componentName}`;
 
   const appMenuPath = path.join(srcDir, 'app', 'AppMenu.tsx');
   if (!gen.fs.exists(appMenuPath)) {
@@ -24,9 +29,7 @@ export function addMvpAppMenu(
     return;
   }
   const appMenuContents = gen.fs.read(appMenuPath);
-  let appMenuTransformed;
-  appMenuTransformed = transformAddMenuItem(appMenuContents, route);
-  appMenuTransformed = transformAddScreenImport(appMenuTransformed, componentName, dirShift);
+  const appMenuTransformed = transformAddMenuItem(appMenuContents, route);
   gen.fs.write(appMenuPath, appMenuTransformed);
 
   const screenRegistryFilePath = path.join(srcDir, 'app', 'screenRegistry.ts');
@@ -36,7 +39,7 @@ export function addMvpAppMenu(
   }
   const screenRegistryFileContent = gen.fs.read(screenRegistryFilePath);
   let screenRegistryTransformed;
-  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, caption, componentName);
+  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName);
   screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath);
   gen.fs.write(screenRegistryFilePath, screenRegistryTransformed);
 }
@@ -78,15 +81,15 @@ export function transformAddScreenImport(source: string, componentName: string, 
 }
 
 export function transformAddScreenItem(
-  source: string, route: string, caption: string, componentName: string
+  source: string, route: string, componentName: string
 ): string {
 
   const tsParser = j.withParser('ts');
   const screenRegistryAST = tsParser(source);
 
   const value = `{
-    componentName: ${componentName},
-    captionKey: '${caption}'    
+    component: ${componentName},
+    captionKey: 'screens.${componentName}'    
   }`;
 
   screenRegistryAST
@@ -97,7 +100,7 @@ export function transformAddScreenItem(
     [0]
     .value
     .properties
-    .push(objectProperty(literal(route), literal(value)))
+    .push(objectProperty(literal(route), identifier(value)))
 
   return screenRegistryAST.toSource();
 }
@@ -112,4 +115,8 @@ function createMenuItemJSX(key: string) {
       {getCaption('${key}')}
     </Menu.Item>
   `;
+}
+
+function getRelativePath(routingDir: string, destRoot: string) {
+  return convertToUnixPath(path.relative(routingDir, destRoot));
 }

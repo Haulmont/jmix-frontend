@@ -6,6 +6,7 @@ import { addMvpAppMenu } from "./addMvpAppMenu";
 export interface MvpComponentTemplateModel {
   componentName: string;
   route: string;
+  caption: string;
   relDirShift: string;
   shouldAddToMenu: boolean;
   includesPath: (...paths: string[]) => string;
@@ -16,7 +17,12 @@ export async function writeMvpComponent<T extends MvpComponentTemplateModel>(
   gen: YeomanGenerator,
   srcPath: string
 ) {
-  const {relDirShift, componentName, route, shouldAddToMenu} = templateModel;
+  const {
+    relDirShift,
+    componentName,
+    route,
+    shouldAddToMenu
+  } = templateModel;
 
   gen.log(`Generating to ${gen.destinationPath()}`);
 
@@ -27,7 +33,12 @@ export async function writeMvpComponent<T extends MvpComponentTemplateModel>(
   );
 
   if (shouldAddToMenu) {
-    addMvpAppMenu(gen, relDirShift, route);
+    addMvpAppMenu({
+      gen,
+      dirShift: relDirShift,
+      route,
+      componentName
+    });
   }
 
   // TODO Previews

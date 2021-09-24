@@ -9,7 +9,7 @@ import {useIntl} from "react-intl";
 import {useEffect, useState} from "react";
 import {getScreenKey} from "../../framework/screen-api/getScreenKey";
 
-export const AppTabs = observer(() => {
+export const ScreenTabs = observer(() => {
   const {
     tabs,
     activeTab,

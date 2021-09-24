@@ -5,5 +5,5 @@ export interface BaseTemplateModel {
 }
 
 export const baseTemplateModel = {
-  includesPath: (...paths: string[]) => path.join(__dirname, '../../../../building-blocks/includes', ...paths),
+  includesPath: (...paths: string[]) => path.join(__dirname, '../../../../../building-blocks/includes', ...paths),
 };

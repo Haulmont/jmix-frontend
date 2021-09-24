@@ -4,7 +4,7 @@ import {Layout} from "antd";
 import { AppHeader } from "../app-header/AppHeader";
 import './AppMain.css';
 import {AppMenu} from "../AppMenu";
-import {AppTabs} from "../app-tabs/AppTabs";
+import {ScreenTabs} from "../screen-tabs/ScreenTabs";
 import {Route, Switch} from "react-router-dom";
 import {Page404} from "../../framework/components/page-404/Page404";
 import {getScreenPaths, screenRegistry} from "../screenRegistry";
@@ -37,7 +37,7 @@ export const AppMain = observer(() => {
               {/*  <Component2/>*/}
               {/*</Route>*/}
               <Route path={getScreenPaths()}>
-                <AppTabs/>
+                <ScreenTabs/>
               </Route>
               <Route path='/' exact>
                 <CloseAllTabs/>
