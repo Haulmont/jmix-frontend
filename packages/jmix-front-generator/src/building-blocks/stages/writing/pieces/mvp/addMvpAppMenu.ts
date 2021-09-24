@@ -1,6 +1,6 @@
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import path from "path";
-import jscodeshift, {stringLiteral} from "jscodeshift";
+import jscodeshift, {literal, objectProperty, stringLiteral} from "jscodeshift";
 
 export function addMvpAppMenu(gen: YeomanGenerator, dirShift: string, route: string, caption: string, componentName: string) {
   const destRoot = gen.destinationRoot();
@@ -46,43 +46,34 @@ function addToScreenRegistry(gen: YeomanGenerator, srcDir: string, route: string
 
   const screenRegistryFileContent = gen.fs.read(screenRegistryFilePath);
 
-  addToScreenRegistryAST(screenRegistryFileContent, {
-    [route]: {
-      componentName: componentName,
-      captionKey: caption
-    }
-  });
+  const newFileContent = addToScreenRegistryAST(screenRegistryFileContent, route, caption, componentName);
+
+  gen.fs.write(screenRegistryFilePath, newFileContent);
 }
 
-export function addToScreenRegistryAST(screenRegistryFileContent: string, item: {[key: string]: any}): string {
+export function addToScreenRegistryAST(
+  screenRegistryFileContent: string, route: string, caption: string, componentName: string
+): string {
 
   const tsParser = jscodeshift.withParser('ts');
   const screenRegistryAST = tsParser(screenRegistryFileContent);
 
-  // const screenRegistry = screenRegistryAST.findVariableDeclarators('screenRegistry');
+  const value = `{
+    componentName: ${componentName},
+    captionKey: '${caption}'    
+  }`;
 
-  const collection = screenRegistryAST
+  const x = screenRegistryAST
     .findVariableDeclarators('screenRegistry')
-    .find(jscodeshift.ObjectExpression);
-
-  const node = collection
+    .find(jscodeshift.ObjectExpression)
     .at(0)
-    .get();
+    .paths()
+    [0]
+    .value;
 
-  console.log(jscodeshift(node).toSource());
-
-  const screenRegistryObject = JSON.parse(jscodeshift(node).toSource());
-  const newScreenRegistryObject = {
-    ...screenRegistryObject,
-    ...item
-  };
-
-  collection.replaceWith(JSON.stringify(newScreenRegistryObject));
-
-  console.log(collection.toSource());
+  x.properties.push(objectProperty(literal(route), literal(value)))
 
   return screenRegistryAST.toSource();
-
 }
 
 
