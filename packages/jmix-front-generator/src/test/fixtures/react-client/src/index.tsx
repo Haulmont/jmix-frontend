@@ -1,5 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
+import { Result } from "antd";
+import { useIntl } from "react-intl";
 import App from "./app/App";
 import { ComponentPreviews } from "./dev/previews";
 import { useDevLogin } from "./dev/hooks";
@@ -10,7 +12,8 @@ import {
   JmixAppProvider,
   initializeApolloClient,
   Screens,
-  ScreensContext
+  ScreensContext,
+  ErrorBoundary
 } from "@haulmont/jmix-react-core";
 import { I18nProvider, Modals } from "@haulmont/jmix-react-antd";
 import { initializeApp } from "@haulmont/jmix-rest";
@@ -55,6 +58,19 @@ const client = initializeApolloClient({
 
 const devScreens = new Screens();
 
+const AppErrorBoundary = function(props) {
+  const intl = useIntl();
+
+  return (
+    <ErrorBoundary
+      message={intl.formatMessage({ id: "common.unknownAppError" })}
+      render={message => <Result status="warning" title={message} />}
+    >
+      {props.children}
+    </ErrorBoundary>
+  );
+};
+
 ReactDOM.render(
   <JmixAppProvider
     apolloClient={client}
@@ -79,7 +95,9 @@ ReactDOM.render(
             }
             useInitialHook={useDevLogin}
           >
-            <App />
+            <AppErrorBoundary>
+              <App />
+            </AppErrorBoundary>
           </DevSupport>
         </IntlDocumentTitle>
       </I18nProvider>
@@ -87,4 +105,5 @@ ReactDOM.render(
   </JmixAppProvider>,
   document.getElementById("root") as HTMLElement
 );
+
 // registerServiceWorker();
