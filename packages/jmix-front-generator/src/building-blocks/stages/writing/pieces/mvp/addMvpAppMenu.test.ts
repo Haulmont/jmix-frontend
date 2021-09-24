@@ -1,12 +1,17 @@
-import {addToScreenRegistryAST} from "./addMvpAppMenu";
+import {transformAddScreenImport, transformAddScreenItem} from "./addMvpAppMenu";
 import {expect} from "chai";
 
-const PetList = null;
-
-describe('addToScreenRegistryAST', () => {
-  it('adds an element successfully', () => {
-    const result = addToScreenRegistryAST(INPUT, 'pet-list', 'Pet List', 'PetList');
+describe('transformAddScreenItem', () => {
+  it('adds a screen item successfully', () => {
+    const result = transformAddScreenItem(INPUT, 'pet-list', 'Pet List', 'PetList');
     expect(result.includes(NEW_KEY_VALUE_PAIR)).to.be.true;
+  });
+});
+
+describe('transformAddScreenImport', () => {
+  it('adds an import successfully', () => {
+    const result = transformAddScreenImport(INPUT, 'PetList', './pet-list/');
+    expect(result.includes('import { PetList } from "./pet-list/PetList";'))
   });
 });
 
