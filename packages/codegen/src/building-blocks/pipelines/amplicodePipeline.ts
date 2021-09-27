@@ -1,17 +1,16 @@
-import {MvpCommonOptions, mvpCommonOptionsConfig} from "../stages/options/pieces/mvp";
+import {AmplicodeCommonOptions, amplicodeCommonOptionsConfig} from "../stages/options/pieces/amplicode";
 import {StudioTemplateProperty} from "../../common/studio/studio-model";
 import {OptionsConfig} from "../../common/cli-options";
 import {YeomanGenerator} from "../YeomanGenerator";
 import {defaultGetOptions} from "../stages/options/defaultGetOptions";
 import {defaultConfigureGenerator} from "../stages/configuring/defaultConfigureGenerator";
 import {GraphQLSchema} from "graphql";
-import {ConfigStage, OptionsStage} from "./defaultPipeline";
-import {mvpGetAnswers} from "../stages/answers/mvpGetAnswers";
-import { mvpDeriveTemplateModel } from "../stages/template-model/mvpDeriveTemplateModel";
-import { mvpWrite } from "../stages/writing/mvpWrite";
-import {mvpGetGraphQLSchema} from "../stages/graphql-schema/mvpGetGraphQLSchema";
+import {amplicodeGetAnswers} from "../stages/answers/amplicodeGetAnswers";
+import { amplicodeDeriveTemplateModel } from "../stages/template-model/amplicodeDeriveTemplateModel";
+import { amplicodeWrite } from "../stages/writing/amplicodeWrite";
+import {amplicodeGetGraphQLSchema} from "../stages/graphql-schema/amplicodeGetGraphQLSchema";
 
-export interface MvpPipelineInput<O extends MvpCommonOptions, A, T> {
+export interface MvpPipelineInput<O extends AmplicodeCommonOptions, A, T> {
   /**
    * Template location.
    */
@@ -21,7 +20,7 @@ export interface MvpPipelineInput<O extends MvpCommonOptions, A, T> {
    */
   questions?: StudioTemplateProperty[],
   /**
-   * Defaults to {@link mvpCommonOptionsConfig}
+   * Defaults to {@link amplicodeCommonOptionsConfig}
    */
   optionsConfig?: OptionsConfig;
   /**
@@ -31,41 +30,43 @@ export interface MvpPipelineInput<O extends MvpCommonOptions, A, T> {
 }
 
 // *** NOTE ***
-// Stages are now more "pure" than in defaultPipeline:
+// Stages are now more "pure":
 // - write stage only depends on templateModel, does not depend on options or GraphQL schema directly
 // - answers stage does not "refine" answers anymore as it is the job for templateModel stage
 
-export type MvpSchemaStage<O extends MvpCommonOptions> = (options: O, invocationDir: string) => Promise<GraphQLSchema | undefined>;
-export type MvpAnswersStage<O extends MvpCommonOptions, A> = (options: O, gen: YeomanGenerator, questions?: StudioTemplateProperty[]) => Promise<A>;
-export type MvpTemplateModelStage<O extends MvpCommonOptions,  A, T> = (options: O, answers: A, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]) => Promise<T>;
+export type OptionsStage<O extends AmplicodeCommonOptions> = (optionsConfig: OptionsConfig, gen: YeomanGenerator) => Promise<O>;
+export type ConfigStage<O extends AmplicodeCommonOptions> = (dirname: string, gen: YeomanGenerator, options: O) => Promise<void>;
+export type MvpSchemaStage<O extends AmplicodeCommonOptions> = (options: O, invocationDir: string) => Promise<GraphQLSchema | undefined>;
+export type MvpAnswersStage<O extends AmplicodeCommonOptions, A> = (options: O, gen: YeomanGenerator, questions?: StudioTemplateProperty[]) => Promise<A>;
+export type AmplicodeTemplateModelStage<O extends AmplicodeCommonOptions,  A, T> = (options: O, answers: A, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]) => Promise<T>;
 export type MvpWriteStage<T> = (templateModel: T, gen: YeomanGenerator) => Promise<void>;
 
-export interface MvpPipelineStages<O extends MvpCommonOptions, A, T> {
+export interface MvpPipelineStages<O extends AmplicodeCommonOptions, A, T> {
   getOptions?: OptionsStage<O>;
   configureGenerator?: ConfigStage<O>;
   getGraphQLSchema?: MvpSchemaStage<O>;
   getAnswers?: MvpAnswersStage<O, A>;
-  deriveTemplateModel?: MvpTemplateModelStage<O, A, T>;
+  deriveTemplateModel?: AmplicodeTemplateModelStage<O, A, T>;
   write?: MvpWriteStage<T>
 }
 
-export async function mvpPipeline<O extends MvpCommonOptions, A, M>(
+export async function amplicodePipeline<O extends AmplicodeCommonOptions, A, M>(
   input: MvpPipelineInput<O, A, M>,
   gen: YeomanGenerator
 ) {
   const {
     templateDir,
     questions = [],
-    optionsConfig = mvpCommonOptionsConfig
+    optionsConfig = amplicodeCommonOptionsConfig
   } = input;
 
   const {
     getOptions = defaultGetOptions,
     configureGenerator = defaultConfigureGenerator,
-    getAnswers = mvpGetAnswers,
-    getGraphQLSchema = mvpGetGraphQLSchema,
-    deriveTemplateModel = mvpDeriveTemplateModel,
-    write = mvpWrite
+    getAnswers = amplicodeGetAnswers,
+    getGraphQLSchema = amplicodeGetGraphQLSchema,
+    deriveTemplateModel = amplicodeDeriveTemplateModel,
+    write = amplicodeWrite
   } = input.stages ?? {};
 
   // Setting the generator's destinationRoot (which happens inside configureGenerator) will change the current working directory,

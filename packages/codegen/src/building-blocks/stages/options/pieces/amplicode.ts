@@ -1,14 +1,14 @@
 import {OptionsConfig} from "../../../../common/cli-options";
 import {DirShiftOption} from "./dir-shift";
 
-export interface MvpCommonOptions {
+export interface AmplicodeCommonOptions {
   dest?: string;
   schema?: string;
   answers?: string;
   verbose?: boolean;
 }
 
-export const mvpCommonOptionsConfig: OptionsConfig = {
+export const amplicodeCommonOptionsConfig: OptionsConfig = {
   dest: {
     alias: 'd',
     description: 'destination directory',
@@ -31,10 +31,10 @@ export const mvpCommonOptionsConfig: OptionsConfig = {
   },
 };
 
-export interface MvpComponentOptions extends MvpCommonOptions, DirShiftOption {}
+export interface AmplicodeComponentOptions extends AmplicodeCommonOptions, DirShiftOption {}
 
-export const mvpComponentOptionsConfig: OptionsConfig = {
-  ...mvpCommonOptionsConfig,
+export const amplicodeComponentOptionsConfig: OptionsConfig = {
+  ...amplicodeCommonOptionsConfig,
   dirShift: {
     alias: 's',
     description: 'directory shift for html imports e.g ../../',

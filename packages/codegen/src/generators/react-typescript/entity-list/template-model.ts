@@ -1,21 +1,21 @@
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
-import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
-import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
-import {EntityListMode, MvpEntityBrowserAnswers} from "./answers";
+import {AmplicodeTemplateModelStage} from "../../../building-blocks/pipelines/amplicodePipeline";
+import {AmplicodeComponentOptions} from "../../../building-blocks/stages/options/pieces/amplicode";
+import {EntityListMode, EntityListAnswers} from "./answers";
 import {GraphQLSchema} from "graphql";
 import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import gql from "graphql-tag";
-import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
+import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/amplicode/amplicode";
 import {
   baseTemplateModel,
   BaseTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/mvp/BaseTemplateModel";
+} from "../../../building-blocks/stages/template-model/pieces/amplicode/BaseTemplateModel";
 import {
   deriveScreenTemplateModel,
   ScreenTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/mvp/ScreenTemplateModel";
+} from "../../../building-blocks/stages/template-model/pieces/amplicode/ScreenTemplateModel";
 
-export type MvpEntityListTemplateModel =
+export type EntityListTemplateModel =
   BaseTemplateModel
   & UtilTemplateModel
   & ScreenTemplateModel
@@ -28,9 +28,9 @@ export type MvpEntityListTemplateModel =
   mode: EntityListMode;
 };
 
-export const deriveMvpBrowserTemplateModel: MvpTemplateModelStage<MvpComponentOptions, MvpEntityBrowserAnswers, MvpEntityListTemplateModel> = async (
-  options: MvpComponentOptions, answers: MvpEntityBrowserAnswers, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]
-): Promise<MvpEntityListTemplateModel> => {
+export const deriveEntityListTemplateModel: AmplicodeTemplateModelStage<AmplicodeComponentOptions, EntityListAnswers, EntityListTemplateModel> = async (
+  options: AmplicodeComponentOptions, answers: EntityListAnswers, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]
+): Promise<EntityListTemplateModel> => {
   const {
     componentName,
     query: queryString,

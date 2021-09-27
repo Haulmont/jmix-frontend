@@ -1,12 +1,12 @@
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../../common/studio/studio-model";
 
-export interface MvpAppAnswers {
+export interface AppAnswers {
   appTitle: string;
   appShortName: string;
   graphqlUri: string;
 }
 
-export const mvpAppQuestions: StudioTemplateProperty[] = [
+export const appQuestions: StudioTemplateProperty[] = [
   {
     code: 'appTitle',
     caption: 'App title',

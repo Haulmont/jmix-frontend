@@ -6,7 +6,6 @@ export * from './common/studio/studio-integration';
 export * from './common/cli-options';
 
 export * from './building-blocks/YeomanGenerator';
-export * from './building-blocks/pipelines/defaultPipeline';
 
 export * from './building-blocks/stages/answers/defaultGetAnswersFromPrompt';
 export * from './building-blocks/stages/answers/defaultGetAnswersFromOptions';
@@ -21,8 +20,6 @@ export * from './building-blocks/stages/options/pieces/component';
 export * from './building-blocks/stages/options/pieces/dir-shift';
 
 export * from './building-blocks/stages/template-model/pieces/common';
-
-export * from './building-blocks/stages/project-model/defaultGetProjectModel';
 
 export * from './building-blocks/stages/template-model/defaultDeriveTemplateModel';
 export * from './building-blocks/stages/template-model/pieces/common';

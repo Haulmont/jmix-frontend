@@ -1,7 +1,7 @@
-import {MvpComponentOptions} from "../../../options/pieces/mvp";
+import {AmplicodeComponentOptions} from "../../../options/pieces/amplicode";
 import {normalizeRelativePath, splitByCapitalLetter} from "../../../../../common/utils";
 import {toKebabCase} from "../../../../util/to-kebab-case";
-import {ScreenAnswers} from "../../../answers/mvp/ScreenAnswers";
+import {ScreenAnswers} from "../../../answers/amplicode/ScreenAnswers";
 
 export interface ScreenTemplateModel {
   componentName: string,
@@ -11,7 +11,7 @@ export interface ScreenTemplateModel {
   shouldAddToMenu: boolean,
 }
 
-export function deriveScreenTemplateModel(options: MvpComponentOptions, answers: ScreenAnswers): ScreenTemplateModel {
+export function deriveScreenTemplateModel(options: AmplicodeComponentOptions, answers: ScreenAnswers): ScreenTemplateModel {
   const {componentName, shouldAddToMenu} = answers;
 
   return {

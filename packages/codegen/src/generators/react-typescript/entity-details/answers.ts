@@ -1,5 +1,5 @@
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
-import {ScreenAnswers} from "../../../building-blocks/stages/answers/mvp/ScreenAnswers";
+import {ScreenAnswers} from "../../../building-blocks/stages/answers/amplicode/ScreenAnswers";
 
 export type MvpEntityEditorAnswers =
   ScreenAnswers & {
@@ -9,7 +9,7 @@ export type MvpEntityEditorAnswers =
     idField?: string;
   };
 
-export const mvpEntityEditorQuestions = [
+export const entityDetailsQuestions = [
   {
     caption: 'Component name',
     code: 'componentName',

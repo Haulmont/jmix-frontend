@@ -1,6 +1,6 @@
 import {YeomanGenerator} from "../../YeomanGenerator";
 
-export const mvpWrite = async <T>(
+export const amplicodeWrite = async <T>(
   templateModel: T, gen: YeomanGenerator
 ): Promise<void> => {
   gen.log(`Generating to ${gen.destinationPath()}`);

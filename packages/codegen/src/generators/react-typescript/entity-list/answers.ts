@@ -1,9 +1,9 @@
 import {StudioTemplatePropertyType} from "../../../common/studio/studio-model";
-import {ScreenAnswers} from "../../../building-blocks/stages/answers/mvp/ScreenAnswers";
+import {ScreenAnswers} from "../../../building-blocks/stages/answers/amplicode/ScreenAnswers";
 
 export type EntityListMode = 'edit' | 'view' | 'view with details';
 
-export type MvpEntityBrowserAnswers =
+export type EntityListAnswers =
   ScreenAnswers & {
   mode?: EntityListMode;
   query: string;
@@ -11,7 +11,7 @@ export type MvpEntityBrowserAnswers =
   idField?: string;
 };
 
-export const mvpEntityBrowserQuestions = [
+export const entityListQuestions = [
   {
     caption: 'Component name',
     code: 'componentName',

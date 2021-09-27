@@ -12,7 +12,7 @@ export interface MvpComponentTemplateModel {
   includesPath: (...paths: string[]) => string;
 }
 
-export async function writeMvpComponent<T extends MvpComponentTemplateModel>(
+export async function writeAmplicodeComponent<T extends MvpComponentTemplateModel>(
   templateModel: T,
   gen: YeomanGenerator,
   srcPath: string

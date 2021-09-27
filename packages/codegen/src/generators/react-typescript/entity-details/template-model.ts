@@ -1,5 +1,5 @@
-import {MvpTemplateModelStage} from "../../../building-blocks/pipelines/mvpPipeline";
-import {MvpComponentOptions} from "../../../building-blocks/stages/options/pieces/mvp";
+import {AmplicodeTemplateModelStage} from "../../../building-blocks/pipelines/amplicodePipeline";
+import {AmplicodeComponentOptions} from "../../../building-blocks/stages/options/pieces/amplicode";
 import {MvpEntityEditorAnswers} from "./answers";
 import {
   DocumentNode,
@@ -11,16 +11,16 @@ import {
 import {templateUtilities, UtilTemplateModel} from "../../../building-blocks/stages/template-model/pieces/util";
 import gql from "graphql-tag";
 import {GraphQLOutputType} from "graphql/type/definition";
-import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/mvp/mvp";
+import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/amplicode/amplicode";
 import {capitalizeFirst, splitByCapitalLetter} from "../../../common/utils";
 import {
   deriveScreenTemplateModel,
   ScreenTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/mvp/ScreenTemplateModel";
+} from "../../../building-blocks/stages/template-model/pieces/amplicode/ScreenTemplateModel";
 import {
   baseTemplateModel,
   BaseTemplateModel
-} from "../../../building-blocks/stages/template-model/pieces/mvp/BaseTemplateModel";
+} from "../../../building-blocks/stages/template-model/pieces/amplicode/BaseTemplateModel";
 
 export interface AttributeModel {
   name: string;
@@ -60,10 +60,10 @@ type GraphQLEditorModel = {
   hasRelationFields?: boolean;
 };
 
-export const deriveMvpEditorTemplateModel: MvpTemplateModelStage<
-  MvpComponentOptions, MvpEntityEditorAnswers, MvpEntityEditorTemplateModel
+export const deriveEntityDetailsTemplateModel: AmplicodeTemplateModelStage<
+  AmplicodeComponentOptions, MvpEntityEditorAnswers, MvpEntityEditorTemplateModel
 > = async (
-  options: MvpComponentOptions,
+  options: AmplicodeComponentOptions,
   answers: MvpEntityEditorAnswers,
   schema?: GraphQLSchema,
 ): Promise<MvpEntityEditorTemplateModel>  => {

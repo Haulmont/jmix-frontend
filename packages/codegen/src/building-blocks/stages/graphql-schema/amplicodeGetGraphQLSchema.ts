@@ -1,5 +1,4 @@
-import {MvpCommonOptions} from "../options/pieces/mvp";
-import {YeomanGenerator} from "../../YeomanGenerator";
+import {AmplicodeCommonOptions} from "../options/pieces/amplicode";
 import {buildClientSchema, GraphQLSchema} from "graphql";
 import * as path from "path";
 import * as fs from "fs";
@@ -19,7 +18,7 @@ import {loadSchema} from "@graphql-tools/load";
  */
 const DEFAULT_SCHEMA_PATH = '../../../../../schema.graphql';
 
-export const mvpGetGraphQLSchema = async <O extends MvpCommonOptions>(
+export const amplicodeGetGraphQLSchema = async <O extends AmplicodeCommonOptions>(
   options: O, invocationDir: string
 ): Promise<GraphQLSchema | undefined> => {
   if (options.schema == null) {
