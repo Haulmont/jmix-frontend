@@ -7,7 +7,7 @@ import {AppMenu} from "../AppMenu";
 import {ScreenTabs} from "../screen-tabs/ScreenTabs";
 import {Route, Switch} from "react-router-dom";
 import {Page404} from "../../framework/components/page-404/Page404";
-import {getScreenPaths, screenRegistry} from "../screenRegistry";
+import {getScreenPaths} from "../screenRegistry";
 import {CloseAllTabs} from "../../framework/components/close-all-tabs/CloseAllTabs";
 
 export const AppMain = observer(() => {

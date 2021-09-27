@@ -4,7 +4,10 @@
  *
  * @param entityInstance
  */
-export function guessDisplayName(entityInstance: Record<string, unknown>): string {
+export function guessDisplayName(entityInstance: Record<string, unknown> | undefined): string {
+  if (entityInstance == null) {
+    return '';
+  }
   if ('name' in entityInstance) {
     return String(entityInstance.name);
   }

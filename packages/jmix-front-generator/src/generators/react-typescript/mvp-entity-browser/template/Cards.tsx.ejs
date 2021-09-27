@@ -65,8 +65,8 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
     alert('Please specify the editor component');
 
     // const params: OpenInBreadcrumbParams = {
-    //   breadcrumbCaption: 'Example Caption',
-    //   component: ExampleComponentName,
+    //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
+    //   component: ExampleComponentName, // TODO specify component name
     // };
     // if (id != null) {
     //   params.props = {id};
@@ -74,7 +74,7 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
     // screens.openInBreadcrumb(params);
     // // Append /id to existing url
     // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
-  }, [screens, history]);
+  }, [screens, history, intl]);
 
   useEffect(() => {
     if (screens.activeTab?.breadcrumbs.length === 1 && match?.params.entityId != null) {
@@ -136,13 +136,11 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
               title={guessDisplayName(e)}
               style={{marginBottom: '12px'}}
               actions={getCardActions({
+                        screens,
                         entityInstance: e,
                         onSelect,
                         <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
                           executeDeleteMutation,
-                        <% } -%>
-                        <% if (mode === 'edit' || mode === 'view with details') { -%>
-                          screens,
                         <% } -%>
                         intl,
                         openEditor
@@ -171,13 +169,11 @@ function renderFieldValue(entity: any, property: string): string {
 }
 
 interface CardActionsInput {
+  screens: Screens;
   entityInstance: any;
   onSelect?: (entityInstance: this['entityInstance']) => void;
   <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
     executeDeleteMutation: ((options?: MutationFunctionOptions) => Promise<FetchResult>);
-  <% } -%>
-  <% if (mode === 'edit' || mode === 'view with details') { -%>
-    screens: Screens;
   <% } -%>
   intl: IntlShape;
   openEditor: (id?: string) => void;
@@ -185,13 +181,11 @@ interface CardActionsInput {
   
 function getCardActions(input: CardActionsInput) {
   const {
+    screens,
     entityInstance,
     onSelect,
     <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
       executeDeleteMutation,
-    <% } -%>
-    <% if (mode === 'edit' || mode === 'view with details') { -%>
-      screens,
     <% } -%>
     intl,
     openEditor,
@@ -235,16 +229,7 @@ function getCardActions(input: CardActionsInput) {
                   key="details"
                   title={intl.formatMessage({id: "common.viewDetails"})}
                   onClick={() => {
-                    // TODO Uncomment the code, specify the entity details component and remove the alert
-                    alert('Please specify the entity details component');
-                    // openBreadcrumb({
-                    //   component: YourEntityDetailsComponentName,
-                    //   props: {
-                    //     id: entityInstance.id
-                    //   },
-                    //   title: 'Entity Details Component Title',
-                    //   screens,
-                    // });
+                    openEditor(entityInstance.id)
                   }}
           />
         <% } -%>

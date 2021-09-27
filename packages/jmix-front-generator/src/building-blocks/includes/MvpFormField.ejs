@@ -23,7 +23,7 @@
   <% } else if (attr.isRelationField) { %>
     <EntityLookupField getDisplayName={(value: Record<string, unknown>) => guessDisplayName(value)}
                        label="<%= attr.displayName %>"
-                       // TODO Uncomment the code, specify the list component and remove the alert
+                       // TODO Uncomment the code and specify the list component
                        // listComponent={YourEntityListComponentName}
     />
   <% } else { -%>

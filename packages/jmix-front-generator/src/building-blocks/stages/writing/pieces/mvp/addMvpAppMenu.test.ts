@@ -3,7 +3,7 @@ import {expect} from "chai";
 
 describe('transformAddScreenItem', () => {
   it('adds a screen item successfully', () => {
-    const result = transformAddScreenItem(INPUT, 'pet-list', 'Pet List', 'PetList');
+    const result = transformAddScreenItem(INPUT, 'pet-list', 'PetList');
     expect(result.includes(NEW_KEY_VALUE_PAIR)).to.be.true;
   });
 });

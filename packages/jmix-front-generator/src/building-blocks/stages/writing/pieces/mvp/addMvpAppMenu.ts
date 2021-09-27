@@ -89,7 +89,7 @@ export function transformAddScreenItem(
 
   const value = `{
     component: ${componentName},
-    captionKey: 'screens.${componentName}'    
+    captionKey: 'screen.${componentName}'    
   }`;
 
   screenRegistryAST

@@ -12,7 +12,7 @@ const <%= toFatSnakeCase(queryName) %> = gql`
 <%= queryString %>
 `;
 
-export const <%= className %> = ({id}: EntityDetailsScreenProps) => {
+export const <%= componentName %> = ({id}: EntityDetailsScreenProps) => {
   const screens = useScreens();
   const history = useHistory();
 
@@ -69,4 +69,4 @@ export const <%= className %> = ({id}: EntityDetailsScreenProps) => {
   );
 };
 
-export default <%= className %>;
+export default <%= componentName %>;
