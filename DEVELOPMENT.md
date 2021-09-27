@@ -2,7 +2,7 @@
 
 This is a monorepo for the following npm packages:
 
-* [@haulmont/jmix-front-generator](/packages/jmix-front-generator)
+* [@haulmont/jmix-front-generator](/packages/codegen)
 * [@haulmont/jmix-rest](/packages/jmix-rest)
 * [@haulmont/jmix-react-core](/packages/jmix-react-core)
 * [@haulmont/jmix-react-ui](/packages/jmix-react-ui)
