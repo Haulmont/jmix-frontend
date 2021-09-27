@@ -1,5 +1,4 @@
 import {Button, Result} from "antd";
-import React from "react";
 import {FormattedMessage} from "react-intl";
 import {useHistory} from "react-router-dom";
 

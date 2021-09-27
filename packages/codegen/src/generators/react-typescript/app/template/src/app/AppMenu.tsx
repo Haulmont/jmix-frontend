@@ -5,8 +5,7 @@ import {useCallback} from "react";
 import {observer} from "mobx-react";
 import {screenRegistry} from "./screenRegistry";
 import {useLocation} from "react-router-dom";
-import {useScreens} from "../framework/screen-api/ScreenContext";
-import {getScreenKey} from "../framework/screen-api/getScreenKey";
+import {useScreens, getScreenKey} from "@amplicode/react";
 
 export const AppMenu = observer(() => {
   const intl = useIntl();
