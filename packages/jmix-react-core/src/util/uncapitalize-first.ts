@@ -1,1 +1,0 @@
-export const unCapitalizeFirst = (part: string) => part[0].toLowerCase() + part.slice(1);

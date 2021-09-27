@@ -1,5 +1,0 @@
-= Configuration
-
-See the https://facebook.github.io/create-react-app/docs/advanced-configuration[list of all available environment variables].
-
-See `src/config.ts` for full list of common application settings used in runtime.

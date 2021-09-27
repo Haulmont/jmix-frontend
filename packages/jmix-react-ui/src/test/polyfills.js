@@ -1,1 +1,0 @@
-Object.fromEntries = require('object.fromentries');

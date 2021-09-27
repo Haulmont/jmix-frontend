@@ -1,2 +1,0 @@
-const styleMock = {};
-export {styleMock};

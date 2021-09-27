@@ -1,9 +1,3 @@
 .idea
 .npmrc
 node_modules
-example-react-app/package-lock.json
-example-react-app/generator-customization/generators/build
-react-native-client-scr/**
-docs-build*/**
-_testgen/**
-scr-jmix/

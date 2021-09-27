@@ -1,4 +1,0 @@
-* React Native Client
-** xref:starter-guide.adoc[开始使用 React Native Client]
-** xref:technologies.adoc[技术概览]
-** xref:learning-path.adoc[然后怎么办？]

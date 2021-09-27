@@ -1,1 +1,0 @@
-NOTE: If you haven't read our introductory xref:getting-started:index.adoc[Getting Started] section, we encourage you to do so now.
