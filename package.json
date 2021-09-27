@@ -19,6 +19,7 @@
     "lerna": "lerna",
     "lerna-bootstrap": "npm run lerna bootstrap --no-audit",
     "commit": "node node_modules/commitizen/bin/git-cz",
+    "bootstrap-react-app": "node scripts/bootstrap-react-app.js",
     "publish:versions": "lerna version -m 'chore: bump versions' --no-push --conventional-commits",
     "publish:prerelease-versions": "lerna version -m 'chore: bump versions (prerelease)' --no-push --conventional-commits --conventional-prerelease --preid next"
   },
