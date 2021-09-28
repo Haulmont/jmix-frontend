@@ -2,8 +2,7 @@ import {Input, notification} from "antd";
 import {LinkOutlined} from "@ant-design/icons";
 import {useCallback} from "react";
 import {useIntl} from "react-intl";
-import {ReactComponent} from "../../screen-api/ReactComponent";
-import {useScreens} from "../../screen-api/ScreenContext";
+import {ReactComponent, useScreens} from "@amplicode/react-core";
 
 export interface EntityLookupFieldProps {
   value?: Record<string, unknown>;

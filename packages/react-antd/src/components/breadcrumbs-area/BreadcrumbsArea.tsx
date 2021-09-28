@@ -1,7 +1,6 @@
 import {Breadcrumb} from "antd";
 import {observer} from "mobx-react";
-import {useScreens} from "../../screen-api/ScreenContext";
-import {BreadcrumbState} from "../../screen-api/Screens";
+import {useScreens, BreadcrumbState} from "@amplicode/react-core";
 import './BreadcrumbsArea.css';
 
 type BreadcrumbsAreaProps = {

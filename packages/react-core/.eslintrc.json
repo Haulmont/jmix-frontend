@@ -1,0 +1,3 @@
+{
+  "extends": "../eslint-config-amplicode-react/.eslintrc.json"
+}

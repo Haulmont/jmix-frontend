@@ -25,11 +25,15 @@ import { useForm } from "antd/es/form/Form";
 import {observer} from "mobx-react";
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useHistory} from "react-router-dom";
-import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
-import {useScreens} from "<%= relDirShift %>framework/screen-api/ScreenContext";
+import {
+  EntityDetailsScreenProps,
+  useScreens,
+  <% if (locals.hasRelationFields) { -%>
+    guessDisplayName,
+  <% } -%>
+} from "@amplicode/react-core";
 <% if (locals.hasRelationFields) { -%>
-  import {EntityLookupField} from '<%= relDirShift %>framework/components/entity-lookup-field/EntityLookupField';
-  import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
+  import {EntityLookupField} from '@amplicode/react-antd';
 <% } -%>
 
 const <%= toFatSnakeCase(queryName) %> = gql`

@@ -25,11 +25,8 @@ import {MutationFunctionOptions} from "@apollo/client/react/types/types";
 import {FetchResult} from "@apollo/client/link/core";
 import {useCallback, useEffect} from "react";
 import {useHistory, useRouteMatch} from "react-router-dom";
-import {EntityListScreenProps} from "<%= relDirShift %>framework/components/entity-list-screen/EntityListScreenProps";
-import {guessDisplayName} from "<%= relDirShift %>framework/util/guessDisplayName";
-import {guessLabel} from "<%= relDirShift %>framework/util/guessLabel";
-import {OpenInBreadcrumbParams, Screens} from "<%= relDirShift %>framework/screen-api/Screens";
-import { useScreens } from "<%= relDirShift %>framework/screen-api/ScreenContext";
+import {EntityListScreenProps, guessDisplayName, guessLabel} from "@amplicode/react-core";
+import {OpenInBreadcrumbParams, Screens, useScreens} from "@amplicode/react-antd";
 
 const ROUTE = '<%= route %>';
 

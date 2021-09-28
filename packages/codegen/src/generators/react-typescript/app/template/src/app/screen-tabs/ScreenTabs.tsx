@@ -1,4 +1,5 @@
-import {useScreens, TabHeading, BreadcrumbsArea, getScreenKey} from "@amplicode/react";
+import {useScreens, getScreenKey} from "@amplicode/react-core";
+import {TabHeading, BreadcrumbsArea} from "@amplicode/react-antd";
 import {Tabs} from "antd";
 import {observer} from "mobx-react";
 import {useLocation} from "react-router-dom";

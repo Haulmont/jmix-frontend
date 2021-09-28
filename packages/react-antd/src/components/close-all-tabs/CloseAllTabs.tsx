@@ -1,5 +1,5 @@
 import {useEffect} from "react";
-import {useScreens} from "../../screen-api/ScreenContext";
+import {useScreens} from "@amplicode/react-core";
 
 export const CloseAllTabs = () => {
   const screens = useScreens();

@@ -12,7 +12,7 @@ import { IntlProvider } from 'react-intl';
 import {SecurityStore} from "./app/security/security";
 import en from "./i18n/en.json";
 import {GRAPHQL_URI} from "./config";
-import { ScreenContext, Screens } from "@amplicode/react";
+import { ScreenContext, Screens } from "@amplicode/react-core";
 
 export const securityStore = new SecurityStore();
 

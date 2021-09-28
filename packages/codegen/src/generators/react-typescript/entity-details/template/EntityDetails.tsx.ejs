@@ -3,10 +3,7 @@ import {Card, Spin, Result, Empty, Descriptions, Button} from 'antd';
 import {useQuery, gql} from '@apollo/client';
 import {FormattedMessage} from 'react-intl';
 import {useHistory} from "react-router-dom";
-import {useScreens} from "<%= relDirShift %>framework/screen-api/ScreenContext";
-import {EntityDetailsScreenProps} from "<%= relDirShift %>framework/components/entity-details-screen/EntityDetailsScreenProps";
-import {guessDisplayName} from '<%= relDirShift %>framework/util/guessDisplayName';
-import {guessLabel} from "<%= relDirShift %>framework/util/guessLabel";
+import {useScreens, EntityDetailsScreenProps, guessDisplayName, guessLabel} from "@amplicode/react-core";
 
 const <%= toFatSnakeCase(queryName) %> = gql`
 <%= queryString %>

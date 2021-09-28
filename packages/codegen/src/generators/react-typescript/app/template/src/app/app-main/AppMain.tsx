@@ -6,7 +6,7 @@ import './AppMain.css';
 import {AppMenu} from "../AppMenu";
 import {ScreenTabs} from "../screen-tabs/ScreenTabs";
 import {Route, Switch} from "react-router-dom";
-import {Page404, CloseAllTabs} from "@amplicode/react";
+import {Page404, CloseAllTabs} from "@amplicode/react-antd";
 import {getScreenPaths} from "../screenRegistry";
 
 export const AppMain = observer(() => {

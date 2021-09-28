@@ -1,5 +1,5 @@
 import {Home} from "./home/Home";
-import {ReactComponent} from "@amplicode/react";
+import {ReactComponent} from "@amplicode/react-core";
 
 export interface ScreenInfo {
   /**
