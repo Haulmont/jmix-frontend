@@ -29,7 +29,7 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
 
   const menuItemDefaultHandler = useCallback(() => {
     if (currentMenuItem != null && screenId != null) {
-      const { menuLink } = { ...currentMenuItem };
+      const { menuLink } = { ...currentMenuItem } as any;
       if (menuLink != null) {
         openScreen(screenId, menuLink);
       }
