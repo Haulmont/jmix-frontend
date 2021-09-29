@@ -2,9 +2,15 @@
   "name": "@amplicode/react-antd",
   "version": "0.1.0",
   "description": "Ant Design based components and utilities for Amplicode Frontend",
+  "publishConfig": {
+    "access": "public"
+  },
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
+  "files": [
+    "dist/"
+  ],
   "scripts": {
     "compile": "npm run clean && rollup -c",
     "clean": "rimraf dist",
