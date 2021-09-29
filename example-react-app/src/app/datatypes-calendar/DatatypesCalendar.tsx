@@ -5,9 +5,10 @@ import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity
 import { EntityInstance, getDateProperty } from "@haulmont/jmix-react-core";
 import { registerScreen } from "@haulmont/jmix-react-web";
 import {
-  Calendar,
   Spinner,
   RetryDialog,
+  Calendar,
+  CalendarHeader,
   useCalendar
 } from "@haulmont/jmix-react-antd";
 import { gql } from "@apollo/client";
@@ -114,9 +115,11 @@ interface CalendarItemProps {
 }
 
 const CalendarItem = ({ item }: CalendarItemProps) => (
-  <Tooltip title={item[DESCRIPTION_PROPERTY_NAME]}>
-    <Badge status="default" text={item[TITLE_PROPERTY_NAME]} />
-  </Tooltip>
+  <div title="">
+    <Tooltip title={item[DESCRIPTION_PROPERTY_NAME]}>
+      <Badge status="default" text={item[TITLE_PROPERTY_NAME]} />
+    </Tooltip>
+  </div>
 );
 
 const DatatypesCalendar = observer(() => {
@@ -146,7 +149,7 @@ const DatatypesCalendar = observer(() => {
   return (
     <Card>
       <Calendar
-        mode="month"
+        headerRender={props => <CalendarHeader {...props} />}
         value={currentMonthDayjs}
         dateCellRender={date => (
           <List size="small">
