@@ -36,7 +36,7 @@ export interface ScreensConfig {
 
 export class Screens {
   private _tabs: TabState[] = [];
-  private _activeTabIndex?: number;
+  private _activeTabIndex: number | null = null;
 
   readonly appTitle: string;
 
@@ -165,7 +165,7 @@ export class Screens {
 
   closeAllTabs = () => {
     this._tabs = [];
-    this._activeTabIndex = undefined;
+    this._activeTabIndex = null;
     this.onActiveTabChange();
   };
 
@@ -265,7 +265,7 @@ export class Screens {
 
     if (this._tabs.length === 0) {
       // There was only a single tab and we have closed it. All tabs are closed now. There is no active tab.
-      this._activeTabIndex = undefined;
+      this._activeTabIndex = null;
       return;
     }
 
