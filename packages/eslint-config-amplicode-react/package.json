@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-amplicode-react",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Eslint config for @amplicode/react* packages",
   "main": "index.js",
   "private": true,

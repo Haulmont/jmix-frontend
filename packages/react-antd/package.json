@@ -1,6 +1,6 @@
 {
   "name": "@amplicode/react-antd",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ant Design based components and utilities for Amplicode Frontend",
   "publishConfig": {
     "access": "public"
@@ -29,11 +29,11 @@
   },
   "homepage": "https://github.com/Amplicode/amplicode-frontend#readme",
   "dependencies": {
-    "@amplicode/react-core": "^0.1.0"
+    "@amplicode/react-core": "^0.1.1"
   },
   "peerDependencies": {
-    "antd": "^4.13.0",
     "@ant-design/icons": "^4.0.0",
+    "antd": "^4.13.0",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
     "react": "^17.0.1",
