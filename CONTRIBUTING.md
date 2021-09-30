@@ -151,6 +151,21 @@ export const deriveTemplateModel = (
 
 <a name="react-client-testing"/>
 
+#### Addon injection
+
+If you want to inject some addon to generated application, need to do next steps:
+1. Open root directory of generated application in terminal and execute command
+   ```
+   npm i addonPackageName
+   ```
+   where addonPackageName - npm name of addon
+2. Run next command in terminal:
+   ```
+   gen-jmix-front react-typescript:addon --dest srcPath --addonPackageName addonPackageName --model projectModel
+   ```
+   where is: srcPath - path to src directory of generated application, addonPackageName - npm name of addon, 
+   projectModel - path to projectModel.json file
+
 ### Coding Conventions
 
 > NOTE: This section is under construction.
