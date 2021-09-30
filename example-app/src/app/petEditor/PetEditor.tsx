@@ -12,10 +12,13 @@ import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { EntityDetailsScreenProps } from "../../framework/components/entity-details-screen/EntityDetailsScreenProps";
-import { useScreens } from "../../framework/screen-api/ScreenContext";
-import { EntityLookupField } from "../../framework/components/entity-lookup-field/EntityLookupField";
-import { guessDisplayName } from "../../framework/util/guessDisplayName";
+import {
+  EntityDetailsScreenProps,
+  useScreens,
+  guessDisplayName
+} from "@amplicode/react-core";
+import { EntityLookupField } from "@amplicode/react-antd";
+import OwnerList from "../owner-list/OwnerList";
 
 const PET = gql`
   query Get_Pet($id: Long) {
@@ -158,8 +161,7 @@ const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
               guessDisplayName(value)
             }
             label="Owner"
-            // TODO Uncomment the code and specify the list component
-            // listComponent={YourEntityListComponentName}
+            listComponent={OwnerList}
           />
         </Form.Item>
 

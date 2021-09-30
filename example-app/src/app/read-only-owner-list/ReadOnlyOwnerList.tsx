@@ -1,31 +1,18 @@
 import { observer } from "mobx-react";
-import {
-  gql,
-  useQuery,
-  useMutation,
-  ApolloCache,
-  Reference
-} from "@apollo/client";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  PlusOutlined
-} from "@ant-design/icons";
-import { Button, Card, Modal, Spin, Empty, Result } from "antd";
+import { gql, useQuery, ApolloCache, Reference } from "@apollo/client";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
+import { Button, Card, Spin, Empty, Result } from "antd";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import { MutationFunctionOptions } from "@apollo/client/react/types/types";
-import { FetchResult } from "@apollo/client/link/core";
 import { useCallback, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { EntityListScreenProps } from "../../framework/components/entity-list-screen/EntityListScreenProps";
-import { guessDisplayName } from "../../framework/util/guessDisplayName";
-import { guessLabel } from "../../framework/util/guessLabel";
 import {
+  EntityListScreenProps,
+  guessDisplayName,
+  guessLabel,
   OpenInBreadcrumbParams,
-  Screens
-} from "../../framework/screen-api/Screens";
-import { useScreens } from "../../framework/screen-api/ScreenContext";
+  Screens,
+  useScreens
+} from "@amplicode/react-core";
 
 const ROUTE = "read-only-owner-list";
 
@@ -187,20 +174,6 @@ function getCardActions(input: CardActionsInput) {
       />
     ];
   }
-}
-
-function getUpdateFn(e: any) {
-  return (cache: ApolloCache<any>) => {
-    cache.modify({
-      fields: {
-        ownerList(existingRefs, { readField }) {
-          return existingRefs.filter(
-            (ref: Reference) => e["id"] !== readField("id", ref)
-          );
-        }
-      }
-    });
-  };
 }
 
 export default ReadOnlyOwnerList;

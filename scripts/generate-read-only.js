@@ -47,7 +47,7 @@ const readOnlyOwnerDetailsAnswers = btoa(JSON.stringify({
 }));
 
 const readOnlyOwnerListCommand = `
-${amplicodegen} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:entity-list \\
   --answers ${readOnlyOwnerListAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-list \\
@@ -55,14 +55,14 @@ ${amplicodegen} react-typescript:mvp-entity-browser \\
 `;
 
 const readOnlyOwnerListWithDetailsCommand = `
-${amplicodegen} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:entity-list \\
   --answers ${readOnlyOwnerListWithDetailsAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-list-with-details \\
   --dirShift ../../
 `;
 const readOnlyOwnerDetailsCommand = `
-${amplicodegen} react-typescript:mvp-entity-editor \\
+${amplicodegen} react-typescript:entity-details \\
   --answers ${readOnlyOwnerDetailsAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-details \\

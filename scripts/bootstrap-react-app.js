@@ -11,7 +11,7 @@ runCmdSync('node generate-pet-crud.js', './scripts');
 runCmdSync('node generate-read-only.js', './scripts');
 
 runCmdSync('lerna run prepublishOnly');
-runCmdSync(`lerna exec --scope '{@amplicode/react-core, @amplicode/react-antd}' "npm pack"`);
+runCmdSync(`lerna exec --scope '{@amplicode/react-core,@amplicode/react-antd}' "npm pack"`);
 
 installLocalPackage('react-core');
 installLocalPackage('react-antd');

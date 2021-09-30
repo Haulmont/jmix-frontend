@@ -1,32 +1,19 @@
 import { observer } from "mobx-react";
-import {
-  gql,
-  useQuery,
-  useMutation,
-  ApolloCache,
-  Reference
-} from "@apollo/client";
-import {
-  CheckOutlined,
-  CloseOutlined,
-  DeleteOutlined,
-  EnterOutlined,
-  PlusOutlined
-} from "@ant-design/icons";
-import { Button, Card, Modal, Spin, Empty, Result } from "antd";
+import { gql, useQuery, ApolloCache, Reference } from "@apollo/client";
+import { CheckOutlined, CloseOutlined, EnterOutlined } from "@ant-design/icons";
+import { Button, Card, Spin, Empty, Result } from "antd";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
-import { MutationFunctionOptions } from "@apollo/client/react/types/types";
-import { FetchResult } from "@apollo/client/link/core";
 import { useCallback, useEffect } from "react";
 import { useHistory, useRouteMatch } from "react-router-dom";
-import { EntityListScreenProps } from "../../framework/components/entity-list-screen/EntityListScreenProps";
-import { guessDisplayName } from "../../framework/util/guessDisplayName";
-import { guessLabel } from "../../framework/util/guessLabel";
 import {
+  EntityListScreenProps,
+  guessDisplayName,
+  guessLabel,
   OpenInBreadcrumbParams,
-  Screens
-} from "../../framework/screen-api/Screens";
-import { useScreens } from "../../framework/screen-api/ScreenContext";
+  Screens,
+  useScreens
+} from "@amplicode/react-core";
+import ReadOnlyOwnerDetails from "../read-only-owner-details/ReadOnlyOwnerDetails";
 
 const ROUTE = "read-only-owner-list-with-details";
 
@@ -56,19 +43,17 @@ const ReadOnlyOwnerListWithDetails = observer(
 
     const openEditor = useCallback(
       (id?: string) => {
-        // TODO Uncomment the code below, specify the editor component and remove the alert
-        alert("Please specify the editor component");
 
-        // const params: OpenInBreadcrumbParams = {
-        //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
-        //   component: ExampleComponentName, // TODO specify component name
-        // };
-        // if (id != null) {
-        //   params.props = {id};
-        // }
-        // screens.openInBreadcrumb(params);
-        // // Append /id to existing url
-        // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
+        const params: OpenInBreadcrumbParams = {
+          breadcrumbCaption: intl.formatMessage({id: 'screen.ReadOnlyOwnerDetails'}), // TODO specify message id
+          component: ReadOnlyOwnerDetails, // TODO specify component name
+        };
+        if (id != null) {
+          params.props = {id};
+        }
+        screens.openInBreadcrumb(params);
+        // Append /id to existing url
+        history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
       },
       [screens, history, intl]
     );

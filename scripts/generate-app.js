@@ -8,7 +8,7 @@ const appAnswers = btoa(JSON.stringify({
 }));
 
 const appCommand = `
-${amplicodegen} react-typescript:mvp-app \\
+${amplicodegen} react-typescript:app \\
   --answers ${appAnswers} \\
   --dest ../example-app
 `;

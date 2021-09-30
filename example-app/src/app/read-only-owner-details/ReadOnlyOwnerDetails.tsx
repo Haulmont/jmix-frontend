@@ -3,10 +3,12 @@ import { Card, Spin, Result, Empty, Descriptions, Button } from "antd";
 import { useQuery, gql } from "@apollo/client";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { useScreens } from "../../framework/screen-api/ScreenContext";
-import { EntityDetailsScreenProps } from "../../framework/components/entity-details-screen/EntityDetailsScreenProps";
-import { guessDisplayName } from "../../framework/util/guessDisplayName";
-import { guessLabel } from "../../framework/util/guessLabel";
+import {
+  useScreens,
+  EntityDetailsScreenProps,
+  guessDisplayName,
+  guessLabel
+} from "@amplicode/react-core";
 
 const OWNER = gql`
   query Get_Owner($id: Long) {

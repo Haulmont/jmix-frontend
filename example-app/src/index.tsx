@@ -17,8 +17,7 @@ import { IntlProvider } from "react-intl";
 import { SecurityStore } from "./app/security/security";
 import en from "./i18n/en.json";
 import { GRAPHQL_URI } from "./config";
-import { ScreenContext } from "./framework/screen-api/ScreenContext";
-import { Screens } from "./framework/screen-api/Screens";
+import { ScreenContext, Screens } from "@amplicode/react-core";
 
 export const securityStore = new SecurityStore();
 

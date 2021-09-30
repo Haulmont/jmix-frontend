@@ -125,7 +125,7 @@ const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
 
           <% attributes.forEach((attr) => { %>
             <% if (attr.name !== idField) { %>
-              <%- include(includesPath('MvpFormField'), {attr: attr}) %>
+              <%- include(includesPath('AmplicodeFormField'), {attr: attr}) %>
             <% } %>
           <% }) %>
 

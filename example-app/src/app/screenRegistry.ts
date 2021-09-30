@@ -3,7 +3,7 @@ import ReadOnlyOwnerList from "./read-only-owner-list/ReadOnlyOwnerList";
 import PetList from "./pet-list/PetList";
 import OwnerList from "./owner-list/OwnerList";
 import { Home } from "./home/Home";
-import { ReactComponent } from "../framework/screen-api/ReactComponent";
+import { ReactComponent } from "@amplicode/react-core";
 
 export interface ScreenInfo {
   /**

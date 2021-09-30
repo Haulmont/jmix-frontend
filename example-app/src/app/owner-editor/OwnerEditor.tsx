@@ -12,8 +12,7 @@ import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { EntityDetailsScreenProps } from "../../framework/components/entity-details-screen/EntityDetailsScreenProps";
-import { useScreens } from "../../framework/screen-api/ScreenContext";
+import { EntityDetailsScreenProps, useScreens } from "@amplicode/react-core";
 
 const OWNER = gql`
   query Get_Owner($id: Long) {

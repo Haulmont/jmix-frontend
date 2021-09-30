@@ -56,7 +56,7 @@ const petEditorAnswers = btoa(JSON.stringify({
 }));
 
 const petListCommand = `
-${amplicodegen} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:entity-list \\
   --answers ${petListAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/pet-list \\
@@ -64,7 +64,7 @@ ${amplicodegen} react-typescript:mvp-entity-browser \\
 `;
 
 const petEditorCommand = `
-${amplicodegen} react-typescript:mvp-entity-editor \\
+${amplicodegen} react-typescript:entity-details \\
   --answers ${petEditorAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/petEditor \\

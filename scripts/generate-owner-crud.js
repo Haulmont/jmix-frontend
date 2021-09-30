@@ -55,7 +55,7 @@ const ownerEditorAnswers = btoa(JSON.stringify({
 }));
 
 const ownerListCommand = `
-${amplicodegen} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:entity-list \\
   --answers ${ownerListAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/owner-list \\
@@ -63,7 +63,7 @@ ${amplicodegen} react-typescript:mvp-entity-browser \\
 `;
 
 const ownerEditorCommand = `
-${amplicodegen} react-typescript:mvp-entity-editor \\
+${amplicodegen} react-typescript:entity-details \\
   --answers ${ownerEditorAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/owner-editor \\

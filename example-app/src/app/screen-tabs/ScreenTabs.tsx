@@ -1,13 +1,11 @@
-import { useScreens } from "../../framework/screen-api/ScreenContext";
+import { useScreens, getScreenKey } from "@amplicode/react-core";
+import { TabHeading, BreadcrumbsArea } from "@amplicode/react-antd";
 import { Tabs } from "antd";
 import { observer } from "mobx-react";
-import { TabHeading } from "../../framework/components/tab-heading/TabHeading";
-import { BreadcrumbsArea } from "../../framework/components/breadcrumbs-area/BreadcrumbsArea";
 import { useLocation } from "react-router-dom";
 import { screenRegistry } from "../screenRegistry";
 import { useIntl } from "react-intl";
 import { useEffect, useState } from "react";
-import { getScreenKey } from "../../framework/screen-api/getScreenKey";
 
 export const ScreenTabs = observer(() => {
   const {
