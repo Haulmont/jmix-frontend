@@ -18,6 +18,12 @@ export const entityDetailsQuestions = [
     required: true
   },
   {
+    caption: 'List query name',
+    code: 'listQueryName',
+    propertyType: StudioTemplatePropertyType.STRING,
+    required: true
+  },
+  {
     caption: 'Query to load item',
     code: 'query',
     propertyType: StudioTemplatePropertyType.GRAPHQL_QUERY,
