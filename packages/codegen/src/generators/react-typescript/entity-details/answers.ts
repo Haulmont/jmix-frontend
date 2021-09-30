@@ -39,6 +39,7 @@ export const entityDetailsQuestions = [
     caption: 'Name of the id attribute',
     code: 'idField',
     propertyType: StudioTemplatePropertyType.STRING,
+    defaultValue: 'id',
     required: false
   },
   {
