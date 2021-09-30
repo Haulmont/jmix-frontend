@@ -1,6 +1,8 @@
 const {runCmdSync} = require("./common");
 const rimraf = require('rimraf');
 
+runCmdSync('lerna run --scope @amplicode/codegen prepublishOnly')
+
 rimraf.sync('example-app');
 
 runCmdSync('node generate-app.js', './scripts');

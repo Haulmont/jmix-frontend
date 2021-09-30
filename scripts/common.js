@@ -1,4 +1,5 @@
 const execSync = require('child_process').execSync;
+const path = require('path');
 
 exports.runCmdSync = (command, cwd = process.cwd()) => {
   try {
@@ -25,4 +26,4 @@ exports.btoa = (str) => {
 };
 
 // To use the scripts, you need to export MVP_GEN_JMIX_FRONT environment variable containing path to gen-jmix-front.js
-exports.gjf = process.env.MVP_GEN_JMIX_FRONT;
+exports.amplicodegen = path.resolve('../packages/codegen/bin/amplicodegen.js');

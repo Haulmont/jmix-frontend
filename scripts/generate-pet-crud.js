@@ -1,4 +1,4 @@
-const { runCmdSync, esc, btoa, gjf } = require("./common");
+const { runCmdSync, esc, btoa, amplicodegen } = require("./common");
 
 const petListQuery = `
 query Get_Pet_List {
@@ -56,7 +56,7 @@ const petEditorAnswers = btoa(JSON.stringify({
 }));
 
 const petListCommand = `
-${gjf} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:mvp-entity-browser \\
   --answers ${petListAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/pet-list \\
@@ -64,7 +64,7 @@ ${gjf} react-typescript:mvp-entity-browser \\
 `;
 
 const petEditorCommand = `
-${gjf} react-typescript:mvp-entity-editor \\
+${amplicodegen} react-typescript:mvp-entity-editor \\
   --answers ${petEditorAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/petEditor \\

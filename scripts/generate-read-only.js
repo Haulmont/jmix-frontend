@@ -1,4 +1,4 @@
-const { runCmdSync, esc, btoa, gjf } = require("./common");
+const { runCmdSync, esc, btoa, amplicodegen } = require("./common");
 
 const ownerListQuery = `
 query Get_Owner_List {
@@ -47,7 +47,7 @@ const readOnlyOwnerDetailsAnswers = btoa(JSON.stringify({
 }));
 
 const readOnlyOwnerListCommand = `
-${gjf} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:mvp-entity-browser \\
   --answers ${readOnlyOwnerListAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-list \\
@@ -55,14 +55,14 @@ ${gjf} react-typescript:mvp-entity-browser \\
 `;
 
 const readOnlyOwnerListWithDetailsCommand = `
-${gjf} react-typescript:mvp-entity-browser \\
+${amplicodegen} react-typescript:mvp-entity-browser \\
   --answers ${readOnlyOwnerListWithDetailsAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-list-with-details \\
   --dirShift ../../
 `;
 const readOnlyOwnerDetailsCommand = `
-${gjf} react-typescript:mvp-entity-editor \\
+${amplicodegen} react-typescript:mvp-entity-editor \\
   --answers ${readOnlyOwnerDetailsAnswers} \\
   --schema ./schema.graphql \\
   --dest ../example-app/src/app/read-only-owner-details \\

@@ -1,4 +1,4 @@
-const { runCmdSync, btoa, gjf } = require("./common");
+const { runCmdSync, btoa, amplicodegen } = require("./common");
 const fs = require('fs');
 
 const appAnswers = btoa(JSON.stringify({
@@ -8,7 +8,7 @@ const appAnswers = btoa(JSON.stringify({
 }));
 
 const appCommand = `
-${gjf} react-typescript:mvp-app \\
+${amplicodegen} react-typescript:mvp-app \\
   --answers ${appAnswers} \\
   --dest ../example-app
 `;
