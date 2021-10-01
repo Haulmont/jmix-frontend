@@ -1,0 +1,40 @@
+# Change Log
+
+All notable changes to this project will be documented in this file.
+See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
+
+# 1.0.0-next.4 (2021-10-01)
+
+
+### Bug Fixes
+
+* display messages for all table filter operators ([a91a85e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/a91a85e55c1ac222320436c3672ea3bdb05a59c1))
+* ignore embedded fields ([19c90b0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/19c90b07f6191e83630d0afb6ac749b2afeb8ef6))
+* updating entity containing property associated with integer id entity [#638](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/638) ([a279f69](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/a279f6981beef7fa76f380cd0b1ee54fd5a103fa))
+
+
+### chore
+
+* update mobx, @apollo/client, react-intl and typescript packages ([b61360c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/b61360c8444e7d969be127bcebff00a3e49dafc0))
+
+
+### Features
+
+* add useMenuItem hook and TabContent component [#572](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/572) ([a0e8c9d](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/a0e8c9d2aab4aff1e025ec1b0b42452e309e44eb))
+* entity calendar template ([4acf2bf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/4acf2bf79c69039d3909b0a2287933b01e9f385a))
+* implement localesStore with support adding locales from external packages [#82](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/82) ([b18607f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/b18607f7cab491005b24cf449c25a035ed9487e2))
+* implement RTL layout [#576](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/576) ([16a2b62](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/16a2b62b1244f20481a3d0f63f62e1db4c3bbd78))
+* split react-ui package to react-antd and -react-web [#528](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/528) ([246d919](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/246d919f65d7a0d350239d020d7a9a4d098636f4))
+* url reflect only root screen state [#587](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/587) ([2db065b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/2db065b0e25b997bf939444ce5dbaadfc0cbf86d))
+
+
+### Reverts
+
+* Revert "chore: update package-lock" ([ec9a49f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/ec9a49ffc543d998bffbe1f56d240f940d5f8b35))
+
+
+### BREAKING CHANGES
+
+* mobx, mobx-react, @apollo/client, react-intl and typescript packages were updated
+* @haulmont/jmix-react-ui package was removed. Added @haulmont/jmix-react-antd and
+@haulmont/jmix-react-web packages

@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-core",
-  "version": "1.1.0-next.2",
+  "version": "2.0.0-next.0",
   "description": "Jmix core utilities and components for React",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,7 +9,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-rest": "^1.0.1-next.0",
+    "@haulmont/jmix-rest": "^2.0.0-next.0",
     "dayjs": "^1.10.4",
     "path-to-regexp": "^3.1.0",
     "uuid": "^3.4.0"
