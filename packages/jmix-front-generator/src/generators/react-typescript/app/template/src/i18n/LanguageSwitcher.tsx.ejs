@@ -13,7 +13,7 @@ export interface LanguageSwitcherProps {
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
 
-  const handleChange = useCallback(
+  const handleChange = useCallback(() =>
     action((locale: string) => {
       mainStore.locale = locale;
     }),

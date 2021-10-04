@@ -56,14 +56,17 @@ export const ThemeSwitcher: React.FC<Props> = props => {
     });
   }, []);
 
-  const handleSizeNameChange = useCallback((sizeName: string) => {
-    setThemePreset(currentThemePreset => {
-      return {
-        ...currentThemePreset,
-        sizeName: sizeName === defaultSize.name ? null : sizeName
-      };
-    });
-  }, []);
+  const handleSizeNameChange = useCallback(
+    (sizeName: string) => {
+      setThemePreset(currentThemePreset => {
+        return {
+          ...currentThemePreset,
+          sizeName: sizeName === defaultSize.name ? null : sizeName
+        };
+      });
+    },
+    [defaultSize.name]
+  );
 
   return (
     <>

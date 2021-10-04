@@ -60,8 +60,9 @@ function createViewNamesType(className: string, views: View[]): ts.TypeAliasDecl
 function createEntityViewType(
   className: string, views: View[], allowedAttrs: EntityAttribute[], idAttributeName?: string
 ): ts.TypeAliasDeclaration {
-  const typeNode: ts.TypeNode = views
-    .filter(view => view.allProperties.length > 0)
+
+  const filteredViews = views.filter(view => view.allProperties.length > 0);
+  const typeNode: ts.TypeNode = filteredViews
     .reduceRight(
       (typeExpr: ts.TypeNode, view): ts.TypeNode => {
         return ts.createConditionalTypeNode(
@@ -76,6 +77,12 @@ function createEntityViewType(
       ts.createKeywordTypeNode(ts.SyntaxKind.NeverKeyword)
     );
 
+  const typeParameters = filteredViews.length == 0
+    ? []
+    : [ts.createTypeParameterDeclaration(
+      ts.createIdentifier(VIEW_NAME_TYPE_PARAMETER),
+      ts.createTypeReferenceNode(className + VIEW_NAME_TYPE_SUFFIX, undefined)
+    )];
 
   return ts.createTypeAliasDeclaration(
     undefined,
@@ -83,10 +90,7 @@ function createEntityViewType(
       ts.createToken(ts.SyntaxKind.ExportKeyword)
     ],
     className + 'View',
-    [ts.createTypeParameterDeclaration(
-      ts.createIdentifier(VIEW_NAME_TYPE_PARAMETER),
-      ts.createTypeReferenceNode(className + VIEW_NAME_TYPE_SUFFIX, undefined)
-    )],
+    typeParameters,
     typeNode
   )
 

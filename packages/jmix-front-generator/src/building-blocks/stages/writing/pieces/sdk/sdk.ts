@@ -1,7 +1,5 @@
 import path from "path";
 import {generateEntities} from "./model/entities-generation";
-import {generateServices} from "./services/services-generation";
-import {generateQueries} from "./services/queries-generation";
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import {ProjectModel} from "../../../../../common/model/cuba-model";
 import {getAllEntities} from "../../../../../common/model/cuba-model-utils";
@@ -44,14 +42,6 @@ export function writeSdkAll(
   ) {
     const {restQueries, restServices} = model;
     const ctx = writeSdkModel(gen, model, destination);
-
-    const services = generateServices(restServices, ctx);
-    const pathToWriteServices = path.join(gen.destinationPath(), destination || '', 'services.ts');
-    gen.fs.write(pathToWriteServices, services);
-
-    const queries = generateQueries(restQueries, ctx);
-    const pathToWriteQueriess = path.join(gen.destinationPath(), destination || '', 'queries.ts');
-    gen.fs.write(pathToWriteQueriess, queries);
 
     const metadata = pickMetadataFromProjectModel(model);
     const pathToWriteMetadata = path.join(gen.destinationPath(), destination || '', 'metadata.json');

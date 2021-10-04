@@ -3,7 +3,7 @@ import {ArrowUpOutlined} from "@ant-design/icons";
 import {Category, Component, Variant, Palette} from "@haulmont/react-ide-toolbox";
 import * as React from "react";
 
-export default () =>
+const palette = () =>
   <Palette>
     <Category name='Layout'>
 
@@ -119,3 +119,5 @@ export default () =>
       </Component>
     </Category>
   </Palette>
+
+export default palette;

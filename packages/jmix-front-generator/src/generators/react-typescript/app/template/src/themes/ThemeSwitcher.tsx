@@ -57,7 +57,7 @@ export const ThemeSwitcher: React.FC<Props> = (props) => {
         sizeName: sizeName === defaultSize.name ? null : sizeName
       }
     })
-  }, []);
+  }, [defaultSize.name]);
 
   return (
     <>

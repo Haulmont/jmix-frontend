@@ -77,7 +77,7 @@ import {
 } from "@haulmont/react-ide-toolbox";
 import * as React from "react";
 
-export default () => (
+const palette = () => (
   <Palette>
     <Category name="Layout">
       <Component name="Divider">
@@ -475,3 +475,5 @@ export default () => (
     </Category>
   </Palette>
 );
+
+export default palette;

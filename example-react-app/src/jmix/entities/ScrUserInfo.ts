@@ -7,4 +7,4 @@ export class ScrUserInfo {
   favouriteCars?: Car[] | null;
 }
 export type ScrUserInfoViewName = "_base" | "_instance_name" | "_local";
-export type ScrUserInfoView<V extends ScrUserInfoViewName> = never;
+export type ScrUserInfoView = never;

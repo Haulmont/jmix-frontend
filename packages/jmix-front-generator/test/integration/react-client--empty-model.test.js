@@ -20,9 +20,6 @@ describe('test:integration:react:empty-model', () => {
     assert.ok(!fs.existsSync(`${srcCubaDir}/enums/enums.ts`));
     assert.ok(!fs.existsSync(`${srcCubaDir}/entities`));
 
-    assert.ok(fs.existsSync(`${srcCubaDir}/queries.ts`));
-    assert.ok(fs.existsSync(`${srcCubaDir}/services.ts`));
-
     await checkFormat(EMPTY_APP_DIR);
     await installAndBuild('empty-model', EMPTY_APP_DIR);
   });
