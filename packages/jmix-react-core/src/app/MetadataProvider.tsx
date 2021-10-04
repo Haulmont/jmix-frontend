@@ -22,7 +22,7 @@ export interface MetaPropertyInfo {
 export interface MetaClassInfo {
     entityName: string;
     className: string;
-    idAttributeName: string;
+    idAttributeName?: string;
     persistentEntity: boolean;
     properties: MetaPropertyInfo[];
 }

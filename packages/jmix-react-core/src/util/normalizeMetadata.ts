@@ -26,7 +26,7 @@ export interface ProjectModelEntityAttr {
 export interface ProjectModelEntity {
     name?: string;
     className: string;
-    idAttributeName: string;
+    idAttributeName?: string;
     persistentEntity: boolean;
     attributes: ProjectModelEntityAttr[];
 }
