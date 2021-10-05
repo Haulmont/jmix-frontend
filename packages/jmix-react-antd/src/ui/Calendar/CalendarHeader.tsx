@@ -3,8 +3,8 @@ import { GenerateConfig } from 'rc-picker/lib/generate';
 import { Locale } from 'rc-picker/lib/interface';
 import { Select } from 'antd';
 import dayjsGenerateConfig from 'rc-picker/lib/generate/dayjs';
-import enUS from 'rc-picker/lib/locale/en_US';
 import { Dayjs } from 'dayjs';
+import { useLocaleReceiver } from 'antd/es/locale-provider/LocaleReceiver'
 
 const YearSelectOffset = 10;
 const YearSelectTotal = 20;
@@ -153,11 +153,9 @@ export function CalendarHeader(props: CalendarHeaderProps) {
   const divRef = React.useRef<HTMLDivElement>(null);
   const prefixCls = 'ant-picker-calendar';
   const fullscreen = true;
-  const locale = enUS;
 
   const sharedProps = {
     ...props,
-    locale,
     prefixCls,
     generateConfig: dayjsGenerateConfig,
     onChange,
@@ -165,10 +163,12 @@ export function CalendarHeader(props: CalendarHeaderProps) {
     divRef,
   };
 
+  const [locale] = useLocaleReceiver("Calendar") as any
+
   return (
     <div className={`${prefixCls}-header`} ref={divRef}>
-      <YearSelect<Dayjs> {...sharedProps} />
-      <MonthSelect<Dayjs> {...sharedProps} />
+      <YearSelect<Dayjs> {...sharedProps} locale = {locale.lang} />
+      <MonthSelect<Dayjs> {...sharedProps} locale = {locale.lang} />
     </div>
   );
 }
