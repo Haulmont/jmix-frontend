@@ -10,7 +10,7 @@ exclude: [
   "src/generators/*/*/template/**",
 ]
 
-statements: 79
-branches: 64
-functions: 72
-lines: 79
+statements: 78
+branches: 62
+functions: 69
+lines: 78

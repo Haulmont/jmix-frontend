@@ -76,7 +76,7 @@ const FormWizardEditor = withFormWizardProvider(
     const {
       intl,
       executeLoadQuery,
-      loadQueryResult: { loading: queryLoading, error: queryError, data },
+      loadQueryResult: { loading: queryLoading, error: queryError },
       handleSubmit,
       handleSubmitBtn,
       serverValidationErrors,

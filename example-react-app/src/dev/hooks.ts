@@ -26,6 +26,6 @@ export const useDevLogin: () => InitialHookStatus = () => {
           error: true
         });
       });
-  }, []);
+  }, [mainStore]);
   return status;
 };

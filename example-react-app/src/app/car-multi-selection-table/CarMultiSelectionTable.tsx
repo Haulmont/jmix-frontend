@@ -1,6 +1,6 @@
 import React from "react";
 import { observer } from "mobx-react";
-import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
+import { LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
 import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {

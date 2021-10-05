@@ -32,8 +32,6 @@ describe('sdk generator test', () => {
       })
     )
     .then(() => {
-      assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `services.ts`)));
-      assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `queries.ts`)));
       assert.ok(fs.existsSync(path.join(SDK_ALL_DIR, `enums/enums.ts`)));
       assert.ok(!fs.existsSync(path.join(SDK_ALL_DIR, `entities/base`)));
     }));
@@ -49,8 +47,6 @@ describe('sdk generator test', () => {
       assert.ok(fs.existsSync(path.join(SDK_MODEL_DIR, `enums/enums.ts`)));
       assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `entities/base`)));
       //services and queries should NOT be generated for sdk:model mode
-      assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `services.ts`)));
-      assert.ok(!fs.existsSync(path.join(SDK_MODEL_DIR, `queries.ts`)));
     }));
 
   it('should generates sdk for empty model', () => {

@@ -20,8 +20,6 @@ describe('test:integration:sdk', () => {
     assertContent('enums/enums.ts', appDir);
     assertContent('entities/scr$Car.ts', appDir);
     assertContent('entities/scr$SparePart.ts', appDir);
-    assertContent('services.ts', appDir);
-    assertContent('queries.ts', appDir);
 
     await checkFormat(appDir);
 

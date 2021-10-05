@@ -1,8 +1,8 @@
-import React, { useContext } from "react";
+import React from "react";
 import { observer } from "mobx-react";
 import { Card } from "antd";
 import { Car } from "jmix/entities/scr_Car";
-import { getFields, ScreensContext } from "@haulmont/jmix-react-core";
+import { getFields } from "@haulmont/jmix-react-core";
 import {
   EntityProperty,
   useEntityList,
