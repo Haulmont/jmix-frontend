@@ -1,6 +1,6 @@
 import React, { CSSProperties, useCallback } from "react";
 import { observer } from "mobx-react";
-import { action } from "mobx";
+import { runInAction } from "mobx";
 import { Select } from "antd";
 import { useMainStore } from "@haulmont/jmix-react-core";
 import { localesStore } from "@haulmont/jmix-react-web";
@@ -14,10 +14,7 @@ export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
   const mainStore = useMainStore();
 
   const handleChange = useCallback(
-    () =>
-      action((locale: string) => {
-        mainStore.locale = locale;
-      }),
+    (locale: string) => runInAction(() => (mainStore.locale = locale)),
     [mainStore]
   );
 
