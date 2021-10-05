@@ -1,22 +1,8 @@
 import {ListQueryVars, HasId} from "@haulmont/jmix-react-core";
 import {useCallback} from "react";
-import { IntlShape } from "react-intl";
 import {useEntityList, EntityListHookOptions, EntityListHookResult} from "@haulmont/jmix-react-web";
 import { useMasterDetailStore } from "./MasterDetailContext";
 import {modals} from "../modals";
-
-function showConfirmDialog(
-  onConfirm: () => void,
-  intl: IntlShape,
-  messageId: string,
-) {
-  modals.open({
-    content: intl.formatMessage({id: messageId}),
-    okText: intl.formatMessage({id: "common.ok"}),
-    cancelText: intl.formatMessage({id: "common.cancel"}),
-    onOk: onConfirm,
-  });
-}
 
 export interface MasterDetailListHookOptions<TEntity, TData, TQueryVars, TMutationVars>
 extends EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {}
@@ -43,14 +29,15 @@ export function useMasterDetailList<
   const handleCreateBtnClick: EntityListHookResultType['handleCreateBtnClick'] = useCallback(
     () => {
       if (masterDetailStore.selectedEntityId != null) {
-        showConfirmDialog(
-          () => {
+        modals.open({
+          content: intl.formatMessage({id: 'masterDetail.create.ifEntitySelected'}),
+          okText: intl.formatMessage({id: "common.ok"}),
+          cancelText: intl.formatMessage({id: "common.cancel"}),
+          onOk: () => {
             masterDetailStore.setIsOpenEditor(true);
             masterDetailStore.setSelectedEntityId(undefined);
           },
-          intl,
-          "masterDetail.create.ifEntitySelected"
-        );
+        });
       } else {
         masterDetailStore.setIsOpenEditor(true);
         masterDetailStore.setSelectedEntityId(undefined);
@@ -62,13 +49,23 @@ export function useMasterDetailList<
   const handleSelectionChange: EntityListHookResultType['handleSelectionChange'] = useCallback(
     (selectedEntityIds) => {
       if (selectedEntityIds.length === 0) {
-        masterDetailStore.setIsOpenEditor(false);
-        masterDetailStore.setSelectedEntityId(undefined);
-      } else {
-        if (!masterDetailStore.dirty) {
-          masterDetailStore.setIsOpenEditor(true);
-          masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
+        if (masterDetailStore.dirty) {
+          modals.open({
+            content: intl.formatMessage({id: 'masterDetail.create.ifEntitySelected'}),
+            okText: intl.formatMessage({id: "common.ok"}),
+            cancelText: intl.formatMessage({id: "common.cancel"}),
+            onOk: () => {
+              masterDetailStore.setDirty(false);
+              masterDetailStore.setIsOpenEditor(false);
+              masterDetailStore.setSelectedEntityId(undefined);
+            },
+          });
         } else {
+          masterDetailStore.setIsOpenEditor(false);
+          masterDetailStore.setSelectedEntityId(undefined);
+        }
+      } else {
+        if (masterDetailStore.dirty) {
           modals.open({
             content: intl.formatMessage({id: 'masterDetail.create.ifEntitySelected'}),
             okText: intl.formatMessage({id: "common.ok"}),
@@ -78,13 +75,16 @@ export function useMasterDetailList<
               masterDetailStore.setIsOpenEditor(true);
               masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
             },
-          })
+          });
+        } else {
+          masterDetailStore.setIsOpenEditor(true);
+          masterDetailStore.setSelectedEntityId(selectedEntityIds[0]);
         }
       }
 
       entityListData.handleSelectionChange(selectedEntityIds);
     },
-    [intl, masterDetailStore]
+    [entityListData, intl, masterDetailStore]
   );
   
   return {

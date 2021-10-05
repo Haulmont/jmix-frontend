@@ -4,10 +4,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.6.2",
     "@apollo/client": "^3.4.0",
-    "@haulmont/jmix-react-antd": "file:../packages/jmix-react-antd/haulmont-jmix-react-antd-1.0.0-next.2.tgz",
-    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.1.0-next.2.tgz",
-    "@haulmont/jmix-react-web": "file:../packages/jmix-react-web/haulmont-jmix-react-web-1.0.0-next.2.tgz",
-    "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-1.0.1-next.2.tgz",
+    "@haulmont/jmix-react-antd": "file:../packages/jmix-react-antd/haulmont-jmix-react-antd-1.0.0-next.5.tgz",
+    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.1.0-next.5.tgz",
+    "@haulmont/jmix-react-web": "file:../packages/jmix-react-web/haulmont-jmix-react-web-1.0.0-next.5.tgz",
+    "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-1.0.1-next.5.tgz",
     "@haulmont/react-ide-toolbox": "^1.0.0",
     "@haulmont/react-scripts": "^1.0.0",
     "antd": "^4.13.0",
@@ -28,7 +28,7 @@
     "update-model": "gen-jmix-front sdk:all --dest src/jmix"
   },
   "devDependencies": {
-    "@haulmont/jmix-front-generator": "file:../packages/jmix-front-generator/haulmont-jmix-front-generator-1.1.0-next.2.tgz",
+    "@haulmont/jmix-front-generator": "file:../packages/jmix-front-generator/haulmont-jmix-front-generator-1.1.0-next.5.tgz",
     "@types/jest": "^27.0.0",
     "@types/node": "^10.12.18",
     "@types/react": "^17.0.2",
