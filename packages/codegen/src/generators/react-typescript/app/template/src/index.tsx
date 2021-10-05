@@ -13,6 +13,9 @@ import {SecurityStore} from "./app/security/security";
 import en from "./i18n/en.json";
 import {GRAPHQL_URI} from "./config";
 import { ScreenContext, Screens } from "@amplicode/react-core";
+import {DevSupport} from "@react-buddy/ide-toolbox";
+import {ComponentPreviews} from "./dev/previews";
+import {useInitial} from "./dev/hook";
 
 export const securityStore = new SecurityStore();
 
@@ -63,7 +66,12 @@ ReactDOM.render(
       <IntlProvider locale='en' messages={en}>
         <ScreenContext.Provider value={screens}>
           <HashRouter>
-            <App />
+            <DevSupport
+              ComponentPreviews={<ComponentPreviews />}
+              useInitialHook={useInitial}
+            >
+              <App />
+            </DevSupport>
           </HashRouter>
         </ScreenContext.Provider>
       </IntlProvider>
