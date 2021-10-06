@@ -50,14 +50,19 @@ export async function writeAmplicodeComponent<T extends MvpComponentTemplateMode
   addScreenI18nKeyEn(componentName, relDirShift, gen);
 }
 
-export function addScreenI18nKeyEn(className: string, dirShift: string, gen: YeomanGenerator) {
+export function addScreenI18nKeyEn(
+  className: string, 
+  dirShift: string, 
+  gen: YeomanGenerator, 
+  componentType: "addons" | "screen" = "screen"
+) {
   const existingMessagesPath = path.join(dirShift, `i18n/en.json`);
   const existingMessages: Record<string, string> | null = gen.fs.readJSON(existingMessagesPath);
   if (existingMessages == null) {
     throw new Error('i18n messages not found');
   }
 
-  const screenNameKey = `screen.${className}`;
+  const screenNameKey = `${componentType}.${className}`;
 
   if (Object.keys(existingMessages).includes(screenNameKey)) {
     return;
