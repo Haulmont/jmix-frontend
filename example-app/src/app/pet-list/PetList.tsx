@@ -1,11 +1,7 @@
 import { observer } from "mobx-react";
-import {
-  gql,
-  useQuery,
-  useMutation,
-  ApolloCache,
-  Reference
-} from "@apollo/client";
+import { gql } from "@amplicode/gql";
+import { Exact } from "@amplicode/gql/graphql";
+import { useQuery, useMutation, ApolloCache, Reference } from "@apollo/client";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -31,7 +27,7 @@ import PetEditor from "../petEditor/PetEditor";
 
 const ROUTE = "pet-list";
 
-const PET_LIST = gql`
+const PET_LIST = gql(/* GraphQL */ `
   query Get_Pet_List {
     petList {
       id
@@ -42,13 +38,13 @@ const PET_LIST = gql`
       }
     }
   }
-`;
+`);
 
-const DELETE__PET = gql`
+const DELETE__PET = gql(/* GraphQL */ `
   mutation Delete_Pet($id: Long!) {
     delete_Pet(id: $id)
   }
-`;
+`);
 
 const PetList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
@@ -188,7 +184,7 @@ interface CardActionsInput {
   entityInstance: any;
   onSelect?: (entityInstance: this["entityInstance"]) => void;
   executeDeleteMutation: (
-    options?: MutationFunctionOptions
+    options?: MutationFunctionOptions<any, Exact<{ id: any }>>
   ) => Promise<FetchResult>;
   intl: IntlShape;
   openEditor: (id?: string) => void;

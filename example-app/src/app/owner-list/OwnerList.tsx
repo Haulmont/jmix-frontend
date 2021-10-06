@@ -1,11 +1,7 @@
 import { observer } from "mobx-react";
-import {
-  gql,
-  useQuery,
-  useMutation,
-  ApolloCache,
-  Reference
-} from "@apollo/client";
+import { gql } from "@amplicode/gql";
+import { Exact } from "@amplicode/gql/graphql";
+import { useQuery, useMutation, ApolloCache, Reference } from "@apollo/client";
 import {
   CheckOutlined,
   CloseOutlined,
@@ -31,7 +27,7 @@ import OwnerEditor from "../owner-editor/OwnerEditor";
 
 const ROUTE = "owner-list";
 
-const OWNER_LIST = gql`
+const OWNER_LIST = gql(/* GraphQL */ `
   query Get_Owner_List {
     ownerList {
       id
@@ -40,13 +36,13 @@ const OWNER_LIST = gql`
       city
     }
   }
-`;
+`);
 
-const DELETE__OWNER = gql`
+const DELETE__OWNER = gql(/* GraphQL */ `
   mutation Delete_Owner($id: Long!) {
     delete_Owner(id: $id)
   }
-`;
+`);
 
 const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
@@ -186,7 +182,7 @@ interface CardActionsInput {
   entityInstance: any;
   onSelect?: (entityInstance: this["entityInstance"]) => void;
   executeDeleteMutation: (
-    options?: MutationFunctionOptions
+    options?: MutationFunctionOptions<any, Exact<{ id: any }>>
   ) => Promise<FetchResult>;
   intl: IntlShape;
   openEditor: (id?: string) => void;

@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
+import { gql } from "@amplicode/gql";
 import {
-  gql,
   useLazyQuery,
   useMutation,
   FetchResult,
@@ -20,7 +20,7 @@ import {
 import { EntityLookupField } from "@amplicode/react-antd";
 import OwnerList from "../owner-list/OwnerList";
 
-const PET = gql`
+const PET = gql(/* GraphQL */ `
   query Get_Pet($id: Long) {
     pet(id: $id) {
       id
@@ -31,15 +31,15 @@ const PET = gql`
       }
     }
   }
-`;
+`);
 
-const UPDATE__PET = gql`
+const UPDATE__PET = gql(/* GraphQL */ `
   mutation Update_Pet($input: PetInputDTOInput) {
     update_Pet(input: $input) {
       id
     }
   }
-`;
+`);
 
 const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();

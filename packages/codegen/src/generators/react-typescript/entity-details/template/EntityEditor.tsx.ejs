@@ -1,5 +1,6 @@
 import {useEffect, useCallback, useState} from "react";
-import { gql, useLazyQuery, useMutation, FetchResult, ApolloError, ApolloCache } from "@apollo/client";
+import {gql} from '@amplicode/gql';
+import { useLazyQuery, useMutation, FetchResult, ApolloError, ApolloCache } from "@apollo/client";
 import {
   Form,
   Button,
@@ -36,13 +37,13 @@ import {
   import {EntityLookupField} from '@amplicode/react-antd';
 <% } -%>
 
-const <%= toFatSnakeCase(queryName) %> = gql`
+const <%= toFatSnakeCase(queryName) %> = gql(/* GraphQL */ `
   <%= queryString %>
-`;
+`);
 
-const <%= toFatSnakeCase(mutationName) %> = gql`
+const <%= toFatSnakeCase(mutationName) %> = gql(/* GraphQL */ `
   <%= mutationString %>
-`;
+`);
 
 const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
   const [form] = useForm();

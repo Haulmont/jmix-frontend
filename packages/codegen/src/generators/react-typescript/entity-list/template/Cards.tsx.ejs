@@ -1,6 +1,9 @@
 import {observer} from "mobx-react";
+import {gql} from '@amplicode/gql';
+<% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
+  import {Exact} from '@amplicode/gql/graphql';
+<% } -%>
 import {
-  gql,
   useQuery,
   <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
     useMutation,
@@ -50,14 +53,14 @@ import {
 
 const ROUTE = '<%= route %>';
 
-const <%= toFatSnakeCase(queryName) %> = gql`
+const <%= toFatSnakeCase(queryName) %> = gql(/* GraphQL */ `
   <%= queryString %>
-`;
+`);
 
 <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
-const <%= toFatSnakeCase(deleteMutationName) %> = gql`
+const <%= toFatSnakeCase(deleteMutationName) %> = gql(/* GraphQL */ `
   <%= deleteMutationString %>
-`;
+`);
 <% } -%>
 
 const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
@@ -190,7 +193,7 @@ interface CardActionsInput {
   entityInstance: any;
   onSelect?: (entityInstance: this['entityInstance']) => void;
   <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
-    executeDeleteMutation: ((options?: MutationFunctionOptions) => Promise<FetchResult>);
+    executeDeleteMutation: ((options?: MutationFunctionOptions<any, Exact<{id: any}>>) => Promise<FetchResult>);
   <% } -%>
   intl: IntlShape;
   openEditor: (id?: string) => void;

@@ -1,5 +1,6 @@
 import { observer } from "mobx-react";
-import { gql, useQuery, ApolloCache, Reference } from "@apollo/client";
+import { gql } from "@amplicode/gql";
+import { useQuery, ApolloCache, Reference } from "@apollo/client";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Card, Spin, Empty, Result } from "antd";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
@@ -16,7 +17,7 @@ import {
 
 const ROUTE = "read-only-owner-list";
 
-const OWNER_LIST = gql`
+const OWNER_LIST = gql(/* GraphQL */ `
   query Get_Owner_List {
     ownerList {
       id
@@ -25,7 +26,7 @@ const OWNER_LIST = gql`
       city
     }
   }
-`;
+`);
 
 const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();

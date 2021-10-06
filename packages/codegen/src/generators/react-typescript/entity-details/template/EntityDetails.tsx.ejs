@@ -1,13 +1,14 @@
 import {useCallback} from 'react';
 import {Card, Spin, Result, Empty, Descriptions, Button} from 'antd';
-import {useQuery, gql} from '@apollo/client';
+import {gql} from '@amplicode/gql';
+import {useQuery} from '@apollo/client';
 import {FormattedMessage} from 'react-intl';
 import {useHistory} from "react-router-dom";
 import {useScreens, EntityDetailsScreenProps, guessDisplayName, guessLabel} from "@amplicode/react-core";
 
-const <%= toFatSnakeCase(queryName) %> = gql`
+const <%= toFatSnakeCase(queryName) %> = gql(/* GraphQL */ `
 <%= queryString %>
-`;
+`);
 
 export const <%= componentName %> = ({id}: EntityDetailsScreenProps) => {
   const screens = useScreens();
@@ -47,15 +48,18 @@ export const <%= componentName %> = ({id}: EntityDetailsScreenProps) => {
                     column={1}
       >
         {Object.keys(item)
-               .filter(p => p != <%= idField %>)
-               .map((propertyName: string) => (
-          <Descriptions.Item label={<strong>{guessLabel(propertyName)}</strong>}>
-            {typeof item[propertyName] === 'object'
-              ? guessDisplayName(item[propertyName])
-              : String(item[propertyName])
-            }
-          </Descriptions.Item>
-        ))}
+          .filter(p => p != id)
+          .map((p: string) => {
+            const propertyName = p as keyof typeof item;
+            return (
+              <Descriptions.Item
+                label={<strong>{guessLabel(propertyName)}</strong>}
+              >
+                {typeof item[propertyName] === "object"
+                  ? guessDisplayName(item[propertyName])
+                  : String(item[propertyName])}
+              </Descriptions.Item>);
+          })}
       </Descriptions>
       <Button htmlType="button"
               onClick={goToParentScreen}

@@ -1,6 +1,7 @@
 import { useCallback } from "react";
 import { Card, Spin, Result, Empty, Descriptions, Button } from "antd";
-import { useQuery, gql } from "@apollo/client";
+import { gql } from "@amplicode/gql";
+import { useQuery } from "@apollo/client";
 import { FormattedMessage } from "react-intl";
 import { useHistory } from "react-router-dom";
 import {
@@ -10,7 +11,7 @@ import {
   guessLabel
 } from "@amplicode/react-core";
 
-const OWNER = gql`
+const OWNER = gql(/* GraphQL */ `
   query Get_Owner($id: Long) {
     owner(id: $id) {
       id
@@ -22,7 +23,7 @@ const OWNER = gql`
       telephone
     }
   }
-`;
+`);
 
 export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
   const screens = useScreens();
@@ -67,15 +68,18 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
       >
         {Object.keys(item)
           .filter(p => p != id)
-          .map((propertyName: string) => (
-            <Descriptions.Item
-              label={<strong>{guessLabel(propertyName)}</strong>}
-            >
-              {typeof item[propertyName] === "object"
-                ? guessDisplayName(item[propertyName])
-                : String(item[propertyName])}
-            </Descriptions.Item>
-          ))}
+          .map((p: string) => {
+            const propertyName = p as keyof typeof item;
+            return (
+              <Descriptions.Item
+                label={<strong>{guessLabel(propertyName)}</strong>}
+              >
+                {typeof item[propertyName] === "object"
+                  ? guessDisplayName(item[propertyName])
+                  : String(item[propertyName])}
+              </Descriptions.Item>
+            );
+          })}
       </Descriptions>
       <Button htmlType="button" onClick={goToParentScreen}>
         <FormattedMessage id="common.close" />

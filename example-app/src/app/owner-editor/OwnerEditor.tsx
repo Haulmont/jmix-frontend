@@ -1,6 +1,6 @@
 import { useEffect, useCallback, useState } from "react";
+import { gql } from "@amplicode/gql";
 import {
-  gql,
   useLazyQuery,
   useMutation,
   FetchResult,
@@ -14,7 +14,7 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
 import { EntityDetailsScreenProps, useScreens } from "@amplicode/react-core";
 
-const OWNER = gql`
+const OWNER = gql(/* GraphQL */ `
   query Get_Owner($id: Long) {
     owner(id: $id) {
       id
@@ -26,15 +26,15 @@ const OWNER = gql`
       telephone
     }
   }
-`;
+`);
 
-const UPDATE__OWNER = gql`
+const UPDATE__OWNER = gql(/* GraphQL */ `
   mutation Update_Owner($input: OwnerInputDTOInput) {
     update_Owner(input: $input) {
       id
     }
   }
-`;
+`);
 
 const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();
