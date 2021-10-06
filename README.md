@@ -19,7 +19,7 @@ postgres=# create user cuba with encrypted password 'cuba';
 
 #### Backend
 
-Backend repo for `example-app`: https://github.com/jmix-projects/jmix2-petclinic.git
+Backend repo for `example-app`: https://github.com/Amplicode/amplicode-mvp-petclinic
 
 Run backend:
 
