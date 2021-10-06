@@ -54,21 +54,17 @@ const ownerEditorAnswers = btoa(JSON.stringify({
   listQueryName: 'ownerList'
 }));
 
-const ownerListCommand = `
-${amplicodegen} react-typescript:entity-list \\
-  --answers ${ownerListAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/owner-list \\
-  --dirShift ../../
-`;
+const ownerListCommand = `node ${amplicodegen} react-typescript:entity-list`
++ ` --answers ${ownerListAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/owner-list`
++ ` --dirShift ../../`;
 
-const ownerEditorCommand = `
-${amplicodegen} react-typescript:entity-details \\
-  --answers ${ownerEditorAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/owner-editor \\
-  --dirShift ../../
-`;
+const ownerEditorCommand = `node ${amplicodegen} react-typescript:entity-details`
++ ` --answers ${ownerEditorAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/owner-editor`
++ ` --dirShift ../../`;
 
 runCmdSync(ownerListCommand);
 runCmdSync(ownerEditorCommand);

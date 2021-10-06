@@ -55,21 +55,17 @@ const petEditorAnswers = btoa(JSON.stringify({
   listQueryName: "petList"
 }));
 
-const petListCommand = `
-${amplicodegen} react-typescript:entity-list \\
-  --answers ${petListAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/pet-list \\
-  --dirShift ../../
-`;
+const petListCommand = `node ${amplicodegen} react-typescript:entity-list`
++ ` --answers ${petListAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/pet-list`
++ ` --dirShift ../../`;
 
-const petEditorCommand = `
-${amplicodegen} react-typescript:entity-details \\
-  --answers ${petEditorAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/petEditor \\
-  --dirShift ../../
-`;
+const petEditorCommand = `node ${amplicodegen} react-typescript:entity-details`
++ ` --answers ${petEditorAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/petEditor`
++ ` --dirShift ../../`;
 
 runCmdSync(petListCommand);
 runCmdSync(petEditorCommand);

@@ -46,28 +46,23 @@ const readOnlyOwnerDetailsAnswers = btoa(JSON.stringify({
   listQueryName: 'ownerList'
 }));
 
-const readOnlyOwnerListCommand = `
-${amplicodegen} react-typescript:entity-list \\
-  --answers ${readOnlyOwnerListAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/read-only-owner-list \\
-  --dirShift ../../
-`;
+const readOnlyOwnerListCommand = `node ${amplicodegen} react-typescript:entity-list`
++ ` --answers ${readOnlyOwnerListAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/read-only-owner-list`
++ ` --dirShift ../../`;
 
-const readOnlyOwnerListWithDetailsCommand = `
-${amplicodegen} react-typescript:entity-list \\
-  --answers ${readOnlyOwnerListWithDetailsAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/read-only-owner-list-with-details \\
-  --dirShift ../../
-`;
-const readOnlyOwnerDetailsCommand = `
-${amplicodegen} react-typescript:entity-details \\
-  --answers ${readOnlyOwnerDetailsAnswers} \\
-  --schema ./schema.graphql \\
-  --dest ../example-app/src/app/read-only-owner-details \\
-  --dirShift ../../
-`;
+const readOnlyOwnerListWithDetailsCommand = `node ${amplicodegen} react-typescript:entity-list`
++ ` --answers ${readOnlyOwnerListWithDetailsAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/read-only-owner-list-with-details`
++ ` --dirShift ../../`;
+
+const readOnlyOwnerDetailsCommand = `node ${amplicodegen} react-typescript:entity-details`
++ ` --answers ${readOnlyOwnerDetailsAnswers}`
++ ` --schema ./schema.graphql`
++ ` --dest ../example-app/src/app/read-only-owner-details`
++ ` --dirShift ../../`;
 
 runCmdSync(readOnlyOwnerListCommand);
 runCmdSync(readOnlyOwnerListWithDetailsCommand);

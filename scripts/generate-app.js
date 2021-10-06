@@ -7,13 +7,11 @@ const appAnswers = btoa(JSON.stringify({
   graphqlUri: "/graphql"
 }));
 
-const appCommand = `
-${amplicodegen} react-typescript:app \\
-  --answers ${appAnswers} \\
-  --dest ../example-app
-`;
+const appCommand = `node ${amplicodegen} react-typescript:app`
++ ` --answers ${appAnswers}`
++ ` --dest ../example-app`;
 
 if (!fs.existsSync('../example-app')) {
-  runCmdSync('mkdir ../example-app');
+  runCmdSync('mkdirp ../example-app');
 }
 runCmdSync(appCommand);
