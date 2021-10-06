@@ -6,6 +6,8 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import {writeSdkAll} from "../../../building-blocks/stages/writing/pieces/sdk/sdk"
 import {ProjectModel} from '../../../common/model/cuba-model';
 
+const trimLocale = (v: string) => v.split(/-|_/)[0]
+
 export const write: WriteStage<Options, TemplateModel> = async (
   projectModel, templateModel, gen, options
 ) => {
@@ -26,8 +28,12 @@ export const write: WriteStage<Options, TemplateModel> = async (
     gen.log('Project model does not contain project locales info. I18n messages will be added for all supported locales.');
     clientLocales = supportedClientLocaleNames;
   } else {
-    const projectLocales = templateModel.project.locales.map(locale => locale.code);
-    clientLocales = supportedClientLocaleNames.filter(({localeName}) => projectLocales.includes(localeName));
+    const trimmedLocales: string[] = []
+    const projectLocales = templateModel.project.locales.map(locale => {
+      trimmedLocales.push(trimLocale(locale.code))
+      return locale.code
+    });
+    clientLocales = supportedClientLocaleNames.filter(({localeName}) => projectLocales.includes(localeName) || trimmedLocales.includes(trimLocale(localeName)));
     if (clientLocales.length === 0) {
       gen.log('WARNING. None of the project locales are supported by Frontend Generator.'
         + ` Project locales: ${JSON.stringify(projectLocales)}. Supported locales: ${JSON.stringify(supportedClientLocaleNames)}.`);
