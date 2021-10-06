@@ -7,7 +7,6 @@ exports.runCmdSync = (command, cwd = process.cwd()) => {
     execSync(command, {
       stdio: 'inherit',
       cwd: cwd,
-      shell: '/bin/bash'
     });
   } catch (err) {
     const errorCode = Number.isFinite(parseInt(err.status)) ? parseInt(err.status) : 1;

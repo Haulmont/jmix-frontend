@@ -13,9 +13,9 @@ runCmdSync('node generate-read-only.js', './scripts');
 runCmdSync('lerna run prepublishOnly');
 runCmdSync(`lerna exec --scope '{@amplicode/react-core,@amplicode/react-antd}' "npm pack"`);
 
+runCmdSync('cd example-app && npm i');
 installLocalPackage('react-core');
 installLocalPackage('react-antd');
-runCmdSync('npm i --prefix example-app');
 
 function installLocalPackage(packageName) {
   const {version} = require(`../packages/${packageName}/package.json`);
