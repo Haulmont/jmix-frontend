@@ -4,7 +4,8 @@ const fs = require('fs');
 const appAnswers = btoa(JSON.stringify({
   appTitle: "Jmix2 Petclinic",
   appShortName: "jmix2-petclinic",
-  graphqlUri: "/graphql"
+  graphqlUri: "/graphql",
+  basePath: "front"
 }));
 
 const appCommand = `node ${amplicodegen} react-typescript:app`

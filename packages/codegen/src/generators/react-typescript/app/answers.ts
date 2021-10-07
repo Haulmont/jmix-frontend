@@ -4,6 +4,7 @@ export interface AppAnswers {
   appTitle: string;
   appShortName: string;
   graphqlUri: string;
+  basePath: string;
 }
 
 export const appQuestions: StudioTemplateProperty[] = [
@@ -22,5 +23,11 @@ export const appQuestions: StudioTemplateProperty[] = [
     caption: 'GraphQL URI',
     propertyType: StudioTemplatePropertyType.STRING,
     defaultValue: '/graphql'
+  },
+  {
+    code: 'basePath',
+    caption: 'Base Path',
+    propertyType: StudioTemplatePropertyType.STRING,
+    defaultValue: 'front'
   }
 ];
