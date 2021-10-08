@@ -6,7 +6,7 @@ exports.login = async (page, login = 'admin', password = 'admin') => {
   await page.waitFor('#input_password');
   await page.type('#input_password', password);
 
-  await page.click('div.login-form button[type="submit"]');
+  await page.click('div.ant-form-item-control-input button[type="submit"]');
   await page.waitFor('main > div');
 };
 
