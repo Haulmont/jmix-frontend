@@ -19,12 +19,6 @@ import {initializeApp} from "@haulmont/jmix-rest";
 import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./config";
 import metadata from './jmix/metadata.json'
 import './index.css';
-<% if (isLocaleUsed('ru')) { -%>
-  import 'dayjs/locale/ru';
-<% } -%>
-<% if (isLocaleUsed('fr')) { -%>
-  import 'dayjs/locale/fr';
-<% } -%>
 import { ApolloProvider } from "@apollo/client";
 import { initializeLocales } from "./i18n/i18nInit";
 import { IntlDocumentTitle } from "@haulmont/jmix-react-web";

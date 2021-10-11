@@ -25,7 +25,6 @@ import {
 } from "./config";
 import metadata from "./jmix/metadata.json";
 import "./index.css";
-import "dayjs/locale/ru";
 import { ApolloProvider } from "@apollo/client";
 import { initializeLocales } from "./i18n/i18nInit";
 import { IntlDocumentTitle } from "@haulmont/jmix-react-web";

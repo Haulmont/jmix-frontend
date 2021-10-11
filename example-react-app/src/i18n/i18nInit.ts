@@ -4,6 +4,8 @@ import en from "./en.json";
 import en_US from "antd/es/locale/en_US";
 import ru from "./ru.json";
 import ru_RU from "antd/es/locale/ru_RU";
+import "dayjs/locale/en";
+import "dayjs/locale/ru";
 
 export function initializeLocales() {
   localesStore.addLocale({
