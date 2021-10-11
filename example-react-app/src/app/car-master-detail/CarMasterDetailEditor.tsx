@@ -1,5 +1,5 @@
 import React from "react";
-import { Form, Button } from "antd";
+import { Form, Button, Space } from "antd";
 import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage } from "react-intl";
@@ -258,17 +258,14 @@ const CarMasterDetailEditor = observer((props: EntityEditorProps<Car>) => {
       <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
 
       <Form.Item style={{ textAlign: "center" }}>
-        <Button htmlType="button" onClick={handleCancelBtnClick}>
-          <FormattedMessage id="common.cancel" />
-        </Button>
-        <Button
-          type="primary"
-          htmlType="submit"
-          loading={upsertLoading}
-          style={{ marginLeft: "8px" }}
-        >
-          <FormattedMessage id={submitBtnCaption} />
-        </Button>
+        <Space size={8}>
+          <Button htmlType="button" onClick={handleCancelBtnClick}>
+            <FormattedMessage id="common.cancel" />
+          </Button>
+          <Button type="primary" htmlType="submit" loading={upsertLoading}>
+            <FormattedMessage id={submitBtnCaption} />
+          </Button>
+        </Space>
       </Form.Item>
     </Form>
   );
