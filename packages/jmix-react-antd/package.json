@@ -10,8 +10,8 @@
   ],
   "dependencies": {
     "@haulmont/jmix-react-core": "^1.1.0-next.6",
-    "@haulmont/jmix-rest": "^1.0.1-next.6",
-    "@haulmont/jmix-react-web": "^1.0.0-next.6"
+    "@haulmont/jmix-react-web": "^1.0.0-next.6",
+    "@haulmont/jmix-rest": "^1.0.1-next.6"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.6.2",
@@ -59,8 +59,8 @@
     "rollup-plugin-postcss": "^4.0.0",
     "rollup-plugin-typescript2": "^0.30.0",
     "ts-jest": "^26.0.0",
-    "typedoc": "^0.20.28",
-    "typescript": "^4.4.2"
+    "typedoc": "^0.22.5",
+    "typescript": "^4.4.3"
   },
   "scripts": {
     "compile": "npm run clean && rollup -c",
