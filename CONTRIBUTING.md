@@ -8,7 +8,7 @@
 
 #### Database
 
-Install [PostgreSQL](https://www.postgresql.org/download/). 
+Install [PostgreSQL](https://www.postgresql.org/download/).
 
 Setup user and database. You can use pgAdmin (graphical administration utility) or psql (PostgreSQL CLI).
 
@@ -32,7 +32,7 @@ Run backend:
 - On Linux
 
 ```
-./gradlew bootRun 
+./gradlew bootRun
 ```
 
 - On Windows
@@ -46,6 +46,7 @@ Run backend:
 Re-generate and start `example-app`:
 
 ```
+npm run lerna-bootstrap
 npm run bootstrap-react-app
 npm run start-react-app
 ```
@@ -66,7 +67,7 @@ const examplePath = 'my/test/directory';
 
 // correct
 const examplePath = path.join('my', 'test', 'directory');
-``` 
+```
 
 2. Avoid using CLI commands which depend on OS, like 'mkdir -p', 'rm -rf', etc. Instead, use npm packages with CLI that have the same functionality:
 
@@ -80,7 +81,7 @@ Examples (package.json scripts):
 // correct
 "clean": "rimraf dist && rimraf dist-transpiled",
 "dist": "npm run compile && mkdirp dist-browser && browserify --standalone cuba dist-node/cuba.js > dist-browser/cuba.js"
-``` 
+```
 
 3. When you are working with shell scripts, you need to provide `.sh` script for UNIX users and `.bat` for Windows users. Also, you need to implement logic of running `.sh` scripts for UNIX users, and `.bat` for Windows users.
 
@@ -92,11 +93,13 @@ Nullish checking:
 
 ```typescript
 // wrong
-if (foo) {}
+if (foo) {
+}
 
 // correct
-if (foo != null) {}
-``` 
+if (foo != null) {
+}
+```
 
 Nullish coalescing:
 
@@ -129,31 +132,41 @@ This section explains how to test the generator.
 `/expected` - files gauges used for comparison with generated code.<br>
 
 #### Unit Tests
+
 From project root all unit tests could be run with coverage
+
 ```bash
 npm run test:coverage
 ```
+
 or inside specific package
+
 ```bash
 npm test
 ```
 
 #### Integration Tests
-Integration tests use compiled version of front-generator. To apply your code changes you need to run ```npm run build``` before testing.
+
+Integration tests use compiled version of front-generator. To apply your code changes you need to run `npm run build` before testing.
 <br>
-Generated Apps and SDK are placed into ```./test/e2e/generated``` directory.
+Generated Apps and SDK are placed into `./test/e2e/generated` directory.
 
 ##### Run All E2E Tests
+
 ```bash
 npm run test:e2e
 ```
 
 ##### E2E Tests for Generators
+
 SDK
+
 ```bash
 npm run test:e2e:sdk
 ```
+
 React client
+
 ```bash
 npm run test:e2e:react
 ```
@@ -162,9 +175,9 @@ npm run test:e2e:react
 
 #### Conventional Commits
 
-We are using conventional commits. Conventional commits allow generating changelogs and simplify managing of semantic versioning. See [this article](](https://www.conventionalcommits.org/en/v1.0.0/#summary)) for a short overview of the methodology.
+We are using conventional commits. Conventional commits allow generating changelogs and simplify managing of semantic versioning. See [this article](<](https://www.conventionalcommits.org/en/v1.0.0/#summary)>) for a short overview of the methodology.
 
-Our  commits have the following structure:
+Our commits have the following structure:
 
 ```
 type(scope): short description #issueNumber
@@ -181,9 +194,9 @@ Example:
 
 ```
  feat(React): support hooks #4
-    
+
     affects: @cuba-platform/react-core, @cuba-platform/react-ui, @cuba-platform/front-generator
-    
+
     Added support for hooks.
     Added utility and convenience hooks:
      - useMainStore
@@ -197,7 +210,7 @@ Example:
      - useReaction
     Added `entity-management-hooks` template with hooks-based entity
     editor as a proof of concept.
-    
+
     BREAKING CHANGE:
     Increased minium version requirements for dependencies:
      - mobx-react:       ^6.2.2
@@ -212,15 +225,15 @@ Example of an interactive prompt:
 
 ```
 ? Select the type of change that you're committing: feat:     ✨  A new feature (note: this will indicate a release)
-? Denote the scope of this change: 
+? Denote the scope of this change:
 ? Write a short, imperative tense description of the change:
  support bean validation
 ? Provide a longer description of the change (optional). Use "|" to break new line:
- 
+
 ? List any BREAKING CHANGES (if none, leave blank):
- 
+
 ? List any ISSUES CLOSED by this change (optional). E.g.: #31, #34:
- 
+
 ? The packages that this commit has affected (0 detected)
  (Press <space> to select, <a> to toggle all, <i> to invert selection)
 ❯◯ @haulmont/jmix-front-generator
@@ -240,11 +253,11 @@ style:    Changes that do not affect the meaning of the code
 (white-space, formatting, missing semi-colons, etc)
 refactor: A code change that neither fixes a bug nor adds a feature
 perf:     A code change that improves performance
-test:     Adding missing tests 
+test:     Adding missing tests
 chore:    Changes to the build process or auxiliary tools
-            and libraries such as documentation generation 
-revert:   Revert to a commit 
-WIP:      Work in progress 
+            and libraries such as documentation generation
+revert:   Revert to a commit
+WIP:      Work in progress
 ```
 
 The list of available **scopes** can be found in `commitlint.config.js` file under `rules` -> `scope-enum`. Scope is optional.
@@ -261,8 +274,8 @@ Commit message should contain github issue number (if any)
 
 1. Create a feature branch from `master`. Branch name should be `{initials}/{type}/{issueNumber}/{shortDescription}`, e.g. `pv/feat/34/bean-validation`:
 
-    - `initials` are the first letters of author's first and last name. If the initials are already used by another team member - add additional letters (e.g. first letter of middle name).
-    - `type` is type of change, see [Conventional Commits](#conventional-commits).
+   - `initials` are the first letters of author's first and last name. If the initials are already used by another team member - add additional letters (e.g. first letter of middle name).
+   - `type` is type of change, see [Conventional Commits](#conventional-commits).
 
 2. Commit your work and push your branch. Usually one issue = one commit, but you may want to split the changes into several commits to make review easier (for example, you may want to make separate commits for changing documentation sources and updating generated documentation).
 
@@ -272,18 +285,17 @@ Commit message should contain github issue number (if any)
 
 5. Merge your PR with "Rebase and merge" button and delete source branch after that.
 
-
 ## Advanced Info
 
 ### Generators
 
 #### Basics and Terminology
 
-`packages/jmix-front-generator` contains the source code for `@haulmont/jmix-front-generator` library which is used for code generation (scaffolding). This library uses [Yeoman](https://yeoman.io/), however, in order to extend and reuse functionality we are using functions composition rather than Yeoman's usual approach of class inheritance. This will be covered in more detail in [How to Write a Generator](#how-to-write-a-generator) section. The code is generated from [EJS](https://ejs.co/) templates. 
+`packages/jmix-front-generator` contains the source code for `@haulmont/jmix-front-generator` library which is used for code generation (scaffolding). This library uses [Yeoman](https://yeoman.io/), however, in order to extend and reuse functionality we are using functions composition rather than Yeoman's usual approach of class inheritance. This will be covered in more detail in [How to Write a Generator](#how-to-write-a-generator) section. The code is generated from [EJS](https://ejs.co/) templates.
 
-This library can be used as a standalone CLI tool, but most of the time it will be used from Studio. When used as a CLI tool it can interactively ask questions and use the **answers** to resolve interpolations in the templates. Studio will ask these questions using its graphical interface and invoke the generator CLI, passing the base64-encoded answers object as `--answers` **option**. There are other options, for example `--dest` that tells the generator where to put the generated files.  
+This library can be used as a standalone CLI tool, but most of the time it will be used from Studio. When used as a CLI tool it can interactively ask questions and use the **answers** to resolve interpolations in the templates. Studio will ask these questions using its graphical interface and invoke the generator CLI, passing the base64-encoded answers object as `--answers` **option**. There are other options, for example `--dest` that tells the generator where to put the generated files.
 
-In addition to *answers* and *options* there is a **project model** - information about your Jmix project's entities, fetch plans, services, queries, etc. It can be obtained from Studio.
+In addition to _answers_ and _options_ there is a **project model** - information about your Jmix project's entities, fetch plans, services, queries, etc. It can be obtained from Studio.
 
 > EJS template + options + answers + project model = generated code
 
@@ -299,16 +311,16 @@ There is a convention that enables CLI/Studio to discover generators. When you w
 2. Add an EJS template (by convention we put it under the `template` directory).
 3. Add `index.ts` file. It should contain:
 
-   - A generator class that extends `YeomanGenerator` and contains a constructor and a single method. By convention this method is called `generate`. 
-   - An export that looks like this: 
-      ```
-      export {
-         YourGeneratorClassName as generator,
-         optionsConfig as options,
-         allQuestions as params,
-         description
-      }
-      ```
+   - A generator class that extends `YeomanGenerator` and contains a constructor and a single method. By convention this method is called `generate`.
+   - An export that looks like this:
+     ```
+     export {
+        YourGeneratorClassName as generator,
+        optionsConfig as options,
+        allQuestions as params,
+        description
+     }
+     ```
 
 `optionsConfig` is an `OptionsConfig` object that contains available options. `allQuestions` is a `StudioTemplateProperty` array representing all possible questions that can be asked by this generator. `description` will be shown by CLI and Studio.
 
@@ -360,18 +372,18 @@ Let us describe the **stages** of this pipeline:
 
 To use this pipeline call `defaultPipeline` function in your `generate` method. The arguments:
 
-- `templateDir` - template location. 
+- `templateDir` - template location.
 - `questions` - an array of all possible questions (if your generator is using any).
 - `options` - options config (defaults to `commonGenerationOptionsConfig`).
 - `stages` - an object containing your custom implementations of stages:
-    - `getOptions`
-    - `configureGenerator`
-    - `getProjectModel`
-    - `getAnswersFromOptions`
-    - `getAnswersFromPrompt`
-    - `deriveTemplateModel`
-    - `write`
-    
+  - `getOptions`
+  - `configureGenerator`
+  - `getProjectModel`
+  - `getAnswersFromOptions`
+  - `getAnswersFromPrompt`
+  - `deriveTemplateModel`
+  - `write`
+
 There are default implementations of stages that are suitable for most cases. Most likely you'll need to customize `getAnswersFromPrompt`, `deriveTemplateModel` and `write`. Implementations of these stages also share some code between themselves. This code is extracted into functions which we put under `src/building-blocks/stages/{stageName}/pieces`. When creating your own reusable functions it is important to give them clear names so that your functions can be easily discovered and reused by fellow developers.
 
 Inside your generator folder, organize your custom code based on the stage it belongs to. For example, put your questions and your implementation of `getAnswersFromPrompt` to `answers.ts`, your `TemplateModel` type and `deriveTemplateModel` implementation to `template-model.ts`, etc. A typical generator folder may look like this:
@@ -393,14 +405,15 @@ Inside your generator folder, organize your custom code based on the stage it be
 If you need to use a different/modified pipeline, write your own analogue of the `defaultPipeline` function. You can still reuse the default implementation of stages that are relevant to you.
 
 #### Templates
-The ```template``` folder inside generator is used to create templates from which the code will be generated. 
-Templates are processed using [EJS](https://ejs.co/). 
+
+The `template` folder inside generator is used to create templates from which the code will be generated.
+Templates are processed using [EJS](https://ejs.co/).
 <br>
 Template files could be any type,
-but to increase code readability for complex files there is an ability to add ```.ejs``` suffix to a template name.
-During the file processing the suffix will be removed. 
-It means that files ```EntityManagementEditor.tsx.ejs``` and ```EntityManagementEditor.tsx``` both will be processed to file
-```EntityManagementEditor.tsx``` and the only difference is how they will be highlighted in IDE. 
+but to increase code readability for complex files there is an ability to add `.ejs` suffix to a template name.
+During the file processing the suffix will be removed.
+It means that files `EntityManagementEditor.tsx.ejs` and `EntityManagementEditor.tsx` both will be processed to file
+`EntityManagementEditor.tsx` and the only difference is how they will be highlighted in IDE.
 
 #### Template Utilities
 
