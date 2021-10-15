@@ -8,5 +8,14 @@ export * from './util/guessLabel';
 export * from './screen-api/getScreenKey';
 export * from './screen-api/Screens';
 export * from './screen-api/ScreenContext';
+export * from './screen-api/ScreenMetaContext';
 export * from './screen-api/defaultGetPageTitle';
 export * from './screen-api/ReactComponent';
+
+export * from './hotkeys/defaultHotkeys/browser';
+export * from './hotkeys/defaultHotkeys/editor';
+export * from './hotkeys/defaultHotkeys/screen';
+export * from './hotkeys/useHotkey';
+export * from './hotkeys/hotkeyConfig';
+export * from './hotkeys/hotkeyContext';
+export * from './hotkeys/hotkeyStore';

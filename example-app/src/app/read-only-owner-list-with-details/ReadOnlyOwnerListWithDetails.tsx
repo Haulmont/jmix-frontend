@@ -12,6 +12,7 @@ import {
   guessLabel,
   OpenInBreadcrumbParams,
   Screens,
+  useDefaultBrowserHotkeys,
   useScreens
 } from "@amplicode/react-core";
 import { ReadOnlyOwnerDetails } from "../read-only-owner-details/ReadOnlyOwnerDetails";
@@ -67,6 +68,8 @@ export const ReadOnlyOwnerListWithDetails = observer(
         openEditor(match.params.entityId);
       }
     }, [match, openEditor, screens]);
+
+    useDefaultBrowserHotkeys();
 
     if (loading) {
       return <Spin />;

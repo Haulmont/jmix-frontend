@@ -23,5 +23,14 @@
   "EntityDetailsScreen.validationError": "Validation Error. Please check the data you entered.",
   "EntityLookupField.selectEntityInstance": "Select entity instance",
 
-  "screen.home": "Home"
+  "screen.home": "Home",
+
+  "hotkeys.hotkeyInfo.title": "Shortcuts",
+  "hotkeys.category.screen": "Screen",
+  "hotkeys.category.browser": "Browser",
+  "hotkeys.category.editor": "Editor",
+  "hotkeys.browser.applyFilter": "Apply filter",
+  "hotkeys.editor.saveEntity": "Save entity",
+  "hotkeys.screen.nextTab": "Switch to next tab",
+  "hotkeys.screen.previousTab": "Switch to previous tab"
 }

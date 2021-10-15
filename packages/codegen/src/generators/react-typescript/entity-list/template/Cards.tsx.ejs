@@ -48,7 +48,8 @@ import {
   guessLabel,
   OpenInBreadcrumbParams,
   Screens,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
 
 const ROUTE = '<%= route %>';
@@ -102,6 +103,7 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
     }
   }, [match, openEditor, screens]);
 
+  useDefaultBrowserHotkeys();
 
   if (loading) {
     return <Spin/>;

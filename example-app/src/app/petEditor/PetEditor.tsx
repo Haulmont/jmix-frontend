@@ -15,7 +15,8 @@ import { useHistory } from "react-router-dom";
 import {
   EntityDetailsScreenProps,
   useScreens,
-  guessDisplayName
+  guessDisplayName,
+  useDefaultEditorHotkeys
 } from "@amplicode/react-core";
 import { EntityLookupField } from "@amplicode/react-antd";
 import { OwnerList } from "../owner-list/OwnerList";
@@ -117,6 +118,8 @@ export const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
       form.setFieldsValue(dataToFormValues(item));
     }
   }, [item, form]);
+
+  useDefaultEditorHotkeys({saveEntity: form.submit});
 
   if (queryLoading) {
     return <Spin />;

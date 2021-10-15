@@ -21,10 +21,14 @@
     margin-left: 12px;
 }
 
-.app-header__user-panel__logout-btn.ant-btn-text {
+.app-header__icon-btn.ant-btn-text {
     color: #CCCCCC;
 }
 
-.app-header__user-panel__logout-btn.ant-btn-text:hover {
+.app-header__icon-btn.ant-btn-text:hover {
+    color: #FFF;
+}
+
+.app-header__icon-btn.ant-btn-text:focus {
     color: #FFF;
 }

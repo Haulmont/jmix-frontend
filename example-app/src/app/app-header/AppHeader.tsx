@@ -1,11 +1,39 @@
 import { Button, Modal, notification, Space } from "antd";
-import { LogoutOutlined } from "@ant-design/icons";
-import { useCallback } from "react";
+import { LogoutOutlined, MacCommandOutlined } from "@ant-design/icons";
+import { useCallback, useState } from "react";
 import { securityStore } from "../../index";
 import { useIntl } from "react-intl";
 import "./AppHeader.css";
+import { useHotkeyStore } from "@amplicode/react-core";
+import { HotkeyInfo } from "@amplicode/react-antd";
+import { observer } from "mobx-react";
 
-export const AppHeader = () => {
+const HotkeyInfoButton = observer(() => {
+  const [visible, setVisible] = useState(false);
+  const intl = useIntl();
+  const { hotkeyConfigs } = useHotkeyStore();
+
+  return (
+    <>
+      <Button
+        type="text"
+        className="app-header__icon-btn"
+        icon={<MacCommandOutlined />}
+        onClick={() => setVisible(true)}
+      />
+      <Modal
+        visible={visible}
+        title={intl.formatMessage({ id: "hotkeys.hotkeyInfo.title" })}
+        footer={null}
+        onCancel={() => setVisible(false)}
+      >
+        <HotkeyInfo hotkeyConfigs={hotkeyConfigs} />
+      </Modal>
+    </>
+  );
+});
+
+export const AppHeader = observer(() => {
   const intl = useIntl();
 
   const showLogoutConfirm = useCallback(() => {
@@ -26,18 +54,17 @@ export const AppHeader = () => {
   }, [intl]);
 
   return (
-    <>
-      <div className="app-header">
-        <Space className="app-header__user-panel">
-          <Button
-            id="button_logout"
-            className="app-header__user-panel__logout-btn"
-            type="text"
-            icon={<LogoutOutlined />}
-            onClick={showLogoutConfirm}
-          />
-        </Space>
-      </div>
-    </>
+    <div className="app-header">
+      <Space className="app-header__user-panel">
+        <HotkeyInfoButton />
+        <Button
+          id="button_logout"
+          className="app-header__icon-btn"
+          type="text"
+          icon={<LogoutOutlined />}
+          onClick={showLogoutConfirm}
+        />
+      </Space>
+    </div>
   );
-};
+});

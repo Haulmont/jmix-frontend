@@ -8,7 +8,8 @@ import {
   useScreens,
   EntityDetailsScreenProps,
   guessDisplayName,
-  guessLabel
+  guessLabel,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
 
 const OWNER = gql(/* GraphQL */ `
@@ -39,6 +40,8 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
     history.push("."); // Remove entity id part from url
     screens.closeActiveBreadcrumb();
   }, [screens, history]);
+
+  useDefaultBrowserHotkeys();
 
   const item = data?.owner;
 

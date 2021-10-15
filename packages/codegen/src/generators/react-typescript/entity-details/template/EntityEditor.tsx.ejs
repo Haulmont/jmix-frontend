@@ -29,6 +29,7 @@ import {useHistory} from "react-router-dom";
 import {
   EntityDetailsScreenProps,
   useScreens,
+  useDefaultEditorHotkeys,
   <% if (locals.hasRelationFields) { -%>
     guessDisplayName,
   <% } -%>
@@ -105,6 +106,8 @@ const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
       form.setFieldsValue(dataToFormValues(item));
     }
   }, [item, form]);
+
+  useDefaultEditorHotkeys({saveEntity: form.submit});
 
   if (queryLoading) {
     return <Spin/>;

@@ -62,5 +62,8 @@
     "ts-jest": "^26.0.0",
     "typedoc": "^0.22.4",
     "typescript": "^4.4.2"
+  },
+  "dependencies": {
+    "hotkeys-js": "^3.8.7"
   }
 }

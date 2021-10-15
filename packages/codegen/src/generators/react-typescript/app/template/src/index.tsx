@@ -12,10 +12,11 @@ import { IntlProvider } from 'react-intl';
 import {SecurityStore} from "./app/security/security";
 import en from "./i18n/en.json";
 import {GRAPHQL_URI} from "./config";
-import { ScreenContext, Screens } from "@amplicode/react-core";
+import { HotkeyContext, HotkeyStore, ScreenContext, Screens } from "@amplicode/react-core";
 import {DevSupport} from "@react-buddy/ide-toolbox";
 import {ComponentPreviews} from "./dev/previews";
 import {useInitial} from "./dev/hook";
+import { defaultHotkeyConfigs } from "./hotkeyConfigs";
 
 export const securityStore = new SecurityStore();
 
@@ -60,18 +61,22 @@ const client = new ApolloClient({
 // To customize screens behavior, pass a config object to Screens constructor
 const screens = new Screens();
 
+const hotkeys = new HotkeyStore(defaultHotkeyConfigs);
+
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
       <IntlProvider locale='en' messages={en}>
         <ScreenContext.Provider value={screens}>
           <HashRouter>
-            <DevSupport
-              ComponentPreviews={<ComponentPreviews />}
-              useInitialHook={useInitial}
-            >
-              <App />
-            </DevSupport>
+            <HotkeyContext.Provider value={hotkeys}>
+              <DevSupport
+                ComponentPreviews={<ComponentPreviews />}
+                useInitialHook={useInitial}
+              >
+                <App />
+              </DevSupport>
+            </HotkeyContext.Provider>
           </HashRouter>
         </ScreenContext.Provider>
       </IntlProvider>

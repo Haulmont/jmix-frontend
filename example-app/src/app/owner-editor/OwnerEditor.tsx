@@ -12,7 +12,7 @@ import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { EntityDetailsScreenProps, useScreens } from "@amplicode/react-core";
+import { EntityDetailsScreenProps, useScreens, useDefaultEditorHotkeys } from "@amplicode/react-core";
 
 const OWNER = gql(/* GraphQL */ `
   query Get_Owner($id: Long) {
@@ -112,6 +112,8 @@ export const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
       form.setFieldsValue(dataToFormValues(item));
     }
   }, [item, form]);
+
+  useDefaultEditorHotkeys({saveEntity: form.submit});
 
   if (queryLoading) {
     return <Spin />;
