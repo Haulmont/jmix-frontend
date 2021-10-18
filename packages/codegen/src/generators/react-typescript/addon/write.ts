@@ -1,7 +1,7 @@
 import {TemplateModel} from "./template-model";
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
-import { addScreenI18nKeyEn } from "src/building-blocks/stages/writing/pieces/mvp/mvp";
-import { addMvpAppMenu } from "src/building-blocks/stages/writing/pieces/mvp/addMvpAppMenu";
+import { addScreenI18nKeyEn } from "../../../building-blocks/stages/writing/pieces/mvp/mvp";
+import { addMvpAppMenu } from "../../../building-blocks/stages/writing/pieces/mvp/addMvpAppMenu";
 
 export async function write (
   templateModel: TemplateModel, gen: YeomanGenerator
