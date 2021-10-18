@@ -46,7 +46,7 @@ Run backend:
 Re-generate and start `example-app`:
 
 ```
-npm run lerna-bootstrap
+npm run lerna-bootstrap # only the first time
 npm run bootstrap-react-app
 npm run start-react-app
 ```
