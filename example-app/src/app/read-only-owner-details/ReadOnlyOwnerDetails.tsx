@@ -40,7 +40,7 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
     screens.closeActiveBreadcrumb();
   }, [screens, history]);
 
-  const item = data?.["owner"];
+  const item = data?.owner;
 
   if (queryLoading) {
     return <Spin />;

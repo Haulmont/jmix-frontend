@@ -110,7 +110,7 @@ const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
     }
   }, [loadItem, id]);
 
-  const item = data?.["pet"];
+  const item = data?.pet;
 
   useEffect(() => {
     if (item != null) {

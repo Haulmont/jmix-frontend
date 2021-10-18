@@ -105,7 +105,7 @@ const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
     }
   }, [loadItem, id]);
 
-  const item = data?.["owner"];
+  const item = data?.owner;
 
   useEffect(() => {
     if (item != null) {
