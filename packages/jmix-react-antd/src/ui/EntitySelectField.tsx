@@ -1,5 +1,5 @@
 import {observer} from "mobx-react";
-import {Select} from "antd";
+import { Select, SelectProps } from "antd";
 import * as React from "react";
 import { DataCollectionStore, HasId, MayHaveInstanceName, MayHaveId } from "@haulmont/jmix-react-core";
 import {getStringId} from "@haulmont/jmix-rest";
@@ -24,8 +24,11 @@ export const EntitySelectField = observer((props: EntitySelectFieldProps) => {
       .map((e: MayHaveId & MayHaveInstanceName) => ({id: e.id!, instanceName: e._instanceName}));
   }
 
+  // in case when value==null we need to reset value to 'undefined', otherwise `Select` component behaves
+  // as if it is filled (item is set, clear button appears), but really it doesn't
+  const value = (rest as SelectProps<any>).value == null ? undefined : (rest as SelectProps<any>).value;
   return (
-    <Select {...rest} loading={optionsContainer && optionsContainer.status === "LOADING"}>
+    <Select {...rest} value={value} loading={optionsContainer && optionsContainer.status === "LOADING"}>
       {options && options.map(option =>
         <Select.Option value={getStringId(option.id)} key={getStringId(option.id)}>
           {option._instanceName ?? option.id}

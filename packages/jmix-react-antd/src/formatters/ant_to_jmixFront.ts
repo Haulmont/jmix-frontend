@@ -50,13 +50,16 @@ export function ant_to_jmixFront(
       return;
     }
 
-    if (propInfo && isToOneAssociation(propInfo) && (
-      typeof value === 'string' ||
-      typeof value === 'number' ||
-      typeof value === 'object'
-    )) {
-      result[attributeName] = {id: value};
-      return;
+    if (propInfo && isToOneAssociation(propInfo)) {
+      if (value == null) {
+        result[attributeName] = null;
+        return;
+      }
+      if (typeof value === 'string') {
+        result[attributeName] = {id: value};
+        return;
+      }
+      throw new Error(`Unexpected value type for to-one association property ${propInfo.name}. Expected string or null/undefined`);
     }
 
     if (propInfo && isToManyAssociation(propInfo) && Array.isArray(value)) {
