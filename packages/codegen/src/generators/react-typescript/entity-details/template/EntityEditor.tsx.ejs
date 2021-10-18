@@ -98,7 +98,7 @@ const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
     }
   }, [loadItem, id]);
 
-  const item = data?.['<%= queryName %>'];
+  const item = data?.<%= queryName %>;
 
   useEffect(() => {
     if (item != null) {
