@@ -42,6 +42,7 @@ Run backend:
 ```
 
 #### Frontend
+Install or update [Node.js](https://nodejs.org/), LTS version should be enough
 
 Re-generate and start `example-app`:
 
