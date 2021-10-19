@@ -6,21 +6,20 @@ export interface TemplateModel {
   screenNames: string[],
   messages: Record<string, Record<string, string>>,
   relDirShift: string,
+  addonPackageName: string
 }
 
 export async function deriveTemplateModel(
-  {dest, dirShift, addonPackageName}: Options,
+  {dest, addonPackageName}: Options,
   answers: {},
   ): Promise<TemplateModel> {
-    const relDirShift =  dirShift ?? '';
+    const relDirShift = 'src';
     const pathToAddonPackage = path.join(
-      dest ?? '', 
-      relDirShift, 
-      '../node_modules', 
+      process.cwd(),
+      'node_modules', 
       addonPackageName,
       'amplicode.addon-metadata.json'
     );
-    
     const addonMetadata = require(pathToAddonPackage);
-    return {...addonMetadata, relDirShift} ;
+    return {...addonMetadata, relDirShift, addonPackageName} ;
 }

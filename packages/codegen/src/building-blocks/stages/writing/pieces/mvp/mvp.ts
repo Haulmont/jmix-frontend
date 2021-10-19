@@ -76,3 +76,44 @@ export function addScreenI18nKeyEn(
 
   gen.fs.writeJSON(existingMessagesPath, mergedMessages);
 }
+
+export function addI18nMessagesEn(
+  dirShift: string, 
+  gen: YeomanGenerator, 
+  messages: Record<string, string>
+) {
+  const existingMessagesPath = path.join(dirShift, `i18n/en.json`);
+  const existingMessages: Record<string, string> | null = gen.fs.readJSON(existingMessagesPath);
+  if (existingMessages == null) {
+    throw new Error('i18n messages not found');
+  }
+
+  const existingKeys = Object.keys(existingMessages);
+  const messagesKeys = Object.keys(messages);
+
+  const keysToMerge = messagesKeys.filter((messageKey) => {
+    const isMessageKeyExist = existingKeys.includes(messageKey);
+    if(isMessageKeyExist) {
+      gen.log(`message key '${messageKey}' already exists and will not be merged`);
+    }
+    return !isMessageKeyExist
+  })
+
+  if(keysToMerge.length === 0) {
+    gen.log(`messages don't have any keys to merge`);
+    return;
+  }
+  const messagesToMerge: Record<string, string> = keysToMerge.reduce((msgs, key) => {
+    return {
+      ...msgs,
+      [key]: messages[key]
+    }
+  }, {})
+
+  const mergedMessages = {
+    ...existingMessages,
+    ...messagesToMerge
+  };
+
+  gen.fs.writeJSON(existingMessagesPath, mergedMessages);
+}

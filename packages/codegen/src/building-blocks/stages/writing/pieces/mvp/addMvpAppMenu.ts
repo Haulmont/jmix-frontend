@@ -10,6 +10,8 @@ export interface AddAppMenuInput {
   dirShift: string;
   route: string;
   componentName: string;
+  pathToComponent?: string;
+  isAddon?: boolean;
 }
 
 export function addMvpAppMenu({
@@ -17,11 +19,13 @@ export function addMvpAppMenu({
   dirShift,
   route,
   componentName,
+  pathToComponent,
+  isAddon
 }: AddAppMenuInput) {
 
   const destRoot = gen.destinationRoot();
   const srcDir = path.join(destRoot, dirShift ? dirShift : '');
-  const componentPath = `./${getRelativePath(path.join(srcDir, 'app'), destRoot)}/${componentName}`;
+  const componentPath = pathToComponent ?? `./${getRelativePath(path.join(srcDir, 'app'), destRoot)}/${componentName}`;
 
   const appMenuPath = path.join(srcDir, 'app', 'AppMenu.tsx');
   if (!gen.fs.exists(appMenuPath)) {
@@ -39,8 +43,8 @@ export function addMvpAppMenu({
   }
   const screenRegistryFileContent = gen.fs.read(screenRegistryFilePath);
   let screenRegistryTransformed;
-  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName);
-  screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath);
+  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName, isAddon);
+  screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath, !isAddon);
   gen.fs.write(screenRegistryFilePath, screenRegistryTransformed);
 }
 
@@ -57,7 +61,12 @@ function transformAddMenuItem(source: string, route: string): string {
   return appMenuAST.toSource();
 }
 
-export function transformAddScreenImport(source: string, componentName: string, componentPath: string): string {
+export function transformAddScreenImport(
+  source: string, 
+  componentName: string, 
+  componentPath: string, 
+  isDefault: boolean = true): string 
+{
   const tsxParser = j.withParser('tsx');
   const ast = tsxParser(source);
 
@@ -70,8 +79,9 @@ export function transformAddScreenImport(source: string, componentName: string, 
     return source;
   }
 
+  const importSpecifier = isDefault ? j.importDefaultSpecifier : j.importSpecifier;
   const newImport = j.importDeclaration(
-    [j.importDefaultSpecifier(j.identifier(componentName))],
+    [importSpecifier(j.identifier(componentName))],
     j.stringLiteral(componentPath)
   );
 
@@ -81,7 +91,7 @@ export function transformAddScreenImport(source: string, componentName: string, 
 }
 
 export function transformAddScreenItem(
-  source: string, route: string, componentName: string
+  source: string, route: string, componentName: string, isAddon: boolean = false
 ): string {
 
   const tsParser = j.withParser('ts');
