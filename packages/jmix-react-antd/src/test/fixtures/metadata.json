@@ -1,0 +1,193 @@
+{
+  "entities": [
+    {
+      "entityName": "scr_Car",
+      "className": "Car",
+      "idAttributeName": "id",
+      "persistentEntity": true,
+      "properties": [
+        {
+          "name": "id",
+          "mandatory": true,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "UUID"
+        },
+        {
+          "name": "manufacturer",
+          "mandatory": true,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "String"
+        },
+        {
+          "name": "model",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "String"
+        },
+        {
+          "name": "regNumber",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "String"
+        },
+        {
+          "name": "purchaseDate",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Date"
+        },
+        {
+          "name": "manufactureDate",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "DateTime"
+        },
+        {
+          "name": "wheelOnRight",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Boolean"
+        },
+        {
+          "name": "carType",
+          "mandatory": true,
+          "readOnly": false,
+          "attributeType": "ENUM",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "com.company.scr.entity.CarType"
+        },
+        {
+          "name": "ecoRank",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "ENUM",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "com.company.scr.entity.EcoRank"
+        },
+        {
+          "name": "garage",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "ASSOCIATION",
+          "isTransient": false,
+          "cardinality": "MANY_TO_ONE",
+          "type": "scr_Garage"
+        },
+        {
+          "name": "maxPassengers",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Integer"
+        },
+        {
+          "name": "price",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "BigDecimal"
+        },
+        {
+          "name": "mileage",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Double"
+        },
+        {
+          "name": "technicalCertificate",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "ASSOCIATION",
+          "isTransient": false,
+          "cardinality": "ONE_TO_ONE",
+          "type": "scr_TechnicalCertificate"
+        },
+        {
+          "name": "version",
+          "mandatory": true,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Integer"
+        },
+        {
+          "name": "createdBy",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "String"
+        },
+        {
+          "name": "createdDate",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Date"
+        },
+        {
+          "name": "lastModifiedBy",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "String"
+        },
+        {
+          "name": "lastModifiedDate",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "Date"
+        },
+        {
+          "name": "photo",
+          "mandatory": false,
+          "readOnly": false,
+          "attributeType": "DATATYPE",
+          "isTransient": false,
+          "cardinality": "NONE",
+          "type": "fileRef"
+        }
+      ]
+    }
+  ],
+  "enums": []
+}
