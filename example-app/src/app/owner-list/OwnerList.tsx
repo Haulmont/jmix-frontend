@@ -23,7 +23,7 @@ import {
   Screens,
   useScreens
 } from "@amplicode/react-core";
-import OwnerEditor from "../owner-editor/OwnerEditor";
+import { OwnerEditor } from "../owner-editor/OwnerEditor";
 
 const ROUTE = "owner-list";
 
@@ -44,7 +44,7 @@ const DELETE__OWNER = gql(/* GraphQL */ `
   }
 `);
 
-const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
+export const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
@@ -262,5 +262,3 @@ function getUpdateFn(e: any) {
     });
   };
 }
-
-export default OwnerList;

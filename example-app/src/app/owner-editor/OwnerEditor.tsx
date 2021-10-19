@@ -36,7 +36,7 @@ const UPDATE__OWNER = gql(/* GraphQL */ `
   }
 `);
 
-const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
+export const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
   const screens = useScreens();
@@ -233,5 +233,3 @@ function getUpdateFn(values: any) {
     });
   };
 }
-
-export default OwnerEditor;

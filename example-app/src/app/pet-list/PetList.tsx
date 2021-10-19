@@ -23,7 +23,7 @@ import {
   Screens,
   useScreens
 } from "@amplicode/react-core";
-import PetEditor from "../petEditor/PetEditor";
+import { PetEditor } from "../petEditor/PetEditor";
 
 const ROUTE = "pet-list";
 
@@ -46,7 +46,7 @@ const DELETE__PET = gql(/* GraphQL */ `
   }
 `);
 
-const PetList = observer(({ onSelect }: EntityListScreenProps) => {
+export const PetList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
@@ -264,5 +264,3 @@ function getUpdateFn(e: any) {
     });
   };
 }
-
-export default PetList;

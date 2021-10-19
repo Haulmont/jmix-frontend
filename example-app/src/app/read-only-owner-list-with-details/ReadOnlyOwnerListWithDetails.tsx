@@ -14,7 +14,7 @@ import {
   Screens,
   useScreens
 } from "@amplicode/react-core";
-import ReadOnlyOwnerDetails from "../read-only-owner-details/ReadOnlyOwnerDetails";
+import { ReadOnlyOwnerDetails } from "../read-only-owner-details/ReadOnlyOwnerDetails";
 
 const ROUTE = "read-only-owner-list-with-details";
 
@@ -29,7 +29,7 @@ const OWNER_LIST = gql(/* GraphQL */ `
   }
 `);
 
-const ReadOnlyOwnerListWithDetails = observer(
+export const ReadOnlyOwnerListWithDetails = observer(
   ({ onSelect }: EntityListScreenProps) => {
     const screens: Screens = useScreens();
     const intl = useIntl();
@@ -199,5 +199,3 @@ function getUpdateFn(e: any) {
     });
   };
 }
-
-export default ReadOnlyOwnerListWithDetails;

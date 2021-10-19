@@ -87,5 +87,3 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
     </Card>
   );
 };
-
-export default ReadOnlyOwnerDetails;
