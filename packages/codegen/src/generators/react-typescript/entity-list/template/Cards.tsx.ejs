@@ -113,7 +113,7 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
     />;
   }
 
-  const items = data?.['<%= queryName %>'];
+  const items = data?.<%= queryName %>;
 
   if (items == null || items.length === 0) {
     return <Empty />;

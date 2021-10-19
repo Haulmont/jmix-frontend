@@ -99,7 +99,7 @@ const PetList = observer(({ onSelect }: EntityListScreenProps) => {
     );
   }
 
-  const items = data?.["petList"];
+  const items = data?.petList;
 
   if (items == null || items.length === 0) {
     return <Empty />;

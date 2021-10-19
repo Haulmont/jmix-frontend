@@ -215,7 +215,7 @@ function dataToFormValues(data: any): any {
 
 function getUpdateFn(values: any) {
   return (cache: ApolloCache<any>, result: FetchResult) => {
-    const updateResult = result.data?.["update_Pet"];
+    const updateResult = result.data?.update_Pet;
     // Reflect the update in Apollo cache
     cache.modify({
       fields: {

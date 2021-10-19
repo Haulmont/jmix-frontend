@@ -81,7 +81,7 @@ const ReadOnlyOwnerListWithDetails = observer(
       );
     }
 
-    const items = data?.["ownerList"];
+    const items = data?.ownerList;
 
     if (items == null || items.length === 0) {
       return <Empty />;
