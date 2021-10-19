@@ -1,0 +1,33 @@
+{
+  "name": "test-addon",
+  "version": "1.0.0",
+  "description": "test-addon",
+  "main": "dist/index.js",
+  "module": "dist/index.esm.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist/",
+    "amplicode.addon-metadata.json",
+    "pallete.tsx"
+  ],
+  "peerDependencies": {
+    "react": "^17.0.1",
+    "react-intl": "^5.3.0"
+  },
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "^17.0.0",
+    "@rollup/plugin-json": "^4.1.0",
+    "@rollup/plugin-node-resolve": "^11.0.1",
+    "rimraf": "^3.0.0",
+    "rollup": "^2.53.2",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
+    "rollup-plugin-postcss": "^4.0.0",
+    "rollup-plugin-typescript2": "^0.30.0"
+  },
+  "scripts": {
+    "compile": "npm run clean && rollup -c",
+    "clean": "rimraf dist"
+  },
+  "author": "Haulmont",
+  "license": "Apache-2.0"
+}

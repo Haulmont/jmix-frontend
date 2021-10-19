@@ -1,0 +1,10 @@
+{
+  "addonName": "SomeAddonName",
+  "screenNames": ["SomeScreen1", "SomeScreen2"],
+  "messages": {
+    "en": {
+      "addons.SomeAddonName.testedCaption1": "first tested caption",
+      "addons.SomeAddonName.testedCaption2": "second tested caption"
+    }
+  }
+}
