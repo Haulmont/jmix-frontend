@@ -134,6 +134,49 @@ const foobar = foo && foo.bar && foo.bar.baz;
 const foobar = foo?.bar?.baz;
 ```
 
+#### JavaScript
+
+##### Classes
+
+Extract **static utility methods** / **methods not using class state** into separate functions.
+
+```javascript
+// wrong
+class SomeClass {
+  static staticMethod = () => {};
+  methodNotUsingState = () => {};
+}
+
+// correct
+class SomeClass {}
+staticMethod = () => {};
+methodNotUsingState = () => {};
+```
+
+Bind methods to a class using an arrow function
+
+```javascript
+// wrong
+class SomeClass {
+  SOMETHING = "SOMETHING";
+  getSomething() {
+    return this.SOMETHING;
+  }
+}
+const { getSomething } = new SomeClass();
+getSomething(); // Error
+
+// correct
+class SomeClass {
+  SOMETHING = "SOMETHING";
+  getSomething = () => {
+    return this.SOMETHING;
+  };
+}
+const { getSomething } = new SomeClass();
+getSomething(); // OK
+```
+
 ### Testing
 
 This section explains how to test the generator.
