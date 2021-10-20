@@ -1,6 +1,7 @@
 {
   "addonName": "SomeAddonName",
   "screenNames": ["SomeScreen1", "SomeScreen2"],
+  "paletteComponentName": "TestAddonPalette",
   "messages": {
     "en": {
       "addons.SomeAddonName.testedCaption1": "first tested caption",

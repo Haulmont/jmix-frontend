@@ -6,7 +6,8 @@ export interface TemplateModel {
   screenNames: string[],
   messages: Record<string, Record<string, string>>,
   relDirShift: string,
-  addonPackageName: string
+  addonPackageName: string,
+  paletteComponentName?: string
 }
 
 export async function deriveTemplateModel(
