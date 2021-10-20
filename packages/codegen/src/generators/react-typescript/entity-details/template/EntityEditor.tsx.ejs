@@ -46,7 +46,7 @@ const <%= toFatSnakeCase(mutationName) %> = gql(/* GraphQL */ `
   <%= mutationString %>
 `);
 
-const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
+export const <%= componentName %> = observer(({id}: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
   const screens = useScreens();
@@ -192,5 +192,3 @@ function getUpdateFn(values: any) {
     });
   }
 }
-
-export default <%= componentName %>;

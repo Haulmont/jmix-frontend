@@ -41,7 +41,7 @@ const UPDATE__PET = gql(/* GraphQL */ `
   }
 `);
 
-const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
+export const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
   const screens = useScreens();
@@ -238,5 +238,3 @@ function getUpdateFn(values: any) {
     });
   };
 }
-
-export default PetEditor;

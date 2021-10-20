@@ -44,7 +44,7 @@ export function addMvpAppMenu({
   const screenRegistryFileContent = gen.fs.read(screenRegistryFilePath);
   let screenRegistryTransformed;
   screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName, isAddon);
-  screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath, !isAddon);
+  screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath);
   gen.fs.write(screenRegistryFilePath, screenRegistryTransformed);
 }
 
@@ -65,7 +65,7 @@ export function transformAddScreenImport(
   source: string, 
   componentName: string, 
   componentPath: string, 
-  isDefault: boolean = true): string 
+  isDefault: boolean = false): string
 {
   const tsxParser = j.withParser('tsx');
   const ast = tsxParser(source);

@@ -28,7 +28,7 @@ const OWNER_LIST = gql(/* GraphQL */ `
   }
 `);
 
-const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) => {
+export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
@@ -174,5 +174,3 @@ function getCardActions(input: CardActionsInput) {
     ];
   }
 }
-
-export default ReadOnlyOwnerList;

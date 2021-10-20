@@ -1,7 +1,7 @@
-import ReadOnlyOwnerListWithDetails from "./read-only-owner-list-with-details/ReadOnlyOwnerListWithDetails";
-import ReadOnlyOwnerList from "./read-only-owner-list/ReadOnlyOwnerList";
-import PetList from "./pet-list/PetList";
-import OwnerList from "./owner-list/OwnerList";
+import { ReadOnlyOwnerListWithDetails } from "./read-only-owner-list-with-details/ReadOnlyOwnerListWithDetails";
+import { ReadOnlyOwnerList } from "./read-only-owner-list/ReadOnlyOwnerList";
+import { PetList } from "./pet-list/PetList";
+import { OwnerList } from "./owner-list/OwnerList";
 import { Home } from "./home/Home";
 import { ReactComponent } from "@amplicode/react-core";
 

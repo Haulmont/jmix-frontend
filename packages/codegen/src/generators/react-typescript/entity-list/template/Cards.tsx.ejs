@@ -63,7 +63,7 @@ const <%= toFatSnakeCase(deleteMutationName) %> = gql(/* GraphQL */ `
 `);
 <% } -%>
 
-const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
+export const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
 
   const screens: Screens = useScreens();
   const intl = useIntl();
@@ -292,5 +292,3 @@ function getCardActions(input: CardActionsInput) {
     }
   }
 <% } -%>
-
-export default <%= componentName %>;

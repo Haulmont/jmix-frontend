@@ -6,7 +6,7 @@ import "./Login.css";
 import { useIntl } from "react-intl";
 import { securityStore } from "../../security-store";
 
-const Login = observer(() => {
+export const Login = observer(() => {
   const intl = useIntl();
 
   const [username, setUsername] = useState("");
@@ -84,5 +84,3 @@ const Login = observer(() => {
     </div>
   );
 });
-
-export default Login;
