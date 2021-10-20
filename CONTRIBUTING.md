@@ -6,6 +6,20 @@
 
 ### Development Environment
 
+#### Requirements
+
+- Node.js version 14.18.1 or higher
+- Npm version 7 (Note, that different npm version 6 or 8 may be causing an issue)
+
+#### Project Bootstrap
+
+Perform npm install and lerna bootstrap:
+
+```
+npm install
+npm run lerna bootstrap --no-audit
+```
+
 #### Database
 
 Install [PostgreSQL](https://www.postgresql.org/download/).
@@ -42,12 +56,10 @@ Run backend:
 ```
 
 #### Frontend
-Install or update [Node.js](https://nodejs.org/), LTS version should be enough
 
 Re-generate and start `example-app`:
 
 ```
-npm run lerna-bootstrap # only the first time
 npm run bootstrap-react-app
 npm run start-react-app
 ```
