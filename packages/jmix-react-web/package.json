@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-web",
-  "version": "1.0.0-next.6",
+  "version": "1.0.0-next.7",
   "description": "Jmix web API",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,7 +9,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^1.1.0-next.6"
+    "@haulmont/jmix-react-core": "^1.1.0-next.7"
   },
   "peerDependencies": {
     "@apollo/client": "^3.4.0",
