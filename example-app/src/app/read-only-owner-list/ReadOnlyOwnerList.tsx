@@ -86,10 +86,6 @@ export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) 
 
   const items = data?.ownerList;
 
-  if (items == null || items.length === 0) {
-    return <Empty />;
-  }
-
   return (
     <div className="narrow-layout">
       {isSelectMode && (
@@ -109,7 +105,8 @@ export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) 
         </div>
       )}
 
-      {items.map((e: any) => (
+      {items == null || items.length === 0 ? ( <Empty /> ) :
+          items.map((e: any) => (
         <Card
           key={e["id"]}
           title={guessDisplayName(e)}

@@ -117,10 +117,6 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
 
   const items = data?.<%= queryName %>;
 
-  if (items == null || items.length === 0) {
-    return <Empty />;
-  }
-
   return (
     <div className="narrow-layout">
       <% if (mode === 'edit') { -%>
@@ -153,8 +149,10 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
         </div>
       )}
 
-      {items.map((e: any) =>
-        <Card key={e['<%= idField %>']}
+      {items == null || items.length === 0 ?
+        (<Empty />) :
+        items.map((e: any) =>  (
+          <Card key={e['<%= idField %>']}
               title={guessDisplayName(e)}
               style={{marginBottom: '12px'}}
               actions={getCardActions({
@@ -170,7 +168,7 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
         >
           <Fields entity={e} />
         </Card>
-      )}
+        ))}
     </div>
   );
 });
