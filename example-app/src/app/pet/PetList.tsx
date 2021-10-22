@@ -21,10 +21,10 @@ import {
   guessLabel,
   OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
-import { PetEditor } from "../petEditor/PetEditor";
+import { PetEditor } from "./PetEditor";
 
 const ROUTE = "pet-list";
 
@@ -64,8 +64,8 @@ export const PetList = observer(({ onSelect }: EntityListScreenProps) => {
   const openEditor = useCallback(
     (id?: string) => {
       const params: OpenInBreadcrumbParams = {
-        breadcrumbCaption: intl.formatMessage({ id: "screen.PetEditor" }), // TODO specify message id
-        component: PetEditor // TODO specify component name
+        breadcrumbCaption: intl.formatMessage({ id: "screen.PetEditor" }),
+        component: PetEditor
       };
       if (id != null) {
         params.props = { id };

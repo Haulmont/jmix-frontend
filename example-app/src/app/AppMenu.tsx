@@ -68,12 +68,6 @@ export const AppMenu = observer(() => {
       >
         {getCaption("read-only-owner-list")}
       </Menu.Item>
-      <Menu.Item
-        title={getCaption("read-only-owner-list-with-details")}
-        key="read-only-owner-list-with-details"
-      >
-        {getCaption("read-only-owner-list-with-details")}
-      </Menu.Item>
     </Menu>
   );
 });

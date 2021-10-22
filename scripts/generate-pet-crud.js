@@ -40,32 +40,21 @@ mutation Update_Pet($input: PetInputDTOInput) {
 }
 `;
 
-const petListAnswers = btoa(JSON.stringify({
-  componentName: 'PetList',
+const petManagementAnswers = btoa(JSON.stringify({
+  listComponentName: 'PetList',
+  detailsComponentName: 'PetEditor',
   shouldAddToMenu: true,
-  query: esc(petListQuery),
-  mutation: esc(petDeleteMutation),
+  listQuery: esc(petListQuery),
+  detailsQuery: esc(petDetailsQuery),
+  deleteMutation: esc(petDeleteMutation),
+  upsertMutation: esc(petUpsertMutation),
+  listQueryName: 'petList'
 }));
 
-const petEditorAnswers = btoa(JSON.stringify({
-  componentName: "PetEditor",
-  shouldAddToMenu: false,
-  query: esc(petDetailsQuery),
-  mutation: esc(petUpsertMutation),
-  listQueryName: "petList"
-}));
+const petManagementCommand = `node ${amplicodegen} react-typescript:entity-management`
+    + ` --answers ${petManagementAnswers}`
+    + ` --schema ./schema.graphql`
+    + ` --dest ../example-app/src/app/pet`
+    + ` --dirShift ../../`;
 
-const petListCommand = `node ${amplicodegen} react-typescript:entity-list`
-+ ` --answers ${petListAnswers}`
-+ ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/pet-list`
-+ ` --dirShift ../../`;
-
-const petEditorCommand = `node ${amplicodegen} react-typescript:entity-details`
-+ ` --answers ${petEditorAnswers}`
-+ ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/petEditor`
-+ ` --dirShift ../../`;
-
-runCmdSync(petListCommand);
-runCmdSync(petEditorCommand);
+runCmdSync(petManagementCommand);

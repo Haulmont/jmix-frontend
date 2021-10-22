@@ -39,32 +39,20 @@ mutation Update_Owner($input: OwnerInputDTOInput) {
 }
 `;
 
-const ownerListAnswers = btoa(JSON.stringify({
-  componentName: 'OwnerList',
+const ownerManagementAnswers = btoa(JSON.stringify({
+  listComponentName: 'OwnerList',
+  detailsComponentName: 'OwnerEditor',
   shouldAddToMenu: true,
-  query: esc(ownerListQuery),
-  mutation: esc(ownerDeleteMutation)
+  listQuery: esc(ownerListQuery),
+  detailsQuery: esc(ownerDetailsQuery),
+  deleteMutation: esc(ownerDeleteMutation),
+  upsertMutation: esc(ownerUpsertMutation),
 }));
 
-const ownerEditorAnswers = btoa(JSON.stringify({
-  componentName: 'OwnerEditor',
-  shouldAddToMenu: false,
-  query: esc(ownerDetailsQuery),
-  mutation: esc(ownerUpsertMutation),
-  listQueryName: 'ownerList'
-}));
-
-const ownerListCommand = `node ${amplicodegen} react-typescript:entity-list`
-+ ` --answers ${ownerListAnswers}`
+const ownerManagementCommand = `node ${amplicodegen} react-typescript:entity-management`
++ ` --answers ${ownerManagementAnswers}`
 + ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/owner-list`
++ ` --dest ../example-app/src/app/owner`
 + ` --dirShift ../../`;
 
-const ownerEditorCommand = `node ${amplicodegen} react-typescript:entity-details`
-+ ` --answers ${ownerEditorAnswers}`
-+ ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/owner-editor`
-+ ` --dirShift ../../`;
-
-runCmdSync(ownerListCommand);
-runCmdSync(ownerEditorCommand);
+runCmdSync(ownerManagementCommand);

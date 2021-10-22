@@ -12,10 +12,10 @@
     "commitizen": "^4.2.3",
     "cz-lerna-changelog": "^2.0.3",
     "eslint": "^7.32.0",
-    "prettier": "~1.19.1",
     "husky": "^4.0.6",
     "lerna": "^3.19.0",
     "mkdirp": "^1.0.4",
+    "prettier": "~1.19.1",
     "rimraf": "^2.7.1",
     "semantic-release": "^17.4.2"
   },

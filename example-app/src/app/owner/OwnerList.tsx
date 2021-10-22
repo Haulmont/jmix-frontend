@@ -21,10 +21,10 @@ import {
   guessLabel,
   OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
-import { OwnerEditor } from "../owner-editor/OwnerEditor";
+import { OwnerEditor } from "./OwnerEditor";
 
 const ROUTE = "owner-list";
 
@@ -62,8 +62,8 @@ export const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const openEditor = useCallback(
     (id?: string) => {
       const params: OpenInBreadcrumbParams = {
-        breadcrumbCaption: intl.formatMessage({ id: "screen.OwnerEditor" }), // TODO specify message id
-        component: OwnerEditor // TODO specify component name
+        breadcrumbCaption: intl.formatMessage({ id: "screen.OwnerEditor" }),
+        component: OwnerEditor
       };
       if (id != null) {
         params.props = { id };

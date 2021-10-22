@@ -12,12 +12,12 @@ import {
   guessLabel,
   OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
-import { ReadOnlyOwnerDetails } from "../read-only-owner-details/ReadOnlyOwnerDetails";
+import { ReadOnlyOwnerDetails } from "./ReadOnlyOwnerDetails";
 
-const ROUTE = "read-only-owner-list-with-details";
+const ROUTE = "read-only-owner-list";
 
 const OWNER_LIST = gql(/* GraphQL */ `
   query Get_Owner_List {
@@ -30,7 +30,7 @@ const OWNER_LIST = gql(/* GraphQL */ `
   }
 `);
 
-export const ReadOnlyOwnerListWithDetails = observer(
+export const ReadOnlyOwnerList = observer(
   ({ onSelect }: EntityListScreenProps) => {
     const screens: Screens = useScreens();
     const intl = useIntl();
@@ -48,8 +48,8 @@ export const ReadOnlyOwnerListWithDetails = observer(
         const params: OpenInBreadcrumbParams = {
           breadcrumbCaption: intl.formatMessage({
             id: "screen.ReadOnlyOwnerDetails"
-          }), // TODO specify message id
-          component: ReadOnlyOwnerDetails // TODO specify component name
+          }),
+          component: ReadOnlyOwnerDetails
         };
         if (id != null) {
           params.props = { id };

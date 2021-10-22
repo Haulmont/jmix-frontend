@@ -30,17 +30,12 @@ export interface AttributeModel {
   isRelationField: boolean;
 }
 
-export type MvpEntityEditorTemplateModel =
-  & BaseTemplateModel
-  & ScreenTemplateModel
-  & UtilTemplateModel
-  & GraphQLEditorModel
-  & {
+export interface MvpEntityEditorTemplateModel extends BaseTemplateModel, ScreenTemplateModel, UtilTemplateModel, GraphQLEditorModel {
     queryString: string,
     mutationString?: string,
     idField: string,
     listQueryName: string,
-  };
+  }
 
 type GraphQLEditorModel = {
   queryName: string,

@@ -25,45 +25,20 @@ query Get_Owner($id: Long) {
 }
 `;
 
-const readOnlyOwnerListAnswers = btoa(JSON.stringify({
-  componentName: 'ReadOnlyOwnerList',
+const readOnlyManagementAnswers = btoa(JSON.stringify({
+  listComponentName: 'ReadOnlyOwnerList',
+  detailsComponentName: 'ReadOnlyOwnerDetails',
   shouldAddToMenu: true,
-  query: esc(ownerListQuery),
-  mode: 'view'
-}));
-
-const readOnlyOwnerListWithDetailsAnswers = btoa(JSON.stringify({
-  componentName: 'ReadOnlyOwnerListWithDetails',
-  shouldAddToMenu: true,
-  query: esc(ownerListQuery),
+  listQuery: esc(ownerListQuery),
+  detailsQuery: esc(ownerDetailsQuery),
+  listQueryName: 'ownerList',
   mode: 'view with details'
 }));
 
-const readOnlyOwnerDetailsAnswers = btoa(JSON.stringify({
-  componentName: 'ReadOnlyOwnerDetails',
-  shouldAddToMenu: false,
-  query: esc(ownerDetailsQuery),
-  listQueryName: 'ownerList'
-}));
-
-const readOnlyOwnerListCommand = `node ${amplicodegen} react-typescript:entity-list`
-+ ` --answers ${readOnlyOwnerListAnswers}`
+const readOnlyManagementCommand = `node ${amplicodegen} react-typescript:entity-management`
++ ` --answers ${readOnlyManagementAnswers}`
 + ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/read-only-owner-list`
++ ` --dest ../example-app/src/app/read-only-owner`
 + ` --dirShift ../../`;
 
-const readOnlyOwnerListWithDetailsCommand = `node ${amplicodegen} react-typescript:entity-list`
-+ ` --answers ${readOnlyOwnerListWithDetailsAnswers}`
-+ ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/read-only-owner-list-with-details`
-+ ` --dirShift ../../`;
-
-const readOnlyOwnerDetailsCommand = `node ${amplicodegen} react-typescript:entity-details`
-+ ` --answers ${readOnlyOwnerDetailsAnswers}`
-+ ` --schema ./schema.graphql`
-+ ` --dest ../example-app/src/app/read-only-owner-details`
-+ ` --dirShift ../../`;
-
-runCmdSync(readOnlyOwnerListCommand);
-runCmdSync(readOnlyOwnerListWithDetailsCommand);
-runCmdSync(readOnlyOwnerDetailsCommand);
+runCmdSync(readOnlyManagementCommand);

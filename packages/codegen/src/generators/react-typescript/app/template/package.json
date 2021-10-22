@@ -64,5 +64,10 @@
     "@graphql-codegen/gql-tag-operations-preset": "^1.1.7",
     "@graphql-codegen/typescript": "^2.2.2",
     "@types/qs": "^6.9.7"
+  },
+  "jest": {
+    "transformIgnorePatterns": [
+      "/node_modules/(?!antd|@ant-design|@react-buddy|rc-.+?|@babel/runtime).+(js|jsx)$"
+    ]
   }
 }
