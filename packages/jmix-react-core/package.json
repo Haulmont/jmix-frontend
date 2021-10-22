@@ -22,7 +22,7 @@
     "react": "^17.0.1"
   },
   "devDependencies": {
-    "@apollo/client": "^3.4.0",
+    "@apollo/client": "^3.4.13",
     "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
     "@testing-library/jest-dom": "^5.14.1",
