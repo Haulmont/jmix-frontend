@@ -64,7 +64,7 @@ npm run bootstrap-react-app
 npm run start-react-app
 ```
 
-### Coding Conventions
+### Code Style & Conventions
 
 #### Cross-platforming
 
@@ -134,8 +134,6 @@ const foobar = foo && foo.bar && foo.bar.baz;
 const foobar = foo?.bar?.baz;
 ```
 
-#### JavaScript
-
 ##### Classes
 
 Extract **static utility methods** / **methods not using class state** into separate functions.
@@ -175,6 +173,36 @@ class SomeClass {
 }
 const { getSomething } = new SomeClass();
 getSomething(); // OK
+```
+
+##### Semicolons
+
+Semicolons are required at the end of a statement. 
+
+```
+const screens = useScreens();
+```
+
+> While omitting the semicolon will work in most cases, there is [one case](https://stackoverflow.com/a/1169596/16487129) that will be interpreted not as intended when the semicolon is missing. Instead of always keeping this use case in mind, we prefer to just put semicolons at the end of each statement.
+
+Also in types and interfaces:
+
+```
+// wrong:
+interface MyInterface {
+  someString: string,
+  someNumber: number
+}
+interface MyInterface2 {
+  someString: string
+  someNumber: number
+}
+
+// correct:
+interface MyInterface {
+  someString: string;
+  someNumber: number;
+}
 ```
 
 ### Testing
