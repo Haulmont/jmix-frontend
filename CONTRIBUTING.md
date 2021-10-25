@@ -473,53 +473,99 @@ export const deriveTemplateModel = (
 }
 ```
 
-#### Testing <a name='testing'></a>
+#### Testing Your Changes Manually
 
-This section explains how to test the generator.
+Generators should be tested from both CLI and Amplicode Studio. In either case the codegen library should be built first:
 
-##### Test Folders
-
-`/fixtures` - initial data required for tests.<br>
-`/generated` - result of generators work - apps and SDK will be stored here.<br>
-`/expected` - files gauges used for comparison with generated code.<br>
-
-##### Unit Tests
-
-From project root all unit tests could be run with coverage
-
-```bash
-npm run test:coverage
+```
+cd packages/codegen
+npm run build
 ```
 
-or inside specific package
+##### Testing from CLI
 
-```bash
-npm test
+Install the local codegen build:
+
+```
+cd packages/codegen
+npm i -g .
 ```
 
-##### Integration Tests
+How you can use the generator in CLI using `amplicodegen` command. Running it without arguments displays the usage info.
 
-Integration tests use compiled version of front-generator. To apply your code changes you need to run `npm run build` before testing.
-<br>
-Generated Apps and SDK are placed into `./test/e2e/generated` directory.
+```
+$ amplicodegen
 
-##### Run All E2E Tests
+Usage: amplicodegen [command] [options]
 
-```bash
-npm run test:e2e
+Options:
+  --custom-generator-paths <paths...>        Use custom generators from the filesystem.
+  -v, --version                              output the version number
+  -h, --help                                 display help for command
+
+Commands:
+  list [options]                             List all available clients and their clients
+  react-typescript:addon [options]           Generates react-typescript addon
+  react-typescript:app [options]             Generates react-typescript app
+  react-typescript:entity-list [options]     Generates react-typescript entity-list
+  react-typescript:entity-details [options]  Generates react-typescript entity-details
+  help [command]                             display help for command
 ```
 
-##### E2E Tests for Generators
+There is a couple of special commands such as `list` or `help`, the rest of the command are generators. These commands follow the pattern `client-name:generator-name`.
 
-SDK
+You can display help for a given command:
 
-```bash
-npm run test:e2e:sdk
+```
+$ amplicodegen help react-typescript:entity-list
+Usage: amplicodegen react-typescript:entity-list [options]
+
+Generates react-typescript entity-list
+
+Options:
+  -d, --dest [dest]          destination directory
+  -s, --schema [schema]      specify path to GraphQL schema
+  -a, --answers [answers]    fulfilled params for generator to avoid interactive input in serialized JSON string
+  -b, --verbose              log out additional info about generation process
+  -s, --dirShift [dirShift]  directory shift for html imports e.g ../../
+  -h, --help                 display help for command
 ```
 
-React client
+Example of generator invocation in CLI (it's multiline to improve readability, note that using \ to make multiline commands won't work on Windows):
 
-```bash
-npm run test:e2e:react
+```
+amplicodegen react-typescript:entity-details \
+ --answers eyJjb21wb25lbnROYW1lIjoiUGV0TGlzdCIsInNob3VsZEFkZFRvTWVudSI6dHJ1ZX0= \
+ --schema ./schema.graphql \
+ --dest ../example-app/src/app/petEditor \
+ --dirShift ../../
 ```
 
+`--answers` is base64-encoded answers object. For example, if you need to provide a string answer `componentName` and a boolean answer `shouldAddToMenu`:
+
+```
+const answers = {
+  componentName: 'PetList',
+  shouldAddToMenu: true,
+};
+const encodedAnswers = btoa(JSON.stringify(answers));
+```
+
+##### Testing from Amplicode Studio
+
+You'll need IntelliJ IDEA or Webstorm.
+
+0. Install Studio:
+   - Download the latest build of Amplicode Studio (see team wiki for the link).
+   - In IDE navigate to `File` -> `Settings` -> `Plugins`
+   - Click cogwheel icon and select 'Install plugin from disk`
+2. Open [backend project](https://github.com/Amplicode/amplicode-mvp-petclinic) in Studio.  
+3. Navigate to `frontend/generation`.
+4. npm install the local codegen build, for example:
+   ```
+   npm i /home/me/amplicode-frontend/packages/codegen
+   ```
+4. Invoke Gradle task `listGenerators` in the backend project ("Gradle" panel on the right, `frontend` -> `Tasks` -> `npm` -> `listGenerators`).
+5. Restart Studio
+	
+Now you can create screens using Studio interface (`Ctrl + Shift + A` -> type "Frontend Component").
