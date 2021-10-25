@@ -80,6 +80,10 @@ export interface JmixAppConfig {
    * @defaultValue {@link ContentDisplayMode.ActivateExistingTab}
    */
   contentDisplayMode?: ContentDisplayMode;
+  /**
+   * Defaults to `/graphql`.
+   */
+  graphqlEndpoint?: string;
 }
 
 export interface JmixAppProviderProps {
@@ -129,7 +133,8 @@ export const JmixAppProvider = ({
             obtainTokenEndpoint,
             revokeTokenEndpoint,
             locale,
-            contentDisplayMode
+            contentDisplayMode,
+            graphqlEndpoint
           } = jmixAppConfig ?? {};
           mainStore = new MainStore(apolloClient, jmixREST, {
             appName,
@@ -139,7 +144,8 @@ export const JmixAppProvider = ({
             obtainTokenEndpoint,
             revokeTokenEndpoint,
             locale,
-            contentDisplayMode
+            contentDisplayMode,
+            graphqlEndpoint
           });
           retrieveRestApiToken().then((restApiToken) => {
             if (restApiToken != null) {

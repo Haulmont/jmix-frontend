@@ -1,6 +1,6 @@
-import {ApolloCache, ApolloClient, ApolloClientOptions, createHttpLink, InMemoryCache} from "@apollo/client";
+import {ApolloCache, ApolloClient, ApolloClientOptions, InMemoryCache} from "@apollo/client";
 import {setContext} from "@apollo/client/link/context";
-
+import { createUploadLink } from 'apollo-upload-client';
 
 export interface JmixApolloConfig<TCacheShape> {
   /**
@@ -44,7 +44,7 @@ export function initializeApolloClient<TCacheShape>(config: JmixApolloConfig<TCa
     localeStorageKey = 'jmixLocale'
   } = config;
 
-  const httpLink = createHttpLink({
+  const uploadLink = createUploadLink({
     uri: graphqlEndpoint
   });
 
@@ -61,7 +61,7 @@ export function initializeApolloClient<TCacheShape>(config: JmixApolloConfig<TCa
   });
 
   return new ApolloClient<TCacheShape>({
-    link: authLink.concat(httpLink),
+    link: authLink.concat(uploadLink),
     cache: new InMemoryCache({
       addTypename: false
     }) as unknown as ApolloCache<TCacheShape>,
