@@ -11,7 +11,8 @@ import {
   HasId,
   TemporalPropertyType,
   toIdString,
-  EntityInstance
+  EntityInstance,
+  extractName
 } from "@haulmont/jmix-react-core";
 import dayjs  from "dayjs";
 import { toJS } from "mobx";
@@ -129,7 +130,14 @@ export function jmixFront_to_ant(
     }
 
     if (isFileProperty(propInfo)) {
-      fields[attrName] = value; // FileRef string
+      fields[attrName] = typeof value === 'string'
+        ? {
+          uid: value,
+          name: extractName(value),
+          size: 0,
+          type: ''
+        }
+        : null;
       return;
     }
 

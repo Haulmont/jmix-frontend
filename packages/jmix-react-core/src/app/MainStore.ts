@@ -17,6 +17,7 @@ export interface MainStoreOptions {
   revokeTokenEndpoint?: string;
   locale?: string;
   contentDisplayMode?: ContentDisplayMode;
+  graphqlEndpoint?: string;
 }
 
 export class MainStore {
@@ -54,6 +55,8 @@ export class MainStore {
 
   security: Security;
 
+  graphqlEndpoint: string;
+
   private messagesRequestCount = 0;
 
   private tokenExpiryListeners: Array<(() => void)> = [];
@@ -81,6 +84,7 @@ export class MainStore {
     this.locale = options?.locale
       ?? this.storage.getItem(this.localeStorageKey)
       ?? 'en';
+    this.graphqlEndpoint = options?.graphqlEndpoint ?? '/graphql';
 
     if (options?.contentDisplayMode != null) {
       this.contentDisplayMode = options.contentDisplayMode;

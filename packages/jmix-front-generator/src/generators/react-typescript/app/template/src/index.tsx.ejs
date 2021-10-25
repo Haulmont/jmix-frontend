@@ -71,7 +71,8 @@ ReactDOM.render(
                      appName: '<%=project.namespace%>',
                      clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
                      secret: REST_CLIENT_SECRET,
-                     locale: '<%= clientLocales.length > 0 ? clientLocales[0].localeName : 'en' %>'
+                     locale: '<%= clientLocales.length > 0 ? clientLocales[0].localeName : 'en' %>',
+                     graphqlEndpoint: GRAPHQL_URI
                    }}
                    metadata={metadata}
                    Modals={Modals}
