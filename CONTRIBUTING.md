@@ -1,10 +1,16 @@
-## Contributing
+## Table of Contents
 
-<a name="react-client-templates"/>
+- [**Newcomer's Guide**](#newcomers-guide)
+  - [Development Environment](#development-environment)
+  - [Code Style & Conventions](#code-style)
+  - [Testing](#testing)
+  - [How to Commit Your Work](#commit)
+- [**Reference Materials**](#reference)
+  - [Generators](#generators)
 
-## Newcomer's Guide
+## Newcomer's Guide <a name="newcomers-guide"></a>
 
-### Development Environment
+### Development Environment <a name="development-environment"></a>
 
 #### Requirements
 
@@ -64,7 +70,7 @@ npm run bootstrap-react-app
 npm run start-react-app
 ```
 
-### Code Style & Conventions
+### Code Style & Conventions <a name="code-style"></a>
 
 #### Cross-platforming
 
@@ -205,7 +211,7 @@ interface MyInterface {
 }
 ```
 
-### Testing
+### Testing <a name='testing'></a>
 
 This section explains how to test the generator.
 
@@ -255,7 +261,7 @@ React client
 npm run test:e2e:react
 ```
 
-### How to Commit Your Work
+### How to Commit Your Work <a name='commit'></a>
 
 #### Conventional Commits
 
@@ -369,9 +375,9 @@ Commit message should contain github issue number (if any)
 
 5. Merge your PR with "Rebase and merge" button and delete source branch after that.
 
-## Advanced Info
+## Reference Materials <a name='reference'></a>
 
-### Generators
+### Generators <a name='generators'></a>
 
 #### Basics and Terminology
 
