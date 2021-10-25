@@ -3,7 +3,7 @@ import {expect} from "chai";
 import fs from "fs";
 
 describe('init', function () {
-  it('should collect clients', function () {
+  xit('should collect clients', function () {
     const clients = collectClients('index.ts').sort((a, b) => {return a.name.localeCompare(b.name)});
     expect(clients.length).to.eq(3);
 

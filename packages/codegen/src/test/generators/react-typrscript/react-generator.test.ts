@@ -28,7 +28,7 @@ const GENERATORS_DIR = path.join(__dirname, '../../../generators');
 // run each generator test from the same directory - we need it to test relative cli paths
 beforeEach(() => process.chdir(TEST_RUN_DIR));
 
-describe('react generator test', () => {
+xdescribe('react generator test', () => {
 
   it('should generates React client app', async function () {
 
