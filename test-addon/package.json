@@ -27,7 +27,11 @@
   },
   "scripts": {
     "compile": "npm run clean && rollup -c",
-    "clean": "rimraf dist"
+    "clean": "rimraf dist",
+    "prepublishOnly": "npm run compile"
+  },
+  "publishConfig": {
+    "access": "public"
   },
   "author": "Haulmont",
   "license": "Apache-2.0"
