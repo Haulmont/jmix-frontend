@@ -4,7 +4,7 @@ import {amplicodePipeline} from "../../../building-blocks/pipelines/amplicodePip
 import path from "path";
 import {AmplicodeCommonOptions, amplicodeCommonOptionsConfig} from "../../../building-blocks/stages/options/pieces/amplicode";
 import {AppAnswers, appQuestions } from "./answers";
-import {AppTemplateModel} from "./template-model";
+import { AppTemplateModel, deriveTemplateModel } from "./template-model";
 
 export class AppGenerator extends YeomanGenerator {
   constructor(args: string | string[], options: ComponentOptions) {
@@ -14,7 +14,10 @@ export class AppGenerator extends YeomanGenerator {
   async generate() {
     await amplicodePipeline<AmplicodeCommonOptions, AppAnswers, AppTemplateModel>({
       templateDir: path.join(__dirname, 'template'),
-      questions: appQuestions
+      questions: appQuestions,
+      stages: {
+        deriveTemplateModel: deriveTemplateModel
+      }
     }, this);
   }
 }

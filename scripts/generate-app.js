@@ -10,6 +10,7 @@ const appAnswers = btoa(JSON.stringify({
 
 const appCommand = `node ${amplicodegen} react-typescript:app`
 + ` --answers ${appAnswers}`
++ ` --schema ../scripts/schema.graphql`
 + ` --dest ../example-app`;
 
 if (!fs.existsSync('../example-app')) {
