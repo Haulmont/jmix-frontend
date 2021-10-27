@@ -14,6 +14,10 @@
     {
       "name": "dark",
       "caption": "themes.dark"
+    },
+    {
+      "name": "high-contrast",
+      "caption": "themes.highСontrast"
     }
   ],
   "sizes": []

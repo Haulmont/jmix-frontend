@@ -1,0 +1,80 @@
+@import 'src/themes/antd-themes/dark.less';
+@outline-width: 4px;
+@outline-fade: 50%;
+@blue-base: #65D5FB;
+@red-base: #FF7575;
+@primary-color: @blue-base;
+@primary-1: #7e7e7e;
+@error-color: @red-base;
+
+// Layer background
+@popover-background: #272b33;
+@popover-customize-border-color: @white;
+@body-background: @black;
+@component-background: @black;
+@layout-header-background: @black;
+
+@text-color: @white;
+@heading-color: @white;
+@text-color-dark: @white;
+@text-color-secondary: fade(@white, 80%);
+@text-color-inverse: @black;
+@icon-color-hover: fade(@white, 20%);
+
+// The background colors for active and hover states for things like
+// list items or table cells.
+@item-hover-bg: @primary-1;
+
+// Border color
+@border-color-base: @white; // base border outline a component
+@border-color-split: @white; // split border inside a component
+
+// Disabled states
+@disabled-color: fade(@white, 70%);
+@disabled-color-dark: @disabled-color;
+
+// Buttons
+// ---
+@btn-primary-color: @black;
+@btn-shadow: none;
+@btn-primary-shadow: none;
+@btn-text-shadow: none;
+
+// Checkbox
+// ---
+@checkbox-check-color: @btn-primary-color;
+
+// Divider
+// ---
+@divider-color: @border-color-base;
+
+// Input
+// ---
+@input-placeholder-color: @disabled-color;
+@input-icon-color: @text-color;
+@input-icon-hover-color: fade(@input-icon-color, 80%);
+
+// Table
+// --
+@table-row-hover-bg: @item-hover-bg;
+
+// Card
+// ---
+@card-skeleton-bg: @white;
+@card-shadow: none;
+
+
+// Border for overlaying components
+.ant-dropdown, .ant-picker-dropdown, .ant-select-dropdown, .ant-notification-notice {
+    border: @border-width-base*2 dashed @border-color-base;
+}
+
+// Border for header
+.ant-layout-header {
+    border-bottom: @border-width-base @border-style-base @white;
+}
+
+//Border for sidemenu
+.ant-layout-sider {
+    border-right: @border-width-base @border-style-base @white;
+}
