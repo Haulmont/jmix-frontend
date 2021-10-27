@@ -36,7 +36,7 @@ export interface AmplicodeComponentOptions extends AmplicodeCommonOptions, DirSh
 export const amplicodeComponentOptionsConfig: OptionsConfig = {
   ...amplicodeCommonOptionsConfig,
   dirShift: {
-    alias: 's',
+    alias: 'f',
     description: 'directory shift for html imports e.g ../../',
     type: String
   }

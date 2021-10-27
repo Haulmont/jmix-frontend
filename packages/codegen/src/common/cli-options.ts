@@ -76,7 +76,7 @@ export interface PolymerElementOptions extends CommonGenerationOptions {
 export const polymerElementOptionsConfig: OptionsConfig = {
   ...commonGenerationOptionsConfig,
   dirShift: {
-    alias: 's',
+    alias: 'f',
     description: 'directory shift for html imports e.g ../../',
     type: String
   },
@@ -91,7 +91,7 @@ export const polymerElementOptionsConfig: OptionsConfig = {
 export const componentOptionsConfig: OptionsConfig = {
   ...commonGenerationOptionsConfig,
   dirShift: {
-    alias: 's',
+    alias: 'f',
     description: 'directory shift for html imports e.g ../../',
     type: String
   },

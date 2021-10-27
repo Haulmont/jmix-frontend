@@ -527,7 +527,7 @@ Options:
   -s, --schema [schema]      specify path to GraphQL schema
   -a, --answers [answers]    fulfilled params for generator to avoid interactive input in serialized JSON string
   -b, --verbose              log out additional info about generation process
-  -s, --dirShift [dirShift]  directory shift for html imports e.g ../../
+  -f, --dirShift [dirShift]  directory shift for html imports e.g ../../
   -h, --help                 display help for command
 ```
 
