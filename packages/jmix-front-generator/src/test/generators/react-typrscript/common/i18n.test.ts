@@ -227,6 +227,7 @@ const EXPECTED_I18N_KEYS = [
   "screen.home",
   "themes.dark",
   "themes.light",
+  "themes.highСontrast",
   "themes.sizes.defaultSize",
   "login.failed",
   "login.placeholder.login",
