@@ -553,7 +553,7 @@ const encodedAnswers = btoa(JSON.stringify(answers));
 
 ##### Testing from Amplicode Studio
 
-You'll need IntelliJ IDEA or Webstorm.
+You'll need IntelliJ IDEA Ultimate.
 
 0. Install Studio:
    - Download the latest build of Amplicode Studio (see team wiki for the link).
