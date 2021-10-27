@@ -7,9 +7,9 @@ import {
   useQuery,
   <% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { -%>
     useMutation,
+    ApolloCache,
+    Reference
   <% } -%>
-  ApolloCache,
-  Reference
 } from '@apollo/client';
 import {
   CheckOutlined,
@@ -41,12 +41,11 @@ import {FormattedMessage, IntlShape, useIntl} from "react-intl";
   import {FetchResult} from "@apollo/client/link/core";
 <% } -%>
 import {useCallback, useEffect} from "react";
-import {useHistory, useRouteMatch} from "react-router-dom";
+import {useRouteMatch} from "react-router-dom";
 import {
   EntityListScreenProps,
   guessDisplayName,
   guessLabel,
-  OpenInBreadcrumbParams,
   Screens,
   useScreens,
   useDefaultBrowserHotkeys
@@ -69,7 +68,6 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{entityId: string}>(`/${ROUTE}/:entityId`);
-  const history = useHistory();
 
   const {loading, error, data} = useQuery(<%= toFatSnakeCase(queryName) %>);
 
@@ -95,7 +93,7 @@ const <%= componentName %> = observer(({onSelect}: EntityListScreenProps) => {
     // screens.openInBreadcrumb(params);
     // // Append /id to existing url
     // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
-  }, [screens, history, intl]);
+  }, []);
 
   useEffect(() => {
     if (screens.activeTab?.breadcrumbs.length === 1 && match?.params.entityId != null) {
@@ -208,7 +206,9 @@ function getCardActions(input: CardActionsInput) {
       executeDeleteMutation,
     <% } -%>
     intl,
-    openEditor,
+    <% if (mode === 'edit' || mode === 'view with details') { -%>
+        openEditor,
+    <% } -%>
   } = input;
 
   <% if ((locals.deleteMutationString != null && locals.deleteMutationName != null) || mode === 'edit' || mode === 'view with details') { %>
@@ -277,7 +277,7 @@ function getCardActions(input: CardActionsInput) {
   }
 }
 
-<% if ((locals.deleteMutationString != null && locals.deleteMutationName != null) || mode === 'edit' || mode === 'view with details') { %>
+<% if (locals.deleteMutationString != null && locals.deleteMutationName != null) { %>
   function getUpdateFn(e: any) {
     return (cache: ApolloCache<any>) => {
       cache.modify({

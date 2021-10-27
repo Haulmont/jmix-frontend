@@ -65,6 +65,11 @@ export type Scalars = {
   currency: any;
 };
 
+export enum Direction {
+  Asc = 'ASC',
+  Desc = 'DESC'
+}
+
 /** Mutation root */
 export type Mutation = {
   __typename?: 'Mutation';
@@ -140,6 +145,19 @@ export type MutationUpdate_VisitArgs = {
   input?: Maybe<VisitInputDtoInput>;
 };
 
+export enum NullHandling {
+  Native = 'NATIVE',
+  NullsFirst = 'NULLS_FIRST',
+  NullsLast = 'NULLS_LAST'
+}
+
+export type OrderInput = {
+  direction?: Maybe<Direction>;
+  ignoreCase?: Maybe<Scalars['Boolean']>;
+  nullHandlingHint?: Maybe<NullHandling>;
+  property: Scalars['String'];
+};
+
 export type OwnerDto = {
   __typename?: 'OwnerDTO';
   address?: Maybe<Scalars['String']>;
@@ -169,6 +187,12 @@ export type OwnerInputDtoInput = {
   id?: Maybe<Scalars['Long']>;
   lastName?: Maybe<Scalars['String']>;
   telephone?: Maybe<Scalars['String']>;
+};
+
+export type PaginationInput = {
+  pageNumber: Scalars['Int'];
+  pageSize?: Maybe<Scalars['Int']>;
+  sort?: Maybe<SortInput>;
 };
 
 export type PetDto = {
@@ -241,6 +265,12 @@ export type QueryPetArgs = {
 
 
 /** Query root */
+export type QueryPetListArgs = {
+  page?: Maybe<PaginationInput>;
+};
+
+
+/** Query root */
 export type QueryPetTypeArgs = {
   id?: Maybe<Scalars['Long']>;
 };
@@ -255,6 +285,10 @@ export type QueryTestArgs = {
 /** Query root */
 export type QueryVisitArgs = {
   id?: Maybe<Scalars['Long']>;
+};
+
+export type SortInput = {
+  orders: Array<OrderInput>;
 };
 
 export type TestDto = {

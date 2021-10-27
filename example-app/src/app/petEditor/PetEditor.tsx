@@ -15,11 +15,10 @@ import { useHistory } from "react-router-dom";
 import {
   EntityDetailsScreenProps,
   useScreens,
-  guessDisplayName,
-  useDefaultEditorHotkeys
+  useDefaultEditorHotkeys,
+  guessDisplayName
 } from "@amplicode/react-core";
 import { EntityLookupField } from "@amplicode/react-antd";
-import { OwnerList } from "../owner-list/OwnerList";
 
 const PET = gql(/* GraphQL */ `
   query Get_Pet($id: Long) {
@@ -42,7 +41,7 @@ const UPDATE__PET = gql(/* GraphQL */ `
   }
 `);
 
-export const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
+const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
   const screens = useScreens();
@@ -119,7 +118,7 @@ export const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
     }
   }, [item, form]);
 
-  useDefaultEditorHotkeys({saveEntity: form.submit});
+  useDefaultEditorHotkeys({ saveEntity: form.submit });
 
   if (queryLoading) {
     return <Spin />;
@@ -164,7 +163,8 @@ export const PetEditor = observer(({ id }: EntityDetailsScreenProps) => {
               guessDisplayName(value)
             }
             label="Owner"
-            listComponent={OwnerList}
+            // TODO Uncomment the code and specify the list component
+            // listComponent={YourEntityListComponentName}
           />
         </Form.Item>
 
@@ -238,3 +238,5 @@ function getUpdateFn(values: any) {
     });
   };
 }
+
+export default PetEditor;

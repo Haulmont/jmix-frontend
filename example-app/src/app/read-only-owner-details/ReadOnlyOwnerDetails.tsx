@@ -8,8 +8,7 @@ import {
   useScreens,
   EntityDetailsScreenProps,
   guessDisplayName,
-  guessLabel,
-  useDefaultBrowserHotkeys
+  guessLabel
 } from "@amplicode/react-core";
 
 const OWNER = gql(/* GraphQL */ `
@@ -41,8 +40,6 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
     screens.closeActiveBreadcrumb();
   }, [screens, history]);
 
-  useDefaultBrowserHotkeys();
-
   const item = data?.owner;
 
   if (queryLoading) {
@@ -70,7 +67,7 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
         column={1}
       >
         {Object.keys(item)
-          .filter(p => p != id)
+          .filter(p => p !== id)
           .map((p: string) => {
             const propertyName = p as keyof typeof item;
             return (
@@ -90,3 +87,5 @@ export const ReadOnlyOwnerDetails = ({ id }: EntityDetailsScreenProps) => {
     </Card>
   );
 };
+
+export default ReadOnlyOwnerDetails;

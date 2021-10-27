@@ -48,7 +48,7 @@ export const <%= componentName %> = ({id}: EntityDetailsScreenProps) => {
                     column={1}
       >
         {Object.keys(item)
-          .filter(p => p != id)
+          .filter(p => p !== id)
           .map((p: string) => {
             const propertyName = p as keyof typeof item;
             return (

@@ -1,19 +1,18 @@
 import { observer } from "mobx-react";
 import { gql } from "@amplicode/gql";
-import { useQuery, ApolloCache, Reference } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import { Button, Card, Spin, Empty, Result } from "antd";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { useCallback, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import {
   EntityListScreenProps,
   guessDisplayName,
   guessLabel,
-  OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
 
 const ROUTE = "read-only-owner-list";
@@ -29,11 +28,10 @@ const OWNER_LIST = gql(/* GraphQL */ `
   }
 `);
 
-export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) => {
+const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
-  const history = useHistory();
 
   const { loading, error, data } = useQuery(OWNER_LIST);
 
@@ -41,24 +39,21 @@ export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) 
   // This functionality is used in EntityLookupField.
   const isSelectMode = onSelect != null;
 
-  const openEditor = useCallback(
-    (id?: string) => {
-      // TODO Uncomment the code below, specify the editor component and remove the alert
-      alert("Please specify the editor component");
+  const openEditor = useCallback((id?: string) => {
+    // TODO Uncomment the code below, specify the editor component and remove the alert
+    alert("Please specify the editor component");
 
-      // const params: OpenInBreadcrumbParams = {
-      //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
-      //   component: ExampleComponentName, // TODO specify component name
-      // };
-      // if (id != null) {
-      //   params.props = {id};
-      // }
-      // screens.openInBreadcrumb(params);
-      // // Append /id to existing url
-      // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
-    },
-    [screens, history, intl]
-  );
+    // const params: OpenInBreadcrumbParams = {
+    //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
+    //   component: ExampleComponentName, // TODO specify component name
+    // };
+    // if (id != null) {
+    //   params.props = {id};
+    // }
+    // screens.openInBreadcrumb(params);
+    // // Append /id to existing url
+    // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
+  }, []);
 
   useEffect(() => {
     if (
@@ -105,23 +100,26 @@ export const ReadOnlyOwnerList = observer(({ onSelect }: EntityListScreenProps) 
         </div>
       )}
 
-      {items == null || items.length === 0 ? ( <Empty /> ) :
-          items.map((e: any) => (
-        <Card
-          key={e["id"]}
-          title={guessDisplayName(e)}
-          style={{ marginBottom: "12px" }}
-          actions={getCardActions({
-            screens,
-            entityInstance: e,
-            onSelect,
-            intl,
-            openEditor
-          })}
-        >
-          <Fields entity={e} />
-        </Card>
-      ))}
+      {items == null || items.length === 0 ? (
+        <Empty />
+      ) : (
+        items.map((e: any) => (
+          <Card
+            key={e["id"]}
+            title={guessDisplayName(e)}
+            style={{ marginBottom: "12px" }}
+            actions={getCardActions({
+              screens,
+              entityInstance: e,
+              onSelect,
+              intl,
+              openEditor
+            })}
+          >
+            <Fields entity={e} />
+          </Card>
+        ))
+      )}
     </div>
   );
 });
@@ -153,7 +151,7 @@ interface CardActionsInput {
 }
 
 function getCardActions(input: CardActionsInput) {
-  const { screens, entityInstance, onSelect, intl, openEditor } = input;
+  const { screens, entityInstance, onSelect, intl } = input;
 
   if (onSelect == null) {
     return [];
@@ -176,3 +174,5 @@ function getCardActions(input: CardActionsInput) {
     ];
   }
 }
+
+export default ReadOnlyOwnerList;

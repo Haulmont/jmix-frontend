@@ -1,21 +1,19 @@
 import { observer } from "mobx-react";
 import { gql } from "@amplicode/gql";
-import { useQuery, ApolloCache, Reference } from "@apollo/client";
+import { useQuery } from "@apollo/client";
 import { CheckOutlined, CloseOutlined, EnterOutlined } from "@ant-design/icons";
 import { Button, Card, Spin, Empty, Result } from "antd";
 import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { useCallback, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import {
   EntityListScreenProps,
   guessDisplayName,
   guessLabel,
-  OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
-import { ReadOnlyOwnerDetails } from "../read-only-owner-details/ReadOnlyOwnerDetails";
 
 const ROUTE = "read-only-owner-list-with-details";
 
@@ -30,12 +28,11 @@ const OWNER_LIST = gql(/* GraphQL */ `
   }
 `);
 
-export const ReadOnlyOwnerListWithDetails = observer(
+const ReadOnlyOwnerListWithDetails = observer(
   ({ onSelect }: EntityListScreenProps) => {
     const screens: Screens = useScreens();
     const intl = useIntl();
     const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
-    const history = useHistory();
 
     const { loading, error, data } = useQuery(OWNER_LIST);
 
@@ -43,22 +40,21 @@ export const ReadOnlyOwnerListWithDetails = observer(
     // This functionality is used in EntityLookupField.
     const isSelectMode = onSelect != null;
 
-    const openEditor = useCallback(
-      (id?: string) => {
+    const openEditor = useCallback((id?: string) => {
+      // TODO Uncomment the code below, specify the editor component and remove the alert
+      alert("Please specify the editor component");
 
-        const params: OpenInBreadcrumbParams = {
-          breadcrumbCaption: intl.formatMessage({id: 'screen.ReadOnlyOwnerDetails'}), // TODO specify message id
-          component: ReadOnlyOwnerDetails, // TODO specify component name
-        };
-        if (id != null) {
-          params.props = {id};
-        }
-        screens.openInBreadcrumb(params);
-        // Append /id to existing url
-        history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
-      },
-      [screens, history, intl]
-    );
+      // const params: OpenInBreadcrumbParams = {
+      //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
+      //   component: ExampleComponentName, // TODO specify component name
+      // };
+      // if (id != null) {
+      //   params.props = {id};
+      // }
+      // screens.openInBreadcrumb(params);
+      // // Append /id to existing url
+      // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
+    }, []);
 
     useEffect(() => {
       if (
@@ -105,23 +101,26 @@ export const ReadOnlyOwnerListWithDetails = observer(
           </div>
         )}
 
-        {items == null || items.length === 0 ? ( <Empty /> ) :
-            items.map((e: any) => (
-          <Card
-            key={e["id"]}
-            title={guessDisplayName(e)}
-            style={{ marginBottom: "12px" }}
-            actions={getCardActions({
-              screens,
-              entityInstance: e,
-              onSelect,
-              intl,
-              openEditor
-            })}
-          >
-            <Fields entity={e} />
-          </Card>
-        ))}
+        {items == null || items.length === 0 ? (
+          <Empty />
+        ) : (
+          items.map((e: any) => (
+            <Card
+              key={e["id"]}
+              title={guessDisplayName(e)}
+              style={{ marginBottom: "12px" }}
+              actions={getCardActions({
+                screens,
+                entityInstance: e,
+                onSelect,
+                intl,
+                openEditor
+              })}
+            >
+              <Fields entity={e} />
+            </Card>
+          ))
+        )}
       </div>
     );
   }
@@ -186,16 +185,4 @@ function getCardActions(input: CardActionsInput) {
   }
 }
 
-function getUpdateFn(e: any) {
-  return (cache: ApolloCache<any>) => {
-    cache.modify({
-      fields: {
-        ownerList(existingRefs, { readField }) {
-          return existingRefs.filter(
-            (ref: Reference) => e["id"] !== readField("id", ref)
-          );
-        }
-      }
-    });
-  };
-}
+export default ReadOnlyOwnerListWithDetails;

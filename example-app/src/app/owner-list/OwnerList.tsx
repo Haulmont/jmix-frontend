@@ -14,17 +14,15 @@ import { FormattedMessage, IntlShape, useIntl } from "react-intl";
 import { MutationFunctionOptions } from "@apollo/client/react/types/types";
 import { FetchResult } from "@apollo/client/link/core";
 import { useCallback, useEffect } from "react";
-import { useHistory, useRouteMatch } from "react-router-dom";
+import { useRouteMatch } from "react-router-dom";
 import {
   EntityListScreenProps,
   guessDisplayName,
   guessLabel,
-  OpenInBreadcrumbParams,
   Screens,
-  useDefaultBrowserHotkeys,
-  useScreens
+  useScreens,
+  useDefaultBrowserHotkeys
 } from "@amplicode/react-core";
-import { OwnerEditor } from "../owner-editor/OwnerEditor";
 
 const ROUTE = "owner-list";
 
@@ -45,11 +43,10 @@ const DELETE__OWNER = gql(/* GraphQL */ `
   }
 `);
 
-export const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
+const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   const screens: Screens = useScreens();
   const intl = useIntl();
   const match = useRouteMatch<{ entityId: string }>(`/${ROUTE}/:entityId`);
-  const history = useHistory();
 
   const { loading, error, data } = useQuery(OWNER_LIST);
 
@@ -59,22 +56,21 @@ export const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
   // This functionality is used in EntityLookupField.
   const isSelectMode = onSelect != null;
 
-  const openEditor = useCallback(
-    (id?: string) => {
+  const openEditor = useCallback((id?: string) => {
+    // TODO Uncomment the code below, specify the editor component and remove the alert
+    alert("Please specify the editor component");
 
-      const params: OpenInBreadcrumbParams = {
-        breadcrumbCaption: intl.formatMessage({id: 'screen.OwnerEditor'}), // TODO specify message id
-        component: OwnerEditor, // TODO specify component name
-      };
-      if (id != null) {
-        params.props = {id};
-      }
-      screens.openInBreadcrumb(params);
-      // Append /id to existing url
-      history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
-    },
-    [screens, history, intl]
-  );
+    // const params: OpenInBreadcrumbParams = {
+    //   breadcrumbCaption: intl.formatMessage({id: 'screen.ExampleComponentName'}), // TODO specify message id
+    //   component: ExampleComponentName, // TODO specify component name
+    // };
+    // if (id != null) {
+    //   params.props = {id};
+    // }
+    // screens.openInBreadcrumb(params);
+    // // Append /id to existing url
+    // history.push(id ? `/${ROUTE}/${id}` : `/${ROUTE}/new`);
+  }, []);
 
   useEffect(() => {
     if (
@@ -137,24 +133,27 @@ export const OwnerList = observer(({ onSelect }: EntityListScreenProps) => {
         </div>
       )}
 
-      {items == null || items.length === 0 ? ( <Empty /> ) :
-          items.map((e: any) => (
-        <Card
-          key={e["id"]}
-          title={guessDisplayName(e)}
-          style={{ marginBottom: "12px" }}
-          actions={getCardActions({
-            screens,
-            entityInstance: e,
-            onSelect,
-            executeDeleteMutation,
-            intl,
-            openEditor
-          })}
-        >
-          <Fields entity={e} />
-        </Card>
-      ))}
+      {items == null || items.length === 0 ? (
+        <Empty />
+      ) : (
+        items.map((e: any) => (
+          <Card
+            key={e["id"]}
+            title={guessDisplayName(e)}
+            style={{ marginBottom: "12px" }}
+            actions={getCardActions({
+              screens,
+              entityInstance: e,
+              onSelect,
+              executeDeleteMutation,
+              intl,
+              openEditor
+            })}
+          >
+            <Fields entity={e} />
+          </Card>
+        ))
+      )}
     </div>
   );
 });
@@ -262,3 +261,5 @@ function getUpdateFn(e: any) {
     });
   };
 }
+
+export default OwnerList;

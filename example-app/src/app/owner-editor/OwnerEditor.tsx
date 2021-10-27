@@ -12,7 +12,11 @@ import { useForm } from "antd/es/form/Form";
 import { observer } from "mobx-react";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useHistory } from "react-router-dom";
-import { EntityDetailsScreenProps, useScreens, useDefaultEditorHotkeys } from "@amplicode/react-core";
+import {
+  EntityDetailsScreenProps,
+  useScreens,
+  useDefaultEditorHotkeys
+} from "@amplicode/react-core";
 
 const OWNER = gql(/* GraphQL */ `
   query Get_Owner($id: Long) {
@@ -36,7 +40,7 @@ const UPDATE__OWNER = gql(/* GraphQL */ `
   }
 `);
 
-export const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
+const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
   const [form] = useForm();
   const intl = useIntl();
   const screens = useScreens();
@@ -113,7 +117,7 @@ export const OwnerEditor = observer(({ id }: EntityDetailsScreenProps) => {
     }
   }, [item, form]);
 
-  useDefaultEditorHotkeys({saveEntity: form.submit});
+  useDefaultEditorHotkeys({ saveEntity: form.submit });
 
   if (queryLoading) {
     return <Spin />;
@@ -235,3 +239,5 @@ function getUpdateFn(values: any) {
     });
   };
 }
+
+export default OwnerEditor;
