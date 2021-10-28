@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.7...@haulmont/jmix-react-core@1.1.0-next.8) (2021-10-28)
+
+
+### Features
+
+* implement graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/614) ([1360a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1360a1e602ffc5091bbc5931964207bdd7ed983d))
+
+
+
+
+
 # [1.1.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.0...@haulmont/jmix-react-core@1.1.0-next.7) (2021-10-20)
 
 

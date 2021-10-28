@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.1.0-next.7...@haulmont/jmix-front-generator@1.1.0-next.8) (2021-10-28)
+
+
+### Features
+
+* feat: add high contrast theme [#684](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/684) ([796c31e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/796c31e4d47e331cac7529c112a171a8c5a980c9))
+* implement graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/614) ([1360a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1360a1e602ffc5091bbc5931964207bdd7ed983d))
+
+
+
+
+
 # [1.1.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.1.0-next.0...@haulmont/jmix-front-generator@1.1.0-next.7) (2021-10-20)
 
 

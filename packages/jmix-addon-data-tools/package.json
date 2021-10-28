@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-addon-data-tools",
-  "version": "1.0.1-next.0",
+  "version": "1.0.1-next.1",
   "description": "data tools jmix addon",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -10,9 +10,9 @@
     "jmix.addon-metadata.json"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-antd": "^1.0.0-next.7",
-    "@haulmont/jmix-react-core": "^1.1.0-next.7",
-    "@haulmont/jmix-react-web": "^1.0.0-next.7"
+    "@haulmont/jmix-react-antd": "^1.0.0-next.8",
+    "@haulmont/jmix-react-core": "^1.1.0-next.8",
+    "@haulmont/jmix-react-web": "^1.0.0-next.8"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.0.0",

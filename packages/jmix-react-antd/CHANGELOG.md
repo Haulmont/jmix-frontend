@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@1.0.0-next.7...@haulmont/jmix-react-antd@1.0.0-next.8) (2021-10-28)
+
+
+### Features
+
+* implement graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/614) ([1360a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/1360a1e602ffc5091bbc5931964207bdd7ed983d))
+
+
+
+
+
 # 1.0.0-next.7 (2021-10-20)
 
 
