@@ -5,3 +5,6 @@ documents:
 generates:
   ./src/gql:
     preset: gql-tag-operations-preset
+hooks:
+  afterAllFileWrite:
+    - prettier --write
