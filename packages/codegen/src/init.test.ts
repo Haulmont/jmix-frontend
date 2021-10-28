@@ -1,5 +1,6 @@
 import {GeneratedClientInfo} from "./init";
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const MOCK_CLIENTS: GeneratedClientInfo[] = [
   {
     "bundled": true,

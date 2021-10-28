@@ -45,7 +45,7 @@ export function EntityLookupField(props: EntityLookupFieldProps) {
         ...listComponentProps
       }
     });
-  }, [onChange, listComponent]);
+  }, [onChange, listComponent, intl, label, listComponentProps, screens]);
 
   return (
     <Input prefix={<LinkOutlined />}

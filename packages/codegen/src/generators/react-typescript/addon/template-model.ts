@@ -11,8 +11,9 @@ export interface TemplateModel {
 }
 
 export async function deriveTemplateModel(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   {dest, addonPackageName}: Options,
-  answers: {},
+  _answers: {},
   ): Promise<TemplateModel> {
     const relDirShift = 'src';
     const pathToAddonPackage = path.join(

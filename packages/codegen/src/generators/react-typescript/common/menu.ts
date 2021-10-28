@@ -22,7 +22,7 @@ export interface AppMenuItemInfo {
   menuNode: string | null;
 }
 
-export function addToMenu<T>(
+export function addToMenu(
   fs: Generator.MemFsEditor,
   {
     destRoot,
@@ -60,7 +60,7 @@ export function addToMenu<T>(
   }
 }
 
-export function addToAppMenu<T>(
+export function addToAppMenu(
   fs: Generator.MemFsEditor,
   {
     destRoot,
@@ -102,11 +102,8 @@ export type RouteInfo = ComponentInfo & {
 
 export const addRoute = (routingContents: string,
                   {
-                    caption,
-                    pathPattern,
-                    menuLink,
-                    componentClassName,
-                    componentPath
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    caption, pathPattern, menuLink, componentClassName, componentPath
                   }: RouteInfo) => `` +
 `import '${componentPath}';
 ${routingContents}`;

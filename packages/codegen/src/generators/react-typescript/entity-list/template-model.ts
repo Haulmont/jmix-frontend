@@ -29,7 +29,7 @@ export type EntityListTemplateModel =
 };
 
 export const deriveEntityListTemplateModel: AmplicodeTemplateModelStage<AmplicodeComponentOptions, EntityListAnswers, EntityListTemplateModel> = async (
-  options: AmplicodeComponentOptions, answers: EntityListAnswers, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]
+  options: AmplicodeComponentOptions, answers: EntityListAnswers, _schema?: GraphQLSchema, _questions?: StudioTemplateProperty[]
 ): Promise<EntityListTemplateModel> => {
   const {
     componentName,

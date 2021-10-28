@@ -91,6 +91,7 @@ export function transformAddScreenImport(
 }
 
 export function transformAddScreenItem(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   source: string, route: string, componentName: string, isAddon: boolean = false
 ): string {
 
@@ -106,8 +107,7 @@ export function transformAddScreenItem(
     .findVariableDeclarators('screenRegistry')
     .find(j.ObjectExpression)
     .at(0)
-    .paths()
-    [0]
+    .paths()[0]
     .value
     .properties
     .push(objectProperty(literal(route), identifier(value)))

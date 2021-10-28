@@ -11,6 +11,7 @@ import {YeomanGenerator} from "../../YeomanGenerator";
  * @param options
  */
 export const defaultDeriveTemplateModel = async <O extends CommonGenerationOptions, A, M>(
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
     answers: A, projectModel: ProjectModel, gen?: YeomanGenerator, options?: O
 ): Promise<M> => {
   return {} as M;

@@ -17,7 +17,7 @@ export const amplicodeGetAnswers = async <O extends AmplicodeCommonOptions, A>(
   return await getAnswersFromPrompt(options, gen, questions);
 };
 
-async function getAnswersFromOptions<O extends AmplicodeCommonOptions, A>(
+async function getAnswersFromOptions<A>(
   answers: string, gen: YeomanGenerator
 ): Promise<A> {
   gen.log('Skipping prompts since answers are provided');
@@ -25,7 +25,7 @@ async function getAnswersFromOptions<O extends AmplicodeCommonOptions, A>(
 }
 
 async function getAnswersFromPrompt<O extends AmplicodeCommonOptions, A>(
-  options: O, gen: YeomanGenerator, questions?: StudioTemplateProperty[]
+  _options: O, _gen: YeomanGenerator, _questions?: StudioTemplateProperty[]
 ): Promise<A> {
   throw new Error('Not supported');
 }

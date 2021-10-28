@@ -3,7 +3,7 @@ import {CommonGenerationOptions, commonGenerationOptionsConfig, OptionsConfig} f
 import {ERR_STUDIO_NOT_CONNECTED, StudioProjectInfo} from "../../common/studio/studio-integration";
 import {expect} from "chai";
 import {StudioTemplateProperty, StudioTemplatePropertyType} from "../../common/studio/studio-model";
-import {Entity, ProjectModel} from "../../common/model/cuba-model";
+import {ProjectModel} from "../../common/model/cuba-model";
 import Generator from "yeoman-generator";
 import YeomanEnvironment = require("yeoman-environment");
 
@@ -74,11 +74,11 @@ class TestGenerator extends BaseGenerator<Answers, {}, CommonGenerationOptions> 
     return super._obtainCubaProjectModel();
   }
 
-  prompt(questions: Generator.Questions): Promise<Answers> {
+  prompt(_questions: Generator.Questions): Promise<Answers> {
     // mock prompt answers
     return Promise.resolve({projectInfo: 'projectInfo'} as any);
   }
-
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   writing() {}
 }
 

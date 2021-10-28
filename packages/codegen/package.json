@@ -59,6 +59,8 @@
     "@types/through2": "^2.0.33",
     "@types/uuid": "^8.3.0",
     "@types/yeoman-generator": "^2.0.3",
+    "@typescript-eslint/eslint-plugin": "^4.30.0",
+    "@typescript-eslint/parser": "^4.30.0",
     "chai": "^4.2.0",
     "eslint": "^7.32.0",
     "mocha": "^6.2.3",

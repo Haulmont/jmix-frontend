@@ -22,7 +22,7 @@ interface ComponentInfo {
   pathPattern: string;
 }
 
-export function registerComponentPreviews<T>(
+export function registerComponentPreviews(
   fs: Generator.MemFsEditor,
   {
     destRoot,
@@ -104,7 +104,7 @@ export function getNewComponentPreview(
 }
 
 function addComponentImport(
-  previewsAST: Collection<any>, 
+  previewsAST: Collection,
   isDefaultExport: boolean, 
   componentClassName: string, 
   componentPath: string
@@ -127,7 +127,7 @@ function addComponentImport(
     return allPreviewsImports.toSource();
 }
 
-function addComponentToPreview(previewsAST: Collection<any>, newComponent: string) {
+function addComponentToPreview(previewsAST: Collection, newComponent: string) {
   const previews =  previewsAST.findJSXElements("Previews");
   const previewsParrentPaths = previews.paths();
     

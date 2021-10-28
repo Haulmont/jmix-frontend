@@ -160,7 +160,7 @@ export function deriveGraphQLEditorModel(
   let hasStringScalars: boolean = false;
   let hasIntScalars: boolean = false;
   let hasFloatScalars: boolean = false;
-  let hasIDScalars: boolean = false;
+  const hasIDScalars: boolean = false;
   let hasBooleanScalars: boolean = false;
   let hasEnumScalars: boolean = false;
   let hasCustomScalars: boolean = false;

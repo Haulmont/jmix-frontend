@@ -3,7 +3,7 @@ import { EntityWithPath } from "../../template-model/pieces/entity";
 
 export interface EntityAnswer {
     entity: EntityWithPath;
-};
+}
 export const entityQuestion = {
     code: 'entity',
     caption: 'Entity',
@@ -13,7 +13,7 @@ export const entityQuestion = {
 
 export interface ComponentNameAnswer {
     componentName: string;
-};
+}
 interface ComponentNameQuestionOption {
     defaultValue: string;
     code?: string;
@@ -30,7 +30,7 @@ export const createComponentNameQuestion = (options: ComponentNameQuestionOption
 
 export interface MenuItemAnswer {
     menuItem: string | null;
-};
+}
 export const menuItemQuestion = {
     caption: "Menu item",
     code: "menuItem",
@@ -40,15 +40,15 @@ export const menuItemQuestion = {
 
 export interface QueryAnswer {
     query: string;
-};
-interface QueryQuestionOptons {
+}
+interface QueryQuestionOptions {
     code?: string;
     caption?: string;
     defaultValue?: string;
     relatedProperty?: string;
     required?: boolean;
 }
-export const createQueryQuestion = (options?: QueryQuestionOptons) => ({
+export const createQueryQuestion = (options?: QueryQuestionOptions) => ({
     code: options?.code || 'query',
     // Subject to change, in future we might want to get the full query from Studio
     caption: options?.caption || 'GraphQL query for screen',
