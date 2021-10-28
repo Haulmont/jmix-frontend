@@ -21,7 +21,8 @@
     "test:e2e:react": "mocha 'test/e2e/react-client--*.test.js' -g 'test:e2e:react' --timeout 0",
     "test:e2e:react:empty-model": "mocha 'test/e2e/react-client--empty-model.test.js' -g 'test:e2e:react:empty-model' --timeout 0",
     "test:e2e:react:new-project": "mocha 'test/e2e/react-client--new-project.test.js' -g 'test:e2e:react:new-project' --timeout 0",
-    "prepublishOnly": "npm run build"
+    "prepublishOnly": "npm run build",
+    "lint": "eslint src/"
   },
   "repository": {
     "type": "git",
@@ -59,6 +60,7 @@
     "@types/uuid": "^8.3.0",
     "@types/yeoman-generator": "^2.0.3",
     "chai": "^4.2.0",
+    "eslint": "^7.32.0",
     "mocha": "^6.2.3",
     "nock": "^12.0.3",
     "nyc": "^15.0.0",
