@@ -299,13 +299,46 @@ revert:   Revert to a commit
 WIP:      Work in progress
 ```
 
+Note that change type affects whether the commit message will be included to changelog:
+
+- `feat` and `fix` are always included
+- other types are included if commit contains breaking changes
+
 The list of available **scopes** can be found in `commitlint.config.js` file under `rules` -> `scope-enum`. Scope is optional.
 
-Short description should use imperative tense. Long description is optional. Note that both will be automatically included in the changelog.
+Short description should use imperative tense.
 
-`BREAKING CHANGES` section should only be included if there are any.
+Correct:
 
-Commit message should contain github issue number (if any)
+```
+feat: add high-contrast theme #42
+```
+
+Wrong:
+
+```
+feat: added high-contrast theme #42
+```
+
+Long description is optional.
+
+**IMPORTANT:** Before you make a commit with `BREAKING CHANGES`, discuss it with your team lead. Breaking changes means major release, we might want to schedule it appropriately.
+
+Commit message should contain github issue number (if any).
+
+Correct:
+
+```
+feat: add high-contrast theme #42
+```
+
+Wrong (will cause GitHub to automatically close the issue once PR is merged):
+
+```
+feat: add hight-contrast theme
+
+ISSUES CLOSED: #42
+```
 
 #### Commit Workflow
 
