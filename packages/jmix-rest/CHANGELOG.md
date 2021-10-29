@@ -3,6 +3,37 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.1-next.0...@haulmont/jmix-rest@2.0.0-next.0) (2021-10-29)
+
+
+### Bug Fixes
+
+* unnecessary files in jmix-rest package [#530](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/issues/530) ([4b989fd](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/4b989fded8133119925bcbfbad170c502938a42c))
+
+
+### chore
+
+* update mobx, @apollo/client, react-intl and typescript packages ([b61360c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/b61360c8444e7d969be127bcebff00a3e49dafc0))
+
+
+### Features
+
+* entity calendar template ([4acf2bf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/4acf2bf79c69039d3909b0a2287933b01e9f385a))
+
+
+### Reverts
+
+* Revert "chore: update package-lock" ([ec9a49f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/ec9a49ffc543d998bffbe1f56d240f940d5f8b35))
+
+
+### BREAKING CHANGES
+
+* mobx, mobx-react, @apollo/client, react-intl and typescript packages were updated
+
+
+
+
+
 ## [1.0.1-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.1-next.0...@haulmont/jmix-rest@1.0.1-next.7) (2021-10-20)
 
 

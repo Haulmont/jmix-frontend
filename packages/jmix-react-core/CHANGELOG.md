@@ -3,6 +3,50 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.0...@haulmont/jmix-react-core@2.0.0-next.0) (2021-10-29)
+
+
+### Bug Fixes
+
+* cancel btn without parent screen ([401bc28](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/401bc28071bcc6397666bf59ccaa78c0affaf6d3))
+* checking currentScreen and currentRootPageData to null value [#522](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/522) ([fa567fd](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/fa567fd369ad257f6a7313ae75cd25853cf4ec64))
+* console warnings [#374](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/374) ([1e086f1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1e086f110bbf32f9176b1552b5b92d888e5c6e34))
+* ignore embedded fields ([19c90b0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/19c90b07f6191e83630d0afb6ac749b2afeb8ef6))
+* make idAttributeName in projectModel optional ([08a234f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/08a234f5333f72a0a9b32fb8d35bf6c2bd6c5c04))
+* update document title in align with page content [#590](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/590) ([0273036](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/027303631e7cc56cd7b6e46faeb0ddc8556e2b27))
+
+
+### chore
+
+* update mobx, @apollo/client, react-intl and typescript packages ([b61360c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/b61360c8444e7d969be127bcebff00a3e49dafc0))
+
+
+### Features
+
+* add idAttributeName field to entites metadata [#539](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/539) ([8dd2fbf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/8dd2fbffd2498bee504c023904754e5b7db28622))
+* entity calendar template ([4acf2bf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/4acf2bf79c69039d3909b0a2287933b01e9f385a))
+* entity creation wizard ([1ba919a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1ba919a0844fe0eaa968b2408de671d56e6fbc5e))
+* error boundaries on app and tab level [#555](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/555) ([28bcdb5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/28bcdb5a952b15f86fa307f04ca87897f730e88c))
+* implement graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/614) ([1360a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1360a1e602ffc5091bbc5931964207bdd7ed983d))
+* split react-ui package to react-antd and -react-web [#528](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/528) ([246d919](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/246d919f65d7a0d350239d020d7a9a4d098636f4))
+* url reflect only root screen state [#587](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/587) ([2db065b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/2db065b0e25b997bf939444ce5dbaadfc0cbf86d))
+
+
+### Reverts
+
+* Revert "chore: update package-lock" ([ec9a49f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/ec9a49ffc543d998bffbe1f56d240f940d5f8b35))
+
+
+### BREAKING CHANGES
+
+* mobx, mobx-react, @apollo/client, react-intl and typescript packages were updated
+* @haulmont/jmix-react-ui package was removed. Added @haulmont/jmix-react-antd and
+@haulmont/jmix-react-web packages
+
+
+
+
+
 # [1.1.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.7...@haulmont/jmix-react-core@1.1.0-next.8) (2021-10-28)
 
 
