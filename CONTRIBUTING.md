@@ -353,9 +353,18 @@ ISSUES CLOSED: #42
 
 3. Create a Pull Request and add reviewers. You need to get at least 1 approval before you can merge your request. If you have some code comments from reviewers you need to fix that (point 4). After that, you need to press "resolve conversation" button and re-request review.
 
-4. You may need to make some changes after Peer Review. Since every commit will affect changelog, it's best to squash the changes into your initial commit(s), for example by using [fixup and autosquash](https://stackoverflow.com/a/3828861) and force-pushing your feature branch. Force-pushing is only allowed for your own feature-branches, never force-push master or release branches.
+4. You may need to make some changes after Peer Review. Since commits might affect changelog, it's best to squash the changes into your initial commit(s), for example by using [fixup and autosquash](https://stackoverflow.com/a/3828861) and force-pushing your feature branch. Force-pushing is only allowed for your own feature-branches, never force-push master or release branches.
 
 5. Merge your PR with "Rebase and merge" button and delete source branch after that.
+
+##### Updating your Feature Branch to Latest Master
+
+Don't use **merge**. Use **rebase**. We want linear git history.
+
+```
+# in your feature branch
+git pull --rebase origin master
+```
 
 ## Reference Materials <a name='reference'></a>
 
@@ -600,5 +609,5 @@ You'll need IntelliJ IDEA Ultimate.
    ```
 4. Invoke Gradle task `listGenerators` in the backend project ("Gradle" panel on the right, `frontend` -> `Tasks` -> `npm` -> `listGenerators`).
 5. Restart Studio
-	
+	](*https://www.bitsnbites.eu/a-tidy-linear-git-history)
 Now you can create screens using Studio interface (`Ctrl + Shift + A` -> type "Frontend Component").
