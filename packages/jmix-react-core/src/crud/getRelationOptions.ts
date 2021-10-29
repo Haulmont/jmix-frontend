@@ -11,15 +11,22 @@ export function getRelationOptions<
 
   const map = new Map<string, Array<EntityInstance<unknown, HasId>>>();
 
+  const currentId = data[getByIdQueryName(entityName)]?.id
+
   Object.keys(data)
     .filter(queryName => {
       // Filter out query result related to the entity being listed so that only relation options are left
-      return queryName !== getListQueryName(entityName)
+      return (currentId || queryName !== getListQueryName(entityName))
         && queryName !== getByIdQueryName(entityName);
     })
     .forEach(queryName => {
       const relatedEntityName = extractEntityName(queryName, 'List');
-      map.set(relatedEntityName, data[queryName] ?? []);
+
+      if (queryName === getListQueryName(entityName)) {
+        map.set(relatedEntityName, data[queryName]?.filter((x: any) => x.id !== currentId) ?? []);
+      } else {
+        map.set(relatedEntityName, data[queryName] ?? []);
+      }
     });
 
   return map;
