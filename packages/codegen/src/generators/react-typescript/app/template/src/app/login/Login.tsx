@@ -1,10 +1,10 @@
-import React, {ChangeEvent, useCallback, useState} from "react";
-import {Button, Form, Input, notification} from "antd";
-import {LockOutlined, UserOutlined} from "@ant-design/icons";
-import {observer} from "mobx-react";
+import React, { ChangeEvent, useCallback, useState } from "react";
+import { Button, Form, Input, notification } from "antd";
+import { LockOutlined, UserOutlined } from "@ant-design/icons";
+import { observer } from "mobx-react";
 import "./Login.css";
-import {securityStore} from "../../index";
 import { useIntl } from "react-intl";
+import { securityStore } from "../../security-store";
 
 const Login = observer(() => {
   const intl = useIntl();

@@ -1,12 +1,12 @@
-import {Button, Modal, notification, Space} from "antd";
-import {LogoutOutlined, MacCommandOutlined} from "@ant-design/icons";
-import {useCallback, useState} from "react";
-import {securityStore} from "../../index";
-import {useIntl} from "react-intl";
-import './AppHeader.css';
+import { Button, Modal, notification, Space } from "antd";
+import { LogoutOutlined, MacCommandOutlined } from "@ant-design/icons";
+import { useCallback, useState } from "react";
+import { useIntl } from "react-intl";
+import "./AppHeader.css";
 import { useHotkeyStore } from "@amplicode/react-core";
 import { HotkeyInfo } from "@amplicode/react-antd";
 import { observer } from "mobx-react";
+import { securityStore } from "../../security-store";
 
 const HotkeyInfoButton = observer(() => {
   const [visible, setVisible] = useState(false);

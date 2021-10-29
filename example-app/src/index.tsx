@@ -14,7 +14,6 @@ import axios from "axios";
 import { HashRouter } from "react-router-dom";
 import { onError } from "@apollo/client/link/error";
 import { IntlProvider } from "react-intl";
-import { SecurityStore } from "./app/security/security";
 import en from "./i18n/en.json";
 import { GRAPHQL_URI } from "./config";
 import {
@@ -27,8 +26,7 @@ import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews } from "./dev/previews";
 import { useInitial } from "./dev/hook";
 import { defaultHotkeyConfigs } from "./hotkeyConfigs";
-
-export const securityStore = new SecurityStore();
+import { securityStore } from "./security-store";
 
 axios.interceptors.response.use(response => {
   if (response.status === 401) {

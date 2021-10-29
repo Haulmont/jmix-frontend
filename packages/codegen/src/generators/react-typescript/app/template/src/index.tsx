@@ -1,24 +1,32 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
-import './index.css';
-import App from './app/App';
-import reportWebVitals from './reportWebVitals';
-import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache} from "@apollo/client";
+import React from "react";
+import ReactDOM from "react-dom";
+import "./index.css";
+import App from "./app/App";
+import reportWebVitals from "./reportWebVitals";
+import {
+  ApolloClient,
+  ApolloProvider,
+  createHttpLink,
+  InMemoryCache
+} from "@apollo/client";
 import "antd/dist/antd.min.css";
 import axios from "axios";
-import {HashRouter} from "react-router-dom";
-import {onError} from "@apollo/client/link/error";
-import { IntlProvider } from 'react-intl';
-import {SecurityStore} from "./app/security/security";
+import { HashRouter } from "react-router-dom";
+import { onError } from "@apollo/client/link/error";
+import { IntlProvider } from "react-intl";
 import en from "./i18n/en.json";
-import {GRAPHQL_URI} from "./config";
-import { HotkeyContext, HotkeyStore, ScreenContext, Screens } from "@amplicode/react-core";
-import {DevSupport} from "@react-buddy/ide-toolbox";
-import {ComponentPreviews} from "./dev/previews";
-import {useInitial} from "./dev/hook";
+import { GRAPHQL_URI } from "./config";
+import {
+  HotkeyContext,
+  HotkeyStore,
+  ScreenContext,
+  Screens
+} from "@amplicode/react-core";
+import { DevSupport } from "@react-buddy/ide-toolbox";
+import { ComponentPreviews } from "./dev/previews";
+import { useInitial } from "./dev/hook";
 import { defaultHotkeyConfigs } from "./hotkeyConfigs";
-
-export const securityStore = new SecurityStore();
+import { securityStore } from "./security-store";
 
 axios.interceptors.response.use(
   response => {
