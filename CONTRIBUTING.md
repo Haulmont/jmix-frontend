@@ -608,6 +608,6 @@ You'll need IntelliJ IDEA Ultimate.
    npm i /home/me/amplicode-frontend/packages/codegen
    ```
 4. Invoke Gradle task `listGenerators` in the backend project ("Gradle" panel on the right, `frontend` -> `Tasks` -> `npm` -> `listGenerators`).
-5. Restart Studio
-	](*https://www.bitsnbites.eu/a-tidy-linear-git-history)
+5. Restart Studio.
+
 Now you can create screens using Studio interface (`Ctrl + Shift + A` -> type "Frontend Component").
