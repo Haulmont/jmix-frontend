@@ -80,36 +80,6 @@ export function addToMenu(
   }
 }
 
-export function addAddonToMenu (
-  fs: Editor,
-  {
-    addonName,
-    pathToAddon,
-    dirShift,
-    destRoot
-  } : AddToMenuOpts & AddonInfo,
-  addAddonRouteCallback: (
-    routingContents: string,
-    addonInfo: AddonInfo
-  ) => string = addAddonRoute,
-): boolean {
-  const routingDir = path.join(destRoot, dirShift ? dirShift : '');
-  const routingPath = path.join(routingDir, 'routing.ts');
-
-  if (fs.exists(routingPath)) {
-    const routingContents = fs.read(routingPath);
-    fs.write(
-      routingPath,
-      addAddonRouteCallback(
-        routingContents,
-        {addonName, pathToAddon}
-      ));
-    return true;
-  } else {
-    return false;
-  }
-}
-
 export type RouteInfo = ComponentInfo & {
   componentPath: string,
   pathPattern: string
@@ -127,18 +97,6 @@ export const addRoute = (
 ) => `` +
 `import '${componentPath}';
 ${routingContents}`;
-
-export const addAddonRoute = (routingContents: string,
-  {
-    addonName: _addonName, 
-    pathToAddon
-  }: AddonInfo) => {
-    const uodatedRoutingContent = `
-    import '${pathToAddon}';
-    ${routingContents}`;
-
-    return uodatedRoutingContent;
-  }
 
 export const addAppMenuItem = (appMenuContents: string,
   {
@@ -176,9 +134,7 @@ function getUpdatedAppMenuContent(
   if(menuNode === "ROOT") {
     return getUpdatedMenuWithRootNode(appMenuAST, newMenuItem, config);
   }
-  if(menuNode === "ADDON") {
-    return getUpdatedMenuWithAddonNode(appMenuAST, newMenuItem, config);
-  }
+
   return getUpdatedMenuWithCustomNode(appMenuAST, menuNode, newMenuItem, config);
 }
 
@@ -246,11 +202,21 @@ export function pushStringNodeToParentChildren(parrent: Collection<JSXElement>, 
   return parrent.toSource();
 }
 
+function pushStringNodeBeforeJsxNode(jsxtNode: Collection<JSXElement>, stringNode: string) : string {
+  jsxtNode.insertBefore(stringLiteral(stringNode));
+  return jsxtNode.toSource();
+}
+
 export function getUpdatedMenuWithRootNode(
   appMenuAST: Collection<any>, 
   newMenuItem: string,
   config?: AddMenuItemConfig
 ) : string {
+  const addonslMenu = appMenuAST.findJSXElements("AddonsMenu");
+  if(addonslMenu.length) {
+    return pushStringNodeBeforeJsxNode(addonslMenu, newMenuItem);
+  }
+
   const verticalMenu = appMenuAST.findJSXElements(config?.verticalMenuComponentName ?? 'VerticalMenu');
   if(verticalMenu.length){
     return pushStringNodeToParentChildren(verticalMenu, newMenuItem);
@@ -288,48 +254,6 @@ export function getUpdatedMenuWithCustomNode(
     .closest(JSXElement)
     
     return pushStringNodeToParentChildren(parrentSubMenuItem, newMenuItem);
-}
-
-export function getUpdatedMenuWithAddonNode(
-  appMenuAST: Collection<any>,
-  newMenuItem: string,
-  config?: AddMenuItemConfig
-) : string {
-  let parrentNode = findSubMenuItemByKey(appMenuAST, 'addons', config);
-  if(parrentNode.length === 0) {
-    parrentNode = findRootMenuNode(appMenuAST, config);
-    const addonSubMenuItem = getSubMenuItem('addons.Addons', 'addons', newMenuItem);
-    return pushStringNodeToParentChildren(parrentNode, addonSubMenuItem);
-  }
-    
-    return pushStringNodeToParentChildren(parrentNode, newMenuItem);
-}
-
-function findSubMenuItemByKey(appMenuAST: Collection<any> ,key: string, config?: AddMenuItemConfig): Collection<JSXElement> {
-  return appMenuAST
-    .findJSXElements(config?.subMenuItemComponentName ?? "SubMenuItem")
-    .find(JSXAttribute, {
-      name: {
-        type: "JSXIdentifier",
-        name: "key"
-      },
-      value: {
-        type: "JSXExpressionContainer",
-        expression: {
-          type: 'StringLiteral',
-          value: 'addons'
-        }
-      }
-    })
-    .closest(JSXElement);
-}
-
-function findRootMenuNode(appMenuAST: Collection<any>, config?: AddMenuItemConfig): Collection<JSXElement> {
-  const verticalMenu = appMenuAST.findJSXElements(config?.verticalMenuComponentName ?? 'VerticalMenu');
-  if(verticalMenu.length){
-    return verticalMenu;
-  }
-  return appMenuAST.findJSXElements(config?.horizontalMenuComponentName ?? 'HorizontalMenu');
 }
 
 function getRelativePath(routingDir: string, destRoot: string) {

@@ -23,6 +23,7 @@ class LocalesStore {
       _messagesMapping: observable,
       _localesInfo: observable,
       addLocale: action,
+      addMessages: action,
       messagesMapping: computed,
       localesInfo: computed
     });
@@ -31,6 +32,15 @@ class LocalesStore {
   addLocale({messages, ...localeInfo}: LocaleData) {
     this._messagesMapping[localeInfo.locale] = messages;
     this._localesInfo.push(localeInfo);
+  }
+
+  addMessages(locale: string, messages: Record<string, string>) {
+    if(this._messagesMapping[locale] != null) {
+      this._messagesMapping[locale] = {
+        ...this._messagesMapping[locale],
+        ...messages
+      }
+    } 
   }
 
   get messagesMapping() {

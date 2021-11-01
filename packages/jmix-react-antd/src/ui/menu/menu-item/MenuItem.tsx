@@ -2,7 +2,7 @@ import React from "react";
 import { Menu, MenuItemProps } from "antd";
 import { useMenuItem } from "@haulmont/jmix-react-web";
 
-interface Props extends MenuItemProps {
+export interface Props extends MenuItemProps {
   screenId?: string;
   caption: string
 }

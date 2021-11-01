@@ -13,26 +13,24 @@ import ru_RU from "antd/es/locale/ru_RU";
 import "dayjs/locale/en";
 import "dayjs/locale/ru";
 
-export function initializeLocales() {
-  localesStore.addLocale({
-    locale: "en",
-    caption: "English",
-    messages: en
-  });
+localesStore.addLocale({
+  locale: "en",
+  caption: "English",
+  messages: en
+});
 
-  antdLocalesStore.addAntdLocale({
-    localeName: "en",
-    antdLocale: en_US
-  });
+antdLocalesStore.addAntdLocale({
+  localeName: "en",
+  antdLocale: en_US
+});
 
-  localesStore.addLocale({
-    locale: "ru",
-    caption: "Русский",
-    messages: ru
-  });
+localesStore.addLocale({
+  locale: "ru",
+  caption: "Русский",
+  messages: ru
+});
 
-  antdLocalesStore.addAntdLocale({
-    localeName: "ru",
-    antdLocale: ru_RU
-  });
-}
+antdLocalesStore.addAntdLocale({
+  localeName: "ru",
+  antdLocale: ru_RU
+});

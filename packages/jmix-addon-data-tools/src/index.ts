@@ -1,5 +1,8 @@
 import {EntityInspector, ROUTING_PATH} from './entity-inspector/EntityInspector';
-import { registerScreen } from "@haulmont/jmix-react-web";
+import { registerScreen, localesStore } from "@haulmont/jmix-react-web";
+import {menuStore} from "@haulmont/jmix-react-web";
+import {MenuItemProps} from "@haulmont/jmix-react-antd";
+import en from "./i18n/en.json";
 
 registerScreen({
   component: EntityInspector,
@@ -10,3 +13,14 @@ registerScreen({
     menuLink: ROUTING_PATH
   }
 });
+
+menuStore.addAddonItem<MenuItemProps>({
+  type: "MenuItem",
+  menuItemProps: {
+    caption: "screen.EntityInspector",
+    screenId: "EntityInspector",
+    key: "EntityInspector"
+  } 
+});
+
+localesStore.addMessages("en" , en);

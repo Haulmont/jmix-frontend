@@ -17,21 +17,19 @@ import { antdLocalesStore } from "@haulmont/jmix-react-antd";
   import 'dayjs/locale/ru';
 <% } -%>
 
+<% clientLocales.forEach(({localeName, antdLocaleName, caption, isRtlLayout})=> { %>
+  localesStore.addLocale({
+    locale: '<%=localeName%>',
+    caption: "<%=caption%>",
+    messages: <%=localeName%>,
+    <% if (isRtlLayout) { -%>
+      isRtlLayout: <%=isRtlLayout%>
+    <% } -%>
+  });
 
-export function initializeLocales() {
-  <% clientLocales.forEach(({localeName, antdLocaleName, caption, isRtlLayout})=> { %>
-    localesStore.addLocale({
-      locale: '<%=localeName%>',
-      caption: "<%=caption%>",
-      messages: <%=localeName%>,
-      <% if (isRtlLayout) { -%>
-        isRtlLayout: <%=isRtlLayout%>
-      <% } -%>
-    });
+  antdLocalesStore.addAntdLocale({
+    localeName: '<%=localeName%>',
+    antdLocale: <%=antdLocaleName%>
+  });
+<% }) %>
 
-    antdLocalesStore.addAntdLocale({
-      localeName: '<%=localeName%>',
-      antdLocale: <%=antdLocaleName%>
-    });
-  <% }) %>
-}

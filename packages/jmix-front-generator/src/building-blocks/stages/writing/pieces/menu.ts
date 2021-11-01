@@ -1,6 +1,6 @@
 import {
-  addRoute, addToMenu, RouteInfo, addAddonToMenu, addAppMenuItem,
-  AppMenuItemInfo, MenuItemTypes, addAddonRoute, AddMenuItemConfig
+  addRoute, addToMenu, RouteInfo, addAppMenuItem,
+  AppMenuItemInfo, MenuItemTypes, AddMenuItemConfig
 } from "../../../../generators/react-typescript/common/menu";
 import {YeomanGenerator} from "../../../YeomanGenerator";
 import path from "path";
@@ -28,24 +28,6 @@ export function addMenuItem(
     },
     addRouteCallback,
     customComponentParams
-  )) {
-    gen.log('Unable to add component to menu: route registry not found');
-  }
-}
-
-export function addAddomMenuItem(
-  gen: YeomanGenerator,
-  dirShift: string,
-  addonName: string,
-  pathToAddon: string
-) {
-  if (!addAddonToMenu(gen.fs, {
-      addonName,
-      pathToAddon,
-      dirShift,
-      destRoot: gen.destinationRoot(),
-    },
-    addAddonRoute
   )) {
     gen.log('Unable to add component to menu: route registry not found');
   }
