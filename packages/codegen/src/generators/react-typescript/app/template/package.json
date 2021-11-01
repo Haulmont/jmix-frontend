@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@amplicode/react-core": "^0.1.0",
-    "@amplicode/react-antd": "^0.1.0",
+    "@amplicode/react-core": "^0.2.0",
+    "@amplicode/react-antd": "^0.2.0",
     "@ant-design/icons": "^4.6.3",
     "@apollo/client": "^3.4.8",
     "@react-buddy/ide-toolbox": "^1.0.0",
