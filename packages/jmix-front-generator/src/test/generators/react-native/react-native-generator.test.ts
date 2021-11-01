@@ -9,6 +9,7 @@ const modelPath = 'src/test/fixtures/mpg-projectModel.json';
 
 const CLIENT_DIR = path.join(process.cwd(), `src/test/generated/react-native-client`);
 const FIXTURES_DIR = path.join(process.cwd(), `src/test/fixtures/react-native-client`);
+const GENERATORS_DIR = path.join(__dirname, '../../../generators');
 
 describe('react native generator test', () => {
   it('should generate React Native client app', async function () {

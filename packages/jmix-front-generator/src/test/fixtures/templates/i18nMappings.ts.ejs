@@ -6,6 +6,12 @@
   import ru from './ru.json';
   import ruRu from 'antd/es/locale/ru_RU';
 <% } -%>
+<% if (isLocaleUsed('en')) { -%>
+  import 'dayjs/locale/en';
+<% } -%>
+<% if (isLocaleUsed('ru')) { -%>
+  import 'dayjs/locale/ru';
+<% } -%>
 
 export const antdLocaleMapping = {
   <% if (isLocaleUsed('en')) { -%>

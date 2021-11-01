@@ -3,6 +3,14 @@ import {openEntityEditorScreen, openEntityListScreen} from "./screen";
 import {entityEditorRegistry, entityListRegistry, screenRegistry} from "../screen-registration/registry";
 import { message } from "antd";
 
+jest.mock('antd', () => ({
+  message: {
+    error: () => {
+      jest.fn()
+    }
+  }
+}))
+
 describe('Screen opening', () => {
   describe('openEntityEditorScreen()', () => {
     beforeEach(() => {

@@ -69,9 +69,9 @@ describe('generate TS entity', function () {
       enumsMap: new Map<string, EnumDeclaration>(),
       isBaseProjectEntity: false
     });
-    let content = renderTSNodes([classTsNode.classDeclaration]);
+    const content = renderTSNodes([classTsNode.classDeclaration]);
 
-    let expected =
+    const expected =
       `export class IntegerIdTestEntity {
         static NAME = "scr_IntegerIdTestEntity";
         description?: string | null;
@@ -97,9 +97,9 @@ describe('generate TS entity', function () {
       enumsMap: new Map<string, EnumDeclaration>(),
       isBaseProjectEntity: false
     });
-    let content = renderTSNodes([classTsNode.classDeclaration]);
+    const content = renderTSNodes([classTsNode.classDeclaration]);
 
-    let expected =
+    const expected =
       `export class StringIdTestEntity {
         static NAME = "scr_StringIdTestEntity";
         id?: string;
@@ -129,9 +129,9 @@ describe('generate TS entity', function () {
       enumsMap: new Map<string, EnumDeclaration>(),
       isBaseProjectEntity: false
     });
-    let content = renderTSNodes([classTsNode.classDeclaration]);
+    const content = renderTSNodes([classTsNode.classDeclaration]);
 
-    let expected =
+    const expected =
       `export class WeirdStringIdTestEntity {
         static NAME = "scr_WeirdStringIdTestEntity";
         id?: string;

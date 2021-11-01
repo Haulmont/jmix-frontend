@@ -5,7 +5,6 @@ import {collectModelContext, ModelContext} from "../building-blocks/stages/writi
 import fs from "fs";
 import prettier = require('prettier');
 import path from "path";
-import {deprecate} from "util";
 import {strictEqual} from "assert";
 
 const enumsModel: Enum[] = require('./fixtures/enums-model.json');
@@ -66,4 +65,13 @@ export function assertFilesPlain(filePath: string, clientDir: string, fixturesDi
   const actual = fs.readFileSync(path.join(clientDir, filePath), 'utf8');
   const expect = fs.readFileSync(path.join(fixturesDir, filePath), 'utf8');
   strictEqual(actual, expect);
+}
+
+/**
+ * Test can fail when result and fixture contain different line separators (e.g. LF vs CRLF)
+ *
+ * @param str
+ */
+export function stripNewLines(str: string): string {
+  return str.replace(/\r\n|\n/g, '');
 }

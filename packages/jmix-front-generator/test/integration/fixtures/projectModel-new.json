@@ -1,0 +1,336 @@
+{
+  "project": {
+    "name": "empty-project",
+    "namespace": "",
+    "locales": [
+      {
+        "code": "en",
+        "language": "English",
+        "dataFormats": {}
+      }
+    ]
+  },
+  "entities": [
+    {
+      "name": "User",
+      "className": "User",
+      "packageName": "com.company.emptyproject.entity",
+      "dataStore": "main",
+      "table": "USER_",
+      "embeddable": false,
+      "persistentEntity": true,
+      "replaceParent": false,
+      "systemLevel": false,
+      "mappedSuperclass": false,
+      "fqn": "com.company.emptyproject.entity.User",
+      "idAttributeName": "id",
+      "attributes": [
+        {
+          "name": "id",
+          "type": {
+            "packageName": "java.util",
+            "className": "UUID",
+            "fqn": "java.util.UUID",
+            "label": "UUID"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ID",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "uuid"
+        },
+        {
+          "name": "version",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Integer",
+            "fqn": "java.lang.Integer",
+            "label": "Integer"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "VERSION",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false,
+          "traitAttribute": "version"
+        },
+        {
+          "name": "username",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "USERNAME",
+          "mandatory": true,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "password",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "PASSWORD",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "firstName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "FIRST_NAME",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "lastName",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "LAST_NAME",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "email",
+          "type": {
+            "packageName": "java.lang",
+            "className": "String",
+            "fqn": "java.lang.String",
+            "label": "String"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "EMAIL",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        },
+        {
+          "name": "active",
+          "type": {
+            "packageName": "java.lang",
+            "className": "Boolean",
+            "fqn": "java.lang.Boolean",
+            "label": "Boolean"
+          },
+          "mappingType": "DATATYPE",
+          "readOnly": false,
+          "column": "ACTIVE",
+          "mandatory": false,
+          "unique": false,
+          "length": "255",
+          "transient": false
+        }
+      ]
+    }
+  ],
+  "enums": [],
+  "baseProjectEntities": [],
+  "views": [
+    {
+      "name": "_base",
+      "entity": "User",
+      "classFqn": "com.company.emptyproject.entity.User",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "password",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        },
+        {
+          "name": "active",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        },
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "password",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        },
+        {
+          "name": "active",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_instance_name",
+      "entity": "User",
+      "classFqn": "com.company.emptyproject.entity.User",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        }
+      ]
+    },
+    {
+      "name": "_local",
+      "entity": "User",
+      "classFqn": "com.company.emptyproject.entity.User",
+      "overwrite": false,
+      "systemProperties": false,
+      "properties": [
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        },
+        {
+          "name": "password",
+          "lazy": false
+        },
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        },
+        {
+          "name": "active",
+          "lazy": false
+        }
+      ],
+      "allProperties": [
+        {
+          "name": "version",
+          "lazy": false
+        },
+        {
+          "name": "username",
+          "lazy": false
+        },
+        {
+          "name": "password",
+          "lazy": false
+        },
+        {
+          "name": "firstName",
+          "lazy": false
+        },
+        {
+          "name": "lastName",
+          "lazy": false
+        },
+        {
+          "name": "email",
+          "lazy": false
+        },
+        {
+          "name": "active",
+          "lazy": false
+        }
+      ]
+    }
+  ],
+  "restQueries": [],
+  "restServices": []
+}
