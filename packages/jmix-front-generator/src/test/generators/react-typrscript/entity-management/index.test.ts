@@ -8,7 +8,6 @@ import {
 import {EntityWithPath} from "../../../../building-blocks/stages/template-model/pieces/entity";
 
 const projectModel = require('../../../fixtures/mpg-projectModel.json');
-const projectModelScr = require('../../../fixtures/project-model--scr.json');
 
 describe('entity management generation test', function () {
 
@@ -16,8 +15,8 @@ describe('entity management generation test', function () {
     const attributes: EntityAttribute[] = [createAttr('attr1'), createAttr('attr2')];
     const relations = getRelations(projectModel, attributes);
 
-    expect(relations.associations.attr1.path).eq('jmix/entities/mpg$Car');
-    expect(relations.associations.attr2.path).eq('jmix/entities/mpg$Car');
+    expect(relations.associations.attr1.path).eq('jmix/entities/scr_Car');
+    expect(relations.associations.attr2.path).eq('jmix/entities/scr_Car');
   });
 
   it('should sort out identical items from relation imports', function () {
@@ -39,11 +38,11 @@ function createAttr(name: string): EntityAttribute {
     mappingType: 'ASSOCIATION',
     name,
     type: {
-      packageName: "com.company.mpg.entity",
+      packageName: "com.company.scr.entity",
       className: "Car",
-      fqn: "com.company.mpg.entity.Car",
+      fqn: "com.company.scr.entity.Car",
       label: "Car",
-      entityName: "mpg$Car"
+      entityName: "scr_Car"
     }
   } as EntityAttribute;
 }

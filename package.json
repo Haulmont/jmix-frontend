@@ -51,7 +51,7 @@
     "react-native-all": "npm run bootstrap-react-native-app && npm run bootstrap-jmix-app && npm run start-jmix-app && npm run start-react-native-app",
     "test:all": "npm run test:coverage && npm run test:integration && npm run test:e2e",
     "test:coverage": "echo 'UNIT TESTS AND COVERAGE' && lerna run coverage --ignore @haulmont/jmix-rest",
-    "test:integration": "echo 'INTEGRATION TESTS ON GENERATED APP' && lerna run test:e2e --scope @haulmont/jmix-front-generator",
+    "test:integration": "echo 'INTEGRATION TESTS ON GENERATED APP' && lerna run test:integration --scope @haulmont/jmix-front-generator",
     "test:e2e": "echo 'PUPPETEER E2E TESTS' && npm test example-react-app/ --prefix test-pup",
     "snyk": "snyk",
     "snyk:auth": "snyk auth",
@@ -64,7 +64,8 @@
     "doc:manual-cn": "node scripts/docs/generate-docs-site.js docs-src-cn manualOnly",
     "doc:src": "node scripts/docs/update-docs-src.js",
     "validate-react-app": "prettier --check example-react-app/**/*.ts && CI=true npm test --prefix example-react-app",
-    "publish:versions": "lerna version -m 'chore: bump versions' --no-push --conventional-commits"
+    "publish:versions": "lerna version -m 'chore: bump versions' --no-push --conventional-commits",
+    "lint": "echo 'no lint'"
   },
   "config": {
     "commitizen": {

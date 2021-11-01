@@ -1,13 +1,13 @@
 const path = require('path');
 const {promisify} = require('util');
 const rimraf = promisify(require('rimraf'));
-const {installAndBuild, runGenerator, init, checkFormat} = require('./e2e-common')('react-typescript', 'new-project');
+const {installAndBuild, runGenerator, init, checkFormat} = require('./integration-common')('react-typescript', 'new-project');
 const fs = require('fs');
 const assert = require('assert');
 
-const NEW_PRJ_APP_DIR = 'test/e2e/generated/react-client-new-project';
+const NEW_PRJ_APP_DIR = 'test/integration/generated/react-client-new-project';
 
-describe('test:e2e:react:new-project', () => {
+describe('test:integration:react:new-project', () => {
 
   before(() => init());
 

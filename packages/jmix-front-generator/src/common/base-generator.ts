@@ -22,6 +22,7 @@ import {
 import AutocompletePrompt from 'inquirer-autocomplete-prompt';
 import through2 = require('through2');
 import prettier = require('prettier');
+import { throwError } from "../common/utils";
 
 /**
  * @deprecated
@@ -78,8 +79,7 @@ export abstract class BaseGenerator<A, M, O extends CommonGenerationOptions> ext
     } else {
       const openedCubaProjects = await getOpenedCubaProjects();
       if (!openedCubaProjects || openedCubaProjects.length < 1) {
-        this.env.error(Error(ERR_STUDIO_NOT_CONNECTED));
-        return;
+        throwError(this, ERR_STUDIO_NOT_CONNECTED);
       }
 
       const projectModelAnswers: ProjectInfoAnswers = await this.prompt([{
