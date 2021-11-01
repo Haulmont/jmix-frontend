@@ -210,6 +210,10 @@ interface MyInterface {
 }
 ```
 
+##### E2E Tests
+
+E2E tests should resemble real user interaction as closely as practicable. Therefore **do not access elements by ids, class names, etc.** Use `@react/testing-library` and its query methods instead. Consult this [priority list](https://testing-library.com/docs/queries/about#priority) to understand which methods are preferable.
+
 ### How to Commit Your Work <a name='commit'></a>
 
 #### Conventional Commits
