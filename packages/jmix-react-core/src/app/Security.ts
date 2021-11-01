@@ -20,6 +20,10 @@ export const PERMISSIONS_QUERY = gql`query {
       target
       value
     }
+    specifics {
+      target
+      value
+    }
   }
 }`;
 
