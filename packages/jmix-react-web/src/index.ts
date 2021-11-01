@@ -26,6 +26,7 @@ export * from "./util/mapJmixRestErrorToIntlId"
 
 export * from "./ui/single-content-area/SingleContentArea";
 export * from "./ui/Menu/useMenuItem";
+export * from "./ui/Menu/MenuStore";
 export * from "./ui/MultiScreen";
 export * from "./ui/MultilineText";
 export * from "./ui/Msg";

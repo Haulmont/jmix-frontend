@@ -1,0 +1,11 @@
+{
+  "addons.DataTools.selectEntity": "Select entity",
+  "addons.DataTools.select": "Select",
+  "addons.DataTools.nonRemovedEntities": "Show non-removed records only",
+  "addons.DataTools.removedEntities": "Show removed records only",
+  "addons.DataTools.allEntities": "Show all records",
+  "addons.DataTools.noSelected": "No selected entity",
+  "addons.DataTools.noData": "No data to inspect",
+  "addons.DataTools.restoreButton": "Restore",
+  "screen.EntityInspector": "Entity Inspector"
+}

@@ -4,9 +4,7 @@ import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import path from "path";
 
 export interface TemplateModel {
-  addonName: string,
-  screenNames: string[],
-  messages: Record<string, Record<string, string>>
+  paletteComponentName?: string
 }
 
 export async function deriveTemplateModel(
@@ -17,9 +15,9 @@ export async function deriveTemplateModel(
       dirShift ?? '', 
       '../node_modules', 
       addonPackageName,
-      'jmix.addon-metadata.json'
+      'package.json'
     );
     
-    const addonMetadata = require(pathToAddonPackage);
-    return addonMetadata;
+    const {jmixAddon} = require(pathToAddonPackage);
+    return {paletteComponentName: jmixAddon?.paletteComponentName};
 }

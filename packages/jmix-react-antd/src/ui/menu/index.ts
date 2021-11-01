@@ -1,11 +1,15 @@
 import VerticalMenu from "./vertical-menu";
 import HorizontalMenu from './horizontal-menu';
-import MenuItem from "./menu-item";
-import SubMenuItem from "./sub-menu-item";
+import MenuItem, {MenuItemProps} from "./menu-item";
+import SubMenuItem, {SubMenuItemProps} from "./sub-menu-item";
+import {AddonsMenu} from "./addons-menu";
 
 export {
   VerticalMenu,
   MenuItem,
   SubMenuItem,
-  HorizontalMenu
-}
+  HorizontalMenu,
+  AddonsMenu,
+  MenuItemProps,
+  SubMenuItemProps
+};

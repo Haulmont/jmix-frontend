@@ -20,8 +20,9 @@ import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./
 import metadata from './jmix/metadata.json'
 import './index.css';
 import { ApolloProvider } from "@apollo/client";
-import { initializeLocales } from "./i18n/i18nInit";
+import "./i18n/i18nInit";
 import { IntlDocumentTitle } from "@haulmont/jmix-react-web";
+import "./addons";
 
 // Declare plugin types for dayjs
 import "dayjs/plugin/customParseFormat";
@@ -31,7 +32,6 @@ import "dayjs/plugin/localeData";
 import "dayjs/plugin/weekOfYear";
 import "dayjs/plugin/weekYear";
 
-initializeLocales();
 initializeTheme();
 
 export const jmixREST = initializeApp({

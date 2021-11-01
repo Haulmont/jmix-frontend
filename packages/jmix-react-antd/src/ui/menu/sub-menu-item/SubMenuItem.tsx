@@ -2,7 +2,7 @@ import React, {useMemo} from "react";
 import {useIntl} from "react-intl"
 import { Menu, SubMenuProps } from "antd";
 
-interface Props extends SubMenuProps {
+export interface Props extends SubMenuProps {
   caption: string
 }
 
