@@ -3,6 +3,33 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.3.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.1.1...@amplicode/codegen@0.3.0) (2021-11-01)
+
+
+### Bug Fixes
+
+* add default for idField answer ([c010850](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/c01085036e2a1c4d7424f6e127c51685434c1882))
+* cannot create new entity when the list of entities is empty ([91d71ac](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/91d71ac589c1fd992027916d42fdeb41e2e94350))
+* incorrect import ([a9f3110](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/a9f311088600c254cb215c0c9d2c277925c8598a))
+* issue with wrong imports in addon generator [#45](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/45) ([b8c88c8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b8c88c8fdc5e34cce4b455e84f0a06e0ff9f50e6))
+* missing listQueryName question ([4393a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4393a1ecad5cadd8a592440639b3e84a34365f5b))
+
+
+### Features
+
+* add .env files to app template ([5320851](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/53208510c539788e20b04e45f5d1cff662bc0a7d))
+* add hotkeys ([0c5a566](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/0c5a5664264c4c96e7ce3d56196a0cc276bbb931))
+* addon generator port [#10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/10) ([84f3894](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/84f3894e05248c1aebd8a5509f408989627ede01))
+* generate TS types based on GraphQL schema ([b19c929](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b19c929c7f07b3f67167fd2e4ee4c6075bf90928))
+* graphql schema path option in app generator ([86b2172](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/86b2172cac93f7beedad28b6d91264bbf53663c5)), closes [#28](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/28)
+* improvements for addon generation [#52](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/52) ([96f3ec9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/96f3ec9f334e71d55ca231802880cac15752f2c9))
+* react buddy support ([b109262](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b1092626dfe96bd61346e74e9632aa28a4c9aa6c))
+* support addon's palette injection to main palette [#58](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/58) ([d314dd6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/d314dd6b399e6058dac0a1a0124a704ba806f828))
+
+
+
+
+
 ## 0.1.1 (2021-09-29)
 
 **Note:** Version bump only for package @amplicode/codegen
