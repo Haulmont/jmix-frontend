@@ -59,6 +59,7 @@
   "screen.CarEditor": "Car Editor",
   "screen.StructureComponent": "Structure Component",
   "screen.TestBlankScreen": "Test Blank Screen",
+  "screen.CustomFormControls": "Custom Form Controls",
   "screen.ExampleCustomScreen": "Example Custom Screen",
   "addons.Addons": "Addons",
   "themes.light": "Light theme",

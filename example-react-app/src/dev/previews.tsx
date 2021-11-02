@@ -53,6 +53,7 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
+import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
 import ExampleCustomScreen from "../app/example-custom-screen/ExampleCustomScreen";
 import { Previews, ComponentPreview } from "@haulmont/react-ide-toolbox";
 
@@ -61,6 +62,9 @@ export const ComponentPreviews = () => {
     <Previews>
       <ComponentPreview path="/exampleCustomScreen">
         <ExampleCustomScreen />
+      </ComponentPreview>
+      <ComponentPreview path="/customFormControls">
+        <CustomFormControls />
       </ComponentPreview>
       <ComponentPreview path="/testBlankScreen">
         <TestBlankScreen />

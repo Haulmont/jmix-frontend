@@ -122,7 +122,8 @@ export const Field = observer((props: FieldProps) => {
 export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
-    label: <Msg entityName={entityName} propertyName={propertyName}/>
+    label: <Msg entityName={entityName} propertyName={propertyName}/>,
+    rules: []
   };
 
   const propertyInfo = getPropertyInfo(entitiesMetadata, entityName, propertyName);

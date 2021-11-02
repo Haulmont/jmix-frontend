@@ -19,7 +19,7 @@ export const I18nProvider = observer(({children, rtlLayout}: I18nProviderProps) 
       || localesStore.isRtlLayout(mainStore.locale);
 
     return rtlCondition ? 'rtl' : 'ltr';
-  }, [rtlLayout, mainStore.locale])
+  }, [rtlLayout, mainStore?.locale])
 
   if (!mainStore || !mainStore.locale) {
     return null;

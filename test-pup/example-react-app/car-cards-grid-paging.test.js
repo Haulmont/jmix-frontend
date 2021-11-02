@@ -14,12 +14,12 @@ describe('car cards grid paging', () => {
   });
 
   it('should check pages count with page size > 10', async () => {
-    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page']]);
+    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page', null]]);
   });
 
   // todo https://github.com/Haulmont/jmix-frontend/issues/548
   xit('should use only allowed page size url param', async () => {
-    await checkCarsPaging(page, `${url}?page=5&pageSize=23`, [22, ['Previous Page', '1', 'Next Page']]);
+    await checkCarsPaging(page, `${url}?page=5&pageSize=23`, [22, ['Previous Page', '1', 'Next Page', null]]);
     const activePageButtonTitle = await page
       .$eval('ul.ant-pagination li.ant-pagination-item-active', el => el.getAttribute('title'));
     expect(activePageButtonTitle).toEqual('1');

@@ -23,6 +23,10 @@ module.exports = {
     "componentName": "example-custom-screen",
     "menuItem": "ROOT"
   },
+  "customFormControls": {
+    "componentName": "custom-form-controls",
+    "menuItem": "ROOT"
+  },
   "structure": {
     "componentName": "StructureComponent",
     "structureType": "Two columns",
