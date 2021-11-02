@@ -7,9 +7,7 @@ import {
   createUseAntdForm,
   createUseAntdFormValidation,
   RetryDialog,
-  <% if (attributes.length > 0) { %>
-    Field,
-  <% } %>
+  <%- include(includesPath('FieldImports'), {attributes}) -%>
   GlobalErrorsAlert,
   Spinner,
   useMasterDetailEditor,

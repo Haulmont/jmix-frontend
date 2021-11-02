@@ -15,7 +15,7 @@ describe('car browse cards paging', () => {
     await login(page);
   });
 
-  const buttonTitles = ['Previous Page', '1', 'Next Page'];
+  const buttonTitles = ['Previous Page', '1', 'Next Page', null];
 
   // TODO fix the test
   // it('should check pages count with page size = 10', async () => {
@@ -27,7 +27,7 @@ describe('car browse cards paging', () => {
 
   it('should check pages count with page size > 10', async () => {
     // fix for CI - '20' check failed unexpectedly
-    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page']]);
+    await checkCarsPaging(page, `${url}?page=1&pageSize=20`, [null, ['Previous Page', '1', '2', 'Next Page', null]]);
 
     // TODO VB test fails randomly (timing-dependent?)
     // await checkCarsPaging(page, `${url}?page=1&pageSize=50`, [22, ['Previous Page', '1', 'Next Page', null]]);

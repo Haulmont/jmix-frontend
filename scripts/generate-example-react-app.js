@@ -55,6 +55,12 @@ gen(
       {
         command: 'react-typescript:blank-screen',
         dirShift,
+        dest: 'src/app/custom-form-controls',
+        answers: answers.customFormControls
+      },
+      {
+        command: 'react-typescript:blank-screen',
+        dirShift,
         dest: 'src/app/blank-screen',
         answers: answers.blankComponent
       },
@@ -383,6 +389,7 @@ gen(
   true,
   () => {
     fs.copyFileSync(__dirname + '/custom-screens/ExampleCustomScreen.tsx', __dirname + '/../example-react-app/src/app/example-custom-screen/ExampleCustomScreen.tsx');
+    fs.copyFileSync(__dirname + '/custom-screens/CustomFormControls.tsx', __dirname + '/../example-react-app/src/app/custom-form-controls/CustomFormControls.tsx');
   }
 );
 

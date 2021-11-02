@@ -1,7 +1,5 @@
 import {
-    <% if (attributes.length > 0) { %>
-        Field,
-    <% } %>
+    <%- include(includesPath('FieldImports'), {attributes}) -%>
     FormWizardManager,
     FormWizardStep,
     FormWizardStepStatus,

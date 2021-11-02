@@ -56,5 +56,6 @@ import "./app/car-browser-cards/CarBrowserCards";
 import "./app/car-editor/CarEditor";
 import "./app/structure/StructureComponent";
 import "./app/blank-screen/TestBlankScreen";
+import "./app/custom-form-controls/CustomFormControls";
 import "./app/example-custom-screen/ExampleCustomScreen";
 import "./app/home/HomePage";

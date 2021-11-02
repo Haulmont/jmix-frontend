@@ -30,6 +30,10 @@ export * from "./ui/MultiSelectionTable/MultiSelectionTableStore";
 
 export * from './util/history';
 
+// Visual components library:
+// - Form controls
+export * from './ui/form/controls';
+
 export * from './ui/content-area/ContentArea';
 export * from './ui/form/Form';
 export * from './ui/form/validation/GlobalErrorsAlert';
