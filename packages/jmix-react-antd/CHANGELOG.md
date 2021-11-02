@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@1.0.0-next.9...@haulmont/jmix-react-antd@1.0.0-next.10) (2021-11-02)
+
+
+### Features
+
+* add TextField form control [#701](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/701) ([7e5c5d6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/7e5c5d69c480af54e57397e1c3e87b384d9316a8))
+
+
+
+
+
 # 1.0.0-next.9 (2021-10-29)
 
 

@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-antd",
-  "version": "1.0.0-next.9",
+  "version": "1.0.0-next.10",
   "description": "Jmix utilities and components for React, based on atnd components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,8 +9,8 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^2.0.0-next.0",
-    "@haulmont/jmix-react-web": "^1.0.0-next.9",
+    "@haulmont/jmix-react-core": "^2.0.0-next.1",
+    "@haulmont/jmix-react-web": "^1.0.0-next.10",
     "@haulmont/jmix-rest": "^2.0.0-next.0"
   },
   "peerDependencies": {

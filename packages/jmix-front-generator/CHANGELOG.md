@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.0...@haulmont/jmix-front-generator@2.0.0-next.1) (2021-11-02)
+
+
+### Features
+
+* add TextField form control [#701](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/701) ([7e5c5d6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/7e5c5d69c480af54e57397e1c3e87b384d9316a8))
+
+
+
+
+
 # [2.0.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.1.0-next.0...@haulmont/jmix-front-generator@2.0.0-next.0) (2021-10-29)
 
 

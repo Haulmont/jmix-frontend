@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.0...@haulmont/jmix-react-core@2.0.0-next.1) (2021-11-02)
+
+
+### Bug Fixes
+
+* permissions query [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/614) ([7496aea](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/7496aea5e7860042f2ea4553e1ae32c64681f86c))
+* support self-referencing associations [#719](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/719) ([c69c38a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/c69c38a67f207fb6946aa674b59d5918612ecbd3))
+
+
+
+
+
 # [2.0.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.0...@haulmont/jmix-react-core@2.0.0-next.0) (2021-10-29)
 
 
