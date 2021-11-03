@@ -6,6 +6,7 @@ export class Car {
   id?: string;
   manufacturer?: string | null;
   model?: string | null;
+  color?: string | null;
   regNumber?: string | null;
   purchaseDate?: any | null;
   manufactureDate?: any | null;
@@ -31,6 +32,7 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "id"
       | "manufacturer"
       | "model"
+      | "color"
       | "regNumber"
       | "purchaseDate"
       | "manufactureDate"
@@ -55,6 +57,7 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "id"
       | "manufacturer"
       | "model"
+      | "color"
       | "regNumber"
       | "purchaseDate"
       | "manufactureDate"
@@ -77,6 +80,7 @@ export type CarView<V extends CarViewName> = V extends "_base"
       | "id"
       | "manufacturer"
       | "model"
+      | "color"
       | "regNumber"
       | "purchaseDate"
       | "manufactureDate"

@@ -13,8 +13,6 @@ export type FormWizardAssociationO2OTestEntityView<
   V extends FormWizardAssociationO2OTestEntityViewName
 > = V extends "_base"
   ? Pick<FormWizardAssociationO2OTestEntity, "id" | "name">
-  : V extends "_instance_name"
-  ? Pick<FormWizardAssociationO2OTestEntity, "id" | "name">
   : V extends "_local"
   ? Pick<FormWizardAssociationO2OTestEntity, "id" | "name">
   : never;

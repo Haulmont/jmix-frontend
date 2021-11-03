@@ -122,8 +122,7 @@ const FormWizardEditor = withFormWizardProvider(
               entityName={ENTITY_NAME}
               propertyName="notNull"
               formItemProps={{
-                style: { marginBottom: "12px" },
-                rules: [{ required: true }]
+                style: { marginBottom: "12px" }
               }}
             />
           </FormWizardStep>
