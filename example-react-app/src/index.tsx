@@ -41,7 +41,7 @@ import "dayjs/plugin/weekYear";
 initializeTheme();
 
 export const jmixREST = initializeApp({
-  name: "scr-jmix",
+  name: "",
   apiUrl: JMIX_REST_URL,
   restClientId: REST_CLIENT_ID,
   restClientSecret: REST_CLIENT_SECRET,
@@ -51,8 +51,8 @@ export const jmixREST = initializeApp({
 
 const client = initializeApolloClient({
   graphqlEndpoint: GRAPHQL_URI,
-  tokenStorageKey: "scr-jmix_jmixRestAccessToken",
-  localeStorageKey: "scr-jmix_jmixLocale"
+  tokenStorageKey: "_jmixRestAccessToken",
+  localeStorageKey: "_jmixLocale"
 });
 
 const devScreens = new Screens();
@@ -75,7 +75,7 @@ ReactDOM.render(
     apolloClient={client}
     jmixREST={jmixREST}
     config={{
-      appName: "scr-jmix",
+      appName: "",
       clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
       secret: REST_CLIENT_SECRET,
       locale: "en",

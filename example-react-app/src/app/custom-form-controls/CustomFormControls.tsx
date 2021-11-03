@@ -2,7 +2,12 @@ import React, {useCallback, useState} from "react";
 import {createAntdFormValidationMessages, registerScreen} from "@haulmont/jmix-react-web";
 import {Button, Card, Form, Space} from "antd";
 import styles from "../App.module.css";
-import {TextField, DateField, TimeField} from "@haulmont/jmix-react-antd";
+import {
+  ColorPickerField,
+  TextField,
+  DateField,
+  TimeField
+} from "@haulmont/jmix-react-antd";
 import {FormattedMessage, useIntl} from "react-intl";
 import {useForm} from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -54,6 +59,14 @@ const CustomFormControls = () => {
         <TimeField
           entityName="scr_CarRent"
           propertyName="fromTime"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+
+        <ColorPickerField
+          entityName={'scr_Car'}
+          propertyName="color"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
