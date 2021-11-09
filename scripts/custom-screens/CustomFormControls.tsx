@@ -2,7 +2,7 @@ import React, {useCallback, useState} from "react";
 import {createAntdFormValidationMessages, registerScreen} from "@haulmont/jmix-react-web";
 import {Button, Card, Form, Space} from "antd";
 import styles from "../App.module.css";
-import {TextField} from "@haulmont/jmix-react-antd";
+import {TextField, CheckboxField} from "@haulmont/jmix-react-antd";
 import {FormattedMessage, useIntl} from "react-intl";
 import {useForm} from "antd/es/form/Form";
 
@@ -38,6 +38,13 @@ const CustomFormControls = () => {
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
+        />
+        <CheckboxField
+            entityName={'scr_Car'}
+            propertyName="wheelOnRight"
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
         />
 
         <Form.Item style={{ textAlign: "center" }}>
