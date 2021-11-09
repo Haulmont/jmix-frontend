@@ -6,9 +6,9 @@ output:
   dir: docs-build
 content:
   sources:
-    - url: ../jmix-frontend
+    - url: https://github.com/Haulmont/jmix-frontend
       branches:
-        - HEAD
+        - release_0_9
       start_path: docs-src/doc-component-repo
 ui:
   bundle:
