@@ -3,8 +3,8 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>LoginOptions | @haulmont/jmix-rest</title>
-	<meta name="description" content="Documentation for @haulmont/jmix-rest">
+	<title>util/file | @haulmont/jmix-react-core</title>
+	<meta name="description" content="Documentation for @haulmont/jmix-react-core">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
 	<script async src="../assets/js/search.js" id="search-script"></script>
@@ -23,7 +23,7 @@
 						<li class="state loading">Preparing search index...</li>
 						<li class="state failure">The search index is not available</li>
 					</ul>
-					<a href="../index.html" class="title">@haulmont/jmix-rest</a>
+					<a href="../index.html" class="title">@haulmont/jmix-react-core</a>
 				</div>
 				<div class="table-cell" id="tsd-widgets">
 					<div id="tsd-filter">
@@ -52,54 +52,63 @@
 		<div class="container">
 			<ul class="tsd-breadcrumb">
 				<li>
-					<a href="../modules.html">@haulmont/jmix-rest</a>
+					<a href="../modules.html">@haulmont/jmix-react-core</a>
 				</li>
 				<li>
-					<a href="../modules/jmix.html">jmix</a>
-				</li>
-				<li>
-					<a href="jmix.loginoptions.html">LoginOptions</a>
+					<a href="util_file.html">util/file</a>
 				</li>
 			</ul>
-			<h1>Interface LoginOptions</h1>
+			<h1>Module util/file</h1>
 		</div>
 	</div>
 </header>
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
-			<section class="tsd-panel tsd-hierarchy">
-				<h3>Hierarchy</h3>
-				<ul class="tsd-hierarchy">
-					<li>
-						<span class="target">LoginOptions</span>
-					</li>
-				</ul>
-			</section>
 			<section class="tsd-panel-group tsd-index-group">
 				<h2>Index</h2>
 				<section class="tsd-panel tsd-index-panel">
 					<div class="tsd-index-content">
 						<section class="tsd-index-section ">
-							<h3>Properties</h3>
+							<h3>Functions</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jmix.loginoptions.html#tokenendpoint" class="tsd-kind-icon">token<wbr>Endpoint</a></li>
+								<li class="tsd-kind-function tsd-parent-kind-module"><a href="util_file.html#extractname" class="tsd-kind-icon">extract<wbr>Name</a></li>
 							</ul>
 						</section>
 					</div>
 				</section>
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
-				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="tokenendpoint" class="tsd-anchor"></a>
-					<h3>token<wbr>Endpoint</h3>
-					<div class="tsd-signature tsd-kind-icon">token<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-rest/src/jmix.ts#L101">src/jmix.ts:101</a></li>
-						</ul>
-					</aside>
+				<h2>Functions</h2>
+				<section class="tsd-panel tsd-member tsd-kind-function tsd-parent-kind-module">
+					<a name="extractname" class="tsd-anchor"></a>
+					<h3>extract<wbr>Name</h3>
+					<ul class="tsd-signatures tsd-kind-function tsd-parent-kind-module">
+						<li class="tsd-signature tsd-kind-icon">extract<wbr>Name<span class="tsd-signature-symbol">(</span>fileRef<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					</ul>
+					<ul class="tsd-descriptions">
+						<li class="tsd-description">
+							<aside class="tsd-sources">
+								<ul>
+									<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/40262093/packages/jmix-react-core/src/util/file.ts#L6">src/util/file.ts:6</a></li>
+								</ul>
+							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Extracts file name from FileRef string</p>
+								</div>
+							</div>
+							<h4 class="tsd-parameters-title">Parameters</h4>
+							<ul class="tsd-parameters">
+								<li>
+									<h5>fileRef: <span class="tsd-signature-type">string</span></h5>
+									<div class="tsd-comment tsd-typography">
+									</div>
+								</li>
+							</ul>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
+						</li>
+					</ul>
 				</section>
 			</section>
 		</div>
@@ -109,43 +118,16 @@
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
 					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/event_emitter.html">event_<wbr>emitter</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/filter.html">filter</a>
-					</li>
 					<li class="current tsd-kind-module">
-						<a href="../modules/jmix.html">jmix</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/model.html">model</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/security.html">security</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/storage.html">storage</a>
-					</li>
-					<li class=" tsd-kind-module">
-						<a href="../modules/util.html">util</a>
+						<a href="util_file.html">util/file</a>
 					</li>
 				</ul>
 			</nav>
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
-				</ul>
-				<ul class="current">
-					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="jmix.loginoptions.html" class="tsd-kind-icon">Login<wbr>Options</a>
-						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jmix.loginoptions.html#tokenendpoint" class="tsd-kind-icon">token<wbr>Endpoint</a>
-							</li>
-						</ul>
+					<li class=" tsd-kind-function tsd-parent-kind-module">
+						<a href="util_file.html#extractname" class="tsd-kind-icon">extract<wbr>Name</a>
 					</li>
-				</ul>
-				<ul class="after-current">
 				</ul>
 			</nav>
 		</div>
@@ -158,19 +140,16 @@
 			<ul class="tsd-legend">
 				<li class="tsd-kind-variable"><span class="tsd-kind-icon">Variable</span></li>
 				<li class="tsd-kind-function"><span class="tsd-kind-icon">Function</span></li>
+				<li class="tsd-kind-function tsd-has-type-parameter"><span class="tsd-kind-icon">Function with type parameter</span></li>
 				<li class="tsd-kind-type-alias"><span class="tsd-kind-icon">Type alias</span></li>
-				<li class="tsd-kind-type-alias tsd-has-type-parameter"><span class="tsd-kind-icon">Type alias with type parameter</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-interface"><span class="tsd-kind-icon">Interface</span></li>
 				<li class="tsd-kind-interface tsd-has-type-parameter"><span class="tsd-kind-icon">Interface with type parameter</span></li>
-				<li class="tsd-kind-property tsd-parent-kind-interface"><span class="tsd-kind-icon">Property</span></li>
-			</ul>
-			<ul class="tsd-legend">
-				<li class="tsd-kind-enum"><span class="tsd-kind-icon">Enumeration</span></li>
 			</ul>
 			<ul class="tsd-legend">
 				<li class="tsd-kind-class"><span class="tsd-kind-icon">Class</span></li>
+				<li class="tsd-kind-class tsd-has-type-parameter"><span class="tsd-kind-icon">Class with type parameter</span></li>
 			</ul>
 		</div>
 	</div>

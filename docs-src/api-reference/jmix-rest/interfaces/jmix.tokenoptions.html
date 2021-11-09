@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>ResponseError | @haulmont/jmix-rest</title>
+	<title>TokenOptions | @haulmont/jmix-rest</title>
 	<meta name="description" content="Documentation for @haulmont/jmix-rest">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -58,10 +58,10 @@
 					<a href="../modules/jmix.html">jmix</a>
 				</li>
 				<li>
-					<a href="jmix.responseerror.html">ResponseError</a>
+					<a href="jmix.tokenoptions.html">TokenOptions</a>
 				</li>
 			</ul>
-			<h1>Interface ResponseError</h1>
+			<h1>Interface TokenOptions</h1>
 		</div>
 	</div>
 </header>
@@ -72,12 +72,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="tsd-signature-type">Error</span>
-						<ul class="tsd-hierarchy">
-							<li>
-								<span class="target">ResponseError</span>
-							</li>
-						</ul>
+						<span class="target">TokenOptions</span>
 					</li>
 				</ul>
 			</section>
@@ -88,10 +83,8 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="jmix.responseerror.html#message" class="tsd-kind-icon">message</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="jmix.responseerror.html#name" class="tsd-kind-icon">name</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jmix.responseerror.html#response" class="tsd-kind-icon">response</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external"><a href="jmix.responseerror.html#stack" class="tsd-kind-icon">stack</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jmix.tokenoptions.html#revokeendpoint" class="tsd-kind-icon">revoke<wbr>Endpoint</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="jmix.tokenoptions.html#tokenendpoint" class="tsd-kind-icon">token<wbr>Endpoint</a></li>
 							</ul>
 						</section>
 					</div>
@@ -99,46 +92,23 @@
 			</section>
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="message" class="tsd-anchor"></a>
-					<h3>message</h3>
-					<div class="tsd-signature tsd-kind-icon">message<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="revokeendpoint" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> revoke<wbr>Endpoint</h3>
+					<div class="tsd-signature tsd-kind-icon">revoke<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
-						<p>Inherited from Error.message</p>
 						<ul>
-							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:974</li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="name" class="tsd-anchor"></a>
-					<h3>name</h3>
-					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Error.name</p>
-						<ul>
-							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:973</li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/40262093/packages/jmix-rest/src/jmix.ts#L101">src/jmix.ts:101</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="response" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> response</h3>
-					<div class="tsd-signature tsd-kind-icon">response<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">any</span></div>
+					<a name="tokenendpoint" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> token<wbr>Endpoint</h3>
+					<div class="tsd-signature tsd-kind-icon">token<wbr>Endpoint<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/a2481b8c/packages/jmix-rest/src/jmix.ts#L82">src/jmix.ts:82</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-					<a name="stack" class="tsd-anchor"></a>
-					<h3><span class="tsd-flag ts-flagOptional">Optional</span> stack</h3>
-					<div class="tsd-signature tsd-kind-icon">stack<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
-					<aside class="tsd-sources">
-						<p>Inherited from Error.stack</p>
-						<ul>
-							<li>Defined in node_modules/typescript/lib/lib.es5.d.ts:975</li>
+							<li>Defined in <a href="https://github.com/Haulmont/jmix-frontend/blob/40262093/packages/jmix-rest/src/jmix.ts#L100">src/jmix.ts:100</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -149,6 +119,9 @@
 				<ul>
 					<li class=" ">
 						<a href="../modules.html">Exports</a>
+					</li>
+					<li class=" tsd-kind-module">
+						<a href="../modules/error.html">error</a>
 					</li>
 					<li class=" tsd-kind-module">
 						<a href="../modules/event_emitter.html">event_<wbr>emitter</a>
@@ -178,19 +151,13 @@
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="jmix.responseerror.html" class="tsd-kind-icon">Response<wbr>Error</a>
+						<a href="jmix.tokenoptions.html" class="tsd-kind-icon">Token<wbr>Options</a>
 						<ul>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="jmix.responseerror.html#message" class="tsd-kind-icon">message</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="jmix.responseerror.html#name" class="tsd-kind-icon">name</a>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="jmix.tokenoptions.html#revokeendpoint" class="tsd-kind-icon">revoke<wbr>Endpoint</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="jmix.responseerror.html#response" class="tsd-kind-icon">response</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-interface tsd-is-inherited tsd-is-external">
-								<a href="jmix.responseerror.html#stack" class="tsd-kind-icon">stack</a>
+								<a href="jmix.tokenoptions.html#tokenendpoint" class="tsd-kind-icon">token<wbr>Endpoint</a>
 							</li>
 						</ul>
 					</li>
