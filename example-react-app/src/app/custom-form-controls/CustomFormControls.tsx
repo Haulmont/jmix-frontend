@@ -2,7 +2,7 @@ import React, {useCallback, useState} from "react";
 import {createAntdFormValidationMessages, registerScreen} from "@haulmont/jmix-react-web";
 import {Button, Card, Form, Space} from "antd";
 import styles from "../App.module.css";
-import {TextField, TimeField} from "@haulmont/jmix-react-antd";
+import {TextField, DateField, TimeField} from "@haulmont/jmix-react-antd";
 import {FormattedMessage, useIntl} from "react-intl";
 import {useForm} from "antd/es/form/Form";
 import dayjs from "dayjs";
@@ -30,15 +30,23 @@ const CustomFormControls = () => {
         onFinishFailed={() => {}}
         layout="vertical"
         form={form}
-        validateMessages={createAntdFormValidationMessages(intl)}
         initialValues={{
+          fromDate: dayjs("2020-01-01"),
           fromTime: dayjs("2020-01-01T23:05:13")
         }}
+        validateMessages={createAntdFormValidationMessages(intl)}
       >
 
         <TextField
           entityName="scr_Car"
           propertyName="manufacturer"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <DateField
+          entityName="scr_CarRent"
+          propertyName="fromDate"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
