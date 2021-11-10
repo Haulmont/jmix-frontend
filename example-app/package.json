@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@amplicode/react-antd": "file:../packages/react-antd/amplicode-react-antd-0.1.1.tgz",
-    "@amplicode/react-core": "file:../packages/react-core/amplicode-react-core-0.1.1.tgz",
+    "@amplicode/react-antd": "file:../packages/react-antd/amplicode-react-antd-0.2.0.tgz",
+    "@amplicode/react-core": "file:../packages/react-core/amplicode-react-core-0.2.0.tgz",
     "@ant-design/icons": "^4.6.3",
     "@apollo/client": "^3.4.8",
     "@react-buddy/ide-toolbox": "^1.0.0",

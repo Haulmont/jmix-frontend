@@ -29,11 +29,10 @@
   "hotkeys.editor.saveEntity": "Save entity",
   "hotkeys.screen.nextTab": "Switch to next tab",
   "hotkeys.screen.previousTab": "Switch to previous tab",
-  "screen.OwnerList": "Owner List",
   "screen.OwnerEditor": "Owner Editor",
-  "screen.PetList": "Pet List",
+  "screen.OwnerList": "Owner List",
   "screen.PetEditor": "Pet Editor",
-  "screen.ReadOnlyOwnerList": "Read Only Owner List",
-  "screen.ReadOnlyOwnerListWithDetails": "Read Only Owner List With Details",
-  "screen.ReadOnlyOwnerDetails": "Read Only Owner Details"
+  "screen.PetList": "Pet List",
+  "screen.ReadOnlyOwnerDetails": "Read Only Owner Details",
+  "screen.ReadOnlyOwnerList": "Read Only Owner List"
 }

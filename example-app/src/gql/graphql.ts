@@ -411,41 +411,6 @@ export type Delete_OwnerMutation = {
   delete_Owner: boolean;
 };
 
-export type Get_Pet_ListQueryVariables = Exact<{ [key: string]: never }>;
-
-export type Get_Pet_ListQuery = {
-  __typename?: "Query";
-  petList?:
-    | Array<
-        | {
-            __typename?: "PetDTO";
-            id?: any | null | undefined;
-            identificationNumber?: string | null | undefined;
-            owner?:
-              | {
-                  __typename?: "OwnerDTO";
-                  firstName?: string | null | undefined;
-                  lastName?: string | null | undefined;
-                }
-              | null
-              | undefined;
-          }
-        | null
-        | undefined
-      >
-    | null
-    | undefined;
-};
-
-export type Delete_PetMutationVariables = Exact<{
-  id: Scalars["Long"];
-}>;
-
-export type Delete_PetMutation = {
-  __typename?: "Mutation";
-  delete_Pet: boolean;
-};
-
 export type Get_PetQueryVariables = Exact<{
   id?: Maybe<Scalars["Long"]>;
 }>;
@@ -485,6 +450,41 @@ export type Update_PetMutation = {
 export type New_PetDtoFragment = {
   __typename?: "PetDTO";
   id?: any | null | undefined;
+};
+
+export type Get_Pet_ListQueryVariables = Exact<{ [key: string]: never }>;
+
+export type Get_Pet_ListQuery = {
+  __typename?: "Query";
+  petList?:
+    | Array<
+        | {
+            __typename?: "PetDTO";
+            id?: any | null | undefined;
+            identificationNumber?: string | null | undefined;
+            owner?:
+              | {
+                  __typename?: "OwnerDTO";
+                  firstName?: string | null | undefined;
+                  lastName?: string | null | undefined;
+                }
+              | null
+              | undefined;
+          }
+        | null
+        | undefined
+      >
+    | null
+    | undefined;
+};
+
+export type Delete_PetMutationVariables = Exact<{
+  id: Scalars["Long"];
+}>;
+
+export type Delete_PetMutation = {
+  __typename?: "Mutation";
+  delete_Pet: boolean;
 };
 
 export const New_OwnerDtoFragmentDoc = ({
@@ -687,88 +687,6 @@ export const Delete_OwnerDocument = ({
   Delete_OwnerMutation,
   Delete_OwnerMutationVariables
 >;
-export const Get_Pet_ListDocument = ({
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "query",
-      name: { kind: "Name", value: "Get_Pet_List" },
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "petList" },
-            selectionSet: {
-              kind: "SelectionSet",
-              selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "identificationNumber" }
-                },
-                {
-                  kind: "Field",
-                  name: { kind: "Name", value: "owner" },
-                  selectionSet: {
-                    kind: "SelectionSet",
-                    selections: [
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "firstName" }
-                      },
-                      {
-                        kind: "Field",
-                        name: { kind: "Name", value: "lastName" }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Get_Pet_ListQuery, Get_Pet_ListQueryVariables>;
-export const Delete_PetDocument = ({
-  kind: "Document",
-  definitions: [
-    {
-      kind: "OperationDefinition",
-      operation: "mutation",
-      name: { kind: "Name", value: "Delete_Pet" },
-      variableDefinitions: [
-        {
-          kind: "VariableDefinition",
-          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: {
-            kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
-          }
-        }
-      ],
-      selectionSet: {
-        kind: "SelectionSet",
-        selections: [
-          {
-            kind: "Field",
-            name: { kind: "Name", value: "delete_Pet" },
-            arguments: [
-              {
-                kind: "Argument",
-                name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Delete_PetMutation, Delete_PetMutationVariables>;
 export const Get_PetDocument = ({
   kind: "Document",
   definitions: [
@@ -877,3 +795,85 @@ export const Update_PetDocument = ({
     }
   ]
 } as unknown) as DocumentNode<Update_PetMutation, Update_PetMutationVariables>;
+export const Get_Pet_ListDocument = ({
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "query",
+      name: { kind: "Name", value: "Get_Pet_List" },
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "petList" },
+            selectionSet: {
+              kind: "SelectionSet",
+              selections: [
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "identificationNumber" }
+                },
+                {
+                  kind: "Field",
+                  name: { kind: "Name", value: "owner" },
+                  selectionSet: {
+                    kind: "SelectionSet",
+                    selections: [
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "firstName" }
+                      },
+                      {
+                        kind: "Field",
+                        name: { kind: "Name", value: "lastName" }
+                      }
+                    ]
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    }
+  ]
+} as unknown) as DocumentNode<Get_Pet_ListQuery, Get_Pet_ListQueryVariables>;
+export const Delete_PetDocument = ({
+  kind: "Document",
+  definitions: [
+    {
+      kind: "OperationDefinition",
+      operation: "mutation",
+      name: { kind: "Name", value: "Delete_Pet" },
+      variableDefinitions: [
+        {
+          kind: "VariableDefinition",
+          variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
+          type: {
+            kind: "NonNullType",
+            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
+          }
+        }
+      ],
+      selectionSet: {
+        kind: "SelectionSet",
+        selections: [
+          {
+            kind: "Field",
+            name: { kind: "Name", value: "delete_Pet" },
+            arguments: [
+              {
+                kind: "Argument",
+                name: { kind: "Name", value: "id" },
+                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+} as unknown) as DocumentNode<Delete_PetMutation, Delete_PetMutationVariables>;

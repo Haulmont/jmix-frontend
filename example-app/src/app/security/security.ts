@@ -1,6 +1,7 @@
 import { action, makeObservable, observable } from "mobx";
 import axios from "axios";
 import qs from "qs";
+import { LOGOUT_URI, LOGIN_URI } from "../../config";
 
 export class SecurityStore {
   @observable isLoggedIn: boolean = true;
@@ -15,7 +16,7 @@ export class SecurityStore {
     password: string,
     onResponseReceived?: (status: number) => void
   ) => {
-    const response = await axios("/login", {
+    const response = await axios(LOGIN_URI, {
       method: "POST",
       headers: { "content-type": "application/x-www-form-urlencoded" },
       data: qs.stringify({
@@ -35,7 +36,7 @@ export class SecurityStore {
   logout = async (onResponseReceived?: (status: number) => void) => {
     this.isLoggedIn = false;
 
-    const response = await axios("/logout", {
+    const response = await axios(LOGOUT_URI, {
       method: "POST"
     });
 
