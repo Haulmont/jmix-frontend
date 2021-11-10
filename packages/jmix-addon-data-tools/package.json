@@ -5,15 +5,14 @@
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
-  "private": true,
   "files": [
     "dist/",
     "jmix.addon-metadata.json"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-antd": "^1.0.0-next.10",
+    "@haulmont/jmix-react-antd": "^2.0.0-next.0",
     "@haulmont/jmix-react-core": "^2.0.0-next.1",
-    "@haulmont/jmix-react-web": "^1.0.0-next.10"
+    "@haulmont/jmix-react-web": "^2.0.0-next.0"
   },
   "peerDependencies": {
     "@ant-design/icons": "^4.0.0",
@@ -41,6 +40,9 @@
     "compile": "npm run clean && rollup -c",
     "clean": "rimraf dist && rimraf metadata"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "author": "Haulmont",
-  "license": "ISC"
+  "license": "Apache-2.0"
 }
