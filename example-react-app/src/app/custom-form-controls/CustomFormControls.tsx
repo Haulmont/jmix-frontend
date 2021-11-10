@@ -2,9 +2,10 @@ import React, {useCallback, useState} from "react";
 import {createAntdFormValidationMessages, registerScreen} from "@haulmont/jmix-react-web";
 import {Button, Card, Form, Space} from "antd";
 import styles from "../App.module.css";
-import {TextField} from "@haulmont/jmix-react-antd";
+import {TextField, TimeField} from "@haulmont/jmix-react-antd";
 import {FormattedMessage, useIntl} from "react-intl";
 import {useForm} from "antd/es/form/Form";
+import dayjs from "dayjs";
 
 const ROUTING_PATH = "/customFormControls";
 
@@ -30,11 +31,21 @@ const CustomFormControls = () => {
         layout="vertical"
         form={form}
         validateMessages={createAntdFormValidationMessages(intl)}
+        initialValues={{
+          fromTime: dayjs("2020-01-01T23:05:13")
+        }}
       >
 
         <TextField
-          entityName={'scr_Car'}
+          entityName="scr_Car"
           propertyName="manufacturer"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <TimeField
+          entityName="scr_CarRent"
+          propertyName="fromTime"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
