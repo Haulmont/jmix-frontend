@@ -3,6 +3,77 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.1.0-next.0...@haulmont/jmix-front-generator@2.0.0-next.4) (2021-11-11)
+
+
+### Bug Fixes
+
+* console warnings [#374](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/374) ([1e086f1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1e086f110bbf32f9176b1552b5b92d888e5c6e34))
+* display messages for all table filter operators ([a91a85e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/a91a85e55c1ac222320436c3672ea3bdb05a59c1))
+* fix buttons marging issue in edit component for RTL mode [#576](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/576) ([d0f1ae3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/d0f1ae3a256f45e7fef1f5885e46388af14ef594))
+* fix TS declarations for front generator files [#565](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/565) ([0307e45](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/0307e45e279023c7deded89cd0cf0576f797f6c8))
+* inconsistent exports in screens [#630](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/630) ([bdb407d](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/bdb407dd423e2d08b79ccf147ba77c470612dde8))
+* replace CalendareHeader on custom ([cff8246](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/cff8246b11ee930833ed6be305533ab32b250378))
+* replace dayjs locales generation ([ee6a1ee](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/ee6a1eeb8a1b77e50df27948cc6d8f5bc6470961))
+* replace some import paths after moving entity.ts ([f7116de](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f7116dea8e93b780a89a108734def5b4cc2fa960))
+* support different locale cases [#666](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/666) ([be5570b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/be5570b18cfecbe689172fdf69727b4a895d8c09))
+* update document title in align with page content [#590](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/590) ([0273036](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/027303631e7cc56cd7b6e46faeb0ddc8556e2b27))
+* upgrade graphql-tag from 2.11.0 to 2.12.5 ([98825a2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/98825a279d19f97583d2c3c97eca423e3c19ec1c))
+
+
+### chore
+
+* update mobx, @apollo/client, react-intl and typescript packages ([b61360c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b61360c8444e7d969be127bcebff00a3e49dafc0))
+
+
+### Code Refactoring
+
+* update yeoman-generator yeoman-environment inquirer-autocomplete-prompt packages ([2e726c9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/2e726c9ff8b7e16c7be5319b3ad13d1b02815f7f))
+
+
+### Features
+
+* ability to sort generators [#379](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/379) ([e43d0ac](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/e43d0ac0e3922be3ca0ad9b8b49d8d2c8900fcf1))
+* add ATTRIBUTE, ATTRIBUTES_ARRAY and FORM_WIZARD_STEPS param types for studio ([619b999](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/619b999e8969ab9fb0cbec9f082ea4f66e888c0e))
+* add idAttributeName field to entites metadata [#539](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/539) ([8dd2fbf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8dd2fbffd2498bee504c023904754e5b7db28622))
+* add info about step to questions ([8d25bd0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8d25bd07c9ae56027668146f01d6d0ecf421a3f9))
+* add table-with-selection-template ([33a7870](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/33a7870b15c1bc78b16dc5719f83082d7594ab9f))
+* add TextField form control [#701](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/701) ([7e5c5d6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/7e5c5d69c480af54e57397e1c3e87b384d9316a8))
+* antd themes implementation [#556](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/556) ([8f9a307](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8f9a3075f18e485edfb1291288f7d6b7f20eea5c))
+* entity calendar template ([4acf2bf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4acf2bf79c69039d3909b0a2287933b01e9f385a))
+* entity creation wizard ([1ba919a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1ba919a0844fe0eaa968b2408de671d56e6fbc5e))
+* entity-cards-with-details template ([f6459ff](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f6459ff7b7ed299b04aec3080fcad92bcf9ee9d3))
+* entity-table-with-filters template ([3c10f01](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3c10f0147fd8aea0f4066d28997b57c2437c522d))
+* error boundaries on app and tab level [#555](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/555) ([28bcdb5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/28bcdb5a952b15f86fa307f04ca87897f730e88c))
+* feat: add high contrast theme [#684](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/684) ([796c31e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/796c31e4d47e331cac7529c112a171a8c5a980c9))
+* highlight Fields template ([ab24893](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/ab24893297e1467fefa6c884475c04a4e6f31378))
+* implement addon generator [#513](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/513) ([4e1d969](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4e1d969bd6f77d13f6b48d70714410f883bcc7de))
+* implement graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/614) ([1360a1e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1360a1e602ffc5091bbc5931964207bdd7ed983d))
+* implement localesStore with support adding locales from external packages [#82](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/82) ([b18607f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b18607f7cab491005b24cf449c25a035ed9487e2))
+* implement RTL layout [#576](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/576) ([16a2b62](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/16a2b62b1244f20481a3d0f63f62e1db4c3bbd78))
+* inject css modules into react-ui package [#541](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/541) ([0876746](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/0876746318db5b03db73afd9ad46205bcf725717))
+* provide means of customizing templates/generators ([9c16910](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/9c16910cb094f478e976ae863751122dcd8c2ed6))
+* refactoring generator templates to support css modules [#541](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/541) ([b3eca63](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b3eca63f9588c3360f7c9a2cca46e813b57d06f4))
+* register screens in palette [#460](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/460) ([7e0d4c1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/7e0d4c19fef5d900d352a9f8c0c698fc3b14f87c))
+* remove react-ide-toolbox ([c2c74b5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/c2c74b5855e626ce7cea71d771fa213718dc3615))
+* split react-ui package to react-antd and -react-web [#528](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/528) ([246d919](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/246d919f65d7a0d350239d020d7a9a4d098636f4))
+* support config for generating app menu items [#578](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/578) ([1439044](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1439044db1de8081c2a22650308612e92c34e87e))
+* support react-ui spliting on generator templates [#528](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/528) ([78b451b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/78b451bd039e0378ecc96cdf476a42e78e54b38b))
+* use default path convention when collecting generators from project ([d2cf8c5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/d2cf8c55bbe9a7751f173ffdd73b310fafd186f6))
+
+
+### BREAKING CHANGES
+
+* update yeoman-generator and yeoman-environment
+* mobx, mobx-react, @apollo/client, react-intl and typescript packages were updated
+* removed react-ide-toolbox
+* @haulmont/jmix-react-ui package was removed. Added @haulmont/jmix-react-antd and
+@haulmont/jmix-react-web packages
+
+
+
+
+
 # [2.0.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.2...@haulmont/jmix-front-generator@2.0.0-next.3) (2021-11-10)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator
