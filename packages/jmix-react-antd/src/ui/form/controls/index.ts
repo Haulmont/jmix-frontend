@@ -7,3 +7,4 @@ export * from './ColorPickerField';
 export * from './TextField';
 export * from './DateField';
 export * from './TimeField';
+export * from './TextArea';
