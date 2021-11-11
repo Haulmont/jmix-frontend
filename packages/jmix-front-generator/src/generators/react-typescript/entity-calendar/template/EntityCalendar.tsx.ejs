@@ -1,25 +1,22 @@
-import React from "react";
 import { observer } from "mobx-react";
-import { Card, List, Tooltip, Badge } from "antd";
+import { Card } from "antd";
 import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
-import {EntityInstance, getDateProperty } from "@haulmont/jmix-react-core";
-import {registerScreen} from "@haulmont/jmix-react-web";
+import { registerScreen } from "@haulmont/jmix-react-web";
 import {
   Spinner,
   RetryDialog,
   Calendar,
-  CalendarHeader,
-  useCalendar,
+  useCalendar
 } from "@haulmont/jmix-react-antd";
 import { gql } from "@apollo/client";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
-const TITLE_PROPERTY_NAME = '<%= titleAttr %>';
-const DESCRIPTION_PROPERTY_NAME = '<%= descriptionAttrAnswer %>';
-const EVENT_START_PROPERTY_NAME = '<%= eventStartAttr %>';
-const EVENT_END_PROPERTY_NAME = '<%= eventEndAttr %>';
+const EVENT_TITLE_PROPERTY_NAME = '<%= titleAttr %>';
+const EVENT_DESCRIPTION_PROPERTY_NAME = '<%= descriptionAttrAnswer %>';
+const EVENT_START_DAY_PROPERTY_NAME = '<%= eventStartAttr %>';
+const EVENT_END_DAY_PROPERTY_NAME = '<%= eventEndAttr %>';
 
 const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   query <%= dollarsToUnderscores(entity.name) %>List($limit: Int, $offset: Int, $orderBy: inp_<%= dollarsToUnderscores(entity.name) %>OrderBy, $filter: [inp_<%= dollarsToUnderscores(entity.name) %>FilterCondition]) {
@@ -28,31 +25,21 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
   }
 `;
 
-interface CalendarItemProps {
-  item: EntityInstance<<%= entity.className %>>;
-}
-
-const CalendarItem = ({ item }: CalendarItemProps) => (
-  <div title="">
-    <Tooltip title={item[DESCRIPTION_PROPERTY_NAME]}>
-      <Badge status="default" text={item[TITLE_PROPERTY_NAME]} />
-    </Tooltip>
-  </div>
-);
-
 const <%= className %> = observer(() => {
   const {
-    items,
+    events,
     executeListQuery,
     listQueryResult: { loading, error },
     currentMonthDayjs,
     handleCalendarPaginationChange
   } = useCalendar<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
-    entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
-    eventStartPropertyName: EVENT_START_PROPERTY_NAME,
-    eventEndPropertyName: EVENT_END_PROPERTY_NAME,
+    entityName: ENTITY_NAME,
+    eventStartDayPropertyName: EVENT_START_DAY_PROPERTY_NAME,
+    eventEndDayPropertyName: EVENT_END_DAY_PROPERTY_NAME,
+    eventTitlePropertyName: EVENT_TITLE_PROPERTY_NAME,
+    eventDescriptionPropertyName: EVENT_DESCRIPTION_PROPERTY_NAME,
   });
 
   if (error != null) {
@@ -60,33 +47,15 @@ const <%= className %> = observer(() => {
     return <RetryDialog onRetry={executeListQuery} />;
   }
 
-  if (loading || items == null) {
+  if (loading || events == null) {
     return <Spinner />;
   }
 
   return (
     <Card>
       <Calendar
-        headerRender={props => <CalendarHeader {...props} />}
+        events={events}
         value={currentMonthDayjs}
-        dateCellRender={date => (
-          <List size="small">
-            {items
-              .filter(item => {
-                const eventStart = getDateProperty<<%= entity.className %>>(ENTITY_NAME, item, EVENT_START_PROPERTY_NAME);
-                const eventEnd = getDateProperty<<%= entity.className %>>(ENTITY_NAME, item, EVENT_END_PROPERTY_NAME);
-
-                return date.isAfter(eventStart?.startOf('day'))
-                  && date.isBefore(eventEnd?.endOf('day'));
-              })
-              .map(item => (
-                <List.Item key={item.id}>
-                  <CalendarItem item={item} />
-                </List.Item>
-              ))
-            }
-          </List>
-        )}
         onPanelChange={handleCalendarPaginationChange}
       />
     </Card>
