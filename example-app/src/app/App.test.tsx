@@ -3,6 +3,7 @@ import ReactDOM from "react-dom";
 import { IntlProvider } from "react-intl";
 import App from "./App";
 import { HashRouter } from "react-router-dom";
+import axios from "axios";
 import {
   ApolloClient,
   ApolloProvider,
@@ -17,7 +18,7 @@ import {
   Screens
 } from "@amplicode/react-core";
 import { defaultHotkeyConfigs } from "../hotkeyConfigs";
-import { GRAPHQL_URI } from "../config";
+import { GRAPHQL_URI, REQUEST_SAME_ORIGIN } from "../config";
 import { onError } from "@apollo/client/link/error";
 import { act } from "react-dom/test-utils";
 import { securityStore } from "../security-store";
@@ -27,9 +28,11 @@ it("renders without crashing", () => {
 
   const hotkeys = new HotkeyStore(defaultHotkeyConfigs);
 
+  axios.defaults.withCredentials = !REQUEST_SAME_ORIGIN;
+
   const httpLink = createHttpLink({
     uri: GRAPHQL_URI,
-    credentials: "same-origin"
+    credentials: REQUEST_SAME_ORIGIN ? "same-origin" : "include"
   });
 
   const logoutLink = onError(({ networkError }) => {

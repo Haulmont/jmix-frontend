@@ -15,7 +15,7 @@ import { HashRouter } from "react-router-dom";
 import { onError } from "@apollo/client/link/error";
 import { createIntl, IntlProvider } from "react-intl";
 import en from "./i18n/en.json";
-import { GRAPHQL_URI } from "./config";
+import { GRAPHQL_URI, REQUEST_SAME_ORIGIN } from "./config";
 import {
   HotkeyContext,
   HotkeyStore,
@@ -35,10 +35,11 @@ axios.interceptors.response.use(response => {
   }
   return response;
 });
+axios.defaults.withCredentials = !REQUEST_SAME_ORIGIN;
 
 const httpLink = createHttpLink({
   uri: GRAPHQL_URI,
-  credentials: "same-origin"
+  credentials: REQUEST_SAME_ORIGIN ? "same-origin" : "include",
 });
 
 const errorLink = onError(({ networkError, graphQLErrors }) => {
