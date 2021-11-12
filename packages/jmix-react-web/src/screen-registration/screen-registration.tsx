@@ -13,7 +13,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import React, { useEffect } from 'react';
 import {observer} from "mobx-react";
-import {MultiScreen} from "../ui/MultiScreen";
+import {MultiScreen} from "../ui/MultiScreen/MultiScreen";
 import {entityEditorRegistry, entityListRegistry, screenRegistry } from './registry';
 import {singleContentArea} from "../ui/single-content-area/SingleContentAreaState";
 

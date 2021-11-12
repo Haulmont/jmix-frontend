@@ -68,3 +68,6 @@ export * from './ui/menu'
 
 export * from './ui/notifications';
 export * from './ui/modals';
+
+export * from './ui/hotkeys/HotkeyInfo';
+export * from './ui/hotkeys/HotkeyInfoModalButton';

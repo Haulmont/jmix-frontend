@@ -27,7 +27,8 @@ import metadata from "./jmix/metadata.json";
 import "./index.css";
 import { ApolloProvider } from "@apollo/client";
 import "./i18n/i18nInit";
-import { IntlDocumentTitle } from "@haulmont/jmix-react-web";
+import { IntlDocumentTitle, HotkeyProvider } from "@haulmont/jmix-react-web";
+import { defaultHotkeyConfigs } from "./hotkeyConfigs";
 import "./addons";
 
 // Declare plugin types for dayjs
@@ -87,18 +88,20 @@ ReactDOM.render(
     <ApolloProvider client={client}>
       <I18nProvider>
         <IntlDocumentTitle>
-          <DevSupport
-            ComponentPreviews={
-              <ScreensContext.Provider value={devScreens}>
-                <ComponentPreviews />
-              </ScreensContext.Provider>
-            }
-            useInitialHook={useDevLogin}
-          >
-            <AppErrorBoundary>
-              <App />
-            </AppErrorBoundary>
-          </DevSupport>
+          <HotkeyProvider defaultHotkeyConfigs={defaultHotkeyConfigs}>
+            <DevSupport
+              ComponentPreviews={
+                <ScreensContext.Provider value={devScreens}>
+                  <ComponentPreviews />
+                </ScreensContext.Provider>
+              }
+              useInitialHook={useDevLogin}
+            >
+              <AppErrorBoundary>
+                <App />
+              </AppErrorBoundary>
+            </DevSupport>
+          </HotkeyProvider>
         </IntlDocumentTitle>
       </I18nProvider>
     </ApolloProvider>

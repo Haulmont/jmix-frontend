@@ -2,19 +2,36 @@ import { LogoutOutlined, SettingOutlined } from "@ant-design/icons";
 import { Button, Space } from "antd";
 import React, { useCallback, useState } from "react";
 import { observer } from "mobx-react";
-import styles from "./AppHeader.module.css";
+import { HotkeyConfig, useHotkey } from "@haulmont/jmix-react-web";
 import { useMainStore } from "@haulmont/jmix-react-core";
 import { LanguageSwitcher } from "../../i18n/LanguageSwitcher";
 import { ThemeSwitcher } from "../../themes/ThemeSwitcher";
 import { useIntl } from "react-intl";
 import JmixLightIcon from "../icons/JmixLightIcon";
-import {modals} from "@haulmont/jmix-react-antd";
+import styles from "./AppHeader.module.css";
+import { modals, HotkeyInfoModalButton } from "@haulmont/jmix-react-antd";
+import {KeyHandler} from 'hotkeys-js';
+
+const toggleHotkeyInfoHotkeyConfig: HotkeyConfig = {
+  description: 'hotkeys.hotkeyInfo.toggleHotkeyInfo',
+  categoryName: 'hotkeys.hotkeyInfo.categoryName',
+  hotkey: '/',
+}
+
+export const hotkeyInfoHotkeyConfigs: HotkeyConfig[] = [
+  toggleHotkeyInfoHotkeyConfig,
+];
 
 const AppHeader = observer(({children}: {children?: React.ReactNode}) => {
   const intl = useIntl();
   const mainStore = useMainStore();
 
-  const [settingsEnabled, setSettingsEnabled] = useState<boolean>(false);
+  const [settingsEnabled, setSettingsEnabled] = useState(false);
+
+  const [visibleHotkeyInfo, setVisibleHotkeyInfo] = useState(false);
+
+  const toggleHotkeyInfo = useCallback<KeyHandler>(() => setVisibleHotkeyInfo(!visibleHotkeyInfo), [visibleHotkeyInfo]);
+  useHotkey(toggleHotkeyInfoHotkeyConfig, toggleHotkeyInfo);
 
   const toggleSettings = useCallback(() => {
     setSettingsEnabled((isEnabled) => {
@@ -51,6 +68,10 @@ const AppHeader = observer(({children}: {children?: React.ReactNode}) => {
           type={"text"}
           icon={<SettingOutlined />}
           onClick={toggleSettings}
+        />
+        <HotkeyInfoModalButton
+          visible={visibleHotkeyInfo}
+          setVisible={setVisibleHotkeyInfo}
         />
         <Button
           id="button_logout"

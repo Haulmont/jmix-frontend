@@ -55,6 +55,19 @@
 
   "editor.doesNotExist": "Отсутствует экран редактирования для сущности {entityName}",
 
+  "hotkeys.hotkeyInfo.title": "Горячие клавиши",
+  "hotkeys.hotkeyInfo.categoryName": "Помощь по горячим клавишам",
+  "hotkeys.hotkeyInfo.toggleHotkeyInfo": "Открыть / закрыть окно горячих клавиш",
+  "hotkeys.browserTable.categoryName": "Таблица сущностей",
+  "hotkeys.browserTable.editEntity": "Редактировать сущность",
+  "hotkeys.browserTable.createEntity": "Создать сущность",
+  "hotkeys.browserTable.deleteEntity": "Удалить сущность",
+  "hotkeys.editor.categoryName": "Редактор cущностей",
+  "hotkeys.editor.saveEntity": "Сохранить сущность",
+  "hotkeys.tabs.categoryName": "Управление вкладками",
+  "hotkeys.tabs.nextTab": "Переключиться на следующий вкладку",
+  "hotkeys.tabs.previousTab": "Переключиться на предыдущий вкладку",
+
   "jmix.dataTable.clearAllFilters": "Очистить фильтры",
   "jmix.dataTable.validation.requiredField": "Обязательное поле",
   "jmix.dataTable.validation.uuid": "Не является валидным UUID",

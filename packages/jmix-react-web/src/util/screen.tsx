@@ -1,6 +1,6 @@
 import {EntityInstance, MayHaveId, /* redirect, */ Screens, ScreensContext, tabs, useCurrentTab} from "@haulmont/jmix-react-core";
 import {useCallback, useContext} from "react";
-import {MultiScreenContext} from "../ui/MultiScreen";
+import {MultiScreenContext} from "../ui/MultiScreen/MultiScreen";
 import {openCrudScreen, ScreenNotFoundError} from "../screen-registration/screen-registration";
 
 export interface EntityEditorScreenOptions<TEntity> {

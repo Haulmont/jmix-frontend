@@ -18,7 +18,8 @@ import {
   createAntdFormValidationMessages,
   useEntityEditor,
   EntityEditorProps,
-  registerEntityEditor
+  registerEntityEditor,
+  useDefaultEditorHotkeys
 } from "@haulmont/jmix-react-web";
 import { gql } from "@apollo/client";
 import styles from "../../app/App.module.css";
@@ -76,6 +77,8 @@ const IntIdEditor = observer(
       useEntityEditorForm: createUseAntdForm(form),
       useEntityEditorFormValidation: createUseAntdFormValidation(form)
     });
+
+    useDefaultEditorHotkeys({ saveEntity: form.submit });
 
     if (queryLoading) {
       return <Spinner />;
