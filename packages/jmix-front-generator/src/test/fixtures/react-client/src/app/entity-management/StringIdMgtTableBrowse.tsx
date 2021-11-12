@@ -6,7 +6,8 @@ import { EntityPermAccessControl } from "@haulmont/jmix-react-core";
 import {
   useEntityList,
   EntityListProps,
-  registerEntityList
+  registerEntityList,
+  useDefaultBrowserTableHotkeys
 } from "@haulmont/jmix-react-web";
 import {
   DataTable,
@@ -100,6 +101,13 @@ const StringIdMgtTableBrowse = observer(
       onPagination: saveHistory,
       onEntityDelete,
       onOpenScreenError
+    });
+
+    useDefaultBrowserTableHotkeys({
+      selectedEntityId: entityListState.selectedEntityId,
+      handleCreateBtnClick,
+      handleEditBtnClick,
+      handleDeleteBtnClick
     });
 
     if (error != null) {

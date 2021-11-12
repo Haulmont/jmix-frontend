@@ -27,7 +27,7 @@ export * from "./util/mapJmixRestErrorToIntlId"
 export * from "./ui/single-content-area/SingleContentArea";
 export * from "./ui/Menu/useMenuItem";
 export * from "./ui/Menu/MenuStore";
-export * from "./ui/MultiScreen";
+export * from "./ui/MultiScreen/MultiScreen";
 export * from "./ui/MultilineText";
 export * from "./ui/Msg";
 export * from "./ui/Tabs/Content";
@@ -41,3 +41,11 @@ export * from './screen-registration/screen-registration';
 
 export * from "./i18n/validation";
 export * from "./i18n/LocalesStore";
+
+export * from './hotkeys/defaultHotkeys/browserTable';
+export * from './hotkeys/defaultHotkeys/editor';
+export * from './hotkeys/defaultHotkeys/tabs';
+export * from './hotkeys/hotkeyConfig';
+export * from './hotkeys/hotkeyContext';
+export * from './hotkeys/hotkeyStore';
+export * from './hotkeys/useHotkey';

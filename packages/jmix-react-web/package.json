@@ -9,7 +9,8 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^2.0.0-next.2"
+    "@haulmont/jmix-react-core": "^2.0.0-next.2",
+    "hotkeys-js": "^3.8.7"
   },
   "peerDependencies": {
     "@apollo/client": "^3.4.0",

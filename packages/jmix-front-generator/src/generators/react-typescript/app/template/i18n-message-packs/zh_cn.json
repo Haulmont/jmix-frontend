@@ -55,6 +55,19 @@
 
   "editor.doesNotExist": "editor.doesNotExist [TRANSLATION NOT AVAILABLE]",
 
+  "hotkeys.hotkeyInfo.title": "hotkeys.hotkeyInfo.title [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.hotkeyInfo.categoryName": "hotkeys.hotkeyInfo.categoryName [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.hotkeyInfo.toggleHotkeyInfo": "hotkeys.hotkeyInfo.toggleHotkeyInfo [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.browserTable.categoryName": "hotkeys.browserTable.categoryName [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.browserTable.editEntity": "hotkeys.browserTable.editEntity [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.browserTable.createEntity": "hotkeys.browserTable.createEntity [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.browserTable.deleteEntity": "hotkeys.browserTable.deleteEntity [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.editor.categoryName": "hotkeys.editor.categoryName [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.editor.saveEntity": "hotkeys.editor.saveEntity [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.tabs.categoryName": "hotkeys.tabs.categoryName [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.tabs.nextTab": "hotkeys.tabs.nextTab [TRANSLATION NOT AVAILABLE]",
+  "hotkeys.tabs.previousTab": "hotkeys.tabs.previousTab [TRANSLATION NOT AVAILABLE]",
+
   "jmix.dataTable.clearAllFilters": "清空过滤器",
   "jmix.dataTable.validation.requiredField": "必填字段",
   "jmix.dataTable.validation.uuid": "无效 UUID",
