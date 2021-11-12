@@ -1,11 +1,11 @@
 import * as React from "react";
 import {JmixFormFieldProps} from "./base/JmixFormFieldProps";
 import {JmixFormFieldWrapper} from "./base/JmixFormFieldWrapper";
-import {ColorPicker} from './ColorPicker';
+import {ColorPicker, ColorPickerProps} from './ColorPicker';
 
 export const ColorPickerField = ({
-  entityName, propertyName, formItemProps, value, onChange
-}: JmixFormFieldProps) => {
+  entityName, propertyName, formItemProps, value, onChange, ...rest
+}: JmixFormFieldProps & ColorPickerProps) => {
   return (
     <JmixFormFieldWrapper entityName={entityName}
                           propertyName={propertyName}
@@ -15,6 +15,7 @@ export const ColorPickerField = ({
                                          onChange={onChange}
                                          disabled={isReadOnly}
                                          id={propertyName}
+                                         {...rest}
                             />
                           ))}
     />

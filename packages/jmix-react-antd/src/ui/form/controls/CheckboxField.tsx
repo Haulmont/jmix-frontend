@@ -1,20 +1,20 @@
-import {DatePicker, DatePickerProps} from "antd";
+import {Checkbox, CheckboxProps} from "antd";
 import * as React from "react";
 import {JmixFormFieldWrapper} from "./base/JmixFormFieldWrapper";
 import {JmixFormFieldProps} from "./base/JmixFormFieldProps";
 
-export function DateField({
+export function CheckboxField({
   entityName, propertyName, formItemProps, value, onChange, ...rest
-}: JmixFormFieldProps & DatePickerProps) {
+}: JmixFormFieldProps & CheckboxProps) {
   return (
     <JmixFormFieldWrapper entityName={entityName}
                           propertyName={propertyName}
-                          formItemProps={formItemProps}
+                          formItemProps={{valuePropName: "checked", ...formItemProps}}
                           renderField={(isReadOnly) => (
-                            <DatePicker value={value}
-                                        onChange={onChange}
-                                        disabled={isReadOnly}
-                                        {...rest}
+                            <Checkbox value={value}
+                                      onChange={onChange}
+                                      disabled={isReadOnly}
+                                      {...rest}
                             />
                           )}
     />

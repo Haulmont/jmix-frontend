@@ -4,6 +4,7 @@ import {Button, Card, Form, Space} from "antd";
 import styles from "../App.module.css";
 import {
   ColorPickerField,
+  CheckboxField,
   TextField,
   DateField,
   TimeField
@@ -29,68 +30,76 @@ const CustomFormControls = () => {
   const intl = useIntl();
 
   return (
-    <Card className={styles.narrowLayout}>
-      <Form
-        onFinish={handleSubmit}
-        onFinishFailed={() => {}}
-        layout="vertical"
-        form={form}
-        initialValues={{
-          fromDate: dayjs("2020-01-01"),
-          fromTime: dayjs("2020-01-01T23:05:13")
-        }}
-        validateMessages={createAntdFormValidationMessages(intl)}
-      >
+      <Card className={styles.narrowLayout}>
+        <Form
+            onFinish={handleSubmit}
+            onFinishFailed={() => {}}
+            layout="vertical"
+            form={form}
+            initialValues={{
+              manufacturer: "Initial Manufacturer",
+              wheelOnRight: true,
+              fromDate: dayjs("2020-01-01"),
+              fromTime: dayjs("2020-01-01T23:05:13")
+            }}
+            validateMessages={createAntdFormValidationMessages(intl)}
+        >
 
-        <TextField
-          entityName="scr_Car"
-          propertyName="manufacturer"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-        <DateField
-          entityName="scr_CarRent"
-          propertyName="fromDate"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
-        <TimeField
-          entityName="scr_CarRent"
-          propertyName="fromTime"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
+          <TextField
+              entityName="scr_Car"
+              propertyName="manufacturer"
+              formItemProps={{
+                style: { marginBottom: "12px" }
+              }}
+          />
+          <DateField
+              entityName="scr_CarRent"
+              propertyName="fromDate"
+              formItemProps={{
+                style: { marginBottom: "12px" }
+              }}
+          />
+          <TimeField
+              entityName="scr_CarRent"
+              propertyName="fromTime"
+              formItemProps={{
+                style: { marginBottom: "12px" }
+              }}
+          />
+          <CheckboxField
+              entityName="scr_Car"
+              propertyName="wheelOnRight"
+              formItemProps={{
+                style: { marginBottom: "12px" }
+              }}
+          />
+          <ColorPickerField
+              entityName="scr_Car"
+              propertyName="color"
+              formItemProps={{
+                style: { marginBottom: "12px" }
+              }}
+          />
 
-        <ColorPickerField
-          entityName={'scr_Car'}
-          propertyName="color"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
-        />
+          <Form.Item style={{ textAlign: "center" }}>
+            <Space size={8}>
+              <Button htmlType="button" onClick={handleClearForm}>
+                Clear form
+              </Button>
+              <Button type="primary" htmlType="submit">
+                <FormattedMessage id='common.submit' />
+              </Button>
+            </Space>
+          </Form.Item>
+        </Form>
 
-        <Form.Item style={{ textAlign: "center" }}>
-          <Space size={8}>
-            <Button htmlType="button" onClick={handleClearForm}>
-              Clear form
-            </Button>
-            <Button type="primary" htmlType="submit">
-              <FormattedMessage id='common.submit' />
-            </Button>
-          </Space>
-        </Form.Item>
-      </Form>
-
-      {result && (
-        <>
-          <div>Result:</div>
-          <pre role='log'>{JSON.stringify(result, null, 2)}</pre>
-        </>
-      )}
-    </Card>
+        {result && (
+            <>
+              <div>Result:</div>
+              <pre role='log'>{JSON.stringify(result, null, 2)}</pre>
+            </>
+        )}
+      </Card>
   );
 };
 

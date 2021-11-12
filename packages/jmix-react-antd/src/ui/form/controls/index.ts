@@ -5,5 +5,6 @@ export * from './base/JmixFormFieldProps';
 export * from './ColorPicker';
 export * from './ColorPickerField';
 export * from './TextField';
+export * from './CheckboxField';
 export * from './DateField';
 export * from './TimeField';

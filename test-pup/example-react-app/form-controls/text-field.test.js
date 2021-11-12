@@ -24,6 +24,8 @@ describe('TextField form control', () => {
     const $document = await getDocument(page);
 
     const $field = await findByLabelText($document, 'Manufacturer');
+    // Select whole line of text
+    await $field.click({clickCount: 3});
     await $field.type('Test Manufacturer');
 
     const result = await getSubmitResult(page);

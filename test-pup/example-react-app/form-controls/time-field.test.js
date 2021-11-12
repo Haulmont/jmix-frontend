@@ -25,15 +25,15 @@ describe('TimeField form control', () => {
         const $document = await getDocument(page);
 
         const $field = await findByLabelText($document, 'From Time');
-        $field.click()
-        await page.waitForSelector(".ant-picker-dropdown:not(.ant-slide-up)")
-        const $now = await findByText($document, "Now")
-        $now.click()
-        const currentTime = dayjs()
-        await page.waitForSelector(".ant-picker-dropdown:not(.ant-slide-up)")
+        $field.click();
+        await page.waitForSelector(".ant-picker-dropdown:not(.ant-slide-up)");
+        const $now = await findByText($document, "Now");
+        $now.click();
+        const currentTime = dayjs();
+        await page.waitForSelector(".ant-picker-dropdown:not(.ant-slide-up)");
 
-        const result = await getSubmitResult(page)
-        expect(result.fromTime).toBeDefined()
+        const result = await getSubmitResult(page);
+        expect(result.fromTime).toBeDefined();
         const selectedTime = dayjs(result.fromTime);
         expect(selectedTime.isSame(currentTime, "seconds")).toBeTruthy();
     });
