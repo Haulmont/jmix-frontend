@@ -3,7 +3,6 @@ import {AmplicodeTemplateModelStage} from "../../../building-blocks/pipelines/am
 import {AmplicodeComponentOptions} from "../../../building-blocks/stages/options/pieces/amplicode";
 import {EntityListMode, EntityListAnswers} from "./answers";
 import {GraphQLSchema} from "graphql";
-import {StudioTemplateProperty} from "../../../common/studio/studio-model";
 import gql from "graphql-tag";
 import {getOperationName} from "../../../building-blocks/stages/template-model/pieces/amplicode/amplicode";
 import {
@@ -26,7 +25,7 @@ export interface EntityListTemplateModel extends
 }
 
 export const deriveEntityListTemplateModel: AmplicodeTemplateModelStage<AmplicodeComponentOptions, EntityListAnswers, EntityListTemplateModel> = async (
-  options: AmplicodeComponentOptions, answers: EntityListAnswers, _schema?: GraphQLSchema, _questions?: StudioTemplateProperty[]
+  options: AmplicodeComponentOptions, answers: EntityListAnswers, _schema?: GraphQLSchema, _schemaPath?: string
 ): Promise<EntityListTemplateModel> => {
   const {
     componentName,

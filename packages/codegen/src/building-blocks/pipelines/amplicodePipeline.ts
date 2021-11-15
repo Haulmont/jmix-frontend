@@ -36,9 +36,9 @@ export interface MvpPipelineInput<O extends AmplicodeCommonOptions, A, T> {
 
 export type OptionsStage<O extends AmplicodeCommonOptions> = (optionsConfig: OptionsConfig, gen: YeomanGenerator) => Promise<O>;
 export type ConfigStage<O extends AmplicodeCommonOptions> = (dirname: string, gen: YeomanGenerator, options: O) => Promise<void>;
-export type MvpSchemaStage<O extends AmplicodeCommonOptions> = (options: O, invocationDir: string) => Promise<GraphQLSchema | undefined>;
+export type MvpSchemaStage<O extends AmplicodeCommonOptions> = (options: O, invocationDir: string) => Promise<{schema: GraphQLSchema | undefined, schemaPath: string | undefined}>;
 export type MvpAnswersStage<O extends AmplicodeCommonOptions, A> = (options: O, gen: YeomanGenerator, questions?: StudioTemplateProperty[]) => Promise<A>;
-export type AmplicodeTemplateModelStage<O extends AmplicodeCommonOptions,  A, T> = (options: O, answers: A, schema?: GraphQLSchema, questions?: StudioTemplateProperty[]) => Promise<T>;
+export type AmplicodeTemplateModelStage<O extends AmplicodeCommonOptions,  A, T> = (options: O, answers: A, schema?: GraphQLSchema, schemaPath?: string) => Promise<T>;
 export type MvpWriteStage<T> = (templateModel: T, gen: YeomanGenerator) => Promise<void>;
 
 export interface MvpPipelineStages<O extends AmplicodeCommonOptions, A, T> {
@@ -78,11 +78,11 @@ export async function amplicodePipeline<O extends AmplicodeCommonOptions, A, M>(
   // Apply default configuration to the Yeoman generator
   await configureGenerator(templateDir, gen, options);
   // Obtain GraphQL schema
-  const schema = await getGraphQLSchema(options, invocationDir);
+  const {schema, schemaPath} = await getGraphQLSchema(options, invocationDir);
   // Obtain answers
   const answers = await getAnswers(options, gen, questions);
   // // Derive template model from options, answers and GraphQL schema
-  const templateModel = await deriveTemplateModel(options, answers, schema);
+  const templateModel = await deriveTemplateModel(options, answers, schema, schemaPath);
   // Write files to disk, performing interpolations using the template model
   await write(templateModel, gen);
 }

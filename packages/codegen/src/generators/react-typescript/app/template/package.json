@@ -63,7 +63,8 @@
     "@graphql-codegen/cli": "^2.2.0",
     "@graphql-codegen/gql-tag-operations-preset": "^1.1.7",
     "@graphql-codegen/typescript": "^2.2.2",
-    "@types/qs": "^6.9.7"
+    "@types/qs": "^6.9.7",
+    "prettier": "^2.4.1"
   },
   "jest": {
     "transformIgnorePatterns": [

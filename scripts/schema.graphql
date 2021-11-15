@@ -1,277 +1,278 @@
-"""Exposes a URL that specifies the behaviour of this scalar."""
-directive @specifiedBy(
-  """The URL that specifies the behaviour of this scalar."""
-  url: String!
-) on SCALAR
+# This file was generated based on ".graphqlconfig". Do not edit manually.
 
-"""Base64-encoded binary"""
-scalar Base64String
-
-"""Base64-encoded binary"""
-scalar Base64String_Byte
-
-"""Built-in java.math.BigDecimal"""
-scalar BigDecimal
-
-"""Built-in java.math.BigInteger"""
-scalar BigInteger
-
-"""Built-in Byte as Int"""
-scalar Byte
-
-"""Built-in scalar representing a date-time with a time-zone"""
-scalar Calendar
-
-"""Built-in Char as Character"""
-scalar Char
-
-"""Currency Type"""
-scalar currency
-
-"""Built-in scalar representing an instant in time"""
-scalar Date
-
-"""Built-in scalar representing an amount of time"""
-scalar Duration
-
-"""Built-in scalar representing an instant in time"""
-scalar Instant
-
-"""Built-in scalar representing a local date"""
-scalar LocalDate
-
-"""Built-in scalar representing a local date-time"""
-scalar LocalDateTime
-
-"""Built-in Locale"""
-scalar Locale
-
-"""Built-in scalar representing a local time"""
-scalar LocalTime
-
-"""Long type"""
-scalar Long
-
-"""Mutation root"""
-type Mutation {
-  update_Visit(input: VisitInputDTOInput): VisitDTO
-  delete_Visit(id: Long!): Boolean!
-  delete_Test(id: Long!): Boolean!
-  update_Owner(input: OwnerInputDTOInput): OwnerDTO
-  delete_PetType(id: Long!): Boolean!
-  update_Pet(input: PetInputDTOInput): PetDTO
-  delete_Pet(id: Long!): Boolean!
-  update_PetType(input: PetTypeInputDTOInput): PetTypeDTO
-  delete_Owner(id: Long!): Boolean!
-  update_Test(input: TestInputDTOInput): TestDTO
+schema {
+    query: Query
+    mutation: Mutation
 }
 
-"""Built-in scalar representing a date-time with a UTC offset"""
-scalar OffsetDateTime
-
-"""Built-in scalar representing a time with a UTC offset"""
-scalar OffsetTime
+"Mutation root"
+type Mutation {
+    delete_Owner(id: Long!): Boolean!
+    delete_Pet(id: Long!): Boolean!
+    delete_PetType(id: Long!): Boolean!
+    delete_Test(id: Long!): Boolean!
+    delete_Visit(id: Long!): Boolean!
+    update_Owner(input: OwnerInputDTOInput): OwnerDTO
+    update_Pet(input: PetInputDTOInput): PetDTO
+    update_PetType(input: PetTypeInputDTOInput): PetTypeDTO
+    update_Test(input: TestInputDTOInput): TestDTO
+    update_Visit(input: VisitInputDTOInput): VisitDTO
+}
 
 type OwnerDTO {
-  address: String
-  city: String
-  email: String
-  firstName: String
-  id: Long
-  lastName: String
-  telephone: String
-}
-
-input OwnerDTOInput {
-  address: String
-  city: String
-  email: String
-  firstName: String
-  id: Long
-  lastName: String
-  telephone: String
-}
-
-input OwnerInputDTOInput {
-  address: String
-  city: String
-  email: String
-  firstName: String
-  id: Long
-  lastName: String
-  telephone: String
+    address: String
+    city: String
+    email: String
+    firstName: String
+    id: Long
+    lastName: String
+    telephone: String
 }
 
 type PetDTO {
-  birthDate: LocalDate
-  id: Long
-  identificationNumber: String
-  owner: OwnerDTO
-  type: PetTypeDTO
-}
-
-input PetDTOInput {
-  birthDate: LocalDate
-  id: Long
-  identificationNumber: String
-  owner: OwnerDTOInput
-  type: PetTypeDTOInput
-}
-
-input PetInputDTOInput {
-  birthDate: LocalDate
-  id: Long
-  identificationNumber: String
-  owner: OwnerDTOInput
-  type: PetTypeDTOInput
+    birthDate: LocalDate
+    id: Long
+    identificationNumber: String
+    owner: OwnerDTO
+    type: PetTypeDTO
 }
 
 type PetTypeDTO {
-  id: Long
-  name: String
+    id: Long
+    name: String
+}
+
+"Query root"
+type Query {
+    owner(id: Long): OwnerDTO
+    ownerList: [OwnerDTO]
+    pet(id: Long): PetDTO
+    petList: [PetDTO]
+    petType(id: Long): PetTypeDTO
+    petTypeList: [PetTypeDTO]
+    test(id: Long): TestDTO
+    testList: [TestDTO]
+    visit(id: Long): VisitDTO
+    visitList: [VisitDTO]
+}
+
+type TestDTO {
+    bigDecimal: BigDecimal
+    bigInt: BigInteger
+    bool: Boolean
+    boolPrimitive: Boolean!
+    byteArray: Base64String_Byte
+    bytePrimitive: Byte!
+    bytePrimitiveArray: Base64String
+    byteTest: Byte
+    calendar: Calendar
+    charArray: [Char]
+    charPrimitive: Char!
+    charPrimitiveArray: [Char]
+    character: Char
+    currency: currency
+    date: SqlDate
+    dateUtil: Date
+    doubleTest: Float
+    duration: Duration
+    floatTest: Float
+    id: Long
+    instant: Instant
+    intTest: Int
+    localDate: LocalDate
+    localDateTime: LocalDateTime
+    localTime: LocalTime
+    locale: Locale
+    longTest: Long
+    offsetDateTime: OffsetDateTime
+    offsetTime: OffsetTime
+    shortPrimitive: Short!
+    shortTest: Short
+    string: String
+    time: SqlTime
+    timeStamp: SqlTimestamp
+    url: URL
+    uuidTest: UUID
+    zonedDateTime: ZonedDateTime
+}
+
+type VisitDTO {
+    description: String
+    id: Long
+    pet: PetDTO
+    visitEnd: LocalDateTime
+    visitStart: LocalDateTime
+}
+
+input OwnerDTOInput {
+    address: String
+    city: String
+    email: String
+    firstName: String
+    id: Long
+    lastName: String
+    telephone: String
+}
+
+input OwnerInputDTOInput {
+    address: String
+    city: String
+    email: String
+    firstName: String
+    id: Long
+    lastName: String
+    telephone: String
+}
+
+input PetDTOInput {
+    birthDate: LocalDate
+    id: Long
+    identificationNumber: String
+    owner: OwnerDTOInput
+    type: PetTypeDTOInput
+}
+
+input PetInputDTOInput {
+    birthDate: LocalDate
+    id: Long
+    identificationNumber: String
+    owner: OwnerDTOInput
+    type: PetTypeDTOInput
 }
 
 input PetTypeDTOInput {
-  id: Long
-  name: String
+    id: Long
+    name: String
 }
 
 input PetTypeInputDTOInput {
-  id: Long
-  name: String
-}
-
-"""Query root"""
-type Query {
-  owner(id: Long): OwnerDTO
-  testList: [TestDTO]
-  test(id: Long): TestDTO
-  petTypeList: [PetTypeDTO]
-  petType(id: Long): PetTypeDTO
-  petList: [PetDTO]
-  ownerList: [OwnerDTO]
-  visit(id: Long): VisitDTO
-  pet(id: Long): PetDTO
-  visitList: [VisitDTO]
-}
-
-"""Built-in Short as Int"""
-scalar Short
-
-"""Built-in scalar representing a SQL compliant local date"""
-scalar SqlDate
-
-"""Built-in scalar representing a SQL compliant local time"""
-scalar SqlTime
-
-"""Built-in scalar representing a SQL compliant local date-time"""
-scalar SqlTimestamp
-
-type TestDTO {
-  bigDecimal: BigDecimal
-  bigInt: BigInteger
-  bool: Boolean
-  boolPrimitive: Boolean!
-  byteArray: Base64String_Byte
-  bytePrimitive: Byte!
-  bytePrimitiveArray: Base64String
-  byteTest: Byte
-  calendar: Calendar
-  charArray: [Char]
-  charPrimitive: Char!
-  charPrimitiveArray: [Char]
-  character: Char
-  currency: currency
-  date: SqlDate
-  dateUtil: Date
-  doubleTest: Float
-  duration: Duration
-  floatTest: Float
-  id: Long
-  instant: Instant
-  intTest: Int
-  localDate: LocalDate
-  localDateTime: LocalDateTime
-  localTime: LocalTime
-  locale: Locale
-  longTest: Long
-  offsetDateTime: OffsetDateTime
-  offsetTime: OffsetTime
-  shortPrimitive: Short!
-  shortTest: Short
-  string: String
-  time: SqlTime
-  timeStamp: SqlTimestamp
-  url: URL
-  uuidTest: UUID
-  zonedDateTime: ZonedDateTime
+    id: Long
+    name: String
 }
 
 input TestInputDTOInput {
-  bigDecimal: BigDecimal
-  bigInt: BigInteger
-  bool: Boolean
-  boolPrimitive: Boolean!
-  byteArray: Base64String_Byte
-  bytePrimitive: Byte!
-  bytePrimitiveArray: Base64String
-  byteTest: Byte
-  calendar: Calendar
-  charArray: [Char]
-  charPrimitive: Char!
-  charPrimitiveArray: [Char]
-  character: Char
-  currency: currency
-  date: SqlDate
-  dateUtil: Date
-  doubleTest: Float
-  duration: Duration
-  floatTest: Float
-  id: Long
-  instant: Instant
-  intTest: Int
-  localDate: LocalDate
-  localDateTime: LocalDateTime
-  localTime: LocalTime
-  locale: Locale
-  longTest: Long
-  offsetDateTime: OffsetDateTime
-  offsetTime: OffsetTime
-  shortPrimitive: Short!
-  shortTest: Short
-  string: String
-  time: SqlTime
-  timeStamp: SqlTimestamp
-  url: URL
-  uuidTest: UUID
-  zonedDateTime: ZonedDateTime
-}
-
-"""Use SPQR's SchemaPrinter to remove this from SDL"""
-scalar UNREPRESENTABLE
-
-"""URL String"""
-scalar URL
-
-"""UUID String"""
-scalar UUID
-
-type VisitDTO {
-  description: String
-  id: Long
-  pet: PetDTO
-  visitEnd: LocalDateTime
-  visitStart: LocalDateTime
+    bigDecimal: BigDecimal
+    bigInt: BigInteger
+    bool: Boolean
+    boolPrimitive: Boolean!
+    byteArray: Base64String_Byte
+    bytePrimitive: Byte!
+    bytePrimitiveArray: Base64String
+    byteTest: Byte
+    calendar: Calendar
+    charArray: [Char]
+    charPrimitive: Char!
+    charPrimitiveArray: [Char]
+    character: Char
+    currency: currency
+    date: SqlDate
+    dateUtil: Date
+    doubleTest: Float
+    duration: Duration
+    floatTest: Float
+    id: Long
+    instant: Instant
+    intTest: Int
+    localDate: LocalDate
+    localDateTime: LocalDateTime
+    localTime: LocalTime
+    locale: Locale
+    longTest: Long
+    offsetDateTime: OffsetDateTime
+    offsetTime: OffsetTime
+    shortPrimitive: Short!
+    shortTest: Short
+    string: String
+    time: SqlTime
+    timeStamp: SqlTimestamp
+    url: URL
+    uuidTest: UUID
+    zonedDateTime: ZonedDateTime
 }
 
 input VisitInputDTOInput {
-  description: String
-  id: Long
-  pet: PetDTOInput
-  visitEnd: LocalDateTime
-  visitStart: LocalDateTime
+    description: String
+    id: Long
+    pet: PetDTOInput
+    visitEnd: LocalDateTime
+    visitStart: LocalDateTime
 }
 
-"""Built-in scalar representing a date-time with a time-zone"""
+
+"Base64-encoded binary"
+scalar Base64String
+
+"Base64-encoded binary"
+scalar Base64String_Byte
+
+"Built-in java.math.BigDecimal"
+scalar BigDecimal
+
+"Built-in java.math.BigInteger"
+scalar BigInteger
+
+"Built-in Byte as Int"
+scalar Byte
+
+"Built-in scalar representing a date-time with a time-zone"
+scalar Calendar
+
+"Built-in Char as Character"
+scalar Char
+
+"Built-in scalar representing an instant in time"
+scalar Date
+
+"Built-in scalar representing an amount of time"
+scalar Duration
+
+"Built-in scalar representing an instant in time"
+scalar Instant
+
+"Built-in scalar representing a local date"
+scalar LocalDate
+
+"Built-in scalar representing a local date-time"
+scalar LocalDateTime
+
+"Built-in scalar representing a local time"
+scalar LocalTime
+
+"Built-in Locale"
+scalar Locale
+
+"Long type"
+scalar Long
+
+"Built-in scalar representing a date-time with a UTC offset"
+scalar OffsetDateTime
+
+"Built-in scalar representing a time with a UTC offset"
+scalar OffsetTime
+
+"Built-in Short as Int"
+scalar Short
+
+"Built-in scalar representing a SQL compliant local date"
+scalar SqlDate
+
+"Built-in scalar representing a SQL compliant local time"
+scalar SqlTime
+
+"Built-in scalar representing a SQL compliant local date-time"
+scalar SqlTimestamp
+
+"Use SPQR's SchemaPrinter to remove this from SDL"
+scalar UNREPRESENTABLE
+
+"URL String"
+scalar URL
+
+"UUID String"
+scalar UUID
+
+"Built-in scalar representing a date-time with a time-zone"
 scalar ZonedDateTime
 
+"Currency Type"
+scalar currency

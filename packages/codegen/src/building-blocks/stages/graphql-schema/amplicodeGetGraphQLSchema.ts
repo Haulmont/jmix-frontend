@@ -20,9 +20,9 @@ const DEFAULT_SCHEMA_PATH = '../../../../../schema.graphql';
 
 export const amplicodeGetGraphQLSchema = async <O extends AmplicodeCommonOptions>(
   options: O, invocationDir: string
-): Promise<GraphQLSchema | undefined> => {
+): Promise<{schema: GraphQLSchema | undefined, schemaPath: string | undefined}> => {
   if (options.schema == null) {
-    return;
+    return {schema: undefined, schemaPath: undefined};
   }
 
   const schemaPath = getSchemaPath(invocationDir, options.schema);
@@ -41,11 +41,11 @@ export const amplicodeGetGraphQLSchema = async <O extends AmplicodeCommonOptions
     isSdlFormat = true;
   }
 
-  if (isSdlFormat) {
-    return await loadSchema(schemaString, {loaders: []});
-  }
+  const schema: GraphQLSchema = isSdlFormat
+    ? await loadSchema(schemaString, {loaders: []})
+    : buildClientSchema(introspection.data);
 
-  return buildClientSchema(introspection.data);
+  return {schema, schemaPath};
 }
 
 function getSchemaPath(invocationDir: string, schemaArg?: string): string {
