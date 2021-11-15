@@ -1,6 +1,6 @@
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import path from "path";
-import jscodeshift, {identifier, literal, objectProperty, stringLiteral} from "jscodeshift";
+import jscodeshift, {stringLiteral} from "jscodeshift";
 import {convertToUnixPath} from "../../../../../common/utils";
 
 const j = jscodeshift;
@@ -11,7 +11,6 @@ export interface AddAppMenuInput {
   route: string;
   componentName: string;
   pathToComponent?: string;
-  isAddon?: boolean;
 }
 
 export function addMvpAppMenu({
@@ -19,8 +18,7 @@ export function addMvpAppMenu({
   dirShift,
   route,
   componentName,
-  pathToComponent,
-  isAddon
+  pathToComponent
 }: AddAppMenuInput) {
 
   const destRoot = gen.destinationRoot();
@@ -43,7 +41,7 @@ export function addMvpAppMenu({
   }
   const screenRegistryFileContent = gen.fs.read(screenRegistryFilePath);
   let screenRegistryTransformed;
-  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName, isAddon);
+  screenRegistryTransformed = transformAddScreenItem(screenRegistryFileContent, route, componentName);
   screenRegistryTransformed = transformAddScreenImport(screenRegistryTransformed, componentName, componentPath);
   gen.fs.write(screenRegistryFilePath, screenRegistryTransformed);
 }
@@ -53,6 +51,12 @@ function transformAddMenuItem(source: string, route: string): string {
 
   const tsxParser = j.withParser('tsx');
   const appMenuAST = tsxParser(source);
+
+  const addonsMenu = appMenuAST.findJSXElements("AddonsMenu");
+  if(addonsMenu.length) {
+    addonsMenu.insertBefore(stringLiteral(menuItemJSX));
+    return addonsMenu.toSource();
+  }
 
   const menu = appMenuAST.findJSXElements('Menu');
   const [{value: {children}}] = menu.paths();
@@ -92,27 +96,27 @@ export function transformAddScreenImport(
 
 export function transformAddScreenItem(
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  source: string, route: string, componentName: string, isAddon: boolean = false
+  source: string, route: string, componentName: string
 ): string {
 
   const tsParser = j.withParser('ts');
   const screenRegistryAST = tsParser(source);
 
-  const value = `{
-    component: ${componentName},
-    captionKey: 'screen.${componentName}'    
-  }`;
+  const content = screenRegistryAST.toSource();
 
-  screenRegistryAST
-    .findVariableDeclarators('screenRegistry')
-    .find(j.ObjectExpression)
-    .at(0)
-    .paths()[0]
-    .value
-    .properties
-    .push(objectProperty(literal(route), identifier(value)))
-
-  return screenRegistryAST.toSource();
+  const registerScreen = `
+    screenStore.registerScreen('${route}', {
+      component: ${componentName},
+      captionKey: 'screen.${componentName}'   
+    });
+  `;
+  
+  const updatedContent = `
+    ${content} 
+    ${registerScreen}
+  `;
+  
+  return updatedContent;
 }
 
 

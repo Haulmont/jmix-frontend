@@ -180,6 +180,20 @@ const { getSomething } = new SomeClass();
 getSomething(); // OK
 ```
 
+Store class names must be singular
+
+```javascript
+// wrong
+class ScreensStore {
+  // store implementation
+}
+
+// correct
+class ScreenStore {
+  // store implementation
+}
+```
+
 ##### Semicolons
 
 Semicolons are required at the end of a statement. 

@@ -22,6 +22,8 @@ import { GRAPHQL_URI, REQUEST_SAME_ORIGIN } from "../config";
 import { onError } from "@apollo/client/link/error";
 import { act } from "react-dom/test-utils";
 import { securityStore } from "../security-store";
+import "../i18n/i18nInit";
+import "./screenRegistry";
 
 it("renders without crashing", () => {
   const screens = new Screens();

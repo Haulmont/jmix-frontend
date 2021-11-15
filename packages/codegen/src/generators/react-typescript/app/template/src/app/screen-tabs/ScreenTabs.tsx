@@ -1,9 +1,8 @@
-import {useScreens, getScreenKey, ScreenMetaContext} from "@amplicode/react-core";
+import {useScreens, getScreenKey, ScreenMetaContext, screenStore} from "@amplicode/react-core";
 import {TabHeading, BreadcrumbsArea} from "@amplicode/react-antd";
 import {Tabs} from "antd";
 import {observer} from "mobx-react";
 import {useLocation} from "react-router-dom";
-import {screenRegistry} from "../screenRegistry";
 import {useIntl} from "react-intl";
 import {useEffect, useState} from "react";
 
@@ -29,7 +28,7 @@ export const ScreenTabs = observer(() => {
       return;
     }
     if (initTab?.key !== screenKey) {
-      const tabItem = screenRegistry[screenKey];
+      const tabItem = screenStore.screenRegistry[screenKey];
       if (tabItem != null) {
         const {component, props, captionKey} = tabItem;
         openInTab({

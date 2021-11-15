@@ -2,17 +2,13 @@ import path from "path";
 import {Options} from "./options"
 
 export interface TemplateModel {
-  addonName: string,
-  screenNames: string[],
-  messages: Record<string, Record<string, string>>,
   relDirShift: string,
   addonPackageName: string,
   paletteComponentName?: string
 }
 
 export async function deriveTemplateModel(
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  {dest, addonPackageName}: Options,
+  {addonPackageName}: Options,
   _answers: {},
   ): Promise<TemplateModel> {
     const relDirShift = 'src';
@@ -20,8 +16,12 @@ export async function deriveTemplateModel(
       process.cwd(),
       'node_modules', 
       addonPackageName,
-      'amplicode.addon-metadata.json'
+      'package.json'
     );
-    const addonMetadata = require(pathToAddonPackage);
-    return {...addonMetadata, relDirShift, addonPackageName} ;
+    const {amplicodeAddon} = require(pathToAddonPackage);
+    return {
+      paletteComponentName: amplicodeAddon?.paletteComponentName, 
+      relDirShift, 
+      addonPackageName
+    }
 }

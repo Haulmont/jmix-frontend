@@ -7,7 +7,7 @@ import { AppMenu } from "../AppMenu";
 import { ScreenTabs } from "../screen-tabs/ScreenTabs";
 import { Route, Switch } from "react-router-dom";
 import { Page404, CloseAllTabs } from "@amplicode/react-antd";
-import { getScreenPaths } from "../screenRegistry";
+import { screenStore } from "@amplicode/react-core";
 
 export const AppMain = observer(() => {
   return (
@@ -35,7 +35,7 @@ export const AppMain = observer(() => {
               {/*<Route path='/component2'>*/}
               {/*  <Component2/>*/}
               {/*</Route>*/}
-              <Route path={getScreenPaths()}>
+              <Route path={screenStore.screenPaths}>
                 <ScreenTabs />
               </Route>
               <Route path="/" exact>

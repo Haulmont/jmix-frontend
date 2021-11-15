@@ -7,6 +7,7 @@ export * from './util/guessLabel';
 
 export * from './screen-api/getScreenKey';
 export * from './screen-api/Screens';
+export * from './screen-api/ScreenStore';
 export * from './screen-api/ScreenContext';
 export * from './screen-api/ScreenMetaContext';
 export * from './screen-api/defaultGetPageTitle';
@@ -19,3 +20,7 @@ export * from './hotkeys/useHotkey';
 export * from './hotkeys/hotkeyConfig';
 export * from './hotkeys/hotkeyContext';
 export * from './hotkeys/hotkeyStore';
+
+export * from "./menu/MenuStore";
+
+export * from "./i18n/LocalesStore";

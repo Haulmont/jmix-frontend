@@ -7,15 +7,17 @@
   "types": "dist/index.d.ts",
   "files": [
     "dist/",
-    "amplicode.addon-metadata.json",
     "palette.tsx"
   ],
   "peerDependencies": {
+    "@amplicode/react-core": "^0.2.0",
+    "@react-buddy/ide-toolbox": "^1.0.0",
+    "antd": "^4.13.0",
     "react": "^17.0.1",
-    "react-intl": "^5.3.0",
-    "@react-buddy/ide-toolbox": "^1.0.0"
+    "react-intl": "^5.3.0"
   },
   "devDependencies": {
+    "@amplicode/react-core": "file:../packages/react-core/amplicode-react-core-0.2.0.tgz",
     "@rollup/plugin-commonjs": "^17.0.0",
     "@rollup/plugin-json": "^4.1.0",
     "@rollup/plugin-node-resolve": "^11.0.1",
@@ -39,5 +41,8 @@
     "access": "public"
   },
   "author": "Haulmont",
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "amplicodeAddon": {
+    "paletteComponentName": "TestAddonPalette"
+  }
 }

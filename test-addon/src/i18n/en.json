@@ -1,0 +1,6 @@
+{
+  "addons.SomeAddonName.SomeScreen1": "First Test Screen",
+  "addons.SomeAddonName.SomeScreen2": "Second Screen Screen",
+  "addons.SomeAddonName.testedCaption1": "first tested caption",
+  "addons.SomeAddonName.testedCaption2": "second tested caption"
+}

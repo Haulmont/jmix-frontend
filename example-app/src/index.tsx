@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import "./index.css";
+import "./app/screenRegistry";
 import App from "./app/App";
 import reportWebVitals from "./reportWebVitals";
 import {
@@ -14,13 +15,13 @@ import axios from "axios";
 import { HashRouter } from "react-router-dom";
 import { onError } from "@apollo/client/link/error";
 import { createIntl, IntlProvider } from "react-intl";
-import en from "./i18n/en.json";
 import { GRAPHQL_URI, REQUEST_SAME_ORIGIN } from "./config";
 import {
   HotkeyContext,
   HotkeyStore,
   ScreenContext,
-  Screens
+  Screens,
+  localesStore
 } from "@amplicode/react-core";
 import { DevSupport } from "@react-buddy/ide-toolbox";
 import { ComponentPreviews } from "./dev/previews";
@@ -28,6 +29,8 @@ import { useInitial } from "./dev/hook";
 import { defaultHotkeyConfigs } from "./hotkeyConfigs";
 import { securityStore } from "./security-store";
 import { notification } from "antd";
+import "./i18n/i18nInit";
+import "./addons";
 
 axios.interceptors.response.use(response => {
   if (response.status === 401) {
@@ -64,7 +67,10 @@ const errorLink = onError(({ networkError, graphQLErrors }) => {
     if (
       graphQLErrors.some(err => err.extensions?.classification === "FORBIDDEN")
     ) {
-      const intl = createIntl({ locale: "en", messages: en });
+      const intl = createIntl({
+        locale: "en",
+        messages: localesStore.messagesMapping["en"]
+      });
       notification.error({
         message: intl.formatMessage({ id: "common.notAllowed" })
       });
@@ -103,7 +109,7 @@ const hotkeys = new HotkeyStore(defaultHotkeyConfigs);
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={client}>
-      <IntlProvider locale="en" messages={en}>
+      <IntlProvider locale="en" messages={localesStore.messagesMapping["en"]}>
         <ScreenContext.Provider value={screens}>
           <HashRouter>
             <HotkeyContext.Provider value={hotkeys}>
