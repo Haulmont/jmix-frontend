@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.2](https://github.com/Haulmont/jmix-frontend/compare/eslint-config-jmix-react@2.0.0-next.1...eslint-config-jmix-react@2.0.0-next.2) (2021-11-15)
+
+
+### Features
+
+* add CheckboxField form control [#706](https://github.com/Haulmont/jmix-frontend/issues/706) ([302dd75](https://github.com/Haulmont/jmix-frontend/commit/302dd75c844c34e08c5f658ee66e8c5017ec78c6))
+
+
+
+
+
 # 2.0.0-next.1 (2021-11-11)
 
 

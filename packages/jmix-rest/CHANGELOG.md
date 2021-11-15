@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@2.0.0-next.1...@haulmont/jmix-rest@2.0.0-next.2) (2021-11-15)
+
+
+### Features
+
+* add calendar component ([3a18ef9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/3a18ef90c9489115c5298018bedaad96ad85334c))
+* add CheckboxField form control [#706](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/issues/706) ([302dd75](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/302dd75c844c34e08c5f658ee66e8c5017ec78c6))
+* add hotkeys ([9e559ae](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/9e559ae13aa57c29f657012f39271a0f1849bd0d))
+
+
+
+
+
 # [2.0.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.1-next.0...@haulmont/jmix-rest@2.0.0-next.1) (2021-11-11)
 
 

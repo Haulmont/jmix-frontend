@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.2...@haulmont/jmix-react-core@2.0.0-next.3) (2021-11-15)
+
+
+### Features
+
+* add CheckboxField form control [#706](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/706) ([302dd75](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/302dd75c844c34e08c5f658ee66e8c5017ec78c6))
+
+
+
+
+
 # [2.0.0-next.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@1.1.0-next.0...@haulmont/jmix-react-core@2.0.0-next.2) (2021-11-11)
 
 

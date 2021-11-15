@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-next.5](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@1.1.0-next.4...@haulmont/jmix-addon-data-tools@1.1.0-next.5) (2021-11-15)
+
+
+### Features
+
+* add CheckboxField form control [#706](https://github.com/Haulmont/jmix-frontend/issues/706) ([302dd75](https://github.com/Haulmont/jmix-frontend/commit/302dd75c844c34e08c5f658ee66e8c5017ec78c6))
+
+
+
+
+
 # 1.1.0-next.4 (2021-11-11)
 
 

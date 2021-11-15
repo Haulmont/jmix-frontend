@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.2...@haulmont/jmix-react-web@2.0.0-next.3) (2021-11-15)
+
+
+### Features
+
+* add CheckboxField form control [#706](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/706) ([302dd75](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/302dd75c844c34e08c5f658ee66e8c5017ec78c6))
+* add hotkeys ([9e559ae](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/9e559ae13aa57c29f657012f39271a0f1849bd0d))
+
+
+
+
+
 # 2.0.0-next.2 (2021-11-11)
 
 
