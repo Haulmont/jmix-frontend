@@ -32,7 +32,7 @@
     "lint": "lerna run lint -- -- --max-warnings 0",
     "lint-example-app": "eslint --ignore-pattern example-app/build example-app/",
     "test-example-app": "CI=true npm test --prefix example-app",
-    "validate-example-app": "npm run lint-example-app && npm run test-example-app && prettier --check example-app/**/*.{ts,tsx} && npm run build --prefix example-app"
+    "validate-example-app": "npm run lint-example-app && npm run test-example-app && npm run build --prefix example-app"
   },
   "config": {
     "commitizen": {
