@@ -1,6 +1,6 @@
 {
   "name": "@amplicode/codegen",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Amplicode frontend code generator",
   "main": "lib/index.js",
   "types": "lib/index.d.ts",

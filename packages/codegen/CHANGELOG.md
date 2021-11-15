@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.4.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.3.0...@amplicode/codegen@0.4.0) (2021-11-15)
+
+
+### Bug Fixes
+
+* types generation fails due to incorrect schema path [#76](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/76) ([cdd3b41](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/cdd3b41616f71c7916f76df8cb6538eed54d4f01))
+
+
+### Features
+
+* add entity-management template ([6220616](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/6220616dcf16ec2a404fffefb5cd5b04084849bf))
+* add possibility to customize login/logout endpoints [#72](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/72) ([c0ce6ca](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/c0ce6ca0fd91ebd738751fb23d56e6ae0d5ee889))
+* show login screen when graphql server response 'unauthenticated' ([20ccbe3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/20ccbe36bf9c89653f71ec190232bb8254226996)), closes [#12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/12)
+
+
+
+
+
 # [0.3.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.1.1...@amplicode/codegen@0.3.0) (2021-11-01)
 
 
