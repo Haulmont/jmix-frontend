@@ -7,7 +7,8 @@ import {
   CheckboxField,
   TextField,
   DateField,
-  TimeField
+  TimeField,
+  TextArea
 } from "@haulmont/jmix-react-antd";
 import {FormattedMessage, useIntl} from "react-intl";
 import {useForm} from "antd/es/form/Form";
@@ -38,6 +39,7 @@ const CustomFormControls = () => {
             form={form}
             initialValues={{
               manufacturer: "Initial Manufacturer",
+              regNumber: "Initial Reg Number",
               wheelOnRight: true,
               fromDate: dayjs("2020-01-01"),
               fromTime: dayjs("2020-01-01T23:05:13")
@@ -81,17 +83,24 @@ const CustomFormControls = () => {
               }}
           />
 
-          <Form.Item style={{ textAlign: "center" }}>
-            <Space size={8}>
-              <Button htmlType="button" onClick={handleClearForm}>
-                Clear form
-              </Button>
-              <Button type="primary" htmlType="submit">
-                <FormattedMessage id='common.submit' />
-              </Button>
-            </Space>
-          </Form.Item>
-        </Form>
+        <TextArea
+          entityName="scr_Car"
+          propertyName="regNumber"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <Form.Item style={{ textAlign: "center" }}>
+          <Space size={8}>
+            <Button htmlType="button" onClick={handleClearForm}>
+              Clear form
+            </Button>
+            <Button type="primary" htmlType="submit">
+              <FormattedMessage id='common.submit' />
+            </Button>
+          </Space>
+        </Form.Item>
+      </Form>
 
         {result && (
             <>
