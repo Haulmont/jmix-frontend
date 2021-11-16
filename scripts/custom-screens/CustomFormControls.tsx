@@ -12,7 +12,8 @@ import {
   DateField,
   TimeField,
   TextArea,
-  MaskedField
+  MaskedField,
+  SliderField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -44,6 +45,7 @@ const CustomFormControls = () => {
         initialValues={{
           manufacturer: "Initial Manufacturer",
           regNumber: "Initial Reg Number",
+          mileage: 100000,
           wheelOnRight: true,
           fromDate: dayjs("2020-01-01"),
           fromTime: dayjs("2020-01-01T23:05:13")
@@ -85,7 +87,6 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
         />
-
         <TextArea
           entityName="scr_Car"
           propertyName="regNumber"
@@ -93,7 +94,15 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
         />
-
+        <SliderField
+          entityName="scr_Car"
+          propertyName="mileage"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+          max={300000}
+          tooltipVisible
+        />
         <MaskedField
           mask="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
           formatChars={{
