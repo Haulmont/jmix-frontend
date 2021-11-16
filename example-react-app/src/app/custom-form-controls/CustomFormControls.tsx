@@ -20,7 +20,8 @@ import {
   SourceCodeField,
   RadioButton,
   DropdownField,
-  FileUploadField
+  FileUploadField,
+  RichTextArea
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -59,7 +60,8 @@ const CustomFormControls = () => {
           fromDate: dayjs("2020-01-01"),
           fromTime: dayjs("2020-01-01T23:05:13"),
           carType: { carType: "SEDAN" },
-          createdBy: "console.log('hello')"
+          createdBy: "console.log('hello')",
+          vanEntry: "<p><strong>testing </strong>editor</p>"
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
@@ -186,6 +188,13 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
           mode="javascript"
+        />
+        <RichTextArea
+          entityName="scr_Garage"
+          propertyName="vanEntry"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
         />
         <RadioButton
           entityName="scr_Car"
