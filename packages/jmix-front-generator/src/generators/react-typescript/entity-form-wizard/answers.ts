@@ -16,26 +16,20 @@ import {
   menuItemQuestion
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
 
-export interface FormStepConfig {
-  name: string;
-  fieldNames: string[];
-}
-
 export interface FormWizardAnswers extends
 StringIdAnswers,
 EntityAnswer,
 ComponentNameAnswer,
 QueryAnswer,
 MenuItemAnswer {
-  steps: Array<FormStepConfig>;
+  steps: number;
 }
 
 const formWizardStepsQuestion = {
   code: 'steps',
-  caption: 'Steps',
-  propertyType: StudioTemplatePropertyType.FORM_WIZARD_STEPS,
+  caption: 'Number of steps',
+  propertyType: StudioTemplatePropertyType.INTEGER,
   required: true,
-  relatedProperty: 'query',
 }
 
 export const formWizardQuestions: StudioTemplateProperty[] = [

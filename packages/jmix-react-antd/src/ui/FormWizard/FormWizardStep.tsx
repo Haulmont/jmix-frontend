@@ -33,7 +33,7 @@ const useSetupStep = ({
             }, {});
 
         form.setFieldsValue(stepValues);
-    }, [form, formWizardStore.values]);
+    }, [fieldNames, form, formWizardStore.values]);
 
     useEffect(() => {
         if (
@@ -42,7 +42,7 @@ const useSetupStep = ({
         ) {
             stepStore?.setStatus('process');
         }
-    }, [formWizardStore, formWizardStore.currentStep])
+    }, [formWizardStore, formWizardStore.currentStep, stepName, stepStore])
 
     const stepServerValidation = useMemo(() => {
         const stepFieldErrors = new Map<string, string[]>();
@@ -67,7 +67,7 @@ const useSetupStep = ({
                     ? stepFieldErrors
                     : undefined
         };
-    }, [form, stepStore, formWizardStore.serverValidationErrors]);
+    }, [formWizardStore.serverValidationErrors, fieldNames, stepStore, intl]);
 
     useAntdFormValidation(form, stepServerValidation);
 }
@@ -107,7 +107,7 @@ export const FormWizardStep = observer(({
             message.error(intl.formatMessage({ id: 'formWizard.currectStepValidationError'}));
             throw error;
         }
-    }, [form, formWizardStore.steps, formWizardStore.stepIndex]);
+    }, [form, stepStore, intl]);
 
     useEffect(() => {
         if (formWizardStore.currentStep?.name === stepName) {
@@ -116,14 +116,14 @@ export const FormWizardStep = observer(({
                 validateFields: validateCurrentStep,
             };
         }
-    }, [validateCurrentStep]);
+    }, [formWizardHelpersRef, formWizardStore.currentStep?.name, stepName, validateCurrentStep]);
 
     const handlerValuesChange = useCallback((newValues) => {
         formWizardStore.setValues({
             ...formWizardStore.values,
             ...newValues
         });
-    }, [formWizardStore, formWizardStore.values]);
+    }, [formWizardStore]);
 
     useSetupStep({
         formWizardStore,

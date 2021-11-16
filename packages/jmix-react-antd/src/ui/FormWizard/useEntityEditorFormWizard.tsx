@@ -49,17 +49,17 @@ export function useEntityEditorFromWizard<
     const handleSelectStep = useCallback(async newStepIndex => {
         await formWizardHelpersRef.current.validateFields();
         formWizardStore.setStepIndex(newStepIndex);
-    }, [formWizardStore, formWizardHelpersRef.current.validateFields]);
+    }, [formWizardHelpersRef, formWizardStore]);
     
     const handleNextStep = useCallback(async () => {
         await formWizardHelpersRef.current.validateFields();
         formWizardStore.next();
-    }, [formWizardStore, formWizardHelpersRef.current, formWizardHelpersRef.current.validateFields]);
+    }, [formWizardHelpersRef, formWizardStore]);
 
     const handlePreviousStep = useCallback(async () => {
         await formWizardHelpersRef.current.validateFields();
         formWizardStore.prev();
-    }, [formWizardStore, formWizardHelpersRef.current, formWizardHelpersRef.current.validateFields]);
+    }, [formWizardHelpersRef, formWizardStore]);
 
     const handleSubmitBtn = useCallback(async () => {
         await formWizardHelpersRef.current.validateFields();
@@ -74,7 +74,7 @@ export function useEntityEditorFromWizard<
                 }
             }
         }
-    }, [formWizardHelpersRef.current, formWizardHelpersRef.current.validateFields, entityEditorData.handleSubmit, formWizardStore]);
+    }, [formWizardHelpersRef, formWizardStore.steps, formWizardStore.values]);
 
     return {
         ...entityEditorData,

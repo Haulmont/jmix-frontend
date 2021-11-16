@@ -18,7 +18,6 @@ export const enum StudioTemplatePropertyType {
   MENU_ITEM = 'MENU_ITEM',
   ATTRIBUTE = 'ATTRIBUTE',
   ATTRIBUTES_ARRAY = 'ATTRIBUTES_ARRAY',
-  FORM_WIZARD_STEPS = 'FORM_WIZARD_STEPS',
 }
 
 export interface StudioTemplateProperty {

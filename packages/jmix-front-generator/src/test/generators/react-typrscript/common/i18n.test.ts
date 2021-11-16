@@ -358,6 +358,7 @@ const EXPECTED_I18N_KEYS = [
 
   "formWizard.currectStepValidationError",
   "formWizard.serverValidationError",
+  "formWizard.stepTitle",
 
   "multiSelectionTable.delete.areYouSure",
   "multiSelectionTable.delete.error",

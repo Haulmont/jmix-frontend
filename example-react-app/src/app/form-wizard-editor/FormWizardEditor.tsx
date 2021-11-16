@@ -114,10 +114,7 @@ const FormWizardEditor = withFormWizardProvider(
         >
           <FormWizardStepStatus onSelectStep={handleSelectStep} />
 
-          <FormWizardStep
-            stepName="Step0"
-            fieldNames={["id", "_instanceName", "notNull"]}
-          >
+          <FormWizardStep stepName="step1" fieldNames={["notNull", "date"]}>
             <Field
               entityName={ENTITY_NAME}
               propertyName="notNull"
@@ -125,12 +122,7 @@ const FormWizardEditor = withFormWizardProvider(
                 style: { marginBottom: "12px" }
               }}
             />
-          </FormWizardStep>
 
-          <FormWizardStep
-            stepName="Step1"
-            fieldNames={["date", "time", "integer"]}
-          >
             <Field
               entityName={ENTITY_NAME}
               propertyName="date"
@@ -138,7 +130,9 @@ const FormWizardEditor = withFormWizardProvider(
                 style: { marginBottom: "12px" }
               }}
             />
+          </FormWizardStep>
 
+          <FormWizardStep stepName="step2" fieldNames={["time", "integer"]}>
             <Field
               entityName={ENTITY_NAME}
               propertyName="time"
@@ -157,7 +151,7 @@ const FormWizardEditor = withFormWizardProvider(
           </FormWizardStep>
 
           <FormWizardStep
-            stepName="Step2"
+            stepName="step3"
             fieldNames={["associationO2O", "compositionO2O"]}
           >
             <Field
