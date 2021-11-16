@@ -96,10 +96,10 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
             >
                 <FormWizardStepStatus onSelectStep={handleSelectStep} />
 
-                <% steps.forEach(step => { %>
+                <% steps.forEach((step, stepIndex) => { %>
                     <FormWizardStep
-                        stepName="<%= step.name %>"
-                        fieldNames={<%- include(includesPath('RenderValue'), { data: step.fieldNames }) %>}
+                        stepName="step<%= stepIndex + 1 %>"
+                        fieldNames={<%- include(includesPath('RenderValue'), { data: step.attributes.map(({name}) => name)}) %>}
                     >
                         <%- include(includesPath('Fields'), {
                             attributes: step.attributes,

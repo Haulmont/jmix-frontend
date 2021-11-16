@@ -45,6 +45,7 @@
 
   "formWizard.currectStepValidationError": "formWizard.currectStepValidationError [TRANSLATION IS NOT AVAILABLE]",
   "formWizard.serverValidationError": "formWizard.serverValidationError [TRANSLATION IS NOT AVAILABLE]",
+  "formWizard.stepTitle": "formWizard.stepTitle [TRANSLATION IS NOT AVAILABLE]",
 
   "masterDetail.entityUnselected": "masterDetail.entityUnselected [TRANSLATION IS NOT AVAILABLE]",
   "masterDetail.create.ifEntitySelected": "masterDetail.create.ifEntitySelected [TRANSLATION IS NOT AVAILABLE]",

@@ -45,6 +45,7 @@
 
   "formWizard.currectStepValidationError": "Validation Error at the current step. Please check the data you entered.",
   "formWizard.serverValidationError": "Server validation error.",
+  "formWizard.stepTitle": "Step {index}",
 
   "masterDetail.entityUnselected": "Select an entity",
   "masterDetail.create.ifEntitySelected": "Changes will not be saved. Proceed?",

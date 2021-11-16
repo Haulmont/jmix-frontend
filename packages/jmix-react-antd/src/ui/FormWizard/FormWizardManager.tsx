@@ -27,7 +27,7 @@ export const FormWizardManager = ({
             onFinish,
             onFinishFailed,
         }
-    }, [onFinish, onFinishFailed, formWizardHelpersRef.current]);
+    }, [onFinish, onFinishFailed, formWizardHelpersRef]);
 
     return (
         <>

@@ -45,6 +45,7 @@
 
   "formWizard.currectStepValidationError": "Ошибка валидации на текущем шаге. Пожалуйста, проверьте введенные данные.",
   "formWizard.serverValidationError": "Ошибка валидации на сервера.",
+  "formWizard.stepTitle": "Шаг {index}",
 
   "masterDetail.entityUnselected": "Выберете сущность для редактирования",
   "masterDetail.create.ifEntitySelected": "Вы уверены, что не хотите сохранить сущность?",
