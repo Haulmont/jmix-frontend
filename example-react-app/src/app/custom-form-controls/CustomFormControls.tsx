@@ -14,11 +14,14 @@ import {
   TimeField,
   TextArea,
   MaskedField,
-  SliderField
+  SliderField,
+  RichTextArea
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
+import draftToHtml from "draftjs-to-html";
+import { RawDraftContentState } from "draft-js";
 
 const ROUTING_PATH = "/customFormControls";
 
@@ -26,7 +29,11 @@ const CustomFormControls = () => {
   const [result, setResult] = useState<Record<string, unknown> | undefined>();
 
   const handleSubmit = useCallback((values: Record<string, unknown>) => {
-    setResult(values);
+    setResult({
+      ...values,
+      // TODO need to manually type propertyName value of RichTextArea to convert it to html
+      model: draftToHtml(values.model as RawDraftContentState)
+    });
   }, []);
 
   const handleClearForm = useCallback(() => {
@@ -95,6 +102,7 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
         />
+
         <TextArea
           entityName="scr_Car"
           propertyName="regNumber"
@@ -122,7 +130,13 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
         />
-
+        <RichTextArea
+          entityName="scr_Car"
+          propertyName="model"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
         <Form.Item style={{ textAlign: "center" }}>
           <Space size={8}>
             <Button htmlType="button" onClick={handleClearForm}>
