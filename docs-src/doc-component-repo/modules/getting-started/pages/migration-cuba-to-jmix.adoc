@@ -4,6 +4,12 @@
 
 Open the root directory of the front module.
 
+Update third-party dependencies.
+
+----
+npm install @ant-design/icons@^4.0.0 antd@^4.12.3 mobx@^6.1.8 mobx-react@^7.1.0 moment@^2.25.3 react@^17.0.1 react-dom@^17.0.1 react-input-mask@^2.0.4 react-intl@^5.3.0 react-router-dom@^5.2.0
+----
+
 Remove cuba packages:
 
 ----
@@ -13,7 +19,7 @@ npm uninstall @cuba-platform/react-core @cuba-platform/react-ui @cuba-platform/r
 Install Jmix packages:
 
 ----
-npm install @haulmont/jmix-react-core @haulmont/jmix-react-ui @haulmont/jmix-rest
+npm install @haulmont/jmix-react-core@^0.9.0 @haulmont/jmix-react-ui@^0.9.0 @haulmont/jmix-rest@^0.9.0
 ----
 
 == Change environment
@@ -48,7 +54,65 @@ REACT_APP_REST_CLIENT_ID=client
 REACT_APP_REST_CLIENT_SECRET=secret
 ----
 
-== Changes in `src/index.ts`
+== Generate TypeScript SDK
+
+Open the root directory of the front module.
+
+Remove cuba generator package.
+
+----
+npm uninstall @cuba-platform/front-generator
+----
+
+Install Jmix generator package.
+
+----
+npm install --save-dev @haulmont/jmix-front-generator@^0.9.0
+----
+
+Open `package.json` and rewrite `update-model` script:
+
+----
+// Before:
+{
+  "scripts": {
+    ...
+    "update-model": "gen-cuba-front sdk:all --dest src/cuba"
+    ...
+  }
+}
+
+// After:
+{
+  "scripts": {
+    ...
+    "update-model": "gen-jmix-front sdk:all --dest src/jmix"
+    ...
+  }
+}
+----
+
+Remove `src/cuba/` directory.
+
+Generate new Jmix model classes (the project must be open in Jmix Studio for this to work):
+
+----
+npm run update-model
+----
+
+> NOTE: If this fails with an error indicating that a connection to Studio cannot be established, go to Jmix Plugin Settings and ensure that "Enable integration with frontend generator" checkbox is ticked.
+
+Rename imports from `src/cuba/` to `src/jmix/` everywhere in the project.
+
+----
+// Before:
+import {...} "../cuba/.."
+
+// After:
+import {...} "../jmix/.."
+----
+
+== Changes in `src/index.tsx`
 
 Add this import for fix mobx https://github.com/mobxjs/mobx-react-lite/#observer-batching-deprecated[Observer batching] warning:
 
@@ -109,7 +173,7 @@ ReactDOM.render(
 );
 ----
 
-== Rename imports and interfaces
+== Rename imports / types / functions, fix breaking changes
 
 Run application for TypeScript hints.
 
@@ -117,7 +181,31 @@ Run application for TypeScript hints.
 npm run start
 ----
 
-Replace all imports of cuba packages to the corresponding Jmix packages. Rename the interfaces everywhere in the project.
+Replace the following code in all generated editors:
+
+----
+// Before
+  useReaction(
+    () => mainStore.security.isDataLoaded,
+    (isDataLoaded, permsReaction) => {
+
+// After
+  useReaction(
+    () => mainStore.security.isDataLoaded,
+    (isDataLoaded, _prev, permsReaction) => {
+----
+
+Replace the following code in `LanguageSwitcher.tsx`:
+
+----
+// Before
+defaultValue={getMainStore().locale}
+
+// After
+defaultValue={getMainStore().locale ?? undefined}
+----
+
+Replace all imports of CUBA packages to the corresponding Jmix packages. Rename the types / functions everywhere in the project.
 
 Imports:
 
@@ -125,10 +213,12 @@ Imports:
 * `@cuba-platform/react-ui` -> `@haulmont/jmix-react-ui`
 * `@cuba-platform/rest` -> `@haulmont/jmix-rest`
 
-Interfaces:
+Types / functions:
 
 * `CubaAppProvider` -> `JmixAppProvider`
 * `CubaApp` -> `JmixRestConnection`
+* `CubaRestError` -> `JmixRestError`
+* `loginMapCubaRestErrorToIntlId` -> `loginMapJmixRestErrorToIntlId`
 
 ----
 // Before:
@@ -140,61 +230,4 @@ import { ... } from "@cuba-platform/react-ui";
 import { JmixAppProvider } from "@haulmont/jmix-react-core";
 import { JmixRestConnection } from "@haulmont/jmix-rest";
 import { ... } from "@haulmont/jmix-react-ui";
-----
-
-
-== Generate Jmix interfaces
-
-Open the root directory of the front module.
-
-Remove cuba generator package.
-
-----
-npm uninstall @cuba-platform/front-generator
-----
-
-Install Jmix generator package.
-
-----
-npm install @haulmont/jmix-front-generator
-----
-
-Open `package.json` and rewrite `update-model` script:
-
-----
-// Before:
-{
-  "scripts": {
-    ...
-    "update-model": "gen-cuba-front sdk:all --dest src/cuba"
-    ...
-  }
-}
-
-// After:
-{
-  "scripts": {
-    ...
-    "update-model": "gen-jmix-front sdk:all --dest src/jmix"
-    ...
-  }
-}
-----
-
-Remove `src/cuda/` directory.
-
-Generate new Jmix model classes:
-
-----
-npm run update-model
-----
-
-Rename imports from `src/cuba/` to `src/jmix/` everywhere in the project.
-
-----
-// Before:
-import {...} "../cuba/.."
-
-// After:
-import {...} "../jmix/.."
 ----
