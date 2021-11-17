@@ -10,6 +10,12 @@ describe('form wizard component', () => {
     await login(page);
   });
 
+  afterAll(async done => {
+    await page.browser().close();
+    done();
+  });
+
+
   it('should check that form wizard component renders step titles correctly', async () => {
     await page.goto(`http://localhost:3000/${url}`);
     
@@ -19,9 +25,9 @@ describe('form wizard component', () => {
       elements => elements.map(el => el.innerText)
     );
     expect(stepTitles).toEqual([
-      'Step0',
-      'Step1',
-      'Step2',
+      'Step 1',
+      'Step 2',
+      'Step 3',
     ]);    
   });
 
@@ -37,15 +43,9 @@ describe('form wizard component', () => {
     );
 
     expect(fieldLabelStepLabels).toEqual([
-      ['Not null'],
-      ['Date', 'Time', 'Integer'],
+      ['Not null', 'Date'],
+      ['Time', 'Integer'],
       ['Association O2O', 'Composition O2O'],
     ]);
   });
-  
-  afterAll(async done => {
-    await page.browser().close();
-    done();
-  });
-
 });
