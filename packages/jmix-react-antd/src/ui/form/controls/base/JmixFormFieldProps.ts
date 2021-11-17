@@ -5,7 +5,7 @@ export interface JmixFormFieldProps<
   > {
   value?: ValueType;
   onChange?: OnChangeType;
-  entityName: string;
+  entityName?: string;
   propertyName: string;
   formItemProps?: FormItemProps;
   disabled?: boolean;

@@ -6,6 +6,7 @@ import {
 import { Button, Card, Form, Space } from "antd";
 import styles from "../App.module.css";
 import {
+  EntityForm,
   ColorPickerField,
   CheckboxField,
   TextField,
@@ -37,7 +38,8 @@ const CustomFormControls = () => {
 
   return (
     <Card className={styles.narrowLayout}>
-      <Form
+      <EntityForm
+        entityName="scr_DatatypesTestEntity"
         onFinish={handleSubmit}
         onFinishFailed={() => {}}
         layout="vertical"
@@ -52,6 +54,12 @@ const CustomFormControls = () => {
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
+        <TextField
+          propertyName='stringAttr'
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
         <TextField
           entityName="scr_Car"
           propertyName="manufacturer"
@@ -125,7 +133,7 @@ const CustomFormControls = () => {
             </Button>
           </Space>
         </Form.Item>
-      </Form>
+      </EntityForm>
 
       {result && (
         <>
