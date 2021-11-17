@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.5.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.4.0...@amplicode/codegen@0.5.0) (2021-11-17)
+
+
+### Features
+
+* add ability to configure same-origin policy [#73](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/73) ([03b5715](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/03b571507dec5a311d18e012f1e383ce4e52f209))
+
+
+
+
+
 # [0.4.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.3.0...@amplicode/codegen@0.4.0) (2021-11-15)
 
 
