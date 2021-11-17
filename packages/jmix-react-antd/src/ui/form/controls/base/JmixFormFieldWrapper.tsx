@@ -4,16 +4,24 @@ import * as React from "react";
 import {useMetadata, MetaClassInfo} from "@haulmont/jmix-react-core";
 import {passthroughRule} from "../../validation/passthroughRule";
 import {getDefaultFormItemProps} from "../../Form";
+import {useContext} from "react";
+import {EntityNameContext} from "../../entity-form/EntityForm";
 
 export interface JmixFormFieldWrapperProps {
-  entityName: string;
+  entityName?: string;
   propertyName: string;
   formItemProps?: FormItemProps;
   renderField: (isReadOnly: boolean) => React.ReactNode;
 }
 
-export function JmixFormFieldWrapper({entityName, propertyName, formItemProps, renderField}: JmixFormFieldWrapperProps) {
+export function JmixFormFieldWrapper({entityName: entityNameProp, propertyName, formItemProps, renderField}: JmixFormFieldWrapperProps) {
   const metadata = useMetadata();
+
+  const entityNameFromContext = useContext(EntityNameContext);
+  const entityName = entityNameProp ?? entityNameFromContext;
+  if (entityName == null) {
+    throw new Error('entityName is not provided in either prop or context');
+  }
 
   const mergedFormItemProps = mergeWithDefaultFormItemProps(metadata.entities, entityName, propertyName, formItemProps);
 

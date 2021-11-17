@@ -31,6 +31,7 @@ export * from "./ui/MultiSelectionTable/MultiSelectionTableStore";
 export * from './util/history';
 
 // Visual components library:
+export * from './ui/form/entity-form/EntityForm';
 // - Form controls
 export * from './ui/form/controls';
 
