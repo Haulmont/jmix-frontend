@@ -4,7 +4,7 @@ import { EntityInstance } from "./EntityInstance";
 
 export function getRelationOptions<
   TData extends Record<string, any> = Record<string, any>
->(entityName: string, data?: TData): Map<string, Array<EntityInstance<unknown, HasId>>> | undefined {
+>(entityName: string, data?: TData, includeSelfReference?: boolean): Map<string, Array<EntityInstance<unknown, HasId>>> | undefined {
   if (data == null) {
     return undefined;
   }
@@ -15,9 +15,10 @@ export function getRelationOptions<
 
   Object.keys(data)
     .filter(queryName => {
+      const isEntityListQuery = queryName === getListQueryName(entityName)
+      const isEntityByIdQuery = queryName === getByIdQueryName(entityName)
       // Filter out query result related to the entity being listed so that only relation options are left
-      return (currentId || queryName !== getListQueryName(entityName))
-        && queryName !== getByIdQueryName(entityName);
+      return (includeSelfReference || !isEntityListQuery) && !isEntityByIdQuery;
     })
     .forEach(queryName => {
       const relatedEntityName = extractEntityName(queryName, 'List');
