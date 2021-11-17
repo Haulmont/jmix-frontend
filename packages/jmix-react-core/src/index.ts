@@ -66,3 +66,4 @@ export * from './util/normalizeMetadata';
 
 export * from './conditional-rendering';
 export * from './timer';
+export * from './app/useGetFile'

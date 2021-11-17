@@ -61,7 +61,8 @@ ReactDOM.render(
       appName: "scr-jmix",
       clientId: REST_CLIENT_ID, // TODO Rename once we remove REST
       secret: REST_CLIENT_SECRET,
-      locale: "en"
+      locale: "en",
+      graphqlEndpoint: GRAPHQL_URI
     }}
     metadata={metadata}
     Modals={Modals}

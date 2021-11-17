@@ -6,7 +6,7 @@ import {
   isOperationAllowed,
   isSpecificPermissionGranted,
   EntityOperationType
-} from '@haulmont/jmix-rest';
+} from '../util/security';
 import {ApolloClient} from "@apollo/client";
 import {gql} from "@apollo/client/core";
 
@@ -17,6 +17,10 @@ export const PERMISSIONS_QUERY = gql`query {
       value
     },
     entityAttributes {
+      target
+      value
+    }
+    specifics {
       target
       value
     }
@@ -73,14 +77,14 @@ export class Security {
    * Returns a boolean indicating whether the current user is allowed to upload files.
    */
   canUploadFiles = (): boolean => {
-    return this.isSpecificPermissionGranted('rest.fileUpload.enabled');
+    return this.isSpecificPermissionGranted('graphql.fileUpload.enabled');
   };
 
   /**
    * Returns a boolean indicating whether the current user is allowed to download files.
    */
   canDownloadFiles = (): boolean => {
-    return this.isSpecificPermissionGranted('rest.fileDownload.enabled');
+    return this.isSpecificPermissionGranted('graphql.fileDownload.enabled');
   };
 
   /**
