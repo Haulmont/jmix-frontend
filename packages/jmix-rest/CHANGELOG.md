@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.0...@haulmont/jmix-rest@2.0.0) (2021-11-17)
+
+
+### chore
+
+* update typescript [#648](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/issues/648) ([54392dd](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/54392ddfa70980dc6fdf9601542e6f3644d3b9e8))
+
+
+### BREAKING CHANGES
+
+* updated typescript, jest
+
+
+
+
+
 # [1.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@1.0.0-next.20...@haulmont/jmix-rest@1.0.0-next.21) (2021-06-21)
 
 **Note:** Version bump only for package @haulmont/jmix-rest

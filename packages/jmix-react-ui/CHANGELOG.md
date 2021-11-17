@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.4...@haulmont/jmix-react-ui@1.1.0) (2021-11-17)
+
+
+### Features
+
+* graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/issues/614) ([478074c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/commit/478074c19f3d380937849dcd02b2ac1a44301a9a))
+
+
+
+
+
 ## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-ui/compare/@haulmont/jmix-react-ui@1.0.0...@haulmont/jmix-react-ui@1.0.1) (2021-07-02)
 
 
