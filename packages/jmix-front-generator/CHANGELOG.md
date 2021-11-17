@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.5...@haulmont/jmix-front-generator@2.0.0-next.6) (2021-11-17)
+
+
+### Bug Fixes
+
+* add item form relation options, list generation [#719](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/719) ([46b1fe0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/46b1fe077a620d571f8189c576127294422d38c5))
+* simplify wizard steps studio field ([ec39dcc](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/ec39dcce29859de4665415f59dd208c239d8083d))
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.4...@haulmont/jmix-front-generator@2.0.0-next.5) (2021-11-15)
 
 

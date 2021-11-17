@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.3...@haulmont/jmix-react-web@2.0.0-next.4) (2021-11-17)
+
+
+### Bug Fixes
+
+* timeField, DateField value prop is moment object instead of dayjs ([643452c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/643452c54128b5cb3b83d120fd62105469c75e9e))
+
+
+
+
+
 # [2.0.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.2...@haulmont/jmix-react-web@2.0.0-next.3) (2021-11-15)
 
 

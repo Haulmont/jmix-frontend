@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.4...@haulmont/jmix-react-antd@2.0.0-next.5) (2021-11-17)
+
+
+### Bug Fixes
+
+* simplify wizard steps studio field ([ec39dcc](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/ec39dcce29859de4665415f59dd208c239d8083d))
+* timeField, DateField value prop is moment object instead of dayjs ([643452c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/643452c54128b5cb3b83d120fd62105469c75e9e))
+
+
+### Features
+
+* add MaskedField form control [#713](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/713) ([#754](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/754)) ([0f4904b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/0f4904b109a2a3e1414acd7c7ab1b6a6c2cd329f))
+* add SliderField form control [#709](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/709) ([#752](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/752)) ([18b765e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/18b765e6573a5f50e8a32cf446991cb8755e7157))
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.3...@haulmont/jmix-react-antd@2.0.0-next.4) (2021-11-15)
 
 

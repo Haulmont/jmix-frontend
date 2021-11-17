@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.3...@haulmont/jmix-react-core@2.0.0-next.4) (2021-11-17)
+
+
+### Bug Fixes
+
+* add item form relation options, list generation [#719](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/719) ([46b1fe0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/46b1fe077a620d571f8189c576127294422d38c5))
+
+
+
+
+
 # [2.0.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.2...@haulmont/jmix-react-core@2.0.0-next.3) (2021-11-15)
 
 
