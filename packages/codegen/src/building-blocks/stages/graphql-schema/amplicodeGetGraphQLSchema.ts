@@ -25,13 +25,17 @@ export const amplicodeGetGraphQLSchema = async <O extends AmplicodeCommonOptions
     return {schema: undefined, schemaPath: undefined};
   }
 
-  const schemaPath = getSchemaPath(invocationDir, options.schema);
+  const schemaPathAbsolute = getSchemaPath(invocationDir, options.schema);
 
-  if (!fs.existsSync(schemaPath)) {
-    throw new Error(`GraphQL schema not found at "${schemaPath}"`);
+  const {dest = invocationDir} = options;
+  const codegenYmlPath = path.resolve(dest);
+  const schemaPathRelativeToCodegenYml = path.relative(codegenYmlPath, schemaPathAbsolute);
+
+  if (!fs.existsSync(schemaPathAbsolute)) {
+    throw new Error(`GraphQL schema not found at "${schemaPathAbsolute}"`);
   }
 
-  const schemaString: string = fs.readFileSync(schemaPath, 'utf-8');
+  const schemaString: string = fs.readFileSync(schemaPathAbsolute, 'utf-8');
 
   let isSdlFormat = false;
   let introspection;
@@ -45,7 +49,7 @@ export const amplicodeGetGraphQLSchema = async <O extends AmplicodeCommonOptions
     ? await loadSchema(schemaString, {loaders: []})
     : buildClientSchema(introspection.data);
 
-  return {schema, schemaPath};
+  return {schema, schemaPath: schemaPathRelativeToCodegenYml};
 }
 
 function getSchemaPath(invocationDir: string, schemaArg?: string): string {
