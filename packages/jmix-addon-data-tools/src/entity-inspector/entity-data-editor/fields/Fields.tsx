@@ -44,7 +44,7 @@ export const Fields = (props: Props) => {
   return (
     <>
       {entityAttrsInfo
-        .filter(attrInfo =>  attrInfo.type !== "fileRef" && attrInfo.name !== "id")
+        .filter(attrInfo => attrInfo.name !== "id")
         .map((attrInfo) => {
           const entityAttrs =getAllEntityPropertyNames(attrInfo.type, metadata)!;
           const entityNamesInfo = getEntityNamesInfo(getAllPersistentEntityNames(metadata), attrInfo.type);

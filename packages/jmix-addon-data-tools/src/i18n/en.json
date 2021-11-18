@@ -7,5 +7,6 @@
   "addons.DataTools.noSelected": "No selected entity",
   "addons.DataTools.noData": "No data to inspect",
   "addons.DataTools.restoreButton": "Restore",
+  "addons.DataTools.restoreEntites": "Number of restored entites: {restoreEntities}",
   "screen.EntityInspector": "Entity Inspector"
 }
