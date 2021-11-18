@@ -22,7 +22,7 @@ const documents = {
   "\n  query Get_Pet_List {\n    petList {\n      id\n      identificationNumber\n      owner {\n        firstName\n        lastName\n      }\n    }\n  }\n":
     graphql.Get_Pet_ListDocument,
   "\n  mutation Delete_Pet($id: Long!) {\n    delete_Pet(id: $id)\n  }\n":
-    graphql.Delete_PetDocument
+    graphql.Delete_PetDocument,
 };
 
 export function gql(
@@ -61,6 +61,5 @@ export function gql(source: string) {
   return (documents as any)[source] ?? {};
 }
 
-export type DocumentType<
-  TDocumentNode extends DocumentNode<any, any>
-> = TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;
+export type DocumentType<TDocumentNode extends DocumentNode<any, any>> =
+  TDocumentNode extends DocumentNode<infer TType, any> ? TType : never;

@@ -1,0 +1,11 @@
+{
+  "name": "gql",
+  "version": "1.0.0",
+  "description": "TS typings generated based on GraphQL operations and schema",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "UNLICENSED"
+}

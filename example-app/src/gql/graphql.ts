@@ -1,13 +1,16 @@
 /* eslint-disable */
 import { TypedDocumentNode as DocumentNode } from "@graphql-typed-document-node/core";
 export type Maybe<T> = T | null;
+export type InputMaybe<T> = Maybe<T>;
 export type Exact<T extends { [key: string]: unknown }> = {
   [K in keyof T]: T[K];
 };
-export type MakeOptional<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]?: Maybe<T[SubKey]> };
-export type MakeMaybe<T, K extends keyof T> = Omit<T, K> &
-  { [SubKey in K]: Maybe<T[SubKey]> };
+export type MakeOptional<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]?: Maybe<T[SubKey]>;
+};
+export type MakeMaybe<T, K extends keyof T> = Omit<T, K> & {
+  [SubKey in K]: Maybe<T[SubKey]>;
+};
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
   ID: string;
@@ -111,27 +114,27 @@ export type MutationDelete_VisitArgs = {
 
 /** Mutation root */
 export type MutationUpdate_OwnerArgs = {
-  input?: Maybe<OwnerInputDtoInput>;
+  input?: InputMaybe<OwnerInputDtoInput>;
 };
 
 /** Mutation root */
 export type MutationUpdate_PetArgs = {
-  input?: Maybe<PetInputDtoInput>;
+  input?: InputMaybe<PetInputDtoInput>;
 };
 
 /** Mutation root */
 export type MutationUpdate_PetTypeArgs = {
-  input?: Maybe<PetTypeInputDtoInput>;
+  input?: InputMaybe<PetTypeInputDtoInput>;
 };
 
 /** Mutation root */
 export type MutationUpdate_TestArgs = {
-  input?: Maybe<TestInputDtoInput>;
+  input?: InputMaybe<TestInputDtoInput>;
 };
 
 /** Mutation root */
 export type MutationUpdate_VisitArgs = {
-  input?: Maybe<VisitInputDtoInput>;
+  input?: InputMaybe<VisitInputDtoInput>;
 };
 
 export type OwnerDto = {
@@ -146,23 +149,23 @@ export type OwnerDto = {
 };
 
 export type OwnerDtoInput = {
-  address?: Maybe<Scalars["String"]>;
-  city?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Long"]>;
-  lastName?: Maybe<Scalars["String"]>;
-  telephone?: Maybe<Scalars["String"]>;
+  address?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  lastName?: InputMaybe<Scalars["String"]>;
+  telephone?: InputMaybe<Scalars["String"]>;
 };
 
 export type OwnerInputDtoInput = {
-  address?: Maybe<Scalars["String"]>;
-  city?: Maybe<Scalars["String"]>;
-  email?: Maybe<Scalars["String"]>;
-  firstName?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Long"]>;
-  lastName?: Maybe<Scalars["String"]>;
-  telephone?: Maybe<Scalars["String"]>;
+  address?: InputMaybe<Scalars["String"]>;
+  city?: InputMaybe<Scalars["String"]>;
+  email?: InputMaybe<Scalars["String"]>;
+  firstName?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  lastName?: InputMaybe<Scalars["String"]>;
+  telephone?: InputMaybe<Scalars["String"]>;
 };
 
 export type PetDto = {
@@ -175,19 +178,19 @@ export type PetDto = {
 };
 
 export type PetDtoInput = {
-  birthDate?: Maybe<Scalars["LocalDate"]>;
-  id?: Maybe<Scalars["Long"]>;
-  identificationNumber?: Maybe<Scalars["String"]>;
-  owner?: Maybe<OwnerDtoInput>;
-  type?: Maybe<PetTypeDtoInput>;
+  birthDate?: InputMaybe<Scalars["LocalDate"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  identificationNumber?: InputMaybe<Scalars["String"]>;
+  owner?: InputMaybe<OwnerDtoInput>;
+  type?: InputMaybe<PetTypeDtoInput>;
 };
 
 export type PetInputDtoInput = {
-  birthDate?: Maybe<Scalars["LocalDate"]>;
-  id?: Maybe<Scalars["Long"]>;
-  identificationNumber?: Maybe<Scalars["String"]>;
-  owner?: Maybe<OwnerDtoInput>;
-  type?: Maybe<PetTypeDtoInput>;
+  birthDate?: InputMaybe<Scalars["LocalDate"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  identificationNumber?: InputMaybe<Scalars["String"]>;
+  owner?: InputMaybe<OwnerDtoInput>;
+  type?: InputMaybe<PetTypeDtoInput>;
 };
 
 export type PetTypeDto = {
@@ -197,13 +200,13 @@ export type PetTypeDto = {
 };
 
 export type PetTypeDtoInput = {
-  id?: Maybe<Scalars["Long"]>;
-  name?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 export type PetTypeInputDtoInput = {
-  id?: Maybe<Scalars["Long"]>;
-  name?: Maybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  name?: InputMaybe<Scalars["String"]>;
 };
 
 /** Query root */
@@ -223,27 +226,27 @@ export type Query = {
 
 /** Query root */
 export type QueryOwnerArgs = {
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 };
 
 /** Query root */
 export type QueryPetArgs = {
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 };
 
 /** Query root */
 export type QueryPetTypeArgs = {
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 };
 
 /** Query root */
 export type QueryTestArgs = {
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 };
 
 /** Query root */
 export type QueryVisitArgs = {
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 };
 
 export type TestDto = {
@@ -288,43 +291,43 @@ export type TestDto = {
 };
 
 export type TestInputDtoInput = {
-  bigDecimal?: Maybe<Scalars["BigDecimal"]>;
-  bigInt?: Maybe<Scalars["BigInteger"]>;
-  bool?: Maybe<Scalars["Boolean"]>;
+  bigDecimal?: InputMaybe<Scalars["BigDecimal"]>;
+  bigInt?: InputMaybe<Scalars["BigInteger"]>;
+  bool?: InputMaybe<Scalars["Boolean"]>;
   boolPrimitive: Scalars["Boolean"];
-  byteArray?: Maybe<Scalars["Base64String_Byte"]>;
+  byteArray?: InputMaybe<Scalars["Base64String_Byte"]>;
   bytePrimitive: Scalars["Byte"];
-  bytePrimitiveArray?: Maybe<Scalars["Base64String"]>;
-  byteTest?: Maybe<Scalars["Byte"]>;
-  calendar?: Maybe<Scalars["Calendar"]>;
-  charArray?: Maybe<Array<Maybe<Scalars["Char"]>>>;
+  bytePrimitiveArray?: InputMaybe<Scalars["Base64String"]>;
+  byteTest?: InputMaybe<Scalars["Byte"]>;
+  calendar?: InputMaybe<Scalars["Calendar"]>;
+  charArray?: InputMaybe<Array<InputMaybe<Scalars["Char"]>>>;
   charPrimitive: Scalars["Char"];
-  charPrimitiveArray?: Maybe<Array<Maybe<Scalars["Char"]>>>;
-  character?: Maybe<Scalars["Char"]>;
-  currency?: Maybe<Scalars["currency"]>;
-  date?: Maybe<Scalars["SqlDate"]>;
-  dateUtil?: Maybe<Scalars["Date"]>;
-  doubleTest?: Maybe<Scalars["Float"]>;
-  duration?: Maybe<Scalars["Duration"]>;
-  floatTest?: Maybe<Scalars["Float"]>;
-  id?: Maybe<Scalars["Long"]>;
-  instant?: Maybe<Scalars["Instant"]>;
-  intTest?: Maybe<Scalars["Int"]>;
-  localDate?: Maybe<Scalars["LocalDate"]>;
-  localDateTime?: Maybe<Scalars["LocalDateTime"]>;
-  localTime?: Maybe<Scalars["LocalTime"]>;
-  locale?: Maybe<Scalars["Locale"]>;
-  longTest?: Maybe<Scalars["Long"]>;
-  offsetDateTime?: Maybe<Scalars["OffsetDateTime"]>;
-  offsetTime?: Maybe<Scalars["OffsetTime"]>;
+  charPrimitiveArray?: InputMaybe<Array<InputMaybe<Scalars["Char"]>>>;
+  character?: InputMaybe<Scalars["Char"]>;
+  currency?: InputMaybe<Scalars["currency"]>;
+  date?: InputMaybe<Scalars["SqlDate"]>;
+  dateUtil?: InputMaybe<Scalars["Date"]>;
+  doubleTest?: InputMaybe<Scalars["Float"]>;
+  duration?: InputMaybe<Scalars["Duration"]>;
+  floatTest?: InputMaybe<Scalars["Float"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  instant?: InputMaybe<Scalars["Instant"]>;
+  intTest?: InputMaybe<Scalars["Int"]>;
+  localDate?: InputMaybe<Scalars["LocalDate"]>;
+  localDateTime?: InputMaybe<Scalars["LocalDateTime"]>;
+  localTime?: InputMaybe<Scalars["LocalTime"]>;
+  locale?: InputMaybe<Scalars["Locale"]>;
+  longTest?: InputMaybe<Scalars["Long"]>;
+  offsetDateTime?: InputMaybe<Scalars["OffsetDateTime"]>;
+  offsetTime?: InputMaybe<Scalars["OffsetTime"]>;
   shortPrimitive: Scalars["Short"];
-  shortTest?: Maybe<Scalars["Short"]>;
-  string?: Maybe<Scalars["String"]>;
-  time?: Maybe<Scalars["SqlTime"]>;
-  timeStamp?: Maybe<Scalars["SqlTimestamp"]>;
-  url?: Maybe<Scalars["URL"]>;
-  uuidTest?: Maybe<Scalars["UUID"]>;
-  zonedDateTime?: Maybe<Scalars["ZonedDateTime"]>;
+  shortTest?: InputMaybe<Scalars["Short"]>;
+  string?: InputMaybe<Scalars["String"]>;
+  time?: InputMaybe<Scalars["SqlTime"]>;
+  timeStamp?: InputMaybe<Scalars["SqlTimestamp"]>;
+  url?: InputMaybe<Scalars["URL"]>;
+  uuidTest?: InputMaybe<Scalars["UUID"]>;
+  zonedDateTime?: InputMaybe<Scalars["ZonedDateTime"]>;
 };
 
 export type VisitDto = {
@@ -337,15 +340,15 @@ export type VisitDto = {
 };
 
 export type VisitInputDtoInput = {
-  description?: Maybe<Scalars["String"]>;
-  id?: Maybe<Scalars["Long"]>;
-  pet?: Maybe<PetDtoInput>;
-  visitEnd?: Maybe<Scalars["LocalDateTime"]>;
-  visitStart?: Maybe<Scalars["LocalDateTime"]>;
+  description?: InputMaybe<Scalars["String"]>;
+  id?: InputMaybe<Scalars["Long"]>;
+  pet?: InputMaybe<PetDtoInput>;
+  visitEnd?: InputMaybe<Scalars["LocalDateTime"]>;
+  visitStart?: InputMaybe<Scalars["LocalDateTime"]>;
 };
 
 export type Get_OwnerQueryVariables = Exact<{
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 }>;
 
 export type Get_OwnerQuery = {
@@ -366,7 +369,7 @@ export type Get_OwnerQuery = {
 };
 
 export type Update_OwnerMutationVariables = Exact<{
-  input?: Maybe<OwnerInputDtoInput>;
+  input?: InputMaybe<OwnerInputDtoInput>;
 }>;
 
 export type Update_OwnerMutation = {
@@ -412,7 +415,7 @@ export type Delete_OwnerMutation = {
 };
 
 export type Get_PetQueryVariables = Exact<{
-  id?: Maybe<Scalars["Long"]>;
+  id?: InputMaybe<Scalars["Long"]>;
 }>;
 
 export type Get_PetQuery = {
@@ -436,7 +439,7 @@ export type Get_PetQuery = {
 };
 
 export type Update_PetMutationVariables = Exact<{
-  input?: Maybe<PetInputDtoInput>;
+  input?: InputMaybe<PetInputDtoInput>;
 }>;
 
 export type Update_PetMutation = {
@@ -487,7 +490,7 @@ export type Delete_PetMutation = {
   delete_Pet: boolean;
 };
 
-export const New_OwnerDtoFragmentDoc = ({
+export const New_OwnerDtoFragmentDoc = {
   kind: "Document",
   definitions: [
     {
@@ -495,16 +498,16 @@ export const New_OwnerDtoFragmentDoc = ({
       name: { kind: "Name", value: "New_OwnerDTO" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "OwnerDTO" }
+        name: { kind: "Name", value: "OwnerDTO" },
       },
       selectionSet: {
         kind: "SelectionSet",
-        selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<New_OwnerDtoFragment, unknown>;
-export const New_PetDtoFragmentDoc = ({
+        selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }],
+      },
+    },
+  ],
+} as unknown as DocumentNode<New_OwnerDtoFragment, unknown>;
+export const New_PetDtoFragmentDoc = {
   kind: "Document",
   definitions: [
     {
@@ -512,16 +515,16 @@ export const New_PetDtoFragmentDoc = ({
       name: { kind: "Name", value: "New_PetDTO" },
       typeCondition: {
         kind: "NamedType",
-        name: { kind: "Name", value: "PetDTO" }
+        name: { kind: "Name", value: "PetDTO" },
       },
       selectionSet: {
         kind: "SelectionSet",
-        selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<New_PetDtoFragment, unknown>;
-export const Get_OwnerDocument = ({
+        selections: [{ kind: "Field", name: { kind: "Name", value: "id" } }],
+      },
+    },
+  ],
+} as unknown as DocumentNode<New_PetDtoFragment, unknown>;
+export const Get_OwnerDocument = {
   kind: "Document",
   definitions: [
     {
@@ -532,8 +535,8 @@ export const Get_OwnerDocument = ({
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
-        }
+          type: { kind: "NamedType", name: { kind: "Name", value: "Long" } },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -545,8 +548,11 @@ export const Get_OwnerDocument = ({
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
-              }
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
             ],
             selectionSet: {
               kind: "SelectionSet",
@@ -557,16 +563,16 @@ export const Get_OwnerDocument = ({
                 { kind: "Field", name: { kind: "Name", value: "city" } },
                 { kind: "Field", name: { kind: "Name", value: "address" } },
                 { kind: "Field", name: { kind: "Name", value: "email" } },
-                { kind: "Field", name: { kind: "Name", value: "telephone" } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Get_OwnerQuery, Get_OwnerQueryVariables>;
-export const Update_OwnerDocument = ({
+                { kind: "Field", name: { kind: "Name", value: "telephone" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_OwnerQuery, Get_OwnerQueryVariables>;
+export const Update_OwnerDocument = {
   kind: "Document",
   definitions: [
     {
@@ -578,13 +584,13 @@ export const Update_OwnerDocument = ({
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "input" }
+            name: { kind: "Name", value: "input" },
           },
           type: {
             kind: "NamedType",
-            name: { kind: "Name", value: "OwnerInputDTOInput" }
-          }
-        }
+            name: { kind: "Name", value: "OwnerInputDTOInput" },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -598,26 +604,26 @@ export const Update_OwnerDocument = ({
                 name: { kind: "Name", value: "input" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "input" }
-                }
-              }
+                  name: { kind: "Name", value: "input" },
+                },
+              },
             ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
   Update_OwnerMutation,
   Update_OwnerMutationVariables
 >;
-export const Get_Owner_ListDocument = ({
+export const Get_Owner_ListDocument = {
   kind: "Document",
   definitions: [
     {
@@ -636,19 +642,16 @@ export const Get_Owner_ListDocument = ({
                 { kind: "Field", name: { kind: "Name", value: "id" } },
                 { kind: "Field", name: { kind: "Name", value: "firstName" } },
                 { kind: "Field", name: { kind: "Name", value: "lastName" } },
-                { kind: "Field", name: { kind: "Name", value: "city" } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<
-  Get_Owner_ListQuery,
-  Get_Owner_ListQueryVariables
->;
-export const Delete_OwnerDocument = ({
+                { kind: "Field", name: { kind: "Name", value: "city" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_Owner_ListQuery, Get_Owner_ListQueryVariables>;
+export const Delete_OwnerDocument = {
   kind: "Document",
   definitions: [
     {
@@ -661,9 +664,9 @@ export const Delete_OwnerDocument = ({
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
-          }
-        }
+            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -675,19 +678,22 @@ export const Delete_OwnerDocument = ({
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<
   Delete_OwnerMutation,
   Delete_OwnerMutationVariables
 >;
-export const Get_PetDocument = ({
+export const Get_PetDocument = {
   kind: "Document",
   definitions: [
     {
@@ -698,8 +704,8 @@ export const Get_PetDocument = ({
         {
           kind: "VariableDefinition",
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
-          type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
-        }
+          type: { kind: "NamedType", name: { kind: "Name", value: "Long" } },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -711,8 +717,11 @@ export const Get_PetDocument = ({
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
-              }
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
             ],
             selectionSet: {
               kind: "SelectionSet",
@@ -720,7 +729,7 @@ export const Get_PetDocument = ({
                 { kind: "Field", name: { kind: "Name", value: "id" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "identificationNumber" }
+                  name: { kind: "Name", value: "identificationNumber" },
                 },
                 {
                   kind: "Field",
@@ -730,24 +739,24 @@ export const Get_PetDocument = ({
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "firstName" }
+                        name: { kind: "Name", value: "firstName" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "lastName" }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Get_PetQuery, Get_PetQueryVariables>;
-export const Update_PetDocument = ({
+                        name: { kind: "Name", value: "lastName" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_PetQuery, Get_PetQueryVariables>;
+export const Update_PetDocument = {
   kind: "Document",
   definitions: [
     {
@@ -759,13 +768,13 @@ export const Update_PetDocument = ({
           kind: "VariableDefinition",
           variable: {
             kind: "Variable",
-            name: { kind: "Name", value: "input" }
+            name: { kind: "Name", value: "input" },
           },
           type: {
             kind: "NamedType",
-            name: { kind: "Name", value: "PetInputDTOInput" }
-          }
-        }
+            name: { kind: "Name", value: "PetInputDTOInput" },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -779,23 +788,23 @@ export const Update_PetDocument = ({
                 name: { kind: "Name", value: "input" },
                 value: {
                   kind: "Variable",
-                  name: { kind: "Name", value: "input" }
-                }
-              }
+                  name: { kind: "Name", value: "input" },
+                },
+              },
             ],
             selectionSet: {
               kind: "SelectionSet",
               selections: [
-                { kind: "Field", name: { kind: "Name", value: "id" } }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Update_PetMutation, Update_PetMutationVariables>;
-export const Get_Pet_ListDocument = ({
+                { kind: "Field", name: { kind: "Name", value: "id" } },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Update_PetMutation, Update_PetMutationVariables>;
+export const Get_Pet_ListDocument = {
   kind: "Document",
   definitions: [
     {
@@ -814,7 +823,7 @@ export const Get_Pet_ListDocument = ({
                 { kind: "Field", name: { kind: "Name", value: "id" } },
                 {
                   kind: "Field",
-                  name: { kind: "Name", value: "identificationNumber" }
+                  name: { kind: "Name", value: "identificationNumber" },
                 },
                 {
                   kind: "Field",
@@ -824,24 +833,24 @@ export const Get_Pet_ListDocument = ({
                     selections: [
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "firstName" }
+                        name: { kind: "Name", value: "firstName" },
                       },
                       {
                         kind: "Field",
-                        name: { kind: "Name", value: "lastName" }
-                      }
-                    ]
-                  }
-                }
-              ]
-            }
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Get_Pet_ListQuery, Get_Pet_ListQueryVariables>;
-export const Delete_PetDocument = ({
+                        name: { kind: "Name", value: "lastName" },
+                      },
+                    ],
+                  },
+                },
+              ],
+            },
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Get_Pet_ListQuery, Get_Pet_ListQueryVariables>;
+export const Delete_PetDocument = {
   kind: "Document",
   definitions: [
     {
@@ -854,9 +863,9 @@ export const Delete_PetDocument = ({
           variable: { kind: "Variable", name: { kind: "Name", value: "id" } },
           type: {
             kind: "NonNullType",
-            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } }
-          }
-        }
+            type: { kind: "NamedType", name: { kind: "Name", value: "Long" } },
+          },
+        },
       ],
       selectionSet: {
         kind: "SelectionSet",
@@ -868,12 +877,15 @@ export const Delete_PetDocument = ({
               {
                 kind: "Argument",
                 name: { kind: "Name", value: "id" },
-                value: { kind: "Variable", name: { kind: "Name", value: "id" } }
-              }
-            ]
-          }
-        ]
-      }
-    }
-  ]
-} as unknown) as DocumentNode<Delete_PetMutation, Delete_PetMutationVariables>;
+                value: {
+                  kind: "Variable",
+                  name: { kind: "Name", value: "id" },
+                },
+              },
+            ],
+          },
+        ],
+      },
+    },
+  ],
+} as unknown as DocumentNode<Delete_PetMutation, Delete_PetMutationVariables>;
