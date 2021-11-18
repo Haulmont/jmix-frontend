@@ -139,7 +139,7 @@ export function openEntityListScreen(
   }
 }
 
-export const useParentScreen = (routingPath: string): (() => void) => {
+export const useParentScreen = (routingPath: string, shouldNotGoToParentScreen?: boolean): (() => void) => {
   const screens = useContext(ScreensContext);
   const multiScreen = useContext(MultiScreenContext);
   const currentTab = useCurrentTab();
@@ -148,10 +148,12 @@ export const useParentScreen = (routingPath: string): (() => void) => {
     // if (screens.currentScreenIndex === 1) {
     //   redirect(routingPath);
     // }
-    if (multiScreen.parent) {
-      screens.setActiveScreen(multiScreen.parent, true);
-    } else {
-      tabs.close(currentTab);
+    if(!shouldNotGoToParentScreen) {
+      if (multiScreen.parent) {
+        screens.setActiveScreen(multiScreen.parent, true);
+      } else {
+        tabs.close(currentTab);
+      }
     }
-  }, [screens, routingPath, multiScreen]);
+  }, [screens, routingPath, multiScreen, shouldNotGoToParentScreen]);
 };

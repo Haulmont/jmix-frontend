@@ -91,7 +91,8 @@ export const EntityDataEditor = observer(({
     persistEntityCallbacks: useEntityPersistCallbacks(),
     uiKit_to_jmixFront: ant_to_jmixFront,
     useEntityEditorForm: createUseAntdForm(form),
-    useEntityEditorFormValidation: createUseAntdFormValidation(form)
+    useEntityEditorFormValidation: createUseAntdFormValidation(form),
+    shouldNotGoToParentScreen: true
   });
 
   useEffect(() => {
