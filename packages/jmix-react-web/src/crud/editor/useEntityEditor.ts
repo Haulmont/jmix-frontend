@@ -114,7 +114,8 @@ export interface EntityEditorHookOptions<TEntity, TData, TQueryVars, TMutationVa
    * @param stringIdName when entity has a String `id` - name of the `id` attribute.
    */
   uiKit_to_jmixFront: (item: any, entityName: string, metadata: Metadata, stringIdName?: string) => Record<string, any>;
-  persistEntityCallbacks?: PersistEntityCallbacks
+  persistEntityCallbacks?: PersistEntityCallbacks,
+  shouldNotGoToParentScreen?: boolean
 }
 
 export interface EntityEditorHookResult<TEntity, TData, TQueryVars, TMutationVars> {
@@ -192,7 +193,8 @@ export function useEntityEditor<
     useEntityEditorForm = useNoop,
     useEntityEditorFormValidation = useNoop,
     uiKit_to_jmixFront,
-    persistEntityCallbacks
+    persistEntityCallbacks,
+    shouldNotGoToParentScreen
   } = options;
 
   const intl = useIntl();
@@ -222,7 +224,7 @@ export function useEntityEditor<
   const serverValidationErrors = extractBeanValidationErrors(upsertMutationResult.error);
   useEntityEditorFormValidation(serverValidationErrors);
 
-  const goToParentScreen = useParentScreen(routingPath);
+  const goToParentScreen = useParentScreen(routingPath, shouldNotGoToParentScreen);
 
   const handleCancelBtnClick = goToParentScreen;
 
