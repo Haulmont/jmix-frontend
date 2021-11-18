@@ -7,5 +7,5 @@ module.exports = {
     "name": "scr_FormWizardTestEntity"
   },
   query,
-  "steps": 3
+  "steps": '3'
 };
