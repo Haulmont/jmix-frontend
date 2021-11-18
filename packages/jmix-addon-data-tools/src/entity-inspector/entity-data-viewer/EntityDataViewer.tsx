@@ -75,16 +75,13 @@ export const EntityDataViewer = observer((props: Props) => {
   });
 
   const restoreIds = useMemo(() => {
-    return items
-      ?.filter(({id}) => typeof id === "string")
-      ?.map(({id}) => id as string) ?? [];
-  }, [items]);
+    if(entityListState.selectedEntityId == null) {
+      return [];
+    }
+    return [entityListState.selectedEntityId];
+  }, [entityListState.selectedEntityId]);
 
-  const isRestoreDisabled = useMemo(() => {
-    return restoreIds.length === 0
-  }, [restoreIds.length]) 
-
-  const restoreEntity = useEntityRestore({className: entityName, ids: restoreIds})
+  const restoreEntity = useEntityRestore({className: entityName, ids: restoreIds}, executeListQuery)
 
   const onEditCommit = useMemo(() => {
     return onEntityListChange
@@ -225,7 +222,7 @@ export const EntityDataViewer = observer((props: Props) => {
         onClick={restoreEntity}
         key="restore"
         type="default"
-        disabled={isRestoreDisabled}
+        disabled={entityListState.selectedEntityId == null}
       >
         <FormattedMessage id="addons.DataTools.restoreButton" />
       </Button>
