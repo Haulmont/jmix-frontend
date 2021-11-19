@@ -7,12 +7,18 @@ export class HotkeyStore {
   dynamicHotkeyConfigs: HotkeyConfig[] = [];
 
   get hotkeyConfigs() {
-    const fromDefaultHotkeyConfigs = this.defaultHotkeyConfigs.filter(
-      defaultHotkeyConfig => !this.dynamicHotkeyConfigs.some(
-        dynamicHotkeyConfig => equalsHotkeyConfig(defaultHotkeyConfig, dynamicHotkeyConfig)
+    const onlyInDynamicHotkeyConfigs = this.dynamicHotkeyConfigs.filter(
+      dynamicHotkeyConfig => !this.defaultHotkeyConfigs.some(
+        defaultHotkeyConfig => equalsHotkeyConfig(defaultHotkeyConfig, dynamicHotkeyConfig)
       )
     );
-    const hotkeyConfigs = [...this.dynamicHotkeyConfigs, ...fromDefaultHotkeyConfigs]
+    const redefinedDefaultHotkeyConfigs = this.defaultHotkeyConfigs
+      .map(defaultHotkeyConfig =>
+        this.dynamicHotkeyConfigs.find(
+          dynamicHotkeyConfig => equalsHotkeyConfig(defaultHotkeyConfig, dynamicHotkeyConfig)
+        ) || defaultHotkeyConfig
+      )
+    const hotkeyConfigs = [...redefinedDefaultHotkeyConfigs, ...onlyInDynamicHotkeyConfigs]
     return hotkeyConfigs;
   }
 

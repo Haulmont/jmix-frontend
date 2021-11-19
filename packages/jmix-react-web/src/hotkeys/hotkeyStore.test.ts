@@ -63,6 +63,37 @@ describe('HotkeyStore', () => {
     hotkeyStore.removeHotkeyConfigs(twoHotkeyConfig);
     expect(hotkeyStore.hotkeyConfigs).toEqual([oneHotkeyConfig]);
   });
+
+  it('order of defaultHotkeyConfigs higher priority then dynamicHotkeyConfigs', () => {
+    const hotkeyStore = new HotkeyStore([
+      {description: '1', hotkey: '1', categoryName: '1'},
+      {description: '2', hotkey: '2', categoryName: '2'},
+      {description: '3', hotkey: '3', categoryName: '3'},
+    ]);
+
+    hotkeyStore.addHotkeyConfig({description: '4', hotkey: '4', categoryName: '4'});
+    expect(hotkeyStore.hotkeyConfigs).toEqual([
+      {description: '1', hotkey: '1', categoryName: '1'},
+      {description: '2', hotkey: '2', categoryName: '2'},
+      {description: '3', hotkey: '3', categoryName: '3'},
+      {description: '4', hotkey: '4', categoryName: '4'},
+    ]);
+  });
+
+  it('dynamicHotkeyConfigs redifing defaultHotkeyConfigs', () => {
+    const hotkeyStore = new HotkeyStore([
+      {description: '1', hotkey: '1', categoryName: '1'},
+      {description: '2', hotkey: '2', categoryName: '2'},
+      {description: '3', hotkey: '3', categoryName: '3'},
+    ]);
+
+    hotkeyStore.addHotkeyConfig({description: '2', hotkey: 'new2', categoryName: 'new2'});
+    expect(hotkeyStore.hotkeyConfigs).toEqual([
+      {description: '1', hotkey: '1', categoryName: '1'},
+      {description: '2', hotkey: 'new2', categoryName: 'new2'},
+      {description: '3', hotkey: '3', categoryName: '3'},
+    ]);
+  })
 });
 
 function compareHotkeyConfigs(oneHotkeyConfig: HotkeyConfig, twoHotkeyConfig: HotkeyConfig) {

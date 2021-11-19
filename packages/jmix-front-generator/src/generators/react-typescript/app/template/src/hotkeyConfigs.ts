@@ -4,6 +4,6 @@ import { hotkeyInfoHotkeyConfigs } from "./app/header/AppHeader";
 export const defaultHotkeyConfigs: HotkeyConfig[] = [
   ...hotkeyInfoHotkeyConfigs,
   ...defaultTabHotkeyConfigs,
-  ...defaultBrowserTableHotkeyConfigs,
   ...defaultEditorHotkeyConfigs,
+  ...defaultBrowserTableHotkeyConfigs
 ];

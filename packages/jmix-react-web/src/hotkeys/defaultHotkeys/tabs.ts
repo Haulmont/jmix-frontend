@@ -9,13 +9,13 @@ const TABS_CATEGORY_NAME = 'hotkeys.tabs.categoryName';
 const nextTabHotkeyConfig: HotkeyConfig = {
   categoryName: TABS_CATEGORY_NAME,
   description: "hotkeys.tabs.nextTab",
-  hotkey: "right",
+  hotkey: "g+n",
 }
 
 const previousTabHotkeyConfig: HotkeyConfig = {
   categoryName: TABS_CATEGORY_NAME,
   description: "hotkeys.tabs.previousTab",
-  hotkey: "left",
+  hotkey: "g+p",
 }
 
 export const defaultTabHotkeyConfigs: HotkeyConfig[] = [
