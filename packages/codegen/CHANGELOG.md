@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [0.5.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.5.0...@amplicode/codegen@0.5.1) (2021-11-19)
+
+
+### Bug Fixes
+
+* codegen.yml contains absolute path to schema file rather than relative [#81](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/81) ([1075da2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/1075da27b9025ab1d23d4c423cd7ea8ee5e93927))
+* npm install fails in npm 6 [#80](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/80) ([049074e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/049074e394006ed151c830250f075d04ffb4de50))
+
+
+
+
+
 # [0.5.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@amplicode/codegen@0.4.0...@amplicode/codegen@0.5.0) (2021-11-17)
 
 
