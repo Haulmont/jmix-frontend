@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.4...@haulmont/jmix-react-web@2.0.0-next.5) (2021-11-19)
+
+
+### Bug Fixes
+
+* lock typescript on version 4.4.x [#774](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/774) ([6bec3d3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/6bec3d3120e98d471a5c21a43095c9f923fb9640))
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.3...@haulmont/jmix-react-web@2.0.0-next.4) (2021-11-17)
 
 

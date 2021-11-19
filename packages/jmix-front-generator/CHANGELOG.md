@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.6...@haulmont/jmix-front-generator@2.0.0-next.7) (2021-11-19)
+
+
+### Bug Fixes
+
+* lock typescript on version 4.4.x [#774](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/774) ([6bec3d3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/6bec3d3120e98d471a5c21a43095c9f923fb9640))
+
+
+
+
+
 # [2.0.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.5...@haulmont/jmix-front-generator@2.0.0-next.6) (2021-11-17)
 
 
