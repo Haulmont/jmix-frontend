@@ -8,13 +8,13 @@ const BROWSER_TABLE_CATEGORY_NAME = 'hotkeys.browserTable.categoryName';
 const editEntityHotkeyConfig: HotkeyConfig = {
   categoryName: BROWSER_TABLE_CATEGORY_NAME,
   description: 'hotkeys.browserTable.editEntity',
-  hotkey: 'e',
+  hotkey: 'g+e',
 };
 
 const createEntityHotkeyConfig: HotkeyConfig = {
   categoryName: BROWSER_TABLE_CATEGORY_NAME,
   description: 'hotkeys.browserTable.createEntity',
-  hotkey: 'c',
+  hotkey: 'g+c',
 };
 
 const deleteEntityHotkeyConfig: HotkeyConfig = {
