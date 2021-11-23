@@ -36,6 +36,7 @@ export * from './ui/form/entity-form/EntityForm';
 export * from './ui/form/controls';
 
 export * from './ui/content-area/ContentArea';
+export * from './ui/EntityHierarchyTree';
 export * from './ui/form/Form';
 export * from './ui/form/validation/GlobalErrorsAlert';
 export * from './ui/form/validation/passthroughRule';
