@@ -22,6 +22,7 @@ const titleAttrAnswer: StudioTemplateProperty = {
   propertyType: StudioTemplatePropertyType.ATTRIBUTE,
   required: true,
   relatedProperty: 'query',
+  options: ['string'],
   step: {
     name: 'Select query attribures',
     order: '2',
@@ -34,6 +35,7 @@ const descriptionAttrAnswer: StudioTemplateProperty = {
   propertyType: StudioTemplatePropertyType.ATTRIBUTE,
   required: true,
   relatedProperty: 'query',
+  options: ['string'],
   step: {
     name: 'Select query attribures',
     order: '2',
@@ -44,6 +46,7 @@ const eventStartAttrAnswer: StudioTemplateProperty = {
   caption: "Event start attribute",
   code: "eventStartAttr",
   propertyType: StudioTemplatePropertyType.ATTRIBUTE,
+  options: ['date', 'datetime'],
   required: true,
   relatedProperty: 'query',
   step: {
@@ -56,6 +59,7 @@ const eventEndAttrAnswer: StudioTemplateProperty = {
   caption: "Event end attribute",
   code: "eventEndAttr",
   propertyType: StudioTemplatePropertyType.ATTRIBUTE,
+  options: ['date', 'datetime'],
   required: true,
   relatedProperty: 'query',
   step: {
