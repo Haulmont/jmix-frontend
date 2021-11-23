@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.5...@haulmont/jmix-react-web@2.0.0-next.6) (2021-11-23)
+
+
+### Bug Fixes
+
+* closing data-tools tab after entity submiting [#775](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/775) ([2d95d09](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/2d95d0998a685c124ebfc97fbc2ebfb41f261896))
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.4...@haulmont/jmix-react-web@2.0.0-next.5) (2021-11-19)
 
 

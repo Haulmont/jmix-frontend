@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0-next.8](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@1.1.0-next.7...@haulmont/jmix-addon-data-tools@1.1.0-next.8) (2021-11-23)
+
+
+### Bug Fixes
+
+* closing data-tools tab after entity submiting [#775](https://github.com/Haulmont/jmix-frontend/issues/775) ([2d95d09](https://github.com/Haulmont/jmix-frontend/commit/2d95d0998a685c124ebfc97fbc2ebfb41f261896))
+
+
+
+
+
 # [1.1.0-next.7](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@1.1.0-next.6...@haulmont/jmix-addon-data-tools@1.1.0-next.7) (2021-11-19)
 
 **Note:** Version bump only for package @haulmont/jmix-addon-data-tools
