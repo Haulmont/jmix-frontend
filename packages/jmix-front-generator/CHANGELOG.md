@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.2...@haulmont/jmix-front-generator@1.1.0) (2021-11-23)
+
+
+### Bug Fixes
+
+* lock typescript on version ~4.4.3 [#774](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/774) ([08335a7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/08335a73b6a8bc72b292e1bf72ce8a9972adcaee))
+
+
+### Features
+
+* graphql file upload/download [#614](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/614) ([478074c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/478074c19f3d380937849dcd02b2ac1a44301a9a))
+
+
+
+
+
 ## [1.0.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.0...@haulmont/jmix-front-generator@1.0.1) (2021-07-02)
 
 
