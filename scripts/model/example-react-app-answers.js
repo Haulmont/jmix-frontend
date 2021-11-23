@@ -27,6 +27,10 @@ module.exports = {
     "componentName": "custom-form-controls",
     "menuItem": "ROOT"
   },
+  "customDataDisplayComponents": {
+    "componentName": "custom-data-display-components",
+    "menuItem": "ROOT"
+  },
   "structure": {
     "componentName": "StructureComponent",
     "structureType": "Two columns",

@@ -67,6 +67,7 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
+import CustomDataDisplayComponents from "../app/custom-data-display-components/CustomDataDisplayComponents";
 import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
 import ExampleCustomScreen from "../app/example-custom-screen/ExampleCustomScreen";
 import { ArrowUpOutlined } from "@ant-design/icons";
@@ -196,6 +197,11 @@ const palette = () => (
       <Component name="CustomFormControls">
         <Variant>
           <CustomFormControls />
+        </Variant>
+      </Component>
+      <Component name="CustomDataDisplayComponents">
+        <Variant>
+          <CustomDataDisplayComponents />
         </Variant>
       </Component>
       <Component name="TestBlankScreen">
