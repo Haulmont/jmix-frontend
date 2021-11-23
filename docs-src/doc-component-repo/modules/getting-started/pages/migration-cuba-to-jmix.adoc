@@ -235,3 +235,11 @@ import { ... } from "@haulmont/jmix-react-ui";
 == Change i18n messages
 
 In all i18n message files (`en.json`, etc.) replace `management.editor.success` key-value pair with two key-value pairs `management.editor.created` and `management.editor.updated`.
+
+== Troubleshooting
+
+If you have "Module not found" error upon running the application, try the following:
+
+- delete `node_modules` folder
+- delete `package-lock.json`
+- run `npm install`
