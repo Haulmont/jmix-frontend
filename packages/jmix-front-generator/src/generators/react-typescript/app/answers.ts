@@ -12,7 +12,7 @@ export interface Answers {
   menuType: MenuType;
 }
 
-const menuTypeQuestion = {
+const menuTypeQuestion: StudioTemplateProperty = {
   code: 'menuType',
   caption: 'Menu type',
   propertyType: StudioTemplatePropertyType.OPTION,

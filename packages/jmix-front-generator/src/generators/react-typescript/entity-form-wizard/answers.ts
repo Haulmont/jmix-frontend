@@ -25,7 +25,7 @@ MenuItemAnswer {
   steps: number;
 }
 
-const formWizardStepsQuestion = {
+const formWizardStepsQuestion: StudioTemplateProperty = {
   code: 'steps',
   caption: 'Number of steps',
   propertyType: StudioTemplatePropertyType.INTEGER,
