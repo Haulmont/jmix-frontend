@@ -71,7 +71,7 @@ export function jmixFront_to_ant(
 
       if (typeof value === 'object') {
         // Recursively traverse child entity
-        fields[attrName] = jmixFront_to_ant(value, propInfo.type, metadata);
+        fields[attrName] = getCompositionAttrValue(value, propInfo.type, metadata);
         return;
       }
 
@@ -87,7 +87,7 @@ export function jmixFront_to_ant(
 
       // Recursively traverse child entities
       if (Array.isArray(value)) {
-        fields[attrName] = value.map((e: EntityInstance) => jmixFront_to_ant(e, propInfo.type, metadata));
+        fields[attrName] = value.map((e: EntityInstance) => getCompositionAttrValue(e, propInfo.type, metadata));
         return;
       }
 
@@ -164,4 +164,15 @@ export function jmixFront_to_ant(
   });
 
   return fields;
+}
+
+function getCompositionAttrValue(
+  entityInstance: EntityInstance,
+  entityName: string,
+  metadata: Metadata
+) {
+  return {
+    ...jmixFront_to_ant(entityInstance, entityName, metadata),
+    _instanceName: entityInstance._instanceName
+  }
 }
