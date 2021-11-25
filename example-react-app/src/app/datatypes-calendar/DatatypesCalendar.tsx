@@ -1,6 +1,5 @@
 import { observer } from "mobx-react";
 import { Card } from "antd";
-import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { registerScreen } from "@haulmont/jmix-react-web";
 import {
   Spinner,
@@ -9,6 +8,7 @@ import {
   useCalendar
 } from "@haulmont/jmix-react-antd";
 import { gql } from "@apollo/client";
+import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 
 const ENTITY_NAME = "scr_DatatypesTestEntity";
 const ROUTING_PATH = "/datatypesCalendar";
