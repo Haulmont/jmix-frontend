@@ -1,8 +1,12 @@
-import {Entity, EntityAttribute, ProjectModel} from "../../../common/model/cuba-model";
+import {EntityAttribute, ProjectModel} from "../../../common/model/cuba-model";
 import {CommonTemplateModel} from "../../../building-blocks/stages/template-model/pieces/common";
 import {CalendarAnswers} from "./answers";
 import {Options} from "./options";
 import {deriveEntityCommon} from "../../../building-blocks/stages/template-model/pieces/common";
+import {
+  deriveEntity,
+  EntityWithPath
+} from "../../../building-blocks/stages/template-model/pieces/entity";
 import {stringIdAnswersToModel} from '../common/base-entity-screen-generator';
 import {YeomanGenerator} from "../../../building-blocks/YeomanGenerator";
 import { templateUtilities, UtilTemplateModel } from "../../../building-blocks/stages/template-model/pieces/util";
@@ -12,11 +16,11 @@ import { ScreenType } from "../../../building-blocks/stages/template-model/piece
 export interface CalendarTemplateModel extends
 CommonTemplateModel,
 UtilTemplateModel {
-  entity: Entity;
+  entity: EntityWithPath;
   eventStartAttr: string;
   eventEndAttr: string;
   titleAttr: string;
-  descriptionAttrAnswer: string;
+  descriptionAttr: string;
   stringIdName?: string;
   query: string;
   attributes: EntityAttribute[];
@@ -41,13 +45,13 @@ export async function deriveCalendarTemplateModel(
 
   return {
     query: answers.query,
-    entity: answers.entity,
     eventStartAttr: answers.eventStartAttr,
     eventEndAttr: answers.eventEndAttr,
     titleAttr: answers.titleAttr,
-    descriptionAttrAnswer: answers.descriptionAttrAnswer,
+    descriptionAttr: answers.descriptionAttr,
     attributes,
     stringIdName,
+    ...deriveEntity(answers, projectModel),
     ...deriveEntityCommon(options, answers),
     ...templateUtilities,
   }

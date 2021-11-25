@@ -14,7 +14,13 @@ import {
   QueryAnswer,
   menuItemQuestion,
   MenuItemAnswer,
+  StepQuestionParam,
 } from "../../../building-blocks/stages/answers/pieces/defaultAnswers";
+
+const selectQueryAttributesStep: StepQuestionParam = {
+  name: 'Select query attributes',
+  order: '2',
+};
 
 const titleAttrAnswer: StudioTemplateProperty = {
   caption: "Title attribute",
@@ -23,10 +29,7 @@ const titleAttrAnswer: StudioTemplateProperty = {
   required: true,
   relatedProperty: 'query',
   options: ['string'],
-  step: {
-    name: 'Select query attribures',
-    order: '2',
-  }
+  step: selectQueryAttributesStep,
 };
 
 const descriptionAttrAnswer: StudioTemplateProperty = {
@@ -36,10 +39,7 @@ const descriptionAttrAnswer: StudioTemplateProperty = {
   required: true,
   relatedProperty: 'query',
   options: ['string'],
-  step: {
-    name: 'Select query attribures',
-    order: '2',
-  }
+  step: selectQueryAttributesStep,
 };
 
 const eventStartAttrAnswer: StudioTemplateProperty = {
@@ -49,10 +49,7 @@ const eventStartAttrAnswer: StudioTemplateProperty = {
   options: ['date', 'datetime'],
   required: true,
   relatedProperty: 'query',
-  step: {
-    name: 'Select query attribures',
-    order: '2',
-  }
+  step: selectQueryAttributesStep,
 };
 
 const eventEndAttrAnswer: StudioTemplateProperty = {
@@ -62,10 +59,7 @@ const eventEndAttrAnswer: StudioTemplateProperty = {
   options: ['date', 'datetime'],
   required: true,
   relatedProperty: 'query',
-  step: {
-    name: 'Select query attribures',
-    order: '2',
-  }
+  step: selectQueryAttributesStep,
 };
 
 export interface CalendarAnswers extends
@@ -77,7 +71,7 @@ StringIdAnswers {
   eventStartAttr: string;
   eventEndAttr: string;
   titleAttr: string;
-  descriptionAttrAnswer: string;
+  descriptionAttr: string;
 }
 
 export const calendarQuestions: StudioTemplateProperty[] = [

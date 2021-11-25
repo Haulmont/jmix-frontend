@@ -1,6 +1,5 @@
 import { observer } from "mobx-react";
 import { Card } from "antd";
-import { DatatypesTestEntity } from "../../jmix/entities/scr_DatatypesTestEntity";
 import { registerScreen } from "@haulmont/jmix-react-web";
 import {
   Spinner,
@@ -9,12 +8,13 @@ import {
   useCalendar
 } from "@haulmont/jmix-react-antd";
 import { gql } from "@apollo/client";
+import {<%= entity.className %>} from "<%= relDirShift %><%= entity.path %>";
 
 const ENTITY_NAME = '<%= entity.name %>';
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const EVENT_TITLE_PROPERTY_NAME = '<%= titleAttr %>';
-const EVENT_DESCRIPTION_PROPERTY_NAME = '<%= descriptionAttrAnswer %>';
+const EVENT_DESCRIPTION_PROPERTY_NAME = '<%= descriptionAttr %>';
 const EVENT_START_DAY_PROPERTY_NAME = '<%= eventStartAttr %>';
 const EVENT_END_DAY_PROPERTY_NAME = '<%= eventEndAttr %>';
 

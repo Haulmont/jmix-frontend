@@ -10,5 +10,5 @@ module.exports = {
   eventStartAttr: 'dateAttr',
   eventEndAttr: "dateTimeAttr",
   titleAttr: "stringAttr",
-  descriptionAttrAnswer: "stringAttr",
+  descriptionAttr: "stringAttr",
 };
