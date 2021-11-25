@@ -8,7 +8,7 @@ type LineChartProps = {
   data: any[],
   xKey: string,
   yKey: string,
-  nivoLineChartProps?: LineSvgProps & Dimensions
+  nivoLineChartProps?: Partial<LineSvgProps> & Partial<Dimensions>
 }
 
 export const LineChart = (props: LineChartProps) => {
