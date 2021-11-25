@@ -11,10 +11,10 @@ type PieChartProps = {
   nivoPieChartProps?: Partial<PieSvgProps<any>>
 }
 
-export const PieChart = (props: PieChartProps) => {
+export const DonutChart = (props: PieChartProps) => {
 
   const {idKey, labelKey, valueKey, data, nivoPieChartProps} = props;
   const chartData = data.map(item => ({id: item[idKey], label: item[labelKey], value: item[valueKey]}));
 
-  return <Pie {...{...defaultChartOptions, ...nivoPieChartProps, data: chartData}} />;
+  return <Pie {...{...defaultChartOptions, ...nivoPieChartProps, data: chartData, innerRadius: 0.6}} />;
 }
