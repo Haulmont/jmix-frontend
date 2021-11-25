@@ -39,7 +39,7 @@ function transformAddonItemToJsx(
         {...(extProps as MenuItemProps)}
         {...menuItemProps}
         icon={menuItemProps.icon ?? <BarsOutlined />}
-        key={menuItemProps.key ?? menuItemProps.screenId ?? menuItemProps.caption }
+        eventKey={menuItemProps.key}
       />
     )
   }
@@ -49,7 +49,6 @@ function transformAddonItemToJsx(
     <SubMenuItem
       {...(extProps as SubMenuProps)}
       {...subMenuItemProps}
-      key={subMenuItemProps.key ?? subMenuItemProps.caption }
     >
       {
         childItems.map((item: AddonItem) => {

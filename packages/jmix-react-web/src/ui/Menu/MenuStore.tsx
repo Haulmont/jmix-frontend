@@ -1,6 +1,6 @@
 import { makeObservable, action, observable, computed } from "mobx";
 
-type CommonItemProps = {key?: string | number};
+type CommonItemProps = {key: string };
 
 export type AddonMenuItem<MenuItemProps = any> = {
   type: "MenuItem",
