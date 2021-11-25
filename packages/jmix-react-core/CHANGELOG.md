@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.5...@haulmont/jmix-react-core@2.0.0-next.6) (2021-11-25)
+
+**Note:** Version bump only for package @haulmont/jmix-react-core
+
+
+
+
+
 # [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.4...@haulmont/jmix-react-core@2.0.0-next.5) (2021-11-19)
 
 

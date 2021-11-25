@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.7...@haulmont/jmix-react-antd@2.0.0-next.8) (2021-11-25)
+
+
+### Bug Fixes
+
+* _instanceName attribute for compositions [#779](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/779) ([3349b36](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/3349b36014b151466f5910a5797e76bf4328f3ce))
+
+
+### Features
+
+* add data display component: EntityHierarchyTree [#696](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/696) ([49625bf](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/49625bfa8cf45773872dbf3db74eea4538b79ea1))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.6...@haulmont/jmix-react-antd@2.0.0-next.7) (2021-11-23)
 
 **Note:** Version bump only for package @haulmont/jmix-react-antd
