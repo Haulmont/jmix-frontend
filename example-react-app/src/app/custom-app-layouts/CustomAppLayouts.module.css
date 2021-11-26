@@ -1,0 +1,14 @@
+.header {
+  background: #bbdefb;
+}
+.content {
+  background: #42a5f5;
+  line-height: 100px;
+}
+.sider {
+  background: #90caf9;
+  line-height: 100px;
+}
+.footer {
+  background: #bbdefb;
+}

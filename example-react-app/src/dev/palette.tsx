@@ -67,6 +67,7 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
+import CustomAppLayouts from "../app/custom-app-layouts/CustomAppLayouts";
 import CustomDataDisplayComponents from "../app/custom-data-display-components/CustomDataDisplayComponents";
 import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
 import ExampleCustomScreen from "../app/example-custom-screen/ExampleCustomScreen";
@@ -202,6 +203,11 @@ const palette = () => (
       <Component name="CustomDataDisplayComponents">
         <Variant>
           <CustomDataDisplayComponents />
+        </Variant>
+      </Component>
+      <Component name="CustomAppLayouts">
+        <Variant>
+          <CustomAppLayouts />
         </Variant>
       </Component>
       <Component name="TestBlankScreen">
