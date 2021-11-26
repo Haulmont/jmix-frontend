@@ -31,6 +31,10 @@ module.exports = {
     "componentName": "custom-data-display-components",
     "menuItem": "ROOT"
   },
+  "customAppLayouts": {
+    "componentName": "custom-app-layouts",
+    "menuItem": "ROOT"
+  },
   "structure": {
     "componentName": "StructureComponent",
     "structureType": "Two columns",

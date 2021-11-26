@@ -33,6 +33,12 @@ export const AppMenu = (props: AppMenuProps) => {
         key={"b9f97b42-42c0-414c-840f-9a59db1496f5"}
       />
       <MenuItem
+        screenId={"CustomAppLayouts"}
+        icon={<BarsOutlined />}
+        caption={"screen.CustomAppLayouts"}
+        key={"b0dcfa47-1467-4dbe-a1d4-f5fc4a852be7"}
+      />
+      <MenuItem
         screenId={"TestBlankScreen"}
         icon={<BarsOutlined />}
         caption={"screen.TestBlankScreen"}
