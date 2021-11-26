@@ -3,7 +3,7 @@ const {login} = require("../common/login-to-scr");
 const {getDocument, queries} = require("pptr-testing-library");
 const {findByText} = queries;
 
-describe('EntityHierarchyTree ', () => {
+describe('Label', () => {
     let page;
     const url = 'customDataDisplayComponents';
 
@@ -18,14 +18,10 @@ describe('EntityHierarchyTree ', () => {
         done();
     });
 
-    it('tree should expand nodes', async () => {
+    it('renders', async () => {
         await page.goto(`http://localhost:3000/${url}`);
         const $document = await getDocument(page);
 
-        const $nodeA = await findByText($document, 'Node A');
-        const $treeSwitcher = await $nodeA.evaluateHandle(element => element?.parentElement?.previousElementSibling);
-        await $treeSwitcher.click()
-        // expected to be found
-        await findByText($document, 'Node A1')
+        await findByText($document, 'Technical Certificate');
     });
 });
