@@ -16,6 +16,7 @@
     "common.ok": "OK",
     "common.cancel": "Annuler",
     "common.create": "Créer",
+    "common.selectEntity": "common.selectEntity [TRANSLATION NOT AVAILABLE]",
     "common.edit": "Modifier",
     "common.remove": "Supprimer",
     "common.submit": "Envoyer",
@@ -27,6 +28,7 @@
     "common.back": "common.back [TRANSLATION NOT AVAILABLE]",
     "common.unknownAppError": "common.unknownAppError [TRANSLATION NOT AVAILABLE]",
     "common.unknownTabError": "common.unknownTabError [TRANSLATION NOT AVAILABLE]",
+    "common.openScreenError": "common.openScreenError [TRANSLATION NOT AVAILABLE]",
 
     "home.welcome": "Bienvenu à",
     "screen.home": "Accueil",

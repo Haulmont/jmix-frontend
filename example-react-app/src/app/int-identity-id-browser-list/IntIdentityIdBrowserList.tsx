@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import { observer } from "mobx-react";
 import {
   DeleteOutlined,
@@ -74,7 +74,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
 
 const IntIdentityIdBrowserList = observer(
   (props: EntityListProps<IntIdentityIdTestEntity>) => {
-    const { entityList, onEntityListChange } = props;
+    const { entityList, onEntityListChange, onSelectEntity } = props;
     const onOpenScreenError = useOpenScreenErrorCallback();
     const onEntityDelete = useEntityDeleteCallback();
     const {
@@ -98,6 +98,55 @@ const IntIdentityIdBrowserList = observer(
       onEntityDelete,
       onOpenScreenError
     });
+
+    const getEntityListActions = useMemo(() => {
+      return onSelectEntity
+        ? (e: EntityInstance<IntIdentityIdTestEntity>) => [
+            <Button
+              htmlType="button"
+              type="primary"
+              onClick={() => {
+                onSelectEntity(e);
+                goToParentScreen();
+              }}
+            >
+              <span>
+                <FormattedMessage id="common.selectEntity" />
+              </span>
+            </Button>
+          ]
+        : (e: EntityInstance<IntIdentityIdTestEntity>) => [
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="delete"
+            >
+              <DeleteOutlined
+                role={"button"}
+                key="delete"
+                onClick={(event?: React.MouseEvent) =>
+                  handleDeleteBtnClick(event, e.id)
+                }
+              />
+            </EntityPermAccessControl>,
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="update"
+            >
+              <EditOutlined
+                role={"button"}
+                key="edit"
+                onClick={(event?: React.MouseEvent) =>
+                  handleEditBtnClick(event, e.id)
+                }
+              />
+            </EntityPermAccessControl>
+          ];
+    }, [
+      onSelectEntity,
+      handleDeleteBtnClick,
+      handleEditBtnClick,
+      goToParentScreen
+    ]);
 
     if (error != null) {
       console.error(error);
@@ -125,20 +174,25 @@ const IntIdentityIdBrowserList = observer(
             </Tooltip>
           )}
 
-          <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
-            <span>
-              <Button
-                htmlType="button"
-                type="primary"
-                icon={<PlusOutlined />}
-                onClick={handleCreateBtnClick}
-              >
-                <span>
-                  <FormattedMessage id="common.create" />
-                </span>
-              </Button>
-            </span>
-          </EntityPermAccessControl>
+          {onSelectEntity == null && (
+            <EntityPermAccessControl
+              entityName={ENTITY_NAME}
+              operation="create"
+            >
+              <span>
+                <Button
+                  htmlType="button"
+                  type="primary"
+                  icon={<PlusOutlined />}
+                  onClick={handleCreateBtnClick}
+                >
+                  <span>
+                    <FormattedMessage id="common.create" />
+                  </span>
+                </Button>
+              </span>
+            </EntityPermAccessControl>
+          )}
         </div>
 
         <List
@@ -146,34 +200,7 @@ const IntIdentityIdBrowserList = observer(
           bordered
           dataSource={items}
           renderItem={(item: EntityInstance<IntIdentityIdTestEntity>) => (
-            <List.Item
-              actions={[
-                <EntityPermAccessControl
-                  entityName={ENTITY_NAME}
-                  operation="delete"
-                >
-                  <DeleteOutlined
-                    role={"button"}
-                    key="delete"
-                    onClick={(event?: React.MouseEvent) =>
-                      handleDeleteBtnClick(event, item.id)
-                    }
-                  />
-                </EntityPermAccessControl>,
-                <EntityPermAccessControl
-                  entityName={ENTITY_NAME}
-                  operation="update"
-                >
-                  <EditOutlined
-                    role={"button"}
-                    key="edit"
-                    onClick={(event?: React.MouseEvent) =>
-                      handleEditBtnClick(event, item.id)
-                    }
-                  />
-                </EntityPermAccessControl>
-              ]}
-            >
+            <List.Item actions={getEntityListActions(item)}>
               <div style={{ flexGrow: 1 }}>
                 {getFields(item).map(p => (
                   <EntityProperty

@@ -219,6 +219,8 @@ const EXPECTED_I18N_KEYS = [
   "common.previous",
   "common.unsavedEntity",
   "common.requestFailed",
+  "common.selectEntity",
+  "common.openScreenError",
   "common.retry",
   "common.back",
   "default",

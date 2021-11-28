@@ -16,6 +16,7 @@
   "common.ok": "确认",
   "common.cancel": "取消",
   "common.create": "新建",
+  "common.selectEntity": "common.selectEntity [TRANSLATION NOT AVAILABLE]",
   "common.edit": "编辑",
   "common.remove": "删除",
   "common.submit": "提交",
@@ -27,6 +28,7 @@
   "common.back": "common.back [TRANSLATION NOT AVAILABLE]",
   "common.unknownAppError": "common.unknownAppError [TRANSLATION NOT AVAILABLE]",
   "common.unknownTabError": "common.unknownTabError [TRANSLATION NOT AVAILABLE]",
+  "common.openScreenError": "common.openScreenError [TRANSLATION NOT AVAILABLE]",
 
   "home.welcome": "欢迎使用",
   "screen.home": "主界面",
