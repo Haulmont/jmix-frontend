@@ -16,6 +16,7 @@
   "common.ok": "OK",
   "common.cancel": "Cancel",
   "common.create": "Create",
+  "common.selectEntity": "Select entity",
   "common.edit": "Edit",
   "common.remove": "Remove",
   "common.submit": "Submit",
@@ -27,6 +28,7 @@
   "common.back": "Back",
   "common.unknownAppError": "Something went wrong. Please refresh the page and try again.",
   "common.unknownTabError": "Tab could not be loaded. Please refresh the page and try again.",
+  "common.openScreenError": "Screen for entity {entityName} cannot be opened. Screen may have not been registered.",
 
   "home.welcome": "Welcome to",
   "screen.home": "Home",

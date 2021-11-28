@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { observer } from "mobx-react";
 import { PlusOutlined, LeftOutlined } from "@ant-design/icons";
 import { Button, Tooltip } from "antd";
@@ -79,7 +79,7 @@ const SCR_CAR_LIST = gql`
 `;
 
 const CarBrowserTable = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange } = props;
+  const { entityList, onEntityListChange, onSelectEntity } = props;
   const onOpenScreenError = useOpenScreenErrorCallback();
   const onEntityDelete = useEntityDeleteCallback();
   const {
@@ -108,6 +108,21 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
     onOpenScreenError
   });
 
+  const selectEntityHandler = useCallback(() => {
+    if (onSelectEntity != null) {
+      const selectedEntityInstance = items?.find(
+        ({ id }) => id === entityListState.selectedEntityId
+      );
+      onSelectEntity(selectedEntityInstance);
+      goToParentScreen();
+    }
+  }, [
+    onSelectEntity,
+    entityListState.selectedEntityId,
+    goToParentScreen,
+    items
+  ]);
+
   useDefaultBrowserTableHotkeys({
     selectedEntityId: entityListState.selectedEntityId,
     handleCreateBtnClick,
@@ -120,56 +135,71 @@ const CarBrowserTable = observer((props: EntityListProps<Car>) => {
     return <RetryDialog onRetry={executeListQuery} />;
   }
 
-  const buttons = [
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="create"
-      key="create"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        type="primary"
-        icon={<PlusOutlined />}
-        onClick={handleCreateBtnClick}
-      >
-        <span>
-          <FormattedMessage id="common.create" />
-        </span>
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="update"
-      key="update"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
-        type="default"
-        onClick={handleEditBtnClick}
-      >
-        <FormattedMessage id="common.edit" />
-      </Button>
-    </EntityPermAccessControl>,
-    <EntityPermAccessControl
-      entityName={ENTITY_NAME}
-      operation="delete"
-      key="delete"
-    >
-      <Button
-        htmlType="button"
-        style={{ margin: "0 12px 12px 0" }}
-        disabled={entityListState.selectedEntityId == null}
-        onClick={handleDeleteBtnClick}
-        key="remove"
-        type="default"
-      >
-        <FormattedMessage id="common.remove" />
-      </Button>
-    </EntityPermAccessControl>
-  ];
+  const buttons = onSelectEntity
+    ? [
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          type="primary"
+          disabled={entityListState.selectedEntityId == null}
+          onClick={selectEntityHandler}
+          key="selectEntity"
+        >
+          <span>
+            <FormattedMessage id="common.selectEntity" />
+          </span>
+        </Button>
+      ]
+    : [
+        <EntityPermAccessControl
+          entityName={ENTITY_NAME}
+          operation="create"
+          key="create"
+        >
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            type="primary"
+            icon={<PlusOutlined />}
+            onClick={handleCreateBtnClick}
+          >
+            <span>
+              <FormattedMessage id="common.create" />
+            </span>
+          </Button>
+        </EntityPermAccessControl>,
+        <EntityPermAccessControl
+          entityName={ENTITY_NAME}
+          operation="update"
+          key="update"
+        >
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            disabled={entityListState.selectedEntityId == null}
+            type="default"
+            onClick={handleEditBtnClick}
+          >
+            <FormattedMessage id="common.edit" />
+          </Button>
+        </EntityPermAccessControl>,
+        <EntityPermAccessControl
+          entityName={ENTITY_NAME}
+          operation="delete"
+          key="delete"
+        >
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            disabled={entityListState.selectedEntityId == null}
+            onClick={handleDeleteBtnClick}
+            key="remove"
+            type="default"
+          >
+            <FormattedMessage id="common.remove" />
+          </Button>
+        </EntityPermAccessControl>
+      ];
 
   if (entityList != null) {
     buttons.unshift(

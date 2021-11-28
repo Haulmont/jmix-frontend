@@ -16,6 +16,7 @@
   "common.ok": "OK",
   "common.cancel": "Отмена",
   "common.create": "Создать",
+  "common.selectEntity": "Выбрать сущность",
   "common.edit": "Изменить",
   "common.remove": "Удалить",
   "common.submit": "ОК",
@@ -27,6 +28,7 @@
   "common.back": "Назад",
   "common.unknownAppError": "Что-то пошло не так. Пожалуйста, обновите страницу и попробуйте ещё раз.",
   "common.unknownTabError": "Вкладка не может быть открыта. Пожалуйста, обновите страницу и попробуйте ещё раз.",
+  "common.openScreenError": "Экран для сущности {entityName} не может быть открыт. Возможно, экран не был зарегистрирован.",
 
   "home.welcome": "Добро пожаловать в",
   "screen.home": "Главная страница",

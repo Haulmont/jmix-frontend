@@ -14,7 +14,8 @@ import {
   TimeField,
   TextArea,
   MaskedField,
-  SliderField
+  SliderField,
+  EntityPickerField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -50,7 +51,8 @@ const CustomFormControls = () => {
           mileage: 100000,
           wheelOnRight: true,
           fromDate: dayjs("2020-01-01"),
-          fromTime: dayjs("2020-01-01T23:05:13")
+          fromTime: dayjs("2020-01-01T23:05:13"),
+          carType: {carType: "SEDAN"}
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
@@ -63,6 +65,21 @@ const CustomFormControls = () => {
         <TextField
           entityName="scr_Car"
           propertyName="manufacturer"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <EntityPickerField
+          entityName="scr_Car"
+          propertyName="carType"
+          transformValue={e => e.carType + " transformed"}
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <EntityPickerField
+          entityName="scr_Car"
+          propertyName="model"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
