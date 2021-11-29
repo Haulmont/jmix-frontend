@@ -15,7 +15,8 @@ import {
   TextArea,
   MaskedField,
   SliderField,
-  EntityPickerField
+  EntityPickerField,
+  SelectField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -52,12 +53,12 @@ const CustomFormControls = () => {
           wheelOnRight: true,
           fromDate: dayjs("2020-01-01"),
           fromTime: dayjs("2020-01-01T23:05:13"),
-          carType: {carType: "SEDAN"}
+          carType: { carType: "SEDAN" }
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
         <TextField
-          propertyName='stringAttr'
+          propertyName="stringAttr"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -126,7 +127,6 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
           max={300000}
-          tooltipVisible
         />
         <MaskedField
           mask="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
@@ -138,6 +138,23 @@ const CustomFormControls = () => {
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
+        />
+        <SelectField
+          entityName="scr_Garage"
+          propertyName="name"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+          options={[
+            {
+              label: "Name 1",
+              value: "name1"
+            },
+            {
+              label: "Name 2",
+              value: "name2"
+            }
+          ]}
         />
 
         <Form.Item style={{ textAlign: "center" }}>
