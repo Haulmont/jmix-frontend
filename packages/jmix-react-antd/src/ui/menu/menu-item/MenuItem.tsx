@@ -16,6 +16,7 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
 
   return (
     <Menu.Item
+      aria-label={" "}
       {...menuItemProps}
       title={title ?? formattedCaption}
       onClick={menuItemOnClick}

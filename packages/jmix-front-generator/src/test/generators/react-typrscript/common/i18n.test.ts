@@ -362,5 +362,11 @@ const EXPECTED_I18N_KEYS = [
 
   "multiSelectionTable.delete.areYouSure",
   "multiSelectionTable.delete.error",
-  "multiSelectionTable.delete.success"
+  "multiSelectionTable.delete.success",
+
+  "a11y.select.LanguageSwitcher",
+  "a11y.select.Month",
+  "a11y.select.SizeSwitcher",
+  "a11y.select.ThemeSwitcher",
+  "a11y.select.Year"
 ];

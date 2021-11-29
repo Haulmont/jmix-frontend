@@ -1,4 +1,10 @@
 {
+  "a11y.select.LanguageSwitcher": "language swithcer",
+  "a11y.select.ThemeSwitcher": "theme swithcer",
+  "a11y.select.SizeSwitcher": "size swithcer",
+  "a11y.select.Month": "month",
+  "a11y.select.Year": "year",
+
   "addons.Addons": "Addons",
 
   "themes.light": "Light theme",

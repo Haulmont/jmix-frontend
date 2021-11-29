@@ -154,6 +154,7 @@ const StringIdBrowserList = observer(
                   operation="delete"
                 >
                   <DeleteOutlined
+                    role={"button"}
                     key="delete"
                     onClick={(event?: React.MouseEvent) =>
                       handleDeleteBtnClick(event, item.id)
@@ -165,6 +166,7 @@ const StringIdBrowserList = observer(
                   operation="update"
                 >
                   <EditOutlined
+                    role={"button"}
                     key="edit"
                     onClick={(event?: React.MouseEvent) =>
                       handleEditBtnClick(event, item.id)

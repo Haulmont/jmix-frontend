@@ -158,6 +158,7 @@ const IntIdentityIdBrowserCards = observer(
                 operation="delete"
               >
                 <DeleteOutlined
+                  role={"button"}
                   key="delete"
                   onClick={(event?: React.MouseEvent) =>
                     handleDeleteBtnClick(event, e.id)
@@ -169,6 +170,7 @@ const IntIdentityIdBrowserCards = observer(
                 operation="update"
               >
                 <EditOutlined
+                  role={"button"}
                   key="edit"
                   onClick={(event?: React.MouseEvent) =>
                     handleEditBtnClick(event, e.id)
