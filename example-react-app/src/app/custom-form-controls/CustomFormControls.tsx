@@ -16,11 +16,13 @@ import {
   MaskedField,
   SliderField,
   EntityPickerField,
-  SelectField
+  SelectField,
+  SourceCodeField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
+import "ace-builds/src-noconflict/mode-javascript";
 
 const ROUTING_PATH = "/customFormControls";
 
@@ -53,7 +55,8 @@ const CustomFormControls = () => {
           wheelOnRight: true,
           fromDate: dayjs("2020-01-01"),
           fromTime: dayjs("2020-01-01T23:05:13"),
-          carType: { carType: "SEDAN" }
+          carType: { carType: "SEDAN" },
+          createdBy: "console.log('hello')"
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
@@ -155,6 +158,14 @@ const CustomFormControls = () => {
               value: "name2"
             }
           ]}
+        />
+        <SourceCodeField
+          entityName="scr_Car"
+          propertyName="createdBy"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+          mode="javascript"
         />
 
         <Form.Item style={{ textAlign: "center" }}>
