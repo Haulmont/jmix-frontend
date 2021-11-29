@@ -111,12 +111,14 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
             actions={[
               <EntityPermAccessControl entityName={ENTITY_NAME} operation='delete'>
                 <DeleteOutlined
+                  role={"button"}
                   key="delete"
                   onClick={(event?: React.MouseEvent) => handleDeleteBtnClick(event, item.id)}
                 />
               </EntityPermAccessControl>,
               <EntityPermAccessControl entityName={ENTITY_NAME} operation='update'>
                 <EditOutlined
+                  role={"button"}
                   key="edit"
                   onClick={(event?: React.MouseEvent) => handleEditBtnClick(event, item.id)}
                 />

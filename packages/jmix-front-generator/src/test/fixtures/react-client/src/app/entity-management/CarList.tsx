@@ -159,6 +159,7 @@ const CarList = observer((props: EntityListProps<Car>) => {
                 operation="delete"
               >
                 <DeleteOutlined
+                  role={"button"}
                   key="delete"
                   onClick={(event?: React.MouseEvent) =>
                     handleDeleteBtnClick(event, item.id)
@@ -170,6 +171,7 @@ const CarList = observer((props: EntityListProps<Car>) => {
                 operation="update"
               >
                 <EditOutlined
+                  role={"button"}
                   key="edit"
                   onClick={(event?: React.MouseEvent) =>
                     handleEditBtnClick(event, item.id)

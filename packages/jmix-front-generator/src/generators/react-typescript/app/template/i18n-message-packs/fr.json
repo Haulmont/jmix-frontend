@@ -1,4 +1,10 @@
 {
+    "a11y.select.LanguageSwitcher": "a11y.select.LanguageSwitcher [TRANSLATION NOT AVAILABLE]",
+    "a11y.select.ThemeSwitcher": "a11y.select.ThemeSwitcher [TRANSLATION NOT AVAILABLE]",
+    "a11y.select.SizeSwitcher": "a11y.select.SizeSwitcher [TRANSLATION NOT AVAILABLE]",
+    "a11y.select.Month": "a11y.select.Month [TRANSLATION NOT AVAILABLE]",
+    "a11y.select.Year": "a11y.select.Year [TRANSLATION NOT AVAILABLE]",
+
     "addons.Addons": "addons.Addons [TRANSLATION NOT AVAILABLE]",
 
     "themes.light": "themes.light [TRANSLATION NOT AVAILABLE]",

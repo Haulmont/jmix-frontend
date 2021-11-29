@@ -36,7 +36,7 @@ export const MultiTabs = observer(() => {
           tab={
             <Space size={10}>
               <FormattedMessage id={item.title} />
-              <CloseOutlined className={styles.icon} onClick={(e) => handleCloseClick(e, item)} />
+              <CloseOutlined role={"button"} className={styles.icon} onClick={(e) => handleCloseClick(e, item)} />
             </Space>
           }
           key={item.key}

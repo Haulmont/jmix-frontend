@@ -1,4 +1,5 @@
 import React, { CSSProperties, useCallback, useMemo, useState, useEffect } from "react";
+import { useIntl } from "react-intl";
 import { FormattedMessage } from "react-intl";
 import { Select } from "antd";
 import { 
@@ -16,6 +17,8 @@ export interface Props {
 }
 
 export const ThemeSwitcher: React.FC<Props> = (props) => {
+  const intl = useIntl();
+  
   const initThemePreset: ThemePreset = useMemo(() => {
     return getInitThemePreset();
   }, []);
@@ -70,6 +73,7 @@ export const ThemeSwitcher: React.FC<Props> = (props) => {
           bordered={false}
           className={props.className}
           dropdownMatchSelectWidth={false}
+          aria-label={intl.formatMessage({id: "a11y.select.SizeSwitcher"})}
         >
           <Select.Option key={defaultSize.name} value={defaultSize.name}>
             <FormattedMessage id={defaultSize.caption} />
@@ -90,6 +94,7 @@ export const ThemeSwitcher: React.FC<Props> = (props) => {
           bordered={false}
           className={props.className}
           dropdownMatchSelectWidth={false}
+          aria-label={intl.formatMessage({id: "a11y.select.ThemeSwitcher"})}
         >
           {themes.map(({name, caption}: ThemeInfo) => (
             <Select.Option key={name} value={name}>

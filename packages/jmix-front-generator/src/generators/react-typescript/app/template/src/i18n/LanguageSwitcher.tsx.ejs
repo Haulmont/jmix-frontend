@@ -1,4 +1,5 @@
 import React, {CSSProperties, useCallback} from 'react';
+import { useIntl } from "react-intl";
 import { observer } from "mobx-react";
 import { runInAction } from "mobx";
 import {Select} from 'antd';
@@ -11,6 +12,7 @@ export interface LanguageSwitcherProps {
 }
 
 export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
+  const intl = useIntl();
   const mainStore = useMainStore();
 
   const handleChange = useCallback((locale: string) =>
@@ -31,6 +33,7 @@ export const LanguageSwitcher = observer((props: LanguageSwitcherProps) => {
       bordered={false}
       className={props.className}
       dropdownMatchSelectWidth={false}
+      aria-label={intl.formatMessage({id: "a11y.select.LanguageSwitcher"})}
     >
       {localesStore.localesInfo.map(({locale, caption}) => (
         <Select.Option key={locale} value={locale}>

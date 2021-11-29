@@ -23,7 +23,7 @@ export const HotkeyInfoModalButton = observer(({
       <Button
         type="text"
         className={styles.hotkeyInfoButton}
-        icon={<MacCommandOutlined />}
+        icon={<MacCommandOutlined role={""}/>}
         onClick={() => setVisible(true)}
       />
       <Modal

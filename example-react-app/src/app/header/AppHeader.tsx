@@ -71,8 +71,10 @@ const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
             settingsEnabled ? styles.settingsBtnActive : styles.settingsBtn
           }
           type={"text"}
-          icon={<SettingOutlined />}
+          icon={<SettingOutlined role={""} />}
           onClick={toggleSettings}
+          role={"switch"}
+          aria-checked={settingsEnabled}
         />
         <HotkeyInfoModalButton
           visible={visibleHotkeyInfo}
@@ -82,7 +84,7 @@ const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
           id="button_logout"
           className={styles.logoutBtn}
           type="text"
-          icon={<LogoutOutlined />}
+          icon={<LogoutOutlined role={""} />}
           onClick={showLogoutConfirm}
         />
       </Space>

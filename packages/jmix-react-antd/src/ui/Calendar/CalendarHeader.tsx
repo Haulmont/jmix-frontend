@@ -1,4 +1,5 @@
 import React from 'react';
+import {useIntl} from "react-intl";
 import { GenerateConfig } from 'rc-picker/lib/generate';
 import { Locale } from 'rc-picker/lib/interface';
 import { Select } from 'antd';
@@ -24,6 +25,7 @@ interface SharedProps<DateType> {
  * It is taking from antd library.
  */
 function YearSelect<DateType>(props: SharedProps<DateType>) {
+  const intl = useIntl();
   const {
     fullscreen,
     validRange,
@@ -81,6 +83,7 @@ function YearSelect<DateType>(props: SharedProps<DateType>) {
         onChange(newDate);
       }}
       getPopupContainer={() => divRef!.current!}
+      aria-label={intl.formatMessage({id: "a11y.select.Year"})}
     />
   );
 }
@@ -89,6 +92,7 @@ function YearSelect<DateType>(props: SharedProps<DateType>) {
  * It is taking from antd library.
  */
 function MonthSelect<DateType>(props: SharedProps<DateType>) {
+  const intl = useIntl();
   const {
     prefixCls,
     fullscreen,
@@ -134,6 +138,7 @@ function MonthSelect<DateType>(props: SharedProps<DateType>) {
         onChange(generateConfig.setMonth(value, newMonth));
       }}
       getPopupContainer={() => divRef!.current!}
+      aria-label={intl.formatMessage({id: "a11y.select.Month"})}
     />
   );
 }

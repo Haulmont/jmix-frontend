@@ -1,4 +1,10 @@
 {
+  "a11y.select.LanguageSwitcher": "переключатель языков",
+  "a11y.select.ThemeSwitcher": "переключатель тем",
+  "a11y.select.SizeSwitcher": "переключатель размеров",
+  "a11y.select.Month": "месяц",
+  "a11y.select.Year": "год",
+
   "addons.Addons": "Аддоны",
 
   "themes.light": "Светлая тема",
