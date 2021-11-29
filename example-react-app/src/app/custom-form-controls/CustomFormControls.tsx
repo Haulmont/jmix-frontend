@@ -21,7 +21,14 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 import draftToHtml from "draftjs-to-html";
+import htmlToDraft from "html-to-draftjs";
 import { RawDraftContentState } from "draft-js";
+import {JmixFormFieldProps, JmixFormFieldWrapper} from "@haulmont/jmix-react-antd";
+import { Editor, EditorProps } from "react-draft-wysiwyg";
+import {observer} from "mobx-react";
+import {getMainStore, useMainStore} from "@haulmont/jmix-react-core";
+import classNames from "classnames";
+import { EditorState, ContentState } from 'draft-js';
 
 const ROUTING_PATH = "/customFormControls";
 
@@ -30,9 +37,7 @@ const CustomFormControls = () => {
 
   const handleSubmit = useCallback((values: Record<string, unknown>) => {
     setResult({
-      ...values,
-      // TODO need to manually type propertyName value of RichTextArea to convert it to html
-      model: draftToHtml(values.model as RawDraftContentState)
+      ...values
     });
   }, []);
 
@@ -57,7 +62,8 @@ const CustomFormControls = () => {
           mileage: 100000,
           wheelOnRight: true,
           fromDate: dayjs("2020-01-01"),
-          fromTime: dayjs("2020-01-01T23:05:13")
+          fromTime: dayjs("2020-01-01T23:05:13"),
+          model: '<p><strong>one </strong><em>two</em></p>\nthree'
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
@@ -130,7 +136,7 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
         />
-        <RichTextArea
+        <RichTextArea2
           entityName="scr_Car"
           propertyName="model"
           formItemProps={{
@@ -170,3 +176,62 @@ registerScreen({
 });
 
 export default CustomFormControls;
+
+const RichTextArea2 = observer(
+  ({
+     entityName,
+     propertyName,
+     formItemProps,
+     ...rest
+   }: JmixFormFieldProps & EditorProps) => {
+    const mainStore = getMainStore();
+
+    if (!mainStore || !mainStore.locale) {
+      return null;
+    }
+
+    return (
+      <JmixFormFieldWrapper
+        entityName={entityName}
+        propertyName={propertyName}
+        formItemProps={formItemProps}
+        renderField={isReadOnly => (
+          <RichTextEditor isReadOnly={isReadOnly} {...rest} />
+        )}
+      />
+    );
+  }
+);
+
+const RichTextEditor = ({isReadOnly, value, onChange, ...rest}: any) => {
+  console.log('value', value);
+
+  const mainStore = useMainStore();
+
+  const handleChange = useCallback((state: RawDraftContentState) => {
+    onChange(rawStateToString(state));
+  }, [onChange]);
+
+  return (
+    <Editor
+      readOnly={isReadOnly}
+      wrapperClassName={classNames(styles.richTextAreaWrapper)}
+      editorClassName={classNames(styles.richTextAreaEditor)}
+      localization={{
+        locale: mainStore.locale
+      }}
+      defaultEditorState={stringToEditorState(value)}
+      onChange={handleChange}
+      {...rest}
+    />
+  );
+}
+
+function stringToEditorState(input: string): EditorState {
+  const {contentBlocks, entityMap} = htmlToDraft(input);
+  return EditorState.createWithContent(ContentState.createFromBlockArray(contentBlocks, entityMap));
+}
+
+function rawStateToString(state: RawDraftContentState): string {
+  return draftToHtml(state);
+}
