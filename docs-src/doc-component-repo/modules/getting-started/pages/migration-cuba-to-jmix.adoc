@@ -4,16 +4,16 @@
 
 Open the root directory of the front module.
 
-Update third-party dependencies.
-
-----
-npm install @ant-design/icons@^4.0.0 antd@^4.12.3 mobx@^6.1.8 mobx-react@^7.1.0 moment@^2.25.3 react@^17.0.1 react-dom@^17.0.1 react-input-mask@^2.0.4 react-intl@^5.3.0 react-router-dom@^5.2.0
-----
-
 Remove cuba packages:
 
 ----
 npm uninstall @cuba-platform/react-core @cuba-platform/react-ui @cuba-platform/rest
+----
+
+Update third-party dependencies.
+
+----
+npm install @ant-design/icons@^4.0.0 antd@^4.12.3 mobx@^6.1.8 mobx-react@^7.1.0 moment@^2.25.3 react@^17.0.1 react-dom@^17.0.1 react-input-mask@^2.0.4 react-intl@^5.3.0 react-router-dom@^5.2.0
 ----
 
 Install Jmix packages:
