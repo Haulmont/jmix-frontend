@@ -57,7 +57,7 @@ const CustomFormControls = () => {
         validateMessages={createAntdFormValidationMessages(intl)}
       >
         <TextField
-          propertyName='stringAttr'
+          propertyName="stringAttr"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -126,7 +126,6 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
           max={300000}
-          tooltipVisible
         />
         <MaskedField
           mask="xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx"
