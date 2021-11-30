@@ -370,5 +370,25 @@ const EXPECTED_I18N_KEYS = [
   "a11y.select.Month",
   "a11y.select.SizeSwitcher",
   "a11y.select.ThemeSwitcher",
-  "a11y.select.Year"
+  "a11y.select.Year",
+
+  "antd.form.beanValidation.email",
+  "antd.form.beanValidation.pattern",
+  "antd.form.beanValidation.size",
+  "antd.form.beanValidation.decimalmax",
+  "antd.form.beanValidation.decimalmin",
+  "antd.form.beanValidation.digits",
+  "antd.form.beanValidation.future",
+  "antd.form.beanValidation.futureorpresent",
+  "antd.form.beanValidation.past",
+  "antd.form.beanValidation.pastorpresent",
+  "antd.form.beanValidation.max",
+  "antd.form.beanValidation.min",
+  "antd.form.beanValidation.negative",
+  "antd.form.beanValidation.negativeorzero",
+  "antd.form.beanValidation.positive",
+  "antd.form.beanValidation.positiveorzero",
+  "antd.form.beanValidation.notblank",
+  "antd.form.beanValidation.notempty",
+  "antd.form.beanValidation.notnull"
 ];

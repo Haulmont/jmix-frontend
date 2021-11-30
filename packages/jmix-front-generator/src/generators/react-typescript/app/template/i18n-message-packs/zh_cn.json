@@ -187,5 +187,25 @@
   "antd.form.validation.array.max":  "%s 不能多于 %s 个元素",
   "antd.form.validation.array.range": "%s 需要有 %s 至 %s 个元素",
 
-  "antd.form.validation.pattern.mismatch":  "%s 的值 %s 不匹配需要的格式： %s"
+  "antd.form.validation.pattern.mismatch":  "%s 的值 %s 不匹配需要的格式： %s",
+
+  "antd.form.beanValidation.email": "antd.form.beanValidation.email [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.pattern": "antd.form.beanValidation.pattern [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.size": "antd.form.beanValidation.size [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.decimalmax": "antd.form.beanValidation.decimalmax [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.decimalmin": "antd.form.beanValidation.decimalmin [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.digits": "antd.form.beanValidation.digits [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.future": "antd.form.beanValidation.future [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.futureorpresent": "antd.form.beanValidation.futureorpresent [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.past": "antd.form.beanValidation.past [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.pastorpresent": "antd.form.beanValidation.pastorpresent [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.max": "antd.form.beanValidation.max [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.min": "antd.form.beanValidation.min [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.negative": "antd.form.beanValidation.negative [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.negativeorzero": "antd.form.beanValidation.negativeorzero [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.positive": "antd.form.beanValidation.positive [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.positiveorzero": "antd.form.beanValidation.positiveorzero [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.notblank": "antd.form.beanValidation.notblank [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.notempty": "antd.form.beanValidation.notempty [TRANSLATION NOT AVAILABLE]",
+  "antd.form.beanValidation.notnull": "antd.form.beanValidation.notnull [TRANSLATION NOT AVAILABLE]"
 }

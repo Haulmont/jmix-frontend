@@ -2,7 +2,7 @@ import path from "path";
 import {generateEntities} from "./model/entities-generation";
 import {YeomanGenerator} from "../../../../YeomanGenerator";
 import {ProjectModel} from "../../../../../common/model/cuba-model";
-import {getAllEntities} from "../../../../../common/model/cuba-model-utils";
+import {getAllEntities, transformValidationRules} from "../../../../../common/model/cuba-model-utils";
 
 const pickMetadataFromProjectModel = (projectModel: ProjectModel) => ({
   entities: getAllEntities(projectModel).map(entity => ({
@@ -18,6 +18,7 @@ const pickMetadataFromProjectModel = (projectModel: ProjectModel) => ({
       readOnly: attr.readOnly,
       mandatory: attr.mandatory,
       transient: attr.transient,
+      beanValidationRules: transformValidationRules(attr.beanValidationRules)
     })),
   })),
   enums: projectModel.enums.map(enumElem => ({

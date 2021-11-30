@@ -22,7 +22,8 @@ export interface SubmitCallbackHookOptions<TEntity, TData, TMutationVars> {
   entityInstance?: EntityInstance<TEntity>;
   onCommit?: (value: EntityInstance<TEntity>) => void;
   uiKit_to_jmixFront: (item: any, entityName: string, metadata: Metadata, stringIdName?: string) => Record<string, any>;
-  persistEntityCallbacks?: PersistEntityCallbacks
+  persistEntityCallbacks?: PersistEntityCallbacks;
+  executeClientValidation?: (values: any, entityName: string, metadata: Metadata) => boolean;
 }
 
 export function useSubmitCallback<
@@ -39,7 +40,8 @@ export function useSubmitCallback<
   entityInstance,
   onCommit,
   persistEntityCallbacks,
-  uiKit_to_jmixFront
+  uiKit_to_jmixFront,
+  executeClientValidation
 }: SubmitCallbackHookOptions<TEntity, TData, TMutationVars>) {
   const metadata = useMetadata();
   const isNewEntity = (entityId == null);
@@ -47,7 +49,13 @@ export function useSubmitCallback<
   return useCallback(
     (values: any) => {
       if (metadata != null) {
-        // TODO perform client-side validation
+        const isClientSideValid = executeClientValidation != null
+          ? executeClientValidation(values, entityName, metadata)
+          : true
+
+        if (!isClientSideValid) {
+          return;
+        }
 
         if (onCommit != null) {
           const id = entityInstance?.id != null

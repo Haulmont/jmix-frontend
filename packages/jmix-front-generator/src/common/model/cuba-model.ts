@@ -84,6 +84,57 @@ export interface EntityAttribute {
   transient: boolean;
   temporalType?: TemporalType;
   traitAttribute?: string;
+  beanValidationRules?: BeanValidationRule[]
+}
+
+export type BeanValidationRule = {
+  name: 'Email'
+  regexp?: string
+} | {
+  name: 'DecimalMax',
+  value: string
+} | {
+  name: 'DecimalMin',
+  value: string
+} | {
+  name: 'Digits',
+  integer: number,
+  fraction: number
+} | {
+  name: 'Future'
+} | {
+  name: 'FutureOrPresent'
+} | {
+  name: 'Max',
+  value: number
+} | {
+  name: 'Min',
+  value: number
+} | {
+  name: 'Negative'
+} | {
+  name: 'NegativeOrZero'
+} | {
+  name: 'NotBlank'
+} | {
+  name: 'NotEmpty'
+} | {
+  name: 'NotNull'
+} | {
+  name: 'Past'
+} | {
+  name: 'PastOrPresent'
+} | {
+  name: 'Pattern',
+  regexp: string
+} | {
+  name: 'Positive'
+} | {
+  name: 'PositiveOrZero'
+} | {
+  name: 'Size';
+  min: number;
+  max: number;
 }
 
 export interface View {
