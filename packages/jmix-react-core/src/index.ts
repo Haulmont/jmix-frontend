@@ -39,6 +39,7 @@ export * from './crud/useEntityEditorData';
 export * from './crud/filter';
 export * from './crud/pagination';
 export * from './crud/sort';
+export * from './crud/validation';
 
 export * from './data/aliases';
 export * from './data/DataContext';

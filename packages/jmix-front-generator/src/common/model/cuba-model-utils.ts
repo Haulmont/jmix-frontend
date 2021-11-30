@@ -1,4 +1,4 @@
-import {Entity, EntityAttribute, ProjectModel} from "./cuba-model";
+import {Entity, EntityAttribute, ProjectModel, BeanValidationRule} from "./cuba-model";
 import {
   EntityInfo,
   RestQueryInfo,
@@ -99,4 +99,43 @@ export function composeParentFqn(parentPackage: string | undefined, parentClassN
   if (!parentClassName || !parentPackage) return '';
   if (parentPackage.length == 0 || parentClassName.length == 0) return '';
   return `${parentPackage}.${parentClassName}`;
+}
+
+export function transformValidationRules(rules?: BeanValidationRule[]) {
+  if (rules == null) {
+    return rules
+  }
+
+  return rules.map(rule => {
+    if (rule.name === 'Pattern' || rule.name === 'Email') {
+      return {
+        ...rule,
+        ...transformRegex(rule.regexp)
+      }
+    }
+
+    return rule;
+  });
+}
+
+const CASE_INSENSITIVE_MOD = '(?i)'
+
+function transformRegex(pattern?: string) {
+  if (pattern == null) {
+    return {};
+  }
+  const modifiers = new Set()
+
+  //search for case-insensive
+  const hasCaseInsensitive = pattern.includes(CASE_INSENSITIVE_MOD)
+
+  if (hasCaseInsensitive) {
+    pattern = pattern.replace(CASE_INSENSITIVE_MOD, '')
+    modifiers.add('i')
+  }
+
+  return {
+    regexp: pattern,
+    modifiers: Array.from(modifiers.values()).join('')
+  };
 }

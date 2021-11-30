@@ -2,6 +2,7 @@ import {
   findEntity,
   findQuery,
   findServiceMethod,
+  transformValidationRules
 } from "../../../common/model/cuba-model-utils";
 import {RestServiceMethodInfo} from "../../../common/studio/studio-model";
 import {expect} from "chai";
@@ -32,4 +33,16 @@ describe('cuba model utils', function () {
     expect(findEntity(projectModel, {name: 'scr_Car'})!.fqn).eq('com.company.scr.entity.Car');
   });
 
+
+  it('should transoform validation rules', function() {
+    expect(transformValidationRules()).to.be.undefined
+    expect(transformValidationRules([{
+      name: 'Pattern',
+      regexp: '(?i)\\b(\\w+)\\b(\\s+\\1)+\\b'
+    }])).eql([{
+      name: 'Pattern',
+      regexp: '\\b(\\w+)\\b(\\s+\\1)+\\b',
+      modifiers: 'i'
+    }])
+  })
 });

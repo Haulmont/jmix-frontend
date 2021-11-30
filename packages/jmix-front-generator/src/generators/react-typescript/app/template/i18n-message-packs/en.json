@@ -187,5 +187,25 @@
   "antd.form.validation.array.max": "${name} shall have no more than ${max} elements.",
   "antd.form.validation.array.range": "${name} shall have from ${min} to ${max} elements.",
 
-  "antd.form.validation.pattern.mismatch": "${name} does not match pattern ${pattern}."
+  "antd.form.validation.pattern.mismatch": "${name} does not match pattern ${pattern}.",
+
+  "antd.form.beanValidation.email": "{name} not a well-formed email address.",
+  "antd.form.beanValidation.pattern": "{name} does not match pattern {regexp}.",
+  "antd.form.beanValidation.size": "{name} shall be within a range from {min} to {max}.",
+  "antd.form.beanValidation.decimalmax": "{name} shall not exceed {value}.",
+  "antd.form.beanValidation.decimalmin": "{name} shall not be less than {value}.",
+  "antd.form.beanValidation.digits": "{name} numeric value out of bounds (<{integer} digits>.<{fraction} digits> expected).",
+  "antd.form.beanValidation.future": "{name} must be in the future.",
+  "antd.form.beanValidation.futureorpresent": "{name} must be in the future or present.",
+  "antd.form.beanValidation.past": "{name} must be in the past.",
+  "antd.form.beanValidation.pastorpresent": "{name} must be in the past or present.",
+  "antd.form.beanValidation.max": "{name} must be less than or equal to {value}.",
+  "antd.form.beanValidation.min": "{name} must be greater than or equal to {value}.",
+  "antd.form.beanValidation.negative": "{name} must be less than 0.",
+  "antd.form.beanValidation.negativeorzero": "{name} must be less than or equal to 0.",
+  "antd.form.beanValidation.positive": "{name} must be greater than 0.",
+  "antd.form.beanValidation.positiveorzero": "{name} must be greater than or equal to 0.",
+  "antd.form.beanValidation.notblank": "{name} must not be blank.",
+  "antd.form.beanValidation.notempty": "{name} must not be empty.",
+  "antd.form.beanValidation.notnull": "{name} may not be null."
 }

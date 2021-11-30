@@ -25,6 +25,7 @@ import {extractBeanValidationErrors} from "./validation/extractBeanValidationErr
 import {JmixServerValidationErrors} from "../../common/JmixServerValidationErrors";
 import { useNoop } from "../../util/useNoop";
 import { PersistEntityCallbacks } from "./util/persistEntity";
+import { useClientValidation } from "./validation/useClientValidation";
 
 export type EntityEditorState = {
   globalErrors: string[];
@@ -222,7 +223,8 @@ export function useEntityEditor<
   const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
   const serverValidationErrors = extractBeanValidationErrors(upsertMutationResult.error);
-  useEntityEditorFormValidation(serverValidationErrors);
+  const [executeClientValidation, clientValidationErrors] = useClientValidation();
+  useEntityEditorFormValidation(clientValidationErrors || serverValidationErrors);
 
   const goToParentScreen = useParentScreen(routingPath, shouldNotGoToParentScreen);
 
@@ -238,7 +240,8 @@ export function useEntityEditor<
     entityInstance,
     onCommit,
     uiKit_to_jmixFront,
-    persistEntityCallbacks
+    persistEntityCallbacks,
+    executeClientValidation
   });
 
   return {

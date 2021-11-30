@@ -3,12 +3,64 @@ import React, { createContext, useContext } from "react";
 export type Cardinality = 'NONE' | 'ONE_TO_ONE' | 'MANY_TO_ONE' | 'ONE_TO_MANY' | 'MANY_TO_MANY';
 
 export type AttributeType = 'DATATYPE' | 'ENUM' | 'ASSOCIATION' | 'COMPOSITION' | 'EMBEDDED';
-  
+
+export type BeanValidationRule = {
+    name: 'Email';
+    regexp?: string;
+    modifiers?: string
+  } | {
+    name: 'DecimalMax';
+    value: string;
+  } | {
+    name: 'DecimalMin';
+    value: string;
+  } | {
+    name: 'Digits';
+    integer: number;
+    fraction: number;
+  } | {
+    name: 'Future';
+  } | {
+    name: 'FutureOrPresent';
+  } | {
+    name: 'Max';
+    value: number;
+  } | {
+    name: 'Min';
+    value: number;
+  } | {
+    name: 'Negative';
+  } | {
+    name: 'NegativeOrZero';
+  } | {
+    name: 'NotBlank';
+  } | {
+    name: 'NotEmpty';
+  } | {
+    name: 'NotNull';
+  } | {
+    name: 'Past';
+  } | {
+    name: 'PastOrPresent';
+  } | {
+    name: 'Pattern';
+    regexp: string;
+    modifiers?: string
+  } | {
+    name: 'Positive';
+  } | {
+    name: 'PositiveOrZero';
+  } | {
+    name: 'Size';
+    min: number;
+    max: number;
+  }
 export interface MetaPropertyInfo {
     // Same with the ProjectModelEntityAttr
     name: string;
     mandatory: boolean;
     readOnly: boolean;
+    beanValidationRules?: BeanValidationRule[];
     
     // Little differences with the ProjectModelEntityAttr
     isTransient: boolean;

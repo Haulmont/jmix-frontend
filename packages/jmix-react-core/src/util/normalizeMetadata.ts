@@ -1,10 +1,11 @@
-import {AttributeType, Cardinality, MetaClassInfo, MetaPropertyInfo, Metadata, EnumInfo} from '../app/MetadataProvider'
+import {AttributeType, Cardinality, MetaClassInfo, MetaPropertyInfo, Metadata, EnumInfo, BeanValidationRule} from '../app/MetadataProvider'
 
 export interface ProjectModelEntityAttr {
     // Same with the MetaPropertyInfo
     name: string;
     readOnly: boolean;
     mandatory: boolean;
+    beanValidationRules?: Object[]
 
     // Little differences with the MetaPropertyInfo
     transient: boolean;
@@ -65,6 +66,7 @@ const transformAttrToProperty = (attr: ProjectModelEntityAttr): MetaPropertyInfo
         name: attr.name,
         mandatory: attr.mandatory,
         readOnly: attr.readOnly,
+        beanValidationRules: attr.beanValidationRules as BeanValidationRule[],
 
         // Little differences with the MetaPropertyInfo
         attributeType: attr.mappingType as AttributeType,

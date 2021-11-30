@@ -187,5 +187,25 @@
   "antd.form.validation.array.max":  "Поле ${name} должно содержать не более ${max} элементов.",
   "antd.form.validation.array.range": "Поле ${name} должно содержать от ${min} до ${max} элементов.",
 
-  "antd.form.validation.pattern.mismatch":  "Поле ${name} не подходящее под паттерн ${pattern}."
+  "antd.form.validation.pattern.mismatch":  "Поле ${name} не подходящее под паттерн ${pattern}.",
+
+  "antd.form.beanValidation.email": "{name} email определен в неверном формате.",
+  "antd.form.beanValidation.pattern": "{name} должно соответствовать шаблону {regexp}.",
+  "antd.form.beanValidation.size": "{name} размер должен быть между {min} и {max}.",
+  "antd.form.beanValidation.decimalmax": "{name} не должно превышать {value}.",
+  "antd.form.beanValidation.decimalmin": "{name} не должно быть меньше чем {value}.",
+  "antd.form.beanValidation.digits": "{name} числовое значение вне границ (<{integer} digits>.<{fraction} digits> expected).",
+  "antd.form.beanValidation.future": "{name} должно быть в будущем.",
+  "antd.form.beanValidation.futureorpresent": "{name} должно быть в будущем или настоящем.",
+  "antd.form.beanValidation.past": "{name} должно быть в прошлом.",
+  "antd.form.beanValidation.pastorpresent": "{name} должно быть в прошлом или настоящем.",
+  "antd.form.beanValidation.max": "{name} должно быть меньше или равно {value}.",
+  "antd.form.beanValidation.min": "{name} должно быть больше или равно {value}.",
+  "antd.form.beanValidation.negative": "{name} должно быть меньше 0.",
+  "antd.form.beanValidation.negativeorzero": "{name} должно быть меньше или равно 0.",
+  "antd.form.beanValidation.positive": "{name} должно быть больше 0.",
+  "antd.form.beanValidation.positiveorzero": "{name} должно быть больше или равно 0.",
+  "antd.form.beanValidation.notblank": "{name} должно содержать значение.",
+  "antd.form.beanValidation.notempty": "{name} должно быть непустым.",
+  "antd.form.beanValidation.notnull": "{name} должно быть задано."
 }
