@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-web",
-  "version": "2.0.0-next.7",
+  "version": "2.0.0-next.8",
   "description": "Jmix web API",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

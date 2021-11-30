@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.8...@haulmont/jmix-front-generator@2.0.0-next.9) (2021-11-30)
+
+
+### Features
+
+* basic accessibility support by aria attributes and roles [#683](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/683) ([87805f3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/87805f346b79fbb9ae5f9abdee80b20dd8399699))
+* entity picker implementation [#635](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/635) ([73d37a9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/73d37a90c7019b1d766d47c9119c2e5ac8a93850))
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.7...@haulmont/jmix-front-generator@2.0.0-next.8) (2021-11-25)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator

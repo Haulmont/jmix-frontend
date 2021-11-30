@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.7...@haulmont/jmix-react-web@2.0.0-next.8) (2021-11-30)
+
+
+### Bug Fixes
+
+* issue with several menu items from addons [#795](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/795) ([5a57242](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/5a57242444e3a081ed1a6cfcb24aac7019d8eab6))
+
+
+### Features
+
+* add data display component: Label [#695](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/695) ([#794](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/794)) ([344aa8d](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/344aa8dd5415e0f8639b9b9fcd8a5f98b163c4fe))
+* entity picker implementation [#635](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/635) ([73d37a9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/73d37a90c7019b1d766d47c9119c2e5ac8a93850))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.6...@haulmont/jmix-react-web@2.0.0-next.7) (2021-11-25)
 
 **Note:** Version bump only for package @haulmont/jmix-react-web

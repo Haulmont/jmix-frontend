@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.8...@haulmont/jmix-react-antd@2.0.0-next.9) (2021-11-30)
+
+
+### Bug Fixes
+
+* issue with several menu items from addons [#795](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/795) ([5a57242](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/5a57242444e3a081ed1a6cfcb24aac7019d8eab6))
+
+
+### Features
+
+* add data display components: app layouts [#692](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/692) ([0748898](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/0748898169312093ab30a4375d480b7f9df2053a))
+* basic accessibility support by aria attributes and roles [#683](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/683) ([87805f3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/87805f346b79fbb9ae5f9abdee80b20dd8399699))
+* entity picker implementation [#635](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/635) ([73d37a9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/73d37a90c7019b1d766d47c9119c2e5ac8a93850))
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.7...@haulmont/jmix-react-antd@2.0.0-next.8) (2021-11-25)
 
 
