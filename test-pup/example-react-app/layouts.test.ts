@@ -5,6 +5,7 @@ const {findByText} = queries;
 
 describe('Layouts', () => {
     let page;
+    let $document
     const url = 'customAppLayouts';
 
     beforeAll(async () => {
@@ -18,23 +19,35 @@ describe('Layouts', () => {
         done();
     });
 
+    beforeEach(async () => {
+        await page.goto(`http://localhost:3000/${url}`);
+        $document = await getDocument(page);
+    });
+
     it('Main AppLayout renders 3 children', async () => {
-        await page.goto(`http://localhost:3000/${url}`);
-        const $document = await getDocument(page);
-
         const $header = await findByText($document, 'Header');
-
         const appLayoutChildCount = await (await $header.evaluateHandle(el => el.parentElement.childElementCount)).jsonValue();
+
         expect(appLayoutChildCount).toBe(3);
-    })
+    });
 
-    it('renders Content, Header, Footer, Sider layouts', async () => {
-        await page.goto(`http://localhost:3000/${url}`);
-        const $document = await getDocument(page);
+    it('renders Content', async () => {
+        const $content = await findByText($document, 'Content');
+        expect($content).not.toBeNull();
+    });
 
-        await findByText($document, 'Content');
-        await findByText($document, 'Header');
-        await findByText($document, 'Footer');
-        await findByText($document, 'Sider');
+    it('renders Header', async () => {
+        const $header = await findByText($document, 'Header');
+        expect($header).not.toBeNull();
+    });
+
+    it('renders Footer', async () => {
+        const $footer = await findByText($document, 'Footer');
+        expect($footer).not.toBeNull();
+    });
+
+    it('renders Sidebar', async () => {
+        const $sidebar = await findByText($document, 'Sidebar');
+        expect($sidebar).not.toBeNull();
     });
 });
