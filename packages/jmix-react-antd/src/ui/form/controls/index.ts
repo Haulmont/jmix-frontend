@@ -12,3 +12,4 @@ export * from "./TextArea";
 export * from "./MaskedField";
 export * from "./SliderField";
 export * from "./EntityPickerField";
+export * from "./SelectField";
