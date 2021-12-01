@@ -17,7 +17,8 @@ import {
   SliderField,
   EntityPickerField,
   SelectField,
-  SourceCodeField
+  SourceCodeField,
+  RadioButton
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -166,6 +167,18 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
           mode="javascript"
+        />
+        <RadioButton
+          entityName="scr_Car"
+          propertyName="maxPassengers"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+          options={[
+            { label: "Option 1", value: "option1" },
+            { label: "Option 2", value: "option2", disabled: true },
+            { label: "Option 3", value: "option3" }
+          ]}
         />
 
         <Form.Item style={{ textAlign: "center" }}>
