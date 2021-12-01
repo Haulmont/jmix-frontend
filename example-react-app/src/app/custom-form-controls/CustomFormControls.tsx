@@ -17,7 +17,8 @@ import {
   SliderField,
   EntityPickerField,
   SelectField,
-  SourceCodeField
+  SourceCodeField,
+  FileUploadField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -166,6 +167,13 @@ const CustomFormControls = () => {
             style: { marginBottom: "12px" }
           }}
           mode="javascript"
+        />
+        <FileUploadField
+          entityName="scr_Garage"
+          propertyName="capacity"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
         />
 
         <Form.Item style={{ textAlign: "center" }}>

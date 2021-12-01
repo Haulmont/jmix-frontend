@@ -14,3 +14,4 @@ export * from "./SliderField";
 export * from "./EntityPickerField";
 export * from "./SelectField";
 export * from "./SourceCodeField";
+export * from "./FileUploadField";
