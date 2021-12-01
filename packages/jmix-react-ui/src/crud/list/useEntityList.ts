@@ -21,6 +21,7 @@ import {
   JmixSortOrder,
   useEntityListData,
   HasId,
+  currentRoute,
 } from "@haulmont/jmix-react-core";
 import {IntlShape, useIntl} from "react-intl";
 import {useState} from "react";
@@ -226,10 +227,9 @@ export function useEntityList<
   const intl = useIntl();
 
   const [pagingDataFromUrl] = useState(() => {
-    const query = new URLSearchParams(window.location.search);
     return {
-      page: Number(query.get('page')) || paginationConfig.current,
-      pageSize: Number(query.get('pageSize')) || paginationConfig.pageSize,
+      page: Number(currentRoute.searchParams.page) || paginationConfig.current,
+      pageSize: Number(currentRoute.searchParams.pageSize) || paginationConfig.pageSize,
     }
   });
 

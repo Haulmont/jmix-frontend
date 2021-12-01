@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
+import { currentRoute, IMultiTabItem, RouteItem, Screens, ScreensContext, SubMenu, tabs } from '@haulmont/jmix-react-core';
 import { observer } from 'mobx-react';
 import { Tabs } from 'antd';
 import {menuItems, openScreen} from '../../screen-registration/screen-registration';
@@ -66,8 +66,16 @@ const Content = observer((props: IContentProps) => {
 });
 
 function checkRoute(item: RouteItem) {
-  if (item.menuLink === window.location.pathname || (window.location.pathname + '/').indexOf(item.menuLink + '/') === 0) {
-    openScreen(item.screenId, window.location.pathname + window.location.search);
+  const url = window.location.hash
+    ? new URL(window.location.origin + window.location.hash.replace('#', ''))
+    : new URL(window.location.href)
+
+  if (window.location.hash) {
+    currentRoute.hashMode = true
+  }
+
+  if (item.menuLink === url.pathname || (url.pathname + '/').indexOf(item.menuLink + '/') === 0) {
+    openScreen(item.screenId, url.pathname + url.search);
   }
 }
 

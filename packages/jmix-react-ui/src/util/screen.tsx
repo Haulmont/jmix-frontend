@@ -1,4 +1,4 @@
-import {EntityInstance, MayHaveId, redirect, Screens, ScreensContext} from "@haulmont/jmix-react-core";
+import {EntityInstance, MayHaveId, /* redirect, */ Screens, ScreensContext} from "@haulmont/jmix-react-core";
 import {useCallback, useContext} from "react";
 import {MultiScreenContext} from "../ui/MultiScreen";
 import { IntlShape } from "react-intl";
@@ -37,7 +37,7 @@ export function openEntityEditorScreen<TEntity>({
   screens,
   entityName,
   entityIdToLoad,
-  routingPath,
+  // routingPath,
   onCommit,
   entityInstance,
   submitBtnCaption,
@@ -69,9 +69,9 @@ export function openEntityEditorScreen<TEntity>({
       // Entity instance will be loaded from backend
 
       // If we are on root screen
-      if (routingPath != null && screens.currentScreenIndex === 0) {
-        redirect(`${routingPath}/${entityIdToLoad}`);
-      }
+      // if (routingPath != null && screens.currentScreenIndex === 0) {
+      //   redirect(`${routingPath}/${entityIdToLoad}`);
+      // }
 
       openCrudScreen({
         entityName,
@@ -152,9 +152,9 @@ export const useParentScreen = (routingPath: string): (() => void) => {
   const multiScreen = useContext(MultiScreenContext);
 
   return useCallback(() => {
-    if (screens.currentScreenIndex === 1) {
-      redirect(routingPath);
-    }
+    // if (screens.currentScreenIndex === 1) {
+    //   redirect(routingPath);
+    // }
     screens.setActiveScreen(multiScreen.parent!, true);
   }, [screens, routingPath, multiScreen]);
 };
