@@ -15,3 +15,4 @@ export * from "./EntityPickerField";
 export * from "./SelectField";
 export * from "./SourceCodeField";
 export * from "./RadioButton";
+export * from "./DropdownField";
