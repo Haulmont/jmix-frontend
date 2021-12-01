@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.9...@haulmont/jmix-react-antd@2.0.0-next.10) (2021-12-01)
+
+
+### Bug Fixes
+
+* rename sider to Sidebar & separate renders tests [#692](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/692) ([#811](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/811)) ([c0ed503](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/c0ed50312fb7adc5c35743872456f969d9208c41))
+
+
+### Features
+
+* add SelectField form control [#705](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/705) ([#808](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/808)) ([85f224f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/85f224f0ca743ce3d288f60ab1bc4e36cad6598c))
+* add SourceCodeField form control [#714](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/714) ([#796](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/796)) ([2c720c1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/2c720c1cf4d01cc90a6c06f028939c6128bbc04a))
+
+
+
+
+
 # [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.8...@haulmont/jmix-react-antd@2.0.0-next.9) (2021-11-30)
 
 

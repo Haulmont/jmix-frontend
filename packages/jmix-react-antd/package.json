@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-antd",
-  "version": "2.0.0-next.9",
+  "version": "2.0.0-next.10",
   "description": "Jmix utilities and components for React, based on atnd components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
