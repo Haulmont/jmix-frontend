@@ -178,7 +178,6 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
       onFilterChange={handleFilterChange}
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
-      hideSelectionColumn={true}
       buttons={buttons}
     />
   );
