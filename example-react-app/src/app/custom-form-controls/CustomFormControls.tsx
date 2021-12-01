@@ -19,7 +19,8 @@ import {
   SelectField,
   SourceCodeField,
   RadioButton,
-  DropdownField
+  DropdownField,
+  FileUploadField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -197,6 +198,13 @@ const CustomFormControls = () => {
             { label: "Option 2", value: "option2", disabled: true },
             { label: "Option 3", value: "option3" }
           ]}
+        />
+        <FileUploadField
+          entityName="scr_Garage"
+          propertyName="capacity"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
         />
 
         <Form.Item style={{ textAlign: "center" }}>
