@@ -108,6 +108,7 @@ export class CurrentRoute {
       const parsedURL = new URL(hashPath, windowLocation.origin);
       path = parsedURL.pathname;
       fullPath = hashPath;
+      this.searchParams = Object.fromEntries(parsedURL.searchParams.entries());
     } else {
       path = windowLocation.pathname;
       fullPath = path + windowLocation.search;

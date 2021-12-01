@@ -97,7 +97,7 @@ describe('Tabs core API', () => {
     tabs.currentTab = tab2;
     tabs.setActiveTab(tab1);
     expect(tabs.currentTab).toEqual(tab1);
-    expect(historySpy).toHaveBeenCalledWith({}, '', 'screen1b/00000000-0000-0000-0000-000000000000');
+    expect(historySpy).toHaveBeenCalledWith({}, '', 'screen1b');
     expect(scrollSpy).toHaveBeenCalledWith(0, 0);
   });
 });

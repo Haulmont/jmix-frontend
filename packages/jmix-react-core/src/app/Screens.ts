@@ -143,20 +143,20 @@ export class Screens {
       this.screens = newScreens;
     }
 
-    window.history.pushState({}, '', this.getUrl());
+    // window.history.pushState({}, '', this.getUrl());
   });
 
   getUrl(): string {
     const pagination = this.currentScreen.params?.pagination;
-    const entityId = this.currentScreen.params?.entityId;
+    // const entityId = this.currentScreen.params?.entityId;
 
     let url = this.currentRootPageData.menuPath;
 
     if (pagination) {
       url = (this.currentRootPageData.menuPath + `?page=${pagination.page}&pageSize=${pagination.pageSize}`);
-    } else if (entityId) {
+    } /* else if (entityId) {
       url = (this.currentRootPageData.menuPath + `/${entityId}`);
-    }
+    } */
 
     return url;
   }
