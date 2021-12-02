@@ -1,7 +1,7 @@
 import {Checkbox} from 'antd';
 import React, {ReactNode} from 'react';
 import {SerializedEntityProps} from '@haulmont/jmix-rest';
-import { MainStoreInjected, MainStore, getEnumCaption, useMetadata, MetaPropertyInfo, PropertyType } from '@haulmont/jmix-react-core';
+import { MainStoreInjected, MainStore, getEnumCaption, useMetadata, useMainStore, MetaPropertyInfo, PropertyType } from '@haulmont/jmix-react-core';
 import { toDisplayValue } from '../../util/formatting';
 
 type DataTableCellProps<EntityType> = MainStoreInjected & {
@@ -45,6 +45,7 @@ export const DataTableCell = <EntityType extends unknown>(props: DataTableCellPr
 
 const EnumCell = <EntityType extends unknown>(props: DataTableCellProps<EntityType>) => {
   const metadata = useMetadata();
-  const caption = getEnumCaption(props.text, props.propertyInfo, metadata.enums);
+  const mainStore = useMainStore();
+  const caption = getEnumCaption(props.text, props.propertyInfo, metadata.enums, mainStore.enumMessages);
   return <div>{caption ? caption : ''}</div>;
 };
