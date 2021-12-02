@@ -18,7 +18,8 @@ const pickMetadataFromProjectModel = (projectModel: ProjectModel) => ({
       readOnly: attr.readOnly,
       mandatory: attr.mandatory,
       transient: attr.transient,
-      beanValidationRules: transformValidationRules(attr.beanValidationRules)
+      beanValidationRules: transformValidationRules(attr.beanValidationRules),
+      traitAttribute: attr.traitAttribute
     })),
   })),
   enums: projectModel.enums.map(enumElem => ({

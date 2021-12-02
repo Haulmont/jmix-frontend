@@ -7,6 +7,9 @@
   "addons.DataTools.noSelected": "No selected entity",
   "addons.DataTools.noData": "No data to inspect",
   "addons.DataTools.restoreButton": "Restore",
-  "addons.DataTools.restoreEntites": "Number of restored entites: {restoreEntities}",
+  "addons.DataTools.restoreEntities": "Entity has been restored.",
+  "addons.DataTools.restoreEntitiesError": "Error occurred while trying to perform restore operation. Error message: {errorMessage}",
+  "addons.DataTools.restoreEntitiesZeroResult": "Entity has not been restored.",
+  "addons.DataTools.deleteEntityError": "Something went wrong while trying to delete entity with id {entityId}. Maybe, entity already have been deleted.",
   "screen.EntityInspector": "Entity Inspector"
 }

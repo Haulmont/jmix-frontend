@@ -1,6 +1,15 @@
 import React, {useEffect, useCallback, useMemo} from 'react';
-import { useEntityList } from "@haulmont/jmix-react-web";
-import {ant_to_jmixFront, DataTable, RetryDialog, saveHistory, useEntityDeleteCallback, useOpenScreenErrorCallback} from "@haulmont/jmix-react-antd";
+import { useEntityList, getEntityInstanceById } from "@haulmont/jmix-react-web";
+import {
+  ant_to_jmixFront, 
+  DataTable, 
+  RetryDialog, 
+  saveHistory, 
+  useEntityDeleteCallback, 
+  useOpenScreenErrorCallback,
+  notifications, 
+  NotificationType
+} from "@haulmont/jmix-react-antd";
 import { DocumentNode, gql } from '@apollo/client';
 import { EntityInstance, EntityPermAccessControl, generateTempId, useMetadata } from '@haulmont/jmix-react-core';
 import { Button } from 'antd';
@@ -56,12 +65,12 @@ export const EntityDataViewer = observer((props: Props) => {
     count,
     relationOptions,
     executeListQuery,
-    listQueryResult: { loading, error },
+    executeDeleteMutation,
+    listQueryResult: { loading, error, refetch },
     handleSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
     handlePaginationChange,
-    handleDeleteBtnClick,
     entityListState
   } = useEntityList<object>({
     listQuery,
@@ -71,8 +80,21 @@ export const EntityDataViewer = observer((props: Props) => {
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    listQueryOptions: {fetchPolicy: "network-only"}
   });
+
+  const selectedEntityInstance = useMemo(() => {
+    let instance;
+    if(entityListState.selectedEntityId != null && items != null ) {
+      try{
+        instance = getEntityInstanceById(entityListState.selectedEntityId, items)
+      } catch(_e) {
+        instance = undefined;
+      }
+    }
+   return instance;
+  }, [entityListState.selectedEntityId, items])
 
   const restoreIds = useMemo(() => {
     if(entityListState.selectedEntityId == null) {
@@ -81,7 +103,7 @@ export const EntityDataViewer = observer((props: Props) => {
     return [entityListState.selectedEntityId];
   }, [entityListState.selectedEntityId]);
 
-  const restoreEntity = useEntityRestore({className: entityName, ids: restoreIds}, executeListQuery)
+  const restoreEntity = useEntityRestore({className: entityName, ids: restoreIds}, refetch)
 
   const onEditCommit = useMemo(() => {
     return onEntityListChange
@@ -123,6 +145,24 @@ export const EntityDataViewer = observer((props: Props) => {
       }
     : undefined
   }, [onEntityListChange, entityListState, intl]);
+
+  const handleDeleteBtnClick = useCallback(() => {
+    if(entityListState.selectedEntityId != null) {
+      onEntityDelete(() => {
+        executeDeleteMutation({
+          variables: {id: entityListState.selectedEntityId as string},
+          onCompleted: () => {refetch?.()}
+        }).catch((_e) => {
+          notifications.show({
+            type: NotificationType.ERROR,
+            description: intl.formatMessage({
+               id: "addons.DataTools.deleteEntityError" 
+            }, {entityId: entityListState.selectedEntityId})
+          });
+        })
+      }, selectedEntityInstance)
+    };
+  }, [entityListState.selectedEntityId, selectedEntityInstance]);
 
   const editBtnHandler = useCallback(() => {
     const value = entityList?.find(({id}) => {return id === entityListState!.selectedEntityId!});

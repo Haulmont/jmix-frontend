@@ -44,7 +44,7 @@ export const Fields = (props: Props) => {
   return (
     <>
       {entityAttrsInfo
-        .filter(attrInfo => attrInfo.name !== "id")
+        .filter(attrInfo => fieldFilter(attrInfo))
         .map((attrInfo) => {
           const entityAttrs =getAllEntityPropertyNames(attrInfo.type, metadata)!;
           const entityNamesInfo = getEntityNamesInfo(getAllPersistentEntityNames(metadata), attrInfo.type);
@@ -101,4 +101,15 @@ export const Fields = (props: Props) => {
       })}
     </>
   )
+}
+
+function fieldFilter(attrInfo: MetaPropertyInfo) {
+  const filteredTraitAttributes = [
+    'uuid',
+    'version'
+  ];
+
+  return filteredTraitAttributes.every((filteredTraitAttr) => {
+    return attrInfo.traitAttribute !== filteredTraitAttr
+  });
 }

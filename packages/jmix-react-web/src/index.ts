@@ -17,6 +17,7 @@ export * from "./crud/editor/EntityEditorProps";
 export * from "./crud/editor/util/persistEntity";
 export * from "./crud/list/useEntityList";
 export * from "./crud/list/EntityListProps";
+export * from "./crud/list/util/getEntityInstanceById";
 
 export * from "./util/screen";
 export * from "./util/formatting";

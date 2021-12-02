@@ -69,6 +69,7 @@ export interface MetaPropertyInfo {
 
     // Differences with the ProjectModelEntityAttr
     type: string;
+    traitAttribute?: string;
 }
 
 export interface MetaClassInfo {
