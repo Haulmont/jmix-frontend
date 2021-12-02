@@ -65,7 +65,7 @@ const EntityPropertyFormattedValue = observer((props: EntityPropertyProps) => {
   }
 
   const displayValue = propertyInfo.attributeType === 'ENUM'
-    ? getEnumCaption(value, propertyInfo, metadata.enums)
+    ? getEnumCaption(value, propertyInfo, metadata.enums, mainStore.enumMessages)
     : toDisplayValue(toJS(value), propertyInfo);
 
   return label != null

@@ -29,6 +29,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
+import { EntityMessages } from '@haulmont/jmix-rest';
 
 // todo we should not use '*Helpers' in class name in case of lack semantic. This class need to be split
 //  to different files like 'DataColumn', 'Conditions', 'Filters', 'Paging' ot something like this
@@ -225,7 +226,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
 
     if (propertyInfo.attributeType === 'ENUM') {
       defaultColumnProps = {
-        filters: generateEnumFilter(propertyInfo, metadata),
+        filters: generateEnumFilter(propertyInfo, metadata, mainStore.enumMessages),
         ...defaultColumnProps
       };
     } else {
@@ -253,7 +254,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
  *
  * @param propertyInfo
  */
-export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Metadata): ColumnFilterItem[] {
+export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Metadata, enumMessages: EntityMessages | null): ColumnFilterItem[] {
   const propertyEnumInfo: EnumInfo | undefined = metadata.enums
     .find((enumInfo: EnumInfo) => enumInfo.name === propertyInfo.type);
 
@@ -263,7 +264,7 @@ export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Met
 
   return propertyEnumInfo.values.map((enumValueInfo: EnumValueInfo) => {
     return {
-      text: enumValueInfo.caption,
+      text: enumMessages?.[enumValueInfo.caption] ?? enumValueInfo.name,
       value: enumValueInfo.name
     };
   });

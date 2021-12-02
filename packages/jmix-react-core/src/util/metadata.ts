@@ -33,7 +33,21 @@ export function getPropertyInfoNN(propertyName: string, entityName: string, meta
   return propertyInfo;
 }
 
-export function getEnumCaption(enumValueName: string, propertyInfo: MetaPropertyInfo, enums: EnumInfo[]): string | undefined {
+/**
+ *
+ * @param enumValueName
+ * @param propertyInfo
+ * @param enums
+ * @param enumMessages
+ *
+ * @returns localized entity enum caption
+ */
+ export function getEnumCaption(
+  enumValueName: string,
+  propertyInfo: MetaPropertyInfo,
+  enums: EnumInfo[],
+  enumMessages: EntityMessages | null
+): string | undefined {
   const enumInfo = enums.find(enumInfo => enumInfo.name === propertyInfo.type);
 
   if (!enumInfo) {
@@ -47,7 +61,7 @@ export function getEnumCaption(enumValueName: string, propertyInfo: MetaProperty
     return undefined;
   }
 
-  return enumValue.caption;
+  return enumMessages ? enumMessages[enumValue.caption] : enumValue.name;
 }
 
 /**

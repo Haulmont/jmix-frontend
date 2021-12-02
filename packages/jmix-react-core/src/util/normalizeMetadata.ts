@@ -52,7 +52,7 @@ const transformType = (type: any, mappingType: AttributeType): string => {
 const transformEnumsToEnumInfos = (enums: ProjectModelEnum[]): EnumInfo[] => {
     return enums.map(enumElem => ({
         name: enumElem.fqn,
-        values: enumElem.values.map((value) => ({...value, caption: value.name}))
+        values: enumElem.values.map((value) => ({...value, caption: `${enumElem.fqn}.${value.name}`}))
     }))
 }
 
