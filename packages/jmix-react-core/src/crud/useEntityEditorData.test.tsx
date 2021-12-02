@@ -30,6 +30,23 @@ const LOAD_NO_ASSOCIATIONS = gql`
   }
 `;
 
+const LOAD_SELF_REFERENCING_ASSOCIATIONS = gql`
+  query scr_CarById($id: String = "", $loadItem: Boolean!) {
+    scr_CarById(id: $id) @include(if: $loadItem) {
+      id
+      _instanceName
+      predecessor {
+        id
+        _instanceName
+      }
+    }
+    scr_CarList {
+      id
+      _instanceName
+    }
+  }
+`;
+
 const APOLLO_MOCKS = [
   {
     request: {
@@ -88,6 +105,32 @@ const APOLLO_MOCKS = [
         },
       }
     }
+  },
+  {
+    request: {
+      query: LOAD_SELF_REFERENCING_ASSOCIATIONS,
+      variables: {
+        id: '1',
+        loadItem: true
+      },
+    },
+    result: {
+      data: {
+        scr_CarById: {
+          id: '1',
+          _instanceName: 'AAA - 001',
+          predecessor: {
+            id: '2',
+            _instanceName: 'BBB - 002'
+          }
+        },
+        scr_CarList: [
+          {id: '1', _instanceName: 'AAA - 001'},
+          {id: '2', _instanceName: 'BBB - 002'},
+          {id: '3', _instanceName: 'CCC - 003'},
+        ]
+      }
+    }
   }
 ];
 
@@ -130,6 +173,21 @@ describe('useEntityEditorData()', async () => {
     expect(result.current.relationOptions?.get('scr_Garage')?.[0].id).toEqual('100');
 
     expect(result.current.loadQueryResult.called).toEqual(true);
+  });
+
+  it('handles self-referencing associations', async () => {
+    const {result, waitForValueToChange} = renderHook(() => useEntityEditorData({
+      loadQuery: LOAD_SELF_REFERENCING_ASSOCIATIONS,
+      entityName: 'scr_Car',
+      entityId: '1'
+    }), {wrapper});
+
+    await waitForValueToChange(() => result.current.item);
+
+    expect(result.current.item.id).toEqual('1');
+    expect(result.current.relationOptions?.size).toEqual(1);
+    expect(result.current.relationOptions?.get('scr_Car')?.length).toEqual(2);
+    expect(result.current.relationOptions?.get('scr_Car')?.find(x => x.id === '1')).toBeUndefined();
   });
 
   it('does not make a request if entityId is not provided and there are no association options queries', async () => {
