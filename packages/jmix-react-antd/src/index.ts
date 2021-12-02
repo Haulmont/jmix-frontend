@@ -16,7 +16,7 @@ export * from './ui/MasterDetail/MasterDetailManager';
 export * from './ui/MasterDetail/MasterDetailContext';
 export * from './ui/MasterDetail/useChangeConfirm';
 
-export * from './crud/common/showDeleteEntityDialog'
+export * from './crud/common/showDeleteEntityDialog';
 export * from './crud/editor/form/createUseAntdForm';
 export * from './crud/editor/form/useCreateAntdResetForm';
 export * from './crud/editor/ui-callbacks/useSubmitFailedCallback';
@@ -69,10 +69,12 @@ export * from './i18n/AntdLocalesStore';
 
 export * from './ui/Tabs';
 
-export * from './ui/menu'
+export * from './ui/menu';
 
 export * from './ui/notifications';
 export * from './ui/modals';
 
 export * from './ui/hotkeys/HotkeyInfo';
 export * from './ui/hotkeys/HotkeyInfoModalButton';
+
+export * from './ui/Card/Card';
