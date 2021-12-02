@@ -18,7 +18,8 @@ import {
   EntityPickerField,
   SelectField,
   SourceCodeField,
-  RadioButton
+  RadioButton,
+  DropdownField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -157,6 +158,23 @@ const CustomFormControls = () => {
             {
               label: "Name 2",
               value: "name2"
+            }
+          ]}
+        />
+        <DropdownField
+          entityName="scr_Garage"
+          propertyName="address"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+          options={[
+            {
+              label: "Address 1",
+              value: "address1"
+            },
+            {
+              label: "Address 2",
+              value: "address2"
             }
           ]}
         />
