@@ -14,6 +14,7 @@ import {
   MetaClassInfo,
   MetaPropertyInfo,
   Cardinality,
+  useMainStore
 } from '@haulmont/jmix-react-core';
 import { FormItemProps } from 'antd/es/form';
 import {observer} from 'mobx-react';
@@ -247,13 +248,16 @@ interface EnumFieldProps extends SelectProps<SelectValue> {
 
 export const EnumField = observer(({enumClass, ...rest}: EnumFieldProps) => {
   const metadata = useMetadata();
+  const mainStore = useMainStore();
 
   const enumInfo = metadata.enums.find((enm: EnumInfo) => enm.name === enumClass);
   const enumValues: EnumInfo['values']= enumInfo?.values || []
 
   return <Select {...rest} >
     {enumValues.map((enumValue) =>
-      <Select.Option key={enumValue.name} value={enumValue.name}>{enumValue.caption}</Select.Option>
+      <Select.Option key={enumValue.name} value={enumValue.name}>
+        {mainStore.enumMessages?.[enumValue.caption] || [enumValue.name]}
+      </Select.Option>
     )}
   </Select>
 });

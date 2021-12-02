@@ -47,6 +47,10 @@ export class MainStore {
    * Localized entity messages.
    */
   messages: EntityMessages | null = null;
+  /**
+   * Localized enum messages.
+   */
+  enumMessages: EntityMessages | null = null;
 
   /**
    * See {@link ContentDisplayMode}
@@ -100,6 +104,7 @@ export class MainStore {
       userName: observable,
       locale: observable,
       messages: observable,
+      enumMessages: observable,
       contentDisplayMode: observable,
       initialize: action,
       loadMessages: action,
@@ -163,9 +168,16 @@ export class MainStore {
    */
   loadMessages() {
     const requestId = ++this.messagesRequestCount;
-    this.apolloClient.query<{entityMessages: [{key: string, value: string}]}>({
+    this.apolloClient.query<{
+      entityMessages: [{key: string, value: string}],
+      enumMessages: [{key: string, value: string}]
+    }>({
       query: gql`query {
         entityMessages {
+          key
+          value
+        }
+        enumMessages {
           key
           value
         }
@@ -173,8 +185,9 @@ export class MainStore {
     })
       .then(action((resp) => {
         if (requestId === this.messagesRequestCount) {
-          const {data: {entityMessages}} = resp;
+          const {data: {entityMessages, enumMessages}} = resp;
           this.messages = entityMessages.reduce((acc, mes) => ({...acc, [mes.key]: mes.value}) , {});
+          this.enumMessages = enumMessages.reduce((acc, mes) => ({...acc, [mes.key]: mes.value}) , {});
         }
       }));
   }
