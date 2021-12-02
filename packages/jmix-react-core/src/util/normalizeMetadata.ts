@@ -22,6 +22,7 @@ export interface ProjectModelEntityAttr {
         label: string,
         entityName?: string,
     };
+    traitAttribute?: string
 }
 
 export interface ProjectModelEntity {
@@ -75,6 +76,7 @@ const transformAttrToProperty = (attr: ProjectModelEntityAttr): MetaPropertyInfo
 
         // Differences with the MetaPropertyInfo
         type: transformType(attr.type, attr.mappingType as AttributeType),
+        traitAttribute: attr.traitAttribute
     }
 }
 

@@ -17,7 +17,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "manufacturer",
@@ -216,7 +217,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "createdBy",
@@ -229,7 +231,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "createdBy"
         },
         {
           "name": "createdDate",
@@ -242,7 +245,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "createdDate"
         },
         {
           "name": "lastModifiedBy",
@@ -255,7 +259,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "lastModifiedBy"
         },
         {
           "name": "lastModifiedDate",
@@ -268,7 +273,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "lastModifiedDate"
         },
         {
           "name": "photo",
@@ -302,7 +308,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "manufacturer",
@@ -362,7 +369,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "car",
@@ -437,7 +445,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "car",
@@ -501,7 +510,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -550,7 +560,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -584,7 +595,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "notNull",
@@ -687,7 +699,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "cars",
@@ -831,7 +844,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "firstName",
@@ -893,7 +907,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -942,7 +957,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "certNumber",
@@ -991,7 +1007,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "version",
@@ -1004,7 +1021,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "username",
@@ -1116,7 +1134,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -1163,7 +1182,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "date",
@@ -1240,7 +1260,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "product",
@@ -1304,7 +1325,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "car",
@@ -1366,7 +1388,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntities",
@@ -1415,7 +1438,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -1449,7 +1473,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1498,7 +1523,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1666,7 +1692,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "uuid",
@@ -1700,7 +1727,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntity",
@@ -1777,7 +1805,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -1839,7 +1868,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "bigDecimalAttr",
@@ -2272,7 +2302,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntityAttr",
@@ -2368,7 +2399,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "datatypesTestEntityAttr",
@@ -2477,7 +2509,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -2526,7 +2559,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         },
         {
           "name": "name",
@@ -2679,7 +2713,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -2834,7 +2869,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -3002,7 +3038,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity",
@@ -3170,7 +3207,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": true,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "version"
         },
         {
           "name": "datatypesTestEntity3",
@@ -3240,7 +3278,8 @@
           "mappingType": "DATATYPE",
           "readOnly": false,
           "mandatory": false,
-          "transient": false
+          "transient": false,
+          "traitAttribute": "uuid"
         }
       ]
     }

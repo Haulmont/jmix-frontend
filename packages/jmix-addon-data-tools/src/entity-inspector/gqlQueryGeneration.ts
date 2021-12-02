@@ -79,7 +79,7 @@ export function generateGqlQueryDataById(
 ) {
   let query = `
     query ${entityName}ById($id: String = "", $loadItem: Boolean!) {
-      ${entityName}ById(id: $id) @include(if: $loadItem) {
+      ${entityName}ById(id: $id, softDeletion: false) @include(if: $loadItem) {
         _instanceName 
   `;
   const {queriedAttrs, reletionsList} = getAttrsAndReletaionsForGql(entityName, entityAttrs, metadata);
