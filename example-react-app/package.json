@@ -4,9 +4,9 @@
   "dependencies": {
     "@ant-design/icons": "^4.0.0",
     "@apollo/client": "^3.3.15",
-    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.0.0.tgz",
-    "@haulmont/jmix-react-ui": "file:../packages/jmix-react-ui/haulmont-jmix-react-ui-1.0.0.tgz",
-    "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-1.0.0.tgz",
+    "@haulmont/jmix-react-core": "file:../packages/jmix-react-core/haulmont-jmix-react-core-1.1.1.tgz",
+    "@haulmont/jmix-react-ui": "file:../packages/jmix-react-ui/haulmont-jmix-react-ui-1.1.1.tgz",
+    "@haulmont/jmix-rest": "file:../packages/jmix-rest/haulmont-jmix-rest-1.1.0.tgz",
     "@haulmont/react-ide-toolbox": "file:../packages/react-ide-toolbox/haulmont-react-ide-toolbox-1.0.0.tgz",
     "@haulmont/react-scripts": "^1.0.0",
     "antd": "^4.13.0",
@@ -16,7 +16,7 @@
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "react-input-mask": "^2.0.4",
-    "react-intl": "^5.3.0",
+    "react-intl": "~5.20.10",
     "react-router-dom": "^5.2.0"
   },
   "scripts": {
@@ -34,7 +34,7 @@
     "@types/react-dom": "^17.0.1",
     "@types/react-input-mask": "^2.0.5",
     "@types/react-router-dom": "^5.1.5",
-    "typescript": "~4.2.4"
+    "typescript": "~4.4.3"
   },
   "jest": {
     "transformIgnorePatterns": [
