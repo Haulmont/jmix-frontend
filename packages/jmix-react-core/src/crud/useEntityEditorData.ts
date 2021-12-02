@@ -96,7 +96,7 @@ export function useEntityEditorData<
     ? entityInstance
     : data?.[queryName];
 
-  const relationOptions = getRelationOptions<TData>(entityName, loadQueryResult.data);
+  const relationOptions = getRelationOptions<TData>(entityName, loadQueryResult.data, true);
 
   return {
     item,
