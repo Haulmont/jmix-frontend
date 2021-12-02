@@ -27,6 +27,7 @@ import {
   SortOrderChangeCallback,
   assertNever
 } from '@haulmont/jmix-react-core';
+import { EntityMessages } from '@haulmont/jmix-rest'
 import {Key} from 'antd/es/table/interface';
 import { FormInstance } from 'antd/es/form';
 
@@ -226,7 +227,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
 
     if (propertyInfo.attributeType === 'ENUM') {
       defaultColumnProps = {
-        filters: generateEnumFilter(propertyInfo, metadata),
+        filters: generateEnumFilter(propertyInfo, metadata, mainStore.enumMessages),
         ...defaultColumnProps
       };
     } else {
@@ -254,7 +255,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
  *
  * @param propertyInfo
  */
-export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Metadata): ColumnFilterItem[] {
+export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Metadata, enumMessages: EntityMessages | null): ColumnFilterItem[] {
   const propertyEnumInfo: EnumInfo | undefined = metadata.enums
     .find((enumInfo: EnumInfo) => enumInfo.name === propertyInfo.type);
 
@@ -264,7 +265,7 @@ export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Met
 
   return propertyEnumInfo.values.map((enumValueInfo: EnumValueInfo) => {
     return {
-      text: enumValueInfo.caption,
+      text: enumMessages?.[enumValueInfo.caption] ?? enumValueInfo.name,
       value: enumValueInfo.name
     };
   });
