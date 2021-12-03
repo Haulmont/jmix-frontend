@@ -1,6 +1,6 @@
 import { registerScreen, Label } from "@haulmont/jmix-react-web";
-import { Card, Space } from "antd";
-import { EntityHierarchyTree } from "@haulmont/jmix-react-antd";
+import { Card, Space, Button } from "antd";
+import { EntityHierarchyTree, Tooltip } from "@haulmont/jmix-react-antd";
 import styles from "../App.module.css";
 
 const ROUTING_PATH = "/customDataDisplayComponents";
@@ -43,6 +43,11 @@ const CustomDataDisplayComponents = () => {
                         entityName="scr_Car"
                         propertyName="technicalCertificate"
                     />
+                </Card>
+                <Card title="tooltip" size="small">
+                    <Tooltip title="Tooltip Title">
+                        <Button type="link">Text with tooltip</Button>
+                    </Tooltip>
                 </Card>
             </Space>
         </div>
