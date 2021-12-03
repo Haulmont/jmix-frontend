@@ -107,8 +107,12 @@ function collectGeneratorsFromCustomPaths(
 }
 
 function readClientDir(clientsDirPath: string, generatorFileName?: string): GeneratedClientInfo[] {
-  return readdirSync(clientsDirPath).map((clientDirName): GeneratedClientInfo => {
-    return readClient(clientsDirPath, clientDirName, generatorFileName);
+  return readdirSync(clientsDirPath, {withFileTypes: true})
+    .filter(entry => entry.isDirectory())
+    // collect clients only from dirs that contains 'info.json' file
+    .filter(entry => fs.existsSync(path.join(clientsDirPath, entry.name, INFO_FILE_NAME)))
+    .map((dir): GeneratedClientInfo => {
+    return readClient(clientsDirPath, dir.name, generatorFileName);
   });
 }
 
