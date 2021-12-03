@@ -39,6 +39,10 @@ module.exports = {
     "componentName": "error-boundary-tests",
     "menuItem": "ROOT"
   },
+  "customControls": {
+    "componentName": "custom-controls",
+    "menuItem": "ROOT"
+  },
   "structure": {
     "componentName": "StructureComponent",
     "structureType": "Two columns",

@@ -39,10 +39,16 @@ export const AppMenu = (props: AppMenuProps) => {
         key={"b0dcfa47-1467-4dbe-a1d4-f5fc4a852be7"}
       />
       <MenuItem
+        screenId={"CustomControls"}
+        icon={<BarsOutlined />}
+        caption={"screen.CustomControls"}
+        key={"6b265007-4a61-4cb4-870f-763ca29c8aa1"}
+      />
+      <MenuItem
         screenId={"ErrorBoundaryTests"}
         icon={<BarsOutlined />}
         caption={"screen.ErrorBoundaryTests"}
-        key={"40ff75b7-4624-467d-9a73-d47cfcc2a5ea"}
+        key={"2e446840-e85b-43e6-94b8-01924e8f541e"}
       />
       <MenuItem
         screenId={"TestBlankScreen"}
