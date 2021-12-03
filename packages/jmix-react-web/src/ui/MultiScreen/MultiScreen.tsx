@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, {PropsWithChildren, useContext} from 'react';
 import { observer } from "mobx-react";
 import { ScreensContext, IMultiScreenItem, ErrorBoundary } from '@haulmont/jmix-react-core';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -12,7 +12,6 @@ export interface IMultiScreenProps {
 }
 
 export const MultiScreen = observer((props: IMultiScreenProps) => {
-  const intl = useIntl();
   const screens = useContext(ScreensContext);
   screens.props = props;
 
@@ -24,14 +23,24 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
   }
 
   return (
+    <MultiScreenErrorBoundary>
+      {content}
+    </MultiScreenErrorBoundary>
+  );
+});
+
+export const MultiScreenErrorBoundary = (props: PropsWithChildren<{}>) => {
+  const intl = useIntl();
+
+  return (
     <ErrorBoundary message={intl.formatMessage({id: 'common.unknownTabError'})}>
       <div>
         <Breadcrumbs/>
-        <div>{content}</div>
+        <div>{props.children}</div>
       </div>
     </ErrorBoundary>
   );
-});
+};
 
 interface IMultiScreenItemProps {
   item: IMultiScreenItem;
