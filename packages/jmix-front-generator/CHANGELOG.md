@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.10...@haulmont/jmix-front-generator@2.0.0-next.11) (2021-12-03)
+
+
+### Bug Fixes
+
+* do not hide selection column in multi-select table ([f91adbb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f91adbbbc28cf4867a6fd96a2469364c622da74c))
+* several issues in data-tools addon [#825](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/825) ([997e681](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/997e68154d3fe1a7f9d3d883fe0e6ca213e439e0))
+
+
+### Features
+
+* client side bean validation [#744](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/744) ([3edc57e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3edc57ed08ddb647cd31f1d20218250adc9256c2))
+
+
+
+
+
 # [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.9...@haulmont/jmix-front-generator@2.0.0-next.10) (2021-12-01)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator

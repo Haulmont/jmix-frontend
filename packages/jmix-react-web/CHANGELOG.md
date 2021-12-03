@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.8...@haulmont/jmix-react-web@2.0.0-next.9) (2021-12-03)
+
+
+### Bug Fixes
+
+* enum localization [#788](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/788) ([36fca4c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/36fca4cb7615360c6e52abba2b5d80aaf1b97f56))
+* several issues in data-tools addon [#825](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/825) ([997e681](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/997e68154d3fe1a7f9d3d883fe0e6ca213e439e0))
+
+
+### Features
+
+* client side bean validation [#744](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/744) ([3edc57e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/3edc57ed08ddb647cd31f1d20218250adc9256c2))
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.7...@haulmont/jmix-react-web@2.0.0-next.8) (2021-11-30)
 
 

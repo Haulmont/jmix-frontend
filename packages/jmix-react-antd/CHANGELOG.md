@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.10...@haulmont/jmix-react-antd@2.0.0-next.11) (2021-12-03)
+
+
+### Bug Fixes
+
+* enum localization [#788](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/788) ([36fca4c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/36fca4cb7615360c6e52abba2b5d80aaf1b97f56))
+
+
+### Features
+
+* add DropdownField form control [#812](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/812) ([#819](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/819)) ([9b48ad3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/9b48ad3afd9fe71028b906316f15053dc48d30c8))
+* add FileUploadField form control [#712](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/712) ([#818](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/818)) ([2962999](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/2962999ced365e0e55e89b4b1dafd8a30d9c8c33))
+* add RadioButton form control [#707](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/707) ([#809](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/809)) ([187207a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/187207a2a4036d96542d9352398ad99987fecbf6))
+
+
+
+
+
 # [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.9...@haulmont/jmix-react-antd@2.0.0-next.10) (2021-12-01)
 
 
