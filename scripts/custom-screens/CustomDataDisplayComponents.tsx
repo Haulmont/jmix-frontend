@@ -1,6 +1,6 @@
 import { registerScreen, Label } from "@haulmont/jmix-react-web";
 import { Card, Space, Button } from "antd";
-import { EntityHierarchyTree, Tooltip } from "@haulmont/jmix-react-antd";
+import { EntityHierarchyTree, Tooltip, ProgressBar } from "@haulmont/jmix-react-antd";
 import styles from "../App.module.css";
 
 const ROUTING_PATH = "/customDataDisplayComponents";
@@ -48,6 +48,9 @@ const CustomDataDisplayComponents = () => {
                     <Tooltip title="Tooltip Title">
                         <Button type="link">Text with tooltip</Button>
                     </Tooltip>
+                </Card>
+                <Card title="ProgressBar">
+                    <ProgressBar percent={50} />
                 </Card>
             </Space>
         </div>
