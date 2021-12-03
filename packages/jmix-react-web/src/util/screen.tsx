@@ -29,6 +29,10 @@ export interface EntityEditorScreenOptions<TEntity> {
   submitBtnCaption?: string;
   hiddenAttributes?: string[];
   onOpenScreenError?: (entityName: string) => void;
+  /**
+   * Additional props to be passed to screen component
+   */
+  props?: Record<string, unknown>;
 }
 
 export function openEntityEditorScreen<TEntity>({
@@ -40,7 +44,8 @@ export function openEntityEditorScreen<TEntity>({
   entityInstance,
   submitBtnCaption,
   hiddenAttributes,
-  onOpenScreenError
+  onOpenScreenError,
+  props
 }: EntityEditorScreenOptions<TEntity>) {
   try {
     if (entityIdToLoad != null && entityInstance != null) {
@@ -57,7 +62,8 @@ export function openEntityEditorScreen<TEntity>({
           onCommit,
           submitBtnCaption,
           entityInstance,
-          hiddenAttributes
+          hiddenAttributes,
+          ...props
         }
       });
       return;
@@ -114,10 +120,14 @@ export interface EntityListScreenOptions {
   entityList?: MayHaveId[];
   onEntityListChange?: (entityList: this['entityList']) => void;
   onOpenScreenError?: (entityName: string) => void;
+  /**
+   * Additional props to be passed to screen component
+   */
+  props?: Record<string, unknown>;
 }
 
 export function openEntityListScreen(
-  {entityName, entityList, onEntityListChange, screens, onOpenScreenError}: EntityListScreenOptions
+  {entityName, entityList, onEntityListChange, screens, onOpenScreenError, props}: EntityListScreenOptions
 ) {
   try {
     openCrudScreen({
@@ -126,7 +136,8 @@ export function openEntityListScreen(
       screens,
       props: {
         entityList,
-        onEntityListChange
+        onEntityListChange,
+        ...props
       }
     });
   } catch (e) {

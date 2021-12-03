@@ -59,7 +59,8 @@ const FormWizardCompositionO2O = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit"
+      submitBtnCaption = "common.submit",
+      disabled: readOnlyMode
     } = props;
     const [form] = useForm();
     const onSubmitFailed = useSubmitFailedCallback();
@@ -107,6 +108,7 @@ const FormWizardCompositionO2O = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -117,11 +119,19 @@ const FormWizardCompositionO2O = observer(
           <Form.Item style={{ textAlign: "center" }}>
             <Space size={8}>
               <Button htmlType="button" onClick={handleCancelBtnClick}>
-                <FormattedMessage id="common.cancel" />
+                <FormattedMessage
+                  id={readOnlyMode ? "common.back" : "common.cancel"}
+                />
               </Button>
-              <Button type="primary" htmlType="submit" loading={upsertLoading}>
-                <FormattedMessage id={submitBtnCaption} />
-              </Button>
+              {!readOnlyMode && (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={upsertLoading}
+                >
+                  <FormattedMessage id={submitBtnCaption} />
+                </Button>
+              )}
             </Space>
           </Form.Item>
         </Form>

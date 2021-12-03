@@ -151,7 +151,8 @@ const DatatypesTestEditor = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit"
+      submitBtnCaption = "common.submit",
+      disabled: readOnlyMode
     } = props;
     const [form] = useForm();
     const onSubmitFailed = useSubmitFailedCallback();
@@ -200,6 +201,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="bigDecimalAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -208,6 +210,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="booleanAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" },
               valuePropName: "checked"
@@ -217,6 +220,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="dateAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -225,6 +229,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="dateTimeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -233,6 +238,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="doubleAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -241,6 +247,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="integerAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -249,6 +256,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="longAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -257,6 +265,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="stringAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -265,6 +274,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="charAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -273,6 +283,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="timeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -281,6 +292,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="uuidAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -289,6 +301,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localDateTimeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -297,6 +310,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="offsetDateTimeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -305,6 +319,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localDateAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -313,6 +328,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="localTimeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -321,6 +337,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="offsetTimeAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -329,6 +346,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="enumAttr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -337,6 +355,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationO2Oattr"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_AssociationO2OTestEntity"
             )}
@@ -348,6 +367,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Oattr"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_AssociationM2OTestEntity"
             )}
@@ -359,6 +379,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="associationM2Mattr"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_AssociationM2MTestEntity"
             )}
@@ -370,6 +391,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="compositionO2Oattr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -378,6 +400,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="compositionO2Mattr"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -386,6 +409,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="intIdentityIdTestEntityAssociationO2OAttr"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_IntIdentityIdTestEntity"
             )}
@@ -397,6 +421,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="integerIdTestEntityAssociationM2MAttr"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get("scr_IntegerIdTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
@@ -406,6 +431,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_DatatypesTestEntity3"
             )}
@@ -426,6 +452,7 @@ const DatatypesTestEditor = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="name"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -436,11 +463,19 @@ const DatatypesTestEditor = observer(
           <Form.Item style={{ textAlign: "center" }}>
             <Space size={8}>
               <Button htmlType="button" onClick={handleCancelBtnClick}>
-                <FormattedMessage id="common.cancel" />
+                <FormattedMessage
+                  id={readOnlyMode ? "common.back" : "common.cancel"}
+                />
               </Button>
-              <Button type="primary" htmlType="submit" loading={upsertLoading}>
-                <FormattedMessage id={submitBtnCaption} />
-              </Button>
+              {!readOnlyMode && (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={upsertLoading}
+                >
+                  <FormattedMessage id={submitBtnCaption} />
+                </Button>
+              )}
             </Space>
           </Form.Item>
         </Form>

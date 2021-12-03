@@ -81,7 +81,12 @@ const SCR_CAR_LIST = gql`
 `;
 
 const CarBrowserCards = observer((props: EntityListProps<Car>) => {
-  const { entityList, onEntityListChange, onSelectEntity } = props;
+  const {
+    entityList,
+    onEntityListChange,
+    onSelectEntity,
+    disabled: readOnlyMode
+  } = props;
   const onOpenScreenError = useOpenScreenErrorCallback();
   const onEntityDelete = useEntityDeleteCallback();
   const {
@@ -107,6 +112,10 @@ const CarBrowserCards = observer((props: EntityListProps<Car>) => {
   });
 
   const getEntityCardsActions = useMemo(() => {
+    if (readOnlyMode) {
+      return () => [];
+    }
+
     return onSelectEntity
       ? (e: EntityInstance<Car>) => [
           <Button
@@ -174,7 +183,7 @@ const CarBrowserCards = observer((props: EntityListProps<Car>) => {
             />
           </Tooltip>
         )}
-        {onSelectEntity == null && (
+        {onSelectEntity == null && !readOnlyMode && (
           <EntityPermAccessControl entityName={ENTITY_NAME} operation="create">
             <span>
               <Button

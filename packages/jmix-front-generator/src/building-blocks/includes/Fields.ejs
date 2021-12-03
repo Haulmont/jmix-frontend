@@ -6,6 +6,8 @@
                disabled={true}
           <% } else if (attr.name === locals.stringIdName) { %>
                disabled={!isNewEntity(entityId)}
+          <% } else if (locals.readOnlyModeAvailable) { %>
+               disabled={readOnlyMode}
           <% } %>
 
           <% if (Object.keys(associations).includes(attr.name)) { %>

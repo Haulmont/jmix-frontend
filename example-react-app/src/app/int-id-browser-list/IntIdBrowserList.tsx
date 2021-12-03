@@ -57,7 +57,12 @@ const SCR_INTEGERIDTESTENTITY_LIST = gql`
 
 const IntIdBrowserList = observer(
   (props: EntityListProps<IntegerIdTestEntity>) => {
-    const { entityList, onEntityListChange, onSelectEntity } = props;
+    const {
+      entityList,
+      onEntityListChange,
+      onSelectEntity,
+      disabled: readOnlyMode
+    } = props;
     const onOpenScreenError = useOpenScreenErrorCallback();
     const onEntityDelete = useEntityDeleteCallback();
     const {
@@ -83,6 +88,10 @@ const IntIdBrowserList = observer(
     });
 
     const getEntityListActions = useMemo(() => {
+      if (readOnlyMode) {
+        return () => [];
+      }
+
       return onSelectEntity
         ? (e: EntityInstance<IntegerIdTestEntity>) => [
             <Button
@@ -157,7 +166,7 @@ const IntIdBrowserList = observer(
             </Tooltip>
           )}
 
-          {onSelectEntity == null && (
+          {onSelectEntity == null && !readOnlyMode && (
             <EntityPermAccessControl
               entityName={ENTITY_NAME}
               operation="create"

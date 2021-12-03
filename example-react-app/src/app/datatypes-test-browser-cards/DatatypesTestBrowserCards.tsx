@@ -126,7 +126,12 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
 
 const DatatypesTestBrowserCards = observer(
   (props: EntityListProps<DatatypesTestEntity>) => {
-    const { entityList, onEntityListChange, onSelectEntity } = props;
+    const {
+      entityList,
+      onEntityListChange,
+      onSelectEntity,
+      disabled: readOnlyMode
+    } = props;
     const onOpenScreenError = useOpenScreenErrorCallback();
     const onEntityDelete = useEntityDeleteCallback();
     const {
@@ -152,6 +157,10 @@ const DatatypesTestBrowserCards = observer(
     });
 
     const getEntityCardsActions = useMemo(() => {
+      if (readOnlyMode) {
+        return () => [];
+      }
+
       return onSelectEntity
         ? (e: EntityInstance<DatatypesTestEntity>) => [
             <Button
@@ -225,7 +234,7 @@ const DatatypesTestBrowserCards = observer(
               />
             </Tooltip>
           )}
-          {onSelectEntity == null && (
+          {onSelectEntity == null && !readOnlyMode && (
             <EntityPermAccessControl
               entityName={ENTITY_NAME}
               operation="create"
