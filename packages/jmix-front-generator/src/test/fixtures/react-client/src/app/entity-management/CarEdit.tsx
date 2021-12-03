@@ -84,7 +84,8 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    disabled: readOnlyMode
   } = props;
   const [form] = useForm();
   const onSubmitFailed = useSubmitFailedCallback();
@@ -133,6 +134,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="manufacturer"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" },
             rules: [{ required: true }]
@@ -142,6 +144,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="model"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -150,6 +153,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="regNumber"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -158,6 +162,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="purchaseDate"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -166,6 +171,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="manufactureDate"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -174,6 +180,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="wheelOnRight"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" },
             valuePropName: "checked"
@@ -183,6 +190,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="carType"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" },
             rules: [{ required: true }]
@@ -192,6 +200,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="ecoRank"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -200,6 +209,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="maxPassengers"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -208,6 +218,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="price"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -216,6 +227,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="mileage"
+          disabled={readOnlyMode}
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
@@ -224,6 +236,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="garage"
+          disabled={readOnlyMode}
           associationOptions={relationOptions?.get("scr_Garage")}
           formItemProps={{
             style: { marginBottom: "12px" }
@@ -233,6 +246,7 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Field
           entityName={ENTITY_NAME}
           propertyName="technicalCertificate"
+          disabled={readOnlyMode}
           associationOptions={relationOptions?.get("scr_TechnicalCertificate")}
           formItemProps={{
             style: { marginBottom: "12px" }
@@ -244,11 +258,15 @@ const CarEdit = observer((props: EntityEditorProps<Car>) => {
         <Form.Item style={{ textAlign: "center" }}>
           <Space size={8}>
             <Button htmlType="button" onClick={handleCancelBtnClick}>
-              <FormattedMessage id="common.cancel" />
+              <FormattedMessage
+                id={readOnlyMode ? "common.back" : "common.cancel"}
+              />
             </Button>
-            <Button type="primary" htmlType="submit" loading={upsertLoading}>
-              <FormattedMessage id={submitBtnCaption} />
-            </Button>
+            {!readOnlyMode && (
+              <Button type="primary" htmlType="submit" loading={upsertLoading}>
+                <FormattedMessage id={submitBtnCaption} />
+              </Button>
+            )}
           </Space>
         </Form.Item>
       </Form>

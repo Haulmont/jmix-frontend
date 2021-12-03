@@ -22,10 +22,11 @@ export interface CompositionO2OFieldProps {
   value?: MayHaveId;
   onChange?: (value?: this['value']) => void;
   entityName: string;
+  [k: string]: unknown;
 }
 
 export const CompositionO2OField = observer((props: CompositionO2OFieldProps) => {
-  const {entityName, value, onChange} = props;
+  const {entityName, value, onChange, disabled} = props;
 
   const screens = useContext(ScreensContext);
   const metadata = useMetadata();
@@ -44,7 +45,8 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
           entityName,
           onCommit: createOnCommitCallback(setDirty, onChange),
           submitBtnCaption: 'common.ok',
-          onOpenScreenError
+          onOpenScreenError,
+          props
         });
         return;
       }
@@ -56,7 +58,8 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
         onCommit: createOnCommitCallback(setDirty, onChange),
         submitBtnCaption: 'common.ok',
         entityInstance: ant_to_jmixFront(value, entityName, metadata),
-        onOpenScreenError
+        onOpenScreenError,
+        props
     });
     },
     [screens, entityName, value, onChange, setDirty]
@@ -77,15 +80,20 @@ export const CompositionO2OField = observer((props: CompositionO2OFieldProps) =>
 
   return (
     <span className={styles.compositionField}>
-      <Button type='link'
-              onClick={handleUpsertBtnClick}
+      {(!disabled || value != null) &&
+        <Button type='link'
+                onClick={handleUpsertBtnClick}
               className={styles.upsertBtn}
-      >
-        <UpsertBtnTitle value={value}
-                        dirty={dirty}
-        />
-      </Button>
-      {value != null &&
+        >
+          <UpsertBtnTitle value={value}
+                          dirty={dirty}
+          />
+        </Button>
+      }
+      {(disabled && value == null) &&
+        null
+      }
+      {value != null && !disabled &&
         <DeleteOutlined onClick={handleDeleteBtnClick} />
       }
     </span>

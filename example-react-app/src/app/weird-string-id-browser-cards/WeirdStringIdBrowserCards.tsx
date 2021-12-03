@@ -59,7 +59,12 @@ const SCR_WEIRDSTRINGIDTESTENTITY_LIST = gql`
 
 const WeirdStringIdBrowserCards = observer(
   (props: EntityListProps<WeirdStringIdTestEntity>) => {
-    const { entityList, onEntityListChange, onSelectEntity } = props;
+    const {
+      entityList,
+      onEntityListChange,
+      onSelectEntity,
+      disabled: readOnlyMode
+    } = props;
     const onOpenScreenError = useOpenScreenErrorCallback();
     const onEntityDelete = useEntityDeleteCallback();
     const {
@@ -85,6 +90,10 @@ const WeirdStringIdBrowserCards = observer(
     });
 
     const getEntityCardsActions = useMemo(() => {
+      if (readOnlyMode) {
+        return () => [];
+      }
+
       return onSelectEntity
         ? (e: EntityInstance<WeirdStringIdTestEntity>) => [
             <Button
@@ -158,7 +167,7 @@ const WeirdStringIdBrowserCards = observer(
               />
             </Tooltip>
           )}
-          {onSelectEntity == null && (
+          {onSelectEntity == null && !readOnlyMode && (
             <EntityPermAccessControl
               entityName={ENTITY_NAME}
               operation="create"

@@ -33,7 +33,7 @@ const <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST = gql`
 `;
 
 const <%= className %> = observer((props: EntityListProps<<%= entity.className %>>) => {
-  const { entityList, onEntityListChange, onSelectEntity } = props;
+  const { entityList, onEntityListChange, onSelectEntity, disabled: readOnlyMode } = props;
   const onOpenScreenError = useOpenScreenErrorCallback();
   const onEntityDelete = useEntityDeleteCallback();
   const {
@@ -59,6 +59,10 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
   });
 
   const getEntityListActions = useMemo(() => {
+    if (readOnlyMode) {
+      return () => [];
+    }
+
     return onSelectEntity
       ? (e: EntityInstance<<%= entity.className %>>) => [
           <Button htmlType='button'
@@ -87,7 +91,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
             />
           </EntityPermAccessControl>
         ]
-  }, [onSelectEntity, handleDeleteBtnClick, handleEditBtnClick, goToParentScreen]);
+  }, [onSelectEntity, handleDeleteBtnClick, handleEditBtnClick, goToParentScreen, readOnlyMode]);
 
   if (error != null) {
     console.error(error);
@@ -117,7 +121,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
           </Tooltip>
         )}
 
-        {onSelectEntity == null && (
+        {onSelectEntity == null && !readOnlyMode && (
           <EntityPermAccessControl entityName={ENTITY_NAME} operation='create'>
             <span>
               <Button htmlType='button'

@@ -81,7 +81,8 @@ const StringIdMgtTableEdit = observer(
     const {
       onCommit,
       entityInstance,
-      submitBtnCaption = "common.submit"
+      submitBtnCaption = "common.submit",
+      disabled: readOnlyMode
     } = props;
     const [form] = useForm();
     const onSubmitFailed = useSubmitFailedCallback();
@@ -130,6 +131,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="description"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -138,6 +140,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="productCode"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -146,6 +149,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="createTs"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -154,6 +158,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="createdBy"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -162,6 +167,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="updateTs"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -170,6 +176,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="updatedBy"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -178,6 +185,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="deleteTs"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -186,6 +194,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="deletedBy"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" }
             }}
@@ -194,6 +203,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="version"
+            disabled={readOnlyMode}
             formItemProps={{
               style: { marginBottom: "12px" },
               rules: [{ required: true }]
@@ -203,6 +213,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get("scr_DatatypesTestEntity")}
             formItemProps={{
               style: { marginBottom: "12px" }
@@ -212,6 +223,7 @@ const StringIdMgtTableEdit = observer(
           <Field
             entityName={ENTITY_NAME}
             propertyName="datatypesTestEntity3"
+            disabled={readOnlyMode}
             associationOptions={relationOptions?.get(
               "scr_DatatypesTestEntity3"
             )}
@@ -225,11 +237,19 @@ const StringIdMgtTableEdit = observer(
           <Form.Item style={{ textAlign: "center" }}>
             <Space size={8}>
               <Button htmlType="button" onClick={handleCancelBtnClick}>
-                <FormattedMessage id="common.cancel" />
+                <FormattedMessage
+                  id={readOnlyMode ? "common.back" : "common.cancel"}
+                />
               </Button>
-              <Button type="primary" htmlType="submit" loading={upsertLoading}>
-                <FormattedMessage id={submitBtnCaption} />
-              </Button>
+              {!readOnlyMode && (
+                <Button
+                  type="primary"
+                  htmlType="submit"
+                  loading={upsertLoading}
+                >
+                  <FormattedMessage id={submitBtnCaption} />
+                </Button>
+              )}
             </Space>
           </Form.Item>
         </Form>

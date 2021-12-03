@@ -52,7 +52,8 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
   const {
     onCommit,
     entityInstance,
-    submitBtnCaption = "common.submit"
+    submitBtnCaption = "common.submit",
+    disabled: readOnlyMode
   } = props;
   const [form] = useForm();
   const onSubmitFailed = useSubmitFailedCallback();
@@ -106,7 +107,8 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
         <%- include(includesPath('Fields'), {
           attributes,
           associations,
-          fieldProps: {}
+          fieldProps: {},
+          readOnlyModeAvailable: true
         }) %>
 
         <GlobalErrorsAlert serverValidationErrors={serverValidationErrors} />
@@ -116,14 +118,16 @@ const <%= className %> = observer((props: EntityEditorProps<<%= entity.className
             <Button htmlType="button"
                     onClick={handleCancelBtnClick}
             >
-              <FormattedMessage id='common.cancel'/>
+              <FormattedMessage id={readOnlyMode ? 'common.back' : 'common.cancel'}/>
             </Button>
-            <Button type="primary"
-                    htmlType="submit"
-                    <%# disabled={status !== "DONE" && status !== "ERROR"} //TODO client-side validation %>
-                    loading={upsertLoading}>
-              <FormattedMessage id={submitBtnCaption}/>
-            </Button>
+            {!readOnlyMode &&
+              <Button type="primary"
+                      htmlType="submit"
+                      <%# disabled={status !== "DONE" && status !== "ERROR"} //TODO client-side validation %>
+                      loading={upsertLoading}>
+                <FormattedMessage id={submitBtnCaption}/>
+              </Button>
+            }
           </Space>
         </Form.Item>
       </Form>

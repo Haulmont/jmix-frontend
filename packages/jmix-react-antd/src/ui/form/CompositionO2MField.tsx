@@ -20,6 +20,7 @@ export interface CompositionO2MFieldProps {
   value?: EntityInstance[];
   onChange?: (value?: this['value']) => void;
   entityName: string;
+  [k: string]: unknown;
 }
 
 export const CompositionO2MField = observer((props: CompositionO2MFieldProps) => {
@@ -38,7 +39,8 @@ export const CompositionO2MField = observer((props: CompositionO2MFieldProps) =>
       entityList,
       screens,
       onEntityListChange: onChange,
-      onOpenScreenError
+      onOpenScreenError,
+      props
     });
   }, [entityName, entityList, screens, onChange]);
 
