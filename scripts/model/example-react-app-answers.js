@@ -1,5 +1,5 @@
 const carEntityQuery = require('./graphql/carEntity');
-const favoriteCarsCardsQuery = require('./graphql/favoriteCarsCards');;
+const favoriteCarsCardsQuery = require('./graphql/favoriteCarsCards');
 const datatypesQuery = require('./graphql/datatypesTestEntity');
 const datatypes2Queries = require('./graphql/datatypesTestEntity2');
 const datatypes3Queries = require('./graphql/datatypesTestEntity3');
@@ -33,6 +33,10 @@ module.exports = {
   },
   "customAppLayouts": {
     "componentName": "custom-app-layouts",
+    "menuItem": "ROOT"
+  },
+  "errorBoundaryTests": {
+    "componentName": "error-boundary-tests",
     "menuItem": "ROOT"
   },
   "structure": {

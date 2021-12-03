@@ -73,6 +73,12 @@ gen(
       {
         command: 'react-typescript:blank-screen',
         dirShift,
+        dest: 'src/app/error-boundary-tests',
+        answers: answers.errorBoundaryTests,
+      },
+      {
+        command: 'react-typescript:blank-screen',
+        dirShift,
         dest: 'src/app/blank-screen',
         answers: answers.blankComponent
       },
@@ -405,6 +411,7 @@ gen(
     fs.copyFileSync(__dirname + '/custom-screens/CustomDataDisplayComponents.tsx', __dirname + '/../example-react-app/src/app/custom-data-display-components/CustomDataDisplayComponents.tsx');
     fs.copyFileSync(__dirname + '/custom-screens/CustomAppLayouts.tsx', __dirname + '/../example-react-app/src/app/custom-app-layouts/CustomAppLayouts.tsx');
     fs.copyFileSync(__dirname + '/custom-screens/CustomAppLayouts.module.css', __dirname + '/../example-react-app/src/app/custom-app-layouts/CustomAppLayouts.module.css');
+    fs.copyFileSync(__dirname + '/custom-screens/ErrorBoundaryTests.tsx', __dirname + '/../example-react-app/src/app/error-boundary-tests/ErrorBoundaryTests.tsx');
   }
 );
 

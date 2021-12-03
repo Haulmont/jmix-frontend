@@ -53,6 +53,7 @@ import CarBrowserList from "../app/car-browser-list/CarBrowserList";
 import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
+import ErrorBoundaryTests from "../app/error-boundary-tests/ErrorBoundaryTests";
 import CustomAppLayouts from "../app/custom-app-layouts/CustomAppLayouts";
 import CustomDataDisplayComponents from "../app/custom-data-display-components/CustomDataDisplayComponents";
 import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
@@ -73,6 +74,9 @@ export const ComponentPreviews = () => {
       </ComponentPreview>
       <ComponentPreview path="/customAppLayouts">
         <CustomAppLayouts />
+      </ComponentPreview>
+      <ComponentPreview path="/errorBoundaryTests">
+        <ErrorBoundaryTests />
       </ComponentPreview>
       <ComponentPreview path="/testBlankScreen">
         <TestBlankScreen />
