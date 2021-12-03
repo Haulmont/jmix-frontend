@@ -60,6 +60,7 @@
   "screen.StructureComponent": "Structure Component",
   "screen.TestBlankScreen": "Test Blank Screen",
   "screen.ErrorBoundaryTests": "Error Boundary Tests",
+  "screen.CustomControls": "Custom Controls",
   "screen.CustomAppLayouts": "Custom App Layouts",
   "screen.CustomDataDisplayComponents": "Custom Data Display Components",
   "screen.CustomFormControls": "Custom Form Controls",

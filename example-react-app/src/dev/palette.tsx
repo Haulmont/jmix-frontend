@@ -68,6 +68,7 @@ import CarBrowserCards from "../app/car-browser-cards/CarBrowserCards";
 import CarEditor from "../app/car-editor/CarEditor";
 import TestBlankScreen from "../app/blank-screen/TestBlankScreen";
 import ErrorBoundaryTests from "../app/error-boundary-tests/ErrorBoundaryTests";
+import CustomControls from "../app/custom-controls/CustomControls";
 import CustomAppLayouts from "../app/custom-app-layouts/CustomAppLayouts";
 import CustomDataDisplayComponents from "../app/custom-data-display-components/CustomDataDisplayComponents";
 import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
@@ -209,6 +210,11 @@ const palette = () => (
       <Component name="CustomAppLayouts">
         <Variant>
           <CustomAppLayouts />
+        </Variant>
+      </Component>
+      <Component name="CustomControls">
+        <Variant>
+          <CustomControls />
         </Variant>
       </Component>
       <Component name="ErrorBoundaryTests">
