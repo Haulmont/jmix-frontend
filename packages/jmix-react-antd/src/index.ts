@@ -49,6 +49,7 @@ export * from './ui/ImagePreview';
 export * from './ui/Spinner';
 export * from './ui/paging/Paging';
 export * from './ui/retry-dialog/RetryDialog';
+export * from './ui/tooltip/Tooltip';
 export * from './ui/DatePicker';
 export * from './ui/TimePicker';
 export * from './ui/Calendar/Calendar';
