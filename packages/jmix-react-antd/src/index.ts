@@ -78,3 +78,4 @@ export * from './ui/hotkeys/HotkeyInfo';
 export * from './ui/hotkeys/HotkeyInfoModalButton';
 
 export * from './ui/Card/Card';
+export * from './ui/Grid';

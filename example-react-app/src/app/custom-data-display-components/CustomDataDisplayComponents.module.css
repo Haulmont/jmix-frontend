@@ -1,0 +1,17 @@
+.rowItem {
+    margin-bottom: 1em;
+}
+
+.rowItem > div {
+    color: #ffffff;
+    text-align: center;
+    padding: 1em 0;
+}
+
+.rowItem > div:nth-child(even) {
+    background-color: rgb(0, 146, 255);
+}
+
+.rowItem > div:nth-child(odd) {
+    background-color: rgba(0, 146, 255, .75);
+}

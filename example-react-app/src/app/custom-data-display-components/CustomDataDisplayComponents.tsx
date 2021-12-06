@@ -1,7 +1,8 @@
 import { registerScreen, Label } from "@haulmont/jmix-react-web";
 import { Card, Space, Button } from "antd";
-import { EntityHierarchyTree, Tooltip, ProgressBar, Card as CustomCard } from "@haulmont/jmix-react-antd";
+import { EntityHierarchyTree, Tooltip, ProgressBar, Card as CustomCard, Col, Row } from "@haulmont/jmix-react-antd";
 import styles from "../App.module.css";
+import localStyles from './CustomDataDisplayComponents.module.css';
 
 const ROUTING_PATH = "/customDataDisplayComponents";
 
@@ -56,12 +57,32 @@ const CustomDataDisplayComponents = () => {
                 <Card title="ProgressBar">
                     <ProgressBar percent={50} />
                 </Card>
-              <CustomCard title="Card title"
-                          className="custom-card">
-                <p>Card content</p>
-                <p>Card content</p>
-                <p>Card content</p>
-              </CustomCard>
+                <CustomCard title="Card title"
+                            className="custom-card">
+                    <p>Card content</p>
+                    <p>Card content</p>
+                    <p>Card content</p>
+                </CustomCard>
+                <Card title="Grid">
+                    <Row className={localStyles.rowItem}>
+                        <Col span={24}>col</Col>
+                    </Row>
+                    <Row className={localStyles.rowItem}>
+                        <Col span={12}>col-12</Col>
+                        <Col span={12}>col-12</Col>
+                    </Row>
+                    <Row className={localStyles.rowItem}>
+                        <Col span={8}>col-8</Col>
+                        <Col span={8}>col-8</Col>
+                        <Col span={8}>col-8</Col>
+                    </Row>
+                    <Row className={localStyles.rowItem}>
+                        <Col span={6}>col-6</Col>
+                        <Col span={6}>col-6</Col>
+                        <Col span={6}>col-6</Col>
+                        <Col span={6}>col-6</Col>
+                    </Row>
+                </Card>
             </Space>
         </div>
     )
