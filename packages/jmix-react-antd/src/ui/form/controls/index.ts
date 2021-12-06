@@ -2,6 +2,7 @@ export * from "./base/JmixFormFieldWrapper";
 export * from "./base/JmixFormFieldProps";
 
 // Use alphabet order
+export * from "./Button";
 export * from "./ColorPicker";
 export * from "./ColorPickerField";
 export * from "./TextField";

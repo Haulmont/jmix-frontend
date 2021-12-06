@@ -21,7 +21,8 @@ import {
   RadioButton,
   DropdownField,
   FileUploadField,
-  RichTextArea
+  RichTextArea,
+  Button as CustomButton
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -221,9 +222,9 @@ const CustomFormControls = () => {
             <Button htmlType="button" onClick={handleClearForm}>
               Clear form
             </Button>
-            <Button type="primary" htmlType="submit">
+            <CustomButton type="primary" htmlType="submit">
               <FormattedMessage id="common.submit" />
-            </Button>
+            </CustomButton>
           </Space>
         </Form.Item>
       </EntityForm>
