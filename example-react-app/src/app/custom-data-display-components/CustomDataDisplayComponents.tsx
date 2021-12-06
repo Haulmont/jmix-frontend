@@ -102,10 +102,10 @@ const CustomDataDisplayComponents = () => {
                         count={2}
                     />
                 </Card>
-              <Card title="Icons">
-                <PlusCircleOutlined />
-                <CheckCircleOutlined />
-              </Card>
+                <Card title="Icons">
+                    <PlusCircleOutlined />
+                    <CheckCircleOutlined />
+                </Card>
             </Space>
         </div>
     )

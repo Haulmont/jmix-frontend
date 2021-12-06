@@ -2,51 +2,79 @@ import {Input} from "antd";
 import {LinkOutlined} from "@ant-design/icons";
 import React, {useCallback, useMemo} from "react";
 import {useIntl} from "react-intl";
-import {useScreens} from "@haulmont/jmix-react-core";
-import {openCrudScreen} from "@haulmont/jmix-react-web";
+import {
+  getPropertyInfo, 
+  useMetadata, 
+  useScreens,
+  isOneToOneRelation,
+  isManyToOneRelation,
+  isAssociation,
+  HasId,
+  MayHaveInstanceName,
+  MetaPropertyInfo
+} from "@haulmont/jmix-react-core";
+import {getEntityInstanceById, openCrudScreen} from "@haulmont/jmix-react-web";
 import { notifications, NotificationType } from "../../notifications";
 
 export interface EntityPickerProps {
   entityName: string,
   propertyName: string,
-  value?: Record<string, unknown>;
+  value?: string;
   onChange?: (value: this['value']) => void;
-  transformValue?: (value: Record<string, unknown>) => string;
-  label?: string;
   disabled?: boolean;
+  associationOptions?: Array<HasId & MayHaveInstanceName>;
 }
 
 export function EntityPicker(props: EntityPickerProps) {
   const {
     value, 
     entityName,
-    transformValue,
     onChange,
     disabled,
-    propertyName
+    propertyName,
+    associationOptions
   } = props;
 
   const screens = useScreens();
   const intl = useIntl();
+  const metadata = useMetadata();
 
-  const inputValue = useMemo(() => {
-    return value
-      ? transformValue
-        ? transformValue(value)
-        : (value?.[propertyName] ?? "") as string
-      : ""
-  }, [value, transformValue, propertyName]);
+  const propertyInfo = useMemo(() => {
+    return getPropertyInfo(metadata.entities, entityName, propertyName);
+  }, [metadata.entities, entityName, propertyName]);
+
+  if(propertyInfo == null) {
+    throw new Error(`Metadata not found for property ${propertyName} of entity ${entityName}`);
+  }
+
+  const isCorrectFiekd = useMemo(() => {
+    return isToOneAssociation(propertyInfo)
+  }, [propertyInfo]);
+
+  if(!isCorrectFiekd) {
+    throw new Error(`property must be a to-one association`);
+  }
+
+  const displayedValue = useMemo(() => {
+    return value != null
+      ? getDisplayedValue(value, associationOptions)
+      : undefined
+  }, [value, associationOptions])
 
   const onSelectEntity = useCallback((entityInstance?: Record<string, unknown>) => {
       if (onChange != null) {
-        onChange(entityInstance);
+        const newValue = entityInstance?.id != null
+          ? entityInstance.id as string
+          : undefined
+
+        onChange(newValue);
       }
-    }, [onChange]);
+    }, [onChange, propertyInfo]);
 
   const handleClick = useCallback(() => {
     try{
       openCrudScreen({
-        entityName,
+        entityName: propertyInfo.type,
         crudScreenType: "entityList",
         screens,
         props: {
@@ -56,18 +84,37 @@ export function EntityPicker(props: EntityPickerProps) {
     } catch(_e) {
       notifications.show({
         type: NotificationType.ERROR,
-        description: intl.formatMessage({ id: "common.openScreenError" }, {entityName})
+        description: intl.formatMessage({ id: "common.openScreenError" }, {entityName: propertyInfo.type})
       });
     }
-  }, [entityName, screens, onSelectEntity]);
+  }, [entityName, screens, onSelectEntity, propertyInfo.type]);
 
   return (
     <Input 
       prefix={<LinkOutlined />}
+      readOnly={true}
       onClick={handleClick}
-      value={inputValue}
+      value={displayedValue}
       disabled={disabled}
       id={propertyName}
     />
   );
+}
+
+function getDisplayedValue(
+  value: string, 
+  associationOptions: Array<HasId & MayHaveInstanceName> = []
+) {
+  let entityInstance;
+  try {
+    entityInstance = getEntityInstanceById(value, associationOptions);
+    return entityInstance._instanceName ?? value;
+  } catch(_e) {
+    return value;
+  }
+}
+
+function isToOneAssociation(propertyInfo: MetaPropertyInfo) {
+  return isAssociation(propertyInfo) 
+    && (isOneToOneRelation(propertyInfo) || isManyToOneRelation(propertyInfo))
 }
