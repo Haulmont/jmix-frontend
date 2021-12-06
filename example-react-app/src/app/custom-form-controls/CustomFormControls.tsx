@@ -62,7 +62,8 @@ const CustomFormControls = () => {
           fromTime: dayjs("2020-01-01T23:05:13"),
           carType: { carType: "SEDAN" },
           createdBy: "console.log('hello')",
-          vanEntry: "<p><strong>testing </strong>editor</p>"
+          vanEntry: "<p><strong>testing </strong>editor</p>",
+          datatypesTestEntity: "db9faa31-dfa3-4b97-943c-ba268888cdc3"
         }}
         validateMessages={createAntdFormValidationMessages(intl)}
       >
@@ -80,19 +81,17 @@ const CustomFormControls = () => {
           }}
         />
         <EntityPickerField
-          entityName="scr_Car"
-          propertyName="carType"
-          transformValue={e => e.carType + " transformed"}
+          entityName="scr_AssociationO2MTestEntity"
+          propertyName="datatypesTestEntity"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
-        />
-        <EntityPickerField
-          entityName="scr_Car"
-          propertyName="model"
-          formItemProps={{
-            style: { marginBottom: "12px" }
-          }}
+          associationOptions={[
+            {
+              id: "db9faa31-dfa3-4b97-943c-ba268888cdc3",
+              _instanceName: "com.company.scr.entity.test.DatatypesTestEntity-db9faa31-dfa3-4b97-943c-ba268888cdc3 [detached]"
+            }
+          ]}
         />
         <DateField
           entityName="scr_CarRent"

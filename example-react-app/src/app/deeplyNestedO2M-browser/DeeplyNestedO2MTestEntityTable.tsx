@@ -113,6 +113,15 @@ const DeeplyNestedO2MTestEntityTable = observer(
         <Button
           htmlType="button"
           style={{ margin: "0 12px 12px 0" }}
+          icon={<LeftOutlined />}
+          onClick={goToParentScreen}
+          key="back"
+          type="default"
+          shape="circle"
+        />,
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
           type="primary"
           disabled={entityListState.selectedEntityId == null}
           onClick={selectEntityHandler}

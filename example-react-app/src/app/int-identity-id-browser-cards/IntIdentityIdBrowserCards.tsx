@@ -171,7 +171,7 @@ const IntIdentityIdBrowserCards = observer(
     return (
       <div className={styles.narrowLayout}>
         <div style={{ marginBottom: "12px" }}>
-          {entityList != null && (
+          {(entityList != null || onSelectEntity != null) && (
             <Tooltip title={<FormattedMessage id="common.back" />}>
               <Button
                 htmlType="button"
