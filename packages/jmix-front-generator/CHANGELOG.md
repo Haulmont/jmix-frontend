@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.12...@haulmont/jmix-front-generator@2.0.0-next.13) (2021-12-06)
+
+
+### Bug Fixes
+
+* disabled property has no effect on Composition fields [#814](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/814) ([8a5dcd1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8a5dcd13be74f96f6e542c9b55e612475f1f0285))
+
+
+
+
+
 # [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.11...@haulmont/jmix-front-generator@2.0.0-next.12) (2021-12-06)
 
 

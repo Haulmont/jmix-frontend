@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.7...@haulmont/jmix-react-core@2.0.0-next.8) (2021-12-06)
+
+
+### Bug Fixes
+
+* disabled property has no effect on Composition fields [#814](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/814) ([8a5dcd1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/8a5dcd13be74f96f6e542c9b55e612475f1f0285))
+
+
+
+
+
 # [2.0.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.6...@haulmont/jmix-react-core@2.0.0-next.7) (2021-12-03)
 
 

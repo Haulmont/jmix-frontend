@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@2.0.0-next.4...@haulmont/jmix-rest@2.0.0-next.5) (2021-12-06)
+
+
+### Bug Fixes
+
+* disabled property has no effect on Composition fields [#814](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/issues/814) ([8a5dcd1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/8a5dcd13be74f96f6e542c9b55e612475f1f0285))
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@2.0.0-next.3...@haulmont/jmix-rest@2.0.0-next.4) (2021-11-25)
 
 **Note:** Version bump only for package @haulmont/jmix-rest

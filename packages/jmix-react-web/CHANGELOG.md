@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.9...@haulmont/jmix-react-web@2.0.0-next.10) (2021-12-06)
+
+
+### Bug Fixes
+
+* disabled property has no effect on Composition fields [#814](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/814) ([8a5dcd1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/8a5dcd13be74f96f6e542c9b55e612475f1f0285))
+
+
+
+
+
 # [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.8...@haulmont/jmix-react-web@2.0.0-next.9) (2021-12-03)
 
 

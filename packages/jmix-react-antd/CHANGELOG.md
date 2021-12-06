@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.12...@haulmont/jmix-react-antd@2.0.0-next.13) (2021-12-06)
+
+
+### Bug Fixes
+
+* disabled property has no effect on Composition fields [#814](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/814) ([8a5dcd1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/8a5dcd13be74f96f6e542c9b55e612475f1f0285))
+* typeError on explicitly set parentId to undefined [#696](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/696) ([a5a993e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/a5a993eaf54784c85793357b0915e0d7f42c2755))
+
+
+
+
+
 # [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.11...@haulmont/jmix-react-antd@2.0.0-next.12) (2021-12-06)
 
 
