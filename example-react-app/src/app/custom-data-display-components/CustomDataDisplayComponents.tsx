@@ -1,6 +1,6 @@
 import { registerScreen, Label } from "@haulmont/jmix-react-web";
 import { Card, Space, Button } from "antd";
-import { EntityHierarchyTree, Tooltip, ProgressBar, Card as CustomCard, Col, Row } from "@haulmont/jmix-react-antd";
+import { EntityHierarchyTree, Tooltip, ProgressBar, Card as CustomCard, Col, Row, DataTable } from "@haulmont/jmix-react-antd";
 import styles from "../App.module.css";
 import localStyles from './CustomDataDisplayComponents.module.css';
 
@@ -82,6 +82,24 @@ const CustomDataDisplayComponents = () => {
                         <Col span={6}>col-6</Col>
                         <Col span={6}>col-6</Col>
                     </Row>
+                </Card>
+                <Card title="DataTable">
+                    <DataTable
+                        loading={false}
+                        onFilterChange={() => {}}
+                        onSortOrderChange={() => {}}
+                        onPaginationChange={() => {}}
+                        entityName={'scr_Car'}
+                        columnDefinitions={[
+                            'manufacturer',
+                            'model'
+                        ]}
+                        items={[
+                            {manufacturer: 'AAA', model: '001', id: '1'},
+                            {manufacturer: 'BBB', model: '002', id: '2'},
+                        ]}
+                        count={2}
+                    />
                 </Card>
             </Space>
         </div>
