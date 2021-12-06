@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.11...@haulmont/jmix-react-antd@2.0.0-next.12) (2021-12-06)
+
+
+### Features
+
+* add RichTextArea form control [#715](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/715) ([#773](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/773)) ([a6f0650](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/a6f06500c91fea382109e70ec218bfa47e47c53d))
+
+
+
+
+
 # [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.10...@haulmont/jmix-react-antd@2.0.0-next.11) (2021-12-03)
 
 

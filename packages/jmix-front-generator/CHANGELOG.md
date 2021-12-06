@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.11...@haulmont/jmix-front-generator@2.0.0-next.12) (2021-12-06)
+
+
+### Bug Fixes
+
+* collect generator clients only from dirs with info.json file ([5ad954c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/5ad954cba2839192b1617a0e37b0d766a099c866)), closes [#833](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/833)
+
+
+
+
+
 # [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.10...@haulmont/jmix-front-generator@2.0.0-next.11) (2021-12-03)
 
 
