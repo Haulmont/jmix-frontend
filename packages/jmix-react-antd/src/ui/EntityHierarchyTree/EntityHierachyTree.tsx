@@ -5,7 +5,7 @@ import {DataNode} from "rc-tree/lib/interface";
 export type HierarchyTreeNode = Omit<DataNode, "children" | "key"> & {
   id: string,
   _instanceName: string,
-  [parentId: string]: string,
+  [parentId: string]: string | undefined,
 };
 
 export type EntityHierarchyTreeProps = Omit<TreeProps, "treeData"> & {

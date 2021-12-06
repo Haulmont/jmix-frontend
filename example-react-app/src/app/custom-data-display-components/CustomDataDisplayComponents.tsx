@@ -35,6 +35,10 @@ const CustomDataDisplayComponents = () => {
                                 id: "B1",
                                 parent: "B",
                                 _instanceName: "Node B1",
+                            }, {
+                                id: "C",
+                                parent: undefined,
+                                _instanceName: "Node C",
                             }]}
                     />
                 </Card>
