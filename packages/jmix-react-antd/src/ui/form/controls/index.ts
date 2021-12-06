@@ -17,3 +17,4 @@ export * from "./SourceCodeField";
 export * from "./RadioButton";
 export * from "./DropdownField";
 export * from "./FileUploadField";
+export * from "./RichTextArea";
