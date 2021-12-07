@@ -155,7 +155,8 @@ const StringIdBrowserList = observer(
       onSelectEntity,
       handleDeleteBtnClick,
       handleEditBtnClick,
-      goToParentScreen
+      goToParentScreen,
+      readOnlyMode
     ]);
 
     if (error != null) {

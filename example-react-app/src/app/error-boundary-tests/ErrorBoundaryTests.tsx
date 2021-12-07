@@ -8,8 +8,9 @@ const ROUTING_PATH = "/errorBoundaryTests";
 
 const ErrorBoundaryTests = () => {
     return (
-        <Space style={{width: "100%"}} direction="vertical">
-            <Card title="Test screen level ErrorBoundary" size="small" className={styles.narrowLayout}>
+      <div className={styles.narrowLayout}>
+        <Space direction="vertical" style={{width: "100%"}}>
+            <Card title="Test screen level ErrorBoundary" size="small" tabIndex={0}>
                 <MultiScreenErrorBoundary>
                     <Space direction="vertical">
                         <ButtonRenderTest
@@ -35,7 +36,7 @@ const ErrorBoundaryTests = () => {
                     </Space>
                 </MultiScreenErrorBoundary>
             </Card>
-            <Card title="Test app level ErrorBoundary" size="small" className={styles.narrowLayout}>
+            <Card title="Test app level ErrorBoundary" size="small" tabIndex={0}>
                 <AppErrorBoundary>
                     <Space direction="vertical">
                         <ButtonRenderTest
@@ -62,6 +63,7 @@ const ErrorBoundaryTests = () => {
                 </AppErrorBoundary>
             </Card>
         </Space>
+      </div>
     )
 }
 

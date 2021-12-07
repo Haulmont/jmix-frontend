@@ -94,10 +94,16 @@ const CarCardsGrid = observer(() => {
 
   return (
     <div className={styles.narrowLayout}>
-      <Row gutter={[12, 12]}>
+      <Row gutter={[12, 12]} role="grid">
         {items.map(item => (
           <Col key={item.id ? getStringId(item.id) : undefined} xl={8} sm={24}>
-            <Card title={item._instanceName} style={{ height: "100%" }}>
+            <Card
+              title={item._instanceName}
+              style={{ height: "100%" }}
+              tabIndex={0}
+              className={styles.focusInnerHighlight}
+              role="gridcell"
+            >
               {getFields(item).map(fieldName => (
                 <EntityProperty
                   entityName={Car.NAME}

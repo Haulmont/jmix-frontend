@@ -155,7 +155,8 @@ const CarBrowserCards = observer((props: EntityListProps<Car>) => {
     onSelectEntity,
     handleDeleteBtnClick,
     handleEditBtnClick,
-    goToParentScreen
+    goToParentScreen,
+    readOnlyMode
   ]);
 
   if (error != null) {

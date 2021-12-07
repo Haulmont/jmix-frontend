@@ -138,7 +138,8 @@ const IntIdBrowserCards = observer(
       onSelectEntity,
       handleDeleteBtnClick,
       handleEditBtnClick,
-      goToParentScreen
+      goToParentScreen,
+      readOnlyMode
     ]);
 
     if (error != null) {

@@ -7,3 +7,20 @@
 @{rtlCloseIcon} {
   margin-left: 0;
 }
+
+.tab {
+  .closeButton {
+    padding: 2px;
+  }
+  :global(.ant-tabs-tab-btn) {
+    transition: none;
+    padding-left: 2px;
+    padding-right: 2px;
+  }
+  :global(.ant-tabs-tab-btn), .closeButton {
+    &:focus-visible {
+      outline: 2px solid rgb(9, 109, 217);
+      outline-offset: -2px;
+    }
+  }
+}
