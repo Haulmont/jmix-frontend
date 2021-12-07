@@ -13,17 +13,17 @@ interface AttrValidationResult {
     invalidRules: BeanValidationRule[];
 }
 
-const defaultAttrValidResult = { isValidAttr: true, invalidRules: [] }
-const defaultItemValidResult = { isValid: true, invalidFieldRules: new Map() }
-
 export const isEntityValid = (
     values: any,
     entityName: string,
     metadata: Metadata
 ): EntityValidationResult => {
+    const defaultItemValidResult = { isValid: true, invalidFieldRules: new Map() }
     const entityMetadata: MetaClassInfo | undefined = findEntityMetadata(entityName, metadata);
 
     return entityMetadata?.properties.reduce((result: EntityValidationResult, attr) => {
+        const defaultAttrValidResult = { isValidAttr: true, invalidRules: [] }
+
         const { isValidAttr, invalidRules } = attr.beanValidationRules?.reduce((rulesValidResult: AttrValidationResult, rule) => {
             const isValid = isValidValueForRule(values[ attr.name ], rule, attr.type);
 
@@ -201,6 +201,7 @@ export function isValidValueForRule(value: any, rule: BeanValidationRule, dataTy
 
             return matches?.length === 1 && matches[0].length === String(value).length;
         }
+        case 'Length':
         case 'Size': {
             return isNull(value) || (typeof value === 'string' || Array.isArray(value)) && value.length >= rule.min && value.length <= rule.max;
         }

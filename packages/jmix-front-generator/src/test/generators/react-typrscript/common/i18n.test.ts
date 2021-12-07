@@ -388,6 +388,7 @@ const EXPECTED_I18N_KEYS = [
   "antd.form.beanValidation.negativeorzero",
   "antd.form.beanValidation.positive",
   "antd.form.beanValidation.positiveorzero",
+  "antd.form.beanValidation.length",
   "antd.form.beanValidation.notblank",
   "antd.form.beanValidation.notempty",
   "antd.form.beanValidation.notnull"
