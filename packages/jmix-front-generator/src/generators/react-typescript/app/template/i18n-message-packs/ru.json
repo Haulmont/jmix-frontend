@@ -192,6 +192,7 @@
   "antd.form.beanValidation.email": "{name} email определен в неверном формате.",
   "antd.form.beanValidation.pattern": "{name} должно соответствовать шаблону {regexp}.",
   "antd.form.beanValidation.size": "{name} размер должен быть между {min} и {max}.",
+  "antd.form.beanValidation.length": "{name} размер должен быть между {min} и {max}.",
   "antd.form.beanValidation.decimalmax": "{name} не должно превышать {value}.",
   "antd.form.beanValidation.decimalmin": "{name} не должно быть меньше чем {value}.",
   "antd.form.beanValidation.digits": "{name} числовое значение вне границ (<{integer} digits>.<{fraction} digits> expected).",

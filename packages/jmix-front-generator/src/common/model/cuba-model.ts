@@ -135,6 +135,10 @@ export type BeanValidationRule = {
   name: 'Size';
   min: number;
   max: number;
+} | {
+  name: 'Length';
+  min: number;
+  max: number;
 }
 
 export interface View {

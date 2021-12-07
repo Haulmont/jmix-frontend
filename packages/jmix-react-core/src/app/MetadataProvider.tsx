@@ -51,6 +51,10 @@ export type BeanValidationRule = {
   } | {
     name: 'PositiveOrZero';
   } | {
+    name: 'Length';
+    min: number;
+    max: number;
+  } | {
     name: 'Size';
     min: number;
     max: number;

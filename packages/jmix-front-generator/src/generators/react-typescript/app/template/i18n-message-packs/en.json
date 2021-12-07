@@ -192,6 +192,7 @@
   "antd.form.beanValidation.email": "{name} not a well-formed email address.",
   "antd.form.beanValidation.pattern": "{name} does not match pattern {regexp}.",
   "antd.form.beanValidation.size": "{name} shall be within a range from {min} to {max}.",
+  "antd.form.beanValidation.length": "{name} shall be within a range from {min} to {max}.",
   "antd.form.beanValidation.decimalmax": "{name} shall not exceed {value}.",
   "antd.form.beanValidation.decimalmin": "{name} shall not be less than {value}.",
   "antd.form.beanValidation.digits": "{name} numeric value out of bounds (<{integer} digits>.<{fraction} digits> expected).",

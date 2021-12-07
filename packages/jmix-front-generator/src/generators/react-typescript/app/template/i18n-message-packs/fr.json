@@ -192,6 +192,7 @@
     "antd.form.beanValidation.email": "antd.form.beanValidation.email [TRANSLATION NOT AVAILABLE]",
     "antd.form.beanValidation.pattern": "antd.form.beanValidation.pattern [TRANSLATION NOT AVAILABLE]",
     "antd.form.beanValidation.size": "antd.form.beanValidation.size [TRANSLATION NOT AVAILABLE]",
+    "antd.form.beanValidation.length": "antd.form.beanValidation.length [TRANSLATION NOT AVAILABLE]",
     "antd.form.beanValidation.decimalmax": "antd.form.beanValidation.decimalmax [TRANSLATION NOT AVAILABLE]",
     "antd.form.beanValidation.decimalmin": "antd.form.beanValidation.decimalmin [TRANSLATION NOT AVAILABLE]",
     "antd.form.beanValidation.digits": "antd.form.beanValidation.digits [TRANSLATION NOT AVAILABLE]",
