@@ -1,14 +1,15 @@
 import { Row, Col, Card } from 'antd';
 import React from "react";
 import {registerScreen} from "@haulmont/jmix-react-web";
+import styles from "<%= relDirShift %>app/App.module.css";
 
 const ROUTING_PATH = '/<%= nameLiteral %>';
 
 const <%= className %> = () => (
-  <Row gutter={16}>
+  <Row gutter={16} role="grid">
     <% columnOptions.forEach(columnOption => { %>
       <Col span={<%= columnOption.gridSize %>}>
-        <Card title="<%= columnOption.name %> header">
+        <Card title="<%= columnOption.name %> header" tabIndex={0} role="gridcell" className={styles.focusInnerHighlight}>
           Content
         </Card>
       </Col>

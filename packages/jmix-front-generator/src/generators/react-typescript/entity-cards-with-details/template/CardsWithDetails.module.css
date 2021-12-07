@@ -1,0 +1,10 @@
+.collapse :global(.ant-collapse-header) {
+    transition: none;
+}
+
+.collapse :global(.ant-collapse-header):focus-visible {
+    outline: 2px solid rgb(9, 109, 217) !important;
+    outline-offset: -2px;
+    border-radius: 2px !important;
+    transition: none;
+}

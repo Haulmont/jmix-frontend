@@ -137,7 +137,8 @@ const IntIdBrowserList = observer(
       onSelectEntity,
       handleDeleteBtnClick,
       handleEditBtnClick,
-      goToParentScreen
+      goToParentScreen,
+      readOnlyMode
     ]);
 
     if (error != null) {

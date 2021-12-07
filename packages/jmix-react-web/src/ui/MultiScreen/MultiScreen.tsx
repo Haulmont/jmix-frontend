@@ -24,7 +24,10 @@ export const MultiScreen = observer((props: IMultiScreenProps) => {
 
   return (
     <MultiScreenErrorBoundary>
-      {content}
+      <div>
+        <Breadcrumbs/>
+        <div>{content}</div>
+      </div>
     </MultiScreenErrorBoundary>
   );
 });
@@ -34,10 +37,7 @@ export const MultiScreenErrorBoundary = (props: PropsWithChildren<{}>) => {
 
   return (
     <ErrorBoundary message={intl.formatMessage({id: 'common.unknownTabError'})}>
-      <div>
-        <Breadcrumbs/>
-        <div>{props.children}</div>
-      </div>
+      {props.children}
     </ErrorBoundary>
   );
 };
@@ -72,9 +72,9 @@ const Breadcrumbs = observer(() => {
   if (screens.screens.length <= 1) return null;
 
   return (
-    <div className={styles.breadcrumbs}>
+    <div className={styles.breadcrumbs} role="tablist">
       {Array.from(screens.screens).map(screen => (
-        <Breadcrumb screen={screen} key={screen.key} />
+        <Breadcrumb screen={screen} key={screen.key}/>
       ))}
     </div>
   );
@@ -92,13 +92,23 @@ const Breadcrumb = observer((props: IBreadcrumbProps) => {
     screens.setActiveScreen(screen);
   }
 
+  function handleKeyDown(e: React.KeyboardEvent<HTMLSpanElement>) {
+    if (["Enter", "Space"].includes(e.code)) {
+      e.preventDefault();
+      screens.setActiveScreen(screen);
+    }
+  }
+
   return (
     <span
       onClick={handleClick}
       className={styles.breadcrumb}
       data-active={screens.currentScreen === screen}
+      role="tab"
+      aria-selected={screens.currentScreen === screen}
+      aria-controls={`${screen.key}-breadcrumb-${screen.key}`}
     >
-      <span className={styles.caption}>
+      <span className={styles.caption} tabIndex={0} onKeyDown={handleKeyDown}>
         <FormattedMessage id={screen.title} />
       </span>
       <span className={styles.separator}>{">"}</span>

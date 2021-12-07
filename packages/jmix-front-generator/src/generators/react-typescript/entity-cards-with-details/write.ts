@@ -19,8 +19,9 @@ export const writeCardsWithDetails: WriteStage<ComponentOptions, CardsWithDetail
   } = templateModel;
 
   const extension = '.tsx.ejs';
+  const styleExtension = ".module.css";
 
-  writeCardsWithDetailsComponent(gen, extension, templateModel);
+  writeCardsWithDetailsComponent(gen, extension, styleExtension, templateModel);
 
   writeComponentI18nMessages(
     gen,
@@ -38,10 +39,15 @@ export const writeCardsWithDetails: WriteStage<ComponentOptions, CardsWithDetail
 export function writeCardsWithDetailsComponent<M extends { className: string}>(
   gen: YeomanGenerator,
   extension: string,
+  styleExtension: string,
   model: M
 ) {
   gen.fs.copyTpl(
     path.join(__dirname, 'template', 'CardsWithDetails' + extension),
     gen.destinationPath(model.className + extension), model
   );
+  gen.fs.copyTpl(
+    path.join(__dirname, 'template', 'CardsWithDetails' + styleExtension),
+    gen.destinationPath(model.className + styleExtension), model
+  )
 }
