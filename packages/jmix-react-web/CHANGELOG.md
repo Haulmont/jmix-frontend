@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.10...@haulmont/jmix-react-web@2.0.0-next.11) (2021-12-08)
+
+
+### Bug Fixes
+
+* add key navigation for tab, breadcrumbs and for some grid [#805](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/805) ([59750ec](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/59750ecd35e9e099af1243d0f27495082935452b))
+
+
+
+
+
 # [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.9...@haulmont/jmix-react-web@2.0.0-next.10) (2021-12-06)
 
 

@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.13...@haulmont/jmix-front-generator@2.0.0-next.14) (2021-12-08)
+
+
+### Bug Fixes
+
+* add key navigation for tab, breadcrumbs and for some grid [#805](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/805) ([59750ec](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/59750ecd35e9e099af1243d0f27495082935452b))
+* client validation, support length rule [#744](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/744) ([3588a21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3588a21c05ebceb280d12f73d728f4264667cb72))
+
+
+
+
+
 # [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.12...@haulmont/jmix-front-generator@2.0.0-next.13) (2021-12-06)
 
 

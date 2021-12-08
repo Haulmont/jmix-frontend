@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.8...@haulmont/jmix-react-core@2.0.0-next.9) (2021-12-08)
+
+
+### Bug Fixes
+
+* client validation, support length rule [#744](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/744) ([3588a21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/3588a21c05ebceb280d12f73d728f4264667cb72))
+
+
+
+
+
 # [2.0.0-next.8](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.7...@haulmont/jmix-react-core@2.0.0-next.8) (2021-12-06)
 
 
