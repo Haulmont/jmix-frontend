@@ -22,12 +22,12 @@ describe("RichTextEditor form control", () => {
     await page.goto(`http://localhost:3000/${url}`);
     const $document = await getDocument(page);
 
-    await page.waitForSelector(".public-DraftEditor-content");
-    let editor = await page.$(".public-DraftEditor-content");
+    await page.waitForSelector(".ql-editor");
+    let editor = await page.$(".ql-editor");
     await editor.click({ clickCount: 3 });
 
-    await page.waitForSelector("[title=Underline]");
-    let underline = await page.$("[title=Underline]");
+    await page.waitForSelector(".ql-underline");
+    let underline = await page.$(".ql-underline");
     await underline.click();
 
     await editor.type("rich editor");
@@ -38,6 +38,6 @@ describe("RichTextEditor form control", () => {
         .replace(/&lt;/g, "<")
         .replace(/&gt;/g, ">")
         .trim()
-    ).toEqual("<p><strong><ins>rich editor</ins></strong></p>");
+    ).toEqual("<p><strong><u>rich editor</u></strong></p>");
   });
 });
