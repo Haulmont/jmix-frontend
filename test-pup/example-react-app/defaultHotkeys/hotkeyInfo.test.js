@@ -1,7 +1,7 @@
 const {login} = require("../../common/login-to-scr");
 const puppeteer = require("puppeteer");
 const {getDocument, queries, waitFor} = require("pptr-testing-library");
-const {getByRole, findByText} = queries;
+const {getByLabelText, findByText} = queries;
 
 describe('Default HotkeyInfo hotkeys', () => {
   let page;
@@ -21,7 +21,7 @@ describe('Default HotkeyInfo hotkeys', () => {
     await page.goto('http://localhost:3000/');
     const $document = await getDocument(page);
     
-    await waitFor(() => getByRole($document, 'img', {name: 'mac-command'}));
+    await waitFor(() => getByLabelText($document, 'mac-command'));
     await page.keyboard.press('Slash');
 
     const $hotkeyIntoTitle = await findByText($document, 'Keyboard Shortcuts');
