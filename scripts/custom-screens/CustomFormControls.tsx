@@ -22,7 +22,8 @@ import {
   DropdownField,
   FileUploadField,
   RichTextArea,
-  Button as CustomButton
+  Button as CustomButton,
+  NumberField
 } from "@haulmont/jmix-react-antd";
 import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
@@ -76,6 +77,12 @@ const CustomFormControls = () => {
         <TextField
           entityName="scr_Car"
           propertyName="manufacturer"
+          formItemProps={{
+            style: { marginBottom: "12px" }
+          }}
+        />
+        <NumberField
+          propertyName="doubleAttr"
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
