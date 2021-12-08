@@ -1,26 +1,24 @@
 import * as React from "react";
 import { JmixFormFieldWrapper } from "./base/JmixFormFieldWrapper";
 import { JmixFormFieldProps } from "./base/JmixFormFieldProps";
-import { RichTextField } from "./RichTextField";
-import { EditorProps } from "react-draft-wysiwyg";
+import ReactQuill, { ReactQuillProps } from 'react-quill';
+import 'react-quill/dist/quill.snow.css';
+import './RichTextArea.less'
 
-export const RichTextArea = ({
+export function RichTextArea({
   entityName,
   propertyName,
   formItemProps,
   ...rest
-}: JmixFormFieldProps & EditorProps) => {
+}: JmixFormFieldProps & ReactQuillProps) {
   return (
     <JmixFormFieldWrapper
       entityName={entityName}
       propertyName={propertyName}
       formItemProps={formItemProps}
       renderField={isReadOnly => (
-        <RichTextField
-          isReadOnly={isReadOnly}
-          {...rest}
-        />
+        <ReactQuill readOnly={isReadOnly} theme="snow" {...rest} />
       )}
     />
   );
-};
+}
