@@ -22,7 +22,9 @@ describe('Default BrowserTable Hotkeys', () => {
     const $document = await getDocument(page);
 
     await waitFor(() => getByText($document, 'Create'));
+    await page.keyboard.down('KeyG');
     await page.keyboard.press('KeyC');
+    await page.keyboard.up('KeyG');
 
     const $manufacturer = await findByLabelText($document, 'Manufacturer');
     expect(await $manufacturer.evaluate(node => node.value)).toEqual('');
@@ -35,7 +37,9 @@ describe('Default BrowserTable Hotkeys', () => {
     await waitFor(() => getByText($document, 'Create'));
     const $tesla = await findByText($document, 'Tesla');
     await $tesla.click();
+    await page.keyboard.down('KeyG');
     await page.keyboard.press('KeyE');
+    await page.keyboard.up('KeyG');
 
     const $manufacturer = await findByLabelText($document, 'Manufacturer');
     expect(await $manufacturer.evaluate(node => node.value)).toEqual('Tesla');

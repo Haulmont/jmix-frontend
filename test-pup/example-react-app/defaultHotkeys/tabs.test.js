@@ -27,19 +27,27 @@ describe('Defualt Tabs Hotkeys', () => {
     let $selectedTab = await findByRole($document, 'tab', {selected: true});
     expect(await $selectedTab.evaluate(e => e.innerText)).toEqual('Example Custom Screen');
 
-    await page.keyboard.press('ArrowRight');
+    await page.keyboard.down('KeyG');
+    await page.keyboard.press('KeyN');
+    await page.keyboard.up('KeyG');
     $selectedTab = await findByRole($document, 'tab', {selected: true});
     expect(await $selectedTab.evaluate(e => e.innerText)).toEqual('Example Custom Screen');
 
-    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.down('KeyG');
+    await page.keyboard.press('KeyP');
+    await page.keyboard.up('KeyG');
     $selectedTab = await findByRole($document, 'tab', {selected: true});
     expect(await $selectedTab.evaluate(e => e.innerText)).toEqual('Home');
 
-    await page.keyboard.press('ArrowLeft');
+    await page.keyboard.down('KeyG');
+    await page.keyboard.press('KeyP');
+    await page.keyboard.up('KeyG');
     $selectedTab = await findByRole($document, 'tab', {selected: true});
     expect(await $selectedTab.evaluate(e => e.innerText)).toEqual('Home');
 
-    await page.keyboard.press('ArrowRight');
+    await page.keyboard.down('KeyG');
+    await page.keyboard.press('KeyN');
+    await page.keyboard.up('KeyG');
     $selectedTab = await findByRole($document, 'tab', {selected: true});
     expect(await $selectedTab.evaluate(e => e.innerText)).toEqual('Example Custom Screen');
   });
