@@ -3,6 +3,7 @@ import { Card, Space, Button } from "antd";
 import { EntityHierarchyTree, Tooltip, ProgressBar, Card as CustomCard, Col, Row, DataTable } from "@haulmont/jmix-react-antd";
 import styles from "../App.module.css";
 import localStyles from './CustomDataDisplayComponents.module.css';
+import { PlusCircleOutlined, CheckCircleOutlined } from '@ant-design/icons';
 
 const ROUTING_PATH = "/customDataDisplayComponents";
 
@@ -100,6 +101,10 @@ const CustomDataDisplayComponents = () => {
                         ]}
                         count={2}
                     />
+                </Card>
+                <Card title="Icons">
+                    <PlusCircleOutlined />
+                    <CheckCircleOutlined />
                 </Card>
             </Space>
         </div>
