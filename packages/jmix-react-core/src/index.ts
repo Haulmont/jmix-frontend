@@ -17,6 +17,8 @@ dayjs.extend(weekYear);
 export * from './access-control/AccessControl';
 export * from './access-control/AttrPermAccessControl';
 export * from './access-control/EntityPermAccessControl';
+export * from './access-control/MenuAccessControl';
+export * from './access-control/ScreenAccessControl';
 
 export * from './app/Auth';
 export * from './app/Apollo';

@@ -32,6 +32,7 @@
 
   "home.welcome": "Добро пожаловать в",
   "screen.home": "Главная страница",
+  "screen.notAllowed": "У Вас отсутствует разрешение на экран",
   "login.failed": "Не удалось войти",
   "login.placeholder.login": "Логин",
   "login.placeholder.password": "Пароль",

@@ -7,13 +7,15 @@ describe('Screens', () => {
   const screen1 = {
     title: 'screen1',
     key: 'screen1',
-    content: Component1
+    content: Component1,
+    screenId: "screen1"
   };
   const Component2 = () => 'Component2';
   const screen2 = {
     title: 'screen2',
     key: 'screen2',
-    content: Component2
+    content: Component2,
+    screenId: "screen2"
   };
 
   beforeEach(() => {

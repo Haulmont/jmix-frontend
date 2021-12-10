@@ -60,6 +60,7 @@ export function openScreen(screenId: string, route: string) {
         content: (
           <MultiScreenWrapper screen={screen}
                               menuLink={route}
+                              screenId={screenId}
           />
         ),
         key: route,
@@ -72,6 +73,7 @@ export function openScreen(screenId: string, route: string) {
         content: (
           <MultiScreenWrapper screen={screen}
                               menuLink={route}
+                              screenId={screenId}
           />
         ),
         key: route,
@@ -82,6 +84,7 @@ export function openScreen(screenId: string, route: string) {
       singleContentArea.activateScreen(screenId, (
         <MultiScreenWrapper screen={screen}
                             menuLink={route}
+                            screenId={screenId}
                             replace={true}
         />
       ));
@@ -119,15 +122,17 @@ export function openCrudScreen<TProps = any>(options: OpenCrudScreenOptions<TPro
   } = options;
 
   const screen = getCrudScreen(entityName, crudScreenType);
-  pushToScreens<TProps>(screen, screens, props, screenParams);
+  const screenId = getCrudScreenId(entityName, crudScreenType);
+  pushToScreens<TProps>(screen, screens,screenId, props, screenParams);
 }
 
-function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens, props?: TProps, screenParams?: MultiScreenItemParams) {
+function pushToScreens<TProps = any>(screen: RegisteredScreen, screens: Screens, screenId: string, props?: TProps, screenParams?: MultiScreenItemParams) {
   screens.push({
     title: screen.caption,
     content: createScreenElement<TProps>(screen, props),
     key: screen.caption,
-    params: screenParams
+    params: screenParams,
+    screenId
   });
 }
 
@@ -144,6 +149,11 @@ function getScreen(screenId: string): RegisteredScreen {
 }
 
 function getCrudScreen(entityName: string, crudScreenType: 'entityEditor' | 'entityList'): RegisteredScreen {
+  const screenId = getCrudScreenId(entityName, crudScreenType);
+  return getScreen(screenId);
+}
+
+function getCrudScreenId(entityName: string, crudScreenType: 'entityEditor' | 'entityList'): string {
   let crudScreenRegistry: Map<string, string>;
   switch (crudScreenType) {
     case 'entityEditor': {
@@ -163,9 +173,8 @@ function getCrudScreen(entityName: string, crudScreenType: 'entityEditor' | 'ent
   if (screenId == null) {
     throw new ScreenNotFoundError(`Registered CRUD screen from entity "${entityName}" was not found`);
   }
-  return getScreen(screenId);
+  return screenId
 }
-
 export interface ScreenRegistrationOptions {
   /**
    * Screen component.
@@ -238,12 +247,13 @@ function registerMenuItem(options: MenuItemOptions) {
 
 interface MultiScreenWrapperProps {
   screen: RegisteredScreen;
+  screenId: string;
   menuLink: string;
   replace?: boolean;
 }
 
 const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
-  const {screen, menuLink, replace} = props;
+  const {screen, menuLink, replace, screenId} = props;
   const screens = useScreens();
 
   screens.currentRootPageData.title = screen.caption;
@@ -256,7 +266,7 @@ const MultiScreenWrapper = observer((props: MultiScreenWrapperProps) => {
     if (replace) {
       screens.closeAll();
     }
-    pushToScreens(screen, screens);
+    pushToScreens(screen, screens, screenId);
   }, [screen, screens, replace]);
 
   return <MultiScreen />;

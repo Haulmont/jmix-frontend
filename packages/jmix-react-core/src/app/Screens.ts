@@ -10,6 +10,7 @@ export interface IMultiScreenItem {
   title: string;
   content: React.ReactNode;
   key: string;
+  screenId: string;
   parent?: IMultiScreenItem;
   params?: MultiScreenItemParams;
 }

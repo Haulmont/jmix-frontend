@@ -32,6 +32,7 @@
 
   "home.welcome": "Welcome to",
   "screen.home": "Home",
+  "screen.notAllowed": "You don't have access to this screen",
   "login.failed": "Login failed",
   "login.placeholder.login": "Login",
   "login.placeholder.password": "Password",

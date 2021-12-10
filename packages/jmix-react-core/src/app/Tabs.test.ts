@@ -9,12 +9,14 @@ describe('Tabs core API', () => {
   const screen1a = {
     title: 'screen1a',
     key: 'screen1a',
+    screenId: "screen1a",
     content: Component1a
   };
   const screen1b = {
     title: 'screen1b',
     key: 'screen1b',
     content: Component1b,
+    screenId: "screen1b",
     params: {
       entityId: '00000000-0000-0000-0000-000000000000'
     }
@@ -29,12 +31,14 @@ describe('Tabs core API', () => {
   const screen2a = {
     title: 'screen2a',
     key: 'screen2a',
-    content: Component2a
+    content: Component2a,
+    screenId: "screen2a"
   };
   const screen2b = {
     title: 'screen2b',
     key: 'screen2b',
-    content: Component2b
+    content: Component2b,
+    screenId: "screen2b"
   };
   const screens2 = new Screens();
   screens2.push(screen2a);
