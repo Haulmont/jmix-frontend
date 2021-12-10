@@ -94,6 +94,7 @@
   "common.openScreenError": "Screen for entity {entityName} cannot be opened. Screen may have not been registered.",
   "home.welcome": "Welcome to",
   "screen.home": "Home",
+  "screen.notAllowed": "You don't have access to this screen",
   "login.failed": "Login failed",
   "login.placeholder.login": "Login",
   "login.placeholder.password": "Password",

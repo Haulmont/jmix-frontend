@@ -3,6 +3,8 @@ export type EntityOperationType = 'create' | 'read' | 'update' | 'delete';
 export type AttributePermissionValue = 0 | 1 | 2;
 export type EntityPermissionValue = 0 | 1;
 export type SpecificPermissionValue = 0 | 1;
+export type MenuPermissionValue = 0 | 1;
+export type ScreenPermissionValue = 0 | 1;
 
 export interface Permission<T extends AttributePermissionValue | EntityPermissionValue | SpecificPermissionValue> {
   target: string; value: T;
@@ -12,6 +14,8 @@ export interface EffectivePermsInfo {
   entities: Array<Permission<EntityPermissionValue>>;
   entityAttributes: Array<Permission<AttributePermissionValue>>;
   specifics: Array<Permission<SpecificPermissionValue>>;
+  menus?: Array<Permission<MenuPermissionValue>>;
+  screens?: Array<Permission<ScreenPermissionValue>>;
 }
 
 export function isSpecificPermissionGranted(target: string, perms?: EffectivePermsInfo): boolean {
@@ -25,6 +29,51 @@ export function isSpecificPermissionGranted(target: string, perms?: EffectivePer
     ?.value === 1;
 }
 
+export function isMenuPermissionGranted(key: string, perms?: EffectivePermsInfo): boolean {
+  if (perms == null) {
+    return false;
+  }
+
+  return isAllMenuPermissionsGranted(perms) 
+    || perms
+        .menus
+        ?.find(perm => perm.target === key)
+        ?.value === 1;
+}
+
+export function isAllMenuPermissionsGranted(perms?: EffectivePermsInfo) {
+  if (perms == null) {
+    return false;
+  }
+
+  return perms
+    .menus
+    ?.find((perm => perm.target === "*"))
+    ?.value === 1;
+}
+
+export function isScreenPermissionGranted(screenId: string, perms?: EffectivePermsInfo): boolean {
+  if (perms == null) {
+    return false;
+  }
+
+  return isAllScreenPermissionsGranted(perms) 
+    || perms
+        .screens
+        ?.find(perm => perm.target === screenId)
+        ?.value === 1;
+}
+
+export function isAllScreenPermissionsGranted(perms?: EffectivePermsInfo) {
+  if (perms == null) {
+    return false;
+  }
+
+  return perms
+    .screens
+    ?.find((perm => perm.target === "*"))
+    ?.value === 1;
+}
 // noinspection JSUnusedGlobalSymbols
 /**
  *

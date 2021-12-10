@@ -227,6 +227,7 @@ const EXPECTED_I18N_KEYS = [
   "editor.doesNotExist",
   "home.welcome",
   "screen.home",
+  "screen.notAllowed",
   "themes.dark",
   "themes.light",
   "themes.highСontrast",

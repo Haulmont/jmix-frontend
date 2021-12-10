@@ -32,6 +32,7 @@
 
   "home.welcome": "欢迎使用",
   "screen.home": "主界面",
+  "screen.notAllowed": "screen.notAllowed [TRANSLATION NOT AVAILABLE]",
   "login.failed": "登录失败",
   "login.placeholder.login": "用户名",
   "login.placeholder.password": "密码",

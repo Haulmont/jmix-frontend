@@ -5,7 +5,9 @@ import {
   getAttributePermission,
   isOperationAllowed,
   isSpecificPermissionGranted,
-  EntityOperationType
+  EntityOperationType,
+  isMenuPermissionGranted,
+  isScreenPermissionGranted
 } from '../util/security'
 import {ApolloClient} from "@apollo/client";
 import {gql} from "@apollo/client/core";
@@ -23,6 +25,18 @@ export const PERMISSIONS_QUERY = gql`query {
     specifics {
       target
       value
+    }
+    ${process.env.REACT_APP_ENABLE_UI_PERMISSIONS === "true" 
+      ? `
+        menus {
+          target
+          value
+        }
+        screens {
+          target
+          value
+        }`
+      : ""
     }
   }
 }`;
@@ -130,6 +144,18 @@ export class Security {
     if (!this.isDataLoaded) { return false; }
 
     return isSpecificPermissionGranted(target, this.effectivePermissions ?? undefined);
+  }
+
+  isMenuPermissionGranted = (key: string): boolean => {
+    if (!this.isDataLoaded) { return false; }
+
+    return isMenuPermissionGranted(key, this.effectivePermissions ?? undefined);
+  }
+
+  isScreenPermissionGranted = (screenId: string): boolean => {
+    if (!this.isDataLoaded) { return false; }
+
+    return isScreenPermissionGranted(screenId, this.effectivePermissions ?? undefined);
   }
 
   loadPermissions(): Promise<void> {

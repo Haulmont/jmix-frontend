@@ -2,6 +2,7 @@ import React, {PropsWithChildren, useContext} from 'react';
 import { observer } from "mobx-react";
 import { ScreensContext, IMultiScreenItem, ErrorBoundary } from '@haulmont/jmix-react-core';
 import { FormattedMessage, useIntl } from 'react-intl';
+import { ScreenPermissionContainer } from "./ScreenPermissionContainer"
 import styles from "./styles.module.less";
 
 
@@ -59,11 +60,15 @@ const MultiScreenItem = observer((props: IMultiScreenItemProps) => {
   }
 
   return (
-    <span style={style}>
-      <MultiScreenContext.Provider value={item}>
-        {item.content}
-      </MultiScreenContext.Provider>
-    </span>
+    <ScreenPermissionContainer
+      screenId={item.screenId}
+    >
+      <span style={style}>
+        <MultiScreenContext.Provider value={item}>
+          {item.content}
+        </MultiScreenContext.Provider>
+      </span>
+    </ScreenPermissionContainer>
   );
 });
 

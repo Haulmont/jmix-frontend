@@ -1,13 +1,20 @@
 import React from "react";
 import { Menu, MenuItemProps } from "antd";
-import { useMenuItem } from "@haulmont/jmix-react-web";
+import { useMenuItem, MenuPermissionContainer } from "@haulmont/jmix-react-web";
 
 export interface Props extends MenuItemProps {
   screenId?: string;
   caption: string
 }
 
-export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, children, ...menuItemProps }: Props) => {
+export const MenuItem: React.FC<Props> = ({ 
+  screenId, 
+  caption, 
+  title, 
+  onClick, 
+  children,
+  ...menuItemProps 
+}: Props) => {
   const [
     formattedCaption,
     childrenWithCaption,
@@ -15,13 +22,17 @@ export const MenuItem: React.FC<Props> = ({ screenId, caption, title, onClick, c
   ] = useMenuItem({ screenId, caption, onClick, children })
 
   return (
-    <Menu.Item
-      aria-label={" "}
-      {...menuItemProps}
-      title={title ?? formattedCaption}
-      onClick={menuItemOnClick}
+    <MenuPermissionContainer 
+      accessKey={menuItemProps.eventKey ?? ""}
     >
-      {childrenWithCaption}
-    </Menu.Item>
+      <Menu.Item
+        aria-label={" "}
+        {...menuItemProps}
+        title={title ?? formattedCaption}
+        onClick={menuItemOnClick}
+      >
+        {childrenWithCaption}
+      </Menu.Item>
+    </MenuPermissionContainer>
   )
 }

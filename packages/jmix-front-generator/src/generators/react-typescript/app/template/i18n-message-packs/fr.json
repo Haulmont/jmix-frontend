@@ -32,6 +32,7 @@
 
     "home.welcome": "Bienvenu à",
     "screen.home": "Accueil",
+    "screen.notAllowed": "screen.notAllowed [TRANSLATION NOT AVAILABLE]",
     "login.failed": "Echec de l'authentification",
     "login.placeholder.login": "Identifiant",
     "login.placeholder.password": "Mot de passe",
