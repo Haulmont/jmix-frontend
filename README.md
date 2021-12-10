@@ -1,12 +1,5 @@
 # Jmix Frontend Tools and Libraries
 
-[![Build Status](https://travis-ci.org/haulmont/jmix-frontend.svg?branch=master)](https://travis-ci.org/haulmont/jmix-frontend)
-[![Commitizen friendly](https://img.shields.io/badge/commitizen-friendly-brightgreen.svg)](http://commitizen.github.io/cz-cli/)
+CAUTION: This branch contains experimental code that will be removed soon.
 
-# Frontend UI
-
-Frontend UI is an alternative to the [Backoffice UI](https://docs.jmix.io/jmix/0.x/backoffice-ui/index.html) that provides frontend-oriented development experience, more flexibility in terms of layout customization and easy integration of UI libraries and components from vast JavaScript ecosystem.
-
-## Documentation
-
-Actual [documentation](https://docs.jmix.io/jmix/0.x/frontend-ui/index.html) is available on the website.
+If you need to migrate a CUBA frontend to Jmix, switch to [release_0_9](https://github.com/Haulmont/jmix-frontend/tree/release_0_9) branch.
