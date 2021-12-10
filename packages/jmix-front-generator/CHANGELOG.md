@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.14...@haulmont/jmix-front-generator@2.0.0-next.15) (2021-12-10)
+
+**Note:** Version bump only for package @haulmont/jmix-front-generator
+
+
+
+
+
 # [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.13...@haulmont/jmix-front-generator@2.0.0-next.14) (2021-12-08)
 
 

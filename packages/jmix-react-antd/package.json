@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-antd",
-  "version": "2.0.0-next.14",
+  "version": "2.0.0-next.15",
   "description": "Jmix utilities and components for React, based on atnd components",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,13 +9,13 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^2.0.0-next.9",
-    "@haulmont/jmix-react-web": "^2.0.0-next.11",
-    "@haulmont/jmix-rest": "^2.0.0-next.5",
-    "react-ace": "^9.5.0",
-    "html-to-draftjs": "^1.5.0",
-    "draftjs-to-html": "^0.9.1",
+    "@haulmont/jmix-react-core": "^2.0.0-next.10",
+    "@haulmont/jmix-react-web": "^2.0.0-next.12",
+    "@haulmont/jmix-rest": "^2.0.0-next.6",
     "draft-js": "^0.11.7",
+    "draftjs-to-html": "^0.9.1",
+    "html-to-draftjs": "^1.5.0",
+    "react-ace": "^9.5.0",
     "react-draft-wysiwyg": "^1.14.7"
   },
   "peerDependencies": {

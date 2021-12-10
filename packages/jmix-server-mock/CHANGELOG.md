@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-server-mock/compare/@haulmont/jmix-server-mock@2.0.0-next.4...@haulmont/jmix-server-mock@2.0.0-next.5) (2021-12-10)
+
+**Note:** Version bump only for package @haulmont/jmix-server-mock
+
+
+
+
+
 # [2.0.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-server-mock/compare/@haulmont/jmix-server-mock@2.0.0-next.3...@haulmont/jmix-server-mock@2.0.0-next.4) (2021-11-25)
 
 **Note:** Version bump only for package @haulmont/jmix-server-mock

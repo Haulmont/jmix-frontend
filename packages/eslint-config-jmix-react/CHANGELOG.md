@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.4](https://github.com/Haulmont/jmix-frontend/compare/eslint-config-jmix-react@2.0.0-next.3...eslint-config-jmix-react@2.0.0-next.4) (2021-12-10)
+
+**Note:** Version bump only for package eslint-config-jmix-react
+
+
+
+
+
 # [2.0.0-next.3](https://github.com/Haulmont/jmix-frontend/compare/eslint-config-jmix-react@2.0.0-next.2...eslint-config-jmix-react@2.0.0-next.3) (2021-11-25)
 
 **Note:** Version bump only for package eslint-config-jmix-react
