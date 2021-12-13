@@ -37,16 +37,17 @@ export function createIncludes(importInfos: ImportInfo[], current?: ImportInfo):
 
 export function importDeclaration(identifiers: string[], moduleSpec: string): ImportDeclaration {
   const elements = identifiers.map(idn =>
-    ts.createImportSpecifier(undefined, ts.createIdentifier(idn)));
+    ts.factory.createImportSpecifier(false, undefined, ts.factory.createIdentifier(idn)));
 
-  return ts.createImportDeclaration(
-    undefined,
-    undefined,
-    ts.createImportClause(
+    return ts.factory.createImportDeclaration(
       undefined,
-      ts.createNamedImports(elements)
-    ),
-    ts.createLiteral(moduleSpec),
+      undefined,
+      ts.factory.createImportClause(
+        false,
+        undefined,
+        ts.factory.createNamedImports(elements)
+      ),
+      ts.factory.createStringLiteral(moduleSpec)
   );
 }
 
