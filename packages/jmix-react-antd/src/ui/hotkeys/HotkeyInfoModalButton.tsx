@@ -6,14 +6,17 @@ import React from 'react';
 import { useIntl } from 'react-intl';
 import { HotkeyInfo } from './HotkeyInfo';
 import styles from "./HotkeyInfoModalButton.module.less";
+import classNames from "classnames";
 
 interface HotkeyInfoModalButtonProps {
   visible: boolean;
   setVisible: (visible: boolean) => void;
+  className?: string;
 }
 export const HotkeyInfoModalButton = observer(({
   visible,
   setVisible,
+  className,
 }: HotkeyInfoModalButtonProps) => {
   const intl = useIntl();
   const { hotkeyConfigs } = useHotkeyStore();
@@ -22,7 +25,7 @@ export const HotkeyInfoModalButton = observer(({
     <>
       <Button
         type="text"
-        className={styles.hotkeyInfoButton}
+        className={classNames(styles.hotkeyInfoButton, className)}
         icon={<MacCommandOutlined role={""}/>}
         onClick={() => setVisible(true)}
       />
