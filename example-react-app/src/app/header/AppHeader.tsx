@@ -9,8 +9,10 @@ import { ThemeSwitcher } from "../../themes/ThemeSwitcher";
 import { useIntl } from "react-intl";
 import JmixLightIcon from "../icons/JmixLightIcon";
 import styles from "./AppHeader.module.css";
+import appStyles from "../App.module.css";
 import { modals, HotkeyInfoModalButton } from "@haulmont/jmix-react-antd";
 import { KeyHandler } from "hotkeys-js";
+import classNames from "classnames";
 
 const toggleHotkeyInfoHotkeyConfig: HotkeyConfig = {
   description: "hotkeys.hotkeyInfo.toggleHotkeyInfo",
@@ -67,9 +69,10 @@ const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
       <Space className={styles.userPanel}>
         <span>{mainStore.userName}</span>
         <Button
-          className={
-            settingsEnabled ? styles.settingsBtnActive : styles.settingsBtn
-          }
+          className={classNames(
+            settingsEnabled ? styles.settingsBtnActive : styles.settingsBtn,
+            appStyles.focusOuterHighlight
+          )}
           type={"text"}
           icon={<SettingOutlined role={""} />}
           onClick={toggleSettings}
@@ -79,10 +82,14 @@ const AppHeader = observer(({ children }: { children?: React.ReactNode }) => {
         <HotkeyInfoModalButton
           visible={visibleHotkeyInfo}
           setVisible={setVisibleHotkeyInfo}
+          className={classNames(styles.infoBtn, appStyles.focusOuterHighlight)}
         />
         <Button
           id="button_logout"
-          className={styles.logoutBtn}
+          className={classNames(
+            styles.logoutBtn,
+            appStyles.focusOuterHighlight
+          )}
           type="text"
           icon={<LogoutOutlined role={""} />}
           onClick={showLogoutConfirm}

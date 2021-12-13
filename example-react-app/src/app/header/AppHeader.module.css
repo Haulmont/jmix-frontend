@@ -20,8 +20,13 @@
   margin-left: 12px;
 }
 
+.infoBtn {
+  transition-property: color;
+}
+
 .logoutBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only) {
   color: #CCCCCC;
+  transition-property: color;
 }
 
 .logoutBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
@@ -30,6 +35,7 @@
 
 .settingsBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only) {
   color: #CCCCCC;
+  transition-property: color;
 }
 
 .settingsBtn:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
@@ -40,6 +46,8 @@
   color: #CCCCCC;
   border-radius: 10px;
   background-color: #197de1;
+  transition-property: color;
+  outline-color: lightgrey !important;
 }
 
 .settingsBtnActive:global(.ant-btn.ant-btn-text.ant-btn-icon-only):hover {
@@ -55,6 +63,12 @@
 .languageSwitcher :global(.ant-select-arrow) {
   color: #CCCCCC;
 }
+.languageSwitcher input:focus-visible {
+  opacity: 1 !important;
+  outline: 2px solid rgb(9, 109, 217) !important;
+  outline-offset: 2px;
+  border-radius: 1px;
+}
 
 .themeSwitcher:global(.ant-select) {
   background: none;
@@ -63,4 +77,10 @@
 
 .themeSwitcher :global(.ant-select-arrow) {
   color: #CCCCCC;
+}
+.themeSwitcher input:focus-visible {
+  opacity: 1 !important;
+  outline: 2px solid rgb(9, 109, 217) !important;
+  outline-offset: 2px;
+  border-radius: 1px;
 }
