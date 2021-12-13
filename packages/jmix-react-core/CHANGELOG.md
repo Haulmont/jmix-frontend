@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.11](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.10...@haulmont/jmix-react-core@2.0.0-next.11) (2021-12-13)
+
+
+### Features
+
+* menus and screens ui permissions [#387](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/387) ([6f08891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/6f0889189a349de1d5d554bd0c5b6ea874c35b2e))
+
+
+
+
+
 # [2.0.0-next.10](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.9...@haulmont/jmix-react-core@2.0.0-next.10) (2021-12-10)
 
 **Note:** Version bump only for package @haulmont/jmix-react-core

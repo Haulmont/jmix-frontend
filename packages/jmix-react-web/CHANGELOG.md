@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.12...@haulmont/jmix-react-web@2.0.0-next.13) (2021-12-13)
+
+
+### Features
+
+* menus and screens ui permissions [#387](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/387) ([6f08891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/6f0889189a349de1d5d554bd0c5b6ea874c35b2e))
+
+
+
+
+
 # [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.11...@haulmont/jmix-react-web@2.0.0-next.12) (2021-12-10)
 
 **Note:** Version bump only for package @haulmont/jmix-react-web

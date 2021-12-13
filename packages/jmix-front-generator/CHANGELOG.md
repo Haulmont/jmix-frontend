@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.15...@haulmont/jmix-front-generator@2.0.0-next.16) (2021-12-13)
+
+
+### Bug Fixes
+
+* improve EntityPicker logic [#635](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/635) ([bdd01ee](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/bdd01ee8e40eb550bfdc4a4e2541f98da6d3ea66))
+
+
+### Features
+
+* menus and screens ui permissions [#387](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/387) ([6f08891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/6f0889189a349de1d5d554bd0c5b6ea874c35b2e))
+
+
+
+
+
 # [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.14...@haulmont/jmix-front-generator@2.0.0-next.15) (2021-12-10)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator
