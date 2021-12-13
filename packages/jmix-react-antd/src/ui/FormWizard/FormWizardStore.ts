@@ -76,7 +76,10 @@ export class FormWizardStore {
     }
 
     get currentStep(): StepStore | undefined {
-        return this.steps[this.stepIndex];
+        if (this.steps.length > this.stepIndex) {
+            return this.steps[this.stepIndex];
+        }
+        return undefined;
     }
 
     setServerValidationErrors(serverValidationErrors: JmixServerValidationErrors | undefined) {
