@@ -21,6 +21,12 @@ export const AppMenu = (props: AppMenuProps) => {
         key={"8a31bf50-1575-46cc-a7df-2be02298bcdd"}
       />
       <MenuItem
+        screenId={"CustomEntityFilterTest"}
+        icon={<BarsOutlined />}
+        caption={"screen.CustomEntityFilterTest"}
+        key={"9de55ba6-aa6b-4dba-ac8d-293651687a62"}
+      />
+      <MenuItem
         screenId={"CustomFormControls"}
         icon={<BarsOutlined />}
         caption={"screen.CustomFormControls"}
