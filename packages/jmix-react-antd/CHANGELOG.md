@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.16...@haulmont/jmix-react-antd@2.0.0-next.17) (2021-12-14)
+
+
+### Bug Fixes
+
+* add internationalization for MultiSelectionTable messages ([ec662b0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/ec662b04adc666c46a36731cc7b9298814e2a988))
+* add navigaion to app header button's [#805](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/805) ([b5d8f65](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/b5d8f65a16508fefad45f1b6e507975170a91165))
+* changing RichTextEditor package to resolve issues with 'immutable' module and entity values ([7e917dd](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/7e917dd1f071c48f20f8de768753b8d54c21c4f2))
+
+
+
+
+
 # [2.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.15...@haulmont/jmix-react-antd@2.0.0-next.16) (2021-12-13)
 
 

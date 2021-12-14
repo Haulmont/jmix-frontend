@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.13...@haulmont/jmix-react-web@2.0.0-next.14) (2021-12-14)
+
+**Note:** Version bump only for package @haulmont/jmix-react-web
+
+
+
+
+
 # [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.12...@haulmont/jmix-react-web@2.0.0-next.13) (2021-12-13)
 
 

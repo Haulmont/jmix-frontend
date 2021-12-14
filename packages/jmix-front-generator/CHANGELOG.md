@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.16...@haulmont/jmix-front-generator@2.0.0-next.17) (2021-12-14)
+
+
+### Bug Fixes
+
+* add navigaion to app header button's [#805](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/805) ([b5d8f65](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/b5d8f65a16508fefad45f1b6e507975170a91165))
+
+
+
+
+
 # [2.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.15...@haulmont/jmix-front-generator@2.0.0-next.16) (2021-12-13)
 
 
