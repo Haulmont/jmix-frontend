@@ -1,10 +1,18 @@
 import {AutoComplete, Avatar, Button, Card, Checkbox, Col, DatePicker, Divider, Input, Row, Space} from "antd";
 import {ArrowUpOutlined} from "@ant-design/icons";
 import {Category, Component, Variant, Palette} from "@haulmont/react-ide-toolbox";
+import { FormattedMessage } from "react-intl";
 import * as React from "react";
 
 const palette = () =>
   <Palette>
+    <Category name="i18n">
+      <Component name="FormattedMessage">
+        <Variant>
+          <FormattedMessage />
+        </Variant>
+      </Component>
+    </Category>
     <Category name='Layout'>
 
       <Component name='Divider'>
