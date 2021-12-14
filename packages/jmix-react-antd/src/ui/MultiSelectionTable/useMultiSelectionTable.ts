@@ -10,21 +10,8 @@ import {useLocalObservable} from 'mobx-react';
 import {MultiSelectionTableStore} from "./MultiSelectionTableStore";
 import {useApolloClient} from "@apollo/client";
 import {modals} from "../modals";
-import {useIntl, IntlShape} from "react-intl";
+import {useIntl} from "react-intl";
 import {message} from "antd";
-
-function showConfirmDialog(
-  onConfirm: () => void,
-  intl: IntlShape,
-  messageId: string,
-) {
-  modals.open({
-    content: intl.formatMessage({id: messageId}),
-    okText: intl.formatMessage({id: "common.ok"}),
-    cancelText: intl.formatMessage({id: "common.cancel"}),
-    onOk: onConfirm,
-  });
-}
 
 export interface MultiSelectionTableHookOptions<TEntity, TData, TQueryVars, TMutationVars>
 extends EntityListHookOptions<TEntity, TData, TQueryVars, TMutationVars> {}
@@ -59,26 +46,27 @@ export function useMultiSelectionTable<
       const entitiesDeleteMutate = createDeleteMutationForSomeEntities(options.entityName, multiSelectionTableStore.selectedEntityIds);
       try {
         await client.mutate({mutation: entitiesDeleteMutate});
-        message.success('multiSelectionTable.delete.success');
+        message.success(intl.formatMessage({id: 'multiSelectionTable.delete.success'}));
         await entityListData.executeListQuery();
       } catch (error) {
-        message.error('multiSelectionTable.delete.error');
+        message.error(intl.formatMessage({id: 'multiSelectionTable.delete.error'}));
       }
     }
-  }, [options.entityName, multiSelectionTableStore.selectedEntityIds]);
+  }, [multiSelectionTableStore.selectedEntityIds, options.entityName, client, intl, entityListData]);
 
   const handleDeleteBtnClick = useCallback(() => {
     if (
       multiSelectionTableStore.selectedEntityIds != null
       && multiSelectionTableStore.selectedEntityIds.length > 0
     ) {
-      showConfirmDialog(
-        deleteSelectedEntities,
-        intl,
-        'multiSelectionTable.delete.areYouSure',
-      );
+      modals.open({
+        content: intl.formatMessage({id: 'multiSelectionTable.delete.areYouSure'}),
+        okText: intl.formatMessage({id: "common.ok"}),
+        cancelText: intl.formatMessage({id: "common.cancel"}),
+        onOk: deleteSelectedEntities,
+      });
     }
-  }, [deleteSelectedEntities, intl]);
+  }, [deleteSelectedEntities, intl, multiSelectionTableStore.selectedEntityIds]);
   
   return {
     ...entityListData,
