@@ -80,10 +80,18 @@ import {
   Variant,
   Palette
 } from "@haulmont/react-ide-toolbox";
+import { FormattedMessage } from "react-intl";
 import * as React from "react";
 
 const palette = () => (
   <Palette>
+    <Category name="i18n">
+      <Component name="FormattedMessage">
+        <Variant>
+          <FormattedMessage />
+        </Variant>
+      </Component>
+    </Category>
     <Category name="Layout">
       <Component name="Divider">
         <Variant>
