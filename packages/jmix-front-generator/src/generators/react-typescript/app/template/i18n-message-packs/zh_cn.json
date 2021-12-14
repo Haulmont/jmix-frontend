@@ -122,6 +122,11 @@
 
   "jmix.dataTable.listEditor.addItem": "添加",
 
+  "jmix.entityFilter.addFilter": "jmix.entityFilter.addFilter [TRANSLATION NOT AVAILABLE]",
+  "jmix.entityFilter.selectFilter": "jmix.entityFilter.selectFilter [TRANSLATION NOT AVAILABLE]",
+  "jmix.entityFilter.enterFilterValue": "jmix.entityFilter.enterFilterValue [TRANSLATION NOT AVAILABLE]",
+  "jmix.entityFilter.applyFilter": "jmix.entityFilter.applyFilter [TRANSLATION NOT AVAILABLE]",
+
   "jmix.file.downloading": "正在下载文件...",
   "jmix.file.downloadFailed": "下载失败",
 

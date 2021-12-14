@@ -23,6 +23,10 @@ module.exports = {
     "componentName": "example-custom-screen",
     "menuItem": "ROOT"
   },
+  "customEntityFilterTest": {
+    "componentName": "custom-entity-filter-test",
+    "menuItem": "ROOT"
+  },
   "customFormControls": {
     "componentName": "custom-form-controls",
     "menuItem": "ROOT"

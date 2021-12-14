@@ -55,6 +55,12 @@ gen(
       {
         command: 'react-typescript:blank-screen',
         dirShift,
+        dest: 'src/app/custom-entity-filter-test',
+        answers: answers.customEntityFilterTest
+      },
+      {
+        command: 'react-typescript:blank-screen',
+        dirShift,
         dest: 'src/app/custom-form-controls',
         answers: answers.customFormControls
       },
@@ -420,6 +426,7 @@ gen(
     fs.copyFileSync(__dirname + '/custom-screens/CustomAppLayouts.module.css', __dirname + '/../example-react-app/src/app/custom-app-layouts/CustomAppLayouts.module.css');
     fs.copyFileSync(__dirname + '/custom-screens/CustomControls.tsx', __dirname + '/../example-react-app/src/app/custom-controls/CustomControls.tsx');
     fs.copyFileSync(__dirname + '/custom-screens/ErrorBoundaryTests.tsx', __dirname + '/../example-react-app/src/app/error-boundary-tests/ErrorBoundaryTests.tsx');
+    fs.copyFileSync(__dirname + '/custom-screens/CustomEntityFilterTest.tsx', __dirname + '/../example-react-app/src/app/custom-entity-filter-test/CustomEntityFilterTest.tsx');
   }
 );
 

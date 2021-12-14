@@ -72,6 +72,7 @@ import CustomControls from "../app/custom-controls/CustomControls";
 import CustomAppLayouts from "../app/custom-app-layouts/CustomAppLayouts";
 import CustomDataDisplayComponents from "../app/custom-data-display-components/CustomDataDisplayComponents";
 import CustomFormControls from "../app/custom-form-controls/CustomFormControls";
+import CustomEntityFilterTest from "../app/custom-entity-filter-test/CustomEntityFilterTest";
 import ExampleCustomScreen from "../app/example-custom-screen/ExampleCustomScreen";
 import { ArrowUpOutlined } from "@ant-design/icons";
 import {
@@ -195,6 +196,11 @@ const palette = () => (
       <Component name="ExampleCustomScreen">
         <Variant>
           <ExampleCustomScreen />
+        </Variant>
+      </Component>
+      <Component name="CustomEntityFilterTest">
+        <Variant>
+          <CustomEntityFilterTest />
         </Variant>
       </Component>
       <Component name="CustomFormControls">

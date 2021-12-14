@@ -61,5 +61,6 @@ import "./app/custom-controls/CustomControls";
 import "./app/custom-app-layouts/CustomAppLayouts";
 import "./app/custom-data-display-components/CustomDataDisplayComponents";
 import "./app/custom-form-controls/CustomFormControls";
+import "./app/custom-entity-filter-test/CustomEntityFilterTest";
 import "./app/example-custom-screen/ExampleCustomScreen";
 import "./app/home/HomePage";

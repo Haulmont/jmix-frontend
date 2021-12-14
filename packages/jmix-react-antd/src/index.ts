@@ -33,6 +33,9 @@ export * from './util/history';
 // Visual components library:
 export * from './ui/form/entity-form/EntityForm';
 export * from './ui/layouts';
+
+// - Complex
+export * from './ui/entity-filter/EntityFilter';
 // - Form controls
 export * from './ui/form/controls';
 

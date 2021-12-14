@@ -122,6 +122,11 @@
 
   "jmix.dataTable.listEditor.addItem": "Add Item",
 
+  "jmix.entityFilter.addFilter": "Add filter",
+  "jmix.entityFilter.selectFilter": "Select filter",
+  "jmix.entityFilter.enterFilterValue": "Enter filter value",
+  "jmix.entityFilter.applyFilter": "Apply filter",
+
   "jmix.file.downloading": "Downloading file...",
   "jmix.file.downloadFailed": "Download failed",
 
