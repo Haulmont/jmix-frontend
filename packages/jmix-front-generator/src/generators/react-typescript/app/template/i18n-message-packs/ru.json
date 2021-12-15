@@ -148,6 +148,12 @@
 
   "jmix.form.validation.childError": "Ошибка валидации во вложенной сущности",
 
+  "jmix.richTextArea.headingOne": "Заголовок 1",
+  "jmix.richTextArea.headingTwo": "Заголовок 2",
+  "jmix.richTextArea.headingThree": "Заголовок 3",
+  "jmix.richTextArea.headingFour": "Заголовок 4",
+  "jmix.richTextArea.normalText": "Обычный",
+
   "cubaRest.error.serverNotResponded": "Сервер не отвечает",
   "cubaRest.error.serverError": "Ошибка на стороне сервера",
   "cubaRest.error.badRequest": "Запрос сформирован неправильно",

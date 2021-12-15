@@ -311,6 +311,12 @@ const EXPECTED_I18N_KEYS = [
   "jmix.nestedEntitiesTableField.delete.areYouSure",
   "jmix.nestedEntityField.addEntities",
   "jmix.nestedEntityField.andXMore",
+  "jmix.richTextArea.headingOne",
+  "jmix.richTextArea.headingTwo",
+  "jmix.richTextArea.headingThree",
+  "jmix.richTextArea.headingFour",
+  "jmix.richTextArea.normalText",
+
   "list.doesNotExist",
   "cubaRest.error.serverNotResponded",
   "cubaRest.error.serverError",
