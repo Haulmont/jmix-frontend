@@ -1,4 +1,4 @@
-import { action, autorun, computed, observable, makeObservable } from "mobx";
+import {action, autorun, computed, observable, makeObservable, reaction} from "mobx";
 import {JmixRestConnection, EntityMessages, JmixRestError} from "@haulmont/jmix-rest";
 import {inject, IWrappedComponent, MobXProviderContext} from "mobx-react";
 import {IReactComponent} from "mobx-react/dist/types/IReactComponent";
@@ -65,6 +65,7 @@ export class MainStore {
 
   private tokenExpiryListeners: Array<(() => void)> = [];
   private disposeTokenExpiryListener?: () => void;
+  private localeChangeListeners: Array<((locale: string | null) => void)> = [];
 
   private appName: string;
   private storage: Storage;
@@ -130,6 +131,10 @@ export class MainStore {
       } else {
         this.storage.removeItem(this.localeStorageKey);
       }
+    });
+
+    reaction(() => this.locale, (locale) => {
+      this.localeChangeListeners.forEach((onLocaleChanged) => onLocaleChanged(locale));
     });
   }
 
@@ -302,6 +307,10 @@ export class MainStore {
   onTokenExpiry(c: () => void) {
     this.tokenExpiryListeners.push(c);
     return () => this.tokenExpiryListeners.splice(this.tokenExpiryListeners.indexOf(c), 1);
+  }
+
+  onLocaleChange(c: (locale: string | null) => void) {
+    this.localeChangeListeners.push(c);
   }
 
   /**

@@ -1,10 +1,11 @@
-import React, { useCallback } from 'react';
+import React, {useCallback} from 'react';
 import {observer} from 'mobx-react';
 import {ConfigProvider} from 'antd';
-import {IntlProvider} from 'react-intl';
+import {RawIntlProvider} from 'react-intl';
 import {getMainStore} from '@haulmont/jmix-react-core';
 import {antdLocalesStore} from "./AntdLocalesStore";
 import {localesStore} from "@haulmont/jmix-react-web";
+import {getIntl} from "./intl";
 
 type I18nProviderProps = {
   children: React.ReactNode | React.ReactNode[] | null,
@@ -21,18 +22,20 @@ export const I18nProvider = observer(({children, rtlLayout}: I18nProviderProps) 
     return rtlCondition ? 'rtl' : 'ltr';
   }, [rtlLayout, mainStore?.locale])
 
-  if (!mainStore || !mainStore.locale) {
+  const intl = getIntl();
+
+  if (!mainStore || !mainStore.locale || !intl) {
     return null;
   }
 
   return (
-    <IntlProvider locale={mainStore.locale} messages={localesStore.messagesMapping[mainStore.locale]}>
-      <ConfigProvider 
+    <RawIntlProvider value={intl}>
+      <ConfigProvider
         locale={antdLocalesStore.antdLocaleMapping[mainStore.locale]}
         direction={getDirection()}
       >
         {children}
       </ConfigProvider>
-    </IntlProvider>
+    </RawIntlProvider>
   );
 });
