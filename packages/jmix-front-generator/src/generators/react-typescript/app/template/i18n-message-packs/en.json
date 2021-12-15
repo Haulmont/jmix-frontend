@@ -143,6 +143,12 @@
 
   "jmix.form.validation.childError": "Validation error in child entity",
 
+  "jmix.richTextArea.headingOne": "Heading 1",
+  "jmix.richTextArea.headingTwo": "Heading 2",
+  "jmix.richTextArea.headingThree": "Heading 3",
+  "jmix.richTextArea.headingFour": "Heading 4",
+  "jmix.richTextArea.normalText": "Normal",
+
   "cubaRest.error.serverNotResponded": "Server not responded",
   "cubaRest.error.serverError": "Internal server error",
   "cubaRest.error.badRequest": "Bad request",

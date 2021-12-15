@@ -143,6 +143,12 @@
 
   "jmix.form.validation.childError": "jmix.form.validation.childError [TRANSLATION NOT AVAILABLE]",
 
+  "jmix.richTextArea.headingOne": "jmix.richTextArea.headingOne [TRANSLATION NOT AVAILABLE]",
+  "jmix.richTextArea.headingTwo": "jmix.richTextArea.headingTwo [TRANSLATION NOT AVAILABLE]",
+  "jmix.richTextArea.headingThree": "jmix.richTextArea.headingThree [TRANSLATION NOT AVAILABLE]",
+  "jmix.richTextArea.headingFour": "jmix.richTextArea.headingFour [TRANSLATION NOT AVAILABLE]",
+  "jmix.richTextArea.normalText": "jmix.richTextArea.normalText [TRANSLATION NOT AVAILABLE]",
+
   "cubaRest.error.serverNotResponded": "cubaRest.error.serverNotResponded [TRANSLATION NOT AVAILABLE]",
   "cubaRest.error.serverError": "cubaRest.error.serverError [TRANSLATION NOT AVAILABLE]",
   "cubaRest.error.badRequest": "cubaRest.error.badRequest [TRANSLATION NOT AVAILABLE]",

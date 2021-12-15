@@ -143,6 +143,12 @@
 
     "jmix.form.validation.childError": "jmix.form.validation.childError [TRANSLATION NOT AVAILABLE]",
 
+    "jmix.richTextArea.headingOne": "Titre 1",
+    "jmix.richTextArea.headingTwo": "Titre 2",
+    "jmix.richTextArea.headingThree": "Titre 3",
+    "jmix.richTextArea.headingFour": "Titre 4",
+    "jmix.richTextArea.normalText": "Normal",
+
     "cubaRest.error.serverNotResponded": "cubaRest.error.serverNotResponded [TRANSLATION NOT AVAILABLE]",
     "cubaRest.error.serverError": "cubaRest.error.serverError [TRANSLATION NOT AVAILABLE]",
     "cubaRest.error.badRequest": "cubaRest.error.badRequest [TRANSLATION NOT AVAILABLE]",
