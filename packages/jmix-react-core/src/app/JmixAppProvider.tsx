@@ -12,6 +12,7 @@ let jmixAppContext: React.Context<JmixAppContextValue>;
 let jmixAppConfig: JmixAppConfig | undefined;
 let globalJmixREST: JmixRestConnection;
 let mainStore: MainStore;
+const mainStoreCreateListeners : ((mainStore: MainStore) => void)[] = []
 
 export interface JmixAppContextValue {
   jmixREST?: JmixRestConnection;
@@ -24,6 +25,10 @@ export function getJmixREST(): JmixRestConnection | undefined {
 
 export function getMainStore(): MainStore {
   return mainStore;
+}
+
+export function onMainStoreCreate(c: (mainStore: MainStore) => void) {
+  mainStoreCreateListeners.push(c);
 }
 
 export function getJmixAppConfig(): JmixAppConfig | undefined {
@@ -147,6 +152,7 @@ export const JmixAppProvider = ({
             contentDisplayMode,
             graphqlEndpoint
           });
+          mainStoreCreateListeners.forEach((onCreate) => onCreate(mainStore));
           retrieveRestApiToken().then((restApiToken) => {
             if (restApiToken != null) {
               jmixREST.restApiToken = restApiToken;
