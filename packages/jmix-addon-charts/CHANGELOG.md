@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [0.1.0-next.4](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-charts@0.1.0-next.3...@haulmont/jmix-addon-charts@0.1.0-next.4) (2021-12-15)
+
+
+### Features
+
+* chart addon ([#552](https://github.com/Haulmont/jmix-frontend/issues/552)) ([6b4c278](https://github.com/Haulmont/jmix-frontend/commit/6b4c278f2e36827b817426995159868debf1fdce))
+
+
+
+
+
 # [0.1.0-next.3](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-charts@0.1.0-next.2...@haulmont/jmix-addon-charts@0.1.0-next.3) (2021-12-14)
 
 **Note:** Version bump only for package @haulmont/jmix-addon-charts

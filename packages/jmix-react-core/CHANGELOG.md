@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.13](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.12...@haulmont/jmix-react-core@2.0.0-next.13) (2021-12-15)
+
+
+### Features
+
+* add EntityFilter component [#637](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/637) ([ef4cbc0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/ef4cbc03b3de49fc9f08f95cfbdbf4846b5af290))
+
+
+
+
+
 # [2.0.0-next.12](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.11...@haulmont/jmix-react-core@2.0.0-next.12) (2021-12-14)
 
 **Note:** Version bump only for package @haulmont/jmix-react-core

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.17...@haulmont/jmix-react-antd@2.0.0-next.18) (2021-12-15)
+
+
+### Features
+
+* add EntityFilter component [#637](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/637) ([ef4cbc0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/ef4cbc03b3de49fc9f08f95cfbdbf4846b5af290))
+
+
+
+
+
 # [2.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.16...@haulmont/jmix-react-antd@2.0.0-next.17) (2021-12-14)
 
 

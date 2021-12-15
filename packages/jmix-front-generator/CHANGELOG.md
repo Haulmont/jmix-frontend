@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.17...@haulmont/jmix-front-generator@2.0.0-next.18) (2021-12-15)
+
+
+### Bug Fixes
+
+* filter recurtion relations in generated graphQL list queries ([fe8b94c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/fe8b94cb4aeb0bb24ee0b42dbe5ac62fe94eb3f5))
+
+
+### Features
+
+* add EntityFilter component [#637](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/637) ([ef4cbc0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/ef4cbc03b3de49fc9f08f95cfbdbf4846b5af290))
+
+
+
+
+
 # [2.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.16...@haulmont/jmix-front-generator@2.0.0-next.17) (2021-12-14)
 
 

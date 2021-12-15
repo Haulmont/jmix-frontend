@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.14...@haulmont/jmix-react-web@2.0.0-next.15) (2021-12-15)
+
+
+### Features
+
+* add EntityFilter component [#637](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/637) ([ef4cbc0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/ef4cbc03b3de49fc9f08f95cfbdbf4846b5af290))
+* close current screen API ([85509a6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/85509a6c19ef91c36bb48c04e8fc964d8bee4aa7))
+
+
+
+
+
 # [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.13...@haulmont/jmix-react-web@2.0.0-next.14) (2021-12-14)
 
 **Note:** Version bump only for package @haulmont/jmix-react-web
