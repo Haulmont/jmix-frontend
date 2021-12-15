@@ -34,19 +34,29 @@ export const useScreenHotkey = (
 ) => {
   const {addHotkeyConfig, removeHotkeyConfigs} = useHotkeyStore();
   const multiScreen = useMultiScreen();
-  const {currentScreen} = useScreens();
+  const screens = useScreens();
+ 
+  const isScreen = multiScreen != null && screens != null;
 
   const [currentTab, setCurrentTab] = useState(tabs.currentTab);
 
   const parentScreenIsSelected = (
-    currentTab?.title === multiScreen.title
-    && currentScreen?.title === multiScreen.title
+    isScreen
+    && currentTab?.title === multiScreen.title
+    && screens?.currentScreen?.title === multiScreen.title
   );
 
   const childScreenIsSelected = (
-    currentTab?.title === multiScreen.parent?.title
-    && currentScreen?.title === multiScreen.title
+    isScreen
+    && currentTab?.title === multiScreen.parent?.title
+    && screens?.currentScreen?.title === multiScreen.title
   );
+
+  useEffect(() => {
+    if (!isScreen) {
+      console.error('useScreenHotkey hook should be used inside the screen-api');
+    }
+  }, [isScreen])
 
   useEffect(() => {
     if (parentScreenIsSelected || childScreenIsSelected) {
