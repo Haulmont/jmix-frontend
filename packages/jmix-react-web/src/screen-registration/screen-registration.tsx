@@ -96,6 +96,23 @@ export function openScreen(screenId: string, route: string) {
   redirect(route);
 }
 
+export function closeCurrentScreen() {
+  const mainStore: MainStore = getMainStore();
+
+  switch (mainStore.contentDisplayMode) {
+    case ContentDisplayMode.ActivateExistingTab:
+    case ContentDisplayMode.AlwaysNewTab:
+      if (tabs.currentTab) {
+        tabs.close(tabs.currentTab);
+      }
+      break;
+    case ContentDisplayMode.NoTabs:
+      singleContentArea.content = null;
+      redirect('/')
+      break;
+  }
+}
+
 export interface OpenCrudScreenOptions<TProps = any> {
   entityName: string;
   crudScreenType: 'entityEditor' | 'entityList';
