@@ -2,6 +2,32 @@ import {EntityMessages} from "@haulmont/jmix-rest";
 import {AttributeType, EnumInfo, MetaClassInfo, Metadata, MetaPropertyInfo} from '../app/MetadataProvider'
 import { PropertyType } from "../data/PropertyType";
 
+export function getPropertyInfoRecursiveNN(metadata: MetaClassInfo[], entityName: string, propertyName: string): {
+  propertyInfo: MetaPropertyInfo,
+  entityName: string,
+  propertyName: string
+} {
+  const separatorIdx = propertyName.indexOf('.')
+
+    if (separatorIdx !== -1) {
+      const parentPropName = propertyName.slice(0, separatorIdx)
+      const propertyInfo = getPropertyInfo(metadata, entityName, parentPropName)
+      const subPropertyName = propertyName.slice(separatorIdx + 1)
+
+      if (propertyInfo == null || !(propertyInfo.attributeType === 'ASSOCIATION' || propertyInfo.attributeType === 'COMPOSITION')) {
+        throw new Error(`Cannot find MetaPropertyInfo for property ${parentPropName} or it's not a composite type`);
+      }
+
+      return getPropertyInfoRecursiveNN(metadata, propertyInfo.type, subPropertyName)
+    }
+
+    return {
+      propertyInfo: getPropertyInfoNN(propertyName, entityName, metadata),
+      entityName,
+      propertyName
+    }
+}
+
 export function getPropertyInfo(metadata: MetaClassInfo[], entityName: string, propertyName: string): MetaPropertyInfo | null {
     const metaClass = metadata.find(mci => mci.entityName === entityName);
     if (metaClass == null) {
