@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.19](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.18...@haulmont/jmix-react-antd@2.0.0-next.19) (2021-12-16)
+
+**Note:** Version bump only for package @haulmont/jmix-react-antd
+
+
+
+
+
 # [2.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.17...@haulmont/jmix-react-antd@2.0.0-next.18) (2021-12-15)
 
 
