@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.15...@haulmont/jmix-react-web@2.0.0-next.16) (2021-12-16)
+
+
+### Bug Fixes
+
+* useScreenHotkey hook doesnt break without screen-api ([8aa214f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/8aa214fbcd6c2593390ba764b978c3cdf6d18201))
+
+
+
+
+
 # [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.14...@haulmont/jmix-react-web@2.0.0-next.15) (2021-12-15)
 
 
