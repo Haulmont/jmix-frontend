@@ -534,14 +534,14 @@ class DataTableComponent<
   }
 
   get generateColumnProps(): Array<ColumnProps<TEntity>> {
-    const {columnDefinitions, mainStore, entityName} = this.props;
+    const {columnDefinitions, mainStore, entityName, metadata} = this.props;
 
     return (columnDefinitions ?? this.fields)
       .filter((columnDef: string | ColumnDefinition<TEntity>) => {
         const {getAttributePermission} = mainStore!.security;
         const propertyName = columnDefToPropertyName(columnDef);
         if (propertyName != null) {
-          const perm: EntityAttrPermissionValue = getAttributePermission(entityName, propertyName);
+          const perm: EntityAttrPermissionValue = getAttributePermission(entityName, propertyName, metadata.entities);
           return perm === 'MODIFY' || perm === 'VIEW';
         }
         return true; // Column not bound to an entity attribute
@@ -552,6 +552,7 @@ class DataTableComponent<
 
         if (propertyName != null) {
           // Column is bound to an entity property
+          const isProjection = propertyName.indexOf('.') !== -1
 
           const generatedColumnProps = generateDataColumn<TEntity>({
             propertyName,
@@ -565,7 +566,12 @@ class DataTableComponent<
             enableSorter: this.isSortingForColumnEnabled(propertyName),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
-            relationOptions: this.getRelationOptions(propertyName)
+            relationOptions: this.getRelationOptions(propertyName),
+
+            ...isProjection ? {
+              enableFilter: false,
+              enableSorter: false
+            } : {}
           });
 
           return {
