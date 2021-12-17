@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.17](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.16...@haulmont/jmix-react-web@2.0.0-next.17) (2021-12-17)
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/859) ([396c33a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/396c33aeaf74812db1138ef971a557b1020e0aa9))
+
+
+
+
+
 # [2.0.0-next.16](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.15...@haulmont/jmix-react-web@2.0.0-next.16) (2021-12-16)
 
 
