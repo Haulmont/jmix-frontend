@@ -9,6 +9,8 @@ import {
 } from '../util/security';
 import {ApolloClient} from "@apollo/client";
 import {gql} from "@apollo/client/core";
+import { MetaClassInfo } from './MetadataProvider';
+import { getPropertyInfo } from '../util/metadata';
 
 export const PERMISSIONS_QUERY = gql`query {
   permissions {
@@ -59,7 +61,24 @@ export class Security {
     return JSON.parse(JSON.stringify(this.effectivePermissions));
   }
 
-  getAttributePermission = (entityName: string, attributeName: string): EntityAttrPermissionValue => {
+  getAttributePermission = (entityName: string, attributeName: string, metadata?: MetaClassInfo[]): EntityAttrPermissionValue => {
+    const separatorIdx = attributeName.indexOf('.');
+
+    if (separatorIdx !== -1) {
+      if (metadata == null) {
+        return 'DENY';
+      }
+
+      const parentPropName = attributeName.slice(0, separatorIdx);
+      const propertyInfo = getPropertyInfo(metadata, entityName, parentPropName);
+      const subPropertyName = attributeName.slice(separatorIdx + 1);
+
+      if (propertyInfo == null || !(propertyInfo.attributeType === 'ASSOCIATION' || propertyInfo.attributeType === 'COMPOSITION')) {
+        return 'DENY';
+      }
+
+      return this.getAttributePermission(propertyInfo.type, subPropertyName, metadata);
+    }
 
     if (!this.isDataLoaded) return 'DENY';
 
