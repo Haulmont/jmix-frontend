@@ -12,7 +12,7 @@ type HorizontalCalendarChartProps = {
   nivoHorizontalCalendarChartProps?: Partial<CalendarSvgProps> & Partial<Dimensions>
 }
 
-export const HorizontalHorizontalCalendarChart = (props: HorizontalCalendarChartProps) => {
+export const HorizontalCalendarChart = (props: HorizontalCalendarChartProps) => {
 
   const {from, to, data, dayKey, valueKey, nivoHorizontalCalendarChartProps} = props;
   const chartData = data.map(item => ({day: item[dayKey], value: item[valueKey]}))
