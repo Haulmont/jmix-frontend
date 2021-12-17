@@ -6,9 +6,11 @@
   "module": "dist/index.esm.js",
   "types": "dist/index.d.ts",
   "files": [
-    "dist/"
+    "dist/",
+    "palette.tsx"
   ],
   "dependencies": {
+    "@haulmont/react-ide-toolbox": "^1.0.0",
     "@nivo/bar": "^0.74.0",
     "@nivo/calendar": "^0.74.1",
     "@nivo/chord": "^0.74.1",
