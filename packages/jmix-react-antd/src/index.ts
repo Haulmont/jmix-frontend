@@ -68,7 +68,7 @@ export * from './ui/FormWizard/FormWizardContext';
 export * from './ui/FormWizard/useEntityEditorFormWizard';
 
 export * from './i18n/I18nProvider';
-export * from './i18n/intl';
+export * from './i18n/i18n';
 export * from './i18n/AntdLocalesStore';
 
 export * from './ui/Tabs';
