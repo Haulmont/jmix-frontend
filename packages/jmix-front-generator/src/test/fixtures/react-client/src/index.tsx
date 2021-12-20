@@ -12,7 +12,11 @@ import {
   Screens,
   ScreensContext
 } from "@haulmont/jmix-react-core";
-import { I18nProvider, Modals } from "@haulmont/jmix-react-antd";
+import {
+  I18nProvider,
+  Modals,
+  initializeI18n
+} from "@haulmont/jmix-react-antd";
 import { initializeApp } from "@haulmont/jmix-rest";
 import {
   JMIX_REST_URL,
@@ -24,7 +28,11 @@ import metadata from "./jmix/metadata.json";
 import "./index.css";
 import { ApolloProvider } from "@apollo/client";
 import "./i18n/i18nInit";
-import { IntlDocumentTitle, HotkeyProvider } from "@haulmont/jmix-react-web";
+import {
+  IntlDocumentTitle,
+  HotkeyProvider,
+  localesStore
+} from "@haulmont/jmix-react-web";
 import { defaultHotkeyConfigs } from "./hotkeyConfigs";
 import "./addons";
 
@@ -38,6 +46,11 @@ import "dayjs/plugin/weekYear";
 import { AppErrorBoundary } from "./app/AppErrorBoundary";
 
 initializeTheme();
+
+initializeI18n({
+  defaultLocale: "en",
+  getMessages: locale => localesStore.messagesMapping[locale]
+});
 
 export const jmixREST = initializeApp({
   name: "scr-jmix",
