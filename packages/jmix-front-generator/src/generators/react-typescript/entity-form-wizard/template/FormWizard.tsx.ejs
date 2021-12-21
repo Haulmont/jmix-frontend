@@ -49,6 +49,10 @@ const UPSERT_<%= dollarsToUnderscores(entity.name).toUpperCase() %> = gql`
   }
 `;
 
+<% steps.forEach((step, stepIndex) => { %>
+  const FIELD_NAMES_STEP_<%= stepIndex + 1 %> = <%- include(includesPath('RenderValue'), { data: step.attributes.map(({name}) => name)}) %>
+<% }) %>
+
 const <%= className %> = withFormWizardProvider(observer((props: EntityEditorProps<<%= entity.className %>>) => {
     const {entityInstance} = props;
     const multiScreen = useContext(MultiScreenContext);
@@ -90,6 +94,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
     return (
         <Card className={styles.narrowLayout}>
             <FormWizardManager
+                entityName={ENTITY_NAME}
                 onFinish={handleSubmit}
                 onFinishFailed={onSubmitFailed}
                 validateMessages={createAntdFormValidationMessages(intl)}
@@ -99,7 +104,7 @@ const <%= className %> = withFormWizardProvider(observer((props: EntityEditorPro
                 <% steps.forEach((step, stepIndex) => { %>
                     <FormWizardStep
                         stepName="step<%= stepIndex + 1 %>"
-                        fieldNames={<%- include(includesPath('RenderValue'), { data: step.attributes.map(({name}) => name)}) %>}
+                        fieldNames={FIELD_NAMES_STEP_<%= stepIndex + 1 %>}
                     >
                         <%- include(includesPath('Fields'), {
                             attributes: step.attributes,

@@ -21,7 +21,7 @@ import {IntlShape, useIntl} from "react-intl";
 import { useParentScreen } from "../../util/screen";
 import { useSubmitCallback } from "./ui-callbacks/useSubmitCallback";
 import {useMultiScreen} from "../../ui/MultiScreen/MultiScreen";
-import {extractBeanValidationErrors} from "./validation/extractBeanValidationErrors";
+import {useExtractBeanValidationErrors} from "./validation/extractBeanValidationErrors";
 import {JmixServerValidationErrors} from "../../common/JmixServerValidationErrors";
 import { useNoop } from "../../util/useNoop";
 import { PersistEntityCallbacks } from "./util/persistEntity";
@@ -222,7 +222,7 @@ export function useEntityEditor<
 
   const [executeUpsertMutation, upsertMutationResult] = useMutation<TData, TMutationVars>(upsertMutation, upsertMutationOptions);
 
-  const serverValidationErrors = extractBeanValidationErrors(upsertMutationResult.error);
+  const serverValidationErrors = useExtractBeanValidationErrors(upsertMutationResult.error);
   const [executeClientValidation, clientValidationErrors] = useClientValidation();
   useEntityEditorFormValidation(clientValidationErrors || serverValidationErrors);
 
