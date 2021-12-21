@@ -1,5 +1,6 @@
 import {ApolloError} from "@apollo/client";
 import { JmixConstraintViolation } from "@haulmont/jmix-react-core";
+import { useMemo } from "react";
 import {JmixServerValidationErrors} from "../../../common/JmixServerValidationErrors";
 
 export function extractBeanValidationErrors(apolloError?: ApolloError): JmixServerValidationErrors | undefined {
@@ -37,4 +38,8 @@ export function extractBeanValidationErrors(apolloError?: ApolloError): JmixServ
     fieldErrors,
     globalErrors
   };
+}
+
+export function useExtractBeanValidationErrors(apolloError?: ApolloError): JmixServerValidationErrors | undefined {
+  return useMemo(() => extractBeanValidationErrors(apolloError), [apolloError]);
 }

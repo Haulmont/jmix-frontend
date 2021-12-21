@@ -15,6 +15,7 @@ export * from "./crud/list/util/createDeleteMutation";
 export * from "./crud/editor/useEntityEditor";
 export * from "./crud/editor/EntityEditorProps";
 export * from "./crud/editor/util/persistEntity";
+export * from "./crud/editor/validation/useClientValidation";
 export * from "./crud/list/useEntityList";
 export * from "./crud/list/EntityListProps";
 export * from "./crud/list/util/getEntityInstanceById";

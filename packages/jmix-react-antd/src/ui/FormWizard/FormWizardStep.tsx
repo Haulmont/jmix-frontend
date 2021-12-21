@@ -1,3 +1,5 @@
+import { JmixServerValidationErrors, useClientValidation } from '@haulmont/jmix-react-web';
+import { useMetadata } from '@haulmont/jmix-react-core';
 import {Form, FormInstance, message} from 'antd';
 import { observer } from 'mobx-react';
 import React, {useEffect, useCallback, useMemo} from 'react';
@@ -12,6 +14,7 @@ interface UseSetupStepOptions {
     stepName: string;
     fieldNames: string[];
     form: FormInstance;
+    clientValidationErrors?: JmixServerValidationErrors;
 }
 
 const useSetupStep = ({
@@ -20,6 +23,7 @@ const useSetupStep = ({
     fieldNames,
     form,
     stepName,
+    clientValidationErrors,
 }: UseSetupStepOptions) => {
     const intl = useIntl();
 
@@ -42,24 +46,32 @@ const useSetupStep = ({
         ) {
             stepStore?.setStatus('process');
         }
-    }, [formWizardStore, formWizardStore.currentStep, stepName, stepStore])
+    }, [formWizardStore, formWizardStore.currentStep, stepName, stepStore]);
 
     const stepServerValidation = useMemo(() => {
         const stepFieldErrors = new Map<string, string[]>();
-        
-        formWizardStore.serverValidationErrors?.fieldErrors?.forEach(
-            (fieldErrorValue, fieldErrorKey) => {
-                if (fieldNames.includes(fieldErrorKey)) {
-                    stepFieldErrors.set(fieldErrorKey, fieldErrorValue);
+
+        if (
+            clientValidationErrors?.fieldErrors != null
+            && clientValidationErrors?.fieldErrors.size > 0
+        ) {
+            clientValidationErrors.fieldErrors.forEach(
+                (fieldErrorValue, fieldErrorKey) => {
+                    if (fieldNames.includes(fieldErrorKey)) {
+                        stepFieldErrors.set(fieldErrorKey, fieldErrorValue);
+                    }
                 }
-            }
-        );
-        
-        if (stepFieldErrors.size > 0) {
-            stepStore?.setStatus('error');
-            message.error(intl.formatMessage({ id: "formWizard.serverValidationError"}));
+            );
+        } else if (formWizardStore.serverValidationErrors?.fieldErrors != null) {
+            formWizardStore.serverValidationErrors.fieldErrors?.forEach(
+                (fieldErrorValue, fieldErrorKey) => {
+                    if (fieldNames.includes(fieldErrorKey)) {
+                        stepFieldErrors.set(fieldErrorKey, fieldErrorValue);
+                    }
+                }
+            );
         }
-        
+
         return {
             ...formWizardStore.serverValidationErrors,
             fieldErrors:
@@ -67,7 +79,16 @@ const useSetupStep = ({
                     ? stepFieldErrors
                     : undefined
         };
-    }, [formWizardStore.serverValidationErrors, fieldNames, stepStore, intl]);
+    }, [clientValidationErrors?.fieldErrors, formWizardStore.serverValidationErrors, fieldNames]);
+
+    useEffect(() => {
+        if (
+            stepServerValidation.fieldErrors != null
+            && stepServerValidation.fieldErrors.size > 0
+        ) {
+            stepStore?.setStatus('error');
+        }
+    }, [intl, stepServerValidation.fieldErrors, stepServerValidation.fieldErrors?.size, stepStore]);
 
     useAntdFormValidation(form, stepServerValidation);
 }
@@ -85,8 +106,10 @@ export const FormWizardStep = observer(({
 }: FormWizardStepProps) => {
     const [form] = Form.useForm();
     const intl = useIntl();
+    const metadata = useMetadata();
 
     const {formWizardStore, formWizardHelpersRef} = useFormWizard();
+    const [executeClientValidation, clientValidationErrors] = useClientValidation();
 
     useEffect(() => {
         formWizardStore.addStep(new StepStore({
@@ -99,15 +122,23 @@ export const FormWizardStep = observer(({
 
     const validateCurrentStep = useCallback(async () => {
         try {
-            await form.validateFields();
-            stepStore?.setStatus('finish');
+            const values = form.getFieldsValue();
+            const isClientValid = formWizardStore.entityName != null
+                && executeClientValidation(values, formWizardStore.entityName, metadata);
+
+            if (isClientValid) {
+                await form.validateFields();
+                stepStore?.setStatus('finish');
+            } else {
+                throw new Error('Client validation is failed');
+            }
         } catch (error) {
             console.error(error);
             stepStore?.setStatus('error');
             message.error(intl.formatMessage({ id: 'formWizard.currectStepValidationError'}));
             throw error;
         }
-    }, [form, stepStore, intl]);
+    }, [form, formWizardStore.entityName, executeClientValidation, metadata, stepStore, intl]);
 
     useEffect(() => {
         if (formWizardStore.currentStep?.name === stepName) {
@@ -131,6 +162,7 @@ export const FormWizardStep = observer(({
         stepName,
         fieldNames,
         form,
+        clientValidationErrors,
     });
 
 

@@ -68,6 +68,12 @@ const UPSERT_SCR_FORMWIZARDTESTENTITY = gql`
   }
 `;
 
+const FIELD_NAMES_STEP_1 = ["notNull", "date"];
+
+const FIELD_NAMES_STEP_2 = ["time", "integer"];
+
+const FIELD_NAMES_STEP_3 = ["associationO2O", "compositionO2O"];
+
 const FormWizardEditor = withFormWizardProvider(
   observer((props: EntityEditorProps<FormWizardTestEntity>) => {
     const { entityInstance } = props;
@@ -108,13 +114,14 @@ const FormWizardEditor = withFormWizardProvider(
     return (
       <Card className={styles.narrowLayout}>
         <FormWizardManager
+          entityName={ENTITY_NAME}
           onFinish={handleSubmit}
           onFinishFailed={onSubmitFailed}
           validateMessages={createAntdFormValidationMessages(intl)}
         >
           <FormWizardStepStatus onSelectStep={handleSelectStep} />
 
-          <FormWizardStep stepName="step1" fieldNames={["notNull", "date"]}>
+          <FormWizardStep stepName="step1" fieldNames={FIELD_NAMES_STEP_1}>
             <Field
               entityName={ENTITY_NAME}
               propertyName="notNull"
@@ -132,7 +139,7 @@ const FormWizardEditor = withFormWizardProvider(
             />
           </FormWizardStep>
 
-          <FormWizardStep stepName="step2" fieldNames={["time", "integer"]}>
+          <FormWizardStep stepName="step2" fieldNames={FIELD_NAMES_STEP_2}>
             <Field
               entityName={ENTITY_NAME}
               propertyName="time"
@@ -150,10 +157,7 @@ const FormWizardEditor = withFormWizardProvider(
             />
           </FormWizardStep>
 
-          <FormWizardStep
-            stepName="step3"
-            fieldNames={["associationO2O", "compositionO2O"]}
-          >
+          <FormWizardStep stepName="step3" fieldNames={FIELD_NAMES_STEP_3}>
             <Field
               entityName={ENTITY_NAME}
               propertyName="associationO2O"

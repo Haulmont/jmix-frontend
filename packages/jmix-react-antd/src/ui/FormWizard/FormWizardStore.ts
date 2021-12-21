@@ -2,16 +2,6 @@ import { FormProps } from 'antd';
 import { observable, makeObservable, action, computed } from 'mobx';
 import { JmixServerValidationErrors } from '@haulmont/jmix-react-web';
 
-export const selectStepFieldErrors = (fieldErrors: Map<string, string[]>, fieldNames: string[]): Map<string, string[]> => {
-    const stepFieldErrors = new Map<string, string[]>()
-    fieldErrors.forEach((value: any, key: any) => {
-        if(fieldNames.includes(key)) {
-            stepFieldErrors.set(key, value)
-        }
-    })
-    return stepFieldErrors
-}
-
 export interface FormWizardStepConfig {
     name: string;
     fieldNames: string[];
@@ -38,6 +28,8 @@ export class StepStore {
 }
 
 export class FormWizardStore {
+    entityName?: string = undefined;
+
     stepIndex = 0;
 
     steps: StepStore[] = [];
@@ -53,6 +45,8 @@ export class FormWizardStore {
             setValidateMessages: action,
             stepIndex: observable,
             steps: observable,
+            entityName: observable,
+            setEntityName: action,
             isFirstStep: computed,
             isLastStep: computed,
             currentStep: computed,
@@ -80,6 +74,10 @@ export class FormWizardStore {
             return this.steps[this.stepIndex];
         }
         return undefined;
+    }
+
+    setEntityName(entityName: string) {
+        this.entityName = entityName;
     }
 
     setServerValidationErrors(serverValidationErrors: JmixServerValidationErrors | undefined) {
