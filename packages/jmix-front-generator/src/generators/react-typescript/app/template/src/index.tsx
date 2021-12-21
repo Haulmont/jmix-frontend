@@ -1,3 +1,4 @@
+import "./i18n/i18nInit";
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './app/App';
@@ -18,7 +19,6 @@ import {JMIX_REST_URL, REST_CLIENT_ID, REST_CLIENT_SECRET, GRAPHQL_URI} from "./
 import metadata from './jmix/metadata.json'
 import './index.css';
 import { ApolloProvider } from "@apollo/client";
-import "./i18n/i18nInit";
 import { IntlDocumentTitle, HotkeyProvider, localesStore} from "@haulmont/jmix-react-web";
 import { defaultHotkeyConfigs } from "./hotkeyConfigs";
 import "./addons";
