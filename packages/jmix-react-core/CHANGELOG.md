@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.14...@haulmont/jmix-react-core@2.0.0-next.15) (2021-12-22)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+
+
+
+
+
 # [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.13...@haulmont/jmix-react-core@2.0.0-next.14) (2021-12-17)
 
 

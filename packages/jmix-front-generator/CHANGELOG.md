@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.20](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.19...@haulmont/jmix-front-generator@2.0.0-next.20) (2021-12-22)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+* addon i18n doesn't work when using components from addon [#110](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/110) ([8275861](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8275861547566a27b1c12c0220e6c8912930ff8f))
+
+
+
+
+
 # [2.0.0-next.19](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.18...@haulmont/jmix-front-generator@2.0.0-next.19) (2021-12-21)
 
 

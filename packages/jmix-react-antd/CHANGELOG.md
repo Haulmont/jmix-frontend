@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.21...@haulmont/jmix-react-antd@2.0.0-next.22) (2021-12-22)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+
+
+
+
+
 # [2.0.0-next.21](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.20...@haulmont/jmix-react-antd@2.0.0-next.21) (2021-12-21)
 
 
