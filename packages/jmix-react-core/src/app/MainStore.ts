@@ -67,7 +67,7 @@ export class MainStore {
   private disposeTokenExpiryListener?: () => void;
   private localeChangeListeners: Array<((locale: string | null) => void)> = [];
 
-  private appName: string;
+  private _appName: string;
   private storage: Storage;
   private clientId: string;
   private secret: string;
@@ -80,7 +80,7 @@ export class MainStore {
     options?: MainStoreOptions
   ) {
 
-    this.appName = options?.appName ?? '';
+    this._appName = options?.appName ?? '';
     this.storage = options?.storage ?? window.localStorage;
     this.clientId = options?.clientId ?? 'client';
     this.secret = options?.secret ?? 'secret';
@@ -152,11 +152,11 @@ export class MainStore {
   }
 
   get tokenStorageKey(): string {
-    return this.appName + "_" + MainStore.TOKEN_STORAGE_KEY;
+    return this._appName + "_" + MainStore.TOKEN_STORAGE_KEY;
   }
 
   get localeStorageKey(): string {
-    return this.appName + "_" + MainStore.LOCALE_STORAGE_KEY;
+    return this._appName + "_" + MainStore.LOCALE_STORAGE_KEY;
   }
 
   /**
@@ -199,6 +199,10 @@ export class MainStore {
 
   get loginRequired(): boolean {
     return !this.authenticated && !this.usingAnonymously;
+  }
+
+  get appName(): string {
+    return this._appName
   }
 
   /**

@@ -122,6 +122,7 @@
     "jmix.dataTable.intervalEditor.includingCurrent": "inclure encours",
   
     "jmix.dataTable.listEditor.addItem": "Ajout élément",
+    "jmix.dataTable.fieldsVisibility": "jmix.dataTable.fieldsVisibility [TRANSLATION NOT AVAILABLE]",
 
     "jmix.entityFilter.addFilter": "jmix.entityFilter.addFilter [TRANSLATION NOT AVAILABLE]",
     "jmix.entityFilter.selectFilter": "jmix.entityFilter.selectFilter [TRANSLATION NOT AVAILABLE]",

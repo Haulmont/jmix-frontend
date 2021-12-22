@@ -122,6 +122,7 @@
   "jmix.dataTable.intervalEditor.includingCurrent": "including current",
 
   "jmix.dataTable.listEditor.addItem": "Add Item",
+  "jmix.dataTable.fieldsVisibility": "Visible fields",
 
   "jmix.entityFilter.addFilter": "Add filter",
   "jmix.entityFilter.selectFilter": "Select filter",
