@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-development.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.13...@haulmont/jmix-react-core@2.0.0-development.0) (2021-12-22)
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/859) ([309d008](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/309d0084e2d894773aaa06a224b4b284e26aa87e))
+* allow access to nested properties in data table [#863](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/863) ([34dca59](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/34dca59e4ff6eff132806796325e215c2f4c06f8))
+
+
+
+
+
 # [2.0.0-next.14](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.13...@haulmont/jmix-react-core@2.0.0-next.14) (2021-12-17)
 
 

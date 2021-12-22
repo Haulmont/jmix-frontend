@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-development.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.18...@haulmont/jmix-react-antd@2.0.0-development.0) (2021-12-22)
+
+
+### Bug Fixes
+
+* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([5eb3cd5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/5eb3cd534b50c3d92c10a0ea7cee9ddcd0ab6b98))
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([309d008](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/309d0084e2d894773aaa06a224b4b284e26aa87e))
+* allow access to nested properties in data table [#863](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/863) ([34dca59](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/34dca59e4ff6eff132806796325e215c2f4c06f8))
+
+
+
+
+
 # [2.0.0-next.20](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.19...@haulmont/jmix-react-antd@2.0.0-next.20) (2021-12-17)
 
 
