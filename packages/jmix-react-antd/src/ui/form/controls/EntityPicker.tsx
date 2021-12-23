@@ -47,11 +47,11 @@ export function EntityPicker(props: EntityPickerProps) {
     throw new Error(`Metadata not found for property ${propertyName} of entity ${entityName}`);
   }
 
-  const isCorrectFiekd = useMemo(() => {
+  const isCorrectField = useMemo(() => {
     return isToOneAssociation(propertyInfo)
   }, [propertyInfo]);
 
-  if(!isCorrectFiekd) {
+  if(!isCorrectField) {
     throw new Error(`property must be a to-one association`);
   }
 
@@ -63,13 +63,13 @@ export function EntityPicker(props: EntityPickerProps) {
 
   const onSelectEntity = useCallback((entityInstance?: Record<string, unknown>) => {
       if (onChange != null) {
-        const newValue = entityInstance?.id != null
-          ? entityInstance.id as string
+        const newValue = entityInstance?._instanceName != null
+          ? entityInstance._instanceName as string
           : undefined
 
         onChange(newValue);
       }
-    }, [onChange, propertyInfo]);
+    }, [onChange]);
 
   const handleClick = useCallback(() => {
     try{
@@ -87,7 +87,7 @@ export function EntityPicker(props: EntityPickerProps) {
         description: intl.formatMessage({ id: "common.openScreenError" }, {entityName: propertyInfo.type})
       });
     }
-  }, [entityName, screens, onSelectEntity, propertyInfo.type]);
+  }, [intl, screens, onSelectEntity, propertyInfo.type]);
 
   return (
     <Input 
