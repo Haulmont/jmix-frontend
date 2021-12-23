@@ -29,8 +29,20 @@ import { FormattedMessage, useIntl } from "react-intl";
 import { useForm } from "antd/es/form/Form";
 import dayjs from "dayjs";
 import "ace-builds/src-noconflict/mode-javascript";
+import {gql, useQuery} from "@apollo/client";
+import {HasId, MayHaveInstanceName} from "@haulmont/jmix-react-core";
 
 const ROUTING_PATH = "/customFormControls";
+
+const SCR_DATATYPESTESTENTITY_LIST = gql`
+  query scr_DatatypesTestEntityList {
+    scr_DatatypesTestEntityList {
+      id
+      _instanceName
+    }
+  }
+`;
+
 
 const CustomFormControls = () => {
   const [result, setResult] = useState<Record<string, unknown> | undefined>();
@@ -45,6 +57,10 @@ const CustomFormControls = () => {
 
   const [form] = useForm();
   const intl = useIntl();
+
+  const { data } = useQuery<{scr_DatatypesTestEntityList: Array<HasId & MayHaveInstanceName>}>(
+    SCR_DATATYPESTESTENTITY_LIST
+  );
 
   return (
     <Card className={styles.narrowLayout}>
@@ -93,12 +109,7 @@ const CustomFormControls = () => {
           formItemProps={{
             style: { marginBottom: "12px" }
           }}
-          associationOptions={[
-            {
-              id: "db9faa31-dfa3-4b97-943c-ba268888cdc3",
-              _instanceName: "com.company.scr.entity.test.DatatypesTestEntity-db9faa31-dfa3-4b97-943c-ba268888cdc3 [detached]"
-            }
-          ]}
+          associationOptions={data === undefined ? [] : data.scr_DatatypesTestEntityList}
         />
         <DateField
           entityName="scr_CarRent"
