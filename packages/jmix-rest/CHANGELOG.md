@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0-development.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@2.0.0-next.8...@haulmont/jmix-rest@2.0.0-development.0) (2021-12-22)
-
-
-### Features
-
-* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/issues/859) ([309d008](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/commit/309d0084e2d894773aaa06a224b4b284e26aa87e))
-
-
-
-
-
 # [2.0.0-next.9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@2.0.0-next.8...@haulmont/jmix-rest@2.0.0-next.9) (2021-12-17)
 
 

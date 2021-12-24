@@ -3,17 +3,6 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
-# [2.0.0-development.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.18...@haulmont/jmix-front-generator@2.0.0-development.0) (2021-12-22)
-
-
-### Bug Fixes
-
-* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/859) ([5eb3cd5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/5eb3cd534b50c3d92c10a0ea7cee9ddcd0ab6b98))
-
-
-
-
-
 # [2.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.17...@haulmont/jmix-front-generator@2.0.0-next.18) (2021-12-15)
 
 
