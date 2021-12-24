@@ -9,7 +9,8 @@ export function useCreateBtnCallback<TEntity>(
   entityName: string,
   entityList?: Array<EntityInstance<TEntity>>,
   onEntityListChange?: (entityList: Array<EntityInstance<TEntity>>) => void,
-  onOpenScreenError?: (entityName: string) => void
+  onOpenScreenError?: (entityName: string) => void,
+  selectedEntityId?: string
 ) {
   const submitBtnCaption = getSubmitBtnCaption(entityList, onEntityListChange);
   const intl = useIntl();
@@ -38,7 +39,9 @@ export function useCreateBtnCallback<TEntity>(
       entityName,
       onCommit,
       submitBtnCaption,
-      onOpenScreenError
+      onOpenScreenError,
+      entityIdToLoad: selectedEntityId,
+      cloneEntity: !!selectedEntityId
     });
-  }, [screens, entityName, onCommit, submitBtnCaption]);
+  }, [screens, entityName, onCommit, submitBtnCaption, selectedEntityId]);
 }
