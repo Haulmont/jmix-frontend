@@ -208,6 +208,7 @@ const EXPECTED_I18N_KEYS = [
   "addons.Addons",
   "common.alt.logo",
   "common.ok",
+  "common.clone",
   "common.cancel",
   "common.create",
   "common.edit",

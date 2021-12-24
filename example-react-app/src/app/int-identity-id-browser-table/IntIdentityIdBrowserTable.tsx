@@ -93,6 +93,7 @@ const IntIdentityIdBrowserTable = observer(
       handlePaginationChange,
       handleDeleteBtnClick,
       handleCreateBtnClick,
+      handleCloneBtnClick,
       handleEditBtnClick,
       goToParentScreen,
       entityListState
@@ -177,6 +178,21 @@ const IntIdentityIdBrowserTable = observer(
             <span>
               <FormattedMessage id="common.create" />
             </span>
+          </Button>
+        </EntityPermAccessControl>,
+        <EntityPermAccessControl
+          entityName={ENTITY_NAME}
+          operation="create"
+          key="create"
+        >
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            disabled={entityListState.selectedEntityId == null}
+            type="default"
+            onClick={handleCloneBtnClick}
+          >
+            <FormattedMessage id="common.clone" />
           </Button>
         </EntityPermAccessControl>,
         <EntityPermAccessControl

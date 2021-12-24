@@ -33,6 +33,7 @@ export interface EntityEditorScreenOptions<TEntity> {
    * Additional props to be passed to screen component
    */
   props?: Record<string, unknown>;
+  cloneEntity?: boolean
 }
 
 export function openEntityEditorScreen<TEntity>({
@@ -45,7 +46,8 @@ export function openEntityEditorScreen<TEntity>({
   submitBtnCaption,
   hiddenAttributes,
   onOpenScreenError,
-  props
+  props,
+  cloneEntity
 }: EntityEditorScreenOptions<TEntity>) {
   try {
     if (entityIdToLoad != null && entityInstance != null) {
@@ -86,7 +88,8 @@ export function openEntityEditorScreen<TEntity>({
           submitBtnCaption
         },
         screenParams: {
-          entityId: entityIdToLoad
+          entityId: entityIdToLoad,
+          cloneEntity
         }
       });
       return;
