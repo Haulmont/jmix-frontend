@@ -88,7 +88,8 @@ const CompositionO2OBrowserTable = observer(
       onEntityListChange,
       onPagination: saveHistory,
       onEntityDelete,
-      onOpenScreenError
+      onOpenScreenError,
+      lazyLoading: true
     });
 
     const selectEntityHandler = useCallback(() => {
@@ -231,6 +232,7 @@ const CompositionO2OBrowserTable = observer(
         onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
+        executeListQuery={entityList == null ? executeListQuery : undefined}
       />
     );
   }

@@ -100,7 +100,8 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -193,6 +194,7 @@ const CarMasterDetailBrowser = observer((props: EntityListProps<Car>) => {
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

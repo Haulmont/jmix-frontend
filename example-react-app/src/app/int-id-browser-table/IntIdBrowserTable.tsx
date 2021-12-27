@@ -77,7 +77,8 @@ const IntIdBrowserTable = observer(
       onEntityListChange,
       onPagination: saveHistory,
       onEntityDelete,
-      onOpenScreenError
+      onOpenScreenError,
+      lazyLoading: true
     });
 
     const selectEntityHandler = useCallback(() => {
@@ -220,6 +221,7 @@ const IntIdBrowserTable = observer(
         onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
+        executeListQuery={entityList == null ? executeListQuery : undefined}
       />
     );
   }

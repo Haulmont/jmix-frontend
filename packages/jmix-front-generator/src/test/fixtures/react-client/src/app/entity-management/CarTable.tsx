@@ -110,7 +110,8 @@ const CarTable = observer((props: EntityListProps<Car>) => {
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   const selectEntityHandler = useCallback(() => {
@@ -267,6 +268,7 @@ const CarTable = observer((props: EntityListProps<Car>) => {
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

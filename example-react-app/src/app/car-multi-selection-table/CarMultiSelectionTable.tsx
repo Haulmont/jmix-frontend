@@ -100,7 +100,8 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -179,6 +180,7 @@ const CarMultiSelectionTable = observer((props: EntityListProps<Car>) => {
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });
