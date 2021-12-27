@@ -63,7 +63,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   const selectEntityHandler = useCallback(() => {
@@ -189,6 +190,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

@@ -61,7 +61,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -126,6 +127,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

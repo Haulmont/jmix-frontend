@@ -44,7 +44,8 @@ import {
   ComparisonType,
   FilterChangeCallback,
   JmixEntityFilter,
-  PropertyType
+  PropertyType,
+  GraphQLQueryFn
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
@@ -52,7 +53,7 @@ import {ApolloError} from "@apollo/client";
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+export interface DataTableProps<TEntity, TQueryVars> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
   items?: TEntity[];
   count?: number;
@@ -70,6 +71,7 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
   defaultSortOrder?: JmixSortOrder;
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
+  executeListQuery?: GraphQLQueryFn<TQueryVars>;
   entityName: string;
 
   /**
@@ -154,8 +156,9 @@ export interface ColumnDefinition<TEntity> {
 }
 
 class DataTableComponent<
-  TEntity extends object = object
-> extends React.Component<DataTableProps<TEntity>, any> {
+  TEntity extends object = object,
+  TQueryVars extends object = object
+> extends React.Component<DataTableProps<TEntity, TQueryVars>, any> {
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
@@ -167,13 +170,14 @@ class DataTableComponent<
 
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
 
-  constructor(props: DataTableProps<TEntity>) {
+  constructor(props: DataTableProps<TEntity, TQueryVars>) {
     super(props);
 
-    const {initialFilter} = props;
+    const {initialFilter, onFilterChange, executeListQuery} = props;
 
-    if (initialFilter) {
+    if (initialFilter != null) {
       this.tableFilters = graphqlFilterToTableFilters(initialFilter, this.fields);
+      onFilterChange(initialFilter);
     }
 
     makeObservable(this, {
@@ -194,6 +198,9 @@ class DataTableComponent<
       generateColumnProps: computed
     });
 
+    if (executeListQuery != null) {
+      executeListQuery();
+    }
   }
 
   static defaultProps = {

@@ -29,11 +29,12 @@ const <%= className %> = observer(() => {
     handlePaginationChange,
     handleSelectionChange,
     handleFilterChange,
-    handleSortOrderChange,
+    handleSortOrderChange
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -59,6 +60,7 @@ const <%= className %> = observer(() => {
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
+      executeListQuery={executeListQuery}
     />
   );
 });
