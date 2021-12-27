@@ -1,5 +1,5 @@
 import {ColumnProps, TablePaginationConfig} from 'antd/es/table';
-import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction} from 'antd/es/table/interface';
+import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction, SortOrder} from 'antd/es/table/interface';
 import React, { ReactText } from 'react';
 import {DataTableCell} from './DataTableCell';
 import {
@@ -63,6 +63,7 @@ export interface DataColumnConfig {
    * Whether to enable sorting on this column
    */
   enableSorter: boolean;
+  defaultSortOrder: SortOrder;
   mainStore: MainStore;
   /**
    * See {@link DataTableCustomFilterProps.customFilterRef}
@@ -179,7 +180,8 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     enableSorter,
     mainStore,
     customFilterRef,
-    relationOptions
+    relationOptions,
+    defaultSortOrder
   } = config;
 
   let dataIndex: string | string[];
@@ -211,7 +213,8 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     dataIndex,
     sorter: enableSorter,
     key: propertyName as string,
-    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record})
+    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record}),
+    defaultSortOrder
   };
 
   if (enableFilter && isPropertyTypeSupported(propertyInfo)) {
@@ -505,6 +508,14 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
       break;
     default:
       assertNever('table action', tableAction);
+  }
+}
+
+export function graphqlToTableSortOrder(propertyName: string, sortOrder?: JmixSortOrder): SortOrder {
+  switch(sortOrder?.[propertyName]) {
+    case 'ASC': return 'ascend';
+    case 'DESC': return 'descend';
+    default: return null;
   }
 }
 
