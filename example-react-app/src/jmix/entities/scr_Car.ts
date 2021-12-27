@@ -1,8 +1,8 @@
 import { CarType, EcoRank } from "../enums/enums";
-import { Garage } from "./scr$Garage";
-import { TechnicalCertificate } from "./scr$TechnicalCertificate";
+import { Garage } from "./scr_Garage";
+import { TechnicalCertificate } from "./scr_TechnicalCertificate";
 export class Car {
-  static NAME = "scr$Car";
+  static NAME = "scr_Car";
   id?: string;
   manufacturer?: string | null;
   model?: string | null;
