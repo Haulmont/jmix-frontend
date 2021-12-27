@@ -48,13 +48,14 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     handleCloneBtnClick,
     handleEditBtnClick,
     goToParentScreen,
-    entityListState,
+    entityListState
   } = useEntityList<<%= entity.className %>>({
     listQuery: <%= dollarsToUnderscores(entity.name).toUpperCase() %>_LIST,
     entityName: ENTITY_NAME,
     routingPath: ROUTING_PATH,
     entityList,
     onEntityListChange,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -156,6 +157,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

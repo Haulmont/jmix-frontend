@@ -156,7 +156,8 @@ const DatatypesTestBrowserTable = observer(
       entityName: ENTITY_NAME,
       routingPath: ROUTING_PATH,
       entityList,
-      onEntityListChange
+      onEntityListChange,
+      lazyLoading: true
     });
 
     if (error != null) {
@@ -291,6 +292,7 @@ const DatatypesTestBrowserTable = observer(
         onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
+        executeListQuery={entityList == null ? executeListQuery : undefined}
       />
     );
   }
