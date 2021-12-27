@@ -33,9 +33,9 @@ import { Field, MultilineText, Spinner } from "@haulmont/jmix-react-ui";
 
 import "../../app/App.css";
 
-import { Car } from "../../jmix/entities/scr$Car";
-import { Garage } from "../../jmix/entities/scr$Garage";
-import { TechnicalCertificate } from "../../jmix/entities/scr$TechnicalCertificate";
+import { Car } from "../../jmix/entities/scr_Car";
+import { Garage } from "../../jmix/entities/scr_Garage";
+import { TechnicalCertificate } from "../../jmix/entities/scr_TechnicalCertificate";
 
 type Props = EditorProps & MainStoreInjected;
 

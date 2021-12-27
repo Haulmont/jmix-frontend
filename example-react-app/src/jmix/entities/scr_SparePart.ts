@@ -1,5 +1,5 @@
 export class SparePart {
-  static NAME = "scr$SparePart";
+  static NAME = "scr_SparePart";
   id?: string;
   name?: string | null;
   spareParts?: SparePart | null;

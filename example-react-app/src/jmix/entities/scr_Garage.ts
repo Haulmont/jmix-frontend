@@ -1,7 +1,7 @@
 import { User } from "./scr_User";
-import { Car } from "./scr$Car";
+import { Car } from "./scr_Car";
 export class Garage {
-  static NAME = "scr$Garage";
+  static NAME = "scr_Garage";
   id?: string;
   name?: string | null;
   address?: string | null;

@@ -18,7 +18,7 @@ import {
   Spinner
 } from "@haulmont/jmix-react-ui";
 
-import { Car } from "../../jmix/entities/scr$Car";
+import { Car } from "../../jmix/entities/scr_Car";
 import { SerializedEntity, getStringId } from "@haulmont/jmix-rest";
 import { CarManagement2 } from "./CarManagement2";
 import {
