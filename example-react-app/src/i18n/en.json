@@ -117,6 +117,7 @@
   "jmix.dataTable.intervalEditor.months": "Months",
   "jmix.dataTable.intervalEditor.includingCurrent": "including current",
   "jmix.dataTable.listEditor.addItem": "Add Item",
+  "jmix.dataTable.fieldsVisibility": "Visible fields",
   "jmix.file.downloading": "Downloading file...",
   "jmix.file.downloadFailed": "Download failed",
   "jmix.fileUpload.replace": "Upload a different file by clicking or dragging file to this area",

@@ -161,6 +161,7 @@ const CompositionO2MBrowserTable = observer(
 
     return (
       <DataTable
+        tableId={ROUTING_PATH + ENTITY_NAME}
         items={items}
         count={count}
         relationOptions={relationOptions}

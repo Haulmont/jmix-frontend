@@ -48,6 +48,7 @@ import {
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
+import {DataTableSettings, getInitFieldVisibility, saveFieldsVisibility} from './DataTableSettings';
 
 /**
  * @typeparam TEntity - entity type.
@@ -130,7 +131,19 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
    * the column will have the default look&feel)
    * or a {@link ColumnDefinition} object (which allows creating a custom column).
    */
-  columnDefinitions: Array<string | ColumnDefinition<TEntity>>
+  columnDefinitions: Array<string | ColumnDefinition<TEntity>>,
+  /**
+   * Allows user to configure displayed columns
+   */
+   enableFieldSettings?: boolean,
+   /**
+    * Columns visible by default, if `enableFieldSettings` is set to `true`
+   */
+   defaultVisibleColumns?: string[],
+   /**
+    * Unique table id
+   */
+   tableId?: string,
 }
 
 export interface ColumnDefinition<TEntity> {
@@ -158,6 +171,7 @@ class DataTableComponent<
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
+  fieldsVisibility: Map<string, boolean> = new Map();
   operatorsByProperty: Map<string, ComparisonType> = new Map();
   valuesByProperty: Map<string, CustomFilterInputValue> = new Map();
 
@@ -169,10 +183,19 @@ class DataTableComponent<
   constructor(props: DataTableProps<TEntity>) {
     super(props);
 
-    const {initialFilter} = props;
+    const {initialFilter, enableFieldSettings, tableId, defaultVisibleColumns, columnDefinitions, mainStore} = props;
 
     if (initialFilter) {
       this.tableFilters = graphqlFilterToTableFilters(initialFilter, this.fields);
+    }
+
+    if (enableFieldSettings && tableId != null) {
+      this.fieldsVisibility = getInitFieldVisibility(
+        mainStore?.appName as string,
+        columnDefinitions.map(columnDefToPropertyName),
+        tableId,
+        defaultVisibleColumns
+      );
     }
 
     makeObservable(this, {
@@ -190,7 +213,9 @@ class DataTableComponent<
       onRow: action,
       clearFilters: action,
       clearFiltersButton: computed,
-      generateColumnProps: computed
+      generateColumnProps: computed,
+      fieldsVisibility: observable,
+      changeFieldVisibility: action
     });
 
   }
@@ -420,6 +445,37 @@ class DataTableComponent<
     }
   };
 
+  renderBodyOnlyVisible = (props: any) => {
+    if (!Array.isArray(props.children)) {
+      return props.children;
+    }
+
+    return <tr className={props.className}>
+      {props.children.filter((col: any) => this.fieldsVisibility.get(col.key as string))}
+    </tr>
+  }
+  renderHeaderOnlyVisible = (props: any) => {
+    if (!Array.isArray(props.children)) {
+      return props.children;
+    }
+
+    return (
+      <tr>
+        {props.children.filter((col: any) => this.fieldsVisibility.get(col.key as string))}
+      </tr>
+    );
+  }
+
+  changeFieldVisibility = (key: string, value: boolean) => {
+    const newFieldsVisibility = new Map(this.fieldsVisibility);
+    newFieldsVisibility?.set(key, value);
+    this.fieldsVisibility = newFieldsVisibility;
+
+    if (this.props.tableId) {
+      saveFieldsVisibility(this.props.mainStore?.appName as string, this.fieldsVisibility, this.props.tableId);
+    }
+  }
+
   clearFilters = (): void => {
     const {entityName, initialFilter, onFilterChange} = this.props;
 
@@ -496,6 +552,20 @@ class DataTableComponent<
       }
     }
 
+    if (this.props.enableFieldSettings) {
+      defaultTableProps = {
+        ...defaultTableProps,
+        components: {
+          header: {
+            row: this.renderHeaderOnlyVisible
+          },
+          body: {
+            row: this.renderBodyOnlyVisible
+          },
+        }
+      };
+    }
+
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
 
     return (
@@ -503,6 +573,11 @@ class DataTableComponent<
         <div className='buttons'>
           {this.props.buttons}
           {this.props.hideClearFilters ? null : this.clearFiltersButton}
+          {!!this.props.enableFieldSettings && <DataTableSettings
+            columns = {defaultTableProps.columns}
+            fieldsVisibility={this.fieldsVisibility}
+            onChange={this.changeFieldVisibility}
+          />}
         </div>
         <Table { ...tableProps } className={this.props.hideSelectionColumn ? '_cuba-hide-selection-column' : ''} />
       </div>

@@ -64,6 +64,7 @@
     "jmix.dataTable.intervalEditor.includingCurrent": "inclure encours",
   
     "jmix.dataTable.listEditor.addItem": "Ajout élément",
+    "jmix.dataTable.fieldsVisibility": "jmix.dataTable.fieldsVisibility [TRANSLATION NOT AVAILABLE]",
 
     "jmix.file.downloading": "Téléchargement fichier...",
     "jmix.file.downloadFailed": "Echec téléchargement",

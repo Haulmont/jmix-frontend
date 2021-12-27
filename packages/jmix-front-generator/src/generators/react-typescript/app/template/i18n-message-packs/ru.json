@@ -64,6 +64,7 @@
   "jmix.dataTable.intervalEditor.includingCurrent": "включая текущий",
 
   "jmix.dataTable.listEditor.addItem": "Добавить",
+  "jmix.dataTable.fieldsVisibility": "Отображаемые поля",
 
   "jmix.file.downloading": "Скачивание файла...",
   "jmix.file.downloadFailed": "Не удалось скачать файл",

@@ -155,6 +155,7 @@ const AssociationM2OBrowserTable = observer(
 
     return (
       <DataTable
+        tableId={ROUTING_PATH + ENTITY_NAME}
         items={items}
         count={count}
         relationOptions={relationOptions}
