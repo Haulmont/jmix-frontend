@@ -261,6 +261,7 @@ const EXPECTED_I18N_KEYS = [
   "jmix.dataTable.intervalEditor.months",
   "jmix.dataTable.intervalEditor.includingCurrent",
   "jmix.dataTable.listEditor.addItem",
+  "jmix.dataTable.fieldsVisibility",
   "jmix.file.downloading",
   "jmix.file.downloadFailed",
   "jmix.fileUpload.replace",

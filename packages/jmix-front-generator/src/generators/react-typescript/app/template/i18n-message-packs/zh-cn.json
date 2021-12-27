@@ -64,6 +64,7 @@
   "jmix.dataTable.intervalEditor.includingCurrent": "包含当前日期",
 
   "jmix.dataTable.listEditor.addItem": "添加",
+  "jmix.dataTable.fieldsVisibility": "jmix.dataTable.fieldsVisibility [TRANSLATION NOT AVAILABLE]",
 
   "jmix.file.downloading": "正在下载文件...",
   "jmix.file.downloadFailed": "下载失败",
