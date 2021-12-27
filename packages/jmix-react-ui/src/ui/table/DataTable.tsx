@@ -20,7 +20,8 @@ import {
   graphqlFilterToTableFilters,
   generateDataColumn,
   handleTableChange,
-  getPreservedConditions
+  getPreservedConditions,
+  graphqlToTableSortOrder
 } from './DataTableHelpers';
 import {EntityAttrPermissionValue} from "@haulmont/jmix-rest";
 import {
@@ -188,7 +189,8 @@ class DataTableComponent<
 
     const {
       initialFilter, enableFieldSettings, tableId, defaultVisibleColumns,
-      columnDefinitions, mainStore, onFilterChange, executeListQuery
+      columnDefinitions, mainStore, onFilterChange, executeListQuery,
+      defaultSortOrder, onSortOrderChange
     } = props;
 
     if (initialFilter != null) {
@@ -203,6 +205,10 @@ class DataTableComponent<
         tableId,
         defaultVisibleColumns
       );
+    }
+
+    if (defaultSortOrder != null) {
+      onSortOrderChange(defaultSortOrder);
     }
 
     makeObservable(this, {
@@ -645,6 +651,7 @@ class DataTableComponent<
             value: this.valuesByProperty.get(propertyName),
             onValueChange: this.handleFilterValueChange,
             enableSorter: this.isSortingForColumnEnabled(propertyName),
+            defaultSortOrder: graphqlToTableSortOrder(propertyName, this.props.defaultSortOrder),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
             relationOptions: this.getRelationOptions(propertyName),
