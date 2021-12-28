@@ -50,6 +50,7 @@
     "test:coverage": "echo 'UNIT TESTS AND COVERAGE' && lerna run coverage",
     "test:integration": "echo 'INTEGRATION TESTS ON GENERATED APP' && lerna run test:e2e --scope @haulmont/jmix-front-generator",
     "test:e2e": "echo 'PUPPETEER E2E TESTS' && npm test example-react-app/ --prefix test-pup",
+    "lint": "echo 'not supported in this version'",
     "snyk": "snyk",
     "snyk:auth": "snyk auth",
     "snyk:test": "node scripts/audit/snyk.js test",
