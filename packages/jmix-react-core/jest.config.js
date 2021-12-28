@@ -20,5 +20,11 @@ module.exports = {
     "src/index.ts", // This file only contains exports
     "src/test-doubles/*"
   ],
-  "setupFilesAfterEnv": ["jest-expect-message", "./src/test/polyfills.js"]
+  "setupFilesAfterEnv": ["jest-expect-message", "./src/test/polyfills.js"],
+  "reporters": [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }]
+  ]
 };

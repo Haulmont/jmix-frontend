@@ -27,4 +27,10 @@ module.exports = {
     "^@apollo/client/testing$": "<rootDir>/../jmix-react-core/node_modules/@apollo/client/testing",
     "\\.(css|less)$":  "<rootDir>/src/test/styleMock.ts"
   },
+  "reporters": [
+    "default",
+    ["./node_modules/jest-html-reporter", {
+      "pageTitle": "Test Report"
+    }]
+  ]
 };
