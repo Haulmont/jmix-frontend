@@ -9,6 +9,7 @@
   "common.requestFailed": "Не удалось выполнить операцию",
   "common.retry": "Повторить",
   "common.back": "Назад",
+  "common.clone": "Создать с копированием",
 
   "home.welcome": "Добро пожаловать в",
   "screen.home": "Главная страница",

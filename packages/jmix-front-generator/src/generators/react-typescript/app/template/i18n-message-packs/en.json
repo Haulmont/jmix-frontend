@@ -9,6 +9,7 @@
   "common.requestFailed": "Failed to perform the requested operation",
   "common.retry": "Retry",
   "common.back": "Back",
+  "common.clone": "Clone",
 
   "home.welcome": "Welcome to",
   "screen.home": "Home",
