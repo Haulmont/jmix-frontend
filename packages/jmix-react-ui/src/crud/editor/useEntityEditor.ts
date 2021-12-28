@@ -214,7 +214,8 @@ export function useEntityEditor<
     loadQueryOptions,
     entityInstance,
     entityId,
-    entityName
+    entityName,
+    cloneEntity: multiScreen?.params?.cloneEntity
   });
 
   useEntityEditorForm(item, entityName);
@@ -234,7 +235,9 @@ export function useEntityEditor<
     listQueryName,
     entityName,
     goToParentScreen,
-    entityId,
+    entityId: multiScreen?.params?.cloneEntity
+      ? undefined
+      : entityId,
     entityInstance,
     onCommit,
   });

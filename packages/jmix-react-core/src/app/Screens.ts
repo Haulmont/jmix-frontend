@@ -14,6 +14,7 @@ export interface IMultiScreenItem {
 
 export interface MultiScreenItemParams {
   entityId?: string;
+  cloneEntity?: boolean;
   pagination?: {
     page: number;
     pageSize: number;

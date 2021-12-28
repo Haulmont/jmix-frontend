@@ -31,6 +31,7 @@ export interface EntityEditorScreenOptions<TEntity> {
   submitBtnCaption?: string;
   hiddenAttributes?: string[];
   intl: IntlShape;
+  cloneEntity?: boolean;
 }
 
 export function openEntityEditorScreen<TEntity>({
@@ -42,7 +43,8 @@ export function openEntityEditorScreen<TEntity>({
   entityInstance,
   submitBtnCaption,
   hiddenAttributes,
-  intl
+  intl,
+  cloneEntity
 }: EntityEditorScreenOptions<TEntity>) {
   try {
     if (entityIdToLoad != null && entityInstance != null) {
@@ -82,7 +84,8 @@ export function openEntityEditorScreen<TEntity>({
           submitBtnCaption
         },
         screenParams: {
-          entityId: entityIdToLoad
+          entityId: entityIdToLoad,
+          cloneEntity
         }
       });
       return;
