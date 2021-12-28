@@ -47,7 +47,7 @@
     "react-all": "npm run bootstrap-react-app && npm run bootstrap-jmix-app && npm run start-jmix-app && npm run start-react-app",
     "react-native-all": "npm run bootstrap-react-native-app && npm run bootstrap-jmix-app && npm run start-jmix-app && npm run start-react-native-app",
     "test:all": "npm run test:coverage && npm run test:integration && npm run test:e2e",
-    "test:coverage": "echo 'UNIT TESTS AND COVERAGE' && lerna run coverage",
+    "test:coverage": "echo 'UNIT TESTS AND COVERAGE' && lerna run coverage --ignore @haulmont/jmix-rest",
     "test:integration": "echo 'INTEGRATION TESTS ON GENERATED APP' && lerna run test:e2e --scope @haulmont/jmix-front-generator",
     "test:e2e": "echo 'PUPPETEER E2E TESTS' && npm test example-react-app/ --prefix test-pup",
     "lint": "echo 'not supported in this version'",
