@@ -1,3 +1,4 @@
+import { runInAction } from "mobx";
 import { Screens } from "./Screens";
 
 describe('Screens', () => {
@@ -35,7 +36,7 @@ describe('Screens', () => {
     expect(screens.content).toEqual('props.children');
 
     screens.screens = [screen1, screen2];
-    screens.currentScreen = screen2; // TODO Remove currentScreen and save the currentScreenIndex instead
+    runInAction(() => screens.currentScreen = screen2); // TODO Remove currentScreen and save the currentScreenIndex instead
     expect(screens.content).toEqual(Component2);
   });
 

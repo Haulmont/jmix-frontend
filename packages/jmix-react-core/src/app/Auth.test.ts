@@ -165,7 +165,7 @@ describe('logout()', () => {
   it('allows to customize the request', async () => {
     await expect(logout({
       token: 'token',
-      clientId: "client", secret: "secret", endpoint: "/oauth/token",
+      clientId: "client", secret: "secret", endpoint: "/oauth/revoke",
       fetchOptions: {
         body: 'custom body'
       }
