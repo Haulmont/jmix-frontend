@@ -8,4 +8,3 @@
 ** xref:entity-perm-access-control.adoc[EntityPermAccessControl]
 ** xref:main-store.adoc[MainStore]
 ** xref:security.adoc[Security]
-** xref:specific-perm-access-control.adoc[SpecificPermAccessControl]
