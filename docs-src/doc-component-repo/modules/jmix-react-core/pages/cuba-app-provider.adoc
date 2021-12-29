@@ -1,6 +1,6 @@
 = JmixAppProvider
-:api_core_JmixAppProviderProps: link:../api-reference/jmix-react-core/interfaces/_app_JmixAppProvider_.JmixAppProviderprops.html
-:api_rest_PropertyType: link:../api-reference/jmix-rest/modules/_model_.html#propertytype
+:api_core_JmixAppProviderProps: link:../api-reference/jmix-react-core/interfaces/app_jmixappprovider.jmixappproviderprops.html
+:api_rest_PropertyType: link:../api-reference/jmix-rest/modules/model.html#propertytype
 
 `JmixAppProvider` initializes main Jmix React Core components and provides them to the client application. It receives an instance of REST API service and an optional config object which has the following interface:
 
