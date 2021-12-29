@@ -1,5 +1,5 @@
 = Security
-:api_core_Security: link:../api-reference/jmix-react-core/classes/_app_security_.security.html
+:api_core_Security: link:../api-reference/jmix-react-core/classes/app_security.security.html
 
 Security service can be accessed via xref:main-store.adoc[MainStore]:
 
@@ -20,7 +20,6 @@ Note that in most cases you shouldn't need to check permissions manually. Instea
 
 * xref:entity-perm-access-control.adoc[EntityPermAccessControl] when condition involves a single entity operation permission,
 * xref:attr-perm-access-control.adoc[AttrPermAccessControl] when condition involves a single entity attribute permission,
-* xref:specific-perm-access-control.adoc[SpecificPermAccessControl] when condition involves one or more specific permissions,
 * xref:access-control.adoc[AccessControl] when you have a complex condition.
 
 '''
