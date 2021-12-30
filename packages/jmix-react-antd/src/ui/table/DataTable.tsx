@@ -21,7 +21,8 @@ import {
   generateDataColumn,
   handleTableChange,
   getPreservedConditions,
-  graphqlToTableSortOrder
+  graphqlToTableSortOrder,
+  isProjection
 } from './DataTableHelpers';
 import {EntityAttrPermissionValue} from "@haulmont/jmix-rest";
 import {
@@ -495,7 +496,7 @@ class DataTableComponent<
     this.operatorsByProperty.clear();
     this.valuesByProperty.clear();
 
-    this.fields.forEach((field: string) => {
+    this.fields.filter((field) => this.isFilterForColumnEnabled(field)).forEach((field: string) => {
       const propertyInfo = getPropertyInfoNN(field, entityName, this.props.metadata.entities);
       if ((propertyInfo.type as PropertyType) === 'Boolean') {
         this.valuesByProperty.set(field, 'true');
@@ -642,7 +643,6 @@ class DataTableComponent<
 
         if (propertyName != null) {
           // Column is bound to an entity property
-          const isProjection = propertyName.indexOf('.') !== -1
 
           const generatedColumnProps = generateDataColumn<TEntity>({
             propertyName,
@@ -657,12 +657,7 @@ class DataTableComponent<
             defaultSortOrder: graphqlToTableSortOrder(propertyName, this.props.defaultSortOrder),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
-            relationOptions: this.getRelationOptions(propertyName),
-
-            ...isProjection ? {
-              enableFilter: false,
-              enableSorter: false
-            } : {}
+            relationOptions: this.getRelationOptions(propertyName)
           });
 
           return {
@@ -683,12 +678,20 @@ class DataTableComponent<
   }
 
   isFilterForColumnEnabled(propertyName: string): boolean {
+    if (isProjection(propertyName)) {
+      return false
+    }
+
     return this.props.enableFiltersOnColumns
       ? this.props.enableFiltersOnColumns.indexOf(propertyName) > -1
       : true;
   }
 
   isSortingForColumnEnabled(propertyName: string): boolean {
+    if (isProjection(propertyName)) {
+      return false
+    }
+
     const {enableSortingOnColumns, metadata, entityName} = this.props;
 
     const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);
