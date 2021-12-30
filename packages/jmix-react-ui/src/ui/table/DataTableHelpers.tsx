@@ -275,6 +275,10 @@ export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Met
   });
 }
 
+export function isProjection(propertyName: string): boolean {
+  return propertyName.indexOf('.') !== -1
+}
+
 // todo - after extraction DataColumn class move this method to DataColumn and inline
 export function generateCustomFilterDropdown(
   propertyName: string,
