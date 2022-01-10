@@ -53,20 +53,8 @@ export function getDisplayedAttributes(
 }
 
 function isDisplayedAttribute(attr: EntityAttribute, screenType: ScreenType, entity: EntityTemplateModel) {
-  if (screenType === ScreenType.BROWSER) {
-    // Do not display many to many associations in browser
-    if (attr.mappingType === 'ASSOCIATION' && attr.cardinality === "MANY_TO_MANY") {
-      return false;
-    }
-
-    // Do not display one to many compositions in browser
-    if (attr.mappingType === 'COMPOSITION' && attr.cardinality === 'ONE_TO_MANY') {
-      return false;
-    }
-  }
-
-  // Do not display one to many associations
-  if (attr.mappingType === 'ASSOCIATION' && attr.cardinality === 'ONE_TO_MANY') {
+  // Do not display one to many associations in editor
+  if (attr.mappingType === 'ASSOCIATION' && attr.cardinality === 'ONE_TO_MANY' && screenType === ScreenType.EDITOR) {
     return false;
   }
 

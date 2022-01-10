@@ -78,6 +78,7 @@
   "jmix.nestedEntityField.addEntities": "Добавить сущности",
   "jmix.nestedEntityField.andXMore": " и ещё {quantity}",
   "jmix.nestedEntityField.delete.areYouSure": "Удалить вложенную сущность?",
+  "jmix.nestedEntityField.xEntities": "{quantity} записей...",
   "jmix.nestedEntitiesTableField.delete.areYouSure": "Удалить вложенную сущность?",
   "jmix.form.validation.childError": "Ошибка валидации во вложенной сущности",
   "cubaRest.error.serverNotResponded": "Сервер не отвечает",
