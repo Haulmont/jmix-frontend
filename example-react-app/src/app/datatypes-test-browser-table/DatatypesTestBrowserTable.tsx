@@ -109,12 +109,27 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
       _instanceName
     }
 
+    scr_AssociationO2MTestEntityList {
+      id
+      _instanceName
+    }
+
     scr_AssociationM2OTestEntityList {
       id
       _instanceName
     }
 
+    scr_AssociationM2MTestEntityList {
+      id
+      _instanceName
+    }
+
     scr_IntIdentityIdTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_IntegerIdTestEntityList {
       id
       _instanceName
     }
@@ -125,6 +140,11 @@ const SCR_DATATYPESTESTENTITY_LIST = gql`
     }
 
     scr_CompositionO2OTestEntityList {
+      id
+      _instanceName
+    }
+
+    scr_CompositionO2MTestEntityList {
       id
       _instanceName
     }
@@ -279,9 +299,13 @@ const DatatypesTestBrowserTable = observer(
           "offsetTimeAttr",
           "enumAttr",
           "associationO2Oattr",
+          "associationO2Mattr",
           "associationM2Oattr",
+          "associationM2Mattr",
           "compositionO2Oattr",
+          "compositionO2Mattr",
           "intIdentityIdTestEntityAssociationO2OAttr",
+          "integerIdTestEntityAssociationM2MAttr",
           "datatypesTestEntity3",
           "readOnlyStringAttr",
           "name"

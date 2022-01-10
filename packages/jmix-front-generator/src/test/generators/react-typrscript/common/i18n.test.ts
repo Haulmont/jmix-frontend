@@ -275,6 +275,7 @@ const EXPECTED_I18N_KEYS = [
   "jmix.imagePreview.download",
   "jmix.nestedEntityField.create",
   "jmix.nestedEntityField.delete.areYouSure",
+  "jmix.nestedEntityField.xEntities",
   "jmix.nestedEntitiesTableField.delete.areYouSure",
   "jmix.nestedEntityField.addEntities",
   "jmix.nestedEntityField.andXMore",
