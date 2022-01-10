@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.1.2...@haulmont/jmix-front-generator@1.2.0) (2022-01-10)
+
+
+### Bug Fixes
+
+* dataTable initial filters [#843](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/843) ([9eb2792](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/9eb2792bd3314034f6148600d57fd2cca1265954))
+
+
+### Features
+
+* "Clone" button in data table [#891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/891) ([4c56b4c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4c56b4c99e65fc1dad63818e6ae3e6abb5f753bb))
+* hide/show columns in table component [#868](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/868) ([3ed6f8f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/3ed6f8fee7a36dcd2e62e46b5e14c5ed63171603))
+
+
+
+
+
 # [1.1.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@1.0.2...@haulmont/jmix-front-generator@1.1.0) (2021-11-23)
 
 
