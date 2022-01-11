@@ -191,6 +191,7 @@
   "jmix.nestedEntityField.addEntities": "Add entities",
   "jmix.nestedEntityField.andXMore": " and {quantity} more",
   "jmix.nestedEntityField.delete.areYouSure": "Are you sure you want to delete the nested entity?",
+  "jmix.nestedEntityField.xEntities": "{quantity} entities...",
   "jmix.nestedEntitiesTableField.delete.areYouSure": "Are you sure you want to delete the nested entity?",
   "jmix.form.validation.childError": "Validation error in child entity",
   "jmix.richTextArea.headingOne": "Heading 1",

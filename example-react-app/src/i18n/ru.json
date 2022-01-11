@@ -145,6 +145,7 @@
   "jmix.nestedEntityField.addEntities": "Добавить сущности",
   "jmix.nestedEntityField.andXMore": " и ещё {quantity}",
   "jmix.nestedEntityField.delete.areYouSure": "Удалить вложенную сущность?",
+  "jmix.nestedEntityField.xEntities": "{quantity} записей...",
 
   "jmix.nestedEntitiesTableField.delete.areYouSure": "Удалить вложенную сущность?",
 

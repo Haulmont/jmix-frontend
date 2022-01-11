@@ -313,6 +313,7 @@ const EXPECTED_I18N_KEYS = [
   "jmix.nestedEntitiesTableField.delete.areYouSure",
   "jmix.nestedEntityField.addEntities",
   "jmix.nestedEntityField.andXMore",
+  "jmix.nestedEntityField.xEntities",
   "jmix.richTextArea.headingOne",
   "jmix.richTextArea.headingTwo",
   "jmix.richTextArea.headingThree",

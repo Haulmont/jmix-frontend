@@ -1,8 +1,9 @@
-import {Checkbox} from 'antd';
+import {Checkbox, Button, Popover} from 'antd';
 import React, {ReactNode} from 'react';
 import {SerializedEntityProps} from '@haulmont/jmix-rest';
 import { MainStoreInjected, MainStore, getEnumCaption, useMetadata, useMainStore, MetaPropertyInfo, PropertyType } from '@haulmont/jmix-react-core';
 import { toDisplayValue } from '@haulmont/jmix-react-web';
+import {FormattedMessage} from "react-intl";
 
 type DataTableCellProps<EntityType> = MainStoreInjected & {
   text: any,
@@ -30,9 +31,26 @@ export const DataTableCell = <EntityType extends unknown>(props: DataTableCellPr
     );
   }
 
-  if (attributeType === 'ASSOCIATION' && cardinality === 'MANY_TO_MANY') {
+  if (attributeType === 'ASSOCIATION' && (cardinality === 'MANY_TO_MANY' || cardinality === 'ONE_TO_MANY') ||
+    attributeType === 'COMPOSITION' && cardinality === 'ONE_TO_MANY') {
     const associatedEntities = props.record?.[name as keyof EntityType] as unknown as SerializedEntityProps[];
+    const quantity = associatedEntities.length;
+    const content = <>
+      {associatedEntities.map((entity, idx) => <div key = {idx}>
+        {entity._instanceName}
+      </div>)}
+    </>
+
+    if (quantity > 2) {
+      return <Popover content={content}>
+        <Button type="link" style = {{ margin: 0 }}>
+          <FormattedMessage id="jmix.nestedEntityField.xEntities" values={{ quantity }}/>
+        </Button>
+      </Popover>
+    }
+
     const displayValue = associatedEntities?.map(entity => entity._instanceName).join(', ');
+
     return (
       <div>{displayValue}</div>
     );
