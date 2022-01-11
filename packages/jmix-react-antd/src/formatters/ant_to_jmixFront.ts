@@ -59,6 +59,10 @@ export function ant_to_jmixFront(
         result[attributeName] = {id: value};
         return;
       }
+      if (typeof value === 'object') {
+        result[attributeName] = value;
+        return;
+      }
       throw new Error(`Unexpected value type for to-one association property ${propInfo.name}. Expected string or null/undefined`);
     }
 
