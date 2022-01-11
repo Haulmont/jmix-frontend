@@ -47,6 +47,11 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
         name
       }
     }
+
+    scr_DeeplyNestedO2MTestEntityList {
+      id
+      _instanceName
+    }
   }
 `;
 
@@ -237,7 +242,7 @@ const CompositionO2MBrowserTable = observer(
         error={error}
         enableFiltersOnColumns={entityList != null ? [] : undefined}
         enableSortingOnColumns={entityList != null ? [] : undefined}
-        columnDefinitions={["name", "quantity"]}
+        columnDefinitions={["name", "quantity", "deeplyNestedO2Mattr"]}
         onRowSelectionChange={handleSelectionChange}
         onFilterChange={handleFilterChange}
         onSortOrderChange={handleSortOrderChange}
