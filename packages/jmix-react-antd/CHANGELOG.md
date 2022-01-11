@@ -3,6 +3,34 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.18...@haulmont/jmix-react-antd@3.0.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* clear filters error [#905](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/905) ([746dc53](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/746dc530a2f9b4f0143a05b707e64e009bdf1b69))
+* dataTable initial filters [#843](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/843) ([f3d502e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f3d502e5de441fdc0546dff468ec7fd54a702d4d))
+* dataTable initial sort order [#862](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/862) ([efa2d32](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/efa2d3209198befde5cc387dc46f8976931eadf4))
+* export form fields [#909](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/909) ([ae31c8d](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/ae31c8dee456f74c74a2435f2239fb40cb8cbbc9))
+* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([5eb3cd5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/5eb3cd534b50c3d92c10a0ea7cee9ddcd0ab6b98))
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([309d008](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/309d0084e2d894773aaa06a224b4b284e26aa87e))
+* allow access to nested properties in data table [#863](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/863) ([34dca59](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/34dca59e4ff6eff132806796325e215c2f4c06f8))
+* hide/show columns in table component [#868](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/868) ([f255e29](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f255e29f8e3b426b748b7c6c1371c97a47d62998))
+
+
+### Reverts
+
+* bump versions (prerelease) ([f62d3a5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f62d3a5e3b1f07a68db69257bdcd715723512f35))
+
+
+
+
+
+
 # [2.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.21...@haulmont/jmix-react-antd@2.0.0-next.22) (2021-12-22)
 
 

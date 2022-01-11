@@ -3,6 +3,26 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.13...@haulmont/jmix-react-core@3.0.0) (2022-01-11)
+
+
+### Features
+
+* "Clone" button in data table [#891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/891) ([18cb037](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/18cb0377f6dd3b09c1f1983445520b03576a465b))
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/859) ([309d008](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/309d0084e2d894773aaa06a224b4b284e26aa87e))
+* allow access to nested properties in data table [#863](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/863) ([34dca59](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/34dca59e4ff6eff132806796325e215c2f4c06f8))
+* hide/show columns in table component [#868](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/868) ([f255e29](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f255e29f8e3b426b748b7c6c1371c97a47d62998))
+
+
+### Reverts
+
+* bump versions (prerelease) ([f62d3a5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f62d3a5e3b1f07a68db69257bdcd715723512f35))
+
+
+
+
+
+
 # [2.0.0-next.15](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@2.0.0-next.14...@haulmont/jmix-react-core@2.0.0-next.15) (2021-12-22)
 
 

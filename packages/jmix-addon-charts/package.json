@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-addon-charts",
-  "version": "0.1.0-next.5",
+  "version": "3.0.0",
   "description": "charts jmix addon",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",

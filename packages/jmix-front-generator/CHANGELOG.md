@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.18...@haulmont/jmix-front-generator@3.0.0) (2022-01-11)
+
+
+### Bug Fixes
+
+* dataTable initial filters [#843](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/843) ([f3d502e](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f3d502e5de441fdc0546dff468ec7fd54a702d4d))
+* fixed studio not connected error message [#804](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/804) ([8a674d2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8a674d2a80c28cfd834025b3a7cfe0daca05de40))
+* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/859) ([5eb3cd5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/5eb3cd534b50c3d92c10a0ea7cee9ddcd0ab6b98))
+
+
+### Features
+
+* "Clone" button in data table [#891](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/891) ([18cb037](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/18cb0377f6dd3b09c1f1983445520b03576a465b))
+* hide/show columns in table component [#868](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/868) ([f255e29](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f255e29f8e3b426b748b7c6c1371c97a47d62998))
+
+
+### Reverts
+
+* bump versions (prerelease) ([f62d3a5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f62d3a5e3b1f07a68db69257bdcd715723512f35))
+
+
+
+
+
 # [2.0.0-next.20](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.19...@haulmont/jmix-front-generator@2.0.0-next.20) (2021-12-22)
 
 

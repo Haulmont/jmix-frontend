@@ -1,5 +1,5 @@
 import {ColumnProps, TablePaginationConfig} from 'antd/es/table';
-import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction} from 'antd/es/table/interface';
+import {SorterResult, ColumnFilterItem, FilterDropdownProps, TableAction, SortOrder} from 'antd/es/table/interface';
 import React, { ReactText } from 'react';
 import {DataTableCell} from './DataTableCell';
 import {
@@ -9,6 +9,7 @@ import { toJS } from 'mobx';
 import {
   MainStore,
   getPropertyInfoNN,
+  getPropertyInfoRecursiveNN,
   getPropertyCaption,
   isPropertyTypeSupported,
   HasId,
@@ -62,6 +63,7 @@ export interface DataColumnConfig {
    * Whether to enable sorting on this column
    */
   enableSorter: boolean;
+  defaultSortOrder: SortOrder;
   mainStore: MainStore;
   /**
    * See {@link DataTableCustomFilterProps.customFilterRef}
@@ -178,26 +180,28 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     enableSorter,
     mainStore,
     customFilterRef,
-    relationOptions
+    relationOptions,
+    defaultSortOrder
   } = config;
 
   let dataIndex: string | string[];
 
   const metadata = getMetadata();
 
-  const propertyInfo = getPropertyInfoNN(propertyName as string, entityName, metadata.entities);
+  const {entityName: fixedEntityName, propertyName: fixedPropertyName, propertyInfo} = getPropertyInfoRecursiveNN(metadata.entities, entityName, propertyName as string);
 
+  const path = propertyName.split('.')
 
   switch(propertyInfo.attributeType) {
     case 'COMPOSITION':
     case 'ASSOCIATION':
-      dataIndex = [propertyName, '_instanceName'];
+      dataIndex = [...path, '_instanceName'];
       break;
     default:
-      dataIndex = propertyName as string;
+      dataIndex = path
   }
 
-  const localizedPropertyCaption = getPropertyCaption(propertyName as string, entityName, mainStore!.messages!);
+  const localizedPropertyCaption = getPropertyCaption(fixedPropertyName, fixedEntityName, mainStore!.messages!);
 
   let defaultColumnProps: ColumnProps<EntityType> = {
     title: (
@@ -209,7 +213,8 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
     dataIndex,
     sorter: enableSorter,
     key: propertyName as string,
-    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record})
+    render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record}),
+    defaultSortOrder
   };
 
   if (enableFilter && isPropertyTypeSupported(propertyInfo)) {
@@ -250,6 +255,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
   return defaultColumnProps;
 }
 
+
 /**
  * Generates a standard antd table column filter for enum fields.
  *
@@ -269,6 +275,10 @@ export function generateEnumFilter(propertyInfo: MetaPropertyInfo, metadata: Met
       value: enumValueInfo.name
     };
   });
+}
+
+export function isProjection(propertyName: string): boolean {
+  return propertyName.indexOf('.') !== -1
 }
 
 // todo - after extraction DataColumn class move this method to DataColumn and inline
@@ -395,25 +405,35 @@ function addFilter(
  * @param defaultSort
  */
 // todo could we make defaultSort of type defined as properties keys of 'E' ?
-export function setSorter<E>(sorter: SorterResult<E> | Array<SorterResult<E>>, onSortOrderChange: SortOrderChangeCallback, defaultSort?: JmixSortOrder) {
+export function setSorter<E>(
+  sorter: SorterResult<E> | Array<SorterResult<E>>,
+  onSortOrderChange: SortOrderChangeCallback,
+  entityName: string,
+  metadata: Metadata,
+  defaultSort?: JmixSortOrder
+) {
   if (sorter != null && !Array.isArray(sorter) && sorter.order != null) {
     const sortDirection: 'ASC' | 'DESC' = (sorter.order === 'descend') ? 'DESC' : 'ASC';
 
-    if (typeof sorter.field === 'string') {
-      const sortField = String(sorter.field);
-      onSortOrderChange({[sortField]: sortDirection});
-      return;
+    if (!Array.isArray(sorter.field)) {
+      throw new Error('sorter.field is expected to be an array');
     }
 
-    // For Association field sorter.field will be ['garage', '_instanceName']
-    if (Array.isArray(sorter.field)) {
-      const sortField = sorter.field[0];
-      onSortOrderChange({
-        [sortField]: {
-          id: sortDirection // TODO disable sorting by relation fields
-        }
-      });
-      return;
+    const propertyName = sorter.field[0]
+    const propertyInfo = getPropertyInfoNN(propertyName, entityName, metadata.entities);
+
+    switch (propertyInfo.attributeType) {
+      case 'COMPOSITION':
+      case 'ASSOCIATION':
+        onSortOrderChange({
+          [propertyName]: {
+            id: sortDirection // TODO disable sorting by relation fields
+          }
+        });
+        return;
+      default:
+        onSortOrderChange({[propertyName]: sortDirection});
+        return;
     }
   }
 
@@ -485,13 +505,21 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
       setFilters(tableFilters, onFilterChange, entityName, fields, metadata, apiFilters);
       break;
     case 'sort':
-      setSorter(sorter, onSortOrderChange, defaultSortOrder);
+      setSorter(sorter, onSortOrderChange, entityName, metadata, defaultSortOrder);
       break;
     case 'paginate':
       onPaginationChange(pagination.current, pagination.pageSize);
       break;
     default:
       assertNever('table action', tableAction);
+  }
+}
+
+export function graphqlToTableSortOrder(propertyName: string, sortOrder?: JmixSortOrder): SortOrder {
+  switch(sortOrder?.[propertyName]) {
+    case 'ASC': return 'ascend';
+    case 'DESC': return 'descend';
+    default: return null;
   }
 }
 

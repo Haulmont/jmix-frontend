@@ -99,6 +99,7 @@ const CarTable = observer((props: EntityListProps<Car>) => {
     handlePaginationChange,
     handleDeleteBtnClick,
     handleCreateBtnClick,
+    handleCloneBtnClick,
     handleEditBtnClick,
     goToParentScreen,
     entityListState
@@ -110,7 +111,8 @@ const CarTable = observer((props: EntityListProps<Car>) => {
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   const selectEntityHandler = useCallback(() => {
@@ -186,6 +188,21 @@ const CarTable = observer((props: EntityListProps<Car>) => {
       </EntityPermAccessControl>,
       <EntityPermAccessControl
         entityName={ENTITY_NAME}
+        operation="create"
+        key="create"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={entityListState.selectedEntityId == null}
+          type="default"
+          onClick={handleCloneBtnClick}
+        >
+          <FormattedMessage id="common.clone" />
+        </Button>
+      </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
         operation="update"
         key="update"
       >
@@ -236,6 +253,7 @@ const CarTable = observer((props: EntityListProps<Car>) => {
 
   return (
     <DataTable
+      tableId={ROUTING_PATH + ENTITY_NAME}
       items={items}
       count={count}
       relationOptions={relationOptions}
@@ -267,6 +285,7 @@ const CarTable = observer((props: EntityListProps<Car>) => {
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

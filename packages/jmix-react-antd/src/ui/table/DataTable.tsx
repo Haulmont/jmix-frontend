@@ -20,7 +20,9 @@ import {
   graphqlFilterToTableFilters,
   generateDataColumn,
   handleTableChange,
-  getPreservedConditions
+  getPreservedConditions,
+  graphqlToTableSortOrder,
+  isProjection
 } from './DataTableHelpers';
 import {EntityAttrPermissionValue} from "@haulmont/jmix-rest";
 import {
@@ -44,15 +46,17 @@ import {
   ComparisonType,
   FilterChangeCallback,
   JmixEntityFilter,
-  PropertyType
+  PropertyType,
+  GraphQLQueryFn
 } from '@haulmont/jmix-react-core';
 import { FormInstance } from 'antd/es/form';
 import {ApolloError} from "@apollo/client";
+import {DataTableSettings, getInitFieldVisibility, saveFieldsVisibility} from './DataTableSettings';
 
 /**
  * @typeparam TEntity - entity type.
  */
-export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
+export interface DataTableProps<TEntity, TQueryVars> extends MainStoreInjected, MetadataInjected, WrappedComponentProps {
 
   items?: TEntity[];
   count?: number;
@@ -70,6 +74,7 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
   defaultSortOrder?: JmixSortOrder;
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
+  executeListQuery?: GraphQLQueryFn<TQueryVars>;
   entityName: string;
 
   /**
@@ -131,6 +136,18 @@ export interface DataTableProps<TEntity> extends MainStoreInjected, MetadataInje
    * or a {@link ColumnDefinition} object (which allows creating a custom column).
    */
   columnDefinitions: Array<string | ColumnDefinition<TEntity>>
+  /**
+   * Allows user to configure displayed columns
+   */
+  enableFieldSettings?: boolean;
+  /**
+   * Columns visible by default, if `enableFieldSettings` is set to `true`
+  */
+  defaultVisibleColumns?: string[];
+  /**
+   * Unique table id
+  */
+  tableId?: string;
 }
 
 export interface ColumnDefinition<TEntity> {
@@ -154,11 +171,13 @@ export interface ColumnDefinition<TEntity> {
 }
 
 class DataTableComponent<
-  TEntity extends object = object
-> extends React.Component<DataTableProps<TEntity>, any> {
+  TEntity extends object = object,
+  TQueryVars extends object = object
+> extends React.Component<DataTableProps<TEntity, TQueryVars>, any> {
 
   selectedRowKeys: string[] = [];
   tableFilters: Record<string, any> = {};
+  fieldsVisibility: Map<string, boolean> = new Map();
   operatorsByProperty: Map<string, ComparisonType> = new Map();
   valuesByProperty: Map<string, CustomFilterInputValue> = new Map();
 
@@ -167,13 +186,30 @@ class DataTableComponent<
 
   customFilterForms: Map<string, FormInstance> = new Map<string, FormInstance>();
 
-  constructor(props: DataTableProps<TEntity>) {
+  constructor(props: DataTableProps<TEntity, TQueryVars>) {
     super(props);
 
-    const {initialFilter} = props;
+    const {
+      initialFilter, defaultSortOrder, onFilterChange, onSortOrderChange, executeListQuery,
+      enableFieldSettings, tableId, defaultVisibleColumns, columnDefinitions, mainStore
+    } = props;
 
-    if (initialFilter) {
+    if (initialFilter != null) {
       this.tableFilters = graphqlFilterToTableFilters(initialFilter, this.fields);
+      onFilterChange(initialFilter);
+    }
+
+    if (defaultSortOrder != null) {
+      onSortOrderChange(defaultSortOrder);
+    }
+
+    if (enableFieldSettings && tableId != null) {
+      this.fieldsVisibility = getInitFieldVisibility(
+        mainStore?.appName as string,
+        columnDefinitions.map(columnDefToPropertyName),
+        tableId,
+        defaultVisibleColumns
+      )
     }
 
     makeObservable(this, {
@@ -191,9 +227,14 @@ class DataTableComponent<
       onRow: action,
       clearFilters: action,
       clearFiltersButton: computed,
-      generateColumnProps: computed
+      generateColumnProps: computed,
+      fieldsVisibility: observable,
+      changeFieldVisibility: action
     });
 
+    if (executeListQuery != null) {
+      executeListQuery();
+    }
   }
 
   static defaultProps = {
@@ -417,6 +458,37 @@ class DataTableComponent<
     }
   };
 
+  renderBodyOnlyVisible = (props: any) => {
+    if (!Array.isArray(props.children)) {
+      return props.children;
+    }
+
+    return <tr className={props.className}>
+      {props.children.filter((col: any) => this.fieldsVisibility.get(col.key as string))}
+    </tr>
+  }
+  renderHeaderOnlyVisible = (props: any) => {
+    if (!Array.isArray(props.children)) {
+      return props.children;
+    }
+
+    return (
+      <tr>
+        {props.children.filter((col: any) => this.fieldsVisibility.get(col.key as string))}
+      </tr>
+    );
+  }
+
+  changeFieldVisibility = (key: string, value: boolean) => {
+    const newFieldsVisibility = new Map(this.fieldsVisibility);
+    newFieldsVisibility?.set(key, value);
+    this.fieldsVisibility = newFieldsVisibility;
+
+    if (this.props.tableId) {
+      saveFieldsVisibility(this.props.mainStore?.appName as string, this.fieldsVisibility, this.props.tableId);
+    }
+  }
+
   clearFilters = (): void => {
     const {entityName, initialFilter, onFilterChange} = this.props;
 
@@ -424,7 +496,7 @@ class DataTableComponent<
     this.operatorsByProperty.clear();
     this.valuesByProperty.clear();
 
-    this.fields.forEach((field: string) => {
+    this.fields.filter((field) => this.isFilterForColumnEnabled(field)).forEach((field: string) => {
       const propertyInfo = getPropertyInfoNN(field, entityName, this.props.metadata.entities);
       if ((propertyInfo.type as PropertyType) === 'Boolean') {
         this.valuesByProperty.set(field, 'true');
@@ -500,6 +572,20 @@ class DataTableComponent<
       }
     }
 
+    if (this.props.enableFieldSettings) {
+      defaultTableProps = {
+        ...defaultTableProps,
+        components: {
+          header: {
+            row: this.renderHeaderOnlyVisible
+          },
+          body: {
+            row: this.renderBodyOnlyVisible
+          },
+        }
+      };
+    }
+
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
 
     return (
@@ -507,6 +593,11 @@ class DataTableComponent<
         <div className={styles.buttons}>
           {this.props.buttons}
           {this.props.hideClearFilters ? null : this.clearFiltersButton}
+          {!!this.props.enableFieldSettings && <DataTableSettings
+            columns = {defaultTableProps.columns}
+            fieldsVisibility={this.fieldsVisibility}
+            onChange={this.changeFieldVisibility}
+          />}
         </div>
         <Table { ...tableProps } />
       </div>
@@ -534,14 +625,14 @@ class DataTableComponent<
   }
 
   get generateColumnProps(): Array<ColumnProps<TEntity>> {
-    const {columnDefinitions, mainStore, entityName} = this.props;
+    const {columnDefinitions, mainStore, entityName, metadata} = this.props;
 
     return (columnDefinitions ?? this.fields)
       .filter((columnDef: string | ColumnDefinition<TEntity>) => {
         const {getAttributePermission} = mainStore!.security;
         const propertyName = columnDefToPropertyName(columnDef);
         if (propertyName != null) {
-          const perm: EntityAttrPermissionValue = getAttributePermission(entityName, propertyName);
+          const perm: EntityAttrPermissionValue = getAttributePermission(entityName, propertyName, metadata.entities);
           return perm === 'MODIFY' || perm === 'VIEW';
         }
         return true; // Column not bound to an entity attribute
@@ -563,6 +654,7 @@ class DataTableComponent<
             value: this.valuesByProperty.get(propertyName),
             onValueChange: this.handleFilterValueChange,
             enableSorter: this.isSortingForColumnEnabled(propertyName),
+            defaultSortOrder: graphqlToTableSortOrder(propertyName, this.props.defaultSortOrder),
             mainStore: mainStore!,
             customFilterRef: (instance: FormInstance) => this.customFilterForms.set(propertyName, instance),
             relationOptions: this.getRelationOptions(propertyName)
@@ -586,12 +678,20 @@ class DataTableComponent<
   }
 
   isFilterForColumnEnabled(propertyName: string): boolean {
+    if (isProjection(propertyName)) {
+      return false
+    }
+
     return this.props.enableFiltersOnColumns
       ? this.props.enableFiltersOnColumns.indexOf(propertyName) > -1
       : true;
   }
 
   isSortingForColumnEnabled(propertyName: string): boolean {
+    if (isProjection(propertyName)) {
+      return false
+    }
+
     const {enableSortingOnColumns, metadata, entityName} = this.props;
 
     const propertyInfo = getPropertyInfo(metadata.entities, entityName, propertyName);

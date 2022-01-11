@@ -52,6 +52,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     handlePaginationChange,
     handleDeleteBtnClick,
     handleCreateBtnClick,
+    handleCloneBtnClick,
     handleEditBtnClick,
     goToParentScreen,
     entityListState,
@@ -63,7 +64,8 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
     onEntityListChange,
     onPagination: saveHistory,
     onEntityDelete,
-    onOpenScreenError
+    onOpenScreenError,
+    lazyLoading: true
   });
 
   const selectEntityHandler = useCallback(() => {
@@ -126,6 +128,21 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
           </span>
         </Button>
       </EntityPermAccessControl>,
+      <EntityPermAccessControl
+        entityName={ENTITY_NAME}
+        operation="create"
+        key="create"
+      >
+        <Button
+          htmlType="button"
+          style={{ margin: "0 12px 12px 0" }}
+          disabled={entityListState.selectedEntityId == null}
+          type="default"
+          onClick={handleCloneBtnClick}
+        >
+          <FormattedMessage id="common.clone" />
+        </Button>
+      </EntityPermAccessControl>,
       <EntityPermAccessControl entityName={ENTITY_NAME} operation='update' key='update'>
         <Button
           htmlType="button"
@@ -172,6 +189,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
 
   return (
     <DataTable
+      tableId={ROUTING_PATH + ENTITY_NAME}
       items={items}
       count={count}
       relationOptions={relationOptions}
@@ -189,6 +207,7 @@ const <%= className %> = observer((props: EntityListProps<<%= entity.className %
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
       buttons={buttons}
+      executeListQuery={entityList == null ? executeListQuery : undefined}
     />
   );
 });

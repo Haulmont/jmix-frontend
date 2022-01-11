@@ -68,7 +68,8 @@ const CarTableWithFilters = observer(() => {
   } = useEntityList<Car>({
     listQuery: SCR_CAR_LIST,
     entityName: ENTITY_NAME,
-    routingPath: ROUTING_PATH
+    routingPath: ROUTING_PATH,
+    lazyLoading: true
   });
 
   if (error != null) {
@@ -78,6 +79,7 @@ const CarTableWithFilters = observer(() => {
 
   return (
     <DataTable
+      tableId={ROUTING_PATH + ENTITY_NAME}
       items={items}
       count={count}
       relationOptions={relationOptions}
@@ -108,6 +110,7 @@ const CarTableWithFilters = observer(() => {
       onSortOrderChange={handleSortOrderChange}
       onPaginationChange={handlePaginationChange}
       hideSelectionColumn={true}
+      executeListQuery={executeListQuery}
     />
   );
 });

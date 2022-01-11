@@ -88,6 +88,7 @@ const FormWizardBrowserTable = observer(
       handlePaginationChange,
       handleDeleteBtnClick,
       handleCreateBtnClick,
+      handleCloneBtnClick,
       handleEditBtnClick,
       goToParentScreen,
       entityListState
@@ -99,7 +100,8 @@ const FormWizardBrowserTable = observer(
       onEntityListChange,
       onPagination: saveHistory,
       onEntityDelete,
-      onOpenScreenError
+      onOpenScreenError,
+      lazyLoading: true
     });
 
     const selectEntityHandler = useCallback(() => {
@@ -175,6 +177,21 @@ const FormWizardBrowserTable = observer(
         </EntityPermAccessControl>,
         <EntityPermAccessControl
           entityName={ENTITY_NAME}
+          operation="create"
+          key="create"
+        >
+          <Button
+            htmlType="button"
+            style={{ margin: "0 12px 12px 0" }}
+            disabled={entityListState.selectedEntityId == null}
+            type="default"
+            onClick={handleCloneBtnClick}
+          >
+            <FormattedMessage id="common.clone" />
+          </Button>
+        </EntityPermAccessControl>,
+        <EntityPermAccessControl
+          entityName={ENTITY_NAME}
           operation="update"
           key="update"
         >
@@ -225,6 +242,7 @@ const FormWizardBrowserTable = observer(
 
     return (
       <DataTable
+        tableId={ROUTING_PATH + ENTITY_NAME}
         items={items}
         count={count}
         relationOptions={relationOptions}
@@ -249,6 +267,7 @@ const FormWizardBrowserTable = observer(
         onPaginationChange={handlePaginationChange}
         hideSelectionColumn={true}
         buttons={buttons}
+        executeListQuery={entityList == null ? executeListQuery : undefined}
       />
     );
   }

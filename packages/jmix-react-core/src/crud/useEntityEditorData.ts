@@ -29,6 +29,10 @@ export interface EntityEditorDataHookOptions<TEntity, TData, TQueryVars> {
    * Name of the entity being edited.
    */
   entityName: string;
+  /**
+   * Indicates that id needs to be omitted
+   */
+  cloneEntity?: boolean;
 }
 
 export interface EntityEditorDataHookResult<TEntity, TData, TQueryVars> {
@@ -67,7 +71,8 @@ export function useEntityEditorData<
   loadQueryOptions,
   entityInstance,
   entityId,
-  entityName
+  entityName,
+  cloneEntity
 }: EntityEditorDataHookOptions<TEntity, TData, TQueryVars>): EntityEditorDataHookResult<TEntity, TData, TQueryVars> {
 
   const queryName = `${dollarsToUnderscores(entityName)}ById`;
@@ -92,9 +97,16 @@ export function useEntityEditorData<
   }, [loadItem, hasAssociations]);
 
   const {data} = loadQueryResult;
-  const item = entityInstance != null
+  let item = entityInstance != null
     ? entityInstance
     : data?.[queryName];
+
+  if (cloneEntity && item != null) {
+    item = {
+      ...item,
+      id: undefined
+    }
+  }
 
   const relationOptions = getRelationOptions<TData>(entityName, loadQueryResult.data, true);
 

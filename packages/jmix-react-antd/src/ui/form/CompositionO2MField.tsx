@@ -80,7 +80,7 @@ const BtnTitle = ({value}: BtnTitleProps) => {
   );
 };
 
-export function constructTitle(entityList: EntityInstance[], intl: IntlShape): string {
+function constructTitle(entityList: EntityInstance[], intl: IntlShape): string {
   let title = '';
 
   if (entityList.length > 0) {

@@ -145,6 +145,10 @@ export interface EntityListHookResult<TEntity, TData, TQueryVars, TMutationVars>
    */
   handleCreateBtnClick: () => void;
   /**
+   * A callback that will be executed when user clicks the Clone button.
+   */
+  handleCloneBtnClick: () => void;
+  /**
    * A callback that will be executed when user clicks the Edit button.
    */
   handleEditBtnClick: (event?: React.MouseEvent, entityId?: string) => void;
@@ -285,6 +289,14 @@ export function useEntityList<
     handleEntityListChange, 
     onOpenScreenError
   );
+  const handleCloneBtnClick = useCreateBtnCallback(
+    screens, 
+    entityName, 
+    entityListState.entityList, 
+    handleEntityListChange, 
+    onOpenScreenError,
+    entityListState.selectedEntityId
+  );
   const handleEditBtnClick = useEditBtnCallback(
     screens, 
     entityName, 
@@ -336,6 +348,7 @@ export function useEntityList<
     handleSelectionChange,
     handleFilterChange,
     handleSortOrderChange,
+    handleCloneBtnClick,
     entityListState,
     goToParentScreen
   };
