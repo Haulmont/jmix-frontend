@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@1.1.0-next.19...@haulmont/jmix-addon-data-tools@3.0.0) (2022-01-11)
+
+
+### Reverts
+
+* bump versions (prerelease) ([f62d3a5](https://github.com/Haulmont/jmix-frontend/commit/f62d3a5e3b1f07a68db69257bdcd715723512f35))
+
+
+
+
+
 # [1.1.0-next.21](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@1.1.0-next.20...@haulmont/jmix-addon-data-tools@1.1.0-next.21) (2021-12-17)
 
 **Note:** Version bump only for package @haulmont/jmix-addon-data-tools
