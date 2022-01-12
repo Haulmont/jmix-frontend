@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@3.0.0...@haulmont/jmix-react-web@3.1.0-next.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+* useScreenHotkey hook doesnt break without screen-api ([8aa214f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/8aa214fbcd6c2593390ba764b978c3cdf6d18201))
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/859) ([396c33a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/396c33aeaf74812db1138ef971a557b1020e0aa9))
+
+
+
+
+
 # [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.15...@haulmont/jmix-react-web@3.0.0) (2022-01-11)
 
 

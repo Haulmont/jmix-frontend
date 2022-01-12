@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.0.0...@haulmont/jmix-front-generator@3.0.1-next.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+* addon i18n doesn't work when using components from addon [#110](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/110) ([8275861](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8275861547566a27b1c12c0220e6c8912930ff8f))
+* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/859) ([4d43803](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/4d438033046301e87fc8234fb3ab6467fc90c0d8))
+
+
+
+
+
 # [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@2.0.0-next.18...@haulmont/jmix-front-generator@3.0.0) (2022-01-11)
 
 

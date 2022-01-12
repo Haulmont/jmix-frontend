@@ -1,6 +1,6 @@
 {
   "name": "eslint-config-jmix-react",
-  "version": "3.0.0",
+  "version": "3.0.1-next.0",
   "description": "Eslint config for jmix react packages",
   "main": "index.js",
   "private": true,

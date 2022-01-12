@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0-next.0](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-charts@3.0.0...@haulmont/jmix-addon-charts@3.1.0-next.0) (2022-01-12)
+
+
+### Features
+
+* add components to palette in charts addon [#876](https://github.com/Haulmont/jmix-frontend/issues/876) ([614b4ec](https://github.com/Haulmont/jmix-frontend/commit/614b4ecce7c7b7130e8c7045144de79e93bfbaf1))
+
+
+
+
+
 # [3.0.0](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-charts@0.1.0-next.4...@haulmont/jmix-addon-charts@3.0.0) (2022-01-11)
 
 **Note:** Version bump only for package @haulmont/jmix-addon-charts

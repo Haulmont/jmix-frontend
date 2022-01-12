@@ -3,6 +3,24 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.0.0...@haulmont/jmix-react-antd@3.1.0-next.0) (2022-01-12)
+
+
+### Bug Fixes
+
+* add client side validation to FormWizard ([f3fede9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f3fede9d5d8fb38b3b78e208aa1b93077f7ac1fd))
+* intl instance is undefined before react app renders [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([4d43803](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/4d438033046301e87fc8234fb3ab6467fc90c0d8))
+* o2m composition with association field [#911](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/911) ([c620aba](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/c620aba01d53e20baa274507700e83ffefef875d))
+
+
+### Features
+
+* add ability to use intl API outside of React components [#859](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/859) ([396c33a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/396c33aeaf74812db1138ef971a557b1020e0aa9))
+
+
+
+
+
 # [3.0.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.18...@haulmont/jmix-react-antd@3.0.0) (2022-01-11)
 
 
