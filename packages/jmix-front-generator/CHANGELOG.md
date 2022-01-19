@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1-next.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.0.1-next.1...@haulmont/jmix-front-generator@3.0.1-next.2) (2022-01-19)
+
+
+### Bug Fixes
+
+* ability to display n to many related field values in DataTable [#883](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/issues/883) ([397a0ce](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/397a0cea7cede8bfeab0e7cf15ec7b2c208be0a5))
+
+
+
+
+
 ## [3.0.1-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.0.1-next.0...@haulmont/jmix-front-generator@3.0.1-next.1) (2022-01-12)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator

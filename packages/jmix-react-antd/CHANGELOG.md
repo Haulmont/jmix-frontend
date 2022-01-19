@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.1.0-next.0...@haulmont/jmix-react-antd@3.1.0-next.1) (2022-01-19)
+
+
+### Bug Fixes
+
+* ability to display n to many related field values in DataTable [#883](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/883) ([397a0ce](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/397a0cea7cede8bfeab0e7cf15ec7b2c208be0a5))
+
+
+
+
+
 # [3.1.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.0.0...@haulmont/jmix-react-antd@3.1.0-next.0) (2022-01-12)
 
 
