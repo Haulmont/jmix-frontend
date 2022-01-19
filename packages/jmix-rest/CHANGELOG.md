@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@3.1.0-next.0...@haulmont/jmix-rest@3.2.0-next.0) (2022-01-19)
+
+**Note:** Version bump only for package @haulmont/jmix-rest
+
+
+
+
+
 # [3.1.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-rest/compare/@haulmont/jmix-rest@3.0.0...@haulmont/jmix-rest@3.1.0-next.0) (2022-01-12)
 
 
