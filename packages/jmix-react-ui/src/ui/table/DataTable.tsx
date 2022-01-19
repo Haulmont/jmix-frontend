@@ -463,11 +463,13 @@ class DataTableComponent<
   };
 
   renderBodyOnlyVisible = (props: any) => {
-    if (!Array.isArray(props.children)) {
-      return props.children;
+    const { children, ...rowProps } = props;
+
+    if (!Array.isArray(children)) {
+      return children;
     }
 
-    return <tr className={props.className}>
+    return <tr {...rowProps}>
       {props.children.filter((col: any) => this.fieldsVisibility.get(col.key as string))}
     </tr>
   }
