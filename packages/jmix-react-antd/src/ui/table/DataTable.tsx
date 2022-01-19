@@ -592,12 +592,12 @@ class DataTableComponent<
       <div className={styles.dataTable}>
         <div className={styles.buttons}>
           {this.props.buttons}
-          {this.props.hideClearFilters ? null : this.clearFiltersButton}
           {!!this.props.enableFieldSettings && <DataTableSettings
             columns = {defaultTableProps.columns}
             fieldsVisibility={this.fieldsVisibility}
             onChange={this.changeFieldVisibility}
           />}
+          {this.props.hideClearFilters ? null : this.clearFiltersButton}
         </div>
         <Table { ...tableProps } />
       </div>
