@@ -589,12 +589,12 @@ class DataTableComponent<
       <div className='cuba-data-table'>
         <div className='buttons'>
           {this.props.buttons}
-          {this.props.hideClearFilters ? null : this.clearFiltersButton}
           {!!this.props.enableFieldSettings && <DataTableSettings
             columns = {defaultTableProps.columns}
             fieldsVisibility={this.fieldsVisibility}
             onChange={this.changeFieldVisibility}
           />}
+          {this.props.hideClearFilters ? null : this.clearFiltersButton}
         </div>
         <Table { ...tableProps } className={this.props.hideSelectionColumn ? '_cuba-hide-selection-column' : ''} />
       </div>
