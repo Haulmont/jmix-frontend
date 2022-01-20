@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.0...@haulmont/jmix-react-antd@3.2.0-next.1) (2022-01-20)
+
+
+### Bug Fixes
+
+* enabling field settings in DataTable breaks row selection [#919](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/919) ([f511508](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f51150854ef8b26c90c074963ddaa373abf41bce))
+* settings button position [#921](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/921) ([4467a3b](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/4467a3b9e62ce584c36eb97ee9ce75bb70298d30))
+
+
+
+
+
 # [3.2.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.1.0-next.1...@haulmont/jmix-react-antd@3.2.0-next.0) (2022-01-19)
 
 **Note:** Version bump only for package @haulmont/jmix-react-antd
