@@ -32,7 +32,7 @@
     "browserify": "^16.2.3",
     "eslint": "^7.32.0",
     "jest": "^26.0.0",
-    "node-fetch": "^2.6.2",
+    "node-fetch": "^3.1.1",
     "source-map-support": "^0.5.16",
     "ts-node": "^8.6.2",
     "typedoc": "^0.22.10",
