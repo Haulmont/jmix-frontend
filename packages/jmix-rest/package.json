@@ -16,7 +16,7 @@
     "compile": "npm run clean && tsc",
     "types:browser": "tsc --declarationDir dist-browser --emitDeclarationOnly true",
     "dist": "npm run compile && mkdirp dist-browser && browserify --standalone jmix dist-node/jmix.js > dist-browser/jmix.js",
-    "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-rest src",
+    "generate-docs": "typedoc --out ../../docs-src/api-reference/jmix-rest src/jmix.ts",
     "prepublishOnly": "npm run dist",
     "lint": "eslint src/"
   },
