@@ -9,7 +9,7 @@ export function getDisplayedItems(
   /**
    * TODO Not implemented yet
    */
-  _sortOrder?: JmixSortOrder,
+  _sortOrder?: JmixSortOrder[],
   /**
    * TODO Not implemented yet
    */

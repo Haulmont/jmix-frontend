@@ -211,7 +211,7 @@ export function generateDataColumn<EntityType>(config: DataColumnConfig): Column
         </div>
       ),
     dataIndex,
-    sorter: enableSorter,
+    sorter: enableSorter && { multiple: 1 },
     key: propertyName as string,
     render: (text, record) => DataTableCell<EntityType>({propertyInfo, text, mainStore, record}),
     defaultSortOrder
@@ -409,35 +409,35 @@ export function setSorter<E>(
   sorter: SorterResult<E> | Array<SorterResult<E>>,
   onSortOrderChange: SortOrderChangeCallback,
   entityName: string,
-  metadata: Metadata,
-  defaultSort?: JmixSortOrder
+  metadata: Metadata
 ) {
-  if (sorter != null && !Array.isArray(sorter) && sorter.order != null) {
-    const sortDirection: 'ASC' | 'DESC' = (sorter.order === 'descend') ? 'DESC' : 'ASC';
+  const sorterArray = Array.isArray(sorter)
+    ? sorter
+    : [sorter]
 
-    if (!Array.isArray(sorter.field)) {
+  const orderByArray = sorterArray.filter(x => x.order != null).map(s => {
+    if (!Array.isArray(s.field)) {
       throw new Error('sorter.field is expected to be an array');
     }
 
-    const propertyName = sorter.field[0]
-    const propertyInfo = getPropertyInfoNN(propertyName, entityName, metadata.entities);
+      const sortDirection: 'ASC' | 'DESC' = (s.order === 'descend') ? 'DESC' : 'ASC';
+      const propertyName = s.field[0]
+      const propertyInfo = getPropertyInfoNN(propertyName, entityName, metadata.entities);
 
-    switch (propertyInfo.attributeType) {
-      case 'COMPOSITION':
-      case 'ASSOCIATION':
-        onSortOrderChange({
-          [propertyName]: {
-            id: sortDirection // TODO disable sorting by relation fields
-          }
-        });
-        return;
-      default:
-        onSortOrderChange({[propertyName]: sortDirection});
-        return;
-    }
-  }
+      switch (propertyInfo.attributeType) {
+        case 'COMPOSITION':
+        case 'ASSOCIATION':
+          return {
+            [propertyName]: {
+              id: sortDirection // TODO disable sorting by relation fields
+            }
+          };
+        default:
+          return {[propertyName]: sortDirection};
+      }
+  })
 
-  onSortOrderChange(defaultSort);
+  onSortOrderChange(orderByArray.length ? orderByArray : undefined);
 }
 
 /**
@@ -461,7 +461,7 @@ export interface TableChangeShape<E> {
   /**
    * Default sort order.
    */
-  defaultSortOrder?: JmixSortOrder,
+  defaultSortOrder?: JmixSortOrder[],
   onSortOrderChange: SortOrderChangeCallback,
   onPaginationChange: PaginationChangeCallback,
   /**
@@ -491,7 +491,6 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
     apiFilters,
     onFilterChange,
     sorter,
-    defaultSortOrder,
     onSortOrderChange,
     onPaginationChange,
     fields,
@@ -505,7 +504,7 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
       setFilters(tableFilters, onFilterChange, entityName, fields, metadata, apiFilters);
       break;
     case 'sort':
-      setSorter(sorter, onSortOrderChange, entityName, metadata, defaultSortOrder);
+      setSorter(sorter, onSortOrderChange, entityName, metadata);
       break;
     case 'paginate':
       onPaginationChange(pagination.current, pagination.pageSize);
@@ -515,8 +514,10 @@ export function handleTableChange<E>(tableChange: TableChangeShape<E>): void {
   }
 }
 
-export function graphqlToTableSortOrder(propertyName: string, sortOrder?: JmixSortOrder): SortOrder {
-  switch(sortOrder?.[propertyName]) {
+export function graphqlToTableSortOrder(propertyName: string, sortOrder?: JmixSortOrder[]): SortOrder {
+  const sortOrderForField = sortOrder?.find(x => x[propertyName])
+
+  switch(sortOrderForField?.[propertyName]) {
     case 'ASC': return 'ascend';
     case 'DESC': return 'descend';
     default: return null;

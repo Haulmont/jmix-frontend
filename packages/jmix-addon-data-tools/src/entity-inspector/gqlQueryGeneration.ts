@@ -93,7 +93,7 @@ export function generateGqlQueryDataById(
 /**
  * This function returns string with list and count query for using it gql function 
  * @example
- *  query scr_CarList($limit: Int, $offset: Int, $orderBy: inp_scr_CarOrderBy, $filter: [inp_scr_CarFilterCondition]) {
+ *  query scr_CarList($limit: Int, $offset: Int, $orderBy: [inp_scr_CarOrderBy], $filter: [inp_scr_CarFilterCondition]) {
  *    scr_CarCount(filter: $filter, softDeletion: false)
  *    scr_CarList(limit: $limit, offset: $offset, orderBy: $orderBy, filter: $filter, softDeletion: false) {
  *      _instanceName
@@ -143,7 +143,7 @@ export function generateGqlQueryDataList(
     query ${entityName}List(
       $limit: Int, 
       $offset: Int, 
-      $orderBy: inp_${entityName}OrderBy, 
+      $orderBy: [inp_${entityName}OrderBy], 
       $filter: [inp_${entityName}FilterCondition]
     ) {
       ${entityName}Count(

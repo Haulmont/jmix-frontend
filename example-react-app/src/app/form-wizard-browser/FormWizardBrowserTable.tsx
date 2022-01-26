@@ -27,7 +27,7 @@ const SCR_FORMWIZARDTESTENTITY_LIST = gql`
   query scr_FormWizardTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_FormWizardTestEntityOrderBy
+    $orderBy: [inp_scr_FormWizardTestEntityOrderBy]
     $filter: [inp_scr_FormWizardTestEntityFilterCondition]
   ) {
     scr_FormWizardTestEntityCount(filter: $filter)

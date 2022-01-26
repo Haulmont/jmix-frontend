@@ -11,7 +11,7 @@ const LIST_QUERY = gql`
   query scr_CarList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_CarOrderBy
+    $orderBy: [inp_scr_CarOrderBy]
     $filter: [inp_scr_CarFilterCondition]
   ) {
     scr_CarCount
@@ -153,9 +153,9 @@ describe('useEntityListData()', () => {
   });
 
   it('uses provided sort order', async () => {
-    const sortOrder: JmixSortOrder = {
+    const sortOrder: JmixSortOrder[] = [{
       _instanceName: 'ASC'
-    };
+    }];
 
     const {result, waitForNextUpdate} = renderHook(() => useEntityListData({
       entityName: 'scr_Car',

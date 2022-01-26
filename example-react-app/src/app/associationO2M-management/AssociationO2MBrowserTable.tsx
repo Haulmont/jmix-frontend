@@ -27,7 +27,7 @@ const SCR_ASSOCIATIONO2MTESTENTITY_LIST = gql`
   query scr_AssociationO2MTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_AssociationO2MTestEntityOrderBy
+    $orderBy: [inp_scr_AssociationO2MTestEntityOrderBy]
     $filter: [inp_scr_AssociationO2MTestEntityFilterCondition]
   ) {
     scr_AssociationO2MTestEntityCount(filter: $filter)

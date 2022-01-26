@@ -7,7 +7,7 @@ export function useSortOrderChangeCallback<TEntity>(
   entityListState: EntityListState<TEntity>
 ) {
   return useCallback(
-    action((sortOrder?: JmixSortOrder) => {
+    action((sortOrder?: JmixSortOrder[]) => {
       entityListState.sortOrder = sortOrder;
     }),
     [entityListState.sortOrder]

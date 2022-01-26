@@ -200,7 +200,7 @@ export interface EntityListState<TEntity> {
   /**
    * State of entity list sort order.
    */
-  sortOrder?: JmixSortOrder;
+  sortOrder?: JmixSortOrder[];
   /**
    * State of entity list pagination.
    */

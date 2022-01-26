@@ -27,7 +27,7 @@ const SCR_TRICKYIDTESTENTITY_LIST = gql`
   query scr_TrickyIdTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_TrickyIdTestEntityOrderBy
+    $orderBy: [inp_scr_TrickyIdTestEntityOrderBy]
     $filter: [inp_scr_TrickyIdTestEntityFilterCondition]
   ) {
     scr_TrickyIdTestEntityCount(filter: $filter)

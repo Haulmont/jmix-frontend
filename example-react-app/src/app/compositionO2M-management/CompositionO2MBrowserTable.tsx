@@ -27,7 +27,7 @@ const SCR_COMPOSITIONO2MTESTENTITY_LIST = gql`
   query scr_CompositionO2MTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_CompositionO2MTestEntityOrderBy
+    $orderBy: [inp_scr_CompositionO2MTestEntityOrderBy]
     $filter: [inp_scr_CompositionO2MTestEntityFilterCondition]
   ) {
     scr_CompositionO2MTestEntityCount(filter: $filter)

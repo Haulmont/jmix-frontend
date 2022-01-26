@@ -71,7 +71,7 @@ export interface DataTableProps<TEntity, TQueryVars> extends MainStoreInjected, 
    */
   initialFilter?: JmixEntityFilter[];
   onFilterChange: FilterChangeCallback;
-  defaultSortOrder?: JmixSortOrder;
+  defaultSortOrder?: JmixSortOrder[];
   onSortOrderChange: SortOrderChangeCallback;
   onPaginationChange: PaginationChangeCallback;
   executeListQuery?: GraphQLQueryFn<TQueryVars>;

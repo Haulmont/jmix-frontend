@@ -39,7 +39,7 @@ const SCR_INTIDENTITYIDTESTENTITY_LIST = gql`
   query scr_IntIdentityIdTestEntityList(
     $limit: Int
     $offset: Int
-    $orderBy: inp_scr_IntIdentityIdTestEntityOrderBy
+    $orderBy: [inp_scr_IntIdentityIdTestEntityOrderBy]
     $filter: [inp_scr_IntIdentityIdTestEntityFilterCondition]
   ) {
     scr_IntIdentityIdTestEntityCount(filter: $filter)

@@ -33,7 +33,7 @@ export interface EntityListDataHookOptions<TEntity, TData, TQueryVars> {
   /**
    * State of entity list sort order.
    */
-  sortOrder?: JmixSortOrder;
+  sortOrder?: JmixSortOrder[];
   /**
    * State of entity list pagination.
    */
