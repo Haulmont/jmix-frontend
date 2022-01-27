@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.0...@haulmont/jmix-front-generator@3.2.0-next.1) (2022-01-27)
+
+
+### Bug Fixes
+
+* jmix packages versions in react-ts template ([00f2c3f](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/00f2c3f9c5fceb5e162892b2fabdbf0665775d38))
+
+
+
+
+
 # [3.2.0-next.0](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.0.1-next.2...@haulmont/jmix-front-generator@3.2.0-next.0) (2022-01-19)
 
 **Note:** Version bump only for package @haulmont/jmix-front-generator
