@@ -98,16 +98,17 @@ export function useSubmitCallback<
     [
       metadata,
       onCommit,
-      entityInstance,
-      entityName,
+      entityInstance?.id,
+      executeClientValidation,
+      uiKit_to_jmixFront,
       goToParentScreen,
+      entityId,
       executeUpsertMutation,
       updateResultName,
       listQueryName,
       entityName,
       isNewEntity,
-      goToParentScreen,
-      metadata
+      persistEntityCallbacks,
     ]
   );
 }
