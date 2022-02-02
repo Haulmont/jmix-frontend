@@ -60,7 +60,7 @@ export function useMasterDetailEditor<
         } else {
             resetEntityEditorForm();
         }
-    }, [executeLoadQuery, masterDetailStore.selectedEntityId]);
+    }, [executeLoadQuery, masterDetailStore.selectedEntityId, resetEntityEditorForm]);
 
     const closeEditor = useCallback(() => {
         masterDetailStore.setDirty(false);
@@ -74,7 +74,7 @@ export function useMasterDetailEditor<
             description: intl.formatMessage({ id: "management.editor.created" })
           })
         setPristine();
-    }, [notifications, intl, setPristine]);
+    }, [intl, setPristine]);
 
     const onEdit = useCallback(() => {
         notifications.show({
@@ -82,14 +82,14 @@ export function useMasterDetailEditor<
             description: intl.formatMessage({ id: "management.editor.updated" })
         })
         setPristine();
-    }, [notifications, intl, setPristine]);
+    }, [intl, setPristine]);
 
     const onError = useCallback(() => {
         notifications.show({
             type: NotificationType.ERROR,
             description: intl.formatMessage({ id: "common.requestFailed" })
         })
-    }, [notifications, intl]);
+    }, [intl]);
 
     const handleSubmit = useSubmitCallback({
         executeUpsertMutation,
