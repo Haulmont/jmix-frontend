@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.1](https://github.com/Haulmont/jmix-frontend/compare/eslint-config-jmix-react@3.2.0-next.0...eslint-config-jmix-react@3.2.0-next.1) (2022-02-04)
+
+
+### Bug Fixes
+
+* second and others entities are updating incorrectly using master-details screen [#942](https://github.com/Haulmont/jmix-frontend/issues/942) ([6692d8f](https://github.com/Haulmont/jmix-frontend/commit/6692d8f7eac1e29c58e9d75beff22db62b1bb9e4))
+
+
+
+
+
 # [3.2.0-next.0](https://github.com/Haulmont/jmix-frontend/compare/eslint-config-jmix-react@3.0.1-next.0...eslint-config-jmix-react@3.2.0-next.0) (2022-01-19)
 
 **Note:** Version bump only for package eslint-config-jmix-react
