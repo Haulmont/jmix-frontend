@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.23](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.22...@haulmont/jmix-react-antd@2.0.0-next.23) (2022-02-04)
+
+
+### Bug Fixes
+
+* o2m composition with association field [#911](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/911) ([f017bc5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/f017bc58bb7458a9f2e49635f14624c522c2bcf1))
+* second and others entities are updating incorrectly using master-details screen [#942](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/issues/942) ([b72fdd6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/b72fdd6459d5a3c4e36a1938d61163945b0f4ac2))
+
+
+
+
+
 # [2.0.0-next.22](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@2.0.0-next.21...@haulmont/jmix-react-antd@2.0.0-next.22) (2021-12-22)
 
 

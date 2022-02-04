@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0-next.19](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.18...@haulmont/jmix-react-web@2.0.0-next.19) (2022-02-04)
+
+
+### Bug Fixes
+
+* second and others entities are updating incorrectly using master-details screen [#942](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/issues/942) ([b72fdd6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/b72fdd6459d5a3c4e36a1938d61163945b0f4ac2))
+
+
+
+
+
 # [2.0.0-next.18](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@2.0.0-next.17...@haulmont/jmix-react-web@2.0.0-next.18) (2021-12-22)
 
 

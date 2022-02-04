@@ -1,6 +1,6 @@
 {
   "name": "@haulmont/jmix-react-web",
-  "version": "2.0.0-next.18",
+  "version": "2.0.0-next.19",
   "description": "Jmix web API",
   "main": "dist/index.js",
   "module": "dist/index.esm.js",
@@ -9,7 +9,7 @@
     "dist/"
   ],
   "dependencies": {
-    "@haulmont/jmix-react-core": "^2.0.0-next.15",
+    "@haulmont/jmix-react-core": "^2.0.0-next.16",
     "hotkeys-js": "^3.8.7"
   },
   "peerDependencies": {
