@@ -3,6 +3,58 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## 0.9.2 (2022-02-04)
+
+
+### Bug Fixes
+
+* fixed issue with [@action](https://github.com/action) methods in DataCollectionStoreImpl [#191](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/191) ([17c4372](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/17c437296bb9eeddfc991a70d3e5db262ac417e8))
+* login form not shown when session expires [#350](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/350) ([63854d9](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/63854d9b24266cbc671ac65c25fa0093c3de14dd))
+* updated date formats [#186](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/186) ([714bc1a](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/714bc1a9e90417a62ed6cc1e5d7a883d1fa5ef6e))
+* use _instance_name instead of _minimal fetchPlan [#204](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/204) ([f6753bb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f6753bb8401d9515a74ae980a50ab4da5b54ea30))
+
+
+### chore
+
+* update mobx-react version to 7.1.0 [#168](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/168) ([b7545cb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/b7545cb36d32df4cb69ee44539553680d1349f6d))
+* update React version to 17 ([3b0f8eb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/3b0f8eb1566f266096879171fcdcf5c8fe35903e))
+* update react-test-renderer version to 17 [#170](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/170) ([d4a1457](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/d4a145798365633cd3d4fe528cf96b6001f9766d))
+
+
+### Code Refactoring
+
+* cuba to jmix renaming ([1fdc59c](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/1fdc59cf8c942a7ba57e3008da73f9a5a07fe5b2))
+* updating MobX version to 6 [#160](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/160) ([735fcce](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/735fcce61f845378092373be44602647bbb9d00f))
+
+
+### Features
+
+* added support of editing and removing entities with composite keys ([28567fb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/28567fb3f2bf3765f5b536df6f701eda1052a64d))
+* implemented supporting of char datatype ([ca6eae1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/ca6eae141fef1da8bef71d3500fa039b1ce0d9fd))
+* info message error handler ([0d10392](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/0d103924b964250ebeb7f49739c16dd4b26b0289))
+* support new file API [#121](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/121) ([43935d6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/43935d6fb2d7b85dc0534e630d9c4e637a00eca3))
+* support new jmx-rest backend permissions config ([f8e0434](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f8e0434cfabd780fe1f28608076a4296e031b22f)), closes [#109](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/109)
+
+
+### Tests
+
+* updating tests to support MobX 6 [#160](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/issues/160) ([f2af4c6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/f2af4c6258e77917221e26b0c0ebdbe1a320aaf4))
+
+
+### BREAKING CHANGES
+
+* update react-test-renderer version to 17
+* update mobx-react version to 7.1.0
+* updating tests to support MobX 6
+* updating MobX version to 6
+* added support of editing and removing entities with composite keys
+* update React version to 17
+* CubaApp renamed to JmixRestConnection
+
+
+
+
+
 ## [0.9.1](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@0.9.0...@haulmont/jmix-react-core@0.9.1) (2021-04-07)
 
 
