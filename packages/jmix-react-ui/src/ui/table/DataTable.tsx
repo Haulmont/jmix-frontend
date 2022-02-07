@@ -567,6 +567,13 @@ class DataTableComponent<
           onRow: this.onRow,
         };
       }
+
+      if (this.props.hideSelectionColumn) {
+        defaultTableProps.rowSelection = {
+          ...defaultTableProps.rowSelection,
+          renderCell: () => ''
+        };
+      }
     }
 
     if (this.props.enableFieldSettings) {
@@ -596,7 +603,7 @@ class DataTableComponent<
             onChange={this.changeFieldVisibility}
           />}
         </div>
-        <Table { ...tableProps } className={this.props.hideSelectionColumn ? '_cuba-hide-selection-column' : ''} />
+        <Table { ...tableProps }/>
       </div>
     );
   }
