@@ -14,7 +14,9 @@ import {
   MetaClassInfo,
   MetaPropertyInfo,
   Cardinality,
-  useMainStore
+  useMainStore,
+  getDisplayFormat,
+  TemporalPropertyType
 } from '@haulmont/jmix-react-core';
 import { FormItemProps } from 'antd/es/form';
 import {observer} from 'mobx-react';
@@ -217,15 +219,15 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
       return <Checkbox {...(rest as CheckboxProps)}/>;
     case 'Date':
     case 'LocalDate':
-      return <DatePicker {...(rest as DatePickerProps)}/>;
+      return <DatePicker format={getDisplayFormat(propertyInfo.type as TemporalPropertyType)} {...(rest as DatePickerProps)}/>;
     case 'DateTime':
     case 'LocalDateTime':
     case 'OffsetDateTime':
-      return <DatePicker showTime={true} {...(rest as DatePickerProps & {showTime?: boolean | object})}/>;
+      return <DatePicker format={getDisplayFormat(propertyInfo.type as TemporalPropertyType)} showTime={true} {...(rest as DatePickerProps & {showTime?: boolean | object})}/>;
     case 'Time':
     case 'LocalTime':
     case 'OffsetTime':
-      return <TimePicker {...(rest as TimePickerProps)}/>;
+      return <TimePicker format={getDisplayFormat(propertyInfo.type as TemporalPropertyType)} {...(rest as TimePickerProps)}/>;
     case 'Integer':
       return <IntegerInput {...(rest as InputNumberProps)}/>;
     case 'Double':
