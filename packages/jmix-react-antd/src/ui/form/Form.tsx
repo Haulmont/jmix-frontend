@@ -43,6 +43,7 @@ import { TimePicker, TimePickerProps } from '../TimePicker';
 import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OField';
 import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
 import { passthroughRule } from './validation/passthroughRule';
+import { TextAreaProps } from 'antd/es/input';
 
 export interface FieldProps {
   entityName: string;
@@ -76,6 +77,10 @@ export interface FieldProps {
    * that will be rendered, such as `DatePicker` or `Select`).
    */
   componentProps?: FormFieldComponentProps;
+  /**
+   * When `true`, the field will be displayed as TextArea.
+   */
+  textArea?: boolean;
 }
 
 // noinspection JSUnusedGlobalSymbols
@@ -83,7 +88,7 @@ export const Field = observer((props: FieldProps) => {
 
   const {
     entityName, propertyName, optionsContainer, associationOptions, componentProps,
-    parentEntityInstanceId, disabled, formItemProps
+    parentEntityInstanceId, disabled, formItemProps, textArea
   } = props;
 
   const metadata = useMetadata();
@@ -112,6 +117,7 @@ export const Field = observer((props: FieldProps) => {
                    optionsContainer={optionsContainer}
                    associationOptions={associationOptions}
                    parentEntityInstanceId={parentEntityInstanceId}
+                   textArea={textArea}
                    {...componentProps}
         />
       </Form.Item>
@@ -140,7 +146,7 @@ export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entit
   return formItemProps;
 }
 
-export type FormFieldComponentProps = SelectProps<SelectValue> | InputProps | InputNumberProps | CheckboxProps | DatePickerProps | TimePickerProps | FileUploadProps;
+export type FormFieldComponentProps = SelectProps<SelectValue> | InputProps | InputNumberProps | CheckboxProps | DatePickerProps | TimePickerProps | FileUploadProps | TextAreaProps;
 
 // TODO We should probably make it an interface as it is not convenient to document type declarations with TSDoc.
 // TODO However, that would be a minor breaking change, as interface cannot extend FormFieldComponentProps.
@@ -155,6 +161,7 @@ export type FormFieldProps = MainStoreInjected & {
   associationOptions?: Array<HasId & MayHaveInstanceName>;
   nestedEntityView?: string;
   parentEntityInstanceId?: string;
+  textArea?: boolean;
 } & FormFieldComponentProps;
 
 // forwardRef is required to avoid a console warning
@@ -239,7 +246,9 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
     case 'Character':
       return <CharInput {...(rest as InputProps)}/>
   }
-  return <Input {...(rest as InputProps)}/>;
+  return props.textArea
+    ? <Input.TextArea autoSize={{ minRows: 2, maxRows: 6 }} {...(rest as TextAreaProps)}/>
+    : <Input {...(rest as InputProps)}/>;
 })));
 
 interface EnumFieldProps extends SelectProps<SelectValue> {
