@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react';
 import { useIntl } from 'react-intl'
-import { registerTitleFormatter, clearTitleFormatter } from '@haulmont/jmix-react-core'
+import { registerTitleFormatter, clearTitleFormatter, useMainStore } from '@haulmont/jmix-react-core'
 
 export const IntlDocumentTitle = ({ children }: {
     children: React.ReactNode | React.ReactNode[] | null;
 }) => {
     const {formatMessage} = useIntl();
+    const mainStore = useMainStore()
 
     useEffect(() => {
         registerTitleFormatter(
@@ -14,7 +15,7 @@ export const IntlDocumentTitle = ({ children }: {
         return () => {
             clearTitleFormatter()
         }
-    }, [])
+    }, [mainStore.locale])
     
     return <>{children}</>
 }

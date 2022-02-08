@@ -86,8 +86,8 @@ export class MainStore {
     this.secret = options?.secret ?? 'secret';
     this.obtainTokenEndpoint = options?.obtainTokenEndpoint ?? '/oauth/token';
     this.revokeTokenEndpoint = options?.revokeTokenEndpoint ?? '/oauth/revoke';
-    this.locale = options?.locale
-      ?? this.storage.getItem(this.localeStorageKey)
+    this.locale = this.storage.getItem(this.localeStorageKey)
+      ?? options?.locale
       ?? 'en';
     this.graphqlEndpoint = options?.graphqlEndpoint ?? '/graphql';
 
