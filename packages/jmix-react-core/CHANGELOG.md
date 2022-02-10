@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@3.2.0-next.2...@haulmont/jmix-react-core@3.2.0-next.3) (2022-02-10)
+
+
+### Bug Fixes
+
+* preserve locale change, document title localization ([a685497](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/commit/a68549755bcd4288ad867b07c423ad73ae233e21))
+
+
+
+
+
 # [3.2.0-next.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-core/compare/@haulmont/jmix-react-core@3.2.0-next.1...@haulmont/jmix-react-core@3.2.0-next.2) (2022-02-04)
 
 

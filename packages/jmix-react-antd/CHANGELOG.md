@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.3...@haulmont/jmix-react-antd@3.2.0-next.4) (2022-02-10)
+
+
+### Bug Fixes
+
+* fields of Date(Time) type don't inherit global formatting rules ([e5f2b41](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/e5f2b4198936823b2a6914b1f0d5f30b7681521c))
+
+
+### Features
+
+* textArea form field ([6c29ddb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/6c29ddb8d2f968e5b2cf3b92aa0441c99773667d))
+
+
+
+
+
 # [3.2.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.2...@haulmont/jmix-react-antd@3.2.0-next.3) (2022-02-04)
 
 
