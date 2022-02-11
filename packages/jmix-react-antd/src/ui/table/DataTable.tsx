@@ -569,7 +569,8 @@ class DataTableComponent<
       if (this.props.hideSelectionColumn) {
         defaultTableProps.rowSelection = {
           ...defaultTableProps.rowSelection,
-          renderCell: () => ''
+          renderCell: () => '',
+          columnWidth: 0
         };
       }
     }
@@ -591,7 +592,7 @@ class DataTableComponent<
     const tableProps = { ...defaultTableProps, ...this.props.tableProps };
 
     return (
-      <div className={styles.dataTable}>
+      <div className={`${styles.dataTable} ${this.props.hideSelectionColumn ? styles.hideSelectionColumn : ''}`}>
         <div className={styles.buttons}>
           {this.props.buttons}
           {!!this.props.enableFieldSettings && <DataTableSettings
