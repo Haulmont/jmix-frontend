@@ -20,6 +20,7 @@ export * from "./crud/list/useEntityList";
 export * from "./crud/list/EntityListProps";
 export * from "./crud/list/util/getEntityInstanceById";
 
+export * from "./util/copyToClipboard"
 export * from "./util/screen";
 export * from "./util/formatting";
 export * from "./util/regex";
