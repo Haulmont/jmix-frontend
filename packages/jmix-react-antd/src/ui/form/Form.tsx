@@ -172,6 +172,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
 
   const {
     entityName, propertyName, optionsContainer, associationOptions, mainStore,
+    textArea, parentEntityInstanceId,
     ...rest
   } = props;
 
@@ -211,9 +212,11 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
         }
 
         if (propertyInfo.cardinality === 'ONE_TO_MANY') {
-          return <CompositionO2MField entityName={nestedEntityName}
-                                      {...rest as Partial<CompositionO2MFieldProps>}
-                 />;
+          return <CompositionO2MField
+            entityName={nestedEntityName}
+            parentEntityInstanceId = {parentEntityInstanceId}
+            {...rest as Partial<CompositionO2MFieldProps>}
+          />;
         }
       }
 
@@ -248,7 +251,7 @@ export const FormField = injectMainStore(observer(React.forwardRef((props: FormF
     case 'Character':
       return <CharInput {...(rest as InputProps)}/>
   }
-  return props.textArea
+  return textArea
     ? <Input.TextArea autoSize={{ minRows: 2, maxRows: 6 }} {...(rest as TextAreaProps)}/>
     : <Input {...(rest as InputProps)}/>;
 })));
