@@ -178,7 +178,7 @@ const FormWizardBrowserTable = observer(
         <EntityPermAccessControl
           entityName={ENTITY_NAME}
           operation="create"
-          key="create"
+          key="clone"
         >
           <Button
             htmlType="button"

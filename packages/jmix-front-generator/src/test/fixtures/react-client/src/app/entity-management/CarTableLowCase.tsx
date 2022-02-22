@@ -189,7 +189,7 @@ const CarTableLowCase = observer((props: EntityListProps<Car>) => {
       <EntityPermAccessControl
         entityName={ENTITY_NAME}
         operation="create"
-        key="create"
+        key="clone"
       >
         <Button
           htmlType="button"
