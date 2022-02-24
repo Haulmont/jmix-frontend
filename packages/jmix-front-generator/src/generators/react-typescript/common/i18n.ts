@@ -8,6 +8,7 @@ import { JSONSchema7Type } from "json-schema";
  * @property strict - if true then all i18n keys must be filled
  */
 export interface SupportClientLocation {
+  filename?: string,
   localeName: string,
   antdLocaleName: string,
   caption: string,
@@ -20,7 +21,7 @@ export const SUPPORTED_CLIENT_LOCALES: SupportClientLocation[] = [
     localeName: 'en',
     antdLocaleName: 'en_US',
     caption: 'English',
-    strict: true 
+    strict: true
   },
   {
     localeName: 'ru',

@@ -32,6 +32,10 @@ const keepIntlUpdated = (getMessages: MessagesGetter, cache: IntlCache) => {
   })
 }
 
+const normalizeLocale = (locale: string) => {
+  return locale.split(/-|_/)[0].toLowerCase()
+}
+
 const updateIntl = (getMessages: MessagesGetter, cache: IntlCache, defaultLocale?: string) => {
   const mainStore = getMainStore();
   const locale = mainStore?.locale == null ? defaultLocale : mainStore.locale;
@@ -39,7 +43,7 @@ const updateIntl = (getMessages: MessagesGetter, cache: IntlCache, defaultLocale
     return;
   }
   i18n = createIntl({
-    locale,
+    locale: normalizeLocale(locale),
     messages: getMessages(locale),
   }, cache);
 };
