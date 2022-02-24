@@ -60,8 +60,12 @@ import {
   Variant,
   Palette
 } from "@haulmont/react-ide-toolbox";
+import {Field} from "@haulmont/jmix-react-antd";
 import { FormattedMessage } from "react-intl";
 import * as React from "react";
+
+const ENTITY_NAME = '';
+const readOnlyMode = false;
 
 const palette = () =>
   <Palette>
@@ -275,6 +279,18 @@ const palette = () =>
       </Component>
     </Category>
     <Category name="Data Display">
+    <Component name="Field">
+        <Variant>
+          <Field
+            entityName={ENTITY_NAME}
+            disabled={readOnlyMode}
+            propertyName=''
+            formItemProps={{
+              style: { marginBottom: "12px" }
+            }}
+          />
+        </Variant>
+      </Component>
       <Component name="Card">
         <Variant>
           <Card />
