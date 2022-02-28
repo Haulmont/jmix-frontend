@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.4...@haulmont/jmix-react-antd@3.2.0-next.5) (2022-02-28)
+
+
+### Bug Fixes
+
+* console react warnings ([8511486](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/8511486e236aca3c58bb330b8a2ee4bf57966764))
+* hide selection column ([b423b91](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/b423b9144514b0ff66f0dcb7b2cba4bd0832c7ea))
+
+
+
+
+
 # [3.2.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.3...@haulmont/jmix-react-antd@3.2.0-next.4) (2022-02-10)
 
 

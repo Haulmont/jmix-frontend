@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.2...@haulmont/jmix-front-generator@3.2.0-next.3) (2022-02-28)
+
+
+### Bug Fixes
+
+* console react warnings ([8511486](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/8511486e236aca3c58bb330b8a2ee4bf57966764))
+
+
+
+
+
 # [3.2.0-next.2](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.1...@haulmont/jmix-front-generator@3.2.0-next.2) (2022-02-04)
 
 

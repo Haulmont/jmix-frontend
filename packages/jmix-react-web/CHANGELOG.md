@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@3.2.0-next.3...@haulmont/jmix-react-web@3.2.0-next.4) (2022-02-28)
+
+
+### Features
+
+* copy to clipboard helper ([75238fe](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/commit/75238feccc61ea23835c388da6afe863266cd29e))
+
+
+
+
+
 # [3.2.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-web/compare/@haulmont/jmix-react-web@3.2.0-next.2...@haulmont/jmix-react-web@3.2.0-next.3) (2022-02-10)
 
 
