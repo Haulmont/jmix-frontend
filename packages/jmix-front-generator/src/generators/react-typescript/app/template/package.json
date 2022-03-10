@@ -19,7 +19,8 @@
     "react-input-mask": "^2.0.4",
     "react-intl": "~5.20.10",
     "react-router-dom": "^5.2.0",
-    "classnames": "^2.3.1"
+    "classnames": "^2.3.1",
+    "es5-ext": "0.10.53"
   },
   "scripts": {
     "start": "react-scripts start",
