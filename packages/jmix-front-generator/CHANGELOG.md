@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.4](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.3...@haulmont/jmix-front-generator@3.2.0-next.4) (2022-03-10)
+
+
+### Bug Fixes
+
+* fix ru locale validation messages ([109e8ae](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/109e8ae0e7647e9feeaa6590f0acab16a781762a))
+
+
+### Features
+
+* add field to palette ([77c7602](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/77c7602dcd837d2d174ac29a20048e92fa1c13a3))
+
+
+
+
+
 # [3.2.0-next.3](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.2...@haulmont/jmix-front-generator@3.2.0-next.3) (2022-02-28)
 
 
