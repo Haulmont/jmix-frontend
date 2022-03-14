@@ -11,6 +11,7 @@
     "@haulmont/react-scripts": "^1.0.0",
     "@haulmont/react-ide-toolbox": "^1.0.0",
     "antd": "^4.13.0",
+    "es5-ext": "0.10.53",
     "graphql": "^15.4.0",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
