@@ -8,6 +8,7 @@
     "@haulmont/react-scripts": "4.0.2-alpha.2",
     "@ant-design/icons": "^4.0.0",
     "antd": "^4.12.3",
+    "es5-ext": "0.10.53",
     "mobx": "^6.1.8",
     "mobx-react": "^7.1.0",
     "moment": "^2.25.3",
