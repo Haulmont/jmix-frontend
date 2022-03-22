@@ -5,7 +5,7 @@ import {
   passthroughRule 
 } from "@haulmont/jmix-react-antd";
 import { FieldPermissionContainer } from "@haulmont/jmix-react-web";
-import { MayHaveId, MetaPropertyInfo, useMetadata, Cardinality } from "@haulmont/jmix-react-core";
+import { MayHaveId, MetaPropertyInfo, useMetadata, Cardinality, useMainStore } from "@haulmont/jmix-react-core";
 import { EntityNamesInfo, ScreensControl } from "../../EntityInspector.types";
 import { Form } from "antd";
 import { observer } from "mobx-react";
@@ -38,8 +38,9 @@ export const CompositionField = observer((props: CompositionFieldProps) => {
   } = props;
 
   const metadata = useMetadata();
+  const mainStore = useMainStore();
 
-  const combinedFormItemProps = {...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps};
+  const combinedFormItemProps = {...getDefaultFormItemProps(metadata.entities, entityName, propertyName, mainStore?.messages), ...formItemProps};
   if (combinedFormItemProps.rules == null) {
     combinedFormItemProps.rules = [];
   }
