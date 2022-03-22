@@ -46,6 +46,7 @@ import { CompositionO2OField, CompositionO2OFieldProps } from './CompositionO2OF
 import {CompositionO2MField, CompositionO2MFieldProps } from './CompositionO2MField';
 import { passthroughRule } from './validation/passthroughRule';
 import { TextAreaProps } from 'antd/es/input';
+import { EntityMessages } from '@haulmont/jmix-rest';
 
 export interface FieldProps {
   entityName: string;
@@ -94,8 +95,9 @@ export const Field = observer((props: FieldProps) => {
   } = props;
 
   const metadata = useMetadata();
+  const mainStore = useMainStore()
 
-  const combinedFormItemProps = {...getDefaultFormItemProps(metadata.entities, entityName, propertyName), ...formItemProps};
+  const combinedFormItemProps = {...getDefaultFormItemProps(metadata.entities, entityName, propertyName, mainStore?.messages), ...formItemProps};
   if (combinedFormItemProps.rules == null) {
     combinedFormItemProps.rules = [];
   }
@@ -128,9 +130,12 @@ export const Field = observer((props: FieldProps) => {
 
 });
 
-export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string): FormItemProps {
+export function getDefaultFormItemProps(entitiesMetadata: MetaClassInfo[], entityName: string, propertyName: string, messages: EntityMessages | null): FormItemProps {
   const formItemProps: FormItemProps = {
     name: propertyName,
+    messageVariables: {
+      propertyTitle: messages?.[entityName + '.' + propertyName] ?? propertyName
+    },
     label: <Msg entityName={entityName} propertyName={propertyName}/>,
     rules: []
   };
