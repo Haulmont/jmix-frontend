@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.5...@haulmont/jmix-react-antd@3.2.0-next.6) (2022-03-22)
+
+
+### Bug Fixes
+
+* show friendly property names in antd validation ([7d15b57](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/7d15b5708a24be93309f6bbd29825ec96ffa92e3))
+
+
+
+
+
 # [3.2.0-next.5](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.4...@haulmont/jmix-react-antd@3.2.0-next.5) (2022-02-28)
 
 
