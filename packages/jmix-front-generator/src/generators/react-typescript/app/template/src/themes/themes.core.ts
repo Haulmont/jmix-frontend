@@ -25,6 +25,8 @@ export type ThemesConfig = {
 }
 
 export const THEMES_CONFIG = themesConfig as ThemesConfig
+const publicUrl = process.env.PUBLIC_URL ?? "";
+
 
 export function initializeTheme() {
   setTheme(getInitThemePreset());
@@ -35,7 +37,7 @@ export function getLinkHref(themePreset: ThemePreset): string {
   const {themeName, sizeName} = themePreset;
   const presetSizePostfix = sizeName ? `-${sizeName}` : '';
   const presetName = `${themeName}${presetSizePostfix}`;
-  return `${pathToThemesDir}/${presetName}.css`;
+  return `${publicUrl}${pathToThemesDir}/${presetName}.css`;
 }
 
 export function setTheme(themePreset: ThemePreset) {
