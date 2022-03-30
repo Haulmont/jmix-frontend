@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.6...@haulmont/jmix-front-generator@3.2.0-next.7) (2022-03-30)
+
+
+### Bug Fixes
+
+* respect public url in theme switcher ([0de8f53](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/commit/0de8f531720e4ccbe3cca691bd7d235a107577b0))
+
+
+
+
+
 # [3.2.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-front-generator/compare/@haulmont/jmix-front-generator@3.2.0-next.5...@haulmont/jmix-front-generator@3.2.0-next.6) (2022-03-22)
 
 

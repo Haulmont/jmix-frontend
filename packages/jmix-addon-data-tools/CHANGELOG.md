@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.7](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@3.2.0-next.6...@haulmont/jmix-addon-data-tools@3.2.0-next.7) (2022-03-30)
+
+
+### Bug Fixes
+
+* usage of getDefaultFormItemProps in addon-data-tools ([c4d73bb](https://github.com/Haulmont/jmix-frontend/commit/c4d73bb66af830736aa9dbd8aba93ddc67321e7b))
+
+
+
+
+
 # [3.2.0-next.6](https://github.com/Haulmont/jmix-frontend/compare/@haulmont/jmix-addon-data-tools@3.2.0-next.5...@haulmont/jmix-addon-data-tools@3.2.0-next.6) (2022-03-22)
 
 **Note:** Version bump only for package @haulmont/jmix-addon-data-tools

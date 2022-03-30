@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.2.0-next.7](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.6...@haulmont/jmix-react-antd@3.2.0-next.7) (2022-03-30)
+
+
+### Bug Fixes
+
+* fix hash router ([741a9eb](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/commit/741a9eb4d346ddf824eceacb3577262fc310cfe6))
+
+
+
+
+
 # [3.2.0-next.6](https://github.com/haulmont/jmix-frontend/tree/master/packages/jmix-react-antd/compare/@haulmont/jmix-react-antd@3.2.0-next.5...@haulmont/jmix-react-antd@3.2.0-next.6) (2022-03-22)
 
 
