@@ -21,28 +21,43 @@ export const write: WriteStage<Options, TemplateModel> = async (
   let clientLocales: Omit<SupportClientLocation, 'strict'>[];
   const modelHasLocalesInfo = (templateModel.project.locales != null);
   const supportedClientLocaleNames = SUPPORTED_CLIENT_LOCALES.map(({localeName, antdLocaleName, caption, isRtlLayout}) => {
-   return {localeName, antdLocaleName, caption, isRtlLayout}
-  });
+   return {localeName, antdLocaleName, caption, isRtlLayout, filename: localeName}
+  }).reduce((map, loc) => {
+    map.set(loc.localeName, loc)
+
+    return map
+  },new Map());
 
   if (!modelHasLocalesInfo) {
     gen.log('Project model does not contain project locales info. I18n messages will be added for all supported locales.');
-    clientLocales = supportedClientLocaleNames;
+    clientLocales = Array.from(supportedClientLocaleNames.values());
   } else {
-    const trimmedLocales: string[] = []
-    const projectLocales = templateModel.project.locales.map(locale => {
-      trimmedLocales.push(trimLocale(locale.code))
-      return locale.code
-    });
-    clientLocales = supportedClientLocaleNames.filter(({localeName}) => projectLocales.includes(localeName) || trimmedLocales.includes(trimLocale(localeName)));
+    clientLocales = templateModel.project.locales.map(loc => {
+      if (supportedClientLocaleNames.has(loc.code)) {
+        return supportedClientLocaleNames.get(loc.code)
+      }
+
+      const trimmedCode = trimLocale(loc.code)
+
+      if (supportedClientLocaleNames.has(trimmedCode)) {
+        return {
+          ...supportedClientLocaleNames.get(trimmedCode),
+          localeName: loc.code
+        }
+      }
+
+      return undefined
+    }).filter(Boolean)
+
     if (clientLocales.length === 0) {
       gen.log('WARNING. None of the project locales are supported by Frontend Generator.'
-        + ` Project locales: ${JSON.stringify(projectLocales)}. Supported locales: ${JSON.stringify(supportedClientLocaleNames)}.`);
+        + ` Project locales: ${JSON.stringify(templateModel.project.locales.map(x => x.code))}. Supported locales: ${JSON.stringify(supportedClientLocaleNames)}.`);
     }
   }
-  clientLocales.forEach(({localeName}) => {
+  clientLocales.forEach(({filename}) => {
     gen.fs.copy(
-      gen.templatePath() + `/i18n-message-packs/${localeName}.json`,
-      gen.destinationPath(`src/i18n/${localeName}.json`)
+      gen.templatePath() + `/i18n-message-packs/${filename}.json`,
+      gen.destinationPath(`src/i18n/${filename}.json`)
     );
   });
 
@@ -52,7 +67,7 @@ export const write: WriteStage<Options, TemplateModel> = async (
     isLocaleUsed: (locale: string) => {
       // If project model doesn't contain locales info (could be if old Studio is used)
       // then we add all supported locales.
-      return !modelHasLocalesInfo || clientLocales.find(({localeName}) => locale === localeName);
+      return !modelHasLocalesInfo || clientLocales.find(({localeName}) => localeName.includes(locale));
     },
     clientLocales
   });

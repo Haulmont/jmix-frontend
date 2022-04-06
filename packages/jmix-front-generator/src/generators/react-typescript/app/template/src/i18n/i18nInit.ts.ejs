@@ -6,8 +6,8 @@
  */
 import { localesStore } from "@haulmont/jmix-react-web";
 import { antdLocalesStore } from "@haulmont/jmix-react-antd";
-<% clientLocales.forEach(({localeName, antdLocaleName})=> { -%>
-  import <%=localeName%> from './<%=localeName%>.json';
+<% clientLocales.forEach(({filename, antdLocaleName})=> { -%>
+  import <%=filename%> from './<%=filename%>.json';
   import <%=antdLocaleName%> from 'antd/es/locale/<%=antdLocaleName%>';
 <% }) -%>
 <% if (isLocaleUsed('en')) { -%>
@@ -17,11 +17,11 @@ import { antdLocalesStore } from "@haulmont/jmix-react-antd";
   import 'dayjs/locale/ru';
 <% } -%>
 
-<% clientLocales.forEach(({localeName, antdLocaleName, caption, isRtlLayout})=> { %>
+<% clientLocales.forEach(({localeName, antdLocaleName, caption, isRtlLayout, filename})=> { %>
   localesStore.addLocale({
     locale: '<%=localeName%>',
     caption: "<%=caption%>",
-    messages: <%=localeName%>,
+    messages: <%=filename%>,
     <% if (isRtlLayout) { -%>
       isRtlLayout: <%=isRtlLayout%>
     <% } -%>
