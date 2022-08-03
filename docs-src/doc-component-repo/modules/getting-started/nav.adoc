@@ -1,2 +1,0 @@
-* xref:learning-path.adoc[Getting Started]
-** xref:migration-cuba-to-jmix.adoc[Migration from CUBA]

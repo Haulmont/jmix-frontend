@@ -1,4 +1,5 @@
-= Migration from CUBA
+= Migration from CUBA Platform
+:page-aliases: getting-started:migration-cuba-to-jmix.adoc
 
 == Update packages
 
