@@ -2,7 +2,7 @@
   "name": "<%= project.name %>",
   "private": true,
   "dependencies": {
-    "@ant-design/icons": "^4.6.2",
+    "@ant-design/icons": "^6.0.0",
     "@apollo/client": "^3.4.0",
     "@haulmont/jmix-react-core": "^3.2.0-next.0",
     "@haulmont/jmix-rest": "^3.2.0-next.0",
@@ -10,7 +10,7 @@
     "@haulmont/jmix-react-antd": "^3.2.0-next.0",
     "@haulmont/react-scripts": "^1.0.0",
     "@haulmont/react-ide-toolbox": "^1.0.0",
-    "antd": "^4.13.0",
+    "antd": "^5.12.7",
     "graphql": "^15.4.0",
     "mobx": "^6.3.3",
     "mobx-react": "^7.2.0",
@@ -18,7 +18,7 @@
     "react-dom": "^17.0.1",
     "react-input-mask": "^2.0.4",
     "react-intl": "~5.20.10",
-    "react-router-dom": "^5.2.0",
+    "react-router-dom": "^6.4.0",
     "classnames": "^2.3.1",
     "es5-ext": "0.10.53"
   },
